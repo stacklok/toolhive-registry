@@ -1,0 +1,86 @@
+name: supabase-mcp-server
+image: ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:latest
+description: Connect your Supabase projects to AI assistants for managing tables, fetching config, and querying data
+tier: Official
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost:
+                - .supabase.co
+                - .supabase.com
+            allowport:
+                - 443
+tools:
+    # Account tools
+    - list_projects
+    - get_project
+    - create_project
+    - pause_project
+    - restore_project
+    - list_organizations
+    - get_organization
+    - get_cost
+    - confirm_cost
+    # Knowledge Base tools
+    - search_docs
+    # Database tools
+    - list_tables
+    - list_extensions
+    - list_migrations
+    - apply_migration
+    - execute_sql
+    # Debug tools
+    - get_logs
+    - get_advisors
+    # Development tools
+    - get_project_url
+    - get_anon_key
+    - generate_typescript_types
+    # Edge Functions tools
+    - list_edge_functions
+    - deploy_edge_function
+    # Branching tools
+    - create_branch
+    - list_branches
+    - delete_branch
+    - merge_branch
+    - reset_branch
+    - rebase_branch
+    # Storage tools
+    - list_storage_buckets
+    - get_storage_config
+    - update_storage_config
+envvars:
+    - name: SUPABASE_ACCESS_TOKEN
+      description: Personal access token from Supabase dashboard
+      required: true
+      default: ""
+      secret: true
+args: []
+metadata:
+    stars: 1940
+    pulls: 0
+    lastupdated: 2025-08-11T15:29:11Z
+repositoryurl: https://github.com/supabase-community/supabase-mcp
+tags:
+    - supabase
+    - database
+    - backend
+    - baas
+    - postgresql
+dockertags: []
+provenance:
+    sigstoreurl: tuf-repo-cdn.sigstore.dev
+    repositoryuri: https://github.com/stacklok/dockyard
+    repositoryref: refs/heads/main
+    signeridentity: /.github/workflows/build-containers.yml
+    runnerenvironment: github-hosted
+    certissuer: https://token.actions.githubusercontent.com
+    attestation: null
+custommetadata: {}

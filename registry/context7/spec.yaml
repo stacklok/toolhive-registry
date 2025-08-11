@@ -1,0 +1,42 @@
+name: context7
+image: ghcr.io/stacklok/dockyard/npx/context7:1.0.14
+description: Upstash Context7 MCP server for vector search and context management
+tier: Official
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: true
+            allowhost: []
+            allowport: []
+tools:
+    - resolve-library-id
+    - get-library-docs
+envvars: []
+args: []
+metadata:
+    stars: 25096
+    pulls: 0
+    lastupdated: 2025-08-11T15:29:09Z
+repositoryurl: https://github.com/upstash/context7
+tags:
+    - documentation
+    - code-examples
+    - library-docs
+    - context
+    - ai-coding
+dockertags: []
+provenance:
+    sigstoreurl: tuf-repo-cdn.sigstore.dev
+    repositoryuri: https://github.com/stacklok/dockyard
+    repositoryref: refs/heads/main
+    signeridentity: /.github/workflows/build-containers.yml
+    runnerenvironment: github-hosted
+    certissuer: https://token.actions.githubusercontent.com
+    attestation: null
+custommetadata: {}
