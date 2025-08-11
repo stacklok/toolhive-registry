@@ -167,24 +167,40 @@ func updateServerInfo(server serverWithName) error {
 
 	// Extract owner and repo from repository URL
 	var newStars, newPulls int
+	
+	// Get GitHub stars if we have a repository URL
 	if repoURL != "" {
 		owner, repo, err := extractOwnerRepo(repoURL)
 		if err != nil {
 			logger.Warnf("Failed to extract owner/repo from URL %s: %v", repoURL, err)
+			newStars = currentStars
 		} else {
 			// Get repository info from GitHub API
-			stars, pulls, err := getGitHubRepoInfo(owner, repo, server.name, currentPulls)
+			stars, _, err := getGitHubRepoInfo(owner, repo, server.name, currentPulls)
 			if err != nil {
 				logger.Warnf("Failed to get GitHub repo info for %s: %v", server.name, err)
 				newStars = currentStars
-				newPulls = currentPulls
 			} else {
 				newStars = stars
-				newPulls = pulls
 			}
 		}
 	} else {
 		newStars = currentStars
+	}
+	
+	// Get container pull count if we have an image
+	if server.entry.Image != "" {
+		pullCount, err := getContainerPullCount(server.entry.Image)
+		if err != nil {
+			logger.Warnf("Failed to get pull count for image %s: %v", server.entry.Image, err)
+			newPulls = currentPulls
+		} else if pullCount > 0 {
+			newPulls = pullCount
+		} else {
+			// No pull count available (GHCR or private registry)
+			newPulls = currentPulls
+		}
+	} else {
 		newPulls = currentPulls
 	}
 
@@ -376,7 +392,7 @@ func extractOwnerRepo(url string) (string, string, error) {
 	return owner, repo, nil
 }
 
-// getGitHubRepoInfo gets the stars and downloads count for a GitHub repository
+// getGitHubRepoInfo gets the stars count for a GitHub repository
 func getGitHubRepoInfo(owner, repo, serverName string, currentPulls int) (stars int, pulls int, err error) {
 	// Create HTTP client with timeout
 	client := &http.Client{
@@ -417,10 +433,193 @@ func getGitHubRepoInfo(owner, repo, serverName string, currentPulls int) (stars 
 		return 0, 0, fmt.Errorf("failed to parse response: %w", err)
 	}
 
-	// For pulls/downloads, increment by a small amount
-	// In a real implementation, you would query Docker Hub API for actual pull counts
-	increment := 50 + (len(serverName) % 100)
-	pulls = currentPulls + increment
+	// Return current pulls - we'll fetch container pulls separately
+	return repoInfo.StargazersCount, currentPulls, nil
+}
 
-	return repoInfo.StargazersCount, pulls, nil
+// getContainerPullCount fetches the pull count for a container image
+func getContainerPullCount(image string) (int, error) {
+	// Parse the image reference
+	parts := strings.Split(image, ":")
+	if len(parts) < 1 {
+		return 0, fmt.Errorf("invalid image format: %s", image)
+	}
+	
+	imageName := parts[0]
+	
+	// Determine registry and fetch accordingly
+	if strings.HasPrefix(imageName, "ghcr.io/") {
+		return getGHCRPullCount(imageName)
+	} else if strings.Contains(imageName, "/") && !strings.Contains(imageName, ".") {
+		// Likely Docker Hub (no dots in the hostname part)
+		return getDockerHubPullCount(imageName)
+	}
+	
+	// Unknown registry, return 0
+	logger.Warnf("Unknown registry for image %s, cannot fetch pull count", image)
+	return 0, nil
+}
+
+// getGHCRPullCount fetches pull count for GitHub Container Registry images
+func getGHCRPullCount(imageName string) (int, error) {
+	// GHCR requires authentication to get package statistics
+	if githubToken == "" {
+		logger.Debugf("No GitHub token available, cannot fetch GHCR pull count for %s", imageName)
+		return 0, nil
+	}
+	
+	// Parse the image name: ghcr.io/owner/repo/package or ghcr.io/owner/package
+	imageName = strings.TrimPrefix(imageName, "ghcr.io/")
+	parts := strings.Split(imageName, "/")
+	if len(parts) < 2 {
+		return 0, fmt.Errorf("invalid GHCR image format: %s", imageName)
+	}
+	
+	owner := parts[0]
+	// The package name is everything after the owner
+	packageName := strings.Join(parts[1:], "/")
+	
+	// GitHub Packages API endpoint for container packages
+	// Note: This requires the package to be public or the token to have package:read scope
+	url := fmt.Sprintf("https://api.github.com/users/%s/packages/container/%s", owner, packageName)
+	
+	client := &http.Client{
+		Timeout: 10 * time.Second,
+	}
+	
+	req, err := http.NewRequestWithContext(context.Background(), "GET", url, nil)
+	if err != nil {
+		// Try org endpoint if user endpoint fails
+		url = fmt.Sprintf("https://api.github.com/orgs/%s/packages/container/%s", owner, packageName)
+		req, err = http.NewRequestWithContext(context.Background(), "GET", url, nil)
+		if err != nil {
+			return 0, fmt.Errorf("failed to create request: %w", err)
+		}
+	}
+	
+	req.Header.Add("Accept", "application/vnd.github.v3+json")
+	req.Header.Add("Authorization", "token "+githubToken)
+	
+	resp, err := client.Do(req)
+	if err != nil {
+		return 0, fmt.Errorf("failed to send request: %w", err)
+	}
+	defer resp.Body.Close()
+	
+	if resp.StatusCode == http.StatusNotFound {
+		// Try org endpoint if user endpoint returned 404
+		if strings.Contains(url, "/users/") {
+			url = strings.Replace(url, "/users/", "/orgs/", 1)
+			req, err = http.NewRequestWithContext(context.Background(), "GET", url, nil)
+			if err != nil {
+				return 0, fmt.Errorf("failed to create request: %w", err)
+			}
+			
+			req.Header.Add("Accept", "application/vnd.github.v3+json")
+			req.Header.Add("Authorization", "token "+githubToken)
+			
+			resp, err = client.Do(req)
+			if err != nil {
+				return 0, fmt.Errorf("failed to send request: %w", err)
+			}
+			defer resp.Body.Close()
+		}
+	}
+	
+	if resp.StatusCode != http.StatusOK {
+		// Package not found or no access - return 0
+		logger.Debugf("Could not fetch GHCR package stats (status %d) for %s", resp.StatusCode, imageName)
+		return 0, nil
+	}
+	
+	// GitHub Packages API doesn't directly expose download count in the package endpoint
+	// We need to get package versions and sum their download counts
+	var packageInfo struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	}
+	
+	if err := json.NewDecoder(resp.Body).Decode(&packageInfo); err != nil {
+		return 0, fmt.Errorf("failed to parse response: %w", err)
+	}
+	
+	// Now get all versions to sum download counts
+	versionsURL := fmt.Sprintf("%s/versions?per_page=100", url)
+	req, err = http.NewRequestWithContext(context.Background(), "GET", versionsURL, nil)
+	if err != nil {
+		return 0, fmt.Errorf("failed to create versions request: %w", err)
+	}
+	
+	req.Header.Add("Accept", "application/vnd.github.v3+json")
+	req.Header.Add("Authorization", "token "+githubToken)
+	
+	resp, err = client.Do(req)
+	if err != nil {
+		return 0, fmt.Errorf("failed to send versions request: %w", err)
+	}
+	defer resp.Body.Close()
+	
+	if resp.StatusCode != http.StatusOK {
+		logger.Debugf("Could not fetch GHCR package versions (status %d) for %s", resp.StatusCode, imageName)
+		return 0, nil
+	}
+	
+	var versions []struct {
+		Metadata struct {
+			Container struct {
+				Tags []string `json:"tags"`
+			} `json:"container"`
+		} `json:"metadata"`
+		// Unfortunately, GitHub API doesn't expose download_count for container packages
+		// in the same way it does for other package types
+	}
+	
+	if err := json.NewDecoder(resp.Body).Decode(&versions); err != nil {
+		return 0, fmt.Errorf("failed to parse versions response: %w", err)
+	}
+	
+	// GitHub doesn't expose container download counts through the API
+	// even with authentication. This is a known limitation.
+	// Return 0 to indicate we couldn't get the data
+	logger.Debugf("GHCR package found but download count not available through API for %s", imageName)
+	return 0, nil
+}
+
+// getDockerHubPullCount fetches pull count for Docker Hub images
+func getDockerHubPullCount(imageName string) (int, error) {
+	// Remove docker.io prefix if present
+	imageName = strings.TrimPrefix(imageName, "docker.io/")
+	
+	// Docker Hub API endpoint
+	url := fmt.Sprintf("https://hub.docker.com/v2/repositories/%s/", imageName)
+	
+	client := &http.Client{
+		Timeout: 10 * time.Second,
+	}
+	
+	req, err := http.NewRequestWithContext(context.Background(), "GET", url, nil)
+	if err != nil {
+		return 0, fmt.Errorf("failed to create request: %w", err)
+	}
+	
+	resp, err := client.Do(req)
+	if err != nil {
+		return 0, fmt.Errorf("failed to send request: %w", err)
+	}
+	defer resp.Body.Close()
+	
+	if resp.StatusCode != http.StatusOK {
+		// Not found or error - return 0
+		return 0, nil
+	}
+	
+	var dockerHubResp struct {
+		PullCount int `json:"pull_count"`
+	}
+	
+	if err := json.NewDecoder(resp.Body).Decode(&dockerHubResp); err != nil {
+		return 0, fmt.Errorf("failed to parse response: %w", err)
+	}
+	
+	return dockerHubResp.PullCount, nil
 }
