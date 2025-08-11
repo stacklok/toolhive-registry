@@ -1,0 +1,92 @@
+name: heroku-mcp-server
+image: ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7
+description: MCP server for seamless interaction between LLMs and the Heroku Platform
+tier: Official
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost:
+                - .heroku.com
+                - .herokuapp.com
+            allowport:
+                - 443
+tools:
+    # Application Management
+    - list_apps
+    - get_app_info
+    - create_app
+    - rename_app
+    - transfer_app
+    - deploy_to_heroku
+    - deploy_one_off_dyno
+    # Process & Dyno Management
+    - ps_list
+    - ps_scale
+    - ps_restart
+    # Add-ons
+    - list_addons
+    - get_addon_info
+    - create_addon
+    # Maintenance & Logs
+    - maintenance_on
+    - maintenance_off
+    - get_app_logs
+    # Pipeline Management
+    - pipelines_create
+    - pipelines_promote
+    - pipelines_list
+    - pipelines_info
+    # Team & Space Management
+    - list_teams
+    - list_private_spaces
+    # PostgreSQL Database Management
+    - pg_psql
+    - pg_info
+    - pg_ps
+    - pg_locks
+    - pg_outliers
+    - pg_credentials
+    - pg_kill
+    - pg_maintenance
+    - pg_backups
+    - pg_upgrade
+envvars:
+    - name: HEROKU_API_KEY
+      description: Your Heroku authorization token
+      required: true
+      default: ""
+      secret: true
+    - name: MCP_SERVER_REQUEST_TIMEOUT
+      description: Timeout in milliseconds for command execution
+      required: false
+      default: "15000"
+      secret: false
+args: []
+metadata:
+    stars: 55
+    pulls: 0
+    lastupdated: 2025-08-11T15:29:10Z
+repositoryurl: https://github.com/heroku/heroku-mcp-server
+tags:
+    - heroku
+    - paas
+    - deployment
+    - cloud
+    - devops
+dockertags: []
+provenance:
+    sigstoreurl: tuf-repo-cdn.sigstore.dev
+    repositoryuri: https://github.com/stacklok/dockyard
+    repositoryref: refs/heads/main
+    signeridentity: /.github/workflows/build-containers.yml
+    runnerenvironment: github-hosted
+    certissuer: https://token.actions.githubusercontent.com
+    attestation: null
+custommetadata: {}
