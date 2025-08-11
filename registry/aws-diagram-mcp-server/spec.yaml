@@ -1,0 +1,48 @@
+name: aws-diagram-mcp-server
+image: ghcr.io/stacklok/dockyard/uvx/aws-diagram-mcp-server:1.0.5
+description: An AWS Labs Model Context Protocol (MCP) server that creates diagrams using the Python diagrams package DSL
+tier: Official
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost: []
+            allowport: []
+tools:
+    - generate_diagram
+    - get_diagram_examples
+    - list_icons
+envvars:
+    - name: OUTPUT_DIR
+      description: Directory where diagrams will be saved
+      required: false
+      default: "/tmp/diagrams"
+      secret: false
+args: []
+metadata:
+    stars: 5291
+    pulls: 0
+    lastupdated: 2025-08-11T15:29:07Z
+repositoryurl: https://github.com/awslabs/mcp
+tags:
+    - aws
+    - cloud
+    - diagrams
+    - architecture
+    - visualization
+dockertags: []
+provenance:
+    sigstoreurl: tuf-repo-cdn.sigstore.dev
+    repositoryuri: https://github.com/stacklok/dockyard
+    repositoryref: refs/heads/main
+    signeridentity: /.github/workflows/build-containers.yml
+    runnerenvironment: github-hosted
+    certissuer: https://token.actions.githubusercontent.com
+    attestation: null
+custommetadata: {}
