@@ -18,12 +18,6 @@
   ],
   "packageRules": [
     {
-      "description": "Group all registry image updates",
-      "matchPaths": ["registry/**"],
-      "groupName": "registry-images",
-      "groupSlug": "registry-images"
-    },
-    {
       "description": "Automerge patch updates for registry images",
       "matchPaths": ["registry/**"],
       "matchUpdateTypes": ["patch"],
