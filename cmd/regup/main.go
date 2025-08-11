@@ -13,6 +13,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/goccy/go-yaml/ast"
+	"github.com/goccy/go-yaml/parser"
 	"github.com/spf13/cobra"
 	"github.com/stacklok/toolhive-registry/pkg/types"
 	"github.com/stacklok/toolhive/pkg/container/verifier"
@@ -198,22 +200,131 @@ func updateServerInfo(server serverWithName) error {
 	logger.Infof("Updating %s: stars %d -> %d, pulls %d -> %d",
 		server.name, currentStars, newStars, currentPulls, newPulls)
 
-	// Update the metadata
-	server.entry.Metadata.Stars = newStars
-	server.entry.Metadata.Pulls = newPulls
-	server.entry.Metadata.LastUpdated = time.Now().UTC().Format(time.RFC3339)
+	// Use goccy/go-yaml to preserve comments and structure
+	return updateYAMLPreservingStructure(server.path, newStars, newPulls)
+}
 
-	// Save the updated spec back to file
-	data, err := yaml.Marshal(server.entry)
+// updateYAMLPreservingStructure updates the YAML file while preserving comments and structure
+func updateYAMLPreservingStructure(path string, stars, pulls int) error {
+	// Read the original file
+	data, err := os.ReadFile(path)
 	if err != nil {
-		return fmt.Errorf("failed to marshal YAML: %w", err)
+		return fmt.Errorf("failed to read file: %w", err)
 	}
 
-	if err := os.WriteFile(server.path, data, 0644); err != nil {
-		return fmt.Errorf("failed to write spec file: %w", err)
+	// Parse the YAML preserving comments
+	file, err := parser.ParseBytes(data, parser.ParseComments)
+	if err != nil {
+		return fmt.Errorf("failed to parse YAML: %w", err)
 	}
 
-	return nil
+	// Find and update the metadata section
+	for _, doc := range file.Docs {
+		if err := updateMetadataInAST(doc.Body, stars, pulls); err != nil {
+			// If metadata doesn't exist, we need to add it
+			if err.Error() == "metadata not found" {
+				addMetadataToAST(doc.Body, stars, pulls)
+			} else {
+				return err
+			}
+		}
+	}
+
+	// Write back to file
+	return os.WriteFile(path, []byte(file.String()), 0644)
+}
+
+// updateMetadataInAST updates metadata fields in the AST
+func updateMetadataInAST(node ast.Node, stars, pulls int) error {
+	mapping, ok := node.(*ast.MappingNode)
+	if !ok {
+		return fmt.Errorf("expected mapping node")
+	}
+
+	for _, value := range mapping.Values {
+		if value.Key.String() == "metadata" {
+			metaMapping, ok := value.Value.(*ast.MappingNode)
+			if !ok {
+				continue
+			}
+
+			// Update existing fields
+			hasStars, hasPulls, hasLastUpdated := false, false, false
+			for _, metaValue := range metaMapping.Values {
+				switch metaValue.Key.String() {
+				case "stars":
+					metaValue.Value = &ast.IntegerNode{
+						Value: fmt.Sprintf("%d", stars),
+					}
+					hasStars = true
+				case "pulls":
+					metaValue.Value = &ast.IntegerNode{
+						Value: fmt.Sprintf("%d", pulls),
+					}
+					hasPulls = true
+				case "lastupdated":
+					metaValue.Value = &ast.StringNode{
+						Value: time.Now().UTC().Format(time.RFC3339),
+					}
+					hasLastUpdated = true
+				}
+			}
+
+			// Add missing fields
+			if !hasStars {
+				metaMapping.Values = append(metaMapping.Values, &ast.MappingValueNode{
+					Key: &ast.StringNode{Value: "stars"},
+					Value: &ast.IntegerNode{Value: fmt.Sprintf("%d", stars)},
+				})
+			}
+			if !hasPulls {
+				metaMapping.Values = append(metaMapping.Values, &ast.MappingValueNode{
+					Key: &ast.StringNode{Value: "pulls"},
+					Value: &ast.IntegerNode{Value: fmt.Sprintf("%d", pulls)},
+				})
+			}
+			if !hasLastUpdated {
+				metaMapping.Values = append(metaMapping.Values, &ast.MappingValueNode{
+					Key: &ast.StringNode{Value: "lastupdated"},
+					Value: &ast.StringNode{Value: time.Now().UTC().Format(time.RFC3339)},
+				})
+			}
+
+			return nil
+		}
+	}
+
+	return fmt.Errorf("metadata not found")
+}
+
+// addMetadataToAST adds a metadata section to the AST
+func addMetadataToAST(node ast.Node, stars, pulls int) {
+	mapping, ok := node.(*ast.MappingNode)
+	if !ok {
+		return
+	}
+
+	metaMapping := &ast.MappingNode{
+		Values: []*ast.MappingValueNode{
+			{
+				Key:   &ast.StringNode{Value: "stars"},
+				Value: &ast.IntegerNode{Value: fmt.Sprintf("%d", stars)},
+			},
+			{
+				Key:   &ast.StringNode{Value: "pulls"},
+				Value: &ast.IntegerNode{Value: fmt.Sprintf("%d", pulls)},
+			},
+			{
+				Key:   &ast.StringNode{Value: "lastupdated"},
+				Value: &ast.StringNode{Value: time.Now().UTC().Format(time.RFC3339)},
+			},
+		},
+	}
+
+	mapping.Values = append(mapping.Values, &ast.MappingValueNode{
+		Key:   &ast.StringNode{Value: "metadata"},
+		Value: metaMapping,
+	})
 }
 
 // verifyServerProvenance verifies the provenance information for a server
