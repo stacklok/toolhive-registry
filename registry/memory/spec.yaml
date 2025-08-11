@@ -1,0 +1,56 @@
+# memory MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: memory
+image: docker.io/mcp/memory:latest
+description: Provides persistent memory to an LLMs application for storing information about the user across chats. Implemented using a local knowledge graph.
+tier: Community
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost: []
+            allowport:
+                - 443
+tools:
+    - create_entities
+    - create_relations
+    - add_observations
+    - delete_entities
+    - delete_observations
+    - delete_relations
+    - read_graph
+    - search_nodes
+    - open_nodes
+envvars:
+    - name: MEMORY_FILE_PATH
+      description: 'Path to the memory storage JSON file (default: memory.json in the server directory)'
+      required: false
+      default: ""
+      secret: false
+args: []
+metadata:
+    stars: 63699
+    pulls: 15509
+    lastupdated: "2025-08-11T00:24:54Z"
+repositoryurl: https://github.com/modelcontextprotocol/servers
+tags:
+    - entities
+    - graph
+    - knowledge
+    - memory
+    - observations
+    - persistent
+    - relations
+dockertags: []
+provenance: null
+custommetadata: {}

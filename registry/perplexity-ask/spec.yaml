@@ -1,0 +1,47 @@
+# perplexity-ask MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: perplexity-ask
+image: docker.io/mcp/perplexity-ask:latest
+description: Integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks.
+tier: Official
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost:
+                - api.perplexity.ai
+            allowport:
+                - 443
+tools:
+    - perplexity_ask
+    - perplexity_research
+    - perplexity_reason
+envvars:
+    - name: PERPLEXITY_API_KEY
+      description: Perplexity API key
+      required: true
+      default: ""
+      secret: true
+args: []
+metadata:
+    stars: 1485
+    pulls: 14816
+    lastupdated: "2025-08-11T00:24:57Z"
+repositoryurl: https://github.com/ppl-ai/modelcontextprotocol
+tags:
+    - ask
+    - perplexity
+    - perplexity-ask
+dockertags: []
+provenance: null
+custommetadata: {}

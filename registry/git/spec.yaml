@@ -1,0 +1,55 @@
+# git MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: git
+image: docker.io/mcp/git:latest
+description: Provides support for interacting with Git repositories
+tier: Community
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost: []
+            allowport: []
+tools:
+    - git_status
+    - git_diff_unstaged
+    - git_diff_staged
+    - git_diff
+    - git_commit
+    - git_add
+    - git_reset
+    - git_log
+    - git_create_branch
+    - git_checkout
+    - git_show
+    - git_init
+envvars: []
+args: []
+metadata:
+    stars: 63699
+    pulls: 10182
+    lastupdated: "2025-08-11T00:24:56Z"
+repositoryurl: https://github.com/modelcontextprotocol/servers
+tags:
+    - adds
+    - automation
+    - git
+    - interaction
+    - records
+    - repository
+    - shows
+    - tools
+    - unstages
+dockertags: []
+provenance: null
+custommetadata: {}

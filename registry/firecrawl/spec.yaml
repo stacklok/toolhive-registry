@@ -1,0 +1,96 @@
+# firecrawl MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: firecrawl
+image: docker.io/mcp/firecrawl:latest
+description: A powerful web scraping and content extraction MCP server that provides advanced crawling, search, and structured data extraction capabilities with LLM integration.
+tier: Official
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost:
+                - api.firecrawl.dev
+            allowport:
+                - 443
+tools:
+    - firecrawl_scrape
+    - firecrawl_batch_scrape
+    - firecrawl_check_batch_status
+    - firecrawl_check_crawl_status
+    - firecrawl_search
+    - firecrawl_crawl
+    - firecrawl_extract
+    - firecrawl_deep_research
+    - firecrawl_generate_llmstxt
+    - firecrawl_map
+envvars:
+    - name: FIRECRAWL_API_KEY
+      description: API key for FireCrawl service authentication
+      required: true
+      default: ""
+      secret: true
+    - name: FIRECRAWL_API_URL
+      description: 'FireCrawl API URL (default: https://api.firecrawl.dev/v1)'
+      required: false
+      default: ""
+      secret: false
+    - name: FIRECRAWL_RETRY_MAX_ATTEMPTS
+      description: Maximum number of retry attempts for API calls
+      required: false
+      default: ""
+      secret: false
+    - name: FIRECRAWL_RETRY_INITIAL_DELAY
+      description: Initial delay in milliseconds for retry backoff
+      required: false
+      default: ""
+      secret: false
+    - name: FIRECRAWL_RETRY_MAX_DELAY
+      description: Maximum delay in milliseconds for retry backoff
+      required: false
+      default: ""
+      secret: false
+    - name: FIRECRAWL_RETRY_BACKOFF_FACTOR
+      description: Backoff factor for retry delay calculation
+      required: false
+      default: ""
+      secret: false
+    - name: FIRECRAWL_CREDIT_WARNING_THRESHOLD
+      description: Credit threshold for warning notifications
+      required: false
+      default: ""
+      secret: false
+    - name: FIRECRAWL_CREDIT_CRITICAL_THRESHOLD
+      description: Credit threshold for critical notifications
+      required: false
+      default: ""
+      secret: false
+args: []
+metadata:
+    stars: 4082
+    pulls: 12317
+    lastupdated: "2025-08-11T00:24:54Z"
+repositoryurl: https://github.com/mendableai/firecrawl-mcp-server
+tags:
+    - web-crawler
+    - web-scraping
+    - data-collection
+    - batch-processing
+    - content-extraction
+    - search-api
+    - llm-tools
+    - javascript-rendering
+    - research
+    - automation
+dockertags: []
+provenance: null
+custommetadata: {}

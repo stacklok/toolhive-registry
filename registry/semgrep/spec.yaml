@@ -1,0 +1,60 @@
+# semgrep MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: semgrep
+image: ghcr.io/semgrep/mcp:0.4.1
+description: Allows you to scan code for security vulnerabilities using Semgrep, a fast, deterministic static analysis tool that semantically understands many languages and comes with over 5,000 rules.
+tier: Official
+status: Active
+transport: sse
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost:
+                - semgrep.dev
+            allowport:
+                - 443
+tools:
+    - security_check
+    - semgrep_scan
+    - semgrep_scan_with_custom_rule
+    - get_abstract_syntax_tree
+    - supported_languages
+    - semgrep_rule_schema
+    - write_custom_semgrep_rule
+envvars:
+    - name: SEMGREP_APP_TOKEN
+      description: Token for connecting to Semgrep AppSec Platform
+      required: false
+      default: ""
+      secret: true
+args:
+    - --transport
+    - sse
+metadata:
+    stars: 405
+    pulls: 11865
+    lastupdated: "2025-08-11T00:24:57Z"
+repositoryurl: https://github.com/semgrep/mcp
+tags:
+    - security
+    - static-analysis
+    - code-scanning
+    - vulnerability-detection
+    - sast
+    - code-quality
+    - security-scanning
+    - semgrep
+    - ast
+    - code-analysis
+dockertags: []
+provenance: null
+custommetadata: {}

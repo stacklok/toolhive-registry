@@ -1,0 +1,43 @@
+# sqlite MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: sqlite
+image: ghcr.io/stackloklabs/sqlite-mcp/server:0.0.1
+description: Provides tools and resources for querying SQLite databases.
+tier: Community
+status: Active
+transport: sse
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost: []
+            allowport: []
+tools:
+    - execute_query
+    - execute_statement
+    - list_tables
+    - describe_table
+envvars: []
+args: []
+metadata:
+    stars: 9
+    pulls: 3888
+    lastupdated: "2025-08-11T00:24:54Z"
+repositoryurl: https://github.com/StacklokLabs/sqlite-mcp
+tags:
+    - data
+    - database
+    - query
+    - sql
+    - sqlite
+dockertags: []
+provenance: null
+custommetadata: {}

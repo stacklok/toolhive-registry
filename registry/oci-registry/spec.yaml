@@ -1,0 +1,70 @@
+# oci-registry MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: oci-registry
+image: ghcr.io/stackloklabs/ocireg-mcp/server:0.0.4
+description: Enables secure and seamless querying of OCI container registries, providing tools for image introspection, tag discovery, and manifest/config retrieval.
+tier: Community
+status: Active
+transport: sse
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: true
+            allowhost: []
+            allowport:
+                - 443
+tools:
+    - get_image_info
+    - list_tags
+    - get_image_manifest
+    - get_image_config
+envvars:
+    - name: OCI_TOKEN
+      description: Bearer token for OCI registry authentication
+      required: false
+      default: ""
+      secret: true
+    - name: OCI_USERNAME
+      description: Username for registry authentication
+      required: false
+      default: ""
+      secret: false
+    - name: OCI_PASSWORD
+      description: Password for registry authentication
+      required: false
+      default: ""
+      secret: true
+args: []
+metadata:
+    stars: 9
+    pulls: 7732
+    lastupdated: "2025-08-11T00:25:01Z"
+repositoryurl: https://github.com/StacklokLabs/ocireg-mcp
+tags:
+    - oci
+    - registry
+    - containers
+    - images
+    - tags
+    - manifest
+    - config
+    - mcp
+    - docker
+dockertags: []
+provenance:
+    sigstoreurl: tuf-repo-cdn.sigstore.dev
+    repositoryuri: https://github.com/StacklokLabs/ocireg-mcp
+    repositoryref: ""
+    signeridentity: /.github/workflows/release.yml
+    runnerenvironment: github-hosted
+    certissuer: https://token.actions.githubusercontent.com
+    attestation: null
+custommetadata: {}

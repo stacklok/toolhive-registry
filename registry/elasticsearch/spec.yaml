@@ -1,0 +1,90 @@
+# elasticsearch MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: elasticsearch
+image: docker.io/mcp/elasticsearch:latest
+description: Connect to your Elasticsearch data.
+tier: Official
+status: Active
+transport: streamable-http
+targetport: 8080
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: true
+            allowhost: []
+            allowport:
+                - 443
+                - 9200
+tools:
+    - esql
+    - get_mappings
+    - get_shards
+    - list_indices
+    - search
+envvars:
+    - name: ES_URL
+      description: Your Elasticsearch instance URL
+      required: true
+      default: ""
+      secret: false
+    - name: ES_API_KEY
+      description: Elasticsearch API key for authentication
+      required: false
+      default: ""
+      secret: true
+    - name: ES_USERNAME
+      description: Elasticsearch username for basic authentication
+      required: false
+      default: ""
+      secret: false
+    - name: ES_PASSWORD
+      description: Elasticsearch password for basic authentication
+      required: false
+      default: ""
+      secret: true
+    - name: ES_CA_CERT
+      description: Path to custom CA certificate for Elasticsearch SSL/TLS
+      required: false
+      default: ""
+      secret: false
+    - name: ES_SSL_SKIP_VERIFY
+      description: Set to '1' or 'true' to skip SSL certificate verification
+      required: false
+      default: ""
+      secret: false
+    - name: ES_PATH_PREFIX
+      description: Path prefix for Elasticsearch instance exposed at a non-root path
+      required: false
+      default: ""
+      secret: false
+    - name: ES_VERSION
+      description: Server assumes Elasticsearch 9.x. Set to 8 target Elasticsearch 8.x
+      required: false
+      default: ""
+      secret: false
+args:
+    - http
+metadata:
+    stars: 402
+    pulls: 10632
+    lastupdated: "2025-08-11T00:24:57Z"
+repositoryurl: https://github.com/elastic/mcp-server-elasticsearch
+tags:
+    - elasticsearch
+    - search
+    - analytics
+    - data
+    - alerting
+    - observability
+    - metrics
+    - logs
+dockertags: []
+provenance: null
+custommetadata: {}

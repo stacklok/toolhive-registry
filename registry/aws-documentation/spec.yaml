@@ -1,0 +1,54 @@
+# aws-documentation MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: aws-documentation
+image: docker.io/mcp/aws-documentation:latest
+description: Access AWS documentation, search for content, and get recommendations.
+tier: Official
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost:
+                - .docs.aws.amazon.com
+                - .docs.amazonaws.cn
+            allowport:
+                - 443
+tools:
+    - read_documentation
+    - recommend
+    - search_documentation
+envvars:
+    - name: AWS_DOCUMENTATION_PARTITION
+      description: AWS documentation partition (aws, aws-cn)
+      required: false
+      default: aws
+      secret: false
+    - name: FASTMCP_LOG_LEVEL
+      description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+      required: false
+      default: ERROR
+      secret: false
+args: []
+metadata:
+    stars: 5281
+    pulls: 10067
+    lastupdated: "2025-08-11T00:24:59Z"
+repositoryurl: https://github.com/awslabs/mcp
+tags:
+    - aws
+    - content
+    - documentation
+    - knowledge-base
+dockertags: []
+provenance: null
+custommetadata: {}

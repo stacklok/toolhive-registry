@@ -1,0 +1,48 @@
+# genai-toolbox MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: genai-toolbox
+image: us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.11.0
+description: A comprehensive MCP server for database operations that provides tools for connecting to and interacting with various database systems with advanced features like connection pooling, authentication, and observability. Mount and configured via tools.yaml
+tier: Official
+status: Active
+transport: sse
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: true
+            allowhost: []
+            allowport: []
+tools:
+    - set_during_runtime
+envvars: []
+args: []
+metadata:
+    stars: 9121
+    pulls: 2150
+    lastupdated: "2025-08-11T00:24:55Z"
+repositoryurl: https://github.com/googleapis/genai-toolbox
+tags:
+    - database
+    - sql
+    - postgresql
+    - mysql
+    - sqlite
+    - mongodb
+    - redis
+    - connection-pooling
+    - authentication
+    - observability
+    - toolbox
+    - genai
+    - mcp-server
+dockertags: []
+provenance: null
+custommetadata: {}

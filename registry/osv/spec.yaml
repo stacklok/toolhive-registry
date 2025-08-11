@@ -1,0 +1,56 @@
+# osv MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: osv
+image: ghcr.io/stackloklabs/osv-mcp/server:0.0.7
+description: Provides access to the OSV (Open Source Vulnerabilities) database. Allows LLM-powered applications to query the OSV database for vulnerability information about packages and commits.
+tier: Community
+status: Active
+transport: sse
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost:
+                - api.osv.dev
+            allowport:
+                - 443
+tools:
+    - query_vulnerability
+    - query_vulnerabilities_batch
+    - get_vulnerability
+envvars: []
+args: []
+metadata:
+    stars: 17
+    pulls: 10036
+    lastupdated: "2025-08-11T00:24:56Z"
+repositoryurl: https://github.com/StacklokLabs/osv-mcp
+tags:
+    - vulnerability
+    - security
+    - osv
+    - open-source
+    - cve
+    - packages
+    - dependencies
+    - scanning
+    - security-scanning
+    - vulnerability-detection
+dockertags: []
+provenance:
+    sigstoreurl: tuf-repo-cdn.sigstore.dev
+    repositoryuri: https://github.com/StacklokLabs/osv-mcp
+    repositoryref: ""
+    signeridentity: /.github/workflows/release.yml
+    runnerenvironment: github-hosted
+    certissuer: https://token.actions.githubusercontent.com
+    attestation: null
+custommetadata: {}

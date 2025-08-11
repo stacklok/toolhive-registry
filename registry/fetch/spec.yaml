@@ -1,0 +1,53 @@
+# fetch MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: fetch
+image: ghcr.io/stackloklabs/gofetch/server:0.0.4
+description: Allows you to fetch content from the web
+tier: Community
+status: Active
+transport: streamable-http
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: true
+            allowhost: []
+            allowport:
+                - 443
+tools:
+    - fetch
+envvars: []
+args: []
+metadata:
+    stars: 17
+    pulls: 12174
+    lastupdated: "2025-08-11T00:25:00Z"
+repositoryurl: https://github.com/stackloklabs/gofetch
+tags:
+    - content
+    - html
+    - markdown
+    - fetch
+    - fetching
+    - get
+    - wget
+    - json
+    - curl
+    - modelcontextprotocol
+dockertags: []
+provenance:
+    sigstoreurl: tuf-repo-cdn.sigstore.dev
+    repositoryuri: https://github.com/StacklokLabs/gofetch
+    repositoryref: ""
+    signeridentity: /.github/workflows/release.yml
+    runnerenvironment: github-hosted
+    certissuer: https://token.actions.githubusercontent.com
+    attestation: null
+custommetadata: {}

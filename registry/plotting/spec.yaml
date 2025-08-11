@@ -1,0 +1,51 @@
+# plotting MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: plotting
+image: ghcr.io/stackloklabs/plotting-mcp:v0.0.2
+description: Provides plotting capabilities for visualizing data in various formats.
+tier: Community
+status: Active
+transport: streamable-http
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost: []
+            allowport: []
+tools:
+    - generate_plot
+envvars: []
+args: []
+metadata:
+    stars: 0
+    pulls: 921
+    lastupdated: "2025-08-11T00:24:57Z"
+repositoryurl: https://github.com/StacklokLabs/plotting-mcp
+tags:
+    - plotting
+    - visualization
+    - data
+    - charts
+    - graphs
+    - matplotlib
+    - seaborn
+    - cartopy
+    - maps
+dockertags: []
+provenance:
+    sigstoreurl: tuf-repo-cdn.sigstore.dev
+    repositoryuri: https://github.com/StacklokLabs/plotting-mcp
+    repositoryref: ""
+    signeridentity: /.github/workflows/release.yml
+    runnerenvironment: github-hosted
+    certissuer: https://token.actions.githubusercontent.com
+    attestation: null
+custommetadata: {}

@@ -1,0 +1,180 @@
+version: '3'
+
+vars:
+  BUILD_DIR: build
+  REGISTRY_DIR: registry
+  VERSION:
+    sh: git describe --tags --always --dirty 2>/dev/null || echo "dev"
+  COMMIT:
+    sh: git rev-parse --short HEAD 2>/dev/null || echo "unknown"
+  DATE:
+    sh: date -u +"%Y-%m-%dT%H:%M:%SZ"
+  LDFLAGS: -ldflags "-X main.version={{.VERSION}} -X main.commit={{.COMMIT}} -X main.date={{.DATE}}"
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  deps:
+    desc: Download and install dependencies
+    cmds:
+      - echo "📦 Downloading dependencies..."
+      - go mod download
+      - go mod tidy
+
+  build:
+    desc: Build all binaries
+    deps: [build:registry-builder, build:import-tool]
+
+  build:registry-builder:
+    desc: Build the registry-builder tool
+    cmds:
+      - echo "🔨 Building registry-builder..."
+      - mkdir -p {{.BUILD_DIR}}
+      - go build {{.LDFLAGS}} -o {{.BUILD_DIR}}/registry-builder ./cmd/registry-builder
+    sources:
+      - cmd/registry-builder/**/*.go
+      - pkg/**/*.go
+      - go.mod
+      - go.sum
+    generates:
+      - "{{.BUILD_DIR}}/registry-builder"
+
+  build:import-tool:
+    desc: Build the import-from-toolhive tool
+    cmds:
+      - echo "🔨 Building import-from-toolhive..."
+      - mkdir -p {{.BUILD_DIR}}
+      - go build {{.LDFLAGS}} -o {{.BUILD_DIR}}/import-from-toolhive ./cmd/import-from-toolhive
+    sources:
+      - cmd/import-from-toolhive/**/*.go
+      - pkg/**/*.go
+      - go.mod
+      - go.sum
+    generates:
+      - "{{.BUILD_DIR}}/import-from-toolhive"
+
+  import:
+    desc: Import the existing ToolHive registry
+    deps: [build:import-tool]
+    cmds:
+      - echo "📥 Importing ToolHive registry..."
+      - ./{{.BUILD_DIR}}/import-from-toolhive -v
+
+  import:dry-run:
+    desc: Preview what would be imported (dry run)
+    deps: [build:import-tool]
+    cmds:
+      - echo "👀 Preview import (dry run)..."
+      - ./{{.BUILD_DIR}}/import-from-toolhive --dry-run
+
+  validate:
+    desc: Validate all registry entries
+    deps: [build:registry-builder]
+    cmds:
+      - echo "✅ Validating registry entries..."
+      - ./{{.BUILD_DIR}}/registry-builder validate -v
+
+  list:
+    desc: List all registry entries
+    deps: [build:registry-builder]
+    cmds:
+      - echo "📋 Listing registry entries..."
+      - ./{{.BUILD_DIR}}/registry-builder list
+
+  list:verbose:
+    desc: List all registry entries with details
+    deps: [build:registry-builder]
+    cmds:
+      - echo "📋 Listing registry entries (verbose)..."
+      - ./{{.BUILD_DIR}}/registry-builder list -v
+
+  build:registry:
+    desc: Build the registry JSON from YAML files
+    deps: [build:registry-builder]
+    cmds:
+      - echo "🏗️ Building registry.json..."
+      - ./{{.BUILD_DIR}}/registry-builder build -v
+    sources:
+      - "{{.REGISTRY_DIR}}/**/*.yaml"
+      - "{{.REGISTRY_DIR}}/**/*.yml"
+    generates:
+      - "{{.BUILD_DIR}}/registry.json"
+
+  test:
+    desc: Run tests
+    cmds:
+      - echo "🧪 Running tests..."
+      - go test -v -race -coverprofile=coverage.out ./...
+
+  test:coverage:
+    desc: Run tests with coverage report
+    deps: [test]
+    cmds:
+      - echo "📊 Generating coverage report..."
+      - go tool cover -html=coverage.out -o coverage.html
+      - 'echo "Coverage report generated: coverage.html"'
+
+  lint:
+    desc: Run linter (requires golangci-lint)
+    cmds:
+      - echo "🔍 Running linter..."
+      - golangci-lint run ./...
+
+  lint:fix:
+    desc: Run linter with auto-fix
+    cmds:
+      - echo "🔧 Running linter with auto-fix..."
+      - golangci-lint run --fix ./...
+
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - echo "🧹 Cleaning..."
+      - rm -rf {{.BUILD_DIR}}
+      - rm -f coverage.out coverage.html
+      - go clean
+
+  clean:registry:
+    desc: Clean imported registry files
+    cmds:
+      - echo "🧹 Cleaning registry directory..."
+      - rm -rf {{.REGISTRY_DIR}}
+
+  full-cycle:
+    desc: Run the full import -> validate -> build cycle
+    cmds:
+      - task: clean
+      - task: clean:registry
+      - task: import
+      - task: validate
+      - task: build:registry
+      - echo "✨ Full cycle complete!"
+      - 'echo "Registry JSON available at: {{.BUILD_DIR}}/registry.json"'
+
+  quick-start:
+    desc: Quick start for new users
+    cmds:
+      - task: deps
+      - task: full-cycle
+      - echo "🚀 Quick start complete!"
+      - echo ""
+      - echo "Next steps:"
+      - 'echo "  1. Review imported entries in {{.REGISTRY_DIR}}/"'
+      - echo "  2. Add new entries by creating directories with spec.yaml files"
+      - echo "  3. Run 'task validate' to check your changes"
+      - echo "  4. Run 'task build:registry' to generate the final JSON"
+
+  version:
+    desc: Show version information
+    deps: [build:registry-builder]
+    cmds:
+      - ./{{.BUILD_DIR}}/registry-builder version
+
+  watch:
+    desc: Watch for changes and rebuild (requires entr)
+    cmds:
+      - echo "👁️ Watching for changes..."
+      - find cmd pkg -name '*.go' | entr -c task build

@@ -1,0 +1,110 @@
+# azure MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: azure
+image: mcr.microsoft.com/azure-sdk/azure-mcp:0.5.1
+description: The Azure MCP Server, bringing the power of Azure to your agents.
+tier: Official
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost:
+                - login.microsoftonline.com
+                - login.windows.net
+                - management.azure.com
+                - graph.microsoft.com
+                - .blob.core.windows.net
+                - .table.core.windows.net
+                - .vault.azure.net
+                - .documents.azure.com
+                - .servicebus.windows.net
+            allowport:
+                - 443
+tools:
+    - documentation
+    - bestpractices
+    - group
+    - subscription
+    - aks
+    - appconfig
+    - role
+    - datadog
+    - cosmos
+    - foundry
+    - grafana
+    - keyvault
+    - kusto
+    - marketplace
+    - monitor
+    - postgres
+    - redis
+    - search
+    - servicebus
+    - sql
+    - storage
+    - workbooks
+    - bicepschema
+    - azureterraformbestpractices
+    - loadtesting
+    - extension_az
+    - extension_azd
+    - extension_azqr
+envvars:
+    - name: AZURE_TENANT_ID
+      description: Your Azure tenant ID
+      required: true
+      default: ""
+      secret: true
+    - name: AZURE_CLIENT_ID
+      description: Your Azure client ID for authentication
+      required: true
+      default: ""
+      secret: true
+    - name: AZURE_CLIENT_SECRET
+      description: Your Azure client secret for authentication
+      required: true
+      default: ""
+      secret: true
+    - name: HTTP_PROXY
+      description: HTTP proxy URL for outbound requests (optional)
+      required: false
+      default: ""
+      secret: false
+    - name: HTTPS_PROXY
+      description: HTTPS proxy URL for outbound requests (optional)
+      required: false
+      default: ""
+      secret: false
+    - name: NO_PROXY
+      description: Comma-separated list of hosts to exclude from proxying (optional)
+      required: false
+      default: ""
+      secret: false
+args: []
+metadata:
+    stars: 1079
+    pulls: 1506
+    lastupdated: "2025-08-11T00:24:53Z"
+repositoryurl: https://github.com/Azure/azure-mcp
+tags:
+    - azure
+    - microsoft
+    - cloud
+    - iaas
+    - paas
+    - infrastructure
+    - database
+    - storage
+dockertags: []
+provenance: null
+custommetadata: {}

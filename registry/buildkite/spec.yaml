@@ -1,0 +1,79 @@
+# buildkite MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: buildkite
+image: ghcr.io/buildkite/buildkite-mcp-server:0.5.8
+description: Connect your Buildkite data (pipelines, builds, jobs, tests) to AI tooling and editors.
+tier: Official
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost:
+                - .buildkite.com
+            allowport:
+                - 443
+tools:
+    - get_cluster
+    - list_clusters
+    - get_cluster_queue
+    - list_cluster_queues
+    - get_pipeline
+    - list_pipelines
+    - create_pipeline
+    - update_pipeline
+    - list_builds
+    - get_build
+    - create_build
+    - get_build_test_engine_runs
+    - get_jobs
+    - get_job_logs
+    - list_artifacts
+    - get_artifact
+    - list_annotations
+    - list_test_runs
+    - get_test_run
+    - get_failed_executions
+    - get_test
+    - access_token
+    - current_user
+    - user_token_organization
+envvars:
+    - name: BUILDKITE_API_TOKEN
+      description: Your Buildkite API access token
+      required: true
+      default: ""
+      secret: true
+    - name: JOB_LOG_TOKEN_THRESHOLD
+      description: Token threshold for job logs. If exceeded, logs will be written to disk and returned by path (for local use only).
+      required: false
+      default: ""
+      secret: false
+args:
+    - stdio
+metadata:
+    stars: 24
+    pulls: 3103
+    lastupdated: "2025-08-11T00:24:58Z"
+repositoryurl: https://github.com/buildkite/buildkite-mcp-server
+tags:
+    - buildkite
+    - continuous-integration
+    - continuous-delivery
+    - pipelines
+    - builds
+    - jobs
+    - devops
+    - testing
+dockertags: []
+provenance: null
+custommetadata: {}

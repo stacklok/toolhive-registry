@@ -1,0 +1,51 @@
+# everything MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-11T09:21:39Z
+# ---
+name: everything
+image: docker.io/mcp/everything:latest
+description: This MCP server attempts to exercise all the features of the MCP protocol
+tier: Community
+status: Active
+transport: stdio
+targetport: 0
+permissions:
+    name: ""
+    read: []
+    write: []
+    network:
+        outbound:
+            insecureallowall: false
+            allowhost: []
+            allowport: []
+tools:
+    - echo
+    - add
+    - longRunningOperation
+    - sampleLLM
+    - getTinyImage
+    - printEnv
+    - annotatedMessage
+envvars: []
+args: []
+metadata:
+    stars: 63699
+    pulls: 16590
+    lastupdated: "2025-08-11T00:24:58Z"
+repositoryurl: https://github.com/modelcontextprotocol/servers
+tags:
+    - adds
+    - all
+    - attempts
+    - demonstrates
+    - everything
+    - exercise
+    - features
+    - returns
+    - simple
+    - tools
+dockertags: []
+provenance: null
+custommetadata: {}
