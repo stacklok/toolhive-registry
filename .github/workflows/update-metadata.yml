@@ -1,0 +1,121 @@
+name: Update Registry Metadata
+
+on:
+  schedule:
+    # Run daily at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      count:
+        description: 'Number of oldest entries to update'
+        required: false
+        default: '5'
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-metadata:
+    name: Update Registry Metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Build regup
+        run: go build -o regup ./cmd/regup
+
+      - name: Get oldest entries
+        id: get-entries
+        run: |
+          # Find all spec.yaml files and sort by metadata.lastupdated (oldest first)
+          # Default to 5 entries or use workflow input
+          COUNT="${{ github.event.inputs.count || '5' }}"
+          
+          echo "Finding $COUNT oldest entries..."
+          
+          # Find all spec files
+          SPECS=$(find registry -name "spec.yaml" -type f)
+          
+          # Create a temporary file to store entries with their last updated time
+          TEMP_FILE=$(mktemp)
+          
+          for spec in $SPECS; do
+            # Extract lastupdated field, default to epoch if not found
+            LAST_UPDATED=$(grep -A1 "metadata:" "$spec" | grep "lastupdated:" | cut -d'"' -f2 || echo "1970-01-01T00:00:00Z")
+            echo "$LAST_UPDATED $spec" >> "$TEMP_FILE"
+          done
+          
+          # Sort by date and take the oldest entries
+          OLDEST_SPECS=$(sort "$TEMP_FILE" | head -n "$COUNT" | cut -d' ' -f2-)
+          
+          # Save to output
+          echo "specs<<EOF" >> $GITHUB_OUTPUT
+          echo "$OLDEST_SPECS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          # Clean up
+          rm "$TEMP_FILE"
+          
+          echo "Selected entries:"
+          echo "$OLDEST_SPECS"
+
+      - name: Update metadata for oldest entries
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Update each spec file
+          IFS=$'\n'
+          for spec in ${{ steps.get-entries.outputs.specs }}; do
+            if [ -n "$spec" ]; then
+              echo "Updating metadata for $spec"
+              ./regup "$spec" || echo "Warning: Failed to update $spec"
+            fi
+          done
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes detected"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected"
+            echo "changed=true" >> $GITHUB_OUTPUT
+            git diff --stat
+          fi
+
+      - name: Create Pull Request
+        if: steps.check-changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update registry metadata (stars and pulls)'
+          title: 'chore: update registry metadata'
+          body: |
+            ## 🔄 Registry Metadata Update
+            
+            This PR updates the GitHub stars and Docker pulls counts for the oldest registry entries.
+            
+            ### Updated Entries
+            ```
+            ${{ steps.get-entries.outputs.specs }}
+            ```
+            
+            ---
+            *This is an automated PR created by the daily metadata update workflow.*
+          branch: update-metadata-${{ github.run_number }}
+          delete-branch: true
+          labels: |
+            dependencies
+            automated
