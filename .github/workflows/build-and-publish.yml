@@ -1,0 +1,293 @@
+name: Build and Publish Registry
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    # Run daily at 00:00 UTC to catch any updates
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  validate-and-test:
+    name: Validate and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Run tests
+        run: go test -v -race -coverprofile=coverage.out ./...
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.out
+          flags: unittests
+          name: codecov-umbrella
+        continue-on-error: true
+
+      - name: Build tools
+        run: |
+          go build -o registry-builder ./cmd/registry-builder
+          go build -o import-from-toolhive ./cmd/import-from-toolhive
+
+      - name: Validate registry entries
+        run: ./registry-builder validate -v
+
+  build-and-release:
+    name: Build and Release Registry
+    runs-on: ubuntu-latest
+    needs: validate-and-test
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Build registry-builder
+        run: go build -o registry-builder ./cmd/registry-builder
+
+      - name: Build registry.json
+        run: |
+          mkdir -p dist
+          ./registry-builder build -v
+          cp build/registry.json dist/registry.json
+          echo "Registry built successfully with $(jq '.servers | length' dist/registry.json) entries"
+
+      - name: Validate JSON
+        run: |
+          # Validate JSON structure
+          jq empty dist/registry.json
+          echo "✅ Valid JSON"
+          
+          # Check required fields
+          jq -e '.last_updated' dist/registry.json > /dev/null
+          echo "✅ Has last_updated field"
+          
+          jq -e '.servers' dist/registry.json > /dev/null
+          echo "✅ Has servers field"
+          
+          jq -e '."$schema"' dist/registry.json > /dev/null
+          echo "✅ Has schema field"
+
+      - name: Generate metadata
+        id: metadata
+        run: |
+          # Generate version based on date and time
+          VERSION=$(date +'%Y.%m.%d')
+          TIMESTAMP=$(date +'%Y%m%d-%H%M%S')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+          
+          # Count servers by status and tier
+          TOTAL=$(jq '.servers | length' dist/registry.json)
+          ACTIVE=$(jq '[.servers[] | select(.status == "Active")] | length' dist/registry.json)
+          BETA=$(jq '[.servers[] | select(.status == "Beta")] | length' dist/registry.json)
+          DEPRECATED=$(jq '[.servers[] | select(.status == "Deprecated")] | length' dist/registry.json)
+          OFFICIAL=$(jq '[.servers[] | select(.tier == "Official")] | length' dist/registry.json)
+          PARTNER=$(jq '[.servers[] | select(.tier == "Partner")] | length' dist/registry.json)
+          COMMUNITY=$(jq '[.servers[] | select(.tier == "Community")] | length' dist/registry.json)
+          
+          echo "total=$TOTAL" >> $GITHUB_OUTPUT
+          echo "active=$ACTIVE" >> $GITHUB_OUTPUT
+          echo "beta=$BETA" >> $GITHUB_OUTPUT
+          echo "deprecated=$DEPRECATED" >> $GITHUB_OUTPUT
+          echo "official=$OFFICIAL" >> $GITHUB_OUTPUT
+          echo "partner=$PARTNER" >> $GITHUB_OUTPUT
+          echo "community=$COMMUNITY" >> $GITHUB_OUTPUT
+
+      - name: Create checksums
+        run: |
+          cd dist
+          sha256sum registry.json > registry.json.sha256
+          md5sum registry.json > registry.json.md5
+
+      - name: Create tarball
+        run: |
+          cd dist
+          tar -czf registry-${{ steps.metadata.outputs.version }}.tar.gz registry.json registry.json.sha256 registry.json.md5
+          tar -tzf registry-${{ steps.metadata.outputs.version }}.tar.gz
+
+      - name: Check if release exists
+        id: check_release
+        run: |
+          if gh release view "v${{ steps.metadata.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Release v${{ steps.metadata.outputs.version }} already exists"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Release v${{ steps.metadata.outputs.version }} does not exist"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Get changes since last release
+        id: changes
+        if: steps.check_release.outputs.exists == 'false'
+        run: |
+          # Get the last release tag
+          LAST_TAG=$(gh release list --limit 1 --json tagName -q '.[0].tagName' || echo "")
+          
+          if [ -z "$LAST_TAG" ]; then
+            echo "No previous release found"
+            CHANGES="Initial release"
+          else
+            echo "Last release: $LAST_TAG"
+            # Get commit messages since last release
+            CHANGES=$(git log --pretty=format:"- %s" $LAST_TAG..HEAD --grep="^feat\|^fix\|^docs\|^chore" | head -20)
+            
+            if [ -z "$CHANGES" ]; then
+              CHANGES="- Minor updates and maintenance"
+            fi
+          fi
+          
+          # Write to file to preserve formatting
+          echo "$CHANGES" > changes.txt
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Create Release
+        if: steps.check_release.outputs.exists == 'false'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ steps.metadata.outputs.version }}
+          name: Registry v${{ steps.metadata.outputs.version }}
+          body: |
+            ## 📦 ToolHive Registry Snapshot
+            
+            **Date**: ${{ steps.metadata.outputs.version }}  
+            **Build**: ${{ steps.metadata.outputs.timestamp }}
+            
+            ### 📊 Statistics
+            
+            | Category | Count |
+            |----------|-------|
+            | **Total Servers** | ${{ steps.metadata.outputs.total }} |
+            | **Active** | ${{ steps.metadata.outputs.active }} |
+            | **Beta** | ${{ steps.metadata.outputs.beta }} |
+            | **Deprecated** | ${{ steps.metadata.outputs.deprecated }} |
+            
+            | Tier | Count |
+            |------|-------|
+            | **Official** | ${{ steps.metadata.outputs.official }} |
+            | **Partner** | ${{ steps.metadata.outputs.partner }} |
+            | **Community** | ${{ steps.metadata.outputs.community }} |
+            
+            ### 📥 Download Options
+            
+            - **registry.json** - The complete registry file
+            - **registry-${{ steps.metadata.outputs.version }}.tar.gz** - Archive with checksums
+            
+            ### 🔗 Direct URLs
+            
+            Latest registry is always available at:
+            - `https://github.com/stacklok/toolhive-registry/releases/latest/download/registry.json`
+            
+            This specific version:
+            - `https://github.com/stacklok/toolhive-registry/releases/download/v${{ steps.metadata.outputs.version }}/registry.json`
+            
+            ### 📝 Recent Changes
+            
+            ${{ steps.changes.outputs.changes }}
+            
+            ---
+            *This is an automated release generated from the main branch.*
+          artifacts: |
+            dist/registry.json
+            dist/registry.json.sha256
+            dist/registry.json.md5
+            dist/registry-${{ steps.metadata.outputs.version }}.tar.gz
+          makeLatest: true
+          artifactErrorsFailBuild: true
+
+      - name: Update existing release
+        if: steps.check_release.outputs.exists == 'true'
+        run: |
+          echo "Updating existing release v${{ steps.metadata.outputs.version }}"
+          
+          # Delete old assets
+          gh release delete-asset "v${{ steps.metadata.outputs.version }}" registry.json --yes || true
+          gh release delete-asset "v${{ steps.metadata.outputs.version }}" registry.json.sha256 --yes || true
+          gh release delete-asset "v${{ steps.metadata.outputs.version }}" registry.json.md5 --yes || true
+          gh release delete-asset "v${{ steps.metadata.outputs.version }}" "registry-${{ steps.metadata.outputs.version }}.tar.gz" --yes || true
+          
+          # Upload new assets
+          gh release upload "v${{ steps.metadata.outputs.version }}" \
+            dist/registry.json \
+            dist/registry.json.sha256 \
+            dist/registry.json.md5 \
+            "dist/registry-${{ steps.metadata.outputs.version }}.tar.gz" \
+            --clobber
+          
+          echo "✅ Release updated successfully"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  build-pr:
+    name: Build PR Preview
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Build registry-builder
+        run: go build -o registry-builder ./cmd/registry-builder
+
+      - name: Build registry.json
+        run: |
+          mkdir -p build
+          ./registry-builder build -v
+
+      - name: Generate PR comment
+        run: |
+          TOTAL=$(jq '.servers | length' build/registry.json)
+          SIZE=$(du -h build/registry.json | cut -f1)
+          
+          echo "## 📦 Registry Build Preview" > pr-comment.md
+          echo "" >> pr-comment.md
+          echo "✅ Registry built successfully!" >> pr-comment.md
+          echo "" >> pr-comment.md
+          echo "- **Total Servers**: $TOTAL" >> pr-comment.md
+          echo "- **File Size**: $SIZE" >> pr-comment.md
+          echo "- **Last Updated**: $(jq -r '.last_updated' build/registry.json)" >> pr-comment.md
+          echo "" >> pr-comment.md
+          echo "The registry.json will be published when this PR is merged." >> pr-comment.md
+
+      - name: Upload PR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-registry-json
+          path: build/registry.json
+          retention-days: 7
