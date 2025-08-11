@@ -3,13 +3,19 @@
   "extends": [
     "config:recommended"
   ],
-  "labels": ["dependencies"],
-  "postUpdateOptions": ["gomodTidy"],
+  "labels": [
+    "dependencies"
+  ],
+  "postUpdateOptions": [
+    "gomodTidy"
+  ],
   "customManagers": [
     {
       "customType": "regex",
       "description": "Update Docker/OCI image versions in registry YAML files",
-      "fileMatch": ["^registry/.*/spec\\.ya?ml$"],
+      "managerFilePatterns": [
+        "/^registry/.*/spec\\.ya?ml$/"
+      ],
       "matchStrings": [
         "image:\\s*[\"']?(?<depName>[^:\"'\\s]+):(?<currentValue>[^\"'\\s]+)[\"']?\\s*(?:#.*)?"
       ],
@@ -19,8 +25,12 @@
   "packageRules": [
     {
       "description": "Automerge patch updates for registry images",
-      "matchPaths": ["registry/**"],
-      "matchUpdateTypes": ["patch"],
+      "matchFileNames": [
+        "registry/**"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "automerge": true
     }
   ],
