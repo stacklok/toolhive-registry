@@ -1,81 +1,41 @@
-# Docker/OCI image reference (REQUIRED)
-image: ghcr.io/stacklok/dockyard/npx/mcp-jetbrains:1.8.0
-
-# One-line description (REQUIRED)
+# mcp-jetbrains MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-14T07:27:00Z
+# ---
+name: mcp-jetbrains
 description: A MCP proxy to redirect requests to JetBrains IDEs
-
-# Communication protocol (REQUIRED)
-transport: stdio
-
-# Source code repository (HIGHLY RECOMMENDED)
-repository_url: https://github.com/JetBrains/mcp-jetbrains
-
-# Project homepage/documentation (OPTIONAL)
-homepage: https://github.com/JetBrains/mcp-jetbrains
-
-# License identifier (OPTIONAL)
-license: Apache-2.0
-
-# Author/organization (OPTIONAL)
-author: JetBrains
-
-# Classification tier (OPTIONAL, defaults to "Community")
 tier: Official
-
-# Development status (OPTIONAL, defaults to "Active")
 status: Active
-
-# Categorization tags (RECOMMENDED)
-tags:
-  - ide
-  - jetbrains
-  - proxy
-  - development
-  - intellij
-
-# List of tools provided (HIGHLY RECOMMENDED)
-# Note: Tools are dynamically provided by the connected JetBrains IDE
+transport: stdio
 tools:
-  - dynamic_tools_from_ide
-
-# Environment variables (IF APPLICABLE)
-env_vars:
-  - name: IDE_PORT
-    description: Port of IDE's built-in webserver (if running multiple IDEs)
-    required: false
-    
-  - name: HOST
-    description: Host/address of IDE's built-in webserver
-    required: false
-    default: "127.0.0.1"
-    
-  - name: LOG_ENABLED
-    description: Enable logging for debugging
-    required: false
-    default: "false"
-
-# Security permissions (IF APPLICABLE)
+    - dynamic_tools_from_ide
+metadata:
+    stars: 905
+    pulls: 77
+    last_updated: "2025-08-13T08:42:31Z"
+repository_url: https://github.com/JetBrains/mcp-jetbrains
+tags:
+    - ide
+    - jetbrains
+    - proxy
+    - development
+    - intellij
+image: ghcr.io/stacklok/dockyard/npx/mcp-jetbrains:1.8.0
 permissions:
-  # Network access
-  network:
-    outbound:
-      allow_host:
-        - 127.0.0.1
-        - localhost
-      allow_port:
-        - 63342
-        - 63343
-        - 63344
-        - 63345
-        - 63346
-        - 63347
-        - 63348
-        - 63349
-        - 63350
-        - 63351
-        - 63352
-
-# Usage metrics (OPTIONAL, auto-updated)
-metrics:
-  stars: 0
-  pulls: 0
+    network:
+        outbound:
+            insecure_allow_all: true
+env_vars:
+    - name: IDE_PORT
+      description: Port of IDE's built-in webserver (if running multiple IDEs)
+      required: false
+    - name: HOST
+      description: Host/address of IDE's built-in webserver
+      required: false
+      default: 127.0.0.1
+    - name: LOG_ENABLED
+      description: Enable logging for debugging
+      required: false
+      default: "false"

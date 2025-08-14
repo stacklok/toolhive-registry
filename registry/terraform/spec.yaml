@@ -2,38 +2,23 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: terraform
-image: docker.io/hashicorp/terraform-mcp-server:0.2.3
 description: Provides integration with the Terraform ecosystem and interaction capabilities for Infrastructure as Code (IaC) development.
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost:
-                - registry.terraform.io
-            allowport:
-                - 443
 tools:
     - resolveProviderDocID
     - getProviderDocs
     - searchModules
     - moduleDetails
-envvars: []
-args: []
 metadata:
-    stars: 801
-    pulls: 9216
-    lastupdated: "2025-08-11T00:24:58Z"
-repositoryurl: https://github.com/hashicorp/terraform-mcp-server
+    stars: 809
+    pulls: 9600
+    last_updated: "2025-08-13T08:42:49Z"
+repository_url: https://github.com/hashicorp/terraform-mcp-server
 tags:
     - terraform
     - iac
@@ -48,6 +33,11 @@ tags:
     - aws
     - gcp
     - azure
-dockertags: []
-provenance: null
-custommetadata: {}
+image: docker.io/hashicorp/terraform-mcp-server:0.2.2
+permissions:
+    network:
+        outbound:
+            allow_host:
+                - registry.terraform.io
+            allow_port:
+                - 443

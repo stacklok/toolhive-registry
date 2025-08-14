@@ -2,43 +2,24 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: kyverno
-image: ghcr.io/nirmata/kyverno-mcp:v0.2.2
 description: Provides Kyverno policy management capabilities enabling AI assistants to interact with Kyverno policies in Kubernetes clusters for comprehensive policy management, security assessment, and compliance monitoring.
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport:
-                - 443
 tools:
     - list_contexts
     - switch_context
     - apply_policies
     - show_violations
     - help
-envvars:
-    - name: KUBECONFIG
-      description: Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)
-      required: false
-      default: ""
-      secret: false
-args: []
 metadata:
-    stars: 5
-    pulls: 4550
-    lastupdated: "2025-08-11T00:24:54Z"
-repositoryurl: https://github.com/nirmata/kyverno-mcp
+    stars: 6
+    pulls: 4946
+    last_updated: "2025-08-13T08:42:41Z"
+repository_url: https://github.com/nirmata/kyverno-mcp
 tags:
     - kyverno
     - kubernetes
@@ -57,6 +38,14 @@ tags:
     - rbac
     - pod-security
     - best-practices
-dockertags: []
-provenance: null
-custommetadata: {}
+image: ghcr.io/nirmata/kyverno-mcp:v0.2.2
+permissions:
+    network:
+        outbound:
+            insecure_allow_all: true
+            allow_port:
+                - 443
+env_vars:
+    - name: KUBECONFIG
+      description: Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)
+      required: false

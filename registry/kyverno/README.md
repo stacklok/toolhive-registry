@@ -33,6 +33,6 @@ This server provides 5 tools:
 
 ## Statistics
 
-- ⭐ Stars: 5
-- 📦 Pulls: 4550
-- 🕐 Last Updated: 2025-08-11T00:24:54Z
+- ⭐ Stars: 6
+- 📦 Pulls: 4946
+- 🕐 Last Updated: 2025-08-13T08:42:41Z

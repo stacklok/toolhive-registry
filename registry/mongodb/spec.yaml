@@ -2,29 +2,13 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: mongodb
-image: docker.io/mongodb/mongodb-mcp-server:0.2.0
 description: Provides support for interacting with MongoDB Databases and MongoDB Atlas.
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport:
-                - 443
-                - 27017
-                - 27018
-                - 27019
-                - 27020
 tools:
     - atlas-list-orgs
     - atlas-list-projects
@@ -58,63 +42,11 @@ tools:
     - collection-schema
     - collection-storage-size
     - db-stats
-envvars:
-    - name: MDB_MCP_CONNECTION_STRING
-      description: MongoDB connection string for direct database connections (optional, if not set, you'll need to call the connect tool before interacting with MongoDB data)
-      required: false
-      default: ""
-      secret: true
-    - name: MDB_MCP_API_CLIENT_ID
-      description: Atlas API client ID for authentication (required for running Atlas tools)
-      required: false
-      default: ""
-      secret: true
-    - name: MDB_MCP_API_CLIENT_SECRET
-      description: Atlas API client secret for authentication (required for running Atlas tools)
-      required: false
-      default: ""
-      secret: true
-    - name: MDB_MCP_API_BASE_URL
-      description: Atlas API base URL (default is https://cloud.mongodb.com/)
-      required: false
-      default: ""
-      secret: false
-    - name: MDB_MCP_SERVER_ADDRESS
-      description: MongoDB server address for direct connections (optional, used for connect tool)
-      required: false
-      default: ""
-      secret: false
-    - name: MDB_MCP_SERVER_PORT
-      description: MongoDB server port for direct connections (optional, used for connect tool)
-      required: false
-      default: ""
-      secret: false
-    - name: MDB_MCP_LOG_PATH
-      description: Folder to store logs (inside the container)
-      required: false
-      default: ""
-      secret: false
-    - name: MDB_MCP_DISABLED_TOOLS
-      description: Comma-separated list of tool names, operation types, and/or categories of tools to disable
-      required: false
-      default: ""
-      secret: false
-    - name: MDB_MCP_READ_ONLY
-      description: When set to true, only allows read and metadata operation types
-      required: false
-      default: ""
-      secret: false
-    - name: MDB_MCP_TELEMETRY
-      description: When set to disabled, disables telemetry collection
-      required: false
-      default: ""
-      secret: false
-args: []
 metadata:
-    stars: 549
-    pulls: 4784
-    lastupdated: "2025-08-11T00:24:54Z"
-repositoryurl: https://github.com/mongodb-js/mongodb-mcp-server
+    stars: 556
+    pulls: 5060
+    last_updated: "2025-08-13T08:42:37Z"
+repository_url: https://github.com/mongodb-js/mongodb-mcp-server
 tags:
     - mongodb
     - mongo
@@ -122,6 +54,48 @@ tags:
     - database
     - data
     - query
-dockertags: []
-provenance: null
-custommetadata: {}
+image: docker.io/mongodb/mongodb-mcp-server:0.2.0
+permissions:
+    network:
+        outbound:
+            insecure_allow_all: true
+            allow_port:
+                - 443
+                - 27017
+                - 27018
+                - 27019
+                - 27020
+env_vars:
+    - name: MDB_MCP_CONNECTION_STRING
+      description: MongoDB connection string for direct database connections (optional, if not set, you'll need to call the connect tool before interacting with MongoDB data)
+      required: false
+      secret: true
+    - name: MDB_MCP_API_CLIENT_ID
+      description: Atlas API client ID for authentication (required for running Atlas tools)
+      required: false
+      secret: true
+    - name: MDB_MCP_API_CLIENT_SECRET
+      description: Atlas API client secret for authentication (required for running Atlas tools)
+      required: false
+      secret: true
+    - name: MDB_MCP_API_BASE_URL
+      description: Atlas API base URL (default is https://cloud.mongodb.com/)
+      required: false
+    - name: MDB_MCP_SERVER_ADDRESS
+      description: MongoDB server address for direct connections (optional, used for connect tool)
+      required: false
+    - name: MDB_MCP_SERVER_PORT
+      description: MongoDB server port for direct connections (optional, used for connect tool)
+      required: false
+    - name: MDB_MCP_LOG_PATH
+      description: Folder to store logs (inside the container)
+      required: false
+    - name: MDB_MCP_DISABLED_TOOLS
+      description: Comma-separated list of tool names, operation types, and/or categories of tools to disable
+      required: false
+    - name: MDB_MCP_READ_ONLY
+      description: When set to true, only allows read and metadata operation types
+      required: false
+    - name: MDB_MCP_TELEMETRY
+      description: When set to disabled, disables telemetry collection
+      required: false

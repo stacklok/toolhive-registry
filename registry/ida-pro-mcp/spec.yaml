@@ -1,83 +1,65 @@
-# Docker/OCI image reference (REQUIRED)
-image: ghcr.io/stacklok/dockyard/uvx/ida-pro-mcp:1.4.0
-
-# One-line description (REQUIRED)
+# ida-pro-mcp MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-14T07:27:00Z
+# ---
+name: ida-pro-mcp
 description: MCP server for IDA Pro reverse engineering and analysis
-
-# Communication protocol (REQUIRED)
-transport: stdio
-
-# Source code repository (HIGHLY RECOMMENDED)
-repository_url: https://github.com/mrexodia/ida-pro-mcp
-
-# License identifier (OPTIONAL)
-license: MIT
-
-# Author/organization (OPTIONAL)
-author: mrexodia
-
-# Classification tier (OPTIONAL, defaults to "Community")
 tier: Community
-
-# Development status (OPTIONAL, defaults to "Active")
 status: Active
-
-# Categorization tags (RECOMMENDED)
-tags:
-  - reverse-engineering
-  - ida-pro
-  - analysis
-  - security
-  - disassembly
-  - decompilation
-
-# List of tools provided (HIGHLY RECOMMENDED)
+transport: stdio
 tools:
-  - check_connection
-  - get_metadata
-  - get_function_by_name
-  - get_function_by_address
-  - get_current_address
-  - get_current_function
-  - convert_number
-  - list_functions
-  - list_globals_filter
-  - list_globals
-  - list_strings_filter
-  - list_strings
-  - list_local_types
-  - decompile_function
-  - disassemble_function
-  - get_xrefs_to
-  - get_xrefs_to_field
-  - get_entry_points
-  - set_comment
-  - rename_local_variable
-  - rename_global_variable
-  - set_global_variable_type
-  - rename_function
-  - set_function_prototype
-  - declare_c_type
-  - set_local_variable_type
-  - dbg_get_registers
-  - dbg_get_call_stack
-  - dbg_list_breakpoints
-  - dbg_start_process
-  - dbg_exit_process
-  - dbg_continue_process
-  - dbg_run_to
-  - dbg_set_breakpoint
-  - dbg_delete_breakpoint
-  - dbg_enable_breakpoint
-
-# Command-line arguments (IF APPLICABLE)
-args: []
-
-# Security permissions (IF APPLICABLE)
+    - check_connection
+    - get_metadata
+    - get_function_by_name
+    - get_function_by_address
+    - get_current_address
+    - get_current_function
+    - convert_number
+    - list_functions
+    - list_globals_filter
+    - list_globals
+    - list_strings_filter
+    - list_strings
+    - list_local_types
+    - decompile_function
+    - disassemble_function
+    - get_xrefs_to
+    - get_xrefs_to_field
+    - get_entry_points
+    - set_comment
+    - rename_local_variable
+    - rename_global_variable
+    - set_global_variable_type
+    - rename_function
+    - set_function_prototype
+    - declare_c_type
+    - set_local_variable_type
+    - dbg_get_registers
+    - dbg_get_call_stack
+    - dbg_list_breakpoints
+    - dbg_start_process
+    - dbg_exit_process
+    - dbg_continue_process
+    - dbg_run_to
+    - dbg_set_breakpoint
+    - dbg_delete_breakpoint
+    - dbg_enable_breakpoint
+metadata:
+    stars: 2998
+    pulls: 99
+    last_updated: "2025-08-13T08:42:30Z"
+repository_url: https://github.com/mrexodia/ida-pro-mcp
+tags:
+    - reverse-engineering
+    - ida-pro
+    - analysis
+    - security
+    - disassembly
+    - decompilation
+image: ghcr.io/stacklok/dockyard/uvx/ida-pro-mcp:1.4.0
 permissions:
-  # Network access
-  network:
-    outbound:
-      allow_host: []
-      allow_port: []
-      insecure_allow_all: true
+    network:
+        outbound:
+            insecure_allow_all: true

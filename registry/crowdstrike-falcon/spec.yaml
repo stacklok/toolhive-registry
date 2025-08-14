@@ -2,29 +2,13 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: crowdstrike-falcon
-image: quay.io/crowdstrike/falcon-mcp:latest
 description: Connects AI agents with the CrowdStrike Falcon platform for intelligent security analysis, providing programmatic access to detections, incidents, behaviors, threat intelligence, hosts, vulnerabilities, and identity protection capabilities.
 tier: Official
 status: Active
 transport: streamable-http
-targetport: 8000
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost:
-                - api.crowdstrike.com
-                - api.us-2.crowdstrike.com
-                - api.eu-1.crowdstrike.com
-                - api.laggar.gcw.crowdstrike.com
-            allowport:
-                - 443
 tools:
     - falcon_check_connectivity
     - falcon_get_available_modules
@@ -45,44 +29,11 @@ tools:
     - falcon_count_kubernetes_containers
     - falcon_search_images_vulnerabilities
     - idp_investigate_entity
-envvars:
-    - name: FALCON_CLIENT_ID
-      description: CrowdStrike API client ID
-      required: true
-      default: ""
-      secret: true
-    - name: FALCON_CLIENT_SECRET
-      description: CrowdStrike API client secret
-      required: true
-      default: ""
-      secret: true
-    - name: FALCON_BASE_URL
-      description: CrowdStrike API base URL (e.g., https://api.crowdstrike.com, https://api.us-2.crowdstrike.com, https://api.eu-1.crowdstrike.com)
-      required: true
-      default: ""
-      secret: false
-    - name: FALCON_MCP_MODULES
-      description: Comma-separated list of modules to enable (detections,incidents,intel,hosts,spotlight,cloud,idp). If not set, all modules are enabled.
-      required: false
-      default: ""
-      secret: false
-    - name: FALCON_MCP_DEBUG
-      description: 'Enable debug logging - true or false (default: false)'
-      required: false
-      default: ""
-      secret: false
-args:
-    - --transport
-    - streamable-http
-    - --host
-    - 0.0.0.0
-    - --port
-    - "8000"
 metadata:
-    stars: 33
-    pulls: 3402
-    lastupdated: "2025-08-11T00:24:59Z"
-repositoryurl: https://github.com/crowdstrike/falcon-mcp
+    stars: 36
+    pulls: 3771
+    last_updated: "2025-08-13T08:42:49Z"
+repository_url: https://github.com/crowdstrike/falcon-mcp
 tags:
     - crowdstrike
     - falcon
@@ -98,6 +49,40 @@ tags:
     - malware-analysis
     - identity-protection
     - cloud-security
-dockertags: []
-provenance: null
-custommetadata: {}
+image: quay.io/crowdstrike/falcon-mcp:latest
+target_port: 8000
+permissions:
+    network:
+        outbound:
+            allow_host:
+                - api.crowdstrike.com
+                - api.us-2.crowdstrike.com
+                - api.eu-1.crowdstrike.com
+                - api.laggar.gcw.crowdstrike.com
+            allow_port:
+                - 443
+env_vars:
+    - name: FALCON_CLIENT_ID
+      description: CrowdStrike API client ID
+      required: true
+      secret: true
+    - name: FALCON_CLIENT_SECRET
+      description: CrowdStrike API client secret
+      required: true
+      secret: true
+    - name: FALCON_BASE_URL
+      description: CrowdStrike API base URL (e.g., https://api.crowdstrike.com, https://api.us-2.crowdstrike.com, https://api.eu-1.crowdstrike.com)
+      required: true
+    - name: FALCON_MCP_MODULES
+      description: Comma-separated list of modules to enable (detections,incidents,intel,hosts,spotlight,cloud,idp). If not set, all modules are enabled.
+      required: false
+    - name: FALCON_MCP_DEBUG
+      description: 'Enable debug logging - true or false (default: false)'
+      required: false
+args:
+    - --transport
+    - streamable-http
+    - --host
+    - 0.0.0.0
+    - --port
+    - "8000"

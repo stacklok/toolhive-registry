@@ -1,0 +1,63 @@
+# browserbase MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-14T07:27:00Z
+# ---
+name: browserbase
+description: MCP server for cloud browser automation with Browserbase and Stagehand
+tier: Official
+status: Active
+transport: stdio
+tools:
+    - createSession
+    - listSessions
+    - closeSession
+    - navigateWithSession
+    - actWithSession
+    - extractWithSession
+    - observeWithSession
+    - getUrlWithSession
+    - getAllUrlsWithSession
+    - closeAllSessions
+    - navigate
+    - act
+    - extract
+    - observe
+    - screenshot
+    - getUrl
+metadata:
+    stars: 2411
+    pulls: 133
+    last_updated: "2025-08-13T08:42:35Z"
+repository_url: https://github.com/browserbase/mcp-server-browserbase
+tags:
+    - browser
+    - automation
+    - web-scraping
+    - testing
+    - stagehand
+image: ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.0.0
+permissions:
+    network:
+        outbound:
+            insecure_allow_all: true
+env_vars:
+    - name: BROWSERBASE_API_KEY
+      description: Browserbase API key
+      required: true
+      secret: true
+    - name: BROWSERBASE_PROJECT_ID
+      description: Browserbase project ID
+      required: true
+    - name: GEMINI_API_KEY
+      description: Google Gemini API key for Stagehand
+      required: true
+      secret: true
+provenance:
+    sigstore_url: tuf-repo-cdn.sigstore.dev
+    repository_uri: https://github.com/stacklok/dockyard
+    repository_ref: ""
+    signer_identity: /.github/workflows/build-containers.yml
+    runner_environment: github-hosted
+    cert_issuer: https://token.actions.githubusercontent.com

@@ -1,73 +1,45 @@
-# Docker/OCI image reference (REQUIRED)
-image: ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.3.0
-
-# One-line description (REQUIRED)
+# arxiv-mcp-server MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-14T07:27:00Z
+# ---
+name: arxiv-mcp-server
 description: Enables AI assistants to search and access arXiv research papers through MCP protocol. Mount a volume to /arxiv-papers for persistent paper storage.
-
-# Communication protocol (REQUIRED)
-transport: stdio
-
-# Source code repository (HIGHLY RECOMMENDED)
-repository_url: https://github.com/blazickjp/arxiv-mcp-server
-
-# Project homepage/documentation (OPTIONAL)
-homepage: https://github.com/blazickjp/arxiv-mcp-server
-
-# License identifier (OPTIONAL)
-license: MIT
-
-# Author/organization (OPTIONAL)
-author: Pearl Labs Team
-
-# Classification tier (OPTIONAL, defaults to "Community")
 tier: Community
-
-# Development status (OPTIONAL, defaults to "Active")
 status: Active
-
-# Categorization tags (RECOMMENDED)
-tags:
-  - research
-  - academic
-  - papers
-  - arxiv
-  - search
-
-# List of tools provided (HIGHLY RECOMMENDED)
+transport: stdio
 tools:
-  - search_papers
-  - download_paper
-  - list_papers
-  - read_paper
-
-# Environment variables (IF APPLICABLE)
-env_vars:
-  - name: ARXIV_STORAGE_PATH
-    description: Directory path where downloaded papers will be stored
-    required: false
-    default: "/arxiv-papers"
-
-# Command-line arguments (IF APPLICABLE)
-args:
-  - --storage-path
-  - /arxiv-papers
-
-# Security permissions (IF APPLICABLE)
+    - search_papers
+    - download_paper
+    - list_papers
+    - read_paper
+metadata:
+    stars: 1559
+    pulls: 77
+    last_updated: "2025-08-13T08:42:29Z"
+repository_url: https://github.com/blazickjp/arxiv-mcp-server
+tags:
+    - research
+    - academic
+    - papers
+    - arxiv
+    - search
+image: ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.3.0
 permissions:
-  # Network access
-  network:
-    outbound:
-      allow_host:
-        - arxiv.org
-        - export.arxiv.org
-      allow_port:
-        - 443
-        - 80
-  
-  # File system access
-  write: []
-
-# Usage metrics (OPTIONAL, auto-updated)
-metrics:
-  stars: 0
-  pulls: 0
+    network:
+        outbound:
+            allow_host:
+                - arxiv.org
+                - export.arxiv.org
+            allow_port:
+                - 443
+                - 80
+env_vars:
+    - name: ARXIV_STORAGE_PATH
+      description: Directory path where downloaded papers will be stored
+      required: false
+      default: /arxiv-papers
+args:
+    - --storage-path
+    - /arxiv-papers

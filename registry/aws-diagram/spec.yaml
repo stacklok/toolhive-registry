@@ -2,40 +2,22 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: aws-diagram
-image: docker.io/mcp/aws-diagram:latest
 description: Generate AWS diagrams, sequence diagrams, flow diagrams, and class diagrams using Python code.
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost: []
-            allowport: []
 tools:
     - generate_diagram
     - get_diagram_examples
     - list_icons
-envvars:
-    - name: FASTMCP_LOG_LEVEL
-      description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-      required: false
-      default: ERROR
-      secret: false
-args: []
 metadata:
-    stars: 5281
-    pulls: 7141
-    lastupdated: "2025-08-11T00:25:00Z"
-repositoryurl: https://github.com/awslabs/mcp
+    stars: 5324
+    pulls: 7294
+    last_updated: "2025-08-13T08:42:54Z"
+repository_url: https://github.com/awslabs/mcp
 tags:
     - aws
     - diagram
@@ -43,6 +25,12 @@ tags:
     - flow-diagram
     - class-diagram
     - python
-dockertags: []
-provenance: null
-custommetadata: {}
+image: docker.io/mcp/aws-diagram:latest
+permissions:
+    network:
+        outbound: {}
+env_vars:
+    - name: FASTMCP_LOG_LEVEL
+      description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+      required: false
+      default: ERROR

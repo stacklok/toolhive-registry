@@ -2,52 +2,23 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: oci-registry
-image: ghcr.io/stackloklabs/ocireg-mcp/server:0.0.4
 description: Enables secure and seamless querying of OCI container registries, providing tools for image introspection, tag discovery, and manifest/config retrieval.
 tier: Community
 status: Active
 transport: sse
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport:
-                - 443
 tools:
     - get_image_info
     - list_tags
     - get_image_manifest
     - get_image_config
-envvars:
-    - name: OCI_TOKEN
-      description: Bearer token for OCI registry authentication
-      required: false
-      default: ""
-      secret: true
-    - name: OCI_USERNAME
-      description: Username for registry authentication
-      required: false
-      default: ""
-      secret: false
-    - name: OCI_PASSWORD
-      description: Password for registry authentication
-      required: false
-      default: ""
-      secret: true
-args: []
 metadata:
     stars: 9
-    pulls: 7732
-    lastupdated: "2025-08-11T00:25:01Z"
-repositoryurl: https://github.com/StacklokLabs/ocireg-mcp
+    pulls: 8029
+    last_updated: "2025-08-13T08:42:54Z"
+repository_url: https://github.com/StacklokLabs/ocireg-mcp
 tags:
     - oci
     - registry
@@ -58,13 +29,29 @@ tags:
     - config
     - mcp
     - docker
-dockertags: []
+image: ghcr.io/stackloklabs/ocireg-mcp/server:0.0.4
+permissions:
+    network:
+        outbound:
+            insecure_allow_all: true
+            allow_port:
+                - 443
+env_vars:
+    - name: OCI_TOKEN
+      description: Bearer token for OCI registry authentication
+      required: false
+      secret: true
+    - name: OCI_USERNAME
+      description: Username for registry authentication
+      required: false
+    - name: OCI_PASSWORD
+      description: Password for registry authentication
+      required: false
+      secret: true
 provenance:
-    sigstoreurl: tuf-repo-cdn.sigstore.dev
-    repositoryuri: https://github.com/StacklokLabs/ocireg-mcp
-    repositoryref: ""
-    signeridentity: /.github/workflows/release.yml
-    runnerenvironment: github-hosted
-    certissuer: https://token.actions.githubusercontent.com
-    attestation: null
-custommetadata: {}
+    sigstore_url: tuf-repo-cdn.sigstore.dev
+    repository_uri: https://github.com/StacklokLabs/ocireg-mcp
+    repository_ref: ""
+    signer_identity: /.github/workflows/release.yml
+    runner_environment: github-hosted
+    cert_issuer: https://token.actions.githubusercontent.com

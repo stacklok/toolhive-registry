@@ -2,26 +2,13 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: buildkite
-image: ghcr.io/buildkite/buildkite-mcp-server:0.5.9
 description: Connect your Buildkite data (pipelines, builds, jobs, tests) to AI tooling and editors.
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost:
-                - .buildkite.com
-            allowport:
-                - 443
 tools:
     - get_cluster
     - list_clusters
@@ -47,24 +34,11 @@ tools:
     - access_token
     - current_user
     - user_token_organization
-envvars:
-    - name: BUILDKITE_API_TOKEN
-      description: Your Buildkite API access token
-      required: true
-      default: ""
-      secret: true
-    - name: JOB_LOG_TOKEN_THRESHOLD
-      description: Token threshold for job logs. If exceeded, logs will be written to disk and returned by path (for local use only).
-      required: false
-      default: ""
-      secret: false
-args:
-    - stdio
 metadata:
-    stars: 24
-    pulls: 3103
-    lastupdated: "2025-08-11T00:24:58Z"
-repositoryurl: https://github.com/buildkite/buildkite-mcp-server
+    stars: 25
+    pulls: 3424
+    last_updated: "2025-08-13T08:42:47Z"
+repository_url: https://github.com/buildkite/buildkite-mcp-server
 tags:
     - buildkite
     - continuous-integration
@@ -74,6 +48,21 @@ tags:
     - jobs
     - devops
     - testing
-dockertags: []
-provenance: null
-custommetadata: {}
+image: ghcr.io/buildkite/buildkite-mcp-server:0.5.8
+permissions:
+    network:
+        outbound:
+            allow_host:
+                - .buildkite.com
+            allow_port:
+                - 443
+env_vars:
+    - name: BUILDKITE_API_TOKEN
+      description: Your Buildkite API access token
+      required: true
+      secret: true
+    - name: JOB_LOG_TOKEN_THRESHOLD
+      description: Token threshold for job logs. If exceeded, logs will be written to disk and returned by path (for local use only).
+      required: false
+args:
+    - stdio
