@@ -1,0 +1,79 @@
+# Docker/OCI image reference (REQUIRED)
+image: ghcr.io/stacklok/dockyard/npx/mcp-server-neon:0.6.3
+
+# One-line description (REQUIRED)
+description: MCP server for interacting with Neon Management API and databases
+
+# Communication protocol (REQUIRED)
+transport: stdio
+
+# Source code repository (HIGHLY RECOMMENDED)
+repository_url: https://github.com/neondatabase-labs/mcp-server-neon
+
+# Project homepage/documentation (OPTIONAL)
+homepage: https://neon.tech/docs/ai/neon-mcp-server
+
+# License identifier (OPTIONAL)
+license: MIT
+
+# Author/organization (OPTIONAL)
+author: Neon, Inc.
+
+# Classification tier (OPTIONAL, defaults to "Community")
+tier: Official
+
+# Development status (OPTIONAL, defaults to "Active")
+status: Active
+
+# Categorization tags (RECOMMENDED)
+tags:
+  - database
+  - postgresql
+  - api
+  - management
+  - sql
+  - migration
+  - branching
+
+# List of tools provided (HIGHLY RECOMMENDED)
+tools:
+  - list_projects
+  - describe_project
+  - create_project
+  - delete_project
+  - create_branch
+  - delete_branch
+  - describe_branch
+  - list_branch_computes
+  - list_organizations
+  - get_connection_string
+  - run_sql
+  - run_sql_transaction
+  - get_database_tables
+  - describe_table_schema
+  - list_slow_queries
+  - prepare_database_migration
+  - complete_database_migration
+  - explain_sql_statement
+  - prepare_query_tuning
+  - complete_query_tuning
+  - provision_neon_auth
+
+# Environment variables (IF APPLICABLE)
+env_vars:
+  - name: NEON_API_KEY
+    description: API key for Neon database service
+    required: true
+    secret: true
+
+# Security permissions (IF APPLICABLE)
+permissions:
+  network:
+    outbound:
+      allow_host:
+        - console.neon.tech
+        - api.neon.tech
+        - neon.tech
+      allow_port:
+        - 443
+        - 5432
