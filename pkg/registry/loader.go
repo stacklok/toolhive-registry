@@ -11,10 +11,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stacklok/toolhive-registry/pkg/types"
 	"github.com/stacklok/toolhive/pkg/permissions"
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
 	"gopkg.in/yaml.v3"
+
+	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
 // Loader handles loading registry entries from YAML files
@@ -218,10 +219,10 @@ func (b *Builder) Build() (*toolhiveRegistry.Registry, error) {
 	// Convert our extended entries back to toolhive format in alphabetical order
 	for _, name := range names {
 		entry := b.loader.GetEntries()[name]
-		
+
 		// Create a copy of the ImageMetadata
 		metadata := *entry.ImageMetadata
-		
+
 		// Don't set the name field - the key serves as the name
 		metadata.Name = ""
 
@@ -260,12 +261,12 @@ func (b *Builder) Build() (*toolhiveRegistry.Registry, error) {
 			if metadata.Permissions.Write == nil {
 				metadata.Permissions.Write = []permissions.MountDeclaration{}
 			}
-			
+
 			// Ensure network permissions have explicit insecure_allow_all
 			if metadata.Permissions.Network != nil && metadata.Permissions.Network.Outbound != nil {
 				// InsecureAllowAll is already a bool, so it will be false by default
 				// But we want to ensure it's explicitly in the output
-				
+
 				// Initialize empty slices if nil
 				if metadata.Permissions.Network.Outbound.AllowHost == nil {
 					metadata.Permissions.Network.Outbound.AllowHost = []string{}
@@ -297,7 +298,7 @@ func (b *Builder) WriteJSON(path string) error {
 
 	// Create a wrapper struct that includes the schema field
 	type registryWithSchema struct {
-		Schema      string `json:"$schema"`
+		Schema string `json:"$schema"`
 		*toolhiveRegistry.Registry
 	}
 

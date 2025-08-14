@@ -1,0 +1,66 @@
+# Docker/OCI image reference (REQUIRED)
+image: ghcr.io/stacklok/dockyard/npx/magic-mcp:0.1.0
+
+# One-line description (REQUIRED)
+description: AI-powered UI component generator MCP server by 21st.dev
+
+# Communication protocol (REQUIRED)
+transport: stdio
+
+# Source code repository (HIGHLY RECOMMENDED)
+repository_url: https://github.com/21st-dev/magic-mcp
+
+# Project homepage/documentation (OPTIONAL)
+homepage: https://21st.dev/magic
+
+# License identifier (OPTIONAL)
+license: ISC
+
+# Author/organization (OPTIONAL)
+author: 21st.dev
+
+# Classification tier (OPTIONAL, defaults to "Community")
+tier: Community
+
+# Development status (OPTIONAL, defaults to "Active")
+status: Active
+
+# Categorization tags (RECOMMENDED)
+tags:
+  - ui
+  - frontend
+  - components
+  - ai
+  - generator
+  - react
+
+# List of tools provided (HIGHLY RECOMMENDED)
+tools:
+  - create_ui
+  - fetch_ui
+  - logo_search
+  - refine_ui
+
+# Environment variables (IF APPLICABLE)
+env_vars:
+  - name: API_KEY
+    description: 21st.dev Magic API key for component generation
+    required: true
+    secret: true
+
+# Security permissions (IF APPLICABLE)
+permissions:
+  # Network access
+  network:
+    outbound:
+      allow_host:
+        - 21st.dev
+        - api.21st.dev
+      allow_port:
+        - 443
+        - 80
+  
+  # File system access
+  write:
+    - /workspace
+    - /tmp

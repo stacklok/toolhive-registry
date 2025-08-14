@@ -18,11 +18,11 @@ import (
 )
 
 var (
-	sourceURL    string
-	sourceFile   string
-	outputDir    string
-	verbose      bool
-	dryRun       bool
+	sourceURL  string
+	sourceFile string
+	outputDir  string
+	verbose    bool
+	dryRun     bool
 )
 
 var rootCmd = &cobra.Command{
@@ -174,7 +174,7 @@ func importEntry(name string, server *toolhiveRegistry.ImageMetadata, outputDir 
 # Import timestamp: %s
 # ---
 `, name, time.Now().UTC().Format(time.RFC3339))
-	
+
 	finalContent := header + string(yamlData)
 
 	// Write the spec.yaml file
@@ -207,10 +207,10 @@ func sanitizeName(name string) string {
 		"\\", "-",
 	)
 	sanitized := replacer.Replace(name)
-	
+
 	// Convert to lowercase
 	sanitized = strings.ToLower(sanitized)
-	
+
 	// Remove any remaining non-alphanumeric characters except hyphens
 	var result strings.Builder
 	for _, r := range sanitized {
@@ -218,15 +218,15 @@ func sanitizeName(name string) string {
 			result.WriteRune(r)
 		}
 	}
-	
+
 	// Remove leading/trailing hyphens
 	finalName := strings.Trim(result.String(), "-")
-	
+
 	// Collapse multiple hyphens into one
 	for strings.Contains(finalName, "--") {
 		finalName = strings.ReplaceAll(finalName, "--", "-")
 	}
-	
+
 	return finalName
 }
 
@@ -237,41 +237,41 @@ func shouldCreateReadme(server *toolhiveRegistry.ImageMetadata) bool {
 
 func generateReadme(name string, server *toolhiveRegistry.ImageMetadata) string {
 	var readme strings.Builder
-	
+
 	readme.WriteString(fmt.Sprintf("# %s\n\n", name))
-	
+
 	if server.Description != "" {
 		readme.WriteString(fmt.Sprintf("%s\n\n", server.Description))
 	}
-	
+
 	// Basic information section
 	readme.WriteString("## Basic Information\n\n")
-	
+
 	if server.Image != "" {
 		readme.WriteString(fmt.Sprintf("- **Image:** `%s`\n", server.Image))
 	}
-	
+
 	if server.RepositoryURL != "" {
 		readme.WriteString(fmt.Sprintf("- **Repository:** [%s](%s)\n", server.RepositoryURL, server.RepositoryURL))
 	}
-	
+
 	if server.Tier != "" {
 		readme.WriteString(fmt.Sprintf("- **Tier:** %s\n", server.Tier))
 	}
-	
+
 	if server.Status != "" {
 		readme.WriteString(fmt.Sprintf("- **Status:** %s\n", server.Status))
 	}
-	
+
 	if server.Transport != "" {
 		readme.WriteString(fmt.Sprintf("- **Transport:** %s\n", server.Transport))
 	}
-	
+
 	// Tools section
 	if len(server.Tools) > 0 {
 		readme.WriteString("\n## Available Tools\n\n")
 		readme.WriteString(fmt.Sprintf("This server provides %d tools:\n\n", len(server.Tools)))
-		
+
 		// Group tools in columns for better readability if there are many
 		if len(server.Tools) > 10 {
 			for i := 0; i < len(server.Tools); i += 3 {
@@ -289,11 +289,11 @@ func generateReadme(name string, server *toolhiveRegistry.ImageMetadata) string 
 			}
 		}
 	}
-	
+
 	// Environment Variables section
 	if len(server.EnvVars) > 0 {
 		readme.WriteString("\n## Environment Variables\n\n")
-		
+
 		// Separate required and optional
 		var required, optional []*toolhiveRegistry.EnvVar
 		for _, env := range server.EnvVars {
@@ -303,7 +303,7 @@ func generateReadme(name string, server *toolhiveRegistry.ImageMetadata) string 
 				optional = append(optional, env)
 			}
 		}
-		
+
 		if len(required) > 0 {
 			readme.WriteString("### Required\n\n")
 			for _, env := range required {
@@ -314,7 +314,7 @@ func generateReadme(name string, server *toolhiveRegistry.ImageMetadata) string 
 				readme.WriteString(fmt.Sprintf("- **%s**%s: %s\n", env.Name, secret, env.Description))
 			}
 		}
-		
+
 		if len(optional) > 0 {
 			readme.WriteString("\n### Optional\n\n")
 			for _, env := range optional {
@@ -329,7 +329,7 @@ func generateReadme(name string, server *toolhiveRegistry.ImageMetadata) string 
 			}
 		}
 	}
-	
+
 	// Tags section
 	if len(server.Tags) > 0 {
 		readme.WriteString("\n## Tags\n\n")
@@ -338,7 +338,7 @@ func generateReadme(name string, server *toolhiveRegistry.ImageMetadata) string 
 		}
 		readme.WriteString("\n")
 	}
-	
+
 	// Metadata section
 	if server.Metadata != nil {
 		readme.WriteString("\n## Statistics\n\n")
@@ -352,6 +352,6 @@ func generateReadme(name string, server *toolhiveRegistry.ImageMetadata) string 
 			readme.WriteString(fmt.Sprintf("- 🕐 Last Updated: %s\n", server.Metadata.LastUpdated))
 		}
 	}
-	
+
 	return readme.String()
 }
