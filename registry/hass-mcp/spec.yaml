@@ -2,24 +2,13 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: hass-mcp
-image: docker.io/voska/hass-mcp:0.1.1
 description: Integrates Home Assistant with LLM applications, enabling direct interaction with smart home devices, sensors, and automations.
 tier: Community
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport: []
 tools:
     - get_version
     - get_entity
@@ -32,23 +21,11 @@ tools:
     - restart_ha
     - get_history
     - get_error_log
-envvars:
-    - name: HA_URL
-      description: Home Assistant instance URL (e.g. http://homeassistant.local:8123)
-      required: true
-      default: ""
-      secret: false
-    - name: HA_TOKEN
-      description: Home Assistant Long-Lived Access Token
-      required: true
-      default: ""
-      secret: true
-args: []
 metadata:
-    stars: 148
-    pulls: 16644
-    lastupdated: "2025-08-11T00:24:59Z"
-repositoryurl: https://github.com/voska/hass-mcp
+    stars: 151
+    pulls: 17082
+    last_updated: "2025-08-13T08:42:47Z"
+repository_url: https://github.com/voska/hass-mcp
 tags:
     - home-assistant
     - smart-home
@@ -60,6 +37,16 @@ tags:
     - monitoring
     - home-automation
     - domotics
-dockertags: []
-provenance: null
-custommetadata: {}
+image: docker.io/voska/hass-mcp:0.1.1
+permissions:
+    network:
+        outbound:
+            insecure_allow_all: true
+env_vars:
+    - name: HA_URL
+      description: Home Assistant instance URL (e.g. http://homeassistant.local:8123)
+      required: true
+    - name: HA_TOKEN
+      description: Home Assistant Long-Lived Access Token
+      required: true
+      secret: true

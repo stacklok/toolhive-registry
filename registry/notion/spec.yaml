@@ -2,26 +2,13 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: notion
-image: docker.io/mcp/notion:latest
 description: Provides integration with Notion.
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost:
-                - api.notion.com
-            allowport:
-                - 443
 tools:
     - API-get-user
     - API-get-users
@@ -42,21 +29,24 @@ tools:
     - API-retrieve-a-page-property
     - API-retrieve-a-comment
     - API-create-a-comment
-envvars:
-    - name: OPENAPI_MCP_HEADERS
-      description: 'HTTP headers for Notion API requests in JSON format. Example: {"Authorization":"Bearer ntn_****","Notion-Version":"2022-06-28"}'
-      required: true
-      default: ""
-      secret: true
-args: []
 metadata:
-    stars: 2923
-    pulls: 5968
-    lastupdated: "2025-08-11T00:24:58Z"
-repositoryurl: https://github.com/makenotion/notion-mcp-server
+    stars: 2933
+    pulls: 6307
+    last_updated: "2025-08-13T08:42:50Z"
+repository_url: https://github.com/makenotion/notion-mcp-server
 tags:
     - notion
     - notes
-dockertags: []
-provenance: null
-custommetadata: {}
+image: docker.io/mcp/notion:latest
+permissions:
+    network:
+        outbound:
+            allow_host:
+                - api.notion.com
+            allow_port:
+                - 443
+env_vars:
+    - name: OPENAPI_MCP_HEADERS
+      description: 'HTTP headers for Notion API requests in JSON format. Example: {"Authorization":"Bearer ntn_****","Notion-Version":"2022-06-28"}'
+      required: true
+      secret: true

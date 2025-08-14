@@ -2,41 +2,22 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: k8s
-image: ghcr.io/stackloklabs/mkp/server:0.0.10
 description: Allows LLM-powered applications to interact with Kubernetes clusters.
 tier: Community
 status: Active
 transport: sse
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport:
-                - 443
 tools:
     - list_resources
     - get_resource
     - apply_resource
-envvars:
-    - name: KUBECONFIG
-      description: Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)
-      required: false
-      default: ""
-      secret: false
-args: []
 metadata:
-    stars: 43
-    pulls: 13568
-    lastupdated: "2025-08-11T00:24:58Z"
-repositoryurl: https://github.com/StacklokLabs/mkp
+    stars: 44
+    pulls: 13952
+    last_updated: "2025-08-13T08:42:49Z"
+repository_url: https://github.com/StacklokLabs/mkp
 tags:
     - kubernetes
     - k8s
@@ -47,13 +28,21 @@ tags:
     - apply
     - get
     - list
-dockertags: []
+image: ghcr.io/stackloklabs/mkp/server:0.0.10
+permissions:
+    network:
+        outbound:
+            insecure_allow_all: true
+            allow_port:
+                - 443
+env_vars:
+    - name: KUBECONFIG
+      description: Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)
+      required: false
 provenance:
-    sigstoreurl: tuf-repo-cdn.sigstore.dev
-    repositoryuri: https://github.com/StacklokLabs/mkp
-    repositoryref: ""
-    signeridentity: /.github/workflows/release.yml
-    runnerenvironment: github-hosted
-    certissuer: https://token.actions.githubusercontent.com
-    attestation: null
-custommetadata: {}
+    sigstore_url: tuf-repo-cdn.sigstore.dev
+    repository_uri: https://github.com/StacklokLabs/mkp
+    repository_ref: ""
+    signer_identity: /.github/workflows/release.yml
+    runner_environment: github-hosted
+    cert_issuer: https://token.actions.githubusercontent.com

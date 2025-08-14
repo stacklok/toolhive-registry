@@ -2,33 +2,20 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: sequentialthinking
-image: docker.io/mcp/sequentialthinking:latest
 description: Enables dynamic problem-solving with a structured, reflective approach that can adapt and evolve as understanding deepens.
 tier: Community
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost: []
-            allowport: []
 tools:
     - sequentialthinking
-envvars: []
-args: []
 metadata:
-    stars: 63699
-    pulls: 14540
-    lastupdated: "2025-08-11T00:24:57Z"
-repositoryurl: https://github.com/modelcontextprotocol/servers
+    stars: 64037
+    pulls: 14819
+    last_updated: "2025-08-13T08:42:45Z"
+repository_url: https://github.com/modelcontextprotocol/servers
 tags:
     - approach
     - dynamic
@@ -42,6 +29,7 @@ tags:
     - revision
     - branching
     - chain-of-thought
-dockertags: []
-provenance: null
-custommetadata: {}
+image: docker.io/mcp/sequentialthinking:latest
+permissions:
+    network:
+        outbound: {}

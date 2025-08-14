@@ -2,25 +2,13 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: grafana
-image: docker.io/mcp/grafana:latest
 description: Provides access to your Grafana instance and the surrounding ecosystem, enabling dashboard search, datasource queries, alerting management, incident response, and Sift investigations.
 tier: Official
 status: Active
 transport: sse
-targetport: 8000
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport:
-                - 443
 tools:
     - list_teams
     - search_dashboards
@@ -59,23 +47,11 @@ tools:
     - list_pyroscope_label_values
     - list_pyroscope_profile_types
     - fetch_pyroscope_profile
-envvars:
-    - name: GRAFANA_URL
-      description: URL of the Grafana instance to connect to
-      required: true
-      default: ""
-      secret: false
-    - name: GRAFANA_API_KEY
-      description: Service account token with appropriate permissions
-      required: true
-      default: ""
-      secret: true
-args: []
 metadata:
-    stars: 1363
-    pulls: 7910
-    lastupdated: "2025-08-11T00:24:59Z"
-repositoryurl: https://github.com/grafana/mcp-grafana
+    stars: 1385
+    pulls: 8120
+    last_updated: "2025-08-13T08:42:53Z"
+repository_url: https://github.com/grafana/mcp-grafana
 tags:
     - grafana
     - dashboards
@@ -94,6 +70,19 @@ tags:
     - sift
     - investigations
     - oncall
-dockertags: []
-provenance: null
-custommetadata: {}
+image: docker.io/mcp/grafana:latest
+target_port: 8000
+permissions:
+    network:
+        outbound:
+            insecure_allow_all: true
+            allow_port:
+                - 443
+env_vars:
+    - name: GRAFANA_URL
+      description: URL of the Grafana instance to connect to
+      required: true
+    - name: GRAFANA_API_KEY
+      description: Service account token with appropriate permissions
+      required: true
+      secret: true

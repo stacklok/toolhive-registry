@@ -2,26 +2,13 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: redis
-image: docker.io/mcp/redis:latest
 description: Enables LLMs to interact with Redis key-value databases through a set of standardized tools.
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport:
-                - 443
-                - 6379
 tools:
     - dbsize
     - info
@@ -67,78 +54,11 @@ tools:
     - publish
     - subscribe
     - unsubscribe
-envvars:
-    - name: REDIS_HOST
-      description: Redis IP or hostname (default "127.0.0.1")
-      required: true
-      default: ""
-      secret: false
-    - name: REDIS_PORT
-      description: Redis port (default 6379)
-      required: false
-      default: ""
-      secret: false
-    - name: REDIS_DB
-      description: Redis database number (default 0)
-      required: false
-      default: ""
-      secret: false
-    - name: REDIS_USERNAME
-      description: Redis username (default "default")
-      required: false
-      default: ""
-      secret: false
-    - name: REDIS_PWD
-      description: Redis password (default empty)
-      required: false
-      default: ""
-      secret: true
-    - name: REDIS_SSL
-      description: Redis TLS connection (True|False, default False)
-      required: false
-      default: ""
-      secret: false
-    - name: REDIS_CA_PATH
-      description: CA certificate for verifying server
-      required: false
-      default: ""
-      secret: false
-    - name: REDIS_SSL_KEYFILE
-      description: Client's private key file for client authentication
-      required: false
-      default: ""
-      secret: false
-    - name: REDIS_SSL_CERTFILE
-      description: Client's certificate file for client authentication
-      required: false
-      default: ""
-      secret: false
-    - name: REDIS_CERT_REQS
-      description: Whether the client should verify the server's certificate (default "required")
-      required: false
-      default: ""
-      secret: false
-    - name: REDIS_CA_CERTS
-      description: Path to the trusted CA certificates file
-      required: false
-      default: ""
-      secret: false
-    - name: REDIS_CLUSTER_MODE
-      description: Enable Redis Cluster mode (True|False, default False)
-      required: false
-      default: ""
-      secret: false
-    - name: MCP_TRANSPORT
-      description: Use the stdio or sse transport (default stdio)
-      required: false
-      default: ""
-      secret: false
-args: []
 metadata:
-    stars: 196
-    pulls: 10111
-    lastupdated: "2025-08-11T00:24:57Z"
-repositoryurl: https://github.com/redis/mcp-redis
+    stars: 200
+    pulls: 10366
+    last_updated: "2025-08-13T08:42:44Z"
+repository_url: https://github.com/redis/mcp-redis
 tags:
     - redis
     - database
@@ -146,6 +66,52 @@ tags:
     - storage
     - cache
     - data
-dockertags: []
-provenance: null
-custommetadata: {}
+image: docker.io/mcp/redis:latest
+permissions:
+    network:
+        outbound:
+            insecure_allow_all: true
+            allow_port:
+                - 443
+                - 6379
+env_vars:
+    - name: REDIS_HOST
+      description: Redis IP or hostname (default "127.0.0.1")
+      required: true
+    - name: REDIS_PORT
+      description: Redis port (default 6379)
+      required: false
+    - name: REDIS_DB
+      description: Redis database number (default 0)
+      required: false
+    - name: REDIS_USERNAME
+      description: Redis username (default "default")
+      required: false
+    - name: REDIS_PWD
+      description: Redis password (default empty)
+      required: false
+      secret: true
+    - name: REDIS_SSL
+      description: Redis TLS connection (True|False, default False)
+      required: false
+    - name: REDIS_CA_PATH
+      description: CA certificate for verifying server
+      required: false
+    - name: REDIS_SSL_KEYFILE
+      description: Client's private key file for client authentication
+      required: false
+    - name: REDIS_SSL_CERTFILE
+      description: Client's certificate file for client authentication
+      required: false
+    - name: REDIS_CERT_REQS
+      description: Whether the client should verify the server's certificate (default "required")
+      required: false
+    - name: REDIS_CA_CERTS
+      description: Path to the trusted CA certificates file
+      required: false
+    - name: REDIS_CLUSTER_MODE
+      description: Enable Redis Cluster mode (True|False, default False)
+      required: false
+    - name: MCP_TRANSPORT
+      description: Use the stdio or sse transport (default stdio)
+      required: false

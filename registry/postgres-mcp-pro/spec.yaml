@@ -2,24 +2,13 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: postgres-mcp-pro
-image: crystaldba/postgres-mcp:0.3.0
 description: Provides configurable read/write access and performance analysis for PostgreSQL databases.
 tier: Official
 status: Active
 transport: sse
-targetport: 8000
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport: []
 tools:
     - list_schemas
     - list_objects
@@ -30,26 +19,11 @@ tools:
     - analyze_workload_indexes
     - analyze_query_indexes
     - analyze_db_health
-envvars:
-    - name: DATABASE_URI
-      description: PostgreSQL connection string, like 'postgresql://username:password@host.docker.internal:5432/dbname'
-      required: true
-      default: ""
-      secret: true
-    - name: OPENAI_API_KEY
-      description: OpenAI API key for experimental index tuning by LLM
-      required: false
-      default: ""
-      secret: true
-args:
-    - --transport=sse
-    - --sse-host=0.0.0.0
-    - --sse-port=8000
 metadata:
-    stars: 881
-    pulls: 10151
-    lastupdated: "2025-08-11T00:24:53Z"
-repositoryurl: https://github.com/crystaldba/postgres-mcp
+    stars: 902
+    pulls: 10403
+    last_updated: "2025-08-13T08:42:39Z"
+repository_url: https://github.com/crystaldba/postgres-mcp
 tags:
     - database
     - data
@@ -61,6 +35,22 @@ tags:
     - analytics
     - performance
     - monitoring
-dockertags: []
-provenance: null
-custommetadata: {}
+image: crystaldba/postgres-mcp:0.3.0
+target_port: 8000
+permissions:
+    network:
+        outbound:
+            insecure_allow_all: true
+env_vars:
+    - name: DATABASE_URI
+      description: PostgreSQL connection string, like 'postgresql://username:password@host.docker.internal:5432/dbname'
+      required: true
+      secret: true
+    - name: OPENAI_API_KEY
+      description: OpenAI API key for experimental index tuning by LLM
+      required: false
+      secret: true
+args:
+    - --transport=sse
+    - --sse-host=0.0.0.0
+    - --sse-port=8000

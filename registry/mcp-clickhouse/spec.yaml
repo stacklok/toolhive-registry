@@ -1,89 +1,73 @@
+# mcp-clickhouse MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-14T07:27:00Z
+# ---
 name: mcp-clickhouse
-image: ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.1.11
 description: MCP server for ClickHouse that provides tools to execute SQL queries, list databases and tables, and optionally use chDB's embedded OLAP engine
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport: []
 tools:
     - run_select_query
     - list_databases
     - list_tables
     - run_chdb_select_query
-envvars:
-    - name: CLICKHOUSE_HOST
-      description: The hostname of your ClickHouse server
-      required: true
-      default: ""
-      secret: false
-    - name: CLICKHOUSE_USER
-      description: The username for authentication
-      required: true
-      default: ""
-      secret: false
-    - name: CLICKHOUSE_PASSWORD
-      description: The password for authentication
-      required: true
-      default: ""
-      secret: true
-    - name: CLICKHOUSE_PORT
-      description: The port number of your ClickHouse server
-      required: false
-      default: "8443"
-      secret: false
-    - name: CLICKHOUSE_SECURE
-      description: Enable/disable HTTPS connection
-      required: false
-      default: "true"
-      secret: false
-    - name: CLICKHOUSE_VERIFY
-      description: Enable/disable SSL certificate verification
-      required: false
-      default: "true"
-      secret: false
-    - name: CLICKHOUSE_DATABASE
-      description: Default database to use
-      required: false
-      default: ""
-      secret: false
-    - name: CHDB_ENABLED
-      description: Enable/disable chDB functionality
-      required: false
-      default: "false"
-      secret: false
-    - name: CHDB_DATA_PATH
-      description: The path to the chDB data directory
-      required: false
-      default: ":memory:"
-      secret: false
-args: []
 metadata:
-    stars: 485
-    pulls: 0
-    lastupdated: 2025-08-11T15:29:08Z
-repositoryurl: https://github.com/ClickHouse/mcp-clickhouse
+    stars: 487
+    pulls: 81
+    last_updated: "2025-08-13T08:42:33Z"
+repository_url: https://github.com/ClickHouse/mcp-clickhouse
 tags:
     - database
     - clickhouse
     - sql
     - analytics
     - olap
-dockertags: []
+image: ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.1.11
+permissions:
+    network:
+        outbound:
+            insecure_allow_all: true
+env_vars:
+    - name: CLICKHOUSE_HOST
+      description: The hostname of your ClickHouse server
+      required: true
+    - name: CLICKHOUSE_USER
+      description: The username for authentication
+      required: true
+    - name: CLICKHOUSE_PASSWORD
+      description: The password for authentication
+      required: true
+      secret: true
+    - name: CLICKHOUSE_PORT
+      description: The port number of your ClickHouse server
+      required: false
+      default: "8443"
+    - name: CLICKHOUSE_SECURE
+      description: Enable/disable HTTPS connection
+      required: false
+      default: "true"
+    - name: CLICKHOUSE_VERIFY
+      description: Enable/disable SSL certificate verification
+      required: false
+      default: "true"
+    - name: CLICKHOUSE_DATABASE
+      description: Default database to use
+      required: false
+    - name: CHDB_ENABLED
+      description: Enable/disable chDB functionality
+      required: false
+      default: "false"
+    - name: CHDB_DATA_PATH
+      description: The path to the chDB data directory
+      required: false
+      default: ':memory:'
 provenance:
-    sigstoreurl: tuf-repo-cdn.sigstore.dev
-    repositoryuri: https://github.com/stacklok/dockyard
-    repositoryref: refs/heads/main
-    signeridentity: /.github/workflows/build-containers.yml
-    runnerenvironment: github-hosted
-    certissuer: https://token.actions.githubusercontent.com
-    attestation: null
-custommetadata: {}
+    sigstore_url: tuf-repo-cdn.sigstore.dev
+    repository_uri: https://github.com/stacklok/dockyard
+    repository_ref: ""
+    signer_identity: /.github/workflows/build-containers.yml
+    runner_environment: github-hosted
+    cert_issuer: https://token.actions.githubusercontent.com

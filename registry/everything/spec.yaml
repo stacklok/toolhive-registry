@@ -2,24 +2,13 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: everything
-image: docker.io/mcp/everything:latest
 description: This MCP server attempts to exercise all the features of the MCP protocol
 tier: Community
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost: []
-            allowport: []
 tools:
     - echo
     - add
@@ -28,13 +17,11 @@ tools:
     - getTinyImage
     - printEnv
     - annotatedMessage
-envvars: []
-args: []
 metadata:
-    stars: 63699
-    pulls: 16590
-    lastupdated: "2025-08-11T00:24:58Z"
-repositoryurl: https://github.com/modelcontextprotocol/servers
+    stars: 64037
+    pulls: 17019
+    last_updated: "2025-08-13T08:42:46Z"
+repository_url: https://github.com/modelcontextprotocol/servers
 tags:
     - adds
     - all
@@ -46,6 +33,7 @@ tags:
     - returns
     - simple
     - tools
-dockertags: []
-provenance: null
-custommetadata: {}
+image: docker.io/mcp/everything:latest
+permissions:
+    network:
+        outbound: {}

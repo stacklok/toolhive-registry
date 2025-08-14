@@ -1,67 +1,44 @@
-# Docker/OCI image reference (REQUIRED)
-image: ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.9
-
-# One-line description (REQUIRED)
+# tavily-mcp MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-14T07:27:00Z
+# ---
+name: tavily-mcp
 description: MCP server for advanced web search using Tavily's AI search engine
-
-# Communication protocol (REQUIRED)
-transport: stdio
-
-# Source code repository (HIGHLY RECOMMENDED)
-repository_url: https://github.com/tavily-ai/tavily-mcp
-
-# Project homepage/documentation (OPTIONAL)
-homepage: https://www.tavily.com/
-
-# License identifier (OPTIONAL)
-license: MIT
-
-# Author/organization (OPTIONAL)
-author: Tavily
-
-# Classification tier (OPTIONAL, defaults to "Community")
 tier: Official
-
-# Development status (OPTIONAL, defaults to "Active")
 status: Active
-
-# Categorization tags (RECOMMENDED)
-tags:
-  - search
-  - web-search
-  - ai-search
-  - crawl
-  - extract
-  - api
-  - real-time
-
-# List of tools provided (HIGHLY RECOMMENDED)
+transport: stdio
 tools:
-  - tavily-search
-  - tavily-extract
-  - tavily-crawl
-  - tavily-map
-
-# Environment variables (IF APPLICABLE)
-env_vars:
-  - name: TAVILY_API_KEY
-    description: API key for Tavily search service
-    required: true
-    secret: true
-
-# Security permissions (IF APPLICABLE)
+    - tavily-search
+    - tavily-extract
+    - tavily-crawl
+    - tavily-map
+metadata:
+    stars: 664
+    pulls: 80
+    last_updated: "2025-08-13T08:42:33Z"
+repository_url: https://github.com/tavily-ai/tavily-mcp
+tags:
+    - search
+    - web-search
+    - ai-search
+    - crawl
+    - extract
+    - api
+    - real-time
+image: ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.9
 permissions:
-  # Network access
-  network:
-    outbound:
-      allow_host:
-        - api.tavily.com
-        - mcp.tavily.com
-      allow_port:
-        - 443
-        - 80
-
-# Usage metrics (OPTIONAL, auto-updated)
-metrics:
-  stars: 0
-  pulls: 0
+    network:
+        outbound:
+            allow_host:
+                - api.tavily.com
+                - mcp.tavily.com
+            allow_port:
+                - 443
+                - 80
+env_vars:
+    - name: TAVILY_API_KEY
+      description: API key for Tavily search service
+      required: true
+      secret: true

@@ -34,6 +34,6 @@ This server provides 19 tools:
 
 ## Statistics
 
-- ⭐ Stars: 2923
-- 📦 Pulls: 5968
-- 🕐 Last Updated: 2025-08-11T00:24:58Z
+- ⭐ Stars: 2933
+- 📦 Pulls: 6307
+- 🕐 Last Updated: 2025-08-13T08:42:50Z

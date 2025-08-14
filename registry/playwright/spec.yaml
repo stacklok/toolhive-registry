@@ -2,25 +2,13 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: playwright
-image: mcr.microsoft.com/playwright/mcp:v0.0.33
 description: Provides browser automation capabilities using Playwright
 tier: Official
 status: Active
 transport: sse
-targetport: 8931
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport:
-                - 443
 tools:
     - browser_close
     - browser_resize
@@ -47,20 +35,24 @@ tools:
     - browser_tab_close
     - browser_generate_playwright_test
     - browser_wait_for
-envvars: []
-args:
-    - --port
-    - "8931"
 metadata:
-    stars: 16658
-    pulls: 23175
-    lastupdated: "2025-08-11T00:25:00Z"
-repositoryurl: https://github.com/microsoft/playwright-mcp
+    stars: 16840
+    pulls: 23622
+    last_updated: "2025-08-13T08:42:53Z"
+repository_url: https://github.com/microsoft/playwright-mcp
 tags:
     - playwright
     - automation
     - browser
     - navigate
-dockertags: []
-provenance: null
-custommetadata: {}
+image: mcr.microsoft.com/playwright/mcp:v0.0.32
+target_port: 8931
+permissions:
+    network:
+        outbound:
+            insecure_allow_all: true
+            allow_port:
+                - 443
+args:
+    - --port
+    - "8931"

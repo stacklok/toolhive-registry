@@ -2,53 +2,42 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: aws-documentation
-image: docker.io/mcp/aws-documentation:latest
 description: Access AWS documentation, search for content, and get recommendations.
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost:
-                - .docs.aws.amazon.com
-                - .docs.amazonaws.cn
-            allowport:
-                - 443
 tools:
     - read_documentation
     - recommend
     - search_documentation
-envvars:
-    - name: AWS_DOCUMENTATION_PARTITION
-      description: AWS documentation partition (aws, aws-cn)
-      required: false
-      default: aws
-      secret: false
-    - name: FASTMCP_LOG_LEVEL
-      description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-      required: false
-      default: ERROR
-      secret: false
-args: []
 metadata:
-    stars: 5281
-    pulls: 10067
-    lastupdated: "2025-08-11T00:24:59Z"
-repositoryurl: https://github.com/awslabs/mcp
+    stars: 5324
+    pulls: 10451
+    last_updated: "2025-08-13T08:42:51Z"
+repository_url: https://github.com/awslabs/mcp
 tags:
     - aws
     - content
     - documentation
     - knowledge-base
-dockertags: []
-provenance: null
-custommetadata: {}
+image: docker.io/mcp/aws-documentation:latest
+permissions:
+    network:
+        outbound:
+            allow_host:
+                - .docs.aws.amazon.com
+                - .docs.amazonaws.cn
+            allow_port:
+                - 443
+env_vars:
+    - name: AWS_DOCUMENTATION_PARTITION
+      description: AWS documentation partition (aws, aws-cn)
+      required: false
+      default: aws
+    - name: FASTMCP_LOG_LEVEL
+      description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+      required: false
+      default: ERROR

@@ -1,0 +1,70 @@
+# sentry MCP Server Registry Entry
+# Auto-imported from ToolHive registry.json
+# 
+# Original source: https://github.com/stacklok/toolhive
+# Import timestamp: 2025-08-14T07:27:00Z
+# ---
+name: sentry
+description: Sentry's MCP service for human-in-the-loop coding agents, optimized for developer workflows and debugging use cases
+tier: Official
+status: Active
+transport: stdio
+tools:
+    - whoami
+    - find_organizations
+    - find_teams
+    - find_projects
+    - find_releases
+    - get_issue_details
+    - get_trace_details
+    - get_event_attachment
+    - update_issue
+    - search_events
+    - create_team
+    - create_project
+    - update_project
+    - create_dsn
+    - find_dsns
+    - analyze_issue_with_seer
+    - search_docs
+    - get_doc
+    - search_issues
+metadata:
+    stars: 292
+    pulls: 127
+    last_updated: "2025-08-13T08:42:35Z"
+repository_url: https://github.com/getsentry/sentry-mcp
+tags:
+    - sentry
+    - debugging
+    - monitoring
+    - error-tracking
+    - observability
+image: ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:latest
+permissions:
+    network:
+        outbound:
+            allow_host:
+                - .sentry.io
+                - sentry.io
+            allow_port:
+                - 443
+env_vars:
+    - name: SENTRY_ACCESS_TOKEN
+      description: Sentry user auth token with necessary scopes
+      required: true
+      secret: true
+    - name: SENTRY_HOST
+      description: Sentry host URL (e.g., sentry.example.com)
+      required: false
+    - name: OPENAI_API_KEY
+      description: OpenAI API key for AI-powered search tools (search_events, search_issues)
+      required: false
+      secret: true
+provenance:
+    sigstore_url: tuf-repo-cdn.sigstore.dev
+    repository_uri: https://github.com/stacklok/dockyard
+    repository_ref: ""
+    signer_identity: /.github/workflows/build-containers.yml
+    runner_environment: github-hosted
+    cert_issuer: https://token.actions.githubusercontent.com

@@ -2,27 +2,13 @@
 # Auto-imported from ToolHive registry.json
 # 
 # Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-11T09:21:39Z
+# Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: atlassian
-image: ghcr.io/sooperset/mcp-atlassian:0.11.9
 description: Connect to Atlassian products like Confluence, Jira Cloud and Server/Data deployments.
 tier: Community
 status: Active
 transport: stdio
-targetport: 0
-permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost:
-                - .atlassian.net
-                - .atlassian.com
-            allowport:
-                - 443
 tools:
     - confluence_search
     - confluence_get_page
@@ -65,88 +51,11 @@ tools:
     - jira_get_all_projects
     - jira_create_version
     - jira_batch_create_versions
-envvars:
-    - name: CONFLUENCE_URL
-      description: Confluence URL (e.g., https://your-domain.atlassian.net/wiki)
-      required: false
-      default: ""
-      secret: false
-    - name: CONFLUENCE_USERNAME
-      description: Confluence username/email for Cloud deployments
-      required: false
-      default: ""
-      secret: false
-    - name: CONFLUENCE_API_TOKEN
-      description: Confluence API token for Cloud deployments
-      required: false
-      default: ""
-      secret: true
-    - name: CONFLUENCE_PERSONAL_TOKEN
-      description: Confluence Personal Access Token for Server/Data Center deployments
-      required: false
-      default: ""
-      secret: true
-    - name: CONFLUENCE_SSL_VERIFY
-      description: Verify SSL certificates for Confluence Server/Data Center (true/false)
-      required: false
-      default: ""
-      secret: false
-    - name: CONFLUENCE_SPACES_FILTER
-      description: Comma-separated list of Confluence space keys to filter search results
-      required: false
-      default: ""
-      secret: false
-    - name: JIRA_URL
-      description: Jira URL (e.g., https://your-domain.atlassian.net)
-      required: false
-      default: ""
-      secret: false
-    - name: JIRA_USERNAME
-      description: Jira username/email for Cloud deployments
-      required: false
-      default: ""
-      secret: false
-    - name: JIRA_API_TOKEN
-      description: Jira API token for Cloud deployments
-      required: false
-      default: ""
-      secret: true
-    - name: JIRA_PERSONAL_TOKEN
-      description: Jira Personal Access Token for Server/Data Center deployments
-      required: false
-      default: ""
-      secret: true
-    - name: JIRA_SSL_VERIFY
-      description: Verify SSL certificates for Jira Server/Data Center (true/false)
-      required: false
-      default: ""
-      secret: false
-    - name: JIRA_PROJECTS_FILTER
-      description: Comma-separated list of Jira project keys to filter search results
-      required: false
-      default: ""
-      secret: false
-    - name: READ_ONLY_MODE
-      description: Run in read-only mode (disables all write operations)
-      required: false
-      default: ""
-      secret: false
-    - name: MCP_VERBOSE
-      description: Increase logging verbosity
-      required: false
-      default: ""
-      secret: false
-    - name: ENABLED_TOOLS
-      description: Comma-separated list of tool names to enable (if not set, all tools are enabled)
-      required: false
-      default: ""
-      secret: false
-args: []
 metadata:
-    stars: 2741
-    pulls: 12519
-    lastupdated: "2025-08-11T00:24:54Z"
-repositoryurl: https://github.com/sooperset/mcp-atlassian
+    stars: 2787
+    pulls: 12849
+    last_updated: "2025-08-13T08:42:39Z"
+repository_url: https://github.com/sooperset/mcp-atlassian
 tags:
     - atlassian
     - confluence
@@ -158,6 +67,62 @@ tags:
     - cloud
     - server
     - data-center
-dockertags: []
-provenance: null
-custommetadata: {}
+image: ghcr.io/sooperset/mcp-atlassian:0.11.9
+permissions:
+    network:
+        outbound:
+            allow_host:
+                - .atlassian.net
+                - .atlassian.com
+            allow_port:
+                - 443
+env_vars:
+    - name: CONFLUENCE_URL
+      description: Confluence URL (e.g., https://your-domain.atlassian.net/wiki)
+      required: false
+    - name: CONFLUENCE_USERNAME
+      description: Confluence username/email for Cloud deployments
+      required: false
+    - name: CONFLUENCE_API_TOKEN
+      description: Confluence API token for Cloud deployments
+      required: false
+      secret: true
+    - name: CONFLUENCE_PERSONAL_TOKEN
+      description: Confluence Personal Access Token for Server/Data Center deployments
+      required: false
+      secret: true
+    - name: CONFLUENCE_SSL_VERIFY
+      description: Verify SSL certificates for Confluence Server/Data Center (true/false)
+      required: false
+    - name: CONFLUENCE_SPACES_FILTER
+      description: Comma-separated list of Confluence space keys to filter search results
+      required: false
+    - name: JIRA_URL
+      description: Jira URL (e.g., https://your-domain.atlassian.net)
+      required: false
+    - name: JIRA_USERNAME
+      description: Jira username/email for Cloud deployments
+      required: false
+    - name: JIRA_API_TOKEN
+      description: Jira API token for Cloud deployments
+      required: false
+      secret: true
+    - name: JIRA_PERSONAL_TOKEN
+      description: Jira Personal Access Token for Server/Data Center deployments
+      required: false
+      secret: true
+    - name: JIRA_SSL_VERIFY
+      description: Verify SSL certificates for Jira Server/Data Center (true/false)
+      required: false
+    - name: JIRA_PROJECTS_FILTER
+      description: Comma-separated list of Jira project keys to filter search results
+      required: false
+    - name: READ_ONLY_MODE
+      description: Run in read-only mode (disables all write operations)
+      required: false
+    - name: MCP_VERBOSE
+      description: Increase logging verbosity
+      required: false
+    - name: ENABLED_TOOLS
+      description: Comma-separated list of tool names to enable (if not set, all tools are enabled)
+      required: false
