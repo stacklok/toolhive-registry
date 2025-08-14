@@ -15,11 +15,12 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/stacklok/toolhive-registry/pkg/types"
 	"github.com/stacklok/toolhive/pkg/container/verifier"
 	"github.com/stacklok/toolhive/pkg/logger"
 	"github.com/stacklok/toolhive/pkg/registry"
 	"gopkg.in/yaml.v3"
+
+	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
 var (
@@ -126,7 +127,7 @@ func loadSpec(path string) (serverWithName, error) {
 	// Extract server name from path (parent directory name)
 	dir := filepath.Dir(path)
 	name := filepath.Base(dir)
-	
+
 	// Set the name if not already set
 	if entry.Name == "" {
 		entry.Name = name
@@ -167,7 +168,7 @@ func updateServerInfo(server serverWithName) error {
 
 	// Extract owner and repo from repository URL
 	var newStars, newPulls int
-	
+
 	// Get GitHub stars if we have a repository URL
 	if repoURL != "" {
 		owner, repo, err := extractOwnerRepo(repoURL)
@@ -187,7 +188,7 @@ func updateServerInfo(server serverWithName) error {
 	} else {
 		newStars = currentStars
 	}
-	
+
 	// Get container pull count if we have an image
 	if server.entry.Image != "" {
 		pullCount, err := getContainerPullCount(server.entry.Image)
@@ -373,7 +374,6 @@ func verifyServerProvenance(server serverWithName) error {
 	return fmt.Errorf("no verified signatures found")
 }
 
-
 // extractOwnerRepo extracts the owner and repo from a GitHub repository URL
 func extractOwnerRepo(url string) (string, string, error) {
 	// Remove trailing .git if present
@@ -444,9 +444,9 @@ func getContainerPullCount(image string) (int, error) {
 	if len(parts) < 1 {
 		return 0, fmt.Errorf("invalid image format: %s", image)
 	}
-	
+
 	imageName := parts[0]
-	
+
 	// Determine registry and fetch accordingly
 	if strings.HasPrefix(imageName, "ghcr.io/") {
 		return getGHCRPullCount(imageName)
@@ -454,7 +454,7 @@ func getContainerPullCount(image string) (int, error) {
 		// Likely Docker Hub (no dots in the hostname part)
 		return getDockerHubPullCount(imageName)
 	}
-	
+
 	// Unknown registry, return 0
 	logger.Warnf("Unknown registry for image %s, cannot fetch pull count", image)
 	return 0, nil
@@ -467,26 +467,26 @@ func getGHCRPullCount(imageName string) (int, error) {
 		logger.Debugf("No GitHub token available, cannot fetch GHCR pull count for %s", imageName)
 		return 0, nil
 	}
-	
+
 	// Parse the image name: ghcr.io/owner/repo/package or ghcr.io/owner/package
 	imageName = strings.TrimPrefix(imageName, "ghcr.io/")
 	parts := strings.Split(imageName, "/")
 	if len(parts) < 2 {
 		return 0, fmt.Errorf("invalid GHCR image format: %s", imageName)
 	}
-	
+
 	owner := parts[0]
 	// The package name is everything after the owner
 	packageName := strings.Join(parts[1:], "/")
-	
+
 	// GitHub Packages API endpoint for container packages
 	// Note: This requires the package to be public or the token to have package:read scope
 	url := fmt.Sprintf("https://api.github.com/users/%s/packages/container/%s", owner, packageName)
-	
+
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 	}
-	
+
 	req, err := http.NewRequestWithContext(context.Background(), "GET", url, nil)
 	if err != nil {
 		// Try org endpoint if user endpoint fails
@@ -496,16 +496,16 @@ func getGHCRPullCount(imageName string) (int, error) {
 			return 0, fmt.Errorf("failed to create request: %w", err)
 		}
 	}
-	
+
 	req.Header.Add("Accept", "application/vnd.github.v3+json")
 	req.Header.Add("Authorization", "token "+githubToken)
-	
+
 	resp, err := client.Do(req)
 	if err != nil {
 		return 0, fmt.Errorf("failed to send request: %w", err)
 	}
 	defer resp.Body.Close()
-	
+
 	if resp.StatusCode == http.StatusNotFound {
 		// Try org endpoint if user endpoint returned 404
 		if strings.Contains(url, "/users/") {
@@ -514,10 +514,10 @@ func getGHCRPullCount(imageName string) (int, error) {
 			if err != nil {
 				return 0, fmt.Errorf("failed to create request: %w", err)
 			}
-			
+
 			req.Header.Add("Accept", "application/vnd.github.v3+json")
 			req.Header.Add("Authorization", "token "+githubToken)
-			
+
 			resp, err = client.Do(req)
 			if err != nil {
 				return 0, fmt.Errorf("failed to send request: %w", err)
@@ -525,45 +525,45 @@ func getGHCRPullCount(imageName string) (int, error) {
 			defer resp.Body.Close()
 		}
 	}
-	
+
 	if resp.StatusCode != http.StatusOK {
 		// Package not found or no access - return 0
 		logger.Debugf("Could not fetch GHCR package stats (status %d) for %s", resp.StatusCode, imageName)
 		return 0, nil
 	}
-	
+
 	// GitHub Packages API doesn't directly expose download count in the package endpoint
 	// We need to get package versions and sum their download counts
 	var packageInfo struct {
 		ID   int    `json:"id"`
 		Name string `json:"name"`
 	}
-	
+
 	if err := json.NewDecoder(resp.Body).Decode(&packageInfo); err != nil {
 		return 0, fmt.Errorf("failed to parse response: %w", err)
 	}
-	
+
 	// Now get all versions to sum download counts
 	versionsURL := fmt.Sprintf("%s/versions?per_page=100", url)
 	req, err = http.NewRequestWithContext(context.Background(), "GET", versionsURL, nil)
 	if err != nil {
 		return 0, fmt.Errorf("failed to create versions request: %w", err)
 	}
-	
+
 	req.Header.Add("Accept", "application/vnd.github.v3+json")
 	req.Header.Add("Authorization", "token "+githubToken)
-	
+
 	resp, err = client.Do(req)
 	if err != nil {
 		return 0, fmt.Errorf("failed to send versions request: %w", err)
 	}
 	defer resp.Body.Close()
-	
+
 	if resp.StatusCode != http.StatusOK {
 		logger.Debugf("Could not fetch GHCR package versions (status %d) for %s", resp.StatusCode, imageName)
 		return 0, nil
 	}
-	
+
 	var versions []struct {
 		Metadata struct {
 			Container struct {
@@ -573,11 +573,11 @@ func getGHCRPullCount(imageName string) (int, error) {
 		// Unfortunately, GitHub API doesn't expose download_count for container packages
 		// in the same way it does for other package types
 	}
-	
+
 	if err := json.NewDecoder(resp.Body).Decode(&versions); err != nil {
 		return 0, fmt.Errorf("failed to parse versions response: %w", err)
 	}
-	
+
 	// GitHub doesn't expose container download counts through the API
 	// even with authentication. This is a known limitation.
 	// Return 0 to indicate we couldn't get the data
@@ -589,37 +589,37 @@ func getGHCRPullCount(imageName string) (int, error) {
 func getDockerHubPullCount(imageName string) (int, error) {
 	// Remove docker.io prefix if present
 	imageName = strings.TrimPrefix(imageName, "docker.io/")
-	
+
 	// Docker Hub API endpoint
 	url := fmt.Sprintf("https://hub.docker.com/v2/repositories/%s/", imageName)
-	
+
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 	}
-	
+
 	req, err := http.NewRequestWithContext(context.Background(), "GET", url, nil)
 	if err != nil {
 		return 0, fmt.Errorf("failed to create request: %w", err)
 	}
-	
+
 	resp, err := client.Do(req)
 	if err != nil {
 		return 0, fmt.Errorf("failed to send request: %w", err)
 	}
 	defer resp.Body.Close()
-	
+
 	if resp.StatusCode != http.StatusOK {
 		// Not found or error - return 0
 		return 0, nil
 	}
-	
+
 	var dockerHubResp struct {
 		PullCount int `json:"pull_count"`
 	}
-	
+
 	if err := json.NewDecoder(resp.Body).Decode(&dockerHubResp); err != nil {
 		return 0, fmt.Errorf("failed to parse response: %w", err)
 	}
-	
+
 	return dockerHubResp.PullCount, nil
 }

@@ -5,42 +5,45 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/stacklok/toolhive-registry/pkg/types"
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
+
+	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
 func TestLoader_LoadEntry(t *testing.T) {
 	// Create a temporary directory for test files
 	tmpDir := t.TempDir()
-	
+
 	// Create a test spec.yaml file
 	testEntry := &types.RegistryEntry{
 		ImageMetadata: &toolhiveRegistry.ImageMetadata{
-			Name:        "test-server",
-			Image:       "test/image:latest",
-			Description: "Test MCP server",
-			Transport:   "stdio",
-			Tier:        "Community",
-			Status:      "Active",
-			Tools:       []string{"tool1", "tool2"},
-			Tags:        []string{"test", "example"},
+			BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+				Name:        "test-server",
+				Description: "Test MCP server",
+				Transport:   "stdio",
+				Tier:        "Community",
+				Status:      "Active",
+				Tools:       []string{"tool1", "tool2"},
+				Tags:        []string{"test", "example"},
+			},
+			Image: "test/image:latest",
 		},
 	}
-	
+
 	yamlData, err := yaml.Marshal(testEntry)
 	require.NoError(t, err)
-	
+
 	specPath := filepath.Join(tmpDir, "spec.yaml")
 	err = os.WriteFile(specPath, yamlData, 0644)
 	require.NoError(t, err)
-	
+
 	// Test loading the entry
 	loader := NewLoader(tmpDir)
 	entry, err := loader.LoadEntry(specPath)
-	
+
 	assert.NoError(t, err)
 	assert.NotNil(t, entry)
 	assert.Equal(t, "test-server", entry.Name)
@@ -52,7 +55,7 @@ func TestLoader_LoadEntry(t *testing.T) {
 
 func TestLoader_ValidateEntry(t *testing.T) {
 	loader := NewLoader("")
-	
+
 	tests := []struct {
 		name    string
 		entry   *types.RegistryEntry
@@ -63,11 +66,13 @@ func TestLoader_ValidateEntry(t *testing.T) {
 			name: "valid entry",
 			entry: &types.RegistryEntry{
 				ImageMetadata: &toolhiveRegistry.ImageMetadata{
-					Image:       "test/image:latest",
-					Description: "Test server",
-					Transport:   "stdio",
-					Tier:        "Official",
-					Status:      "Active",
+					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+						Description: "Test server",
+						Transport:   "stdio",
+						Tier:        "Official",
+						Status:      "Active",
+					},
+					Image: "test/image:latest",
 				},
 			},
 			wantErr: false,
@@ -76,8 +81,10 @@ func TestLoader_ValidateEntry(t *testing.T) {
 			name: "missing image",
 			entry: &types.RegistryEntry{
 				ImageMetadata: &toolhiveRegistry.ImageMetadata{
-					Description: "Test server",
-					Transport:   "stdio",
+					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+						Description: "Test server",
+						Transport:   "stdio",
+					},
 				},
 			},
 			wantErr: true,
@@ -87,8 +94,10 @@ func TestLoader_ValidateEntry(t *testing.T) {
 			name: "missing description",
 			entry: &types.RegistryEntry{
 				ImageMetadata: &toolhiveRegistry.ImageMetadata{
-					Image:     "test/image:latest",
-					Transport: "stdio",
+					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+						Transport: "stdio",
+					},
+					Image: "test/image:latest",
 				},
 			},
 			wantErr: true,
@@ -98,8 +107,10 @@ func TestLoader_ValidateEntry(t *testing.T) {
 			name: "missing transport",
 			entry: &types.RegistryEntry{
 				ImageMetadata: &toolhiveRegistry.ImageMetadata{
-					Image:       "test/image:latest",
-					Description: "Test server",
+					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+						Description: "Test server",
+					},
+					Image: "test/image:latest",
 				},
 			},
 			wantErr: true,
@@ -109,9 +120,11 @@ func TestLoader_ValidateEntry(t *testing.T) {
 			name: "invalid transport",
 			entry: &types.RegistryEntry{
 				ImageMetadata: &toolhiveRegistry.ImageMetadata{
-					Image:       "test/image:latest",
-					Description: "Test server",
-					Transport:   "invalid",
+					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+						Description: "Test server",
+						Transport:   "invalid",
+					},
+					Image: "test/image:latest",
 				},
 			},
 			wantErr: true,
@@ -121,10 +134,12 @@ func TestLoader_ValidateEntry(t *testing.T) {
 			name: "invalid tier",
 			entry: &types.RegistryEntry{
 				ImageMetadata: &toolhiveRegistry.ImageMetadata{
-					Image:       "test/image:latest",
-					Description: "Test server",
-					Transport:   "stdio",
-					Tier:        "InvalidTier",
+					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+						Description: "Test server",
+						Transport:   "stdio",
+						Tier:        "InvalidTier",
+					},
+					Image: "test/image:latest",
 				},
 			},
 			wantErr: true,
@@ -134,17 +149,19 @@ func TestLoader_ValidateEntry(t *testing.T) {
 			name: "invalid status",
 			entry: &types.RegistryEntry{
 				ImageMetadata: &toolhiveRegistry.ImageMetadata{
-					Image:       "test/image:latest",
-					Description: "Test server",
-					Transport:   "stdio",
-					Status:      "InvalidStatus",
+					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+						Description: "Test server",
+						Transport:   "stdio",
+						Status:      "InvalidStatus",
+					},
+					Image: "test/image:latest",
 				},
 			},
 			wantErr: true,
 			errMsg:  "invalid status",
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			err := loader.validateEntry(tt.entry)
@@ -163,53 +180,57 @@ func TestLoader_ValidateEntry(t *testing.T) {
 func TestLoader_LoadAll(t *testing.T) {
 	// Create a temporary directory structure
 	tmpDir := t.TempDir()
-	
+
 	// Create multiple test entries
 	entries := map[string]*types.RegistryEntry{
 		"server1": {
 			ImageMetadata: &toolhiveRegistry.ImageMetadata{
-				Name:        "server1",
-				Image:       "test/server1:latest",
-				Description: "Test server 1",
-				Transport:   "stdio",
+				BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+					Name:        "server1",
+					Description: "Test server 1",
+					Transport:   "stdio",
+				},
+				Image: "test/server1:latest",
 			},
 		},
 		"server2": {
 			ImageMetadata: &toolhiveRegistry.ImageMetadata{
-				Name:        "server2",
-				Image:       "test/server2:latest",
-				Description: "Test server 2",
-				Transport:   "sse",
+				BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+					Name:        "server2",
+					Description: "Test server 2",
+					Transport:   "sse",
+				},
+				Image: "test/server2:latest",
 			},
 		},
 	}
-	
+
 	// Create directories and spec files
 	for name, entry := range entries {
 		dir := filepath.Join(tmpDir, name)
 		err := os.MkdirAll(dir, 0755)
 		require.NoError(t, err)
-		
+
 		yamlData, err := yaml.Marshal(entry)
 		require.NoError(t, err)
-		
+
 		specPath := filepath.Join(dir, "spec.yaml")
 		err = os.WriteFile(specPath, yamlData, 0644)
 		require.NoError(t, err)
 	}
-	
+
 	// Test loading all entries
 	loader := NewLoader(tmpDir)
 	err := loader.LoadAll()
-	
+
 	assert.NoError(t, err)
 	assert.Len(t, loader.GetEntries(), 2)
-	
+
 	// Check that entries were loaded correctly
 	loadedEntries := loader.GetEntries()
 	assert.Contains(t, loadedEntries, "server1")
 	assert.Contains(t, loadedEntries, "server2")
-	
+
 	// Test GetSortedEntries
 	sorted := loader.GetSortedEntries()
 	assert.Len(t, sorted, 2)
@@ -223,26 +244,28 @@ func TestBuilder_Build(t *testing.T) {
 	loader.entries = map[string]*types.RegistryEntry{
 		"test-server": {
 			ImageMetadata: &toolhiveRegistry.ImageMetadata{
-				Name:        "test-server",
-				Image:       "test/image:latest",
-				Description: "Test server",
-				Transport:   "stdio",
-				Tier:        "Community",
-				Status:      "Active",
+				BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+					Name:        "test-server",
+					Description: "Test server",
+					Transport:   "stdio",
+					Tier:        "Community",
+					Status:      "Active",
+				},
+				Image: "test/image:latest",
 			},
 		},
 	}
-	
+
 	// Create builder and build
 	builder := NewBuilder(loader)
 	registry, err := builder.Build()
-	
+
 	assert.NoError(t, err)
 	assert.NotNil(t, registry)
 	assert.Equal(t, "1.0.0", registry.Version)
 	assert.Len(t, registry.Servers, 1)
 	assert.Contains(t, registry.Servers, "test-server")
-	
+
 	// Check that defaults were set
 	server := registry.Servers["test-server"]
 	assert.Equal(t, "Community", server.Tier)
@@ -259,27 +282,31 @@ func TestBuilder_ValidateAgainstSchema(t *testing.T) {
 	loader.entries = map[string]*types.RegistryEntry{
 		"valid-server": {
 			ImageMetadata: &toolhiveRegistry.ImageMetadata{
-				Image:       "test/image:latest",
-				Description: "Valid server",
-				Transport:   "stdio",
+				BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+					Description: "Valid server",
+					Transport:   "stdio",
+				},
+				Image: "test/image:latest",
 			},
 		},
 	}
-	
+
 	builder := NewBuilder(loader)
 	err := builder.ValidateAgainstSchema()
 	assert.NoError(t, err)
-	
+
 	// Test with invalid entry (missing required field)
 	loader.entries = map[string]*types.RegistryEntry{
 		"invalid-server": {
 			ImageMetadata: &toolhiveRegistry.ImageMetadata{
+				BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+					// Missing Description and Transport
+				},
 				Image: "test/image:latest",
-				// Missing Description and Transport
 			},
 		},
 	}
-	
+
 	err = builder.ValidateAgainstSchema()
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "description is required")
