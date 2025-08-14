@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+
 	"github.com/stacklok/toolhive-registry/pkg/registry"
 )
 
@@ -44,14 +45,14 @@ var validateCmd = &cobra.Command{
 	Use:   "validate",
 	Short: "Validate registry entries",
 	Long:  `Validate all registry entries without building the output files.`,
-	RunE: runValidate,
+	RunE:  runValidate,
 }
 
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all registry entries",
 	Long:  `List all registry entries found in the registry directory.`,
-	RunE: runList,
+	RunE:  runList,
 }
 
 var versionCmd = &cobra.Command{
@@ -114,7 +115,7 @@ func runBuild(cmd *cobra.Command, args []string) error {
 
 	// Determine which formats to build
 	formats := determineFormats(outputFormat)
-	
+
 	// Build each format
 	var builtFormats []string
 	for _, format := range formats {
@@ -210,7 +211,7 @@ func runValidate(cmd *cobra.Command, args []string) error {
 	}
 
 	entries := loader.GetEntries()
-	
+
 	// Create builder for validation
 	builder := registry.NewBuilder(loader)
 
@@ -241,15 +242,15 @@ func runList(cmd *cobra.Command, args []string) error {
 	}
 
 	entries := loader.GetSortedEntries()
-	
+
 	fmt.Printf("Found %d registry entries:\n\n", len(entries))
-	
+
 	for _, entry := range entries {
 		status := entry.Status
 		if status == "" {
 			status = "Active"
 		}
-		
+
 		tier := entry.Tier
 		if tier == "" {
 			tier = "Community"

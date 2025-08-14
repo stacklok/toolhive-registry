@@ -1,0 +1,73 @@
+# Docker/OCI image reference (REQUIRED)
+image: ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.3.0
+
+# One-line description (REQUIRED)
+description: Enables AI assistants to search and access arXiv research papers through MCP protocol. Mount a volume to /arxiv-papers for persistent paper storage.
+
+# Communication protocol (REQUIRED)
+transport: stdio
+
+# Source code repository (HIGHLY RECOMMENDED)
+repository_url: https://github.com/blazickjp/arxiv-mcp-server
+
+# Project homepage/documentation (OPTIONAL)
+homepage: https://github.com/blazickjp/arxiv-mcp-server
+
+# License identifier (OPTIONAL)
+license: MIT
+
+# Author/organization (OPTIONAL)
+author: Pearl Labs Team
+
+# Classification tier (OPTIONAL, defaults to "Community")
+tier: Community
+
+# Development status (OPTIONAL, defaults to "Active")
+status: Active
+
+# Categorization tags (RECOMMENDED)
+tags:
+  - research
+  - academic
+  - papers
+  - arxiv
+  - search
+
+# List of tools provided (HIGHLY RECOMMENDED)
+tools:
+  - search_papers
+  - download_paper
+  - list_papers
+  - read_paper
+
+# Environment variables (IF APPLICABLE)
+env_vars:
+  - name: ARXIV_STORAGE_PATH
+    description: Directory path where downloaded papers will be stored
+    required: false
+    default: "/arxiv-papers"
+
+# Command-line arguments (IF APPLICABLE)
+args:
+  - --storage-path
+  - /arxiv-papers
+
+# Security permissions (IF APPLICABLE)
+permissions:
+  # Network access
+  network:
+    outbound:
+      allow_host:
+        - arxiv.org
+        - export.arxiv.org
+      allow_port:
+        - 443
+        - 80
+  
+  # File system access
+  write: []
+
+# Usage metrics (OPTIONAL, auto-updated)
+metrics:
+  stars: 0
+  pulls: 0
