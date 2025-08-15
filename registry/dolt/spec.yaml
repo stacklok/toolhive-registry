@@ -5,7 +5,7 @@ image: docker.io/dolthub/dolt-mcp:0.1.0
 description: Provides Git-like version control for SQL databases using Dolt, enabling branching, merging, and versioning of database schemas and data
 
 # Communication protocol
-transport: stdio
+transport: streamable-http
 
 # Source code repository
 repository_url: https://github.com/dolthub/dolt-mcp
@@ -109,7 +109,7 @@ env_vars:
   - name: MCP_MODE
     description: Server mode (stdio or http)
     required: false
-    default: "stdio"
+    default: "http"
   
   - name: MCP_PORT
     description: HTTP server port (HTTP mode only)
