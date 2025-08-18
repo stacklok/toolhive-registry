@@ -1,0 +1,80 @@
+# Docker/OCI image reference (REQUIRED)
+image: ghcr.io/stacklok/dockyard/uvx/adb-mysql-mcp-server:1.0.0
+
+# One-line description (REQUIRED)
+description: Official MCP server for AnalyticDB for MySQL of Alibaba Cloud
+
+# Communication protocol (REQUIRED)
+transport: stdio
+
+# Source code repository (HIGHLY RECOMMENDED)
+repository_url: https://github.com/aliyun/alibabacloud-adb-mysql-mcp-server
+
+# Project homepage/documentation (OPTIONAL)
+homepage: https://www.alibabacloud.com/en/product/analyticdb-for-mysql
+
+# License identifier (OPTIONAL)
+license: Apache-2.0
+
+# Author/organization (OPTIONAL)
+author: Alibaba Cloud
+
+# Classification tier
+tier: Official
+
+# Development status
+status: Active
+
+# Categorization tags (RECOMMENDED)
+tags:
+  - database
+  - mysql
+  - analytics
+  - sql
+  - alibaba-cloud
+  - data-warehouse
+
+# List of tools provided (HIGHLY RECOMMENDED)
+tools:
+  - execute_sql
+  - get_query_plan
+  - get_execution_plan
+
+# Environment variables (IF APPLICABLE)
+env_vars:
+  - name: ADB_MYSQL_HOST
+    description: AnalyticDB for MySQL host address
+    required: true
+  
+  - name: ADB_MYSQL_PORT
+    description: AnalyticDB for MySQL port number
+    required: true
+  
+  - name: ADB_MYSQL_USER
+    description: Database user for authentication
+    required: true
+  
+  - name: ADB_MYSQL_PASSWORD
+    description: Database password for authentication
+    required: true
+    secret: true
+  
+  - name: ADB_MYSQL_DATABASE
+    description: Database name to connect to
+    required: true
+
+# Security permissions (IF APPLICABLE)
+permissions:
+  network:
+    outbound:
+      # AnalyticDB instances can be hosted anywhere
+      insecure_allow_all: true
+
+# Provenance for supply chain security (Dockyard build)
+provenance:
+  sigstore_url: tuf-repo-cdn.sigstore.dev
+  repository_uri: https://github.com/stacklok/dockyard
+  repository_ref: refs/heads/main
+  signer_identity: /.github/workflows/build-containers.yml
+  runner_environment: github-hosted
+  cert_issuer: https://token.actions.githubusercontent.com
