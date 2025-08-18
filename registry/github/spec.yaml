@@ -122,9 +122,8 @@ env_vars:
       description: GitHub Enterprise Server hostname (optional)
       required: false
 provenance:
-    sigstore_url: tuf-repo-cdn.sigstore.dev
-    repository_uri: https://github.com/github/github-mcp-server
-    repository_ref: ""
-    signer_identity: /.github/workflows/docker-publish.yml
-    runner_environment: github-hosted
     cert_issuer: https://token.actions.githubusercontent.com
+    repository_uri: https://github.com/github/github-mcp-server
+    runner_environment: github-hosted
+    signer_identity: /.github/workflows/docker-publish.yml
+    sigstore_url: tuf-repo-cdn.sigstore.dev
