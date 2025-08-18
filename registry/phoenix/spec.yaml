@@ -1,0 +1,88 @@
+# Docker/OCI image reference (REQUIRED)
+image: ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.2.9
+
+# One-line description (REQUIRED)
+description: MCP server for Arize Phoenix observability platform
+
+# Communication protocol (REQUIRED)
+transport: stdio
+
+# Source code repository (HIGHLY RECOMMENDED)
+repository_url: https://github.com/Arize-ai/phoenix
+
+# Project homepage/documentation (OPTIONAL)
+homepage: https://phoenix.arize.com
+
+# License identifier (OPTIONAL)
+license: Apache-2.0
+
+# Author/organization (OPTIONAL)
+author: Arize AI
+
+# Classification tier
+tier: Official
+
+# Development status
+status: Active
+
+# Categorization tags (RECOMMENDED)
+tags:
+  - observability
+  - llm
+  - monitoring
+  - tracing
+  - evaluation
+  - ai
+
+# List of tools provided (HIGHLY RECOMMENDED)
+tools:
+  # Span tools
+  - get-spans
+  - get-span-annotations
+  # Project tools
+  - list-projects
+  - get-project
+  # Dataset tools
+  - list-datasets
+  - get-dataset
+  - create-dataset
+  - add-examples-to-dataset
+  # Experiment tools
+  - list-experiments
+  - get-experiment
+  - get-experiment-runs
+  # Prompt tools
+  - list-prompts
+  - get-prompt
+  - create-prompt
+  - update-prompt
+  # Support tools
+  - share-traces
+
+# Environment variables (IF APPLICABLE)
+env_vars:
+  - name: PHOENIX_API_KEY
+    description: API key for Phoenix authentication
+    required: false
+    secret: true
+  
+  - name: PHOENIX_BASE_URL
+    description: Base URL for Phoenix instance
+    required: false
+    default: "http://localhost:6006"
+
+# Security permissions - Phoenix MCP connects to Phoenix instance
+permissions:
+  network:
+    outbound:
+      # Allow all outbound connections since users may host Phoenix anywhere
+      insecure_allow_all: true
+
+# Provenance for supply chain security (Dockyard build)
+provenance:
+  sigstore_url: tuf-repo-cdn.sigstore.dev
+  repository_uri: https://github.com/stacklok/dockyard
+  repository_ref: refs/heads/main
+  signer_identity: /.github/workflows/build-containers.yml
+  runner_environment: github-hosted
+  cert_issuer: https://token.actions.githubusercontent.com
