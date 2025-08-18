@@ -52,7 +52,7 @@ license: MIT  # Common: MIT, Apache-2.0, GPL-3.0
 author: Organization Name
 
 # Classification tier (OPTIONAL, defaults to "Community")
-tier: Community  # Options: "Official", "Partner", "Community"
+tier: Community  # Options: "Official", "Community"
 
 # Development status (OPTIONAL, defaults to "Active")
 status: Active  # Options: "Active", "Beta", "Alpha", "Deprecated"

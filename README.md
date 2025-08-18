@@ -114,7 +114,6 @@ If you're not sure, use `stdio`.
 
 - `Official` - Maintained by the MCP team or platform owners
 - `Community` - Created and maintained by the community (most servers)
-- `Partner` - Created by partner organizations
 
 ### What is "status"?
 
