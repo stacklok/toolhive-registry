@@ -1,0 +1,73 @@
+# Docker/OCI image reference (REQUIRED)
+image: ghcr.io/stacklok/dockyard/npx/onchain-mcp:1.0.6
+
+# One-line description (REQUIRED)
+description: MCP server for blockchain data interaction through the Bankless API
+
+# Communication protocol (REQUIRED)
+transport: stdio
+
+# Source code repository (HIGHLY RECOMMENDED)
+repository_url: https://github.com/Bankless/onchain-mcp
+
+# Project homepage/documentation (OPTIONAL)
+homepage: https://docs.bankless.com/bankless-api/other-services/onchain-mcp
+
+# License identifier (OPTIONAL)
+license: MIT
+
+# Author/organization (OPTIONAL)
+author: Bankless
+
+# Classification tier
+tier: Official
+
+# Development status
+status: Active
+
+# Categorization tags (RECOMMENDED)
+tags:
+  - blockchain
+  - ethereum
+  - web3
+  - smart-contracts
+  - defi
+  - crypto
+
+# List of tools provided (HIGHLY RECOMMENDED)
+tools:
+  - read_contract
+  - get_proxy
+  - get_abi
+  - get_source
+  - get_events
+  - build_event_topic
+  - get_transaction_history_for_user
+  - get_transaction_info
+  - get_token_balances_on_network
+  - get_block_info
+
+# Environment variables (IF APPLICABLE)
+env_vars:
+  - name: BANKLESS_API_TOKEN
+    description: API token for Bankless API authentication
+    required: true
+    secret: true
+
+# Security permissions (IF APPLICABLE)
+permissions:
+  network:
+    outbound:
+      allow_host:
+        - api.bankless.com
+      allow_port:
+        - 443
+
+# Provenance for supply chain security (Dockyard build)
+provenance:
+  sigstore_url: tuf-repo-cdn.sigstore.dev
+  repository_uri: https://github.com/stacklok/dockyard
+  repository_ref: refs/heads/main
+  signer_identity: /.github/workflows/build-containers.yml
+  runner_environment: github-hosted
+  cert_issuer: https://token.actions.githubusercontent.com
