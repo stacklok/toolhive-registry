@@ -49,9 +49,8 @@ env_vars:
       required: false
       secret: true
 provenance:
-    sigstore_url: tuf-repo-cdn.sigstore.dev
-    repository_uri: https://github.com/StacklokLabs/ocireg-mcp
-    repository_ref: ""
-    signer_identity: /.github/workflows/release.yml
-    runner_environment: github-hosted
     cert_issuer: https://token.actions.githubusercontent.com
+    repository_uri: https://github.com/StacklokLabs/ocireg-mcp
+    runner_environment: github-hosted
+    signer_identity: /.github/workflows/release.yml
+    sigstore_url: tuf-repo-cdn.sigstore.dev

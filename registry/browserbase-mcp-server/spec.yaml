@@ -62,13 +62,10 @@ tags:
     - web-scraping
     - testing
     - stagehand
-dockertags: []
+# Provenance for supply chain security (Dockyard build)
 provenance:
-    sigstoreurl: tuf-repo-cdn.sigstore.dev
-    repositoryuri: https://github.com/stacklok/dockyard
-    repositoryref: refs/heads/main
-    signeridentity: /.github/workflows/build-containers.yml
-    runnerenvironment: github-hosted
-    certissuer: https://token.actions.githubusercontent.com
-    attestation: null
-custommetadata: {}
+    cert_issuer: https://token.actions.githubusercontent.com
+    repository_uri: https://github.com/stacklok/dockyard
+    runner_environment: github-hosted
+    signer_identity: /.github/workflows/build-containers.yml
+    sigstore_url: tuf-repo-cdn.sigstore.dev
