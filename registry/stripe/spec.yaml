@@ -1,0 +1,48 @@
+name: stripe
+description: Allows you to integrate with Stripe APIs through the Stripe Agent Toolkit.
+tier: Official
+status: Active
+transport: stdio
+tools:
+  - create_coupon
+  - create_customer
+  - create_payment_link
+  - create_price
+  - create_product
+  - create_refund
+  - create_invoice_item
+  - create_invoice
+  - finalize_invoice
+  - list_coupons
+  - list_customers
+  - list_disputes
+  - list_prices
+  - list_products
+  - list_subscriptions
+  - retrieve_balance
+  - cancel_subscription
+  - update_dispute
+  - update_subscription
+metadata:
+  last_updated: "2025-08-19T00:00:00Z"
+repository_url: https://github.com/stripe/agent-toolkit
+tags:
+  - stripe
+  - agent-toolkit
+  - payments
+  - mcp
+image: docker.io/mcp/stripe:latest
+args:
+  - --tools=all
+permissions:
+  network:
+    outbound:
+      allow_host:
+        - api.stripe.com
+        - docs.stripe.com
+      allow_port:
+        - 443
+env_vars:
+  - name: STRIPE_SECRET_KEY
+    description: Your Stripe secret API key, available in the Stripe Dashboard.
+    required: true
