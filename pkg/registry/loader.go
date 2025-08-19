@@ -304,7 +304,7 @@ func (b *Builder) WriteJSON(path string) error {
 
 	// Wrap the registry with the schema
 	wrappedRegistry := registryWithSchema{
-		Schema:   "https://raw.githubusercontent.com/stacklok/toolhive/main/docs/registry/schema.json",
+		Schema:   "https://raw.githubusercontent.com/stacklok/toolhive/main/pkg/registry/data/schema.json",
 		Registry: registry,
 	}
 
