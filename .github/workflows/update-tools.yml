@@ -31,13 +31,29 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v45
-        with:
-          files: |
-            registry/**/spec.yaml
-            registry/**/spec.yml
-          json: true
-          json_raw_format: true
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # For PRs, get changed files between base and head
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+            
+            # Get changed spec files
+            CHANGED_FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | grep -E '^registry/.*/spec\.ya?ml$' || true)
+          else
+            # For workflow_dispatch, get files changed in the last commit or all files if no recent changes
+            CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD | grep -E '^registry/.*/spec\.ya?ml$' || true)
+            
+            # If no files in last commit, we'll handle this in the matrix step
+          fi
+          
+          # Convert to JSON array
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "all_changed_files=[]" >> $GITHUB_OUTPUT
+          else
+            # Convert newline-separated list to JSON array
+            JSON_ARRAY=$(echo "$CHANGED_FILES" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            echo "all_changed_files=$JSON_ARRAY" >> $GITHUB_OUTPUT
+          fi
 
       - name: Set matrix for changed specs
         id: set-matrix
@@ -88,6 +104,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref || github.ref }}
 
       - name: Set up Go
         uses: actions/setup-go@v5
