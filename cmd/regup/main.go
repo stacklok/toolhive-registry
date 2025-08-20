@@ -129,8 +129,8 @@ func loadSpec(path string) (serverWithName, error) {
 	name := filepath.Base(dir)
 
 	// Set the name if not already set
-	if entry.Name == "" {
-		entry.Name = name
+	if entry.GetName() == "" {
+		entry.SetName(name)
 	}
 
 	return serverWithName{
@@ -151,20 +151,33 @@ func updateServerInfo(server serverWithName) error {
 		}
 	}
 
-	// Get repository URL
-	repoURL := server.entry.RepositoryURL
+	// Get repository URL based on server type
+	var repoURL string
+	var metadata *registry.Metadata
+
+	if server.entry.IsImage() && server.entry.ImageMetadata != nil {
+		repoURL = server.entry.ImageMetadata.RepositoryURL
+		if server.entry.ImageMetadata.Metadata == nil {
+			server.entry.ImageMetadata.Metadata = &registry.Metadata{}
+		}
+		metadata = server.entry.ImageMetadata.Metadata
+	} else if server.entry.IsRemote() && server.entry.RemoteServerMetadata != nil {
+		repoURL = server.entry.RemoteServerMetadata.RepositoryURL
+		if server.entry.RemoteServerMetadata.Metadata == nil {
+			server.entry.RemoteServerMetadata.Metadata = &registry.Metadata{}
+		}
+		metadata = server.entry.RemoteServerMetadata.Metadata
+	} else {
+		return fmt.Errorf("unable to determine server type for %s", server.name)
+	}
+
 	if repoURL == "" {
 		logger.Warnf("Server %s has no repository URL, skipping GitHub stars update", server.name)
 	}
 
-	// Initialize metadata if it doesn't exist
-	if server.entry.Metadata == nil {
-		server.entry.Metadata = &registry.Metadata{}
-	}
-
 	// Get current values
-	currentStars := server.entry.Metadata.Stars
-	currentPulls := server.entry.Metadata.Pulls
+	currentStars := metadata.Stars
+	currentPulls := metadata.Pulls
 
 	// Extract owner and repo from repository URL
 	var newStars, newPulls int
@@ -190,7 +203,7 @@ func updateServerInfo(server serverWithName) error {
 	}
 
 	// Get container pull count if we have an image
-	if server.entry.Image != "" {
+	if server.entry.IsImage() && server.entry.ImageMetadata != nil && server.entry.Image != "" {
 		pullCount, err := getContainerPullCount(server.entry.Image)
 		if err != nil {
 			logger.Warnf("Failed to get pull count for image %s: %v", server.entry.Image, err)
