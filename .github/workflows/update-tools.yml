@@ -72,8 +72,26 @@ jobs:
               echo "has-changes=false" >> $GITHUB_OUTPUT
               exit 1
             fi
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Manual run without specific server - process all spec files
+            echo "Manual run without specific server - processing all spec files"
+            ALL_SPECS=$(find registry -name "spec.yaml" -o -name "spec.yml" | sort)
+            if [ -z "$ALL_SPECS" ]; then
+              echo "No spec files found"
+              echo "has-changes=false" >> $GITHUB_OUTPUT
+            else
+              # Convert to JSON array
+              JSON_ARRAY=$(echo "$ALL_SPECS" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+              MATRIX=$(echo "$JSON_ARRAY" | jq -c '{spec: .}')
+              echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+              echo "has-changes=true" >> $GITHUB_OUTPUT
+              
+              # Log the files that will be processed
+              echo "Files to process:"
+              echo "$JSON_ARRAY" | jq -r '.[]'
+            fi
           else
-            # PR or manual run without specific server
+            # PR - use changed files
             CHANGED_FILES='${{ steps.changed-files.outputs.all_changed_files }}'
             
             if [ "$CHANGED_FILES" = "[]" ]; then
