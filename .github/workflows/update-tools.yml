@@ -1,0 +1,240 @@
+name: Update MCP Server Tool Lists
+
+on:
+  pull_request:
+    paths:
+      - 'registry/**/spec.yaml'
+      - 'registry/**/spec.yml'
+  workflow_dispatch:
+    inputs:
+      server:
+        description: 'Specific server to update (leave empty for all changed)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  detect-changes:
+    name: Detect Changed Specs
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      has-changes: ${{ steps.set-matrix.outputs.has-changes }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            registry/**/spec.yaml
+            registry/**/spec.yml
+          json: true
+          json_raw_format: true
+
+      - name: Set matrix for changed specs
+        id: set-matrix
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.server }}" ]; then
+            # Manual run with specific server
+            SPEC_FILE="registry/${{ inputs.server }}/spec.yaml"
+            if [ ! -f "$SPEC_FILE" ]; then
+              SPEC_FILE="registry/${{ inputs.server }}/spec.yml"
+            fi
+            if [ -f "$SPEC_FILE" ]; then
+              echo "matrix={\"spec\":[\"$SPEC_FILE\"]}" >> $GITHUB_OUTPUT
+              echo "has-changes=true" >> $GITHUB_OUTPUT
+            else
+              echo "Error: Server ${{ inputs.server }} not found"
+              echo "has-changes=false" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+          else
+            # PR or manual run without specific server
+            CHANGED_FILES='${{ steps.changed-files.outputs.all_changed_files }}'
+            
+            if [ "$CHANGED_FILES" = "[]" ]; then
+              echo "No spec files changed"
+              echo "has-changes=false" >> $GITHUB_OUTPUT
+            else
+              # Convert the JSON array to matrix format
+              MATRIX=$(echo "$CHANGED_FILES" | jq -c '{spec: .}')
+              echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+              echo "has-changes=true" >> $GITHUB_OUTPUT
+              
+              # Log the files that will be processed
+              echo "Files to process:"
+              echo "$CHANGED_FILES" | jq -r '.[]'
+            fi
+          fi
+
+  update-tools:
+    name: Update Tools for ${{ matrix.spec }}
+    needs: detect-changes
+    if: needs.detect-changes.outputs.has-changes == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+      fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Install ToolHive
+        uses: StacklokLabs/toolhive-actions@v1
+        with:
+          version: 'v0.2.9'
+
+      - name: Build update-tools
+        run: |
+          echo "Building update-tools..."
+          go build -o update-tools ./cmd/update-tools
+
+      - name: Extract server name
+        id: server-info
+        run: |
+          SERVER_DIR=$(dirname "${{ matrix.spec }}")
+          SERVER_NAME=$(basename "$SERVER_DIR")
+          echo "server-name=$SERVER_NAME" >> $GITHUB_OUTPUT
+          echo "Processing server: $SERVER_NAME"
+
+      - name: Update tool list
+        id: update
+        run: |
+          echo "Updating tools for ${{ steps.server-info.outputs.server-name }}..."
+          
+          # Run the update tool
+          if ./update-tools "${{ matrix.spec }}" -v; then
+            echo "update-status=success" >> $GITHUB_OUTPUT
+            
+            # Check if file was modified
+            if git diff --quiet "${{ matrix.spec }}"; then
+              echo "No changes needed for ${{ matrix.spec }}"
+              echo "changed=false" >> $GITHUB_OUTPUT
+            else
+              echo "Tools updated for ${{ matrix.spec }}"
+              echo "changed=true" >> $GITHUB_OUTPUT
+              
+              # Get the diff for the comment
+              DIFF=$(git diff "${{ matrix.spec }}" | head -100)
+              echo "diff<<EOF" >> $GITHUB_OUTPUT
+              echo "$DIFF" >> $GITHUB_OUTPUT
+              echo "EOF" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "update-status=failed" >> $GITHUB_OUTPUT
+            echo "changed=false" >> $GITHUB_OUTPUT
+            
+            # Check if warning was added
+            if git diff "${{ matrix.spec }}" | grep -q "WARNING"; then
+              echo "Warning comment added to spec file"
+              echo "warning-added=true" >> $GITHUB_OUTPUT
+            else
+              echo "warning-added=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Commit changes
+        if: steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          SERVER_NAME="${{ steps.server-info.outputs.server-name }}"
+          
+          if [ "${{ steps.update.outputs.changed }}" = "true" ]; then
+            git add "${{ matrix.spec }}"
+            git commit -m "chore: update tool list for $SERVER_NAME
+
+          Automatically updated tool list using 'thv mcp list --server $SERVER_NAME'
+          
+          Co-authored-by: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+          else
+            git add "${{ matrix.spec }}"
+            git commit -m "chore: add warning for $SERVER_NAME tool list update failure
+
+          Could not fetch tools from MCP server, added warning comment.
+          
+          Co-authored-by: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+          fi
+
+      - name: Push changes
+        if: steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true'
+        run: |
+          git push
+
+  comment-summary:
+    name: Post Summary Comment
+    needs: [detect-changes, update-tools]
+    if: always() && needs.detect-changes.outputs.has-changes == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find existing comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '## 🔧 MCP Server Tool List Updates'
+
+      - name: Create or update comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## 🔧 MCP Server Tool List Updates
+            
+            The tool lists for modified MCP server specs have been automatically updated using `thv mcp list`.
+            
+            ### Summary
+            
+            | Server | Status | Details |
+            |--------|--------|---------|
+            ${{ needs.update-tools.outputs.summary || '| _Processing results..._ | | |' }}
+            
+            ---
+            _This comment is automatically generated and will be updated as the workflow progresses._
+          edit-mode: replace
+
+  validate-after-update:
+    name: Validate Updated Specs
+    needs: update-tools
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref || github.ref }}
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Build registry-builder
+        run: go build -o registry-builder ./cmd/registry-builder
+
+      - name: Validate all specs
+        run: |
+          echo "Validating all registry entries after updates..."
+          ./registry-builder validate -v
