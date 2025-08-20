@@ -26,7 +26,7 @@ tasks:
 
   build:
     desc: Build all binaries
-    deps: [build:registry-builder, build:import-tool]
+    deps: [build:registry-builder, build:import-tool, build:update-tools]
 
   build:registry-builder:
     desc: Build the registry-builder tool
@@ -56,6 +56,20 @@ tasks:
     generates:
       - "{{.BUILD_DIR}}/import-from-toolhive"
 
+  build:update-tools:
+    desc: Build the update-tools tool
+    cmds:
+      - echo "🔨 Building update-tools..."
+      - mkdir -p {{.BUILD_DIR}}
+      - go build {{.LDFLAGS}} -o {{.BUILD_DIR}}/update-tools ./cmd/update-tools
+    sources:
+      - cmd/update-tools/**/*.go
+      - pkg/**/*.go
+      - go.mod
+      - go.sum
+    generates:
+      - "{{.BUILD_DIR}}/update-tools"
+
   import:
     desc: Import the existing ToolHive registry
     deps: [build:import-tool]
@@ -69,6 +83,52 @@ tasks:
     cmds:
       - echo "👀 Preview import (dry run)..."
       - ./{{.BUILD_DIR}}/import-from-toolhive --dry-run
+
+  update-tools:
+    desc: Update tool lists for a specific MCP server spec file
+    deps: [build:update-tools]
+    cmds:
+      - echo "🔧 Updating tools for {{.SPEC}}..."
+      - ./{{.BUILD_DIR}}/update-tools {{.SPEC}} {{.CLI_ARGS}}
+    vars:
+      SPEC: '{{.SPEC | default ""}}'
+    preconditions:
+      - sh: test -n "{{.SPEC}}"
+        msg: "Please specify a spec file with SPEC=path/to/spec.yaml"
+
+  update-tools:dry-run:
+    desc: Preview tool list updates for a specific MCP server spec file
+    deps: [build:update-tools]
+    cmds:
+      - echo "👀 Preview tool updates for {{.SPEC}}..."
+      - ./{{.BUILD_DIR}}/update-tools {{.SPEC}} --dry-run -v
+    vars:
+      SPEC: '{{.SPEC | default ""}}'
+    preconditions:
+      - sh: test -n "{{.SPEC}}"
+        msg: "Please specify a spec file with SPEC=path/to/spec.yaml"
+
+  update-tools:all:
+    desc: Update tool lists for all MCP server spec files
+    deps: [build:update-tools]
+    cmds:
+      - echo "🔧 Updating tools for all spec files..."
+      - |
+        find {{.REGISTRY_DIR}} -name "spec.yaml" -o -name "spec.yml" | while read spec; do
+          echo "Processing $spec..."
+          ./{{.BUILD_DIR}}/update-tools "$spec" -v || echo "Failed to update $spec"
+        done
+
+  update-tools:all:dry-run:
+    desc: Preview tool list updates for all MCP server spec files
+    deps: [build:update-tools]
+    cmds:
+      - echo "👀 Preview tool updates for all spec files..."
+      - |
+        find {{.REGISTRY_DIR}} -name "spec.yaml" -o -name "spec.yml" | while read spec; do
+          echo "Processing $spec..."
+          ./{{.BUILD_DIR}}/update-tools "$spec" --dry-run -v || echo "Failed to process $spec"
+        done
 
   validate:
     desc: Validate all registry entries
