@@ -74,7 +74,7 @@ func main() {
 	}
 }
 
-func runUpdate(cmd *cobra.Command, args []string) error {
+func runUpdate(_ *cobra.Command, args []string) error {
 	specPath = args[0]
 
 	// If token not provided via flag, check environment variable
@@ -406,7 +406,7 @@ func extractOwnerRepo(url string) (string, string, error) {
 }
 
 // getGitHubRepoInfo gets the stars count for a GitHub repository
-func getGitHubRepoInfo(owner, repo, serverName string, currentPulls int) (stars int, pulls int, err error) {
+func getGitHubRepoInfo(owner, repo, _ string, currentPulls int) (stars int, pulls int, err error) {
 	// Create HTTP client with timeout
 	client := &http.Client{
 		Timeout: 10 * time.Second,

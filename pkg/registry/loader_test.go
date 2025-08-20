@@ -13,6 +13,7 @@ import (
 )
 
 func TestLoader_LoadEntry(t *testing.T) {
+	t.Parallel()
 	// Create a temporary directory for test files
 	tmpDir := t.TempDir()
 
@@ -43,13 +44,14 @@ tags:
 	assert.NotNil(t, entry)
 	assert.Equal(t, "test-server", entry.GetName())
 	assert.True(t, entry.IsImage())
-	assert.Equal(t, "test/image:latest", entry.ImageMetadata.Image)
+	assert.Equal(t, "test/image:latest", entry.Image)
 	assert.Equal(t, "Test MCP server", entry.GetDescription())
 	assert.Equal(t, "stdio", entry.GetTransport())
 	assert.Len(t, entry.GetTools(), 2)
 }
 
 func TestLoader_ValidateEntry(t *testing.T) {
+	t.Parallel()
 	loader := NewLoader("")
 
 	tests := []struct {
@@ -160,6 +162,7 @@ func TestLoader_ValidateEntry(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			err := loader.validateEntry(tt.entry)
 			if tt.wantErr {
 				assert.Error(t, err)
@@ -174,6 +177,7 @@ func TestLoader_ValidateEntry(t *testing.T) {
 }
 
 func TestLoader_LoadAll(t *testing.T) {
+	t.Parallel()
 	// Create a temporary directory structure
 	tmpDir := t.TempDir()
 
@@ -220,6 +224,7 @@ image: test/server2:latest`,
 }
 
 func TestBuilder_Build(t *testing.T) {
+	t.Parallel()
 	// Create a loader with test data
 	loader := NewLoader("")
 	loader.entries = map[string]*types.RegistryEntry{
@@ -258,6 +263,7 @@ func TestBuilder_Build(t *testing.T) {
 }
 
 func TestBuilder_ValidateAgainstSchema(t *testing.T) {
+	t.Parallel()
 	// Test with valid entries
 	loader := NewLoader("")
 	loader.entries = map[string]*types.RegistryEntry{
