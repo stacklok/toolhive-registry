@@ -65,7 +65,7 @@ func updateToolsInNode(node *yaml.Node, tools []string) error {
 		Kind:    yaml.SequenceNode,
 		Content: make([]*yaml.Node, 0, len(tools)),
 	}
-	
+
 	for _, tool := range tools {
 		toolsNode.Content = append(toolsNode.Content, &yaml.Node{
 			Kind:  yaml.ScalarNode,
@@ -105,14 +105,14 @@ func AddWarningComment(path, warning, detail string) error {
 	lines := bytes.Split(data, []byte("\n"))
 	var output bytes.Buffer
 	warningAdded := false
-	
+
 	for i, line := range lines {
 		// Write existing line
 		if i > 0 {
 			output.WriteByte('\n')
 		}
 		output.Write(line)
-		
+
 		// Add warning after initial comments but before content
 		if !warningAdded && !bytes.HasPrefix(bytes.TrimSpace(line), []byte("#")) && len(bytes.TrimSpace(line)) > 0 {
 			// Insert warning before this line
@@ -127,11 +127,11 @@ func AddWarningComment(path, warning, detail string) error {
 				}
 				output.WriteByte('\n')
 			}
-			
+
 			// Add warning
 			output.WriteString(fmt.Sprintf("# WARNING: %s on %s\n", warning, time.Now().Format("2006-01-02")))
 			output.WriteString(fmt.Sprintf("# %s\n", detail))
-			
+
 			// Write current line
 			output.Write(line)
 			warningAdded = true

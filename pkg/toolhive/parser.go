@@ -32,22 +32,22 @@ func ParseToolsJSON(output string) ([]string, error) {
 		return ParseToolsText(output)
 	}
 	jsonOutput := output[jsonStart:]
-	
+
 	var result MCPListOutput
 	if err := json.Unmarshal([]byte(jsonOutput), &result); err != nil {
 		logger.Debugf("Failed to parse JSON output: %v", err)
 		// Fallback to text parsing
 		return ParseToolsText(output)
 	}
-	
+
 	var tools []string
 	for _, tool := range result.Tools {
 		tools = append(tools, tool.Name)
 	}
-	
+
 	// Sort tools alphabetically
 	sort.Strings(tools)
-	
+
 	return tools, nil
 }
 
@@ -60,19 +60,19 @@ func ParseToolsText(output string) ([]string, error) {
 	scanner := bufio.NewScanner(strings.NewReader(output))
 	for scanner.Scan() {
 		line := scanner.Text()
-		
+
 		// Look for TOOLS: section
 		if strings.HasPrefix(line, "TOOLS:") {
 			foundToolsSection = true
 			continue
 		}
-		
+
 		// Skip the NAME/DESCRIPTION header
 		if foundToolsSection && strings.HasPrefix(line, "NAME") {
 			foundHeader = true
 			continue
 		}
-		
+
 		// Extract tool names (first column)
 		if foundToolsSection && foundHeader && len(line) > 0 {
 			// Split by whitespace and get the first field
@@ -89,6 +89,6 @@ func ParseToolsText(output string) ([]string, error) {
 
 	// Sort tools alphabetically
 	sort.Strings(tools)
-	
+
 	return tools, nil
 }

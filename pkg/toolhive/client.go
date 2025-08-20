@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/stacklok/toolhive/pkg/logger"
+
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
@@ -27,7 +28,7 @@ func NewClient(thvPath string, verbose bool) (*Client, error) {
 			return nil, fmt.Errorf("thv binary not found in PATH: %w", err)
 		}
 	}
-	
+
 	return &Client{
 		thvPath: thvPath,
 		verbose: verbose,
@@ -58,11 +59,11 @@ func (c *Client) RunServer(spec *types.RegistryEntry, serverName string) (string
 	// Build the run command
 	tempName := fmt.Sprintf("temp-%s-%d", serverName, time.Now().Unix())
 	runArgs := BuildRunCommand(spec, tempName, image)
-	
+
 	if c.verbose {
 		logger.Debugf("Running command: thv %s", strings.Join(runArgs, " "))
 	}
-	
+
 	runCmd := exec.Command(c.thvPath, runArgs...)
 	runOutput, err := runCmd.CombinedOutput()
 	if err != nil {
@@ -71,7 +72,7 @@ func (c *Client) RunServer(spec *types.RegistryEntry, serverName string) (string
 
 	// Give the server time to start
 	time.Sleep(5 * time.Second)
-	
+
 	return tempName, nil
 }
 
@@ -83,7 +84,7 @@ func (c *Client) ListTools(serverName string) ([]string, error) {
 		AddFlag("--server", serverName).
 		AddFlag("--format", "json").
 		Build()
-	
+
 	listCmd := exec.Command(c.thvPath, listArgs...)
 	output, err := listCmd.CombinedOutput()
 	if err != nil {

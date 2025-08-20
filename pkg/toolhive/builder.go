@@ -57,11 +57,11 @@ func (b *CommandBuilder) Build() []string {
 func BuildRunCommand(spec *types.RegistryEntry, tempName, image string) []string {
 	builder := NewCommandBuilder("run")
 	builder.AddFlag("--name", tempName)
-	
+
 	if spec.ImageMetadata != nil {
 		// Add transport
 		builder.AddFlag("--transport", spec.ImageMetadata.Transport)
-		
+
 		// Add environment variables
 		if spec.ImageMetadata.EnvVars != nil {
 			for _, envVar := range spec.ImageMetadata.EnvVars {
@@ -75,15 +75,15 @@ func BuildRunCommand(spec *types.RegistryEntry, tempName, image string) []string
 				}
 			}
 		}
-		
+
 		// Add permission profile
-		if spec.ImageMetadata.Permissions != nil && spec.ImageMetadata.Permissions.Network != nil {
+		if spec.Permissions != nil && spec.Permissions.Network != nil {
 			builder.AddFlag("--permission-profile", "network")
 		}
 	}
-	
+
 	// Add the image as the last positional argument
 	builder.AddPositional(image)
-	
+
 	return builder.Build()
 }
