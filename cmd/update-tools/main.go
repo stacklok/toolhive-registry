@@ -84,7 +84,7 @@ func runUpdate(_ *cobra.Command, args []string) error {
 	newTools, err := fetchToolsFromMCP(serverName)
 	if err != nil {
 		logger.Warnf("Failed to fetch tools from MCP server: %v", err)
-		
+
 		if len(currentTools) > 0 && addWarnings {
 			if !dryRun {
 				if err := toolhive.AddWarningComment(specPath, "Tool list fetch failed", "Manual verification may be required"); err != nil {
@@ -103,7 +103,7 @@ func runUpdate(_ *cobra.Command, args []string) error {
 	if len(newTools) == 0 && len(currentTools) > 0 {
 		logger.Warnf("No tools detected but spec file had %d tools previously", len(currentTools))
 		logger.Info("Keeping existing tools list")
-		
+
 		if addWarnings {
 			if !dryRun {
 				if err := toolhive.AddWarningComment(specPath, "Tool list could not be auto-updated", "Please verify the tools list manually"); err != nil {
@@ -209,14 +209,14 @@ func showDetailedDiff(current, new []string) {
 func showSummaryDiff(current, new []string) {
 	currentSet := make(map[string]bool)
 	newSet := make(map[string]bool)
-	
+
 	for _, t := range current {
 		currentSet[t] = true
 	}
 	for _, t := range new {
 		newSet[t] = true
 	}
-	
+
 	// Find added tools
 	var added []string
 	for t := range newSet {
@@ -224,7 +224,7 @@ func showSummaryDiff(current, new []string) {
 			added = append(added, t)
 		}
 	}
-	
+
 	// Find removed tools
 	var removed []string
 	for t := range currentSet {
@@ -232,17 +232,17 @@ func showSummaryDiff(current, new []string) {
 			removed = append(removed, t)
 		}
 	}
-	
+
 	sort.Strings(added)
 	sort.Strings(removed)
-	
+
 	if len(added) > 0 {
 		logger.Infof("  Added tools (%d):", len(added))
 		for _, t := range added {
 			logger.Infof("    + %s", t)
 		}
 	}
-	
+
 	if len(removed) > 0 {
 		logger.Infof("  Removed tools (%d):", len(removed))
 		for _, t := range removed {
