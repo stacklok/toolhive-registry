@@ -167,7 +167,7 @@ jobs:
           fi
 
       - name: Commit changes
-        if: steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true'
+        if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -191,9 +191,43 @@ jobs:
           fi
 
       - name: Push changes
-        if: steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true'
+        if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
         run: |
           git push
+
+      - name: Output diff for workflow dispatch
+        if: github.event_name == 'workflow_dispatch' && (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true')
+        run: |
+          SERVER_NAME="${{ steps.server-info.outputs.server-name }}"
+          
+          echo "## 🔧 Tool List Update for $SERVER_NAME" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.update.outputs.changed }}" = "true" ]; then
+            echo "✅ **Status**: Successfully updated tool list" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Changes Made:" >> $GITHUB_STEP_SUMMARY
+            echo '```diff' >> $GITHUB_STEP_SUMMARY
+            git diff "${{ matrix.spec }}" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ **Note**: Changes were not committed because this is a workflow dispatch run. To apply these changes:" >> $GITHUB_STEP_SUMMARY
+            echo "1. Create a new branch" >> $GITHUB_STEP_SUMMARY
+            echo "2. Apply the changes shown above" >> $GITHUB_STEP_SUMMARY
+            echo "3. Open a pull request" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Status**: Tool list update failed, warning added" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Warning Added:" >> $GITHUB_STEP_SUMMARY
+            echo '```diff' >> $GITHUB_STEP_SUMMARY
+            git diff "${{ matrix.spec }}" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Server**: $SERVER_NAME" >> $GITHUB_STEP_SUMMARY
+          echo "**Spec File**: \`${{ matrix.spec }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by**: @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
 
   comment-summary:
     name: Post Summary Comment
