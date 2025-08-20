@@ -8,7 +8,6 @@ import (
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"gopkg.in/yaml.v3"
 
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
@@ -17,27 +16,23 @@ func TestLoader_LoadEntry(t *testing.T) {
 	// Create a temporary directory for test files
 	tmpDir := t.TempDir()
 
-	// Create a test spec.yaml file
-	testEntry := &types.RegistryEntry{
-		ImageMetadata: &toolhiveRegistry.ImageMetadata{
-			BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
-				Name:        "test-server",
-				Description: "Test MCP server",
-				Transport:   "stdio",
-				Tier:        "Community",
-				Status:      "Active",
-				Tools:       []string{"tool1", "tool2"},
-				Tags:        []string{"test", "example"},
-			},
-			Image: "test/image:latest",
-		},
-	}
-
-	yamlData, err := yaml.Marshal(testEntry)
-	require.NoError(t, err)
+	// Create a test spec.yaml file - write raw YAML to avoid marshaling issues
+	yamlData := []byte(`name: test-server
+image: test/image:latest
+description: Test MCP server
+transport: stdio
+tier: Community
+status: Active
+tools:
+  - tool1
+  - tool2
+tags:
+  - test
+  - example
+`)
 
 	specPath := filepath.Join(tmpDir, "spec.yaml")
-	err = os.WriteFile(specPath, yamlData, 0644)
+	err := os.WriteFile(specPath, yamlData, 0644)
 	require.NoError(t, err)
 
 	// Test loading the entry
@@ -46,11 +41,12 @@ func TestLoader_LoadEntry(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.NotNil(t, entry)
-	assert.Equal(t, "test-server", entry.Name)
-	assert.Equal(t, "test/image:latest", entry.Image)
-	assert.Equal(t, "Test MCP server", entry.Description)
-	assert.Equal(t, "stdio", entry.Transport)
-	assert.Len(t, entry.Tools, 2)
+	assert.Equal(t, "test-server", entry.GetName())
+	assert.True(t, entry.IsImage())
+	assert.Equal(t, "test/image:latest", entry.ImageMetadata.Image)
+	assert.Equal(t, "Test MCP server", entry.GetDescription())
+	assert.Equal(t, "stdio", entry.GetTransport())
+	assert.Len(t, entry.GetTools(), 2)
 }
 
 func TestLoader_ValidateEntry(t *testing.T) {
@@ -88,7 +84,7 @@ func TestLoader_ValidateEntry(t *testing.T) {
 				},
 			},
 			wantErr: true,
-			errMsg:  "image is required",
+			errMsg:  "image is required for image-based servers",
 		},
 		{
 			name: "missing description",
@@ -181,41 +177,26 @@ func TestLoader_LoadAll(t *testing.T) {
 	// Create a temporary directory structure
 	tmpDir := t.TempDir()
 
-	// Create multiple test entries
-	entries := map[string]*types.RegistryEntry{
-		"server1": {
-			ImageMetadata: &toolhiveRegistry.ImageMetadata{
-				BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
-					Name:        "server1",
-					Description: "Test server 1",
-					Transport:   "stdio",
-				},
-				Image: "test/server1:latest",
-			},
-		},
-		"server2": {
-			ImageMetadata: &toolhiveRegistry.ImageMetadata{
-				BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
-					Name:        "server2",
-					Description: "Test server 2",
-					Transport:   "sse",
-				},
-				Image: "test/server2:latest",
-			},
-		},
+	// Create multiple test entries with raw YAML to avoid marshaling issues
+	entries := map[string]string{
+		"server1": `name: server1
+description: Test server 1
+transport: stdio
+image: test/server1:latest`,
+		"server2": `name: server2
+description: Test server 2
+transport: sse
+image: test/server2:latest`,
 	}
 
 	// Create directories and spec files
-	for name, entry := range entries {
+	for name, yamlContent := range entries {
 		dir := filepath.Join(tmpDir, name)
 		err := os.MkdirAll(dir, 0755)
 		require.NoError(t, err)
 
-		yamlData, err := yaml.Marshal(entry)
-		require.NoError(t, err)
-
 		specPath := filepath.Join(dir, "spec.yaml")
-		err = os.WriteFile(specPath, yamlData, 0644)
+		err = os.WriteFile(specPath, []byte(yamlContent), 0644)
 		require.NoError(t, err)
 	}
 
@@ -234,8 +215,8 @@ func TestLoader_LoadAll(t *testing.T) {
 	// Test GetSortedEntries
 	sorted := loader.GetSortedEntries()
 	assert.Len(t, sorted, 2)
-	assert.Equal(t, "server1", sorted[0].Name)
-	assert.Equal(t, "server2", sorted[1].Name)
+	assert.Equal(t, "server1", sorted[0].GetName())
+	assert.Equal(t, "server2", sorted[1].GetName())
 }
 
 func TestBuilder_Build(t *testing.T) {

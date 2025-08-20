@@ -4,7 +4,7 @@
 You are helping to add an MCP (Model Context Protocol) server entry to the ToolHive registry. Each entry defines a server that provides tools and capabilities to AI assistants.
 
 ## Task Overview
-Create a YAML specification file for an MCP server in the correct directory structure.
+Create a YAML specification file for an MCP server in the correct directory structure. MCP servers can be either container-based (Docker images) or remote (HTTP/HTTPS endpoints).
 
 ## Step-by-Step Process
 
@@ -19,18 +19,31 @@ mkdir registry/<server-name>
 ```
 
 ### 3. Create spec.yaml File
-Create `registry/<server-name>/spec.yaml` with the following structure:
+Create `registry/<server-name>/spec.yaml` with the appropriate structure based on server type:
 
-#### Minimal Required Fields
+#### For Container-based Servers
+
+##### Minimal Required Fields
 ```yaml
 image: <docker-image-reference>  # e.g., ghcr.io/org/server:v1.0.0
 description: <one-line-description>  # Clear, concise explanation
 transport: <transport-type>  # Usually "stdio", can be "sse" or "streamable-http"
 ```
 
-#### Complete Template with All Fields
+#### For Remote Servers
+
+##### Minimal Required Fields
 ```yaml
-# Docker/OCI image reference (REQUIRED)
+url: <server-endpoint>  # e.g., https://api.example.com/mcp
+description: <one-line-description>  # Clear, concise explanation
+transport: <transport-type>  # "sse" or "streamable-http" (NOT "stdio")
+```
+
+#### Complete Template with All Fields
+
+##### Container-based Servers
+```yaml
+# Docker/OCI image reference (REQUIRED for container servers)
 image: ghcr.io/organization/server-name:v1.0.0
 
 # One-line description (REQUIRED)
@@ -114,54 +127,69 @@ metrics:
   pulls: 0  # Docker pulls
 ```
 
+##### Remote Servers
+```yaml
+url: https://api.example.com/mcp/v1  # REQUIRED endpoint URL
+description: Enables interaction with [service/API] for [purpose]  # REQUIRED
+transport: sse  # REQUIRED: "sse" or "streamable-http" (NOT "stdio")
+repository_url: https://github.com/organization/repository
+tools:
+  - tool_name_1
+  - tool_name_2
+tags:
+  - remote
+  - api
+
+# Authentication options:
+headers:
+  - name: X-API-Key
+    description: API key for authentication
+    required: true
+    secret: true
+
+# Option 2: OAuth configuration
+oauth_config:
+  issuer: https://auth.example.com  # OIDC discovery
+  authorize_url: https://auth.example.com/authorize  # Non-OIDC
+  token_url: https://auth.example.com/token  # Non-OIDC
+  client_id: mcp-client
+  scopes:
+    - read
+    - write
+
+```
+
 ## Field Selection Guidelines
 
 ### Always Include
-- `image`: Full Docker/OCI image reference with tag
-- `description`: Clear, single-sentence explanation
-- `transport`: Communication protocol (99% of cases use "stdio")
+**Container servers**: `image`, `description`, `transport` (usually "stdio")
+**Remote servers**: `url`, `description`, `transport` ("sse" or "streamable-http")
 
 ### Include When Available
-- `repository_url`: GitHub/GitLab repository URL
-- `tools`: List of actual tool/function names the server provides
-- `tags`: 3-5 relevant categorization tags
+- `repository_url`, `tools`, `tags`
 
 ### Include When Needed
-- `env_vars`: Only if server requires configuration
-  - Mark secrets with `secret: true`
-  - Provide defaults when sensible
-- `permissions`: Only if server needs network/filesystem access
-  - Be specific about allowed hosts/ports
-  - Minimize filesystem access paths
-- `args`: Only if server requires command-line arguments
+**Both types**: `env_vars` with `secret: true` for sensitive data
+**Container servers**: `permissions`, `args`
+**Remote servers**: `headers` or `oauth_config` for auth
 
-### Tier Selection
-- Use `"Community"` for community-contributed servers (default)
-- Use `"Official"` only for servers maintained by MCP/ToolHive team
-- Use `"Partner"` for servers from partner organizations
-
-### Status Selection
-- Use `"Active"` for production-ready servers (default)
-- Use `"Beta"` for servers in beta testing
-- Use `"Alpha"` for experimental/early development
-- Use `"Deprecated"` for servers being phased out
+### Tier/Status
+- Tier: `"Official"`, `"Community"` (default)
+- Status: `"Active"` (default), `"Beta"`, `"Alpha"`, `"Deprecated"`
 
 ## Validation Rules
 
-### Required Field Validation
-- `image` must be a valid Docker/OCI image reference
-- `description` must be non-empty
-- `transport` must be one of: `"stdio"`, `"sse"`, `"streamable-http"`
+**Container servers**:
+- `image` must be valid Docker/OCI reference
+- `transport` must be `"stdio"`, `"sse"`, or `"streamable-http"`
 
-### Optional Field Validation
-- `tier` must be one of: `"Official"`, `"Community"`, `"Partner"`
-- `status` must be one of: `"Active"`, `"Beta"`, `"Alpha"`, `"Deprecated"`
-- `env_vars` entries must have `name` and `description`
-- `permissions.network.outbound.allow_port` must be integers
+**Remote servers**:
+- `url` must be valid HTTP/HTTPS URL
+- `transport` must be `"sse"` or `"streamable-http"` (NOT `"stdio"`)
 
 ## Common Patterns
 
-### API Integration Server
+### Container-based API Integration Server
 ```yaml
 image: ghcr.io/org/api-server:latest
 description: Integrates with ExampleAPI for data retrieval and manipulation
@@ -190,7 +218,7 @@ tags:
   - data
 ```
 
-### Database Server
+### Container-based Database Server
 ```yaml
 image: docker.io/org/db-server:latest
 description: Provides tools for querying and managing PostgreSQL databases
@@ -211,7 +239,7 @@ tags:
   - sql
 ```
 
-### File Processing Server
+### Container-based File Processing Server
 ```yaml
 image: ghcr.io/org/file-server:latest
 description: Processes and analyzes various file formats
@@ -248,7 +276,10 @@ After creating the spec.yaml file:
 
 3. **Check the generated entry:**
    ```bash
+   # For container servers:
    jq '.servers["<server-name>"]' build/registry.json
+   # For remote servers:
+   jq '.remote_servers["<server-name>"]' build/registry.json
    ```
 
 ## Error Resolution
@@ -259,7 +290,8 @@ After creating the spec.yaml file:
    - Ensure transport is exactly one of: `"stdio"`, `"sse"`, `"streamable-http"`
 
 2. **Missing required fields**
-   - Verify `image`, `description`, and `transport` are all present
+   - Container: Verify `image`, `description`, and `transport` are present
+   - Remote: Verify `url`, `description`, and `transport` are present
 
 3. **Invalid tier or status**
    - Check spelling and capitalization match exactly
@@ -275,7 +307,7 @@ Look at these existing entries for patterns:
 - `registry/github/spec.yaml` - Complex API integration
 - `registry/sqlite/spec.yaml` - Database server
 - `registry/fetch/spec.yaml` - Simple tool server
-- `registry/aws-pricing/spec.yaml` - Server with extensive configuration
+- `registry/notion/spec.yaml` - Remote server example
 
 ## Final Checklist
 
@@ -283,8 +315,8 @@ Before completing:
 - [ ] Server name uses only lowercase, numbers, hyphens
 - [ ] Directory created at `registry/<server-name>/`
 - [ ] File named exactly `spec.yaml`
-- [ ] All required fields present (image, description, transport)
-- [ ] Image reference is complete with tag
+- [ ] All required fields present (image/url, description, transport)
+- [ ] Image reference complete with tag (container) OR URL valid (remote)
 - [ ] Description is clear and concise
 - [ ] Tools list matches actual server capabilities
 - [ ] Environment variables documented if needed

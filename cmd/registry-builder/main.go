@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/stacklok/toolhive-registry/pkg/registry"
+	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
 var (
@@ -58,7 +59,7 @@ var listCmd = &cobra.Command{
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print version information",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(*cobra.Command, []string) {
 		fmt.Printf("registry-builder %s\n", version)
 		fmt.Printf("  commit: %s\n", commit)
 		fmt.Printf("  built:  %s\n", date)
@@ -95,7 +96,7 @@ func main() {
 	}
 }
 
-func runBuild(cmd *cobra.Command, args []string) error {
+func runBuild(_ *cobra.Command, _ []string) error {
 	if verbose {
 		log.Printf("Building registry from %s", registryPath)
 	}
@@ -113,6 +114,17 @@ func runBuild(cmd *cobra.Command, args []string) error {
 		log.Printf("Loaded %d registry entries", len(entries))
 	}
 
+	// Count image and remote servers
+	imageCount := 0
+	remoteCount := 0
+	for _, entry := range entries {
+		if entry.IsImage() {
+			imageCount++
+		} else if entry.IsRemote() {
+			remoteCount++
+		}
+	}
+
 	// Determine which formats to build
 	formats := determineFormats(outputFormat)
 
@@ -126,6 +138,10 @@ func runBuild(cmd *cobra.Command, args []string) error {
 	}
 
 	fmt.Printf("✓ Successfully built registry with %d entries\n", len(entries))
+	if imageCount > 0 || remoteCount > 0 {
+		fmt.Printf("  - %d container-based servers\n", imageCount)
+		fmt.Printf("  - %d remote servers\n", remoteCount)
+	}
 	fmt.Printf("  Formats: %s\n", strings.Join(builtFormats, ", "))
 	fmt.Printf("  Output directory: %s\n", outputDir)
 
@@ -197,7 +213,7 @@ func buildToolhiveFormat(loader *registry.Loader, outputDir string) error {
 //     // The format will evolve as the upstream standard evolves
 // }
 
-func runValidate(cmd *cobra.Command, args []string) error {
+func runValidate(_ *cobra.Command, _ []string) error {
 	if verbose {
 		log.Printf("Validating registry entries in %s", registryPath)
 	}
@@ -220,19 +236,38 @@ func runValidate(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("validation failed: %w", err)
 	}
 
+	// Count image and remote servers
+	imageCount := 0
+	remoteCount := 0
+	for _, entry := range entries {
+		if entry.IsImage() {
+			imageCount++
+		} else if entry.IsRemote() {
+			remoteCount++
+		}
+	}
+
 	fmt.Printf("✓ All %d registry entries are valid\n", len(entries))
+	if imageCount > 0 && remoteCount > 0 {
+		fmt.Printf("  - %d container-based servers\n", imageCount)
+		fmt.Printf("  - %d remote servers\n", remoteCount)
+	}
 
 	if verbose {
 		fmt.Println("\nValidated entries:")
 		for _, entry := range loader.GetSortedEntries() {
-			fmt.Printf("  - %s: %s\n", entry.Name, entry.Description)
+			serverType := "Container"
+			if entry.IsRemote() {
+				serverType = "Remote"
+			}
+			fmt.Printf("  - %s [%s]: %s\n", entry.GetName(), serverType, entry.GetDescription())
 		}
 	}
 
 	return nil
 }
 
-func runList(cmd *cobra.Command, args []string) error {
+func runList(_ *cobra.Command, _ []string) error {
 	// Create loader
 	loader := registry.NewLoader(registryPath)
 
@@ -245,36 +280,99 @@ func runList(cmd *cobra.Command, args []string) error {
 
 	fmt.Printf("Found %d registry entries:\n\n", len(entries))
 
+	// Separate image and remote servers for display
+	var imageServers, remoteServers []*types.RegistryEntry
 	for _, entry := range entries {
-		status := entry.Status
-		if status == "" {
-			status = "Active"
+		if entry.IsRemote() {
+			remoteServers = append(remoteServers, entry)
+		} else {
+			imageServers = append(imageServers, entry)
 		}
+	}
 
-		tier := entry.Tier
-		if tier == "" {
-			tier = "Community"
+	// Display image-based servers
+	if len(imageServers) > 0 {
+		fmt.Println("=== Container-based MCP Servers ===")
+		for _, entry := range imageServers {
+			displayEntry(entry, verbose)
 		}
+	}
 
-		fmt.Printf("%-30s [%s/%s] %s\n", entry.Name, tier, status, entry.Image)
-		if verbose {
-			fmt.Printf("  Description: %s\n", entry.Description)
-			fmt.Printf("  Transport:   %s\n", entry.Transport)
-			if len(entry.Tools) > 0 {
-				fmt.Printf("  Tools:       %d available\n", len(entry.Tools))
-			}
-			if entry.RepositoryURL != "" {
-				fmt.Printf("  Repository:  %s\n", entry.RepositoryURL)
-			}
-			if entry.License != "" {
-				fmt.Printf("  License:     %s\n", entry.License)
-			}
-			if len(entry.Examples) > 0 {
-				fmt.Printf("  Examples:    %d available\n", len(entry.Examples))
-			}
+	// Display remote servers
+	if len(remoteServers) > 0 {
+		if len(imageServers) > 0 {
 			fmt.Println()
+		}
+		fmt.Println("=== Remote MCP Servers ===")
+		for _, entry := range remoteServers {
+			displayEntry(entry, verbose)
 		}
 	}
 
 	return nil
+}
+
+func displayEntry(entry *types.RegistryEntry, verbose bool) {
+	status := entry.GetStatus()
+	if status == "" {
+		status = "Active"
+	}
+
+	tier := entry.GetTier()
+	if tier == "" {
+		tier = "Community"
+	}
+
+	// Display differently based on type
+	if entry.IsImage() {
+		fmt.Printf("%-30s [%s/%s] %s\n", entry.GetName(), tier, status, entry.Image)
+	} else if entry.IsRemote() {
+		fmt.Printf("%-30s [%s/%s] %s\n", entry.GetName(), tier, status, entry.URL)
+	}
+
+	if verbose {
+		fmt.Printf("  Type:        %s\n", getServerType(entry))
+		fmt.Printf("  Description: %s\n", entry.GetDescription())
+		fmt.Printf("  Transport:   %s\n", entry.GetTransport())
+
+		tools := entry.GetTools()
+		if len(tools) > 0 {
+			fmt.Printf("  Tools:       %d available\n", len(tools))
+		}
+
+		if entry.IsImage() && entry.ImageMetadata.RepositoryURL != "" {
+			fmt.Printf("  Repository:  %s\n", entry.ImageMetadata.RepositoryURL)
+		} else if entry.IsRemote() && entry.RemoteServerMetadata.RepositoryURL != "" {
+			fmt.Printf("  Repository:  %s\n", entry.RemoteServerMetadata.RepositoryURL)
+		}
+
+		if entry.License != "" {
+			fmt.Printf("  License:     %s\n", entry.License)
+		}
+
+		if len(entry.Examples) > 0 {
+			fmt.Printf("  Examples:    %d available\n", len(entry.Examples))
+		}
+
+		// Show remote-specific info
+		if entry.IsRemote() {
+			if entry.OAuthConfig != nil {
+				fmt.Printf("  Auth:        OAuth/OIDC configured\n")
+			}
+			if len(entry.Headers) > 0 {
+				fmt.Printf("  Headers:     %d configured\n", len(entry.Headers))
+			}
+		}
+
+		fmt.Println()
+	}
+}
+
+func getServerType(entry *types.RegistryEntry) string {
+	if entry.IsImage() {
+		return "Container"
+	} else if entry.IsRemote() {
+		return "Remote"
+	}
+	return "Unknown"
 }

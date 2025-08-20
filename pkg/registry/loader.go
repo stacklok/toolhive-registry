@@ -69,10 +69,10 @@ func (l *Loader) LoadAll() error {
 
 			// Use directory name as the key if Name is not set
 			entryName := info.Name()
-			if entry.Name != "" {
-				entryName = entry.Name
+			if entry.GetName() != "" {
+				entryName = entry.GetName()
 			} else {
-				entry.Name = entryName
+				entry.SetName(entryName)
 			}
 
 			l.entries[entryName] = entry
@@ -102,11 +102,6 @@ func (l *Loader) LoadEntry(path string) (*types.RegistryEntry, error) {
 		return nil, fmt.Errorf("failed to parse YAML: %w", err)
 	}
 
-	// Initialize embedded ImageMetadata if nil
-	if entry.ImageMetadata == nil {
-		entry.ImageMetadata = &toolhiveRegistry.ImageMetadata{}
-	}
-
 	// Validate required fields
 	if err := l.validateEntry(&entry); err != nil {
 		return nil, fmt.Errorf("validation failed: %w", err)
@@ -117,54 +112,129 @@ func (l *Loader) LoadEntry(path string) (*types.RegistryEntry, error) {
 
 // validateEntry validates a registry entry
 func (l *Loader) validateEntry(entry *types.RegistryEntry) error {
-	if entry.Image == "" {
-		return fmt.Errorf("image is required")
+	// Check that we have either image or remote metadata
+	if entry.ImageMetadata == nil && entry.RemoteServerMetadata == nil {
+		return fmt.Errorf("entry must be either an image or remote server")
 	}
 
-	if entry.Description == "" {
+	// Route to appropriate validator based on metadata presence
+	if entry.ImageMetadata != nil {
+		return l.validateImageEntry(entry)
+	} else if entry.RemoteServerMetadata != nil {
+		return l.validateRemoteEntry(entry)
+	}
+
+	return fmt.Errorf("unable to determine server type")
+}
+
+// validateImageEntry validates an image-based server entry
+func (l *Loader) validateImageEntry(entry *types.RegistryEntry) error {
+	if entry.ImageMetadata == nil {
+		return fmt.Errorf("ImageMetadata is nil")
+	}
+
+	// Image-specific required fields
+	if entry.Image == "" {
+		return fmt.Errorf("image is required for image-based servers")
+	}
+
+	// Validate common fields
+	return l.validateCommonFields(entry)
+}
+
+// validateRemoteEntry validates a remote server entry
+func (l *Loader) validateRemoteEntry(entry *types.RegistryEntry) error {
+	if entry.RemoteServerMetadata == nil {
+		return fmt.Errorf("RemoteServerMetadata is nil")
+	}
+
+	// Remote-specific required fields
+	if entry.URL == "" {
+		return fmt.Errorf("url is required for remote servers")
+	}
+
+	// Remote servers cannot use stdio transport
+	if entry.RemoteServerMetadata.Transport == "stdio" {
+		return fmt.Errorf("remote servers cannot use stdio transport (use sse or streamable-http)")
+	}
+
+	// Validate common fields
+	return l.validateCommonFields(entry)
+}
+
+// validateCommonFields validates fields common to both image and remote servers
+func (l *Loader) validateCommonFields(entry *types.RegistryEntry) error {
+	// Required fields
+	if entry.GetDescription() == "" {
 		return fmt.Errorf("description is required")
 	}
 
-	if entry.Transport == "" {
+	if entry.GetTransport() == "" {
 		return fmt.Errorf("transport is required")
 	}
 
-	// Validate transport type
+	// Validate transport
+	if err := l.validateTransport(entry.GetTransport()); err != nil {
+		return err
+	}
+
+	// Validate tier if specified
+	if err := l.validateTier(entry.GetTier()); err != nil {
+		return err
+	}
+
+	// Validate status if specified
+	return l.validateStatus(entry.GetStatus())
+}
+
+// validateTransport validates the transport type
+func (*Loader) validateTransport(transport string) error {
 	validTransports := map[string]bool{
 		"stdio":           true,
 		"sse":             true,
 		"streamable-http": true,
 	}
 
-	if !validTransports[entry.Transport] {
-		return fmt.Errorf("invalid transport: %s (must be stdio, sse, or streamable-http)", entry.Transport)
+	if !validTransports[transport] {
+		return fmt.Errorf("invalid transport: %s (must be stdio, sse, or streamable-http)", transport)
 	}
 
-	// Validate tier if specified
-	if entry.Tier != "" {
-		validTiers := map[string]bool{
-			"Official":  true,
-			"Community": true,
-			"Partner":   true,
-		}
+	return nil
+}
 
-		if !validTiers[entry.Tier] {
-			return fmt.Errorf("invalid tier: %s (must be Official, Community, or Partner)", entry.Tier)
-		}
+// validateTier validates the tier classification
+func (*Loader) validateTier(tier string) error {
+	if tier == "" {
+		return nil // Tier is optional
 	}
 
-	// Validate status if specified
-	if entry.Status != "" {
-		validStatuses := map[string]bool{
-			"Active":     true,
-			"Deprecated": true,
-			"Beta":       true,
-			"Alpha":      true,
-		}
+	validTiers := map[string]bool{
+		"Official":  true,
+		"Community": true,
+	}
 
-		if !validStatuses[entry.Status] {
-			return fmt.Errorf("invalid status: %s", entry.Status)
-		}
+	if !validTiers[tier] {
+		return fmt.Errorf("invalid tier: %s (must be Official or Community)", tier)
+	}
+
+	return nil
+}
+
+// validateStatus validates the status field
+func (*Loader) validateStatus(status string) error {
+	if status == "" {
+		return nil // Status is optional
+	}
+
+	validStatuses := map[string]bool{
+		"Active":     true,
+		"Deprecated": true,
+		"Beta":       true,
+		"Alpha":      true,
+	}
+
+	if !validStatuses[status] {
+		return fmt.Errorf("invalid status: %s (must be Active, Deprecated, Beta, or Alpha)", status)
 	}
 
 	return nil
@@ -183,7 +253,7 @@ func (l *Loader) GetSortedEntries() []*types.RegistryEntry {
 	}
 
 	sort.Slice(entries, func(i, j int) bool {
-		return entries[i].Name < entries[j].Name
+		return entries[i].GetName() < entries[j].GetName()
 	})
 
 	return entries
@@ -204,9 +274,10 @@ func NewBuilder(loader *Loader) *Builder {
 // Build creates the final registry structure compatible with toolhive
 func (b *Builder) Build() (*toolhiveRegistry.Registry, error) {
 	registry := &toolhiveRegistry.Registry{
-		Version:     "1.0.0",
-		LastUpdated: time.Now().UTC().Format(time.RFC3339),
-		Servers:     make(map[string]*toolhiveRegistry.ImageMetadata),
+		Version:       "1.0.0",
+		LastUpdated:   time.Now().UTC().Format(time.RFC3339),
+		Servers:       make(map[string]*toolhiveRegistry.ImageMetadata),
+		RemoteServers: make(map[string]*toolhiveRegistry.RemoteServerMetadata),
 	}
 
 	// Get all entry names and sort them alphabetically
@@ -220,67 +291,114 @@ func (b *Builder) Build() (*toolhiveRegistry.Registry, error) {
 	for _, name := range names {
 		entry := b.loader.GetEntries()[name]
 
-		// Create a copy of the ImageMetadata
-		metadata := *entry.ImageMetadata
-
-		// Don't set the name field - the key serves as the name
-		metadata.Name = ""
-
-		// Set defaults if not specified
-		if metadata.Tier == "" {
-			metadata.Tier = "Community"
+		if entry.IsImage() {
+			// Process image-based server
+			metadata := b.processImageMetadata(entry.ImageMetadata)
+			registry.Servers[name] = metadata
+		} else if entry.IsRemote() {
+			// Process remote server
+			metadata := b.processRemoteMetadata(entry.RemoteServerMetadata)
+			registry.RemoteServers[name] = metadata
 		}
-
-		if metadata.Status == "" {
-			metadata.Status = "Active"
-		}
-
-		// Initialize empty slices if nil to match JSON output
-		if metadata.Tools == nil {
-			metadata.Tools = []string{}
-		}
-
-		if metadata.Tags == nil {
-			metadata.Tags = []string{}
-		}
-
-		if metadata.EnvVars == nil {
-			metadata.EnvVars = []*toolhiveRegistry.EnvVar{}
-		}
-
-		if metadata.Args == nil {
-			metadata.Args = []string{}
-		}
-
-		// Ensure permissions structure matches upstream format
-		if metadata.Permissions != nil {
-			// Initialize empty slices for read/write if nil
-			if metadata.Permissions.Read == nil {
-				metadata.Permissions.Read = []permissions.MountDeclaration{}
-			}
-			if metadata.Permissions.Write == nil {
-				metadata.Permissions.Write = []permissions.MountDeclaration{}
-			}
-
-			// Ensure network permissions have explicit insecure_allow_all
-			if metadata.Permissions.Network != nil && metadata.Permissions.Network.Outbound != nil {
-				// InsecureAllowAll is already a bool, so it will be false by default
-				// But we want to ensure it's explicitly in the output
-
-				// Initialize empty slices if nil
-				if metadata.Permissions.Network.Outbound.AllowHost == nil {
-					metadata.Permissions.Network.Outbound.AllowHost = []string{}
-				}
-				if metadata.Permissions.Network.Outbound.AllowPort == nil {
-					metadata.Permissions.Network.Outbound.AllowPort = []int{}
-				}
-			}
-		}
-
-		registry.Servers[name] = &metadata
 	}
 
 	return registry, nil
+}
+
+// processImageMetadata processes and normalizes ImageMetadata
+func (*Builder) processImageMetadata(metadata *toolhiveRegistry.ImageMetadata) *toolhiveRegistry.ImageMetadata {
+	// Create a copy of the ImageMetadata
+	result := *metadata
+
+	// Don't set the name field - the key serves as the name
+	result.Name = ""
+
+	// Set defaults if not specified
+	if result.Tier == "" {
+		result.Tier = "Community"
+	}
+
+	if result.Status == "" {
+		result.Status = "Active"
+	}
+
+	// Initialize empty slices if nil to match JSON output
+	if result.Tools == nil {
+		result.Tools = []string{}
+	}
+
+	if result.Tags == nil {
+		result.Tags = []string{}
+	}
+
+	if result.EnvVars == nil {
+		result.EnvVars = []*toolhiveRegistry.EnvVar{}
+	}
+
+	if result.Args == nil {
+		result.Args = []string{}
+	}
+
+	// Ensure permissions structure matches upstream format
+	if result.Permissions != nil {
+		// Initialize empty slices for read/write if nil
+		if result.Permissions.Read == nil {
+			result.Permissions.Read = []permissions.MountDeclaration{}
+		}
+		if result.Permissions.Write == nil {
+			result.Permissions.Write = []permissions.MountDeclaration{}
+		}
+
+		// Ensure network permissions have explicit insecure_allow_all
+		if result.Permissions.Network != nil && result.Permissions.Network.Outbound != nil {
+			// Initialize empty slices if nil
+			if result.Permissions.Network.Outbound.AllowHost == nil {
+				result.Permissions.Network.Outbound.AllowHost = []string{}
+			}
+			if result.Permissions.Network.Outbound.AllowPort == nil {
+				result.Permissions.Network.Outbound.AllowPort = []int{}
+			}
+		}
+	}
+
+	return &result
+}
+
+// processRemoteMetadata processes and normalizes RemoteServerMetadata
+func (*Builder) processRemoteMetadata(metadata *toolhiveRegistry.RemoteServerMetadata) *toolhiveRegistry.RemoteServerMetadata {
+	// Create a copy of the RemoteServerMetadata
+	result := *metadata
+
+	// Don't set the name field - the key serves as the name
+	result.Name = ""
+
+	// Set defaults if not specified
+	if result.Tier == "" {
+		result.Tier = "Community"
+	}
+
+	if result.Status == "" {
+		result.Status = "Active"
+	}
+
+	// Initialize empty slices if nil to match JSON output
+	if result.Tools == nil {
+		result.Tools = []string{}
+	}
+
+	if result.Tags == nil {
+		result.Tags = []string{}
+	}
+
+	if result.EnvVars == nil {
+		result.EnvVars = []*toolhiveRegistry.EnvVar{}
+	}
+
+	if result.Headers == nil {
+		result.Headers = []*toolhiveRegistry.Header{}
+	}
+
+	return &result
 }
 
 // WriteJSON writes the registry to a JSON file
@@ -329,7 +447,7 @@ func (b *Builder) ValidateAgainstSchema() error {
 		return fmt.Errorf("failed to build registry: %w", err)
 	}
 
-	// Basic validation - ensure required fields are present
+	// Validate image-based servers
 	for name, server := range registry.Servers {
 		if server.Image == "" {
 			return fmt.Errorf("server %s: image is required", name)
@@ -339,6 +457,23 @@ func (b *Builder) ValidateAgainstSchema() error {
 		}
 		if server.Transport == "" {
 			return fmt.Errorf("server %s: transport is required", name)
+		}
+	}
+
+	// Validate remote servers
+	for name, server := range registry.RemoteServers {
+		if server.URL == "" {
+			return fmt.Errorf("remote server %s: url is required", name)
+		}
+		if server.Description == "" {
+			return fmt.Errorf("remote server %s: description is required", name)
+		}
+		if server.Transport == "" {
+			return fmt.Errorf("remote server %s: transport is required", name)
+		}
+		// Remote servers cannot use stdio
+		if server.Transport == "stdio" {
+			return fmt.Errorf("remote server %s: cannot use stdio transport", name)
 		}
 	}
 

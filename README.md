@@ -8,7 +8,10 @@ Think of this as a catalog of tools that AI assistants can use. Each entry in th
 
 ## How to Add Your MCP Server
 
-Adding your MCP server to the registry is simple! You just need to create a YAML file with some basic information about your server.
+Adding your MCP server to the registry is simple! You just need to create a YAML file with some basic information about your server. We support two types of MCP servers:
+
+1. **Container-based servers** - Run as Docker containers
+2. **Remote servers** - Accessed via HTTP/HTTPS endpoints
 
 ### Step 1: Create a Folder
 
@@ -22,13 +25,35 @@ registry/
 
 ### Step 2: Create Your spec.yaml File
 
-Create a `spec.yaml` file in your folder with this minimum information:
+Choose the appropriate format based on your server type:
+
+#### For Container-based Servers
+
+Create a `spec.yaml` file with this minimum information:
 
 ```yaml
 # Required fields - you must provide these
 image: docker.io/myorg/my-server:latest  # Your Docker image
 description: What your server does in one sentence
 transport: stdio  # How your server communicates (usually "stdio")
+
+# Recommended fields - helps users understand your server
+tools:
+  - tool_name_1  # List the tools your server provides
+  - tool_name_2
+  
+repository_url: https://github.com/myorg/my-server  # Where to find your code
+```
+
+#### For Remote Servers
+
+Create a `spec.yaml` file with this minimum information:
+
+```yaml
+# Required fields - you must provide these
+url: https://api.example.com/mcp  # Your MCP server endpoint
+description: What your server does in one sentence
+transport: sse  # Remote servers use "sse" or "streamable-http" (not "stdio")
 
 # Recommended fields - helps users understand your server
 tools:
@@ -68,9 +93,9 @@ tier: Community  # or "Official" if maintained by the protocol team
 status: Active   # or "Beta", "Deprecated"
 ```
 
-### Real Example
+### Real Examples
 
-Here's what a complete entry looks like:
+#### Container-based Server Example
 
 ```yaml
 image: ghcr.io/github/github-mcp-server:v0.10.0
@@ -99,16 +124,60 @@ tier: Official
 status: Active
 ```
 
+#### Remote Server Example
+
+```yaml
+url: https://api.example.com/mcp/v1
+description: Provides access to Example API services via MCP
+transport: sse
+repository_url: https://github.com/example/mcp-server
+
+tools:
+  - fetch_data
+  - process_request
+  - submit_job
+
+# Authentication headers for the remote server
+headers:
+  - name: X-API-Key
+    description: API key for authentication
+    required: true
+    secret: true
+
+# OAuth configuration (alternative to headers)
+oauth_config:
+  issuer: https://auth.example.com
+  client_id: mcp-client
+  scopes:
+    - read
+    - write
+
+tags:
+  - api
+  - remote
+  - cloud
+
+tier: Community
+status: Active
+```
+
 ## Common Questions
 
 ### What is "transport"?
 
-This tells ToolHive how to communicate with your server. Most servers use:
+This tells ToolHive how to communicate with your server:
+
+For **container-based servers**:
 - `stdio` - Standard input/output (most common)
 - `sse` - Server-sent events
 - `streamable-http` - HTTP streaming
 
-If you're not sure, use `stdio`.
+For **remote servers**:
+- `sse` - Server-sent events (recommended)
+- `streamable-http` - HTTP streaming
+- **Note:** Remote servers cannot use `stdio`
+
+If you're not sure, use `stdio` for containers and `sse` for remote servers.
 
 ### What is "tier"?
 
@@ -124,10 +193,12 @@ If you're not sure, use `stdio`.
 
 ### Do I need a Docker image?
 
-Yes! Your MCP server must be packaged as a Docker image and published to a registry like:
+**For container-based servers:** Yes! Your MCP server must be packaged as a Docker image and published to a registry like:
 - Docker Hub (`docker.io/username/image`)
 - GitHub Container Registry (`ghcr.io/username/image`)
 - Other public registries
+
+**For remote servers:** No! You just need to provide the URL endpoint where your MCP server is accessible.
 
 ### How do I test my entry?
 
@@ -149,11 +220,20 @@ Or submit a pull request and our automated checks will validate it for you.
 
 ### Before Submitting, Please Ensure:
 
+For **container-based servers**:
 - [ ] Your Docker image is publicly accessible
 - [ ] The `description` clearly explains what your server does
 - [ ] You've listed all the tools your server provides
 - [ ] Any required environment variables are documented
 - [ ] Your server actually works with ToolHive
+
+For **remote servers**:
+- [ ] Your server endpoint is publicly accessible
+- [ ] The `description` clearly explains what your server does
+- [ ] You've listed all the tools your server provides
+- [ ] Any required authentication (headers/OAuth) is documented
+- [ ] The transport is set to `sse` or `streamable-http` (not `stdio`)
+- [ ] Your server actually works with ToolHive's proxy command
 
 ## Need Help?
 
