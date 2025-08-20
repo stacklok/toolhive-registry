@@ -64,7 +64,7 @@ func (c *Client) RunServer(spec *types.RegistryEntry, serverName string) (string
 		logger.Debugf("Running command: thv %s", strings.Join(runArgs, " "))
 	}
 
-	runCmd := exec.Command(c.thvPath, runArgs...)
+	runCmd := exec.Command(c.thvPath, runArgs...) // #nosec G204 - thvPath is validated in NewClient
 	runOutput, err := runCmd.CombinedOutput()
 	if err != nil {
 		return "", fmt.Errorf("failed to start MCP server: %w\nOutput: %s", err, string(runOutput))
@@ -85,7 +85,7 @@ func (c *Client) ListTools(serverName string) ([]string, error) {
 		AddFlag("--format", "json").
 		Build()
 
-	listCmd := exec.Command(c.thvPath, listArgs...)
+	listCmd := exec.Command(c.thvPath, listArgs...) // #nosec G204 - thvPath is validated in NewClient
 	output, err := listCmd.CombinedOutput()
 	if err != nil {
 		return nil, fmt.Errorf("thv mcp list failed: %w\nOutput: %s", err, string(output))
@@ -96,7 +96,7 @@ func (c *Client) ListTools(serverName string) ([]string, error) {
 
 // StopServer stops a running MCP server
 func (c *Client) StopServer(serverName string) error {
-	stopCmd := exec.Command(c.thvPath, "stop", serverName)
+	stopCmd := exec.Command(c.thvPath, "stop", serverName) // #nosec G204 - thvPath is validated in NewClient
 	if err := stopCmd.Run(); err != nil {
 		return fmt.Errorf("failed to stop server %s: %w", serverName, err)
 	}
@@ -105,7 +105,7 @@ func (c *Client) StopServer(serverName string) error {
 
 // RemoveServer removes a stopped MCP server
 func (c *Client) RemoveServer(serverName string) error {
-	removeCmd := exec.Command(c.thvPath, "rm", serverName)
+	removeCmd := exec.Command(c.thvPath, "rm", serverName) // #nosec G204 - thvPath is validated in NewClient
 	if err := removeCmd.Run(); err != nil {
 		return fmt.Errorf("failed to remove server %s: %w", serverName, err)
 	}

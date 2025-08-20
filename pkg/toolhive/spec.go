@@ -12,7 +12,7 @@ import (
 // UpdateSpecTools updates the tools field in a spec file
 func UpdateSpecTools(path string, tools []string) error {
 	// Read the original file
-	data, err := os.ReadFile(path)
+	data, err := os.ReadFile(path) // #nosec G304 - path is controlled by application
 	if err != nil {
 		return fmt.Errorf("failed to read file: %w", err)
 	}
@@ -37,7 +37,7 @@ func UpdateSpecTools(path string, tools []string) error {
 	}
 
 	// Write back to file
-	return os.WriteFile(path, buf.Bytes(), 0644)
+	return os.WriteFile(path, buf.Bytes(), 0600)
 }
 
 // updateToolsInNode updates the tools field in the YAML node tree
@@ -90,7 +90,7 @@ func updateToolsInNode(node *yaml.Node, tools []string) error {
 // AddWarningComment adds a warning comment to a spec file
 func AddWarningComment(path, warning, detail string) error {
 	// Read the original file
-	data, err := os.ReadFile(path)
+	data, err := os.ReadFile(path) // #nosec G304 - path is controlled by application
 	if err != nil {
 		return fmt.Errorf("failed to read file: %w", err)
 	}
@@ -139,5 +139,5 @@ func AddWarningComment(path, warning, detail string) error {
 	}
 
 	// Write back to file
-	return os.WriteFile(path, output.Bytes(), 0644)
+	return os.WriteFile(path, output.Bytes(), 0600)
 }
