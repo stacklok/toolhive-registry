@@ -17,6 +17,25 @@ permissions:
   pull-requests: read
 
 jobs:
+  lint:
+    name: Lint Go Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          args: --timeout=5m
+
   validate-and-test:
     name: Validate and Test
     runs-on: ubuntu-latest
@@ -55,7 +74,7 @@ jobs:
   build-and-release:
     name: Build and Release Registry
     runs-on: ubuntu-latest
-    needs: validate-and-test
+    needs: [lint, validate-and-test]
     if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     steps:
       - name: Checkout code
