@@ -37,7 +37,9 @@ upstream MCP Registry format, use the 'migrate' command (future).`,
 }
 
 func init() {
-	rootCmd.Flags().StringVarP(&sourceURL, "url", "u", "https://raw.githubusercontent.com/stacklok/toolhive/main/pkg/registry/data/registry.json", "URL to fetch registry.json from")
+	rootCmd.Flags().StringVarP(&sourceURL, "url", "u",
+		"https://raw.githubusercontent.com/stacklok/toolhive/main/pkg/registry/data/registry.json",
+		"URL to fetch registry.json from")
 	rootCmd.Flags().StringVarP(&sourceFile, "file", "f", "", "Local registry.json file (overrides URL)")
 	rootCmd.Flags().StringVarP(&outputDir, "output", "o", "registry", "Output directory for YAML files")
 	rootCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose output")
