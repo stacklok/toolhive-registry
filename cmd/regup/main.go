@@ -113,7 +113,7 @@ func loadSpec(path string) (serverWithName, error) {
 	}
 
 	// Read the spec file
-	data, err := os.ReadFile(path)
+	data, err := os.ReadFile(path) // #nosec G304 - file path is constructed from known directory
 	if err != nil {
 		return serverWithName{}, fmt.Errorf("failed to read spec file: %w", err)
 	}
@@ -236,7 +236,7 @@ func updateServerInfo(server serverWithName) error {
 // updateYAMLPreservingStructure updates the YAML file while preserving comments and structure
 func updateYAMLPreservingStructure(path string, stars, pulls int) error {
 	// Read the original file
-	data, err := os.ReadFile(path)
+	data, err := os.ReadFile(path) // #nosec G304 - file path is constructed from known directory
 	if err != nil {
 		return fmt.Errorf("failed to read file: %w", err)
 	}
@@ -261,7 +261,7 @@ func updateYAMLPreservingStructure(path string, stars, pulls int) error {
 	}
 
 	// Write back to file
-	return os.WriteFile(path, buf.Bytes(), 0644)
+	return os.WriteFile(path, buf.Bytes(), 0600)
 }
 
 // updateMetadataInNode updates metadata fields in the YAML node tree

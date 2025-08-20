@@ -86,7 +86,7 @@ func (l *Loader) LoadAll() error {
 
 // LoadEntry loads a single registry entry from a YAML file
 func (l *Loader) LoadEntry(path string) (*types.RegistryEntry, error) {
-	file, err := os.Open(path)
+	file, err := os.Open(path) // #nosec G304 - path is constructed from known directory structure
 	if err != nil {
 		return nil, fmt.Errorf("failed to open file: %w", err)
 	}
@@ -410,7 +410,7 @@ func (b *Builder) WriteJSON(path string) error {
 
 	// Create the directory if it doesn't exist
 	dir := filepath.Dir(path)
-	if err := os.MkdirAll(dir, 0755); err != nil {
+	if err := os.MkdirAll(dir, 0750); err != nil {
 		return fmt.Errorf("failed to create directory: %w", err)
 	}
 
@@ -433,7 +433,7 @@ func (b *Builder) WriteJSON(path string) error {
 	}
 
 	// Write to file
-	if err := os.WriteFile(path, data, 0644); err != nil {
+	if err := os.WriteFile(path, data, 0600); err != nil {
 		return fmt.Errorf("failed to write file: %w", err)
 	}
 
