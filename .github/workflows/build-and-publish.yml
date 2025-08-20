@@ -77,7 +77,10 @@ jobs:
           mkdir -p dist
           ./registry-builder build -v
           cp build/registry.json dist/registry.json
-          echo "Registry built successfully with $(jq '.servers | length' dist/registry.json) entries"
+          CONTAINER_COUNT=$(jq '.servers | length' dist/registry.json)
+          REMOTE_COUNT=$(jq '.remote_servers | length // 0' dist/registry.json)
+          TOTAL_COUNT=$((CONTAINER_COUNT + REMOTE_COUNT))
+          echo "Registry built successfully with $TOTAL_COUNT entries ($CONTAINER_COUNT container-based, $REMOTE_COUNT remote)"
 
       - name: Validate JSON
         run: |
@@ -92,6 +95,9 @@ jobs:
           jq -e '.servers' dist/registry.json > /dev/null
           echo "✅ Has servers field"
           
+          # Check for remote_servers field (may be empty)
+          jq -e 'has("remote_servers")' dist/registry.json > /dev/null && echo "✅ Has remote_servers field" || echo "⚠️ No remote_servers field"
+          
           jq -e '."$schema"' dist/registry.json > /dev/null
           echo "✅ Has schema field"
 
@@ -104,16 +110,40 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
           
-          # Count servers by status and tier
-          TOTAL=$(jq '.servers | length' dist/registry.json)
-          ACTIVE=$(jq '[.servers[] | select(.status == "Active")] | length' dist/registry.json)
-          BETA=$(jq '[.servers[] | select(.status == "Beta")] | length' dist/registry.json)
-          DEPRECATED=$(jq '[.servers[] | select(.status == "Deprecated")] | length' dist/registry.json)
-          OFFICIAL=$(jq '[.servers[] | select(.tier == "Official")] | length' dist/registry.json)
-          PARTNER=$(jq '[.servers[] | select(.tier == "Partner")] | length' dist/registry.json)
-          COMMUNITY=$(jq '[.servers[] | select(.tier == "Community")] | length' dist/registry.json)
+          # Count servers by status and tier (including both container and remote servers)
+          CONTAINER_COUNT=$(jq '.servers | length' dist/registry.json)
+          REMOTE_COUNT=$(jq '.remote_servers | length // 0' dist/registry.json)
+          TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
+          
+          # Count by status (combine container and remote servers)
+          ACTIVE_CONTAINER=$(jq '[.servers[] | select(.status == "Active")] | length' dist/registry.json)
+          ACTIVE_REMOTE=$(jq '[.remote_servers[] | select(.status == "Active")] | length // 0' dist/registry.json)
+          ACTIVE=$((ACTIVE_CONTAINER + ACTIVE_REMOTE))
+          
+          BETA_CONTAINER=$(jq '[.servers[] | select(.status == "Beta")] | length' dist/registry.json)
+          BETA_REMOTE=$(jq '[.remote_servers[] | select(.status == "Beta")] | length // 0' dist/registry.json)
+          BETA=$((BETA_CONTAINER + BETA_REMOTE))
+          
+          DEPRECATED_CONTAINER=$(jq '[.servers[] | select(.status == "Deprecated")] | length' dist/registry.json)
+          DEPRECATED_REMOTE=$(jq '[.remote_servers[] | select(.status == "Deprecated")] | length // 0' dist/registry.json)
+          DEPRECATED=$((DEPRECATED_CONTAINER + DEPRECATED_REMOTE))
+          
+          # Count by tier (combine container and remote servers)
+          OFFICIAL_CONTAINER=$(jq '[.servers[] | select(.tier == "Official")] | length' dist/registry.json)
+          OFFICIAL_REMOTE=$(jq '[.remote_servers[] | select(.tier == "Official")] | length // 0' dist/registry.json)
+          OFFICIAL=$((OFFICIAL_CONTAINER + OFFICIAL_REMOTE))
+          
+          PARTNER_CONTAINER=$(jq '[.servers[] | select(.tier == "Partner")] | length' dist/registry.json)
+          PARTNER_REMOTE=$(jq '[.remote_servers[] | select(.tier == "Partner")] | length // 0' dist/registry.json)
+          PARTNER=$((PARTNER_CONTAINER + PARTNER_REMOTE))
+          
+          COMMUNITY_CONTAINER=$(jq '[.servers[] | select(.tier == "Community")] | length' dist/registry.json)
+          COMMUNITY_REMOTE=$(jq '[.remote_servers[] | select(.tier == "Community")] | length // 0' dist/registry.json)
+          COMMUNITY=$((COMMUNITY_CONTAINER + COMMUNITY_REMOTE))
           
           echo "total=$TOTAL" >> $GITHUB_OUTPUT
+          echo "container_count=$CONTAINER_COUNT" >> $GITHUB_OUTPUT
+          echo "remote_count=$REMOTE_COUNT" >> $GITHUB_OUTPUT
           echo "active=$ACTIVE" >> $GITHUB_OUTPUT
           echo "beta=$BETA" >> $GITHUB_OUTPUT
           echo "deprecated=$DEPRECATED" >> $GITHUB_OUTPUT
@@ -188,6 +218,8 @@ jobs:
             | Category | Count |
             |----------|-------|
             | **Total Servers** | ${{ steps.metadata.outputs.total }} |
+            | **Container-based** | ${{ steps.metadata.outputs.container_count }} |
+            | **Remote** | ${{ steps.metadata.outputs.remote_count }} |
             | **Active** | ${{ steps.metadata.outputs.active }} |
             | **Beta** | ${{ steps.metadata.outputs.beta }} |
             | **Deprecated** | ${{ steps.metadata.outputs.deprecated }} |
@@ -272,7 +304,9 @@ jobs:
 
       - name: Generate PR comment
         run: |
-          TOTAL=$(jq '.servers | length' build/registry.json)
+          CONTAINER_COUNT=$(jq '.servers | length' build/registry.json)
+          REMOTE_COUNT=$(jq '.remote_servers | length // 0' build/registry.json)
+          TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
           SIZE=$(du -h build/registry.json | cut -f1)
           
           echo "## 📦 Registry Build Preview" > pr-comment.md
@@ -280,6 +314,8 @@ jobs:
           echo "✅ Registry built successfully!" >> pr-comment.md
           echo "" >> pr-comment.md
           echo "- **Total Servers**: $TOTAL" >> pr-comment.md
+          echo "  - Container-based: $CONTAINER_COUNT" >> pr-comment.md
+          echo "  - Remote: $REMOTE_COUNT" >> pr-comment.md
           echo "- **File Size**: $SIZE" >> pr-comment.md
           echo "- **Last Updated**: $(jq -r '.last_updated' build/registry.json)" >> pr-comment.md
           echo "" >> pr-comment.md
