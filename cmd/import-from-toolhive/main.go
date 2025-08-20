@@ -63,7 +63,7 @@ func runImport(cmd *cobra.Command, args []string) error {
 		if verbose {
 			log.Printf("Loading registry from file: %s", sourceFile)
 		}
-		registryData, err = os.ReadFile(sourceFile)
+		registryData, err = os.ReadFile(sourceFile) // #nosec G304 - file path comes from command line flag
 		if err != nil {
 			return fmt.Errorf("failed to read file: %w", err)
 		}
@@ -72,7 +72,7 @@ func runImport(cmd *cobra.Command, args []string) error {
 		if verbose {
 			log.Printf("Fetching registry from URL: %s", sourceURL)
 		}
-		resp, err := http.Get(sourceURL)
+		resp, err := http.Get(sourceURL) // #nosec G107 - URL comes from command line flag
 		if err != nil {
 			return fmt.Errorf("failed to fetch registry: %w", err)
 		}
@@ -153,7 +153,7 @@ func importEntry(name string, server *toolhiveRegistry.ImageMetadata, outputDir 
 	}
 
 	// Create the directory
-	if err := os.MkdirAll(entryDir, 0755); err != nil {
+	if err := os.MkdirAll(entryDir, 0750); err != nil {
 		return fmt.Errorf("failed to create directory: %w", err)
 	}
 
@@ -180,7 +180,7 @@ func importEntry(name string, server *toolhiveRegistry.ImageMetadata, outputDir 
 	finalContent := header + string(yamlData)
 
 	// Write the spec.yaml file
-	if err := os.WriteFile(specPath, []byte(finalContent), 0644); err != nil {
+	if err := os.WriteFile(specPath, []byte(finalContent), 0600); err != nil {
 		return fmt.Errorf("failed to write spec.yaml: %w", err)
 	}
 
@@ -188,7 +188,7 @@ func importEntry(name string, server *toolhiveRegistry.ImageMetadata, outputDir 
 	if shouldCreateReadme(server) {
 		readmePath := filepath.Join(entryDir, "README.md")
 		readmeContent := generateReadme(name, server)
-		if err := os.WriteFile(readmePath, []byte(readmeContent), 0644); err != nil {
+		if err := os.WriteFile(readmePath, []byte(readmeContent), 0600); err != nil {
 			// Non-fatal error
 			if verbose {
 				log.Printf("Warning: Failed to write README for %s: %v", name, err)
