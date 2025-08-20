@@ -51,8 +51,10 @@ jobs:
           TEMP_FILE=$(mktemp)
           
           for spec in $SPECS; do
-            # Extract lastupdated field, default to epoch if not found
-            LAST_UPDATED=$(grep -A1 "metadata:" "$spec" | grep "lastupdated:" | cut -d'"' -f2 || echo "1970-01-01T00:00:00Z")
+            # Extract last_updated field using yq, default to epoch if not found
+            LAST_UPDATED=$(yq eval '.metadata.last_updated // "1970-01-01T00:00:00Z"' "$spec" 2>/dev/null || echo "1970-01-01T00:00:00Z")
+            # Remove quotes if present
+            LAST_UPDATED=$(echo "$LAST_UPDATED" | tr -d '"')
             echo "$LAST_UPDATED $spec" >> "$TEMP_FILE"
           done
           
@@ -75,8 +77,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Update each spec file
-          IFS=$'\n'
-          for spec in ${{ steps.get-entries.outputs.specs }}; do
+          echo '${{ steps.get-entries.outputs.specs }}' | while IFS= read -r spec; do
             if [ -n "$spec" ]; then
               echo "Updating metadata for $spec"
               ./regup "$spec" || echo "Warning: Failed to update $spec"
