@@ -70,52 +70,76 @@ func runUpdate(_ *cobra.Command, args []string) error {
 		logger.Infof("Spec file: %s", specPath)
 	}
 
-	// Load current spec file
-	currentSpec, err := loadSpec(specPath)
+	// Load current spec and get tools
+	currentTools, err := getCurrentTools()
 	if err != nil {
-		return fmt.Errorf("failed to load spec: %w", err)
+		return err
 	}
-
-	// Get current tools
-	currentTools := currentSpec.GetTools()
-	logger.Infof("Current tools count: %d", len(currentTools))
 
 	// Fetch new tools from thv
 	newTools, err := fetchToolsFromMCP(serverName)
 	if err != nil {
-		logger.Warnf("Failed to fetch tools from MCP server: %v", err)
-
-		if len(currentTools) > 0 && addWarnings {
-			if !dryRun {
-				if err := toolhive.AddWarningComment(specPath, "Tool list fetch failed", "Manual verification may be required"); err != nil {
-					logger.Warnf("Failed to add warning comment: %v", err)
-				}
-			} else {
-				logger.Info("[DRY RUN] Would add warning comment about fetch failure")
-			}
-		}
-		return fmt.Errorf("failed to fetch tools: %w", err)
+		return handleFetchError(err, currentTools)
 	}
 
 	logger.Infof("New tools count: %d", len(newTools))
 
-	// Handle case where no tools detected but spec had tools before
+	// Handle empty tools case
+	if err := handleEmptyTools(newTools, currentTools); err != nil {
+		return err
+	}
+
+	// Compare and update tools
+	return compareAndUpdateTools(currentTools, newTools)
+}
+
+func getCurrentTools() ([]string, error) {
+	currentSpec, err := loadSpec(specPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to load spec: %w", err)
+	}
+
+	currentTools := currentSpec.GetTools()
+	logger.Infof("Current tools count: %d", len(currentTools))
+	return currentTools, nil
+}
+
+func handleFetchError(err error, currentTools []string) error {
+	logger.Warnf("Failed to fetch tools from MCP server: %v", err)
+
+	if len(currentTools) > 0 && addWarnings {
+		if !dryRun {
+			if err := toolhive.AddWarningComment(specPath, "Tool list fetch failed", "Manual verification may be required"); err != nil {
+				logger.Warnf("Failed to add warning comment: %v", err)
+			}
+		} else {
+			logger.Info("[DRY RUN] Would add warning comment about fetch failure")
+		}
+	}
+	return fmt.Errorf("failed to fetch tools: %w", err)
+}
+
+func handleEmptyTools(newTools, currentTools []string) error {
 	if len(newTools) == 0 && len(currentTools) > 0 {
 		logger.Warnf("No tools detected but spec file had %d tools previously", len(currentTools))
 		logger.Info("Keeping existing tools list")
 
 		if addWarnings {
 			if !dryRun {
-				if err := toolhive.AddWarningComment(specPath, "Tool list could not be auto-updated", "Please verify the tools list manually"); err != nil {
+				if err := toolhive.AddWarningComment(specPath, "Tool list could not be auto-updated",
+					"Please verify the tools list manually"); err != nil {
 					logger.Warnf("Failed to add warning comment: %v", err)
 				}
 			} else {
 				logger.Info("[DRY RUN] Would add warning comment about empty tool list")
 			}
 		}
-		return nil
+		return fmt.Errorf("empty tools list detected")
 	}
+	return nil
+}
 
+func compareAndUpdateTools(currentTools, newTools []string) error {
 	// Sort both lists for comparison
 	sort.Strings(currentTools)
 	sort.Strings(newTools)
@@ -148,7 +172,7 @@ func runUpdate(_ *cobra.Command, args []string) error {
 }
 
 func loadSpec(path string) (*types.RegistryEntry, error) {
-	data, err := os.ReadFile(path)
+	data, err := os.ReadFile(path) // #nosec G304 - path is controlled by application
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file: %w", err)
 	}
@@ -198,22 +222,22 @@ func fetchToolsFromMCP(serverName string) ([]string, error) {
 	return tools, nil
 }
 
-func showDetailedDiff(current, new []string) {
-	diff := cmp.Diff(current, new)
+func showDetailedDiff(current, newTools []string) {
+	diff := cmp.Diff(current, newTools)
 	if diff != "" {
 		logger.Info("Detailed diff:")
 		fmt.Println(diff)
 	}
 }
 
-func showSummaryDiff(current, new []string) {
+func showSummaryDiff(current, newTools []string) {
 	currentSet := make(map[string]bool)
 	newSet := make(map[string]bool)
 
 	for _, t := range current {
 		currentSet[t] = true
 	}
-	for _, t := range new {
+	for _, t := range newTools {
 		newSet[t] = true
 	}
 

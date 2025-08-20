@@ -151,7 +151,21 @@ func updateServerInfo(server serverWithName) error {
 		}
 	}
 
-	// Get repository URL based on server type
+	repoURL, metadata, err := getServerMetadata(server)
+	if err != nil {
+		return err
+	}
+
+	currentStars := metadata.Stars
+	currentPulls := metadata.Pulls
+
+	newStars := getUpdatedStars(repoURL, currentStars, server.name)
+	newPulls := getUpdatedPulls(server, currentPulls)
+
+	return updateServerMetadata(server, currentStars, newStars, currentPulls, newPulls)
+}
+
+func getServerMetadata(server serverWithName) (string, *registry.Metadata, error) {
 	var repoURL string
 	var metadata *registry.Metadata
 
@@ -168,57 +182,57 @@ func updateServerInfo(server serverWithName) error {
 		}
 		metadata = server.entry.RemoteServerMetadata.Metadata
 	} else {
-		return fmt.Errorf("unable to determine server type for %s", server.name)
+		return "", nil, fmt.Errorf("unable to determine server type for %s", server.name)
 	}
 
 	if repoURL == "" {
 		logger.Warnf("Server %s has no repository URL, skipping GitHub stars update", server.name)
 	}
 
-	// Get current values
-	currentStars := metadata.Stars
-	currentPulls := metadata.Pulls
+	return repoURL, metadata, nil
+}
 
-	// Extract owner and repo from repository URL
-	var newStars, newPulls int
-
-	// Get GitHub stars if we have a repository URL
-	if repoURL != "" {
-		owner, repo, err := extractOwnerRepo(repoURL)
-		if err != nil {
-			logger.Warnf("Failed to extract owner/repo from URL %s: %v", repoURL, err)
-			newStars = currentStars
-		} else {
-			// Get repository info from GitHub API
-			stars, _, err := getGitHubRepoInfo(owner, repo, server.name, currentPulls)
-			if err != nil {
-				logger.Warnf("Failed to get GitHub repo info for %s: %v", server.name, err)
-				newStars = currentStars
-			} else {
-				newStars = stars
-			}
-		}
-	} else {
-		newStars = currentStars
+func getUpdatedStars(repoURL string, currentStars int, serverName string) int {
+	if repoURL == "" {
+		return currentStars
 	}
 
-	// Get container pull count if we have an image
-	if server.entry.IsImage() && server.entry.ImageMetadata != nil && server.entry.Image != "" {
-		pullCount, err := getContainerPullCount(server.entry.Image)
-		if err != nil {
-			logger.Warnf("Failed to get pull count for image %s: %v", server.entry.Image, err)
-			newPulls = currentPulls
-		} else if pullCount > 0 {
-			newPulls = pullCount
-		} else {
-			// No pull count available (GHCR or private registry)
-			newPulls = currentPulls
-		}
-	} else {
-		newPulls = currentPulls
+	owner, repo, err := extractOwnerRepo(repoURL)
+	if err != nil {
+		logger.Warnf("Failed to extract owner/repo from URL %s: %v", repoURL, err)
+		return currentStars
 	}
 
-	// Update server metadata
+	// Get repository info from GitHub API
+	stars, _, err := getGitHubRepoInfo(owner, repo, serverName, currentStars)
+	if err != nil {
+		logger.Warnf("Failed to get GitHub repo info for %s: %v", serverName, err)
+		return currentStars
+	}
+
+	return stars
+}
+
+func getUpdatedPulls(server serverWithName, currentPulls int) int {
+	if !server.entry.IsImage() || server.entry.ImageMetadata == nil || server.entry.Image == "" {
+		return currentPulls
+	}
+
+	pullCount, err := getContainerPullCount(server.entry.Image)
+	if err != nil {
+		logger.Warnf("Failed to get pull count for image %s: %v", server.entry.Image, err)
+		return currentPulls
+	}
+
+	if pullCount > 0 {
+		return pullCount
+	}
+
+	// No pull count available (GHCR or private registry)
+	return currentPulls
+}
+
+func updateServerMetadata(server serverWithName, currentStars, newStars, currentPulls, newPulls int) error {
 	if dryRun {
 		logger.Infof("[DRY RUN] Would update %s: stars %d -> %d, pulls %d -> %d",
 			server.name, currentStars, newStars, currentPulls, newPulls)
@@ -481,33 +495,80 @@ func getGHCRPullCount(imageName string) (int, error) {
 		return 0, nil
 	}
 
+	owner, packageName, err := parseGHCRImageName(imageName)
+	if err != nil {
+		return 0, err
+	}
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	url, err := fetchGHCRPackageInfo(client, owner, packageName)
+	if err != nil {
+		return 0, err
+	}
+
+	return fetchGHCRVersions(client, url, imageName)
+}
+
+func parseGHCRImageName(imageName string) (string, string, error) {
 	// Parse the image name: ghcr.io/owner/repo/package or ghcr.io/owner/package
 	imageName = strings.TrimPrefix(imageName, "ghcr.io/")
 	parts := strings.Split(imageName, "/")
 	if len(parts) < 2 {
-		return 0, fmt.Errorf("invalid GHCR image format: %s", imageName)
+		return "", "", fmt.Errorf("invalid GHCR image format: %s", imageName)
 	}
 
 	owner := parts[0]
 	// The package name is everything after the owner
 	packageName := strings.Join(parts[1:], "/")
+	return owner, packageName, nil
+}
 
+func fetchGHCRPackageInfo(client *http.Client, owner, packageName string) (string, error) {
 	// GitHub Packages API endpoint for container packages
-	// Note: This requires the package to be public or the token to have package:read scope
 	url := fmt.Sprintf("https://api.github.com/users/%s/packages/container/%s", owner, packageName)
 
-	client := &http.Client{
-		Timeout: 10 * time.Second,
-	}
-
-	req, err := http.NewRequestWithContext(context.Background(), "GET", url, nil)
+	resp, err := makeGHCRRequest(client, url)
 	if err != nil {
 		// Try org endpoint if user endpoint fails
 		url = fmt.Sprintf("https://api.github.com/orgs/%s/packages/container/%s", owner, packageName)
-		req, err = http.NewRequestWithContext(context.Background(), "GET", url, nil)
+		resp, err = makeGHCRRequest(client, url)
 		if err != nil {
-			return 0, fmt.Errorf("failed to create request: %w", err)
+			return "", err
 		}
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusNotFound && strings.Contains(url, "/users/") {
+		// Try org endpoint if user endpoint returned 404
+		url = strings.Replace(url, "/users/", "/orgs/", 1)
+		resp, err = makeGHCRRequest(client, url)
+		if err != nil {
+			return "", err
+		}
+		defer resp.Body.Close()
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		logger.Debugf("Could not fetch GHCR package stats (status %d)", resp.StatusCode)
+		return "", fmt.Errorf("package not found or no access")
+	}
+
+	var packageInfo struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&packageInfo); err != nil {
+		return "", fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return url, nil
+}
+
+func makeGHCRRequest(client *http.Client, url string) (*http.Response, error) {
+	req, err := http.NewRequestWithContext(context.Background(), "GET", url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
 
 	req.Header.Add("Accept", "application/vnd.github.v3+json")
@@ -515,60 +576,17 @@ func getGHCRPullCount(imageName string) (int, error) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return 0, fmt.Errorf("failed to send request: %w", err)
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode == http.StatusNotFound {
-		// Try org endpoint if user endpoint returned 404
-		if strings.Contains(url, "/users/") {
-			url = strings.Replace(url, "/users/", "/orgs/", 1)
-			req, err = http.NewRequestWithContext(context.Background(), "GET", url, nil)
-			if err != nil {
-				return 0, fmt.Errorf("failed to create request: %w", err)
-			}
-
-			req.Header.Add("Accept", "application/vnd.github.v3+json")
-			req.Header.Add("Authorization", "token "+githubToken)
-
-			resp, err = client.Do(req)
-			if err != nil {
-				return 0, fmt.Errorf("failed to send request: %w", err)
-			}
-			defer resp.Body.Close()
-		}
+		return nil, fmt.Errorf("failed to send request: %w", err)
 	}
 
-	if resp.StatusCode != http.StatusOK {
-		// Package not found or no access - return 0
-		logger.Debugf("Could not fetch GHCR package stats (status %d) for %s", resp.StatusCode, imageName)
-		return 0, nil
-	}
+	return resp, nil
+}
 
-	// GitHub Packages API doesn't directly expose download count in the package endpoint
-	// We need to get package versions and sum their download counts
-	var packageInfo struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-	}
-
-	if err := json.NewDecoder(resp.Body).Decode(&packageInfo); err != nil {
-		return 0, fmt.Errorf("failed to parse response: %w", err)
-	}
-
-	// Now get all versions to sum download counts
-	versionsURL := fmt.Sprintf("%s/versions?per_page=100", url)
-	req, err = http.NewRequestWithContext(context.Background(), "GET", versionsURL, nil)
+func fetchGHCRVersions(client *http.Client, baseURL, imageName string) (int, error) {
+	versionsURL := fmt.Sprintf("%s/versions?per_page=100", baseURL)
+	resp, err := makeGHCRRequest(client, versionsURL)
 	if err != nil {
 		return 0, fmt.Errorf("failed to create versions request: %w", err)
-	}
-
-	req.Header.Add("Accept", "application/vnd.github.v3+json")
-	req.Header.Add("Authorization", "token "+githubToken)
-
-	resp, err = client.Do(req)
-	if err != nil {
-		return 0, fmt.Errorf("failed to send versions request: %w", err)
 	}
 	defer resp.Body.Close()
 

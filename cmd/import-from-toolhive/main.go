@@ -53,45 +53,15 @@ func main() {
 	}
 }
 
-func runImport(cmd *cobra.Command, args []string) error {
-	// Load the registry JSON
-	var registryData []byte
-	var err error
-
-	if sourceFile != "" {
-		// Load from file
-		if verbose {
-			log.Printf("Loading registry from file: %s", sourceFile)
-		}
-		registryData, err = os.ReadFile(sourceFile) // #nosec G304 - file path comes from command line flag
-		if err != nil {
-			return fmt.Errorf("failed to read file: %w", err)
-		}
-	} else {
-		// Fetch from URL
-		if verbose {
-			log.Printf("Fetching registry from URL: %s", sourceURL)
-		}
-		resp, err := http.Get(sourceURL) // #nosec G107 - URL comes from command line flag
-		if err != nil {
-			return fmt.Errorf("failed to fetch registry: %w", err)
-		}
-		defer resp.Body.Close()
-
-		if resp.StatusCode != http.StatusOK {
-			return fmt.Errorf("failed to fetch registry: HTTP %d", resp.StatusCode)
-		}
-
-		registryData, err = io.ReadAll(resp.Body)
-		if err != nil {
-			return fmt.Errorf("failed to read response: %w", err)
-		}
+func runImport(_ *cobra.Command, _ []string) error {
+	registryData, err := loadRegistryData()
+	if err != nil {
+		return err
 	}
 
-	// Parse the JSON
-	var registry toolhiveRegistry.Registry
-	if err := json.Unmarshal(registryData, &registry); err != nil {
-		return fmt.Errorf("failed to parse registry JSON: %w", err)
+	registry, err := parseRegistry(registryData)
+	if err != nil {
+		return err
 	}
 
 	fmt.Printf("Found %d registry entries to import\n", len(registry.Servers))
@@ -101,7 +71,75 @@ func runImport(cmd *cobra.Command, args []string) error {
 		fmt.Println("\nWould create the following structure:")
 	}
 
-	// Process each server entry in alphabetical order
+	successCount := processRegistryEntries(registry)
+	printImportSummary(successCount, len(registry.Servers))
+
+	return nil
+}
+
+func loadRegistryData() ([]byte, error) {
+	if sourceFile != "" {
+		return loadFromFile()
+	}
+	return loadFromURL()
+}
+
+func loadFromFile() ([]byte, error) {
+	if verbose {
+		log.Printf("Loading registry from file: %s", sourceFile)
+	}
+	registryData, err := os.ReadFile(sourceFile) // #nosec G304 - file path comes from command line flag
+	if err != nil {
+		return nil, fmt.Errorf("failed to read file: %w", err)
+	}
+	return registryData, nil
+}
+
+func loadFromURL() ([]byte, error) {
+	if verbose {
+		log.Printf("Fetching registry from URL: %s", sourceURL)
+	}
+	resp, err := http.Get(sourceURL) // #nosec G107 - URL comes from command line flag
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch registry: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("failed to fetch registry: HTTP %d", resp.StatusCode)
+	}
+
+	registryData, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read response: %w", err)
+	}
+	return registryData, nil
+}
+
+func parseRegistry(registryData []byte) (*toolhiveRegistry.Registry, error) {
+	var registry toolhiveRegistry.Registry
+	if err := json.Unmarshal(registryData, &registry); err != nil {
+		return nil, fmt.Errorf("failed to parse registry JSON: %w", err)
+	}
+	return &registry, nil
+}
+
+func processRegistryEntries(registry *toolhiveRegistry.Registry) int {
+	names := getSortedServerNames(registry)
+
+	successCount := 0
+	for _, name := range names {
+		server := registry.Servers[name]
+		if err := importEntry(name, server, outputDir, dryRun); err != nil {
+			log.Printf("Warning: Failed to import %s: %v", name, err)
+			continue
+		}
+		successCount++
+	}
+	return successCount
+}
+
+func getSortedServerNames(registry *toolhiveRegistry.Registry) []string {
 	var names []string
 	for name := range registry.Servers {
 		names = append(names, name)
@@ -114,28 +152,19 @@ func runImport(cmd *cobra.Command, args []string) error {
 			}
 		}
 	}
+	return names
+}
 
-	successCount := 0
-	for _, name := range names {
-		server := registry.Servers[name]
-		if err := importEntry(name, server, outputDir, dryRun); err != nil {
-			log.Printf("Warning: Failed to import %s: %v", name, err)
-			continue
-		}
-		successCount++
-	}
-
+func printImportSummary(successCount, totalCount int) {
 	if !dryRun {
-		fmt.Printf("\n✓ Successfully imported %d/%d entries to %s\n", successCount, len(registry.Servers), outputDir)
+		fmt.Printf("\n✓ Successfully imported %d/%d entries to %s\n", successCount, totalCount, outputDir)
 		fmt.Println("\nNext steps:")
 		fmt.Println("  1. Review the imported entries in the registry/ directory")
 		fmt.Println("  2. Run 'registry-builder validate' to validate all entries")
 		fmt.Println("  3. Run 'registry-builder build' to generate the registry.json")
 	} else {
-		fmt.Printf("\n✓ Would import %d/%d entries\n", successCount, len(registry.Servers))
+		fmt.Printf("\n✓ Would import %d/%d entries\n", successCount, totalCount)
 	}
-
-	return nil
 }
 
 func importEntry(name string, server *toolhiveRegistry.ImageMetadata, outputDir string, dryRun bool) error {
@@ -240,120 +269,159 @@ func shouldCreateReadme(server *toolhiveRegistry.ImageMetadata) bool {
 func generateReadme(name string, server *toolhiveRegistry.ImageMetadata) string {
 	var readme strings.Builder
 
-	readme.WriteString(fmt.Sprintf("# %s\n\n", name))
+	addReadmeHeader(&readme, name, server.Description)
+	addBasicInformation(&readme, server)
+	addToolsSection(&readme, server.Tools)
+	addEnvironmentVariablesSection(&readme, server.EnvVars)
+	addTagsSection(&readme, server.Tags)
+	addMetadataSection(&readme, server.Metadata)
 
-	if server.Description != "" {
-		readme.WriteString(fmt.Sprintf("%s\n\n", server.Description))
+	return readme.String()
+}
+
+func addReadmeHeader(readme *strings.Builder, name, description string) {
+	fmt.Fprintf(readme, "# %s\n\n", name)
+	if description != "" {
+		fmt.Fprintf(readme, "%s\n\n", description)
 	}
+}
 
-	// Basic information section
+func addBasicInformation(readme *strings.Builder, server *toolhiveRegistry.ImageMetadata) {
 	readme.WriteString("## Basic Information\n\n")
 
 	if server.Image != "" {
-		readme.WriteString(fmt.Sprintf("- **Image:** `%s`\n", server.Image))
+		fmt.Fprintf(readme, "- **Image:** `%s`\n", server.Image)
 	}
-
 	if server.RepositoryURL != "" {
-		readme.WriteString(fmt.Sprintf("- **Repository:** [%s](%s)\n", server.RepositoryURL, server.RepositoryURL))
+		fmt.Fprintf(readme, "- **Repository:** [%s](%s)\n", server.RepositoryURL, server.RepositoryURL)
 	}
-
 	if server.Tier != "" {
-		readme.WriteString(fmt.Sprintf("- **Tier:** %s\n", server.Tier))
+		fmt.Fprintf(readme, "- **Tier:** %s\n", server.Tier)
 	}
-
 	if server.Status != "" {
-		readme.WriteString(fmt.Sprintf("- **Status:** %s\n", server.Status))
+		fmt.Fprintf(readme, "- **Status:** %s\n", server.Status)
 	}
-
 	if server.Transport != "" {
-		readme.WriteString(fmt.Sprintf("- **Transport:** %s\n", server.Transport))
+		fmt.Fprintf(readme, "- **Transport:** %s\n", server.Transport)
+	}
+}
+
+func addToolsSection(readme *strings.Builder, tools []string) {
+	if len(tools) == 0 {
+		return
 	}
 
-	// Tools section
-	if len(server.Tools) > 0 {
-		readme.WriteString("\n## Available Tools\n\n")
-		readme.WriteString(fmt.Sprintf("This server provides %d tools:\n\n", len(server.Tools)))
+	readme.WriteString("\n## Available Tools\n\n")
+	fmt.Fprintf(readme, "This server provides %d tools:\n\n", len(tools))
 
-		// Group tools in columns for better readability if there are many
-		if len(server.Tools) > 10 {
-			for i := 0; i < len(server.Tools); i += 3 {
-				for j := 0; j < 3 && i+j < len(server.Tools); j++ {
-					readme.WriteString(fmt.Sprintf("- `%s`", server.Tools[i+j]))
-					if j < 2 && i+j+1 < len(server.Tools) {
-						readme.WriteString(" | ")
-					}
-				}
-				readme.WriteString("\n")
-			}
-		} else {
-			for _, tool := range server.Tools {
-				readme.WriteString(fmt.Sprintf("- `%s`\n", tool))
-			}
-		}
+	if len(tools) > 10 {
+		addToolsInColumns(readme, tools)
+	} else {
+		addToolsList(readme, tools)
 	}
+}
 
-	// Environment Variables section
-	if len(server.EnvVars) > 0 {
-		readme.WriteString("\n## Environment Variables\n\n")
-
-		// Separate required and optional
-		var required, optional []*toolhiveRegistry.EnvVar
-		for _, env := range server.EnvVars {
-			if env.Required {
-				required = append(required, env)
-			} else {
-				optional = append(optional, env)
+func addToolsInColumns(readme *strings.Builder, tools []string) {
+	for i := 0; i < len(tools); i += 3 {
+		for j := 0; j < 3 && i+j < len(tools); j++ {
+			fmt.Fprintf(readme, "- `%s`", tools[i+j])
+			if j < 2 && i+j+1 < len(tools) {
+				readme.WriteString(" | ")
 			}
-		}
-
-		if len(required) > 0 {
-			readme.WriteString("### Required\n\n")
-			for _, env := range required {
-				secret := ""
-				if env.Secret {
-					secret = " 🔒"
-				}
-				readme.WriteString(fmt.Sprintf("- **%s**%s: %s\n", env.Name, secret, env.Description))
-			}
-		}
-
-		if len(optional) > 0 {
-			readme.WriteString("\n### Optional\n\n")
-			for _, env := range optional {
-				secret := ""
-				if env.Secret {
-					secret = " 🔒"
-				}
-				readme.WriteString(fmt.Sprintf("- **%s**%s: %s\n", env.Name, secret, env.Description))
-				if env.Default != "" {
-					readme.WriteString(fmt.Sprintf("  - Default: `%s`\n", env.Default))
-				}
-			}
-		}
-	}
-
-	// Tags section
-	if len(server.Tags) > 0 {
-		readme.WriteString("\n## Tags\n\n")
-		for _, tag := range server.Tags {
-			readme.WriteString(fmt.Sprintf("`%s` ", tag))
 		}
 		readme.WriteString("\n")
 	}
+}
 
-	// Metadata section
-	if server.Metadata != nil {
-		readme.WriteString("\n## Statistics\n\n")
-		if server.Metadata.Stars > 0 {
-			readme.WriteString(fmt.Sprintf("- ⭐ Stars: %d\n", server.Metadata.Stars))
-		}
-		if server.Metadata.Pulls > 0 {
-			readme.WriteString(fmt.Sprintf("- 📦 Pulls: %d\n", server.Metadata.Pulls))
-		}
-		if server.Metadata.LastUpdated != "" {
-			readme.WriteString(fmt.Sprintf("- 🕐 Last Updated: %s\n", server.Metadata.LastUpdated))
-		}
+func addToolsList(readme *strings.Builder, tools []string) {
+	for _, tool := range tools {
+		fmt.Fprintf(readme, "- `%s`\n", tool)
+	}
+}
+
+func addEnvironmentVariablesSection(readme *strings.Builder, envVars []*toolhiveRegistry.EnvVar) {
+	if len(envVars) == 0 {
+		return
 	}
 
-	return readme.String()
+	readme.WriteString("\n## Environment Variables\n\n")
+
+	required, optional := separateEnvVars(envVars)
+	addRequiredEnvVars(readme, required)
+	addOptionalEnvVars(readme, optional)
+}
+
+func separateEnvVars(envVars []*toolhiveRegistry.EnvVar) ([]*toolhiveRegistry.EnvVar, []*toolhiveRegistry.EnvVar) {
+	var required, optional []*toolhiveRegistry.EnvVar
+	for _, env := range envVars {
+		if env.Required {
+			required = append(required, env)
+		} else {
+			optional = append(optional, env)
+		}
+	}
+	return required, optional
+}
+
+func addRequiredEnvVars(readme *strings.Builder, required []*toolhiveRegistry.EnvVar) {
+	if len(required) == 0 {
+		return
+	}
+
+	readme.WriteString("### Required\n\n")
+	for _, env := range required {
+		secret := getSecretIndicator(env.Secret)
+		fmt.Fprintf(readme, "- **%s**%s: %s\n", env.Name, secret, env.Description)
+	}
+}
+
+func addOptionalEnvVars(readme *strings.Builder, optional []*toolhiveRegistry.EnvVar) {
+	if len(optional) == 0 {
+		return
+	}
+
+	readme.WriteString("\n### Optional\n\n")
+	for _, env := range optional {
+		secret := getSecretIndicator(env.Secret)
+		fmt.Fprintf(readme, "- **%s**%s: %s\n", env.Name, secret, env.Description)
+		if env.Default != "" {
+			fmt.Fprintf(readme, "  - Default: `%s`\n", env.Default)
+		}
+	}
+}
+
+func getSecretIndicator(isSecret bool) string {
+	if isSecret {
+		return " 🔒"
+	}
+	return ""
+}
+
+func addTagsSection(readme *strings.Builder, tags []string) {
+	if len(tags) == 0 {
+		return
+	}
+
+	readme.WriteString("\n## Tags\n\n")
+	for _, tag := range tags {
+		fmt.Fprintf(readme, "`%s` ", tag)
+	}
+	readme.WriteString("\n")
+}
+
+func addMetadataSection(readme *strings.Builder, metadata *toolhiveRegistry.Metadata) {
+	if metadata == nil {
+		return
+	}
+
+	readme.WriteString("\n## Statistics\n\n")
+	if metadata.Stars > 0 {
+		fmt.Fprintf(readme, "- ⭐ Stars: %d\n", metadata.Stars)
+	}
+	if metadata.Pulls > 0 {
+		fmt.Fprintf(readme, "- 📦 Pulls: %d\n", metadata.Pulls)
+	}
+	if metadata.LastUpdated != "" {
+		fmt.Fprintf(readme, "- 🕐 Last Updated: %s\n", metadata.LastUpdated)
+	}
 }

@@ -313,58 +313,90 @@ func runList(_ *cobra.Command, _ []string) error {
 }
 
 func displayEntry(entry *types.RegistryEntry, verbose bool) {
+	status := getEntryStatus(entry)
+	tier := getEntryTier(entry)
+
+	// Display basic entry info
+	displayBasicEntryInfo(entry, tier, status)
+
+	if verbose {
+		displayVerboseEntryInfo(entry)
+	}
+}
+
+func getEntryStatus(entry *types.RegistryEntry) string {
 	status := entry.GetStatus()
 	if status == "" {
 		status = "Active"
 	}
+	return status
+}
 
+func getEntryTier(entry *types.RegistryEntry) string {
 	tier := entry.GetTier()
 	if tier == "" {
 		tier = "Community"
 	}
+	return tier
+}
 
-	// Display differently based on type
+func displayBasicEntryInfo(entry *types.RegistryEntry, tier, status string) {
 	if entry.IsImage() {
 		fmt.Printf("%-30s [%s/%s] %s\n", entry.GetName(), tier, status, entry.Image)
 	} else if entry.IsRemote() {
 		fmt.Printf("%-30s [%s/%s] %s\n", entry.GetName(), tier, status, entry.URL)
 	}
+}
 
-	if verbose {
-		fmt.Printf("  Type:        %s\n", getServerType(entry))
-		fmt.Printf("  Description: %s\n", entry.GetDescription())
-		fmt.Printf("  Transport:   %s\n", entry.GetTransport())
+func displayVerboseEntryInfo(entry *types.RegistryEntry) {
+	fmt.Printf("  Type:        %s\n", getServerType(entry))
+	fmt.Printf("  Description: %s\n", entry.GetDescription())
+	fmt.Printf("  Transport:   %s\n", entry.GetTransport())
 
-		tools := entry.GetTools()
-		if len(tools) > 0 {
-			fmt.Printf("  Tools:       %d available\n", len(tools))
+	displayToolsInfo(entry)
+	displayRepositoryInfo(entry)
+	displayLicenseInfo(entry)
+	displayExamplesInfo(entry)
+	displayRemoteSpecificInfo(entry)
+
+	fmt.Println()
+}
+
+func displayToolsInfo(entry *types.RegistryEntry) {
+	tools := entry.GetTools()
+	if len(tools) > 0 {
+		fmt.Printf("  Tools:       %d available\n", len(tools))
+	}
+}
+
+func displayRepositoryInfo(entry *types.RegistryEntry) {
+	if entry.IsImage() && entry.ImageMetadata.RepositoryURL != "" {
+		fmt.Printf("  Repository:  %s\n", entry.ImageMetadata.RepositoryURL)
+	} else if entry.IsRemote() && entry.RemoteServerMetadata.RepositoryURL != "" {
+		fmt.Printf("  Repository:  %s\n", entry.RemoteServerMetadata.RepositoryURL)
+	}
+}
+
+func displayLicenseInfo(entry *types.RegistryEntry) {
+	if entry.License != "" {
+		fmt.Printf("  License:     %s\n", entry.License)
+	}
+}
+
+func displayExamplesInfo(entry *types.RegistryEntry) {
+	if len(entry.Examples) > 0 {
+		fmt.Printf("  Examples:    %d available\n", len(entry.Examples))
+	}
+}
+
+func displayRemoteSpecificInfo(entry *types.RegistryEntry) {
+	if entry.IsRemote() {
+		if entry.OAuthConfig != nil {
+			fmt.Printf("  Auth:        OAuth/OIDC configured\n")
 		}
-
-		if entry.IsImage() && entry.ImageMetadata.RepositoryURL != "" {
-			fmt.Printf("  Repository:  %s\n", entry.ImageMetadata.RepositoryURL)
-		} else if entry.IsRemote() && entry.RemoteServerMetadata.RepositoryURL != "" {
-			fmt.Printf("  Repository:  %s\n", entry.RemoteServerMetadata.RepositoryURL)
+		if len(entry.Headers) > 0 {
+			fmt.Printf("  Headers:     %d configured\n", len(entry.Headers))
 		}
-
-		if entry.License != "" {
-			fmt.Printf("  License:     %s\n", entry.License)
-		}
-
-		if len(entry.Examples) > 0 {
-			fmt.Printf("  Examples:    %d available\n", len(entry.Examples))
-		}
-
-		// Show remote-specific info
-		if entry.IsRemote() {
-			if entry.OAuthConfig != nil {
-				fmt.Printf("  Auth:        OAuth/OIDC configured\n")
-			}
-			if len(entry.Headers) > 0 {
-				fmt.Printf("  Headers:     %d configured\n", len(entry.Headers))
-			}
-		}
-
-		fmt.Println()
 	}
 }
 
