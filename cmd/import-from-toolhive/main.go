@@ -2,6 +2,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -191,11 +192,15 @@ func importEntry(name string, server *toolhiveRegistry.ImageMetadata, outputDir 
 		server.Name = name
 	}
 
-	// Create YAML content with proper formatting
-	yamlData, err := yaml.Marshal(server)
-	if err != nil {
+	// Create YAML content with proper formatting (2-space indentation)
+	var buf bytes.Buffer
+	encoder := yaml.NewEncoder(&buf)
+	encoder.SetIndent(2)
+	if err := encoder.Encode(server); err != nil {
 		return fmt.Errorf("failed to marshal YAML: %w", err)
 	}
+	encoder.Close()
+	yamlData := buf.Bytes()
 
 	// Add a header comment with metadata
 	header := fmt.Sprintf(`# %s MCP Server Registry Entry
