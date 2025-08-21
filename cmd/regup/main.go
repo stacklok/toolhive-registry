@@ -269,7 +269,7 @@ func updateYAMLPreservingStructure(path string, stars, pulls int) error {
 	// Marshal back preserving structure
 	var buf bytes.Buffer
 	encoder := yaml.NewEncoder(&buf)
-	encoder.SetIndent(4)
+	encoder.SetIndent(2)
 	if err := encoder.Encode(&doc); err != nil {
 		return fmt.Errorf("failed to encode YAML: %w", err)
 	}
