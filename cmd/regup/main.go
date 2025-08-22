@@ -309,8 +309,8 @@ func updateMetadataInNode(node *yaml.Node, stars, pulls int) error {
 
 		// Update or add fields
 		updated := map[string]bool{
-			"stars":       false,
-			"pulls":       false,
+			"stars":        false,
+			"pulls":        false,
 			"last_updated": false,
 		}
 
