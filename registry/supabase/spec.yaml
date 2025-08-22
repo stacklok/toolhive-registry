@@ -10,65 +10,65 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - list_projects
-    - get_project
-    - create_project
-    - pause_project
-    - restore_project
-    - list_organizations
-    - get_organization
-    - get_cost
-    - confirm_cost
-    - search_docs
-    - list_tables
-    - list_extensions
-    - list_migrations
-    - apply_migration
-    - execute_sql
-    - get_logs
-    - get_advisors
-    - get_project_url
-    - get_anon_key
-    - generate_typescript_types
-    - list_edge_functions
-    - deploy_edge_function
-    - create_branch
-    - list_branches
-    - delete_branch
-    - merge_branch
-    - reset_branch
-    - rebase_branch
-    - list_storage_buckets
-    - get_storage_config
-    - update_storage_config
+  - list_projects
+  - get_project
+  - create_project
+  - pause_project
+  - restore_project
+  - list_organizations
+  - get_organization
+  - get_cost
+  - confirm_cost
+  - search_docs
+  - list_tables
+  - list_extensions
+  - list_migrations
+  - apply_migration
+  - execute_sql
+  - get_logs
+  - get_advisors
+  - get_project_url
+  - get_anon_key
+  - generate_typescript_types
+  - list_edge_functions
+  - deploy_edge_function
+  - create_branch
+  - list_branches
+  - delete_branch
+  - merge_branch
+  - reset_branch
+  - rebase_branch
+  - list_storage_buckets
+  - get_storage_config
+  - update_storage_config
 metadata:
-    stars: 1942
-    pulls: 102
-    last_updated: "2025-08-13T08:42:36Z"
+  stars: 1974
+  pulls: 102
+  last_updated: "2025-08-22T09:41:06Z"
 repository_url: https://github.com/supabase-community/supabase-mcp
 tags:
-    - supabase
-    - database
-    - backend
-    - baas
-    - postgresql
+  - supabase
+  - database
+  - backend
+  - baas
+  - postgresql
 image: ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:latest
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - .supabase.co
-                - .supabase.com
-            allow_port:
-                - 443
+  network:
+    outbound:
+      allow_host:
+        - .supabase.co
+        - .supabase.com
+      allow_port:
+        - 443
 env_vars:
-    - name: SUPABASE_ACCESS_TOKEN
-      description: Personal access token from Supabase dashboard
-      required: true
-      secret: true
+  - name: SUPABASE_ACCESS_TOKEN
+    description: Personal access token from Supabase dashboard
+    required: true
+    secret: true
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/stacklok/dockyard
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/build-containers.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev

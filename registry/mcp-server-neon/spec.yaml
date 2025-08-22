@@ -10,57 +10,56 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - list_projects
-    - describe_project
-    - create_project
-    - delete_project
-    - create_branch
-    - delete_branch
-    - describe_branch
-    - list_branch_computes
-    - list_organizations
-    - get_connection_string
-    - run_sql
-    - run_sql_transaction
-    - get_database_tables
-    - describe_table_schema
-    - list_slow_queries
-    - prepare_database_migration
-    - complete_database_migration
-    - explain_sql_statement
-    - prepare_query_tuning
-    - complete_query_tuning
-    - provision_neon_auth
+  - list_projects
+  - describe_project
+  - create_project
+  - delete_project
+  - create_branch
+  - delete_branch
+  - describe_branch
+  - list_branch_computes
+  - list_organizations
+  - get_connection_string
+  - run_sql
+  - run_sql_transaction
+  - get_database_tables
+  - describe_table_schema
+  - list_slow_queries
+  - prepare_database_migration
+  - complete_database_migration
+  - explain_sql_statement
+  - prepare_query_tuning
+  - complete_query_tuning
+  - provision_neon_auth
 metadata:
-    stars: 405
-    pulls: 55
-    last_updated: "2025-08-13T08:42:33Z"
+  stars: 424
+  pulls: 55
+  last_updated: "2025-08-22T09:41:04Z"
 repository_url: https://github.com/neondatabase-labs/mcp-server-neon
 tags:
-    - database
-    - postgresql
-    - api
-    - management
-    - sql
-    - migration
-    - branching
+  - database
+  - postgresql
+  - api
+  - management
+  - sql
+  - migration
+  - branching
 image: ghcr.io/stacklok/dockyard/npx/mcp-server-neon:0.6.3
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - console.neon.tech
-                - api.neon.tech
-                - neon.tech
-            allow_port:
-                - 443
-                - 5432
+  network:
+    outbound:
+      allow_host:
+        - console.neon.tech
+        - api.neon.tech
+        - neon.tech
+      allow_port:
+        - 443
+        - 5432
 env_vars:
-    - name: NEON_API_KEY
-      description: API key for Neon database service
-      required: true
-      secret: true
-
+  - name: NEON_API_KEY
+    description: API key for Neon database service
+    required: true
+    secret: true
 # Provenance for supply chain security (Dockyard build)
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com

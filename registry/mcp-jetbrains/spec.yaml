@@ -10,36 +10,35 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - dynamic_tools_from_ide
+  - dynamic_tools_from_ide
 metadata:
-    stars: 905
-    pulls: 77
-    last_updated: "2025-08-13T08:42:31Z"
+  stars: 913
+  pulls: 77
+  last_updated: "2025-08-22T09:41:02Z"
 repository_url: https://github.com/JetBrains/mcp-jetbrains
 tags:
-    - ide
-    - jetbrains
-    - proxy
-    - development
-    - intellij
+  - ide
+  - jetbrains
+  - proxy
+  - development
+  - intellij
 image: ghcr.io/stacklok/dockyard/npx/mcp-jetbrains:1.8.0
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
+  network:
+    outbound:
+      insecure_allow_all: true
 env_vars:
-    - name: IDE_PORT
-      description: Port of IDE's built-in webserver (if running multiple IDEs)
-      required: false
-    - name: HOST
-      description: Host/address of IDE's built-in webserver
-      required: false
-      default: 127.0.0.1
-    - name: LOG_ENABLED
-      description: Enable logging for debugging
-      required: false
-      default: "false"
-
+  - name: IDE_PORT
+    description: Port of IDE's built-in webserver (if running multiple IDEs)
+    required: false
+  - name: HOST
+    description: Host/address of IDE's built-in webserver
+    required: false
+    default: 127.0.0.1
+  - name: LOG_ENABLED
+    description: Enable logging for debugging
+    required: false
+    default: "false"
 # Provenance for supply chain security (Dockyard build)
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com

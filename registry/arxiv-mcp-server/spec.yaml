@@ -10,44 +10,43 @@ tier: Community
 status: Active
 transport: stdio
 tools:
-    - search_papers
-    - download_paper
-    - list_papers
-    - read_paper
+  - search_papers
+  - download_paper
+  - list_papers
+  - read_paper
 metadata:
-    stars: 1559
-    pulls: 77
-    last_updated: "2025-08-13T08:42:29Z"
+  stars: 1607
+  pulls: 77
+  last_updated: "2025-08-22T09:41:01Z"
 repository_url: https://github.com/blazickjp/arxiv-mcp-server
 tags:
-    - research
-    - academic
-    - papers
-    - arxiv
-    - search
+  - research
+  - academic
+  - papers
+  - arxiv
+  - search
 image: ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.3.0
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - arxiv.org
-                - export.arxiv.org
-            allow_port:
-                - 443
-                - 80
+  network:
+    outbound:
+      allow_host:
+        - arxiv.org
+        - export.arxiv.org
+      allow_port:
+        - 443
+        - 80
 env_vars:
-    - name: ARXIV_STORAGE_PATH
-      description: Directory path where downloaded papers will be stored
-      required: false
-      default: /arxiv-papers
+  - name: ARXIV_STORAGE_PATH
+    description: Directory path where downloaded papers will be stored
+    required: false
+    default: /arxiv-papers
 args:
-    - --storage-path
-    - /arxiv-papers
-
+  - --storage-path
+  - /arxiv-papers
 # Provenance for supply chain security (Dockyard build)
 provenance:
- cert_issuer: https://token.actions.githubusercontent.com
- repository_uri: https://github.com/stacklok/dockyard
- runner_environment: github-hosted
- signer_identity: /.github/workflows/build-containers.yml
- sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev
