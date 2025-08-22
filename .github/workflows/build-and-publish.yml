@@ -136,28 +136,28 @@ jobs:
           
           # Count by status (combine container and remote servers)
           ACTIVE_CONTAINER=$(jq '[.servers[] | select(.status == "Active")] | length' dist/registry.json)
-          ACTIVE_REMOTE=$(jq '[.remote_servers[] | select(.status == "Active")] | length // 0' dist/registry.json)
+          ACTIVE_REMOTE=$(jq '[(.remote_servers // {})[] | select(.status == "Active")] | length' dist/registry.json)
           ACTIVE=$((ACTIVE_CONTAINER + ACTIVE_REMOTE))
           
           BETA_CONTAINER=$(jq '[.servers[] | select(.status == "Beta")] | length' dist/registry.json)
-          BETA_REMOTE=$(jq '[.remote_servers[] | select(.status == "Beta")] | length // 0' dist/registry.json)
+          BETA_REMOTE=$(jq '[(.remote_servers // {})[] | select(.status == "Beta")] | length' dist/registry.json)
           BETA=$((BETA_CONTAINER + BETA_REMOTE))
           
           DEPRECATED_CONTAINER=$(jq '[.servers[] | select(.status == "Deprecated")] | length' dist/registry.json)
-          DEPRECATED_REMOTE=$(jq '[.remote_servers[] | select(.status == "Deprecated")] | length // 0' dist/registry.json)
+          DEPRECATED_REMOTE=$(jq '[(.remote_servers // {})[] | select(.status == "Deprecated")] | length' dist/registry.json)
           DEPRECATED=$((DEPRECATED_CONTAINER + DEPRECATED_REMOTE))
           
           # Count by tier (combine container and remote servers)
           OFFICIAL_CONTAINER=$(jq '[.servers[] | select(.tier == "Official")] | length' dist/registry.json)
-          OFFICIAL_REMOTE=$(jq '[.remote_servers[] | select(.tier == "Official")] | length // 0' dist/registry.json)
+          OFFICIAL_REMOTE=$(jq '[(.remote_servers // {})[] | select(.tier == "Official")] | length' dist/registry.json)
           OFFICIAL=$((OFFICIAL_CONTAINER + OFFICIAL_REMOTE))
           
           PARTNER_CONTAINER=$(jq '[.servers[] | select(.tier == "Partner")] | length' dist/registry.json)
-          PARTNER_REMOTE=$(jq '[.remote_servers[] | select(.tier == "Partner")] | length // 0' dist/registry.json)
+          PARTNER_REMOTE=$(jq '[(.remote_servers // {})[] | select(.tier == "Partner")] | length' dist/registry.json)
           PARTNER=$((PARTNER_CONTAINER + PARTNER_REMOTE))
           
           COMMUNITY_CONTAINER=$(jq '[.servers[] | select(.tier == "Community")] | length' dist/registry.json)
-          COMMUNITY_REMOTE=$(jq '[.remote_servers[] | select(.tier == "Community")] | length // 0' dist/registry.json)
+          COMMUNITY_REMOTE=$(jq '[(.remote_servers // {})[] | select(.tier == "Community")] | length' dist/registry.json)
           COMMUNITY=$((COMMUNITY_CONTAINER + COMMUNITY_REMOTE))
           
           echo "total=$TOTAL" >> $GITHUB_OUTPUT
