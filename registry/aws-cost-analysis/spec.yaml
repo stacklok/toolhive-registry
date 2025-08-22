@@ -12,67 +12,67 @@ status: Deprecated
 transport: stdio
 targetport: 0
 permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost:
-                - aws.amazon.com
-                - pricing.us-east-1.amazonaws.com
-                - api.pricing.us-east-1.amazonaws.com
-                - api.pricing.eu-central-1.amazonaws.com
-                - api.pricing.ap-southeast-1.amazonaws.com
-            allowport:
-                - 443
+  name: ""
+  read: []
+  write: []
+  network:
+    outbound:
+      insecureallowall: false
+      allowhost:
+        - aws.amazon.com
+        - pricing.us-east-1.amazonaws.com
+        - api.pricing.us-east-1.amazonaws.com
+        - api.pricing.eu-central-1.amazonaws.com
+        - api.pricing.ap-southeast-1.amazonaws.com
+      allowport:
+        - 443
 tools:
-    - analyze_cdk_project
-    - analyze_terraform_project
-    - get_pricing_from_web
-    - get_pricing_from_api
-    - get_bedrock_patterns
-    - generate_cost_report
+  - analyze_cdk_project
+  - analyze_terraform_project
+  - get_pricing_from_web
+  - get_pricing_from_api
+  - get_bedrock_patterns
+  - generate_cost_report
 envvars:
-    - name: AWS_ACCESS_KEY_ID
-      description: AWS access key ID with access to the AWS Pricing API
-      required: false
-      default: ""
-      secret: true
-    - name: AWS_SECRET_ACCESS_KEY
-      description: AWS secret access key
-      required: false
-      default: ""
-      secret: true
-    - name: AWS_SESSION_TOKEN
-      description: AWS session token for temporary credentials
-      required: false
-      default: ""
-      secret: true
-    - name: AWS_REGION
-      description: AWS region for the Pricing API endpoint (us-east-1, eu-central-1, ap-southeast-1)
-      required: false
-      default: us-east-1
-      secret: false
-    - name: FASTMCP_LOG_LEVEL
-      description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-      required: false
-      default: ERROR
-      secret: false
+  - name: AWS_ACCESS_KEY_ID
+    description: AWS access key ID with access to the AWS Pricing API
+    required: false
+    default: ""
+    secret: true
+  - name: AWS_SECRET_ACCESS_KEY
+    description: AWS secret access key
+    required: false
+    default: ""
+    secret: true
+  - name: AWS_SESSION_TOKEN
+    description: AWS session token for temporary credentials
+    required: false
+    default: ""
+    secret: true
+  - name: AWS_REGION
+    description: AWS region for the Pricing API endpoint (us-east-1, eu-central-1, ap-southeast-1)
+    required: false
+    default: us-east-1
+    secret: false
+  - name: FASTMCP_LOG_LEVEL
+    description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    required: false
+    default: ERROR
+    secret: false
 args: []
 metadata:
-    stars: 5281
-    pulls: 8163
-    lastupdated: "2025-08-11T00:24:59Z"
+  stars: 5281
+  pulls: 8163
+  lastupdated: "2025-08-22T02:32:58Z"
 repositoryurl: https://github.com/awslabs/mcp
 tags:
-    - aws
-    - cost-analysis
-    - pricing
-    - estimates
-    - cost-insights
-    - aws-costs
-    - aws-pricing
+  - aws
+  - cost-analysis
+  - pricing
+  - estimates
+  - cost-insights
+  - aws-costs
+  - aws-pricing
 dockertags: []
 provenance: null
 custommetadata: {}
