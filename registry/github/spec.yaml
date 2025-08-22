@@ -17,6 +17,7 @@ tools:
   - cancel_workflow_run
   - create_and_submit_pull_request_review
   - create_branch
+  - create_gist
   - create_issue
   - create_or_update_file
   - create_pending_pull_request_review
@@ -32,11 +33,13 @@ tools:
   - get_commit
   - get_dependabot_alert
   - get_discussion
-  - get_discussion_comment
+  - get_discussion_comments
   - get_file_contents
+  - get_global_security_advisory
   - get_issue
   - get_issue_comments
   - get_job_logs
+  - get_latest_release
   - get_me
   - get_notification_details
   - get_pull_request
@@ -45,8 +48,11 @@ tools:
   - get_pull_request_files
   - get_pull_request_reviews
   - get_pull_request_status
+  - get_release_by_tag
   - get_secret_scanning_alert
   - get_tag
+  - get_team_members
+  - get_teams
   - get_workflow_run
   - get_workflow_run_logs
   - get_workflow_run_usage
@@ -56,9 +62,15 @@ tools:
   - list_dependabot_alerts
   - list_discussion_categories
   - list_discussions
+  - list_gists
+  - list_global_security_advisories
+  - list_issue_types
   - list_issues
   - list_notifications
+  - list_org_repository_security_advisories
   - list_pull_requests
+  - list_releases
+  - list_repository_security_advisories
   - list_secret_scanning_alerts
   - list_sub_issues
   - list_tags
@@ -84,6 +96,7 @@ tools:
   - search_repositories
   - search_users
   - submit_pending_pull_request_review
+  - update_gist
   - update_issue
   - update_pull_request
   - update_pull_request_branch
@@ -104,7 +117,7 @@ tags:
   - search
   - update
   - issues
-image: ghcr.io/github/github-mcp-server:v0.12.1
+image: ghcr.io/github/github-mcp-server:v0.13.0
 permissions:
   network:
     outbound:
