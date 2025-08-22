@@ -4,27 +4,27 @@ description: An AWS Labs Model Context Protocol (MCP) server for AWS Documentati
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
+target_port: 0
 permissions:
     name: ""
     read: []
     write: []
     network:
         outbound:
-            insecureallowall: false
-            allowhost: []
-            allowport: []
+            insecure_allow_all: false
+            allow_host: []
+            allow_port: []
 tools:
     - read_documentation
     - search_documentation
     - recommend
-envvars: []
+env_vars: []
 args: []
 metadata:
     stars: 5291
     pulls: 0
-    lastupdated: 2025-08-11T15:29:07Z
-repositoryurl: https://github.com/awslabs/mcp
+    last_updated: 2025-08-11T15:29:07Z
+repository_url: https://github.com/awslabs/mcp
 tags:
     - aws
     - documentation

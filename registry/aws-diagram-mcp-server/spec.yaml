@@ -4,21 +4,21 @@ description: An AWS Labs Model Context Protocol (MCP) server that creates diagra
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
+target_port: 0
 permissions:
   name: ""
   read: []
   write: []
   network:
     outbound:
-      insecureallowall: false
-      allowhost: []
-      allowport: []
+      insecure_allow_all: false
+      allow_host: []
+      allow_port: []
 tools:
   - generate_diagram
   - get_diagram_examples
   - list_icons
-envvars:
+env_vars:
   - name: OUTPUT_DIR
     description: Directory where diagrams will be saved
     required: false
@@ -28,8 +28,8 @@ args: []
 metadata:
   stars: 5291
   pulls: 0
-  lastupdated: 2025-08-22T02:32:58Z
-repositoryurl: https://github.com/awslabs/mcp
+  last_updated: "2025-08-22T02:32:58Z"
+repository_url: https://github.com/awslabs/mcp
 tags:
   - aws
   - cloud

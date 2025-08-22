@@ -4,18 +4,18 @@ description: MCP server for seamless interaction between LLMs and the Heroku Pla
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
+target_port: 0
 permissions:
     name: ""
     read: []
     write: []
     network:
         outbound:
-            insecureallowall: false
-            allowhost:
+            insecure_allow_all: false
+            allow_host:
                 - .heroku.com
                 - .herokuapp.com
-            allowport:
+            allow_port:
                 - 443
 tools:
     # Application Management
@@ -57,7 +57,7 @@ tools:
     - pg_maintenance
     - pg_backups
     - pg_upgrade
-envvars:
+env_vars:
     - name: HEROKU_API_KEY
       description: Your Heroku authorization token
       required: true
@@ -72,8 +72,8 @@ args: []
 metadata:
     stars: 55
     pulls: 0
-    lastupdated: 2025-08-11T15:29:10Z
-repositoryurl: https://github.com/heroku/heroku-mcp-server
+    last_updated: 2025-08-11T15:29:10Z
+repository_url: https://github.com/heroku/heroku-mcp-server
 tags:
     - heroku
     - paas

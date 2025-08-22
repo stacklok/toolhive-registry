@@ -4,16 +4,16 @@ description: MCP server for cloud browser automation with Browserbase and Stageh
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
+target_port: 0
 permissions:
     name: ""
     read: []
     write: []
     network:
         outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport: []
+            insecure_allow_all: true
+            allow_host: []
+            allow_port: []
 tools:
     # Multi-session tools
     - createSession
@@ -34,7 +34,7 @@ tools:
     - observe
     - screenshot
     - getUrl
-envvars:
+env_vars:
     - name: BROWSERBASE_API_KEY
       description: Browserbase API key
       required: true
@@ -54,8 +54,8 @@ args: []
 metadata:
     stars: 2401
     pulls: 0
-    lastupdated: 2025-08-11T15:29:09Z
-repositoryurl: https://github.com/browserbase/mcp-server-browserbase
+    last_updated: 2025-08-11T15:29:09Z
+repository_url: https://github.com/browserbase/mcp-server-browserbase
 tags:
     - browser
     - automation

@@ -4,17 +4,17 @@ description: Sentry's MCP service for human-in-the-loop coding agents, optimized
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
+target_port: 0
 permissions:
     read: []
     write: []
     network:
         outbound:
-            insecureallowall: false
-            allowhost:
+            insecure_allow_all: false
+            allow_host:
                 - .sentry.io
                 - sentry.io
-            allowport:
+            allow_port:
                 - 443
 tools:
     - whoami
@@ -36,7 +36,7 @@ tools:
     - search_docs
     - get_doc
     - search_issues
-envvars:
+env_vars:
     - name: SENTRY_ACCESS_TOKEN
       description: Sentry user auth token with necessary scopes
       required: true
@@ -56,8 +56,8 @@ args: []
 metadata:
     stars: 292
     pulls: 0
-    lastupdated: 2025-08-11T15:29:10Z
-repositoryurl: https://github.com/getsentry/sentry-mcp
+    last_updated: 2025-08-11T15:29:10Z
+repository_url: https://github.com/getsentry/sentry-mcp
 tags:
     - sentry
     - debugging

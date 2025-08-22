@@ -4,17 +4,17 @@ description: Connect your Supabase projects to AI assistants for managing tables
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
+target_port: 0
 permissions:
     read: []
     write: []
     network:
         outbound:
-            insecureallowall: false
-            allowhost:
+            insecure_allow_all: false
+            allow_host:
                 - .supabase.co
                 - .supabase.com
-            allowport:
+            allow_port:
                 - 443
 tools:
     # Account tools
@@ -56,7 +56,7 @@ tools:
     - list_storage_buckets
     - get_storage_config
     - update_storage_config
-envvars:
+env_vars:
     - name: SUPABASE_ACCESS_TOKEN
       description: Personal access token from Supabase dashboard
       required: true
@@ -66,8 +66,8 @@ args: []
 metadata:
     stars: 1940
     pulls: 0
-    lastupdated: 2025-08-11T15:29:11Z
-repositoryurl: https://github.com/supabase-community/supabase-mcp
+    last_updated: 2025-08-11T15:29:11Z
+repository_url: https://github.com/supabase-community/supabase-mcp
 tags:
     - supabase
     - database
