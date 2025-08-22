@@ -10,42 +10,42 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - list_contexts
-    - switch_context
-    - apply_policies
-    - show_violations
-    - help
+  - list_contexts
+  - switch_context
+  - apply_policies
+  - show_violations
+  - help
 metadata:
-    stars: 6
-    pulls: 4946
-    last_updated: "2025-08-13T08:42:41Z"
+  stars: 8
+  pulls: 4946
+  last_updated: "2025-08-22T09:42:38Z"
 repository_url: https://github.com/nirmata/kyverno-mcp
 tags:
-    - kyverno
-    - kubernetes
-    - policy-management
-    - security
-    - compliance
-    - governance
-    - policy-as-code
-    - nirmata
-    - admission-control
-    - validation
-    - mutation
-    - generation
-    - policy-violations
-    - security-assessment
-    - rbac
-    - pod-security
-    - best-practices
+  - kyverno
+  - kubernetes
+  - policy-management
+  - security
+  - compliance
+  - governance
+  - policy-as-code
+  - nirmata
+  - admission-control
+  - validation
+  - mutation
+  - generation
+  - policy-violations
+  - security-assessment
+  - rbac
+  - pod-security
+  - best-practices
 image: ghcr.io/nirmata/kyverno-mcp:v0.2.2
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
-            allow_port:
-                - 443
+  network:
+    outbound:
+      insecure_allow_all: true
+      allow_port:
+        - 443
 env_vars:
-    - name: KUBECONFIG
-      description: Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)
-      required: false
+  - name: KUBECONFIG
+    description: Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)
+    required: false
