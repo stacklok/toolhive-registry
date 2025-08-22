@@ -10,38 +10,37 @@ tier: Community
 status: Active
 transport: stdio
 tools:
-    - create_ui
-    - fetch_ui
-    - logo_search
-    - refine_ui
+  - create_ui
+  - fetch_ui
+  - logo_search
+  - refine_ui
 metadata:
-    stars: 3315
-    pulls: 128
-    last_updated: "2025-08-13T08:42:30Z"
+  stars: 3402
+  pulls: 128
+  last_updated: "2025-08-22T09:41:02Z"
 repository_url: https://github.com/21st-dev/magic-mcp
 tags:
-    - ui
-    - frontend
-    - components
-    - ai
-    - generator
-    - react
+  - ui
+  - frontend
+  - components
+  - ai
+  - generator
+  - react
 image: ghcr.io/stacklok/dockyard/npx/magic-mcp:0.1.0
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - 21st.dev
-                - api.21st.dev
-            allow_port:
-                - 443
-                - 80
+  network:
+    outbound:
+      allow_host:
+        - 21st.dev
+        - api.21st.dev
+      allow_port:
+        - 443
+        - 80
 env_vars:
-    - name: API_KEY
-      description: 21st.dev Magic API key for component generation
-      required: true
-      secret: true
-
+  - name: API_KEY
+    description: 21st.dev Magic API key for component generation
+    required: true
+    secret: true
 # Provenance for supply chain security (Dockyard build)
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com

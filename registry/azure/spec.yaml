@@ -10,83 +10,83 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - documentation
-    - bestpractices
-    - group
-    - subscription
-    - aks
-    - appconfig
-    - role
-    - datadog
-    - cosmos
-    - foundry
-    - grafana
-    - keyvault
-    - kusto
-    - marketplace
-    - monitor
-    - postgres
-    - redis
-    - search
-    - servicebus
-    - sql
-    - storage
-    - workbooks
-    - bicepschema
-    - azureterraformbestpractices
-    - loadtesting
-    - extension_az
-    - extension_azd
-    - extension_azqr
+  - documentation
+  - bestpractices
+  - group
+  - subscription
+  - aks
+  - appconfig
+  - role
+  - datadog
+  - cosmos
+  - foundry
+  - grafana
+  - keyvault
+  - kusto
+  - marketplace
+  - monitor
+  - postgres
+  - redis
+  - search
+  - servicebus
+  - sql
+  - storage
+  - workbooks
+  - bicepschema
+  - azureterraformbestpractices
+  - loadtesting
+  - extension_az
+  - extension_azd
+  - extension_azqr
 metadata:
-    stars: 1080
-    pulls: 1809
-    last_updated: "2025-08-13T08:42:38Z"
+  stars: 1107
+  pulls: 1809
+  last_updated: "2025-08-22T09:41:07Z"
 repository_url: https://github.com/Azure/azure-mcp
 tags:
-    - azure
-    - microsoft
-    - cloud
-    - iaas
-    - paas
-    - infrastructure
-    - database
-    - storage
+  - azure
+  - microsoft
+  - cloud
+  - iaas
+  - paas
+  - infrastructure
+  - database
+  - storage
 image: mcr.microsoft.com/azure-sdk/azure-mcp:0.5.7
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - login.microsoftonline.com
-                - login.windows.net
-                - management.azure.com
-                - graph.microsoft.com
-                - .blob.core.windows.net
-                - .table.core.windows.net
-                - .vault.azure.net
-                - .documents.azure.com
-                - .servicebus.windows.net
-            allow_port:
-                - 443
+  network:
+    outbound:
+      allow_host:
+        - login.microsoftonline.com
+        - login.windows.net
+        - management.azure.com
+        - graph.microsoft.com
+        - .blob.core.windows.net
+        - .table.core.windows.net
+        - .vault.azure.net
+        - .documents.azure.com
+        - .servicebus.windows.net
+      allow_port:
+        - 443
 env_vars:
-    - name: AZURE_TENANT_ID
-      description: Your Azure tenant ID
-      required: true
-      secret: true
-    - name: AZURE_CLIENT_ID
-      description: Your Azure client ID for authentication
-      required: true
-      secret: true
-    - name: AZURE_CLIENT_SECRET
-      description: Your Azure client secret for authentication
-      required: true
-      secret: true
-    - name: HTTP_PROXY
-      description: HTTP proxy URL for outbound requests (optional)
-      required: false
-    - name: HTTPS_PROXY
-      description: HTTPS proxy URL for outbound requests (optional)
-      required: false
-    - name: NO_PROXY
-      description: Comma-separated list of hosts to exclude from proxying (optional)
-      required: false
+  - name: AZURE_TENANT_ID
+    description: Your Azure tenant ID
+    required: true
+    secret: true
+  - name: AZURE_CLIENT_ID
+    description: Your Azure client ID for authentication
+    required: true
+    secret: true
+  - name: AZURE_CLIENT_SECRET
+    description: Your Azure client secret for authentication
+    required: true
+    secret: true
+  - name: HTTP_PROXY
+    description: HTTP proxy URL for outbound requests (optional)
+    required: false
+  - name: HTTPS_PROXY
+    description: HTTPS proxy URL for outbound requests (optional)
+    required: false
+  - name: NO_PROXY
+    description: Comma-separated list of hosts to exclude from proxying (optional)
+    required: false

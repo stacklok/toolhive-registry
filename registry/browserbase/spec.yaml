@@ -10,53 +10,53 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - createSession
-    - listSessions
-    - closeSession
-    - navigateWithSession
-    - actWithSession
-    - extractWithSession
-    - observeWithSession
-    - getUrlWithSession
-    - getAllUrlsWithSession
-    - closeAllSessions
-    - navigate
-    - act
-    - extract
-    - observe
-    - screenshot
-    - getUrl
+  - createSession
+  - listSessions
+  - closeSession
+  - navigateWithSession
+  - actWithSession
+  - extractWithSession
+  - observeWithSession
+  - getUrlWithSession
+  - getAllUrlsWithSession
+  - closeAllSessions
+  - navigate
+  - act
+  - extract
+  - observe
+  - screenshot
+  - getUrl
 metadata:
-    stars: 2411
-    pulls: 133
-    last_updated: "2025-08-13T08:42:35Z"
+  stars: 2476
+  pulls: 133
+  last_updated: "2025-08-22T09:41:05Z"
 repository_url: https://github.com/browserbase/mcp-server-browserbase
 tags:
-    - browser
-    - automation
-    - web-scraping
-    - testing
-    - stagehand
+  - browser
+  - automation
+  - web-scraping
+  - testing
+  - stagehand
 image: ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.0.0
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
+  network:
+    outbound:
+      insecure_allow_all: true
 env_vars:
-    - name: BROWSERBASE_API_KEY
-      description: Browserbase API key
-      required: true
-      secret: true
-    - name: BROWSERBASE_PROJECT_ID
-      description: Browserbase project ID
-      required: true
-    - name: GEMINI_API_KEY
-      description: Google Gemini API key for Stagehand
-      required: true
-      secret: true
+  - name: BROWSERBASE_API_KEY
+    description: Browserbase API key
+    required: true
+    secret: true
+  - name: BROWSERBASE_PROJECT_ID
+    description: Browserbase project ID
+    required: true
+  - name: GEMINI_API_KEY
+    description: Google Gemini API key for Stagehand
+    required: true
+    secret: true
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/stacklok/dockyard
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/build-containers.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev

@@ -10,127 +10,127 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - query_contents
-    - query_collections
-    - query_feeds
-    - query_conversations
-    - retrieve_relevant_sources
-    - retrieve_similar_images
-    - visually_describe_image
-    - prompt_llm_conversation
-    - extract_structured_json_from_text
-    - publish_as_audio
-    - publish_as_image
-    - ingest_files
-    - ingest_web_pages
-    - ingest_messages
-    - ingest_posts
-    - ingest_emails
-    - ingest_issues
-    - ingest_text
-    - ingest_memory
-    - web_crawling
-    - web_search
-    - web_mapping
-    - screenshot_page
-    - configure_project
-    - create_collection
-    - add_contents_to_collection
-    - remove_contents_from_collection
-    - delete_collections
-    - delete_feeds
-    - delete_contents
-    - delete_conversations
-    - is_feed_done
-    - is_content_done
-    - list_slack_channels
-    - list_microsoft_teams_teams
-    - list_microsoft_teams_channels
-    - list_sharepoint_libraries
-    - list_sharepoint_folders
-    - list_linear_projects
-    - list_notion_databases
-    - list_notion_pages
-    - list_dropbox_folders
-    - list_box_folders
-    - list_discord_guilds
-    - list_discord_channels
-    - list_google_calendars
-    - list_microsoft_calendars
+  - query_contents
+  - query_collections
+  - query_feeds
+  - query_conversations
+  - retrieve_relevant_sources
+  - retrieve_similar_images
+  - visually_describe_image
+  - prompt_llm_conversation
+  - extract_structured_json_from_text
+  - publish_as_audio
+  - publish_as_image
+  - ingest_files
+  - ingest_web_pages
+  - ingest_messages
+  - ingest_posts
+  - ingest_emails
+  - ingest_issues
+  - ingest_text
+  - ingest_memory
+  - web_crawling
+  - web_search
+  - web_mapping
+  - screenshot_page
+  - configure_project
+  - create_collection
+  - add_contents_to_collection
+  - remove_contents_from_collection
+  - delete_collections
+  - delete_feeds
+  - delete_contents
+  - delete_conversations
+  - is_feed_done
+  - is_content_done
+  - list_slack_channels
+  - list_microsoft_teams_teams
+  - list_microsoft_teams_channels
+  - list_sharepoint_libraries
+  - list_sharepoint_folders
+  - list_linear_projects
+  - list_notion_databases
+  - list_notion_pages
+  - list_dropbox_folders
+  - list_box_folders
+  - list_discord_guilds
+  - list_discord_channels
+  - list_google_calendars
+  - list_microsoft_calendars
 metadata:
-    stars: 347
-    pulls: 109
-    last_updated: "2025-08-13T08:42:34Z"
+  stars: 348
+  pulls: 109
+  last_updated: "2025-08-22T09:41:04Z"
 repository_url: https://github.com/graphlit/graphlit-mcp-server
 tags:
-    - knowledge-base
-    - rag
-    - search
-    - ingestion
-    - data-connectors
+  - knowledge-base
+  - rag
+  - search
+  - ingestion
+  - data-connectors
 image: ghcr.io/stacklok/dockyard/npx/graphlit-mcp-server:1.0.20250808001
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
-            allow_port:
-                - 443
+  network:
+    outbound:
+      insecure_allow_all: true
+      allow_port:
+        - 443
 env_vars:
-    - name: GRAPHLIT_ENVIRONMENT_ID
-      description: Your Graphlit environment ID
-      required: true
-    - name: GRAPHLIT_ORGANIZATION_ID
-      description: Your Graphlit organization ID
-      required: true
-    - name: GRAPHLIT_JWT_SECRET
-      description: Your JWT secret for signing the JWT token
-      required: true
-      secret: true
-    - name: SLACK_BOT_TOKEN
-      description: Slack bot token for Slack integration
-      required: false
-      secret: true
-    - name: DISCORD_BOT_TOKEN
-      description: Discord bot token for Discord integration
-      required: false
-      secret: true
-    - name: TWITTER_TOKEN
-      description: Twitter/X API token
-      required: false
-      secret: true
-    - name: GOOGLE_EMAIL_REFRESH_TOKEN
-      description: Google refresh token for Gmail integration
-      required: false
-      secret: true
-    - name: GOOGLE_EMAIL_CLIENT_ID
-      description: Google client ID for Gmail integration
-      required: false
-    - name: GOOGLE_EMAIL_CLIENT_SECRET
-      description: Google client secret for Gmail integration
-      required: false
-      secret: true
-    - name: LINEAR_API_KEY
-      description: Linear API key for Linear integration
-      required: false
-      secret: true
-    - name: GITHUB_PERSONAL_ACCESS_TOKEN
-      description: GitHub personal access token
-      required: false
-      secret: true
-    - name: JIRA_EMAIL
-      description: Jira email for authentication
-      required: false
-    - name: JIRA_TOKEN
-      description: Jira API token
-      required: false
-      secret: true
-    - name: NOTION_API_KEY
-      description: Notion API key for Notion integration
-      required: false
-      secret: true
+  - name: GRAPHLIT_ENVIRONMENT_ID
+    description: Your Graphlit environment ID
+    required: true
+  - name: GRAPHLIT_ORGANIZATION_ID
+    description: Your Graphlit organization ID
+    required: true
+  - name: GRAPHLIT_JWT_SECRET
+    description: Your JWT secret for signing the JWT token
+    required: true
+    secret: true
+  - name: SLACK_BOT_TOKEN
+    description: Slack bot token for Slack integration
+    required: false
+    secret: true
+  - name: DISCORD_BOT_TOKEN
+    description: Discord bot token for Discord integration
+    required: false
+    secret: true
+  - name: TWITTER_TOKEN
+    description: Twitter/X API token
+    required: false
+    secret: true
+  - name: GOOGLE_EMAIL_REFRESH_TOKEN
+    description: Google refresh token for Gmail integration
+    required: false
+    secret: true
+  - name: GOOGLE_EMAIL_CLIENT_ID
+    description: Google client ID for Gmail integration
+    required: false
+  - name: GOOGLE_EMAIL_CLIENT_SECRET
+    description: Google client secret for Gmail integration
+    required: false
+    secret: true
+  - name: LINEAR_API_KEY
+    description: Linear API key for Linear integration
+    required: false
+    secret: true
+  - name: GITHUB_PERSONAL_ACCESS_TOKEN
+    description: GitHub personal access token
+    required: false
+    secret: true
+  - name: JIRA_EMAIL
+    description: Jira email for authentication
+    required: false
+  - name: JIRA_TOKEN
+    description: Jira API token
+    required: false
+    secret: true
+  - name: NOTION_API_KEY
+    description: Notion API key for Notion integration
+    required: false
+    secret: true
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/stacklok/dockyard
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/build-containers.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev
