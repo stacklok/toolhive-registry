@@ -1,27 +1,19 @@
 # Docker/OCI image reference (REQUIRED)
 image: ghcr.io/stacklok/dockyard/uvx/chroma-mcp:0.2.6
-
 # One-line description (REQUIRED)
 description: MCP server for ChromaDB vector database operations
-
 # Communication protocol (REQUIRED)
 transport: stdio
-
 # Source code repository (HIGHLY RECOMMENDED)
 repository_url: https://github.com/chroma-core/chroma-mcp
-
 # License identifier (OPTIONAL)
 license: Apache-2.0
-
 # Author/organization (OPTIONAL)
 author: Chroma Core
-
 # Classification tier
 tier: Official
-
 # Development status
 status: Active
-
 # Categorization tags (RECOMMENDED)
 tags:
   - database
@@ -29,7 +21,6 @@ tags:
   - embeddings
   - ai
   - chromadb
-
 # List of tools provided (HIGHLY RECOMMENDED)
 tools:
   - chroma_list_collections
@@ -44,19 +35,16 @@ tools:
   - chroma_get_documents
   - chroma_update_documents
   - chroma_delete_documents
-
 # Environment variables (IF APPLICABLE)
 env_vars:
   - name: CHROMA_SERVER_URL
     description: ChromaDB server URL
     required: false
     default: "http://localhost:8000"
-  
   - name: CHROMA_API_KEY
     description: API key for ChromaDB authentication
     required: false
     secret: true
-
 # Security permissions - Chroma MCP can connect to various backends
 permissions:
   network:
@@ -64,7 +52,6 @@ permissions:
       # Allow all outbound since users may self-host Chroma anywhere
       # or use Chroma Cloud at api.trychroma.com
       insecure_allow_all: true
-
 # Provenance for supply chain security (Dockyard build)
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com
@@ -72,3 +59,7 @@ provenance:
   runner_environment: github-hosted
   signer_identity: /.github/workflows/build-containers.yml
   sigstore_url: tuf-repo-cdn.sigstore.dev
+metadata:
+  stars: 305
+  pulls: 0
+  last_updated: 2025-08-22T09:39:14Z
