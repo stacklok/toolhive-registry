@@ -10,47 +10,47 @@ tier: Community
 status: Active
 transport: sse
 tools:
-    - get_image_info
-    - list_tags
-    - get_image_manifest
-    - get_image_config
+  - get_image_info
+  - list_tags
+  - get_image_manifest
+  - get_image_config
 metadata:
-    stars: 9
-    pulls: 8029
-    last_updated: "2025-08-13T08:42:54Z"
+  stars: 10
+  pulls: 8029
+  last_updated: "2025-08-22T09:45:11Z"
 repository_url: https://github.com/StacklokLabs/ocireg-mcp
 tags:
-    - oci
-    - registry
-    - containers
-    - images
-    - tags
-    - manifest
-    - config
-    - mcp
-    - docker
+  - oci
+  - registry
+  - containers
+  - images
+  - tags
+  - manifest
+  - config
+  - mcp
+  - docker
 image: ghcr.io/stackloklabs/ocireg-mcp/server:0.0.5
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
-            allow_port:
-                - 443
+  network:
+    outbound:
+      insecure_allow_all: true
+      allow_port:
+        - 443
 env_vars:
-    - name: OCI_TOKEN
-      description: Bearer token for OCI registry authentication
-      required: false
-      secret: true
-    - name: OCI_USERNAME
-      description: Username for registry authentication
-      required: false
-    - name: OCI_PASSWORD
-      description: Password for registry authentication
-      required: false
-      secret: true
+  - name: OCI_TOKEN
+    description: Bearer token for OCI registry authentication
+    required: false
+    secret: true
+  - name: OCI_USERNAME
+    description: Username for registry authentication
+    required: false
+  - name: OCI_PASSWORD
+    description: Password for registry authentication
+    required: false
+    secret: true
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/StacklokLabs/ocireg-mcp
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/release.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/StacklokLabs/ocireg-mcp
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/release.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev

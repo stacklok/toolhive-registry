@@ -10,38 +10,38 @@ tier: Community
 status: Active
 transport: sse
 tools:
-    - list_resources
-    - get_resource
-    - apply_resource
+  - list_resources
+  - get_resource
+  - apply_resource
 metadata:
-    stars: 44
-    pulls: 13952
-    last_updated: "2025-08-13T08:42:49Z"
+  stars: 45
+  pulls: 13952
+  last_updated: "2025-08-22T09:45:09Z"
 repository_url: https://github.com/StacklokLabs/mkp
 tags:
-    - kubernetes
-    - k8s
-    - api
-    - resources
-    - cluster
-    - namespaced
-    - apply
-    - get
-    - list
+  - kubernetes
+  - k8s
+  - api
+  - resources
+  - cluster
+  - namespaced
+  - apply
+  - get
+  - list
 image: ghcr.io/stackloklabs/mkp/server:0.1.0
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
-            allow_port:
-                - 443
+  network:
+    outbound:
+      insecure_allow_all: true
+      allow_port:
+        - 443
 env_vars:
-    - name: KUBECONFIG
-      description: Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)
-      required: false
+  - name: KUBECONFIG
+    description: Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)
+    required: false
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/StacklokLabs/mkp
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/release.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/StacklokLabs/mkp
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/release.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev

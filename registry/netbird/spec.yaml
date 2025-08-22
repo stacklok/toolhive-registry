@@ -10,47 +10,47 @@ tier: Community
 status: Active
 transport: sse
 tools:
-    - list_netbird_peers
-    - list_netbird_port_allocations
-    - list_netbird_groups
-    - list_netbird_policies
-    - list_netbird_posture_checks
-    - list_netbird_networks
-    - list_netbird_nameservers
+  - list_netbird_peers
+  - list_netbird_port_allocations
+  - list_netbird_groups
+  - list_netbird_policies
+  - list_netbird_posture_checks
+  - list_netbird_networks
+  - list_netbird_nameservers
 metadata:
-    stars: 38
-    pulls: 10904
-    last_updated: "2025-08-13T08:42:50Z"
+  stars: 38
+  pulls: 10904
+  last_updated: "2025-08-22T09:45:09Z"
 repository_url: https://github.com/aantti/mcp-netbird
 tags:
-    - netbird
-    - vpn
-    - networking
-    - peer
-    - route
-    - dns
-    - setup-key
-    - management
+  - netbird
+  - vpn
+  - networking
+  - peer
+  - route
+  - dns
+  - setup-key
+  - management
 image: docker.io/aantti/mcp-netbird:latest
 target_port: 8001
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
-            allow_host:
-                - api.netbird.io
-            allow_port:
-                - 443
+  network:
+    outbound:
+      insecure_allow_all: true
+      allow_host:
+        - api.netbird.io
+      allow_port:
+        - 443
 env_vars:
-    - name: NETBIRD_API_TOKEN
-      description: NetBird API token for authentication
-      required: true
-      secret: true
-    - name: NETBIRD_HOST
-      description: NetBird API host (default is api.netbird.io)
-      required: false
+  - name: NETBIRD_API_TOKEN
+    description: NetBird API token for authentication
+    required: true
+    secret: true
+  - name: NETBIRD_HOST
+    description: NetBird API host (default is api.netbird.io)
+    required: false
 args:
-    - --transport
-    - sse
-    - --sse-address
-    - :8001
+  - --transport
+  - sse
+  - --sse-address
+  - :8001

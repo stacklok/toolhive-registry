@@ -10,34 +10,34 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - resolveProviderDocID
-    - getProviderDocs
-    - searchModules
-    - moduleDetails
+  - resolveProviderDocID
+  - getProviderDocs
+  - searchModules
+  - moduleDetails
 metadata:
-    stars: 809
-    pulls: 9600
-    last_updated: "2025-08-13T08:42:49Z"
+  stars: 862
+  pulls: 9600
+  last_updated: "2025-08-22T09:45:09Z"
 repository_url: https://github.com/hashicorp/terraform-mcp-server
 tags:
-    - terraform
-    - iac
-    - infrastructure
-    - automation
-    - providers
-    - modules
-    - hcl
-    - plan
-    - apply
-    - destroy
-    - aws
-    - gcp
-    - azure
+  - terraform
+  - iac
+  - infrastructure
+  - automation
+  - providers
+  - modules
+  - hcl
+  - plan
+  - apply
+  - destroy
+  - aws
+  - gcp
+  - azure
 image: docker.io/hashicorp/terraform-mcp-server:0.2.3
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - registry.terraform.io
-            allow_port:
-                - 443
+  network:
+    outbound:
+      allow_host:
+        - registry.terraform.io
+      allow_port:
+        - 443
