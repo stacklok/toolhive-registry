@@ -311,7 +311,7 @@ func updateMetadataInNode(node *yaml.Node, stars, pulls int) error {
 		updated := map[string]bool{
 			"stars":       false,
 			"pulls":       false,
-			"lastupdated": false,
+			"last_updated": false,
 		}
 
 		for i := 0; i < len(metadataNode.Content); i += 2 {
@@ -323,9 +323,9 @@ func updateMetadataInNode(node *yaml.Node, stars, pulls int) error {
 			case "pulls":
 				metadataNode.Content[i+1].Value = fmt.Sprintf("%d", pulls)
 				updated["pulls"] = true
-			case "lastupdated":
+			case "last_updated":
 				metadataNode.Content[i+1].Value = now
-				updated["lastupdated"] = true
+				updated["last_updated"] = true
 			}
 		}
 
@@ -340,9 +340,9 @@ func updateMetadataInNode(node *yaml.Node, stars, pulls int) error {
 				&yaml.Node{Kind: yaml.ScalarNode, Value: "pulls"},
 				&yaml.Node{Kind: yaml.ScalarNode, Value: fmt.Sprintf("%d", pulls)})
 		}
-		if !updated["lastupdated"] {
+		if !updated["last_updated"] {
 			metadataNode.Content = append(metadataNode.Content,
-				&yaml.Node{Kind: yaml.ScalarNode, Value: "lastupdated"},
+				&yaml.Node{Kind: yaml.ScalarNode, Value: "last_updated"},
 				&yaml.Node{Kind: yaml.ScalarNode, Value: now})
 		}
 	} else {
@@ -355,7 +355,7 @@ func updateMetadataInNode(node *yaml.Node, stars, pulls int) error {
 				{Kind: yaml.ScalarNode, Value: fmt.Sprintf("%d", stars)},
 				{Kind: yaml.ScalarNode, Value: "pulls"},
 				{Kind: yaml.ScalarNode, Value: fmt.Sprintf("%d", pulls)},
-				{Kind: yaml.ScalarNode, Value: "lastupdated"},
+				{Kind: yaml.ScalarNode, Value: "last_updated"},
 				{Kind: yaml.ScalarNode, Value: now},
 			},
 		}
