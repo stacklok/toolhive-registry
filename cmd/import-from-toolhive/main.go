@@ -199,7 +199,10 @@ func importEntry(name string, server *toolhiveRegistry.ImageMetadata, outputDir 
 	if err := encoder.Encode(server); err != nil {
 		return fmt.Errorf("failed to marshal YAML: %w", err)
 	}
-	encoder.Close()
+	err := encoder.Close()
+	if err != nil {
+		return fmt.Errorf("failed to close YAML encoder: %w", err)
+	}
 	yamlData := buf.Bytes()
 
 	// Add a header comment with metadata
