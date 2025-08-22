@@ -5,7 +5,7 @@ go 1.24.5
 require (
 	github.com/google/go-cmp v0.7.0
 	github.com/spf13/cobra v1.9.1
-	github.com/stacklok/toolhive v0.2.10
+	github.com/stacklok/toolhive v0.2.11
 	github.com/stretchr/testify v1.10.0
 	gopkg.in/yaml.v3 v3.0.1
 )
