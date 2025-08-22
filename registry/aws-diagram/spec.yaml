@@ -1,36 +1,49 @@
-# aws-diagram MCP Server Registry Entry
-# Auto-imported from ToolHive registry.json
-# 
-# Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-14T07:27:00Z
-# ---
 name: aws-diagram
+image: ghcr.io/stacklok/dockyard/uvx/aws-diagram-mcp-server:1.0.5
 description: Generate AWS diagrams, sequence diagrams, flow diagrams, and class diagrams using Python code.
 tier: Official
 status: Active
 transport: stdio
+target_port: 0
+permissions:
+  name: ""
+  read: []
+  write: []
+  network:
+    outbound:
+      insecure_allow_all: false
+      allow_host: []
+      allow_port: []
 tools:
   - generate_diagram
   - get_diagram_examples
   - list_icons
-metadata:
-  stars: 5950
-  pulls: 7294
-  last_updated: "2025-08-22T09:45:11Z"
-repository_url: https://github.com/awslabs/mcp
-tags:
-  - aws
-  - diagram
-  - sequence-diagram
-  - flow-diagram
-  - class-diagram
-  - python
-image: docker.io/mcp/aws-diagram:latest
-permissions:
-  network:
-    outbound: {}
 env_vars:
+  - name: OUTPUT_DIR
+    description: Directory where diagrams will be saved
+    required: false
+    default: "/tmp/diagrams"
+    secret: false
   - name: FASTMCP_LOG_LEVEL
     description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
     required: false
     default: ERROR
+args: []
+metadata:
+  stars: 5291
+  pulls: 0
+  last_updated: "2025-08-22T02:32:58Z"
+repository_url: https://github.com/awslabs/mcp
+tags:
+  - aws
+  - cloud
+  - diagrams
+  - architecture
+  - visualization
+# Provenance for supply chain security (Dockyard build)
+provenance:
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev
