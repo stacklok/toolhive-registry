@@ -10,35 +10,35 @@ tier: Community
 status: Active
 transport: stdio
 tools:
-    - create_entities
-    - create_relations
-    - add_observations
-    - delete_entities
-    - delete_observations
-    - delete_relations
-    - read_graph
-    - search_nodes
-    - open_nodes
+  - create_entities
+  - create_relations
+  - add_observations
+  - delete_entities
+  - delete_observations
+  - delete_relations
+  - read_graph
+  - search_nodes
+  - open_nodes
 metadata:
-    stars: 64037
-    pulls: 15854
-    last_updated: "2025-08-13T08:42:40Z"
+  stars: 65278
+  pulls: 15854
+  last_updated: "2025-08-22T09:42:37Z"
 repository_url: https://github.com/modelcontextprotocol/servers
 tags:
-    - entities
-    - graph
-    - knowledge
-    - memory
-    - observations
-    - persistent
-    - relations
+  - entities
+  - graph
+  - knowledge
+  - memory
+  - observations
+  - persistent
+  - relations
 image: docker.io/mcp/memory:latest
 permissions:
-    network:
-        outbound:
-            allow_port:
-                - 443
+  network:
+    outbound:
+      allow_port:
+        - 443
 env_vars:
-    - name: MEMORY_FILE_PATH
-      description: 'Path to the memory storage JSON file (default: memory.json in the server directory)'
-      required: false
+  - name: MEMORY_FILE_PATH
+    description: 'Path to the memory storage JSON file (default: memory.json in the server directory)'
+    required: false

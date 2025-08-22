@@ -10,79 +10,79 @@ tier: Official
 status: Active
 transport: streamable-http
 tools:
-    - falcon_check_connectivity
-    - falcon_get_available_modules
-    - falcon_search_detections
-    - falcon_get_detection_details
-    - falcon_show_crowd_score
-    - falcon_search_incidents
-    - falcon_get_incident_details
-    - falcon_search_behaviors
-    - falcon_get_behavior_details
-    - falcon_search_actors
-    - falcon_search_indicators
-    - falcon_search_reports
-    - falcon_search_hosts
-    - falcon_get_host_details
-    - falcon_search_vulnerabilities
-    - falcon_search_kubernetes_containers
-    - falcon_count_kubernetes_containers
-    - falcon_search_images_vulnerabilities
-    - idp_investigate_entity
+  - falcon_check_connectivity
+  - falcon_get_available_modules
+  - falcon_search_detections
+  - falcon_get_detection_details
+  - falcon_show_crowd_score
+  - falcon_search_incidents
+  - falcon_get_incident_details
+  - falcon_search_behaviors
+  - falcon_get_behavior_details
+  - falcon_search_actors
+  - falcon_search_indicators
+  - falcon_search_reports
+  - falcon_search_hosts
+  - falcon_get_host_details
+  - falcon_search_vulnerabilities
+  - falcon_search_kubernetes_containers
+  - falcon_count_kubernetes_containers
+  - falcon_search_images_vulnerabilities
+  - idp_investigate_entity
 metadata:
-    stars: 36
-    pulls: 3771
-    last_updated: "2025-08-13T08:42:49Z"
+  stars: 42
+  pulls: 3771
+  last_updated: "2025-08-22T09:42:43Z"
 repository_url: https://github.com/crowdstrike/falcon-mcp
 tags:
-    - crowdstrike
-    - falcon
-    - security
-    - cybersecurity
-    - threat-intelligence
-    - detections
-    - incidents
-    - vulnerabilities
-    - endpoint-security
-    - threat-hunting
-    - incident-response
-    - malware-analysis
-    - identity-protection
-    - cloud-security
+  - crowdstrike
+  - falcon
+  - security
+  - cybersecurity
+  - threat-intelligence
+  - detections
+  - incidents
+  - vulnerabilities
+  - endpoint-security
+  - threat-hunting
+  - incident-response
+  - malware-analysis
+  - identity-protection
+  - cloud-security
 image: quay.io/crowdstrike/falcon-mcp:latest
 target_port: 8000
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - api.crowdstrike.com
-                - api.us-2.crowdstrike.com
-                - api.eu-1.crowdstrike.com
-                - api.laggar.gcw.crowdstrike.com
-            allow_port:
-                - 443
+  network:
+    outbound:
+      allow_host:
+        - api.crowdstrike.com
+        - api.us-2.crowdstrike.com
+        - api.eu-1.crowdstrike.com
+        - api.laggar.gcw.crowdstrike.com
+      allow_port:
+        - 443
 env_vars:
-    - name: FALCON_CLIENT_ID
-      description: CrowdStrike API client ID
-      required: true
-      secret: true
-    - name: FALCON_CLIENT_SECRET
-      description: CrowdStrike API client secret
-      required: true
-      secret: true
-    - name: FALCON_BASE_URL
-      description: CrowdStrike API base URL (e.g., https://api.crowdstrike.com, https://api.us-2.crowdstrike.com, https://api.eu-1.crowdstrike.com)
-      required: true
-    - name: FALCON_MCP_MODULES
-      description: Comma-separated list of modules to enable (detections,incidents,intel,hosts,spotlight,cloud,idp). If not set, all modules are enabled.
-      required: false
-    - name: FALCON_MCP_DEBUG
-      description: 'Enable debug logging - true or false (default: false)'
-      required: false
+  - name: FALCON_CLIENT_ID
+    description: CrowdStrike API client ID
+    required: true
+    secret: true
+  - name: FALCON_CLIENT_SECRET
+    description: CrowdStrike API client secret
+    required: true
+    secret: true
+  - name: FALCON_BASE_URL
+    description: CrowdStrike API base URL (e.g., https://api.crowdstrike.com, https://api.us-2.crowdstrike.com, https://api.eu-1.crowdstrike.com)
+    required: true
+  - name: FALCON_MCP_MODULES
+    description: Comma-separated list of modules to enable (detections,incidents,intel,hosts,spotlight,cloud,idp). If not set, all modules are enabled.
+    required: false
+  - name: FALCON_MCP_DEBUG
+    description: 'Enable debug logging - true or false (default: false)'
+    required: false
 args:
-    - --transport
-    - streamable-http
-    - --host
-    - 0.0.0.0
-    - --port
-    - "8000"
+  - --transport
+  - streamable-http
+  - --host
+  - 0.0.0.0
+  - --port
+  - "8000"
