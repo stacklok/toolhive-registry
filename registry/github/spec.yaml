@@ -131,8 +131,17 @@ env_vars:
     description: GitHub personal access token with appropriate permissions
     required: true
     secret: true
-  - name: GH_HOST
+  - name: GITHUB_HOST
     description: GitHub Enterprise Server hostname (optional)
+    required: false
+  - name: GITHUB_TOOLSETS
+    description: Comma-separated list of toolsets to enable (e.g., 'repos,issues,pull_requests'). If not set, all toolsets are enabled. See the README for available toolsets.
+    required: false
+  - name: GITHUB_DYNAMIC_TOOLSETS
+    description: Set to '1' to enable dynamic toolset discovery
+    required: false
+  - name: GITHUB_READ_ONLY
+    description: Set to '1' to enable read-only mode, preventing any modifications to GitHub resources
     required: false
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com
