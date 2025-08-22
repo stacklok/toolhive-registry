@@ -1,30 +1,21 @@
 # Docker/OCI image reference (REQUIRED)
 image: ghcr.io/stacklok/dockyard/npx/agentql-mcp:1.0.0
-
 # One-line description (REQUIRED)
 description: Model Context Protocol server that integrates AgentQL data extraction capabilities
-
 # Communication protocol (REQUIRED)
 transport: stdio
-
 # Source code repository (HIGHLY RECOMMENDED)
 repository_url: https://github.com/tinyfish-io/agentql-mcp
-
 # Project homepage/documentation (OPTIONAL)
 homepage: https://agentql.com
-
 # License identifier (OPTIONAL)
 license: MIT
-
 # Author/organization (OPTIONAL)
 author: TinyFish
-
 # Classification tier
 tier: Official
-
 # Development status
 status: Active
-
 # Categorization tags (RECOMMENDED)
 tags:
   - web-scraping
@@ -32,18 +23,15 @@ tags:
   - ai
   - automation
   - web
-
 # List of tools provided (HIGHLY RECOMMENDED)
 tools:
   - extract-web-data
-
 # Environment variables (IF APPLICABLE)
 env_vars:
   - name: AGENTQL_API_KEY
     description: API key for AgentQL service
     required: true
     secret: true
-
 # Security permissions (IF APPLICABLE)
 permissions:
   network:
@@ -54,7 +42,6 @@ permissions:
         - api.agentql.com
       allow_port:
         - 443
-
 # Provenance for supply chain security (Dockyard build)
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com
@@ -62,3 +49,7 @@ provenance:
   runner_environment: github-hosted
   signer_identity: /.github/workflows/build-containers.yml
   sigstore_url: tuf-repo-cdn.sigstore.dev
+metadata:
+  stars: 104
+  pulls: 0
+  lastupdated: 2025-08-22T02:32:58Z
