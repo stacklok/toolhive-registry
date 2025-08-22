@@ -10,43 +10,43 @@ tier: Community
 status: Active
 transport: stdio
 tools:
-    - get_version
-    - get_entity
-    - entity_action
-    - list_entities
-    - search_entities_tool
-    - domain_summary_tool
-    - list_automations
-    - call_service_tool
-    - restart_ha
-    - get_history
-    - get_error_log
+  - get_version
+  - get_entity
+  - entity_action
+  - list_entities
+  - search_entities_tool
+  - domain_summary_tool
+  - list_automations
+  - call_service_tool
+  - restart_ha
+  - get_history
+  - get_error_log
 metadata:
-    stars: 151
-    pulls: 17082
-    last_updated: "2025-08-13T08:42:47Z"
+  stars: 162
+  pulls: 17082
+  last_updated: "2025-08-22T09:42:42Z"
 repository_url: https://github.com/voska/hass-mcp
 tags:
-    - home-assistant
-    - smart-home
-    - automation
-    - iot
-    - sensors
-    - devices
-    - control
-    - monitoring
-    - home-automation
-    - domotics
+  - home-assistant
+  - smart-home
+  - automation
+  - iot
+  - sensors
+  - devices
+  - control
+  - monitoring
+  - home-automation
+  - domotics
 image: docker.io/voska/hass-mcp:0.1.1
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
+  network:
+    outbound:
+      insecure_allow_all: true
 env_vars:
-    - name: HA_URL
-      description: Home Assistant instance URL (e.g. http://homeassistant.local:8123)
-      required: true
-    - name: HA_TOKEN
-      description: Home Assistant Long-Lived Access Token
-      required: true
-      secret: true
+  - name: HA_URL
+    description: Home Assistant instance URL (e.g. http://homeassistant.local:8123)
+    required: true
+  - name: HA_TOKEN
+    description: Home Assistant Long-Lived Access Token
+    required: true
+    secret: true

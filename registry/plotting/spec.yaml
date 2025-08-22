@@ -10,29 +10,29 @@ tier: Community
 status: Active
 transport: streamable-http
 tools:
-    - generate_plot
+  - generate_plot
 metadata:
-    stars: 0
-    pulls: 1314
-    last_updated: "2025-08-13T08:42:46Z"
+  stars: 0
+  pulls: 1314
+  last_updated: "2025-08-22T09:42:41Z"
 repository_url: https://github.com/StacklokLabs/plotting-mcp
 tags:
-    - plotting
-    - visualization
-    - data
-    - charts
-    - graphs
-    - matplotlib
-    - seaborn
-    - cartopy
-    - maps
+  - plotting
+  - visualization
+  - data
+  - charts
+  - graphs
+  - matplotlib
+  - seaborn
+  - cartopy
+  - maps
 image: ghcr.io/stackloklabs/plotting-mcp:v0.0.2
 permissions:
-    network:
-        outbound: {}
+  network:
+    outbound: {}
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/StacklokLabs/plotting-mcp
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/release.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/StacklokLabs/plotting-mcp
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/release.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev
