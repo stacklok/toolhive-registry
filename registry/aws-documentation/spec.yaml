@@ -1,37 +1,26 @@
-# aws-documentation MCP Server Registry Entry
-# Auto-imported from ToolHive registry.json
-# 
-# Original source: https://github.com/stacklok/toolhive
-# Import timestamp: 2025-08-14T07:27:00Z
-# ---
 name: aws-documentation
+image: ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.2
 description: Access AWS documentation, search for content, and get recommendations.
 tier: Official
 status: Active
 transport: stdio
-tools:
-  - read_documentation
-  - recommend
-  - search_documentation
-metadata:
-  stars: 5950
-  pulls: 10451
-  last_updated: "2025-08-22T09:45:09Z"
-repository_url: https://github.com/awslabs/mcp
-tags:
-  - aws
-  - content
-  - documentation
-  - knowledge-base
-image: docker.io/mcp/aws-documentation:latest
+target_port: 0
 permissions:
+  name: ""
+  read: []
+  write: []
   network:
     outbound:
+      insecure_allow_all: false
       allow_host:
         - .docs.aws.amazon.com
         - .docs.amazonaws.cn
       allow_port:
         - 443
+tools:
+  - read_documentation
+  - search_documentation
+  - recommend
 env_vars:
   - name: AWS_DOCUMENTATION_PARTITION
     description: AWS documentation partition (aws, aws-cn)
@@ -41,3 +30,21 @@ env_vars:
     description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
     required: false
     default: ERROR
+args: []
+metadata:
+  stars: 5950
+  pulls: 0
+  last_updated: 2025-08-22T09:40:58Z
+repository_url: https://github.com/awslabs/mcp
+tags:
+  - aws
+  - documentation
+  - cloud
+  - reference
+# Provenance for supply chain security (Dockyard build)
+provenance:
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev
