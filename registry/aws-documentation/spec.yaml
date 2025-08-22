@@ -10,34 +10,34 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - read_documentation
-    - recommend
-    - search_documentation
+  - read_documentation
+  - recommend
+  - search_documentation
 metadata:
-    stars: 5324
-    pulls: 10451
-    last_updated: "2025-08-13T08:42:51Z"
+  stars: 5950
+  pulls: 10451
+  last_updated: "2025-08-22T09:45:09Z"
 repository_url: https://github.com/awslabs/mcp
 tags:
-    - aws
-    - content
-    - documentation
-    - knowledge-base
+  - aws
+  - content
+  - documentation
+  - knowledge-base
 image: docker.io/mcp/aws-documentation:latest
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - .docs.aws.amazon.com
-                - .docs.amazonaws.cn
-            allow_port:
-                - 443
+  network:
+    outbound:
+      allow_host:
+        - .docs.aws.amazon.com
+        - .docs.amazonaws.cn
+      allow_port:
+        - 443
 env_vars:
-    - name: AWS_DOCUMENTATION_PARTITION
-      description: AWS documentation partition (aws, aws-cn)
-      required: false
-      default: aws
-    - name: FASTMCP_LOG_LEVEL
-      description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-      required: false
-      default: ERROR
+  - name: AWS_DOCUMENTATION_PARTITION
+    description: AWS documentation partition (aws, aws-cn)
+    required: false
+    default: aws
+  - name: FASTMCP_LOG_LEVEL
+    description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    required: false
+    default: ERROR
