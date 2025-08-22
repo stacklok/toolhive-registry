@@ -10,49 +10,48 @@ tier: Community
 status: Active
 transport: stdio
 tools:
-    - store_memory
-    - retrieve_memory
-    - search_memories
-    - delete_memory
-    - list_memories
+  - store_memory
+  - retrieve_memory
+  - search_memories
+  - delete_memory
+  - list_memories
 metadata:
-    stars: 610
-    pulls: 105
-    last_updated: "2025-08-13T08:42:32Z"
+  stars: 636
+  pulls: 105
+  last_updated: "2025-08-22T09:41:03Z"
 repository_url: https://github.com/neo4j-contrib/mcp-neo4j
 tags:
-    - database
-    - neo4j
-    - memory
-    - knowledge-graph
-    - graph-database
+  - database
+  - neo4j
+  - memory
+  - knowledge-graph
+  - graph-database
 image: ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-memory:0.2.0
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - localhost
-                - '*.neo4j.io'
-                - '*.databases.neo4j.io'
-            allow_port:
-                - 7687
-                - 7473
-                - 7474
-                - 443
+  network:
+    outbound:
+      allow_host:
+        - localhost
+        - '*.neo4j.io'
+        - '*.databases.neo4j.io'
+      allow_port:
+        - 7687
+        - 7473
+        - 7474
+        - 443
 env_vars:
-    - name: NEO4J_URI
-      description: Neo4j database connection URI
-      required: true
-      default: bolt://localhost:7687
-    - name: NEO4J_USERNAME
-      description: Neo4j database username
-      required: false
-      default: neo4j
-    - name: NEO4J_PASSWORD
-      description: Neo4j database password
-      required: false
-      secret: true
-
+  - name: NEO4J_URI
+    description: Neo4j database connection URI
+    required: true
+    default: bolt://localhost:7687
+  - name: NEO4J_USERNAME
+    description: Neo4j database username
+    required: false
+    default: neo4j
+  - name: NEO4J_PASSWORD
+    description: Neo4j database password
+    required: false
+    secret: true
 # Provenance for supply chain security (Dockyard build)
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com

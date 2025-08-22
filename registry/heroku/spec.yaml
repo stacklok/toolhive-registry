@@ -10,70 +10,70 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - list_apps
-    - get_app_info
-    - create_app
-    - rename_app
-    - transfer_app
-    - deploy_to_heroku
-    - deploy_one_off_dyno
-    - ps_list
-    - ps_scale
-    - ps_restart
-    - list_addons
-    - get_addon_info
-    - create_addon
-    - maintenance_on
-    - maintenance_off
-    - get_app_logs
-    - pipelines_create
-    - pipelines_promote
-    - pipelines_list
-    - pipelines_info
-    - list_teams
-    - list_private_spaces
-    - pg_psql
-    - pg_info
-    - pg_ps
-    - pg_locks
-    - pg_outliers
-    - pg_credentials
-    - pg_kill
-    - pg_maintenance
-    - pg_backups
-    - pg_upgrade
+  - list_apps
+  - get_app_info
+  - create_app
+  - rename_app
+  - transfer_app
+  - deploy_to_heroku
+  - deploy_one_off_dyno
+  - ps_list
+  - ps_scale
+  - ps_restart
+  - list_addons
+  - get_addon_info
+  - create_addon
+  - maintenance_on
+  - maintenance_off
+  - get_app_logs
+  - pipelines_create
+  - pipelines_promote
+  - pipelines_list
+  - pipelines_info
+  - list_teams
+  - list_private_spaces
+  - pg_psql
+  - pg_info
+  - pg_ps
+  - pg_locks
+  - pg_outliers
+  - pg_credentials
+  - pg_kill
+  - pg_maintenance
+  - pg_backups
+  - pg_upgrade
 metadata:
-    stars: 55
-    pulls: 104
-    last_updated: "2025-08-13T08:42:36Z"
+  stars: 57
+  pulls: 104
+  last_updated: "2025-08-22T09:41:06Z"
 repository_url: https://github.com/heroku/heroku-mcp-server
 tags:
-    - heroku
-    - paas
-    - deployment
-    - cloud
-    - devops
+  - heroku
+  - paas
+  - deployment
+  - cloud
+  - devops
 image: ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - .heroku.com
-                - .herokuapp.com
-            allow_port:
-                - 443
+  network:
+    outbound:
+      allow_host:
+        - .heroku.com
+        - .herokuapp.com
+      allow_port:
+        - 443
 env_vars:
-    - name: HEROKU_API_KEY
-      description: Your Heroku authorization token
-      required: true
-      secret: true
-    - name: MCP_SERVER_REQUEST_TIMEOUT
-      description: Timeout in milliseconds for command execution
-      required: false
-      default: "15000"
+  - name: HEROKU_API_KEY
+    description: Your Heroku authorization token
+    required: true
+    secret: true
+  - name: MCP_SERVER_REQUEST_TIMEOUT
+    description: Timeout in milliseconds for command execution
+    required: false
+    default: "15000"
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/stacklok/dockyard
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/build-containers.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev

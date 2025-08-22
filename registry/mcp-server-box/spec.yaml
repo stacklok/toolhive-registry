@@ -10,68 +10,68 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - box_who_am_i
-    - box_authorize_app_tool
-    - box_search_tool
-    - box_search_folder_by_name_tool
-    - box_ai_ask_file_single_tool
-    - box_ai_ask_file_multi_tool
-    - box_ai_ask_hub_tool
-    - box_ai_extract_freeform_tool
-    - box_ai_extract_structured_using_fields_tool
-    - box_ai_extract_structured_using_template_tool
-    - box_ai_extract_structured_enhanced_using_fields_tool
-    - box_ai_extract_structured_enhanced_using_template_tool
-    - box_docgen_create_batch_tool
-    - box_docgen_get_job_by_id_tool
-    - box_docgen_list_jobs_tool
-    - box_docgen_list_jobs_by_batch_tool
-    - box_docgen_template_create_tool
-    - box_docgen_template_list_tool
-    - box_docgen_template_get_by_id_tool
-    - box_docgen_template_list_tags_tool
-    - box_docgen_template_list_jobs_tool
-    - box_docgen_template_get_by_name_tool
-    - box_docgen_create_single_file_from_user_input_tool
-    - box_read_tool
-    - box_upload_file_from_path_tool
-    - box_upload_file_from_content_tool
-    - box_download_file_tool
-    - box_list_folder_content_by_folder_id
-    - box_manage_folder_tool
-    - box_metadata_template_get_by_name_tool
-    - box_metadata_set_instance_on_file_tool
-    - box_metadata_get_instance_on_file_tool
-    - box_metadata_delete_instance_on_file_tool
-    - box_metadata_update_instance_on_file_tool
-    - box_metadata_template_create_tool
+  - box_who_am_i
+  - box_authorize_app_tool
+  - box_search_tool
+  - box_search_folder_by_name_tool
+  - box_ai_ask_file_single_tool
+  - box_ai_ask_file_multi_tool
+  - box_ai_ask_hub_tool
+  - box_ai_extract_freeform_tool
+  - box_ai_extract_structured_using_fields_tool
+  - box_ai_extract_structured_using_template_tool
+  - box_ai_extract_structured_enhanced_using_fields_tool
+  - box_ai_extract_structured_enhanced_using_template_tool
+  - box_docgen_create_batch_tool
+  - box_docgen_get_job_by_id_tool
+  - box_docgen_list_jobs_tool
+  - box_docgen_list_jobs_by_batch_tool
+  - box_docgen_template_create_tool
+  - box_docgen_template_list_tool
+  - box_docgen_template_get_by_id_tool
+  - box_docgen_template_list_tags_tool
+  - box_docgen_template_list_jobs_tool
+  - box_docgen_template_get_by_name_tool
+  - box_docgen_create_single_file_from_user_input_tool
+  - box_read_tool
+  - box_upload_file_from_path_tool
+  - box_upload_file_from_content_tool
+  - box_download_file_tool
+  - box_list_folder_content_by_folder_id
+  - box_manage_folder_tool
+  - box_metadata_template_get_by_name_tool
+  - box_metadata_set_instance_on_file_tool
+  - box_metadata_get_instance_on_file_tool
+  - box_metadata_delete_instance_on_file_tool
+  - box_metadata_update_instance_on_file_tool
+  - box_metadata_template_create_tool
 metadata:
-    stars: 43
-    pulls: 52
-    last_updated: "2025-08-13T08:42:34Z"
+  stars: 46
+  pulls: 52
+  last_updated: "2025-08-22T09:41:05Z"
 repository_url: https://github.com/box-community/mcp-server-box
 tags:
-    - storage
-    - box
-    - files
-    - ai
-    - document-generation
+  - storage
+  - box
+  - files
+  - ai
+  - document-generation
 image: ghcr.io/stacklok/dockyard/uvx/mcp-server-box:0.1.2
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
+  network:
+    outbound:
+      insecure_allow_all: true
 env_vars:
-    - name: BOX_CLIENT_ID
-      description: Box API Client ID
-      required: true
-    - name: BOX_CLIENT_SECRET
-      description: Box API Client Secret
-      required: true
-      secret: true
+  - name: BOX_CLIENT_ID
+    description: Box API Client ID
+    required: true
+  - name: BOX_CLIENT_SECRET
+    description: Box API Client Secret
+    required: true
+    secret: true
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/stacklok/dockyard
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/build-containers.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev
