@@ -67,12 +67,8 @@ permissions:
         - 443
         - 80
   # File system access
-  read:
-    - .circleci/config.yml
-    - .cursorrules
-    - .cursor/rules
-  write:
-    - ${FILE_OUTPUT_DIRECTORY}
+  read: []
+  write: []
 # Provenance information for supply chain security
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com
