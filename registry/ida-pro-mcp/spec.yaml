@@ -10,60 +10,59 @@ tier: Community
 status: Active
 transport: stdio
 tools:
-    - check_connection
-    - get_metadata
-    - get_function_by_name
-    - get_function_by_address
-    - get_current_address
-    - get_current_function
-    - convert_number
-    - list_functions
-    - list_globals_filter
-    - list_globals
-    - list_strings_filter
-    - list_strings
-    - list_local_types
-    - decompile_function
-    - disassemble_function
-    - get_xrefs_to
-    - get_xrefs_to_field
-    - get_entry_points
-    - set_comment
-    - rename_local_variable
-    - rename_global_variable
-    - set_global_variable_type
-    - rename_function
-    - set_function_prototype
-    - declare_c_type
-    - set_local_variable_type
-    - dbg_get_registers
-    - dbg_get_call_stack
-    - dbg_list_breakpoints
-    - dbg_start_process
-    - dbg_exit_process
-    - dbg_continue_process
-    - dbg_run_to
-    - dbg_set_breakpoint
-    - dbg_delete_breakpoint
-    - dbg_enable_breakpoint
+  - check_connection
+  - get_metadata
+  - get_function_by_name
+  - get_function_by_address
+  - get_current_address
+  - get_current_function
+  - convert_number
+  - list_functions
+  - list_globals_filter
+  - list_globals
+  - list_strings_filter
+  - list_strings
+  - list_local_types
+  - decompile_function
+  - disassemble_function
+  - get_xrefs_to
+  - get_xrefs_to_field
+  - get_entry_points
+  - set_comment
+  - rename_local_variable
+  - rename_global_variable
+  - set_global_variable_type
+  - rename_function
+  - set_function_prototype
+  - declare_c_type
+  - set_local_variable_type
+  - dbg_get_registers
+  - dbg_get_call_stack
+  - dbg_list_breakpoints
+  - dbg_start_process
+  - dbg_exit_process
+  - dbg_continue_process
+  - dbg_run_to
+  - dbg_set_breakpoint
+  - dbg_delete_breakpoint
+  - dbg_enable_breakpoint
 metadata:
-    stars: 2998
-    pulls: 99
-    last_updated: "2025-08-13T08:42:30Z"
+  stars: 3219
+  pulls: 99
+  last_updated: "2025-08-22T09:41:01Z"
 repository_url: https://github.com/mrexodia/ida-pro-mcp
 tags:
-    - reverse-engineering
-    - ida-pro
-    - analysis
-    - security
-    - disassembly
-    - decompilation
+  - reverse-engineering
+  - ida-pro
+  - analysis
+  - security
+  - disassembly
+  - decompilation
 image: ghcr.io/stacklok/dockyard/uvx/ida-pro-mcp:1.4.0
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
-
+  network:
+    outbound:
+      insecure_allow_all: true
 # Provenance for supply chain security (Dockyard build)
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com

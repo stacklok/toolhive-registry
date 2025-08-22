@@ -6,84 +6,84 @@ status: Active
 transport: stdio
 target_port: 0
 permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecure_allow_all: false
-            allow_host:
-                - .heroku.com
-                - .herokuapp.com
-            allow_port:
-                - 443
+  name: ""
+  read: []
+  write: []
+  network:
+    outbound:
+      insecure_allow_all: false
+      allow_host:
+        - .heroku.com
+        - .herokuapp.com
+      allow_port:
+        - 443
 tools:
-    # Application Management
-    - list_apps
-    - get_app_info
-    - create_app
-    - rename_app
-    - transfer_app
-    - deploy_to_heroku
-    - deploy_one_off_dyno
-    # Process & Dyno Management
-    - ps_list
-    - ps_scale
-    - ps_restart
-    # Add-ons
-    - list_addons
-    - get_addon_info
-    - create_addon
-    # Maintenance & Logs
-    - maintenance_on
-    - maintenance_off
-    - get_app_logs
-    # Pipeline Management
-    - pipelines_create
-    - pipelines_promote
-    - pipelines_list
-    - pipelines_info
-    # Team & Space Management
-    - list_teams
-    - list_private_spaces
-    # PostgreSQL Database Management
-    - pg_psql
-    - pg_info
-    - pg_ps
-    - pg_locks
-    - pg_outliers
-    - pg_credentials
-    - pg_kill
-    - pg_maintenance
-    - pg_backups
-    - pg_upgrade
+  # Application Management
+  - list_apps
+  - get_app_info
+  - create_app
+  - rename_app
+  - transfer_app
+  - deploy_to_heroku
+  - deploy_one_off_dyno
+  # Process & Dyno Management
+  - ps_list
+  - ps_scale
+  - ps_restart
+  # Add-ons
+  - list_addons
+  - get_addon_info
+  - create_addon
+  # Maintenance & Logs
+  - maintenance_on
+  - maintenance_off
+  - get_app_logs
+  # Pipeline Management
+  - pipelines_create
+  - pipelines_promote
+  - pipelines_list
+  - pipelines_info
+  # Team & Space Management
+  - list_teams
+  - list_private_spaces
+  # PostgreSQL Database Management
+  - pg_psql
+  - pg_info
+  - pg_ps
+  - pg_locks
+  - pg_outliers
+  - pg_credentials
+  - pg_kill
+  - pg_maintenance
+  - pg_backups
+  - pg_upgrade
 env_vars:
-    - name: HEROKU_API_KEY
-      description: Your Heroku authorization token
-      required: true
-      default: ""
-      secret: true
-    - name: MCP_SERVER_REQUEST_TIMEOUT
-      description: Timeout in milliseconds for command execution
-      required: false
-      default: "15000"
-      secret: false
+  - name: HEROKU_API_KEY
+    description: Your Heroku authorization token
+    required: true
+    default: ""
+    secret: true
+  - name: MCP_SERVER_REQUEST_TIMEOUT
+    description: Timeout in milliseconds for command execution
+    required: false
+    default: "15000"
+    secret: false
 args: []
 metadata:
-    stars: 55
-    pulls: 0
-    last_updated: 2025-08-11T15:29:10Z
+  stars: 57
+  pulls: 0
+  last_updated: 2025-08-22T09:40:59Z
 repository_url: https://github.com/heroku/heroku-mcp-server
 tags:
-    - heroku
-    - paas
-    - deployment
-    - cloud
-    - devops
+  - heroku
+  - paas
+  - deployment
+  - cloud
+  - devops
 # Provenance for supply chain security (Dockyard build)
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/stacklok/dockyard
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/build-containers.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev

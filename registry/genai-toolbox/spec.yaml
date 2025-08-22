@@ -10,28 +10,28 @@ tier: Official
 status: Active
 transport: sse
 tools:
-    - set_during_runtime
+  - set_during_runtime
 metadata:
-    stars: 9191
-    pulls: 2408
-    last_updated: "2025-08-13T08:42:37Z"
+  stars: 9486
+  pulls: 2408
+  last_updated: "2025-08-22T09:41:06Z"
 repository_url: https://github.com/googleapis/genai-toolbox
 tags:
-    - database
-    - sql
-    - postgresql
-    - mysql
-    - sqlite
-    - mongodb
-    - redis
-    - connection-pooling
-    - authentication
-    - observability
-    - toolbox
-    - genai
-    - mcp-server
+  - database
+  - sql
+  - postgresql
+  - mysql
+  - sqlite
+  - mongodb
+  - redis
+  - connection-pooling
+  - authentication
+  - observability
+  - toolbox
+  - genai
+  - mcp-server
 image: us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.12.0
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
+  network:
+    outbound:
+      insecure_allow_all: true
