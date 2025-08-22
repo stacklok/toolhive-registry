@@ -10,26 +10,26 @@ tier: Community
 status: Active
 transport: stdio
 tools:
-    - resolve-library-id
-    - get-library-docs
+  - resolve-library-id
+  - get-library-docs
 metadata:
-    stars: 25386
-    pulls: 313
-    last_updated: "2025-08-13T08:42:55Z"
+  stars: 26860
+  pulls: 313
+  last_updated: "2025-08-22T09:45:11Z"
 repository_url: https://github.com/upstash/context7
 tags:
-    - documentation
-    - modelcontextprotocol
+  - documentation
+  - modelcontextprotocol
 image: ghcr.io/stacklok/dockyard/npx/context7:1.0.14
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
-            allow_port:
-                - 443
+  network:
+    outbound:
+      insecure_allow_all: true
+      allow_port:
+        - 443
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/stacklok/dockyard
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/build-containers.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev

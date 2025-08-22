@@ -10,33 +10,33 @@ tier: Community
 status: Active
 transport: streamable-http
 tools:
-    - fetch
+  - fetch
 metadata:
-    stars: 17
-    pulls: 12390
-    last_updated: "2025-08-13T08:42:51Z"
+  stars: 17
+  pulls: 12390
+  last_updated: "2025-08-22T09:45:10Z"
 repository_url: https://github.com/stackloklabs/gofetch
 tags:
-    - content
-    - html
-    - markdown
-    - fetch
-    - fetching
-    - get
-    - wget
-    - json
-    - curl
-    - modelcontextprotocol
+  - content
+  - html
+  - markdown
+  - fetch
+  - fetching
+  - get
+  - wget
+  - json
+  - curl
+  - modelcontextprotocol
 image: ghcr.io/stackloklabs/gofetch/server:0.0.4
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
-            allow_port:
-                - 443
+  network:
+    outbound:
+      insecure_allow_all: true
+      allow_port:
+        - 443
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/StacklokLabs/gofetch
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/release.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/StacklokLabs/gofetch
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/release.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev

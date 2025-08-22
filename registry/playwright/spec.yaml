@@ -10,49 +10,49 @@ tier: Official
 status: Active
 transport: sse
 tools:
-    - browser_close
-    - browser_resize
-    - browser_console_messages
-    - browser_handle_dialog
-    - browser_file_upload
-    - browser_install
-    - browser_press_key
-    - browser_navigate
-    - browser_navigate_back
-    - browser_navigate_forward
-    - browser_network_requests
-    - browser_pdf_save
-    - browser_take_screenshot
-    - browser_snapshot
-    - browser_click
-    - browser_drag
-    - browser_hover
-    - browser_type
-    - browser_select_option
-    - browser_tab_list
-    - browser_tab_new
-    - browser_tab_select
-    - browser_tab_close
-    - browser_generate_playwright_test
-    - browser_wait_for
+  - browser_close
+  - browser_resize
+  - browser_console_messages
+  - browser_handle_dialog
+  - browser_file_upload
+  - browser_install
+  - browser_press_key
+  - browser_navigate
+  - browser_navigate_back
+  - browser_navigate_forward
+  - browser_network_requests
+  - browser_pdf_save
+  - browser_take_screenshot
+  - browser_snapshot
+  - browser_click
+  - browser_drag
+  - browser_hover
+  - browser_type
+  - browser_select_option
+  - browser_tab_list
+  - browser_tab_new
+  - browser_tab_select
+  - browser_tab_close
+  - browser_generate_playwright_test
+  - browser_wait_for
 metadata:
-    stars: 16840
-    pulls: 23622
-    last_updated: "2025-08-13T08:42:53Z"
+  stars: 17741
+  pulls: 23622
+  last_updated: "2025-08-22T09:45:10Z"
 repository_url: https://github.com/microsoft/playwright-mcp
 tags:
-    - playwright
-    - automation
-    - browser
-    - navigate
+  - playwright
+  - automation
+  - browser
+  - navigate
 image: mcr.microsoft.com/playwright/mcp:v0.0.34
 target_port: 8931
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
-            allow_port:
-                - 443
+  network:
+    outbound:
+      insecure_allow_all: true
+      allow_port:
+        - 443
 args:
-    - --port
-    - "8931"
+  - --port
+  - "8931"

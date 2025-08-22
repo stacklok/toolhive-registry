@@ -10,27 +10,27 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - generate_diagram
-    - get_diagram_examples
-    - list_icons
+  - generate_diagram
+  - get_diagram_examples
+  - list_icons
 metadata:
-    stars: 5324
-    pulls: 7294
-    last_updated: "2025-08-13T08:42:54Z"
+  stars: 5950
+  pulls: 7294
+  last_updated: "2025-08-22T09:45:11Z"
 repository_url: https://github.com/awslabs/mcp
 tags:
-    - aws
-    - diagram
-    - sequence-diagram
-    - flow-diagram
-    - class-diagram
-    - python
+  - aws
+  - diagram
+  - sequence-diagram
+  - flow-diagram
+  - class-diagram
+  - python
 image: docker.io/mcp/aws-diagram:latest
 permissions:
-    network:
-        outbound: {}
+  network:
+    outbound: {}
 env_vars:
-    - name: FASTMCP_LOG_LEVEL
-      description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-      required: false
-      default: ERROR
+  - name: FASTMCP_LOG_LEVEL
+    description: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    required: false
+    default: ERROR
