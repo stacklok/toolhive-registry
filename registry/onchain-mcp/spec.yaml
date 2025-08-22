@@ -1,30 +1,21 @@
 # Docker/OCI image reference (REQUIRED)
 image: ghcr.io/stacklok/dockyard/npx/onchain-mcp:1.0.6
-
 # One-line description (REQUIRED)
 description: MCP server for blockchain data interaction through the Bankless API
-
 # Communication protocol (REQUIRED)
 transport: stdio
-
 # Source code repository (HIGHLY RECOMMENDED)
 repository_url: https://github.com/Bankless/onchain-mcp
-
 # Project homepage/documentation (OPTIONAL)
 homepage: https://docs.bankless.com/bankless-api/other-services/onchain-mcp
-
 # License identifier (OPTIONAL)
 license: MIT
-
 # Author/organization (OPTIONAL)
 author: Bankless
-
 # Classification tier
 tier: Official
-
 # Development status
 status: Active
-
 # Categorization tags (RECOMMENDED)
 tags:
   - blockchain
@@ -33,7 +24,6 @@ tags:
   - smart-contracts
   - defi
   - crypto
-
 # List of tools provided (HIGHLY RECOMMENDED)
 tools:
   - read_contract
@@ -46,14 +36,12 @@ tools:
   - get_transaction_info
   - get_token_balances_on_network
   - get_block_info
-
 # Environment variables (IF APPLICABLE)
 env_vars:
   - name: BANKLESS_API_TOKEN
     description: API token for Bankless API authentication
     required: true
     secret: true
-
 # Security permissions (IF APPLICABLE)
 permissions:
   network:
@@ -62,7 +50,6 @@ permissions:
         - api.bankless.com
       allow_port:
         - 443
-
 # Provenance for supply chain security (Dockyard build)
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com
@@ -70,3 +57,7 @@ provenance:
   runner_environment: github-hosted
   signer_identity: /.github/workflows/build-containers.yml
   sigstore_url: tuf-repo-cdn.sigstore.dev
+metadata:
+  stars: 61
+  pulls: 0
+  last_updated: 2025-08-22T09:39:15Z

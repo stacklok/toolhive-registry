@@ -1,27 +1,19 @@
 # Docker/OCI image reference (REQUIRED)
 image: ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.14.0
-
 # One-line description (REQUIRED)
 description: Official CircleCI MCP server for CI/CD operations, enabling AI models to manage pipelines, analyze test results, debug build failures, and optimize resource usage
-
 # Communication protocol (REQUIRED)
 transport: stdio
-
 # Source code repository (HIGHLY RECOMMENDED)
 repository_url: https://github.com/CircleCI-Public/mcp-server-circleci
-
 # License identifier (OPTIONAL)
 license: MIT
-
 # Author/organization (OPTIONAL)
 author: CircleCI
-
 # Classification tier (OPTIONAL, defaults to "Community")
 tier: Official
-
 # Development status (OPTIONAL, defaults to "Active")
 status: Active
-
 # Categorization tags (RECOMMENDED)
 tags:
   - circleci
@@ -33,7 +25,6 @@ tags:
   - continuous-integration
   - continuous-deployment
   - build-automation
-
 # List of tools provided (HIGHLY RECOMMENDED)
 tools:
   - get_build_failure_logs
@@ -51,23 +42,19 @@ tools:
   - list_component_versions
   - download_usage_api_data
   - find_underused_resource_classes
-
 # Environment variables (IF APPLICABLE)
 env_vars:
   - name: CIRCLECI_TOKEN
     description: CircleCI Personal API Token for authentication
     required: true
     secret: true
-  
   - name: CIRCLECI_BASE_URL
     description: CircleCI base URL (optional, defaults to https://circleci.com)
     required: false
     default: "https://circleci.com"
-  
   - name: FILE_OUTPUT_DIRECTORY
     description: Directory for file outputs (optional, used by some tools)
     required: false
-
 # Security permissions (IF APPLICABLE)
 permissions:
   # Network access
@@ -79,16 +66,13 @@ permissions:
       allow_port:
         - 443
         - 80
-  
   # File system access
   read:
     - .circleci/config.yml
     - .cursorrules
     - .cursor/rules
-  
   write:
     - ${FILE_OUTPUT_DIRECTORY}
-
 # Provenance information for supply chain security
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com
@@ -96,3 +80,7 @@ provenance:
   runner_environment: github-hosted
   signer_identity: /.github/workflows/build-containers.yml
   sigstore_url: tuf-repo-cdn.sigstore.dev
+metadata:
+  stars: 59
+  pulls: 0
+  last_updated: 2025-08-22T09:39:15Z
