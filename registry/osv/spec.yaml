@@ -10,36 +10,36 @@ tier: Community
 status: Active
 transport: sse
 tools:
-    - query_vulnerability
-    - query_vulnerabilities_batch
-    - get_vulnerability
+  - query_vulnerability
+  - query_vulnerabilities_batch
+  - get_vulnerability
 metadata:
-    stars: 17
-    pulls: 10318
-    last_updated: "2025-08-13T08:42:45Z"
+  stars: 17
+  pulls: 10318
+  last_updated: "2025-08-22T09:42:40Z"
 repository_url: https://github.com/StacklokLabs/osv-mcp
 tags:
-    - vulnerability
-    - security
-    - osv
-    - open-source
-    - cve
-    - packages
-    - dependencies
-    - scanning
-    - security-scanning
-    - vulnerability-detection
+  - vulnerability
+  - security
+  - osv
+  - open-source
+  - cve
+  - packages
+  - dependencies
+  - scanning
+  - security-scanning
+  - vulnerability-detection
 image: ghcr.io/stackloklabs/osv-mcp/server:0.0.7
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - api.osv.dev
-            allow_port:
-                - 443
+  network:
+    outbound:
+      allow_host:
+        - api.osv.dev
+      allow_port:
+        - 443
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/StacklokLabs/osv-mcp
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/release.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/StacklokLabs/osv-mcp
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/release.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev

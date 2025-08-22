@@ -10,28 +10,28 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - perplexity_ask
-    - perplexity_research
-    - perplexity_reason
+  - perplexity_ask
+  - perplexity_research
+  - perplexity_reason
 metadata:
-    stars: 1493
-    pulls: 15188
-    last_updated: "2025-08-13T08:42:45Z"
+  stars: 1519
+  pulls: 15188
+  last_updated: "2025-08-22T09:42:40Z"
 repository_url: https://github.com/ppl-ai/modelcontextprotocol
 tags:
-    - ask
-    - perplexity
-    - perplexity-ask
+  - ask
+  - perplexity
+  - perplexity-ask
 image: docker.io/mcp/perplexity-ask:latest
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - api.perplexity.ai
-            allow_port:
-                - 443
+  network:
+    outbound:
+      allow_host:
+        - api.perplexity.ai
+      allow_port:
+        - 443
 env_vars:
-    - name: PERPLEXITY_API_KEY
-      description: Perplexity API key
-      required: true
-      secret: true
+  - name: PERPLEXITY_API_KEY
+    description: Perplexity API key
+    required: true
+    secret: true

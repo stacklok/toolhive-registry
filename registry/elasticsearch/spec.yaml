@@ -10,60 +10,60 @@ tier: Official
 status: Active
 transport: streamable-http
 tools:
-    - esql
-    - get_mappings
-    - get_shards
-    - list_indices
-    - search
+  - esql
+  - get_mappings
+  - get_shards
+  - list_indices
+  - search
 metadata:
-    stars: 407
-    pulls: 10995
-    last_updated: "2025-08-13T08:42:48Z"
+  stars: 425
+  pulls: 10995
+  last_updated: "2025-08-22T09:42:42Z"
 repository_url: https://github.com/elastic/mcp-server-elasticsearch
 tags:
-    - elasticsearch
-    - search
-    - analytics
-    - data
-    - alerting
-    - observability
-    - metrics
-    - logs
+  - elasticsearch
+  - search
+  - analytics
+  - data
+  - alerting
+  - observability
+  - metrics
+  - logs
 image: docker.io/mcp/elasticsearch:latest
 target_port: 8080
 permissions:
-    network:
-        outbound:
-            insecure_allow_all: true
-            allow_port:
-                - 443
-                - 9200
+  network:
+    outbound:
+      insecure_allow_all: true
+      allow_port:
+        - 443
+        - 9200
 env_vars:
-    - name: ES_URL
-      description: Your Elasticsearch instance URL
-      required: true
-    - name: ES_API_KEY
-      description: Elasticsearch API key for authentication
-      required: false
-      secret: true
-    - name: ES_USERNAME
-      description: Elasticsearch username for basic authentication
-      required: false
-    - name: ES_PASSWORD
-      description: Elasticsearch password for basic authentication
-      required: false
-      secret: true
-    - name: ES_CA_CERT
-      description: Path to custom CA certificate for Elasticsearch SSL/TLS
-      required: false
-    - name: ES_SSL_SKIP_VERIFY
-      description: Set to '1' or 'true' to skip SSL certificate verification
-      required: false
-    - name: ES_PATH_PREFIX
-      description: Path prefix for Elasticsearch instance exposed at a non-root path
-      required: false
-    - name: ES_VERSION
-      description: Server assumes Elasticsearch 9.x. Set to 8 target Elasticsearch 8.x
-      required: false
+  - name: ES_URL
+    description: Your Elasticsearch instance URL
+    required: true
+  - name: ES_API_KEY
+    description: Elasticsearch API key for authentication
+    required: false
+    secret: true
+  - name: ES_USERNAME
+    description: Elasticsearch username for basic authentication
+    required: false
+  - name: ES_PASSWORD
+    description: Elasticsearch password for basic authentication
+    required: false
+    secret: true
+  - name: ES_CA_CERT
+    description: Path to custom CA certificate for Elasticsearch SSL/TLS
+    required: false
+  - name: ES_SSL_SKIP_VERIFY
+    description: Set to '1' or 'true' to skip SSL certificate verification
+    required: false
+  - name: ES_PATH_PREFIX
+    description: Path prefix for Elasticsearch instance exposed at a non-root path
+    required: false
+  - name: ES_VERSION
+    description: Server assumes Elasticsearch 9.x. Set to 8 target Elasticsearch 8.x
+    required: false
 args:
-    - http
+  - http
