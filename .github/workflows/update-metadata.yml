@@ -38,7 +38,7 @@ jobs:
       - name: Get oldest entries
         id: get-entries
         run: |
-          # Find all spec.yaml files and sort by metadata.lastupdated (oldest first)
+          # Find all spec.yaml files and sort by metadata.last_updated (oldest first)
           # Default to 5 entries or use workflow input
           COUNT="${{ github.event.inputs.count || '5' }}"
           

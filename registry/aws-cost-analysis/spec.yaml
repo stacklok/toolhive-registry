@@ -10,21 +10,21 @@ description: Generate upfront AWS service cost estimates and cost insights. This
 tier: Official
 status: Deprecated
 transport: stdio
-targetport: 0
+target_port: 0
 permissions:
   name: ""
   read: []
   write: []
   network:
     outbound:
-      insecureallowall: false
-      allowhost:
+      insecure_allow_all: false
+      allow_host:
         - aws.amazon.com
         - pricing.us-east-1.amazonaws.com
         - api.pricing.us-east-1.amazonaws.com
         - api.pricing.eu-central-1.amazonaws.com
         - api.pricing.ap-southeast-1.amazonaws.com
-      allowport:
+      allow_port:
         - 443
 tools:
   - analyze_cdk_project
@@ -33,7 +33,7 @@ tools:
   - get_pricing_from_api
   - get_bedrock_patterns
   - generate_cost_report
-envvars:
+env_vars:
   - name: AWS_ACCESS_KEY_ID
     description: AWS access key ID with access to the AWS Pricing API
     required: false
@@ -63,8 +63,8 @@ args: []
 metadata:
   stars: 5281
   pulls: 8163
-  lastupdated: "2025-08-22T02:32:58Z"
-repositoryurl: https://github.com/awslabs/mcp
+  last_updated: "2025-08-22T02:32:58Z"
+repository_url: https://github.com/awslabs/mcp
 tags:
   - aws
   - cost-analysis

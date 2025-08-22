@@ -4,16 +4,16 @@ description: MCP server for Graphlit platform - ingest, search, and retrieve kno
 tier: Official
 status: Active
 transport: stdio
-targetport: 0
+target_port: 0
 permissions:
     name: ""
     read: []
     write: []
     network:
         outbound:
-            insecureallowall: true
-            allowhost: []
-            allowport:
+            insecure_allow_all: true
+            allow_host: []
+            allow_port:
                 - 443
 tools:
     # Retrieval
@@ -71,7 +71,7 @@ tools:
     - list_discord_channels
     - list_google_calendars
     - list_microsoft_calendars
-envvars:
+env_vars:
     - name: GRAPHLIT_ENVIRONMENT_ID
       description: Your Graphlit environment ID
       required: true
@@ -147,8 +147,8 @@ args: []
 metadata:
     stars: 346
     pulls: 0
-    lastupdated: 2025-08-11T15:29:09Z
-repositoryurl: https://github.com/graphlit/graphlit-mcp-server
+    last_updated: 2025-08-11T15:29:09Z
+repository_url: https://github.com/graphlit/graphlit-mcp-server
 tags:
     - knowledge-base
     - rag
