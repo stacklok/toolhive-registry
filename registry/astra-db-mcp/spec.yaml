@@ -1,30 +1,21 @@
 # Docker/OCI image reference (REQUIRED)
 image: ghcr.io/stacklok/dockyard/npx/astra-db-mcp:1.2.0
-
 # One-line description (REQUIRED)
 description: Model Context Protocol server for interacting with DataStax Astra DB
-
 # Communication protocol (REQUIRED)
 transport: stdio
-
 # Source code repository (HIGHLY RECOMMENDED)
 repository_url: https://github.com/datastax/astra-db-mcp
-
 # Project homepage/documentation (OPTIONAL)
 homepage: https://astra.datastax.com
-
 # License identifier (OPTIONAL)
 license: Apache-2.0
-
 # Author/organization (OPTIONAL)
 author: DataStax
-
 # Classification tier
 tier: Official
-
 # Development status
 status: Active
-
 # Categorization tags (RECOMMENDED)
 tags:
   - database
@@ -33,7 +24,6 @@ tags:
   - vector-database
   - datastax
   - astra
-
 # List of tools provided (HIGHLY RECOMMENDED)
 tools:
   - GetCollections
@@ -52,30 +42,25 @@ tools:
   - OpenBrowser
   - HelpAddToClient
   - EstimateDocumentCount
-
 # Environment variables (IF APPLICABLE)
 env_vars:
   - name: ASTRA_DB_APPLICATION_TOKEN
     description: Astra DB application token for authentication
     required: true
     secret: true
-  
   - name: ASTRA_DB_API_ENDPOINT
     description: Astra DB API endpoint URL
     required: true
-  
   - name: ASTRA_DB_KEYSPACE
     description: Astra DB keyspace to use (defaults to default_keyspace)
     required: false
     default: "default_keyspace"
-
 # Security permissions (IF APPLICABLE)
 permissions:
   network:
     outbound:
       # Astra DB endpoints vary by region and instance
       insecure_allow_all: true
-
 # Provenance for supply chain security (Dockyard build)
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com
@@ -83,3 +68,7 @@ provenance:
   runner_environment: github-hosted
   signer_identity: /.github/workflows/build-containers.yml
   sigstore_url: tuf-repo-cdn.sigstore.dev
+metadata:
+  stars: 29
+  pulls: 0
+  lastupdated: 2025-08-22T02:32:58Z
