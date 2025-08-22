@@ -32,8 +32,8 @@ permissions:
     outbound:
       allow_host:
         - localhost
-        - '*.neo4j.io'
-        - '*.databases.neo4j.io'
+        - .neo4j.io
+        - .databases.neo4j.io
       allow_port:
         - 7687
         - 7473
