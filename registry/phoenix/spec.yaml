@@ -1,30 +1,21 @@
 # Docker/OCI image reference (REQUIRED)
 image: ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.2.9
-
 # One-line description (REQUIRED)
 description: MCP server for Arize Phoenix observability platform
-
 # Communication protocol (REQUIRED)
 transport: stdio
-
 # Source code repository (HIGHLY RECOMMENDED)
 repository_url: https://github.com/Arize-ai/phoenix
-
 # Project homepage/documentation (OPTIONAL)
 homepage: https://phoenix.arize.com
-
 # License identifier (OPTIONAL)
 license: Apache-2.0
-
 # Author/organization (OPTIONAL)
 author: Arize AI
-
 # Classification tier
 tier: Official
-
 # Development status
 status: Active
-
 # Categorization tags (RECOMMENDED)
 tags:
   - observability
@@ -33,7 +24,6 @@ tags:
   - tracing
   - evaluation
   - ai
-
 # List of tools provided (HIGHLY RECOMMENDED)
 tools:
   # Span tools
@@ -58,26 +48,22 @@ tools:
   - update-prompt
   # Support tools
   - share-traces
-
 # Environment variables (IF APPLICABLE)
 env_vars:
   - name: PHOENIX_API_KEY
     description: API key for Phoenix authentication
     required: false
     secret: true
-  
   - name: PHOENIX_BASE_URL
     description: Base URL for Phoenix instance
     required: false
     default: "http://localhost:6006"
-
 # Security permissions - Phoenix MCP connects to Phoenix instance
 permissions:
   network:
     outbound:
       # Allow all outbound connections since users may host Phoenix anywhere
       insecure_allow_all: true
-
 # Provenance for supply chain security (Dockyard build)
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com
@@ -85,3 +71,7 @@ provenance:
   runner_environment: github-hosted
   signer_identity: /.github/workflows/build-containers.yml
   sigstore_url: tuf-repo-cdn.sigstore.dev
+metadata:
+  stars: 6733
+  pulls: 0
+  last_updated: 2025-08-22T09:32:47Z

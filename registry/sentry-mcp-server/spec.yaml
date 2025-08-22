@@ -6,68 +6,69 @@ status: Active
 transport: stdio
 targetport: 0
 permissions:
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost:
-                - .sentry.io
-                - sentry.io
-            allowport:
-                - 443
+  read: []
+  write: []
+  network:
+    outbound:
+      insecureallowall: false
+      allowhost:
+        - .sentry.io
+        - sentry.io
+      allowport:
+        - 443
 tools:
-    - whoami
-    - find_organizations
-    - find_teams
-    - find_projects
-    - find_releases
-    - get_issue_details
-    - get_trace_details
-    - get_event_attachment
-    - update_issue
-    - search_events
-    - create_team
-    - create_project
-    - update_project
-    - create_dsn
-    - find_dsns
-    - analyze_issue_with_seer
-    - search_docs
-    - get_doc
-    - search_issues
+  - whoami
+  - find_organizations
+  - find_teams
+  - find_projects
+  - find_releases
+  - get_issue_details
+  - get_trace_details
+  - get_event_attachment
+  - update_issue
+  - search_events
+  - create_team
+  - create_project
+  - update_project
+  - create_dsn
+  - find_dsns
+  - analyze_issue_with_seer
+  - search_docs
+  - get_doc
+  - search_issues
 envvars:
-    - name: SENTRY_ACCESS_TOKEN
-      description: Sentry user auth token with necessary scopes
-      required: true
-      default: ""
-      secret: true
-    - name: SENTRY_HOST
-      description: Sentry host URL (e.g., sentry.example.com)
-      required: false
-      default: ""
-      secret: false
-    - name: OPENAI_API_KEY
-      description: OpenAI API key for AI-powered search tools (search_events, search_issues)
-      required: false
-      default: ""
-      secret: true
+  - name: SENTRY_ACCESS_TOKEN
+    description: Sentry user auth token with necessary scopes
+    required: true
+    default: ""
+    secret: true
+  - name: SENTRY_HOST
+    description: Sentry host URL (e.g., sentry.example.com)
+    required: false
+    default: ""
+    secret: false
+  - name: OPENAI_API_KEY
+    description: OpenAI API key for AI-powered search tools (search_events, search_issues)
+    required: false
+    default: ""
+    secret: true
 args: []
 metadata:
-    stars: 292
-    pulls: 0
-    lastupdated: 2025-08-11T15:29:10Z
+  stars: 292
+  pulls: 0
+  lastupdated: 2025-08-11T15:29:10Z
+  last_updated: 2025-08-22T09:32:48Z
 repositoryurl: https://github.com/getsentry/sentry-mcp
 tags:
-    - sentry
-    - debugging
-    - monitoring
-    - error-tracking
-    - observability
+  - sentry
+  - debugging
+  - monitoring
+  - error-tracking
+  - observability
 # Provenance for supply chain security (Dockyard build)
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/stacklok/dockyard
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/build-containers.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev

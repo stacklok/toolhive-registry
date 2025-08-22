@@ -6,34 +6,35 @@ status: Active
 transport: stdio
 targetport: 0
 permissions:
-    name: ""
-    read: []
-    write: []
-    network:
-        outbound:
-            insecureallowall: false
-            allowhost: []
-            allowport: []
+  name: ""
+  read: []
+  write: []
+  network:
+    outbound:
+      insecureallowall: false
+      allowhost: []
+      allowport: []
 tools:
-    - read_documentation
-    - search_documentation
-    - recommend
+  - read_documentation
+  - search_documentation
+  - recommend
 envvars: []
 args: []
 metadata:
-    stars: 5291
-    pulls: 0
-    lastupdated: 2025-08-11T15:29:07Z
+  stars: 5291
+  pulls: 0
+  lastupdated: 2025-08-11T15:29:07Z
+  last_updated: 2025-08-22T09:32:45Z
 repositoryurl: https://github.com/awslabs/mcp
 tags:
-    - aws
-    - documentation
-    - cloud
-    - reference
+  - aws
+  - documentation
+  - cloud
+  - reference
 # Provenance for supply chain security (Dockyard build)
 provenance:
-    cert_issuer: https://token.actions.githubusercontent.com
-    repository_uri: https://github.com/stacklok/dockyard
-    runner_environment: github-hosted
-    signer_identity: /.github/workflows/build-containers.yml
-    sigstore_url: tuf-repo-cdn.sigstore.dev
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev

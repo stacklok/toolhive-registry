@@ -10,54 +10,54 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-    - deploy_file_contents
-    - deploy_local_files
-    - deploy_local_folder
-    - deploy_container_image
-    - list_services
-    - get_service
-    - get_service_log
-    - list_projects
-    - create_project
+  - deploy_file_contents
+  - deploy_local_files
+  - deploy_local_folder
+  - deploy_container_image
+  - list_services
+  - get_service
+  - get_service_log
+  - list_projects
+  - create_project
 metadata:
-    stars: 316
-    pulls: 273
-    last_updated: "2025-08-13T06:16:55Z"
+  stars: 328
+  pulls: 273
+  last_updated: "2025-08-22T09:32:48Z"
 repository_url: https://github.com/GoogleCloudPlatform/cloud-run-mcp
 tags:
-    - google-cloud
-    - cloud-run
-    - deployment
-    - gcp
-    - serverless
-    - containers
-    - devops
+  - google-cloud
+  - cloud-run
+  - deployment
+  - gcp
+  - serverless
+  - containers
+  - devops
 image: docker.io/mcp/cloud-run-mcp:latest
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - run.googleapis.com
-                - cloudbuild.googleapis.com
-                - storage.googleapis.com
-                - logging.googleapis.com
-                - cloudresourcemanager.googleapis.com
-            allow_port:
-                - 443
+  network:
+    outbound:
+      allow_host:
+        - run.googleapis.com
+        - cloudbuild.googleapis.com
+        - storage.googleapis.com
+        - logging.googleapis.com
+        - cloudresourcemanager.googleapis.com
+      allow_port:
+        - 443
 env_vars:
-    - name: GOOGLE_APPLICATION_CREDENTIALS
-      description: Path to Google Cloud credentials JSON file
-      required: false
-      secret: true
-    - name: GOOGLE_CLOUD_PROJECT
-      description: Google Cloud project ID for deployments
-      required: false
-    - name: GOOGLE_CLOUD_REGION
-      description: Default Google Cloud region for deployments
-      required: false
-    - name: DEFAULT_SERVICE_NAME
-      description: Default Cloud Run service name
-      required: false
-    - name: SKIP_IAM_CHECK
-      description: Skip IAM permission checks (true/false)
-      required: false
+  - name: GOOGLE_APPLICATION_CREDENTIALS
+    description: Path to Google Cloud credentials JSON file
+    required: false
+    secret: true
+  - name: GOOGLE_CLOUD_PROJECT
+    description: Google Cloud project ID for deployments
+    required: false
+  - name: GOOGLE_CLOUD_REGION
+    description: Default Google Cloud region for deployments
+    required: false
+  - name: DEFAULT_SERVICE_NAME
+    description: Default Cloud Run service name
+    required: false
+  - name: SKIP_IAM_CHECK
+    description: Skip IAM permission checks (true/false)
+    required: false

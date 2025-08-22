@@ -10,49 +10,48 @@ tier: Community
 status: Active
 transport: stdio
 tools:
-    - list_instances
-    - create_instance
-    - delete_instance
-    - get_instance
-    - update_instance
-    - scale_instance
-    - enable_features
+  - list_instances
+  - create_instance
+  - delete_instance
+  - get_instance
+  - update_instance
+  - scale_instance
+  - enable_features
 metadata:
-    stars: 610
-    pulls: 141
-    last_updated: "2025-08-13T08:42:31Z"
+  stars: 636
+  pulls: 141
+  last_updated: "2025-08-22T09:32:50Z"
 repository_url: https://github.com/neo4j-contrib/mcp-neo4j
 tags:
-    - database
-    - neo4j
-    - aura
-    - cloud
-    - management
+  - database
+  - neo4j
+  - aura
+  - cloud
+  - management
 image: ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-aura-manager:0.3.0
 permissions:
-    network:
-        outbound:
-            allow_host:
-                - api.neo4j.io
-                - console.neo4j.io
-                - '*.neo4j.io'
-            allow_port:
-                - 443
-                - 80
+  network:
+    outbound:
+      allow_host:
+        - api.neo4j.io
+        - console.neo4j.io
+        - '*.neo4j.io'
+      allow_port:
+        - 443
+        - 80
 env_vars:
-    - name: AURA_CLIENT_ID
-      description: Neo4j Aura API client ID
-      required: true
-      secret: true
-    - name: AURA_CLIENT_SECRET
-      description: Neo4j Aura API client secret
-      required: true
-      secret: true
-    - name: AURA_TENANT_ID
-      description: Neo4j Aura tenant ID
-      required: false
-      secret: true
-
+  - name: AURA_CLIENT_ID
+    description: Neo4j Aura API client ID
+    required: true
+    secret: true
+  - name: AURA_CLIENT_SECRET
+    description: Neo4j Aura API client secret
+    required: true
+    secret: true
+  - name: AURA_TENANT_ID
+    description: Neo4j Aura tenant ID
+    required: false
+    secret: true
 # Provenance for supply chain security (Dockyard build)
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com
