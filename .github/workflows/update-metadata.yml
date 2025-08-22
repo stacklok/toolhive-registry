@@ -117,6 +117,3 @@ jobs:
             *This is an automated PR created by the daily metadata update workflow.*
           branch: update-metadata-${{ github.run_number }}
           delete-branch: true
-          labels: |
-            dependencies
-            automated
