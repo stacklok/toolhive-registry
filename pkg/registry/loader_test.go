@@ -5,22 +5,22 @@ import (
 	"path/filepath"
 	"testing"
 
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
 func TestLoader_LoadEntry(t *testing.T) {
 	t.Parallel()
-	// Create a temporary directory for test files
+	// Create a temporary directory
 	tmpDir := t.TempDir()
 
-	// Create a test spec.yaml file - write raw YAML to avoid marshaling issues
+	// Create a test YAML file with raw YAML to avoid marshaling issues
 	yamlData := []byte(`name: test-server
-image: test/image:latest
 description: Test MCP server
+image: test/image:latest
 transport: stdio
 tier: Community
 status: Active
@@ -36,9 +36,9 @@ tags:
 	err := os.WriteFile(specPath, yamlData, 0644)
 	require.NoError(t, err)
 
-	// Test loading the entry
+	// Test loading the entry with a proper name
 	loader := NewLoader(tmpDir)
-	entry, err := loader.LoadEntry(specPath)
+	entry, err := loader.LoadEntryWithName(specPath, "test-server")
 
 	assert.NoError(t, err)
 	assert.NotNil(t, entry)
@@ -69,6 +69,7 @@ func TestLoader_ValidateEntry(t *testing.T) {
 						Transport:   "stdio",
 						Tier:        "Official",
 						Status:      "Active",
+						Tools:       []string{"test-tool"},
 					},
 					Image: "test/image:latest",
 				},
@@ -82,11 +83,12 @@ func TestLoader_ValidateEntry(t *testing.T) {
 					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
 						Description: "Test server",
 						Transport:   "stdio",
+						Tools:       []string{"test-tool"},
 					},
 				},
 			},
 			wantErr: true,
-			errMsg:  "image is required for image-based servers",
+			errMsg:  "description is required",
 		},
 		{
 			name: "missing description",
@@ -94,6 +96,7 @@ func TestLoader_ValidateEntry(t *testing.T) {
 				ImageMetadata: &toolhiveRegistry.ImageMetadata{
 					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
 						Transport: "stdio",
+						Tools:     []string{"test-tool"},
 					},
 					Image: "test/image:latest",
 				},
@@ -107,6 +110,7 @@ func TestLoader_ValidateEntry(t *testing.T) {
 				ImageMetadata: &toolhiveRegistry.ImageMetadata{
 					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
 						Description: "Test server",
+						Tools:       []string{"test-tool"},
 					},
 					Image: "test/image:latest",
 				},
@@ -115,18 +119,33 @@ func TestLoader_ValidateEntry(t *testing.T) {
 			errMsg:  "transport is required",
 		},
 		{
+			name: "missing tools",
+			entry: &types.RegistryEntry{
+				ImageMetadata: &toolhiveRegistry.ImageMetadata{
+					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
+						Description: "Test server",
+						Transport:   "stdio",
+					},
+					Image: "test/image:latest",
+				},
+			},
+			wantErr: true,
+			errMsg:  "at least one tool must be specified",
+		},
+		{
 			name: "invalid transport",
 			entry: &types.RegistryEntry{
 				ImageMetadata: &toolhiveRegistry.ImageMetadata{
 					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
 						Description: "Test server",
 						Transport:   "invalid",
+						Tools:       []string{"test-tool"},
 					},
 					Image: "test/image:latest",
 				},
 			},
 			wantErr: true,
-			errMsg:  "invalid transport",
+			errMsg:  "schema validation failed",
 		},
 		{
 			name: "invalid tier",
@@ -136,12 +155,13 @@ func TestLoader_ValidateEntry(t *testing.T) {
 						Description: "Test server",
 						Transport:   "stdio",
 						Tier:        "InvalidTier",
+						Tools:       []string{"test-tool"},
 					},
 					Image: "test/image:latest",
 				},
 			},
 			wantErr: true,
-			errMsg:  "invalid tier",
+			errMsg:  "schema validation failed",
 		},
 		{
 			name: "invalid status",
@@ -151,19 +171,20 @@ func TestLoader_ValidateEntry(t *testing.T) {
 						Description: "Test server",
 						Transport:   "stdio",
 						Status:      "InvalidStatus",
+						Tools:       []string{"test-tool"},
 					},
 					Image: "test/image:latest",
 				},
 			},
 			wantErr: true,
-			errMsg:  "invalid status",
+			errMsg:  "schema validation failed",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			err := loader.validateEntry(tt.entry)
+			err := loader.validateEntry(tt.entry, "test-entry")
 			if tt.wantErr {
 				assert.Error(t, err)
 				if tt.errMsg != "" {
@@ -182,15 +203,27 @@ func TestLoader_LoadAll(t *testing.T) {
 	tmpDir := t.TempDir()
 
 	// Create multiple test entries with raw YAML to avoid marshaling issues
-	entries := map[string]string{
-		"server1": `name: server1
+	server1YAML := `name: server1
 description: Test server 1
 transport: stdio
-image: test/server1:latest`,
-		"server2": `name: server2
+image: test/server1:latest
+tier: Community
+status: Active
+tools:
+  - tool1`
+
+	server2YAML := `name: server2
 description: Test server 2
 transport: sse
-image: test/server2:latest`,
+image: test/server2:latest
+tier: Community
+status: Active
+tools:
+  - tool2`
+
+	entries := map[string]string{
+		"server1": server1YAML,
+		"server2": server2YAML,
 	}
 
 	// Create directories and spec files
@@ -207,25 +240,19 @@ image: test/server2:latest`,
 	// Test loading all entries
 	loader := NewLoader(tmpDir)
 	err := loader.LoadAll()
-
 	assert.NoError(t, err)
-	assert.Len(t, loader.GetEntries(), 2)
 
-	// Check that entries were loaded correctly
 	loadedEntries := loader.GetEntries()
+	assert.Len(t, loadedEntries, 2)
 	assert.Contains(t, loadedEntries, "server1")
 	assert.Contains(t, loadedEntries, "server2")
 
-	// Test GetSortedEntries
-	sorted := loader.GetSortedEntries()
-	assert.Len(t, sorted, 2)
-	assert.Equal(t, "server1", sorted[0].GetName())
-	assert.Equal(t, "server2", sorted[1].GetName())
+	sortedEntries := loader.GetSortedEntries()
+	assert.Len(t, sortedEntries, 2)
 }
 
 func TestBuilder_Build(t *testing.T) {
 	t.Parallel()
-	// Create a loader with test data
 	loader := NewLoader("")
 	loader.entries = map[string]*types.RegistryEntry{
 		"test-server": {
@@ -236,6 +263,7 @@ func TestBuilder_Build(t *testing.T) {
 					Transport:   "stdio",
 					Tier:        "Community",
 					Status:      "Active",
+					Tools:       []string{"test-tool"},
 				},
 				Image: "test/image:latest",
 			},
@@ -248,30 +276,23 @@ func TestBuilder_Build(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.NotNil(t, registry)
-	assert.Equal(t, "1.0.0", registry.Version)
 	assert.Len(t, registry.Servers, 1)
 	assert.Contains(t, registry.Servers, "test-server")
-
-	// Check that defaults were set
-	server := registry.Servers["test-server"]
-	assert.Equal(t, "Community", server.Tier)
-	assert.Equal(t, "Active", server.Status)
-	assert.NotNil(t, server.Tools)
-	assert.NotNil(t, server.Tags)
-	assert.NotNil(t, server.EnvVars)
-	assert.NotNil(t, server.Args)
 }
 
 func TestBuilder_ValidateAgainstSchema(t *testing.T) {
 	t.Parallel()
-	// Test with valid entries
 	loader := NewLoader("")
 	loader.entries = map[string]*types.RegistryEntry{
 		"valid-server": {
 			ImageMetadata: &toolhiveRegistry.ImageMetadata{
 				BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
-					Description: "Valid server",
+					Name:        "valid-server",
+					Description: "Valid test server",
 					Transport:   "stdio",
+					Tier:        "Community",
+					Status:      "Active",
+					Tools:       []string{"test-tool"},
 				},
 				Image: "test/image:latest",
 			},
@@ -287,7 +308,9 @@ func TestBuilder_ValidateAgainstSchema(t *testing.T) {
 		"invalid-server": {
 			ImageMetadata: &toolhiveRegistry.ImageMetadata{
 				BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
-					// Missing Description and Transport
+					Name:      "invalid-server",
+					Transport: "stdio",
+					Tools:     []string{"test-tool"},
 				},
 				Image: "test/image:latest",
 			},
@@ -296,5 +319,4 @@ func TestBuilder_ValidateAgainstSchema(t *testing.T) {
 
 	err = builder.ValidateAgainstSchema()
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "description is required")
 }

@@ -62,14 +62,16 @@ func (l *Loader) LoadAll() error {
 		// Try to load spec.yaml from this directory
 		specPath := filepath.Join(path, "spec.yaml")
 		if _, err := os.Stat(specPath); err == nil {
-			entry, err := l.LoadEntry(specPath)
+			// Use directory name as the entry name
+			entryName := info.Name()
+			
+			entry, err := l.LoadEntryWithName(specPath, entryName)
 			if err != nil {
 				return fmt.Errorf("failed to load %s: %w", specPath, err)
 			}
 
-			// Use directory name as the key if Name is not set
-			entryName := info.Name()
-			if entry.GetName() != "" {
+			// Override with explicit name if set in the spec
+			if entry.GetName() != "" && entry.GetName() != entryName {
 				entryName = entry.GetName()
 			} else {
 				entry.SetName(entryName)
@@ -84,8 +86,14 @@ func (l *Loader) LoadAll() error {
 	return err
 }
 
-// LoadEntry loads a single registry entry from a YAML file
+// LoadEntry loads a single registry entry from a YAML file without validation
+// Use LoadEntryWithName for validation with proper naming
 func (l *Loader) LoadEntry(path string) (*types.RegistryEntry, error) {
+	return l.LoadEntryWithName(path, "")
+}
+
+// LoadEntryWithName loads a single registry entry from a YAML file with validation
+func (l *Loader) LoadEntryWithName(path string, name string) (*types.RegistryEntry, error) {
 	file, err := os.Open(path) // #nosec G304 - path is constructed from known directory structure
 	if err != nil {
 		return nil, fmt.Errorf("failed to open file: %w", err)
@@ -102,142 +110,20 @@ func (l *Loader) LoadEntry(path string) (*types.RegistryEntry, error) {
 		return nil, fmt.Errorf("failed to parse YAML: %w", err)
 	}
 
-	// Validate required fields
-	if err := l.validateEntry(&entry); err != nil {
+	// Validate with the actual name if provided
+	if err := l.validateEntry(&entry, name); err != nil {
 		return nil, fmt.Errorf("validation failed: %w", err)
 	}
 
 	return &entry, nil
 }
 
-// validateEntry validates a registry entry
-func (l *Loader) validateEntry(entry *types.RegistryEntry) error {
-	// Check that we have either image or remote metadata
-	if entry.ImageMetadata == nil && entry.RemoteServerMetadata == nil {
-		return fmt.Errorf("entry must be either an image or remote server")
-	}
-
-	// Route to appropriate validator based on metadata presence
-	if entry.ImageMetadata != nil {
-		return l.validateImageEntry(entry)
-	} else if entry.RemoteServerMetadata != nil {
-		return l.validateRemoteEntry(entry)
-	}
-
-	return fmt.Errorf("unable to determine server type")
-}
-
-// validateImageEntry validates an image-based server entry
-func (l *Loader) validateImageEntry(entry *types.RegistryEntry) error {
-	if entry.ImageMetadata == nil {
-		return fmt.Errorf("ImageMetadata is nil")
-	}
-
-	// Image-specific required fields
-	if entry.Image == "" {
-		return fmt.Errorf("image is required for image-based servers")
-	}
-
-	// Validate common fields
-	return l.validateCommonFields(entry)
-}
-
-// validateRemoteEntry validates a remote server entry
-func (l *Loader) validateRemoteEntry(entry *types.RegistryEntry) error {
-	if entry.RemoteServerMetadata == nil {
-		return fmt.Errorf("RemoteServerMetadata is nil")
-	}
-
-	// Remote-specific required fields
-	if entry.URL == "" {
-		return fmt.Errorf("url is required for remote servers")
-	}
-
-	// Remote servers cannot use stdio transport
-	if entry.RemoteServerMetadata.Transport == "stdio" {
-		return fmt.Errorf("remote servers cannot use stdio transport (use sse or streamable-http)")
-	}
-
-	// Validate common fields
-	return l.validateCommonFields(entry)
-}
-
-// validateCommonFields validates fields common to both image and remote servers
-func (l *Loader) validateCommonFields(entry *types.RegistryEntry) error {
-	// Required fields
-	if entry.GetDescription() == "" {
-		return fmt.Errorf("description is required")
-	}
-
-	if entry.GetTransport() == "" {
-		return fmt.Errorf("transport is required")
-	}
-
-	// Validate transport
-	if err := l.validateTransport(entry.GetTransport()); err != nil {
-		return err
-	}
-
-	// Validate tier if specified
-	if err := l.validateTier(entry.GetTier()); err != nil {
-		return err
-	}
-
-	// Validate status if specified
-	return l.validateStatus(entry.GetStatus())
-}
-
-// validateTransport validates the transport type
-func (*Loader) validateTransport(transport string) error {
-	validTransports := map[string]bool{
-		"stdio":           true,
-		"sse":             true,
-		"streamable-http": true,
-	}
-
-	if !validTransports[transport] {
-		return fmt.Errorf("invalid transport: %s (must be stdio, sse, or streamable-http)", transport)
-	}
-
-	return nil
-}
-
-// validateTier validates the tier classification
-func (*Loader) validateTier(tier string) error {
-	if tier == "" {
-		return nil // Tier is optional
-	}
-
-	validTiers := map[string]bool{
-		"Official":  true,
-		"Community": true,
-	}
-
-	if !validTiers[tier] {
-		return fmt.Errorf("invalid tier: %s (must be Official or Community)", tier)
-	}
-
-	return nil
-}
-
-// validateStatus validates the status field
-func (*Loader) validateStatus(status string) error {
-	if status == "" {
-		return nil // Status is optional
-	}
-
-	validStatuses := map[string]bool{
-		"Active":     true,
-		"Deprecated": true,
-		"Beta":       true,
-		"Alpha":      true,
-	}
-
-	if !validStatuses[status] {
-		return fmt.Errorf("invalid status: %s (must be Active, Deprecated, Beta, or Alpha)", status)
-	}
-
-	return nil
+// validateEntry validates a registry entry using comprehensive schema-based validation
+func (l *Loader) validateEntry(entry *types.RegistryEntry, name string) error {
+	// Use the new schema validator for comprehensive validation
+	validator := NewSchemaValidator()
+	
+	return validator.ValidateComplete(entry, name)
 }
 
 // GetEntries returns all loaded entries
@@ -447,34 +333,11 @@ func (b *Builder) ValidateAgainstSchema() error {
 		return fmt.Errorf("failed to build registry: %w", err)
 	}
 
-	// Validate image-based servers
-	for name, server := range registry.Servers {
-		if server.Image == "" {
-			return fmt.Errorf("server %s: image is required", name)
-		}
-		if server.Description == "" {
-			return fmt.Errorf("server %s: description is required", name)
-		}
-		if server.Transport == "" {
-			return fmt.Errorf("server %s: transport is required", name)
-		}
-	}
-
-	// Validate remote servers
-	for name, server := range registry.RemoteServers {
-		if server.URL == "" {
-			return fmt.Errorf("remote server %s: url is required", name)
-		}
-		if server.Description == "" {
-			return fmt.Errorf("remote server %s: description is required", name)
-		}
-		if server.Transport == "" {
-			return fmt.Errorf("remote server %s: transport is required", name)
-		}
-		// Remote servers cannot use stdio
-		if server.Transport == "stdio" {
-			return fmt.Errorf("remote server %s: cannot use stdio transport", name)
-		}
+	// Use the comprehensive schema validator
+	validator := NewSchemaValidator()
+	
+	if err := validator.ValidateRegistry(registry); err != nil {
+		return fmt.Errorf("registry validation failed: %w", err)
 	}
 
 	return nil
