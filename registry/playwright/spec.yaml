@@ -4,6 +4,8 @@
 # Original source: https://github.com/stacklok/toolhive
 # Import timestamp: 2025-08-14T07:27:00Z
 # ---
+# WARNING: Tool list fetch failed on 2025-08-24
+# Manual verification may be required
 name: playwright
 description: Provides browser automation capabilities using Playwright
 tier: Official
@@ -45,7 +47,7 @@ tags:
   - automation
   - browser
   - navigate
-image: mcr.microsoft.com/playwright/mcp:v0.0.34
+image: mcr.microsoft.com/playwright/mcp:v0.0.35
 target_port: 8931
 permissions:
   network:
