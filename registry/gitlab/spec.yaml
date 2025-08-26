@@ -1,7 +1,5 @@
 name: gitlab
-description:
-  Provides integration with a GitLab instance to manage projects, issues, merge
-  requests, and more.
+description: Provides integration with a GitLab instance to manage projects, issues, merge requests, and more.
 tier: Community
 status: Active
 transport: streamable-http
@@ -102,51 +100,31 @@ env_vars:
     required: false
     default: https://gitlab.com/api/v4
   - name: GITLAB_PROJECT_ID
-    description:
-      Default project ID. If set, overwrite this value when making an API
-      request.
+    description: Default project ID. If set, overwrite this value when making an API request.
     required: false
   - name: GITLAB_ALLOWED_PROJECT_IDS
-    description:
-      Optional comma-separated list of allowed project IDs. When set with a
-      single value, acts as a default project (like the old "lock" mode). When
-      set with multiple values, restricts access to only those projects.
+    description: Optional comma-separated list of allowed project IDs. When set with a single value, acts as a default project (like the old "lock" mode). When set with multiple values, restricts access to only those projects.
     required: false
   - name: GITLAB_READ_ONLY_MODE
-    description:
-      When set to 'true', restricts the server to only expose read-only
-      operations. Useful for enhanced security or when write access is not
-      needed. Also useful for using with Cursor and its 40 tool limit.
+    description: When set to 'true', restricts the server to only expose read-only operations. Useful for enhanced security or when write access is not needed. Also useful for using with Cursor and its 40 tool limit.
     required: false
   - name: USE_GITLAB_WIKI
-    description:
-      When set to 'true', enables the wiki-related tools. By default, wiki
-      features are disabled.
+    description: When set to 'true', enables the wiki-related tools. By default, wiki features are disabled.
     required: false
   - name: USE_MILESTONE
-    description:
-      When set to 'true', enables the milestone-related tools. By default,
-      milestone features are disabled.
+    description: When set to 'true', enables the milestone-related tools. By default, milestone features are disabled.
     required: false
   - name: USE_PIPELINE
-    description:
-      When set to 'true', enables the pipeline-related tools. By default,
-      pipeline features are disabled.
+    description: When set to 'true', enables the pipeline-related tools. By default, pipeline features are disabled.
     required: false
   - name: GITLAB_AUTH_COOKIE_PATH
-    description:
-      Path to an authentication cookie file for GitLab instances that require
-      cookie-based authentication. When provided, the cookie will be included in
-      all GitLab API requests.
+    description: Path to an authentication cookie file for GitLab instances that require cookie-based authentication. When provided, the cookie will be included in all GitLab API requests.
     required: false
   - name: SSE
     description: When set to 'true', enables the Server-Sent Events transport.
     required: false
   - name: STREAMABLE_HTTP
-    description:
-      When set to 'true', enables the Streamable HTTP transport. If both SSE and
-      STREAMABLE_HTTP are set to 'true', the server will prioritize Streamable
-      HTTP over SSE transport.
+    description: When set to 'true', enables the Streamable HTTP transport. If both SSE and STREAMABLE_HTTP are set to 'true', the server will prioritize Streamable HTTP over SSE transport.
     required: false
     default: true
 permissions:
@@ -168,3 +146,7 @@ tags:
   - wiki
   - milestones
   - pipelines
+metadata:
+  stars: 509
+  pulls: 9715
+  last_updated: 2025-08-26T17:28:57Z
