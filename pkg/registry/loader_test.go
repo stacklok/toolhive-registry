@@ -5,10 +5,10 @@ import (
 	"path/filepath"
 	"testing"
 
+	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 

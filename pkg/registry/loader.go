@@ -64,7 +64,7 @@ func (l *Loader) LoadAll() error {
 		if _, err := os.Stat(specPath); err == nil {
 			// Use directory name as the entry name
 			entryName := info.Name()
-			
+
 			entry, err := l.LoadEntryWithName(specPath, entryName)
 			if err != nil {
 				return fmt.Errorf("failed to load %s: %w", specPath, err)
@@ -119,10 +119,10 @@ func (l *Loader) LoadEntryWithName(path string, name string) (*types.RegistryEnt
 }
 
 // validateEntry validates a registry entry using comprehensive schema-based validation
-func (l *Loader) validateEntry(entry *types.RegistryEntry, name string) error {
+func (*Loader) validateEntry(entry *types.RegistryEntry, name string) error {
 	// Use the new schema validator for comprehensive validation
 	validator := NewSchemaValidator()
-	
+
 	return validator.ValidateComplete(entry, name)
 }
 
@@ -335,7 +335,7 @@ func (b *Builder) ValidateAgainstSchema() error {
 
 	// Use the comprehensive schema validator
 	validator := NewSchemaValidator()
-	
+
 	if err := validator.ValidateRegistry(registry); err != nil {
 		return fmt.Errorf("registry validation failed: %w", err)
 	}
