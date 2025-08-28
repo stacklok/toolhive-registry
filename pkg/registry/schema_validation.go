@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
+
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
@@ -40,7 +41,7 @@ func (v *SchemaValidator) ValidateEntry(entry *types.RegistryEntry, name string)
 }
 
 // ValidateRegistry validates a complete registry using the toolhive schema
-func (v *SchemaValidator) ValidateRegistry(registry *toolhiveRegistry.Registry) error {
+func (*SchemaValidator) ValidateRegistry(registry *toolhiveRegistry.Registry) error {
 	// Serialize to JSON for schema validation
 	registryJSON, err := json.Marshal(registry)
 	if err != nil {
@@ -56,11 +57,11 @@ func (v *SchemaValidator) ValidateRegistry(registry *toolhiveRegistry.Registry) 
 }
 
 // convertToToolhiveRegistry converts our RegistryEntry to a minimal toolhive Registry for validation
-func (v *SchemaValidator) convertToToolhiveRegistry(entry *types.RegistryEntry, name string) (*toolhiveRegistry.Registry, error) {
+func (*SchemaValidator) convertToToolhiveRegistry(entry *types.RegistryEntry, name string) (*toolhiveRegistry.Registry, error) {
 	registry := &toolhiveRegistry.Registry{
-		Version:     "1.0.0",
-		LastUpdated: "2024-01-01T00:00:00Z", // Placeholder for validation
-		Servers:     make(map[string]*toolhiveRegistry.ImageMetadata),
+		Version:       "1.0.0",
+		LastUpdated:   "2024-01-01T00:00:00Z", // Placeholder for validation
+		Servers:       make(map[string]*toolhiveRegistry.ImageMetadata),
 		RemoteServers: make(map[string]*toolhiveRegistry.RemoteServerMetadata),
 	}
 
@@ -84,7 +85,7 @@ func (v *SchemaValidator) convertToToolhiveRegistry(entry *types.RegistryEntry, 
 }
 
 // ValidateEntryFields performs additional field-level validation beyond schema validation
-func (v *SchemaValidator) ValidateEntryFields(entry *types.RegistryEntry, name string) error {
+func (*SchemaValidator) ValidateEntryFields(entry *types.RegistryEntry, name string) error {
 	// Basic type validation
 	if entry.ImageMetadata == nil && entry.RemoteServerMetadata == nil {
 		return fmt.Errorf("entry '%s' must be either an image or remote server", name)
@@ -106,7 +107,7 @@ func (v *SchemaValidator) ValidateEntryFields(entry *types.RegistryEntry, name s
 		if entry.URL == "" {
 			return fmt.Errorf("entry '%s': url field is required for remote servers", name)
 		}
-		
+
 		// Remote servers cannot use stdio transport
 		if entry.GetTransport() == "stdio" {
 			return fmt.Errorf("entry '%s': remote servers cannot use stdio transport (use sse or streamable-http)", name)
@@ -137,9 +138,5 @@ func (v *SchemaValidator) ValidateComplete(entry *types.RegistryEntry, name stri
 	}
 
 	// Then perform schema validation
-	if err := v.ValidateEntry(entry, name); err != nil {
-		return err
-	}
-
-	return nil
+	return v.ValidateEntry(entry, name)
 }
