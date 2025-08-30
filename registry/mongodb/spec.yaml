@@ -10,38 +10,27 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-  - atlas-list-orgs
-  - atlas-list-projects
-  - atlas-create-project
-  - atlas-list-clusters
-  - atlas-inspect-cluster
-  - atlas-create-free-cluster
-  - atlas-connect-cluster
-  - atlas-inspect-access-list
-  - atlas-create-access-list
-  - atlas-list-db-users
-  - atlas-create-db-user
-  - atlas-list-alerts
-  - connect
-  - find
   - aggregate
-  - count
-  - insert-one
-  - insert-many
-  - create-index
-  - update-one
-  - update-many
-  - rename-collection
-  - delete-one
-  - delete-many
-  - drop-collection
-  - drop-database
-  - list-databases
-  - list-collections
   - collection-indexes
   - collection-schema
   - collection-storage-size
+  - connect
+  - count
+  - create-collection
+  - create-index
   - db-stats
+  - delete-many
+  - drop-collection
+  - drop-database
+  - explain
+  - export
+  - find
+  - insert-many
+  - list-collections
+  - list-databases
+  - mongodb-logs
+  - rename-collection
+  - update-many
 metadata:
   stars: 581
   pulls: 5060
@@ -54,7 +43,7 @@ tags:
   - database
   - data
   - query
-image: docker.io/mongodb/mongodb-mcp-server:0.2.0
+image: docker.io/mongodb/mongodb-mcp-server:0.3.0
 permissions:
   network:
     outbound:
