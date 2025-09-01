@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
 	"time"
 
 	upstream "github.com/modelcontextprotocol/registry/pkg/api/v0"
+	"github.com/modelcontextprotocol/registry/pkg/model"
+	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
 type OfficialRegistry struct {
@@ -52,11 +55,22 @@ func (or *OfficialRegistry) WriteJSON(path string) error {
 func (or *OfficialRegistry) build() (*ToolHiveRegistryType, error) {
 	entries := or.loader.GetEntries()
 
-	// TODO: Transform entries to upstream.ServerRecord (Phase 2)
+	// Get sorted entry names for consistent output
+	var names []string
+	for name := range entries {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+
+	// Transform entries to upstream.ServerRecord
 	var servers []upstream.ServerRecord
-	for range entries {
-		// Placeholder - will be implemented in Phase 2
-		servers = append(servers, upstream.ServerRecord{})
+	for _, name := range names {
+		entry := entries[name]
+		serverRecord, err := or.transformEntry(name, entry)
+		if err != nil {
+			return nil, fmt.Errorf("failed to transform entry %s: %w", name, err)
+		}
+		servers = append(servers, serverRecord)
 	}
 
 	registry := &ToolHiveRegistryType{
@@ -72,4 +86,267 @@ func (or *OfficialRegistry) build() (*ToolHiveRegistryType, error) {
 	}
 
 	return registry, nil
+}
+
+// transformEntry converts a ToolHive RegistryEntry to an official MCP ServerRecord
+func (or *OfficialRegistry) transformEntry(name string, entry *types.RegistryEntry) (upstream.ServerRecord, error) {
+	return upstream.ServerRecord{
+		Server:                          or.createServerJSON(name, entry),
+		XIOModelContextProtocolRegistry: or.createRegistryExtensions(name, entry),
+		XPublisher:                      or.createXPublisherExtensions(entry),
+	}, nil
+}
+
+// createServerJSON creates the core MCP ServerJSON structure
+func (or *OfficialRegistry) createServerJSON(name string, entry *types.RegistryEntry) model.ServerJSON {
+	serverJSON := model.ServerJSON{
+		Name:          name,
+		Description:   entry.GetDescription(),
+		Status:        or.convertStatus(entry.GetStatus()),
+		Repository:    or.createRepository(entry),
+		VersionDetail: or.createVersionDetail(),
+	}
+
+	// Add packages for image-based servers
+	if entry.IsImage() {
+		serverJSON.Packages = or.createPackages(entry)
+	}
+
+	// Add remotes for remote servers  
+	if entry.IsRemote() {
+		serverJSON.Remotes = or.createRemotes(entry)
+	}
+
+	return serverJSON
+}
+
+// createRepository creates repository information from entry
+func (or *OfficialRegistry) createRepository(entry *types.RegistryEntry) model.Repository {
+	var repositoryURL string
+	
+	if entry.IsImage() && entry.ImageMetadata.RepositoryURL != "" {
+		repositoryURL = entry.ImageMetadata.RepositoryURL
+	} else if entry.IsRemote() && entry.RemoteServerMetadata.RepositoryURL != "" {
+		repositoryURL = entry.RemoteServerMetadata.RepositoryURL
+	}
+
+	if repositoryURL == "" {
+		return model.Repository{}
+	}
+
+	return model.Repository{
+		URL:    repositoryURL,
+		Source: "github", // Assume GitHub for now
+	}
+}
+
+// createVersionDetail creates version information (fixed at 1.0.0 for now)
+func (or *OfficialRegistry) createVersionDetail() model.VersionDetail {
+	return model.VersionDetail{
+		Version: "1.0.0",
+	}
+}
+
+// createPackages creates Package entries for image-based servers
+func (or *OfficialRegistry) createPackages(entry *types.RegistryEntry) []model.Package {
+	if !entry.IsImage() || entry.Image == "" {
+		return nil
+	}
+
+	// Convert environment variables
+	var envVars []model.KeyValueInput
+	for _, envVar := range entry.ImageMetadata.EnvVars {
+		envVars = append(envVars, model.KeyValueInput{
+			Name: envVar.Name,
+			InputWithVariables: model.InputWithVariables{
+				Input: model.Input{
+					Description: envVar.Description,
+					IsRequired:  envVar.Required,
+					IsSecret:    envVar.Secret,
+					Default:     envVar.Default,
+				},
+			},
+		})
+	}
+
+	pkg := model.Package{
+		RegistryType:         "oci", // Docker/OCI container
+		Identifier:           entry.Image,
+		EnvironmentVariables: envVars,
+	}
+
+	return []model.Package{pkg}
+}
+
+// createRemotes creates Remote entries for remote servers
+func (or *OfficialRegistry) createRemotes(entry *types.RegistryEntry) []model.Remote {
+	if !entry.IsRemote() || entry.URL == "" {
+		return nil
+	}
+
+	// Convert headers
+	var headers []model.KeyValueInput
+	for _, header := range entry.RemoteServerMetadata.Headers {
+		headers = append(headers, model.KeyValueInput{
+			Name: header.Name,
+			InputWithVariables: model.InputWithVariables{
+				Input: model.Input{
+					Description: header.Description,
+					IsRequired:  header.Required,
+					IsSecret:    header.Secret,
+				},
+			},
+		})
+	}
+
+	remote := model.Remote{
+		TransportType: entry.GetTransport(),
+		URL:           entry.URL,
+		Headers:       headers,
+	}
+
+	return []model.Remote{remote}
+}
+
+// createRegistryExtensions creates registry-generated metadata
+func (or *OfficialRegistry) createRegistryExtensions(name string, entry *types.RegistryEntry) upstream.RegistryExtensions {
+	now := time.Now().UTC()
+	return upstream.RegistryExtensions{
+		ID:          name,
+		PublishedAt: now,
+		UpdatedAt:   now,
+		IsLatest:    true,
+		ReleaseDate: now.Format("2006-01-02"),
+	}
+}
+
+// createXPublisherExtensions creates x-publisher extensions with ToolHive-specific data
+func (or *OfficialRegistry) createXPublisherExtensions(entry *types.RegistryEntry) map[string]interface{} {
+	// Get the key for the ToolHive extensions (image or URL)
+	var key string
+	if entry.IsImage() {
+		key = entry.Image
+	} else if entry.IsRemote() {
+		key = entry.URL
+	} else {
+		return map[string]interface{}{} // Empty if neither
+	}
+
+	// Create ToolHive-specific extensions
+	toolhiveExtensions := or.createToolHiveExtensions(entry)
+
+	return map[string]interface{}{
+		"x-dev.toolhive": map[string]interface{}{
+			key: toolhiveExtensions,
+		},
+	}
+}
+
+// createToolHiveExtensions creates the ToolHive-specific extension data
+func (or *OfficialRegistry) createToolHiveExtensions(entry *types.RegistryEntry) map[string]interface{} {
+	extensions := make(map[string]interface{})
+
+	// Always include transport type
+	extensions["transport"] = entry.GetTransport()
+
+	// Add tools list
+	if tools := entry.GetTools(); len(tools) > 0 {
+		extensions["tools"] = tools
+	}
+
+	// Add tier
+	if tier := entry.GetTier(); tier != "" {
+		extensions["tier"] = tier
+	}
+
+	// Add common fields
+	if entry.IsImage() {
+		or.addImageSpecificExtensions(extensions, entry)
+	} else if entry.IsRemote() {
+		or.addRemoteSpecificExtensions(extensions, entry)
+	}
+
+	// Add common optional fields
+	or.addCommonExtensions(extensions, entry)
+
+	return extensions
+}
+
+// addImageSpecificExtensions adds image-specific ToolHive extensions
+func (or *OfficialRegistry) addImageSpecificExtensions(extensions map[string]interface{}, entry *types.RegistryEntry) {
+	if entry.ImageMetadata == nil {
+		return
+	}
+
+	// Add tags
+	if len(entry.ImageMetadata.Tags) > 0 {
+		extensions["tags"] = entry.ImageMetadata.Tags
+	}
+
+	// Add permissions
+	if entry.ImageMetadata.Permissions != nil {
+		extensions["permissions"] = entry.ImageMetadata.Permissions
+	}
+
+	// Add args (static container arguments)
+	if len(entry.ImageMetadata.Args) > 0 {
+		extensions["args"] = entry.ImageMetadata.Args
+	}
+
+	// Add metadata (stars, pulls, etc.)
+	if entry.ImageMetadata.Metadata != nil {
+		extensions["metadata"] = entry.ImageMetadata.Metadata
+	}
+
+	// Add provenance if present
+	if entry.ImageMetadata.Provenance != nil {
+		extensions["provenance"] = entry.ImageMetadata.Provenance
+	}
+}
+
+// addRemoteSpecificExtensions adds remote-specific ToolHive extensions
+func (or *OfficialRegistry) addRemoteSpecificExtensions(extensions map[string]interface{}, entry *types.RegistryEntry) {
+	if entry.RemoteServerMetadata == nil {
+		return
+	}
+
+	// Add tags
+	if len(entry.RemoteServerMetadata.Tags) > 0 {
+		extensions["tags"] = entry.RemoteServerMetadata.Tags
+	}
+
+	// Add OAuth config
+	if entry.RemoteServerMetadata.OAuthConfig != nil {
+		extensions["oauth_config"] = entry.RemoteServerMetadata.OAuthConfig
+	}
+
+	// Add metadata
+	if entry.RemoteServerMetadata.Metadata != nil {
+		extensions["metadata"] = entry.RemoteServerMetadata.Metadata
+	}
+}
+
+// addCommonExtensions adds extensions common to both image and remote servers
+func (or *OfficialRegistry) addCommonExtensions(extensions map[string]interface{}, entry *types.RegistryEntry) {
+	// Add examples if present
+	if len(entry.Examples) > 0 {
+		extensions["examples"] = entry.Examples
+	}
+
+	// Add license if present
+	if entry.License != "" {
+		extensions["license"] = entry.License
+	}
+}
+
+// convertStatus converts ToolHive status to MCP model.Status
+func (or *OfficialRegistry) convertStatus(status string) model.Status {
+	switch status {
+	case "Active", "":
+		return model.StatusActive
+	case "Deprecated":
+		return model.StatusDeprecated
+	default:
+		return model.StatusActive // Default to active
+	}
 }
