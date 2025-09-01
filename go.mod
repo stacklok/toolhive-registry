@@ -4,6 +4,7 @@ go 1.24.5
 
 require (
 	github.com/google/go-cmp v0.7.0
+	github.com/modelcontextprotocol/registry v0.0.0-20250901215855-07d353ba9295
 	github.com/spf13/cobra v1.10.1
 	github.com/stacklok/toolhive v0.2.13
 	github.com/stretchr/testify v1.11.1

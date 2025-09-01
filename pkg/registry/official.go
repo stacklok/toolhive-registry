@@ -12,6 +12,5 @@ func NewOfficialRegistry(loader *Loader) *OfficialRegistry {
 }
 
 func (*OfficialRegistry) WriteJSON(path string) error {
-
 	return nil
 }

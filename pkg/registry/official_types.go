@@ -1,5 +1,7 @@
 package registry
 
+import upstream "github.com/modelcontextprotocol/registry/pkg/api/v0"
+
 // ToolHiveRegistryType represents the structure of a ToolHive registry file using the official format
 type ToolHiveRegistryType struct {
 	// Schema is the JSON schema URL
@@ -11,13 +13,14 @@ type ToolHiveRegistryType struct {
 	// Data contains the actual registry data
 	Data Data `json:"data" yaml:"data"`
 }
-type Server string
 
-type Group string
+// Group represents a group of servers (not implemented yet, placeholder for future use)
+type Group struct {
+}
 
 type Data struct {
-	Servers []Server `json:"servers" yaml:"servers"`
-	Groups  []Group  `json:"groups" yaml:"groups"`
+	Servers []upstream.ServerRecord `json:"servers" yaml:"servers"`
+	Groups  []Group                 `json:"groups" yaml:"groups"`
 }
 
 type Meta struct {
