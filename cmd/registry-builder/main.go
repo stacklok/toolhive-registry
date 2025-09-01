@@ -180,10 +180,22 @@ func buildFormat(loader *registry.Loader, format string, outputDir string) error
 }
 
 func buildOfficialMCPRegistryFormat(loader *registry.Loader, outputDir string) error {
-	// Placeholder for future implementation
-	// For now, just log that this format is not yet implemented
+	// Create official MCP Registry builder
+	r := registry.NewOfficialRegistry(loader)
+
+	// Ensure output directory exists
+	if err := os.MkdirAll(outputDir, 0750); err != nil {
+		return fmt.Errorf("failed to create output directory: %w", err)
+	}
+
+	// Write JSON output
+	outputPath := filepath.Join(outputDir, "official-registry.json")
+	if err := r.WriteJSON(outputPath); err != nil {
+		return fmt.Errorf("failed to write output: %w", err)
+	}
+
 	if verbose {
-		log.Printf("Building official MCP Registry format is not yet implemented")
+		log.Printf("Written Official MCP Registry format to %s", outputPath)
 	}
 	return nil
 }
