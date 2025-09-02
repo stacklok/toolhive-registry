@@ -3,9 +3,10 @@ package registry
 import (
 	"testing"
 
-	"github.com/stacklok/toolhive-registry/pkg/types"
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
 func TestBuilder_Build(t *testing.T) {

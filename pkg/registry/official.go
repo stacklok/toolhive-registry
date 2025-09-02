@@ -11,6 +11,7 @@ import (
 	"github.com/google/uuid"
 	upstream "github.com/modelcontextprotocol/registry/pkg/api/v0"
 	"github.com/modelcontextprotocol/registry/pkg/model"
+
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
@@ -187,7 +188,7 @@ func (or *OfficialRegistry) createRemotes(entry *types.RegistryEntry) []model.Re
 
 	// Convert headers
 	var headers []model.KeyValueInput
-	for _, header := range entry.RemoteServerMetadata.Headers {
+	for _, header := range entry.Headers {
 		headers = append(headers, model.KeyValueInput{
 			Name: header.Name,
 			InputWithVariables: model.InputWithVariables{
@@ -285,13 +286,13 @@ func (or *OfficialRegistry) addImageSpecificExtensions(extensions map[string]int
 	}
 
 	// Add permissions
-	if entry.ImageMetadata.Permissions != nil {
-		extensions["permissions"] = entry.ImageMetadata.Permissions
+	if entry.Permissions != nil {
+		extensions["permissions"] = entry.Permissions
 	}
 
 	// Add args (static container arguments)
-	if len(entry.ImageMetadata.Args) > 0 {
-		extensions["args"] = entry.ImageMetadata.Args
+	if len(entry.Args) > 0 {
+		extensions["args"] = entry.Args
 	}
 
 	// Add metadata (stars, pulls, etc.)
@@ -300,8 +301,8 @@ func (or *OfficialRegistry) addImageSpecificExtensions(extensions map[string]int
 	}
 
 	// Add provenance if present
-	if entry.ImageMetadata.Provenance != nil {
-		extensions["provenance"] = entry.ImageMetadata.Provenance
+	if entry.Provenance != nil {
+		extensions["provenance"] = entry.Provenance
 	}
 }
 
@@ -317,8 +318,8 @@ func (or *OfficialRegistry) addRemoteSpecificExtensions(extensions map[string]in
 	}
 
 	// Add OAuth config
-	if entry.RemoteServerMetadata.OAuthConfig != nil {
-		extensions["oauth_config"] = entry.RemoteServerMetadata.OAuthConfig
+	if entry.OAuthConfig != nil {
+		extensions["oauth_config"] = entry.OAuthConfig
 	}
 
 	// Add metadata
