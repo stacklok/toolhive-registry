@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -167,9 +168,20 @@ func (*OfficialRegistry) createPackages(entry *types.RegistryEntry) []model.Pack
 		})
 	}
 
+	// Extract registry and version information from the image reference
+	registryBaseURL, identifier, version, err := parseImageReference(entry.Image)
+	if err != nil {
+		// Continue with fallback values
+		registryBaseURL = ""
+		identifier = entry.Image
+		version = ""
+	}
+
 	pkg := model.Package{
-		RegistryType:         model.RegistryTypeOCI, // Docker/OCI container
-		Identifier:           entry.Image,           // TODO: Fix that since it's a toolhive's assumption
+		RegistryType:         model.RegistryTypeOCI,
+		RegistryBaseURL:      registryBaseURL,
+		Identifier:           identifier,
+		Version:              version,
 		EnvironmentVariables: envVars,
 	}
 
@@ -347,4 +359,62 @@ func (*OfficialRegistry) convertStatus(status string) model.Status {
 	default:
 		return model.StatusActive // Default to active
 	}
+}
+
+// parseImageReference parses a container image reference into basic components
+// Returns error if registry has a port (not supported)
+func parseImageReference(image string) (registryBaseURL, identifier, version string, err error) {
+	// Check for port in registry (not supported)
+	if strings.Contains(image, ":") && strings.Count(image, ":") > 1 {
+		// Multiple colons might indicate registry:port/image:tag
+		parts := strings.Split(image, "/")
+		if len(parts) > 0 && strings.Contains(parts[0], ":") {
+			// First part has colon, likely registry:port
+			return "", "", "", fmt.Errorf("registry with port not supported: %s", parts[0])
+		}
+	}
+
+	// Handle digest (@sha256:...)
+	if strings.Contains(image, "@") {
+		parts := strings.SplitN(image, "@", 2)
+		imageRef := parts[0]
+		digest := parts[1]
+
+		reg, name := splitRegistryAndName(imageRef)
+		return reg, name, digest, nil
+	}
+
+	// Handle tag (:tag)
+	if strings.Contains(image, ":") {
+		parts := strings.SplitN(image, ":", 2)
+		imageRef := parts[0]
+		tag := parts[1]
+
+		reg, name := splitRegistryAndName(imageRef)
+		return reg, name, tag, nil
+	}
+
+	// No tag or digest - default to latest
+	reg, name := splitRegistryAndName(image)
+	return reg, name, "latest", nil
+}
+
+// splitRegistryAndName splits image into registry and name parts
+func splitRegistryAndName(image string) (registryBaseURL, identifier string) {
+	// No slash = Docker Hub image
+	if !strings.Contains(image, "/") {
+		return "https://docker.io", image
+	}
+
+	// Has slash - check if first part looks like registry
+	parts := strings.SplitN(image, "/", 2)
+	firstPart := parts[0]
+
+	// If first part has dot, assume it's a registry hostname
+	if strings.Contains(firstPart, ".") {
+		return "https://" + firstPart, parts[1]
+	}
+
+	// Otherwise assume Docker Hub with namespace
+	return "https://docker.io", image
 }
