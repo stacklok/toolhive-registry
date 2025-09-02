@@ -8,9 +8,10 @@ import (
 	"sort"
 	"time"
 
-	"github.com/stacklok/toolhive-registry/pkg/types"
 	"github.com/stacklok/toolhive/pkg/permissions"
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
+
+	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
 // Builder builds the final registry JSON from loaded entries

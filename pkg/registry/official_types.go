@@ -18,11 +18,13 @@ type ToolHiveRegistryType struct {
 type Group struct {
 }
 
+// Data holds the servers and groups in the registry
 type Data struct {
 	Servers []upstream.ServerJSON `json:"servers" yaml:"servers"`
 	Groups  []Group               `json:"groups" yaml:"groups"`
 }
 
+// Meta contains metadata about the registry
 type Meta struct {
 	// LastUpdated is the timestamp when the registry was last updated, in RFC3339 format
 	LastUpdated string `json:"last_updated" yaml:"last_updated"`

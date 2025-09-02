@@ -86,7 +86,8 @@ func init() {
 
 	// Build command flags
 	buildCmd.Flags().StringVarP(&outputDir, "output-dir", "o", "build", "Output directory for built registry files")
-	buildCmd.Flags().StringVarP(&outputFormat, "format", "f", "toolhive", fmt.Sprintf("Output format (%s, %s, %s)", RegistryToolHiveFormat, RegistryOfficialMCPRegistry, RegistryAllFormats))
+	buildCmd.Flags().StringVarP(&outputFormat, "format", "f", "toolhive",
+		fmt.Sprintf("Output format (%s, %s, %s)", RegistryToolHiveFormat, RegistryOfficialMCPRegistry, RegistryAllFormats))
 
 	// Add commands
 	rootCmd.AddCommand(buildCmd)
