@@ -4,6 +4,8 @@
 # Original source: https://github.com/stacklok/toolhive
 # Import timestamp: 2025-08-14T07:27:00Z
 # ---
+# WARNING: Tool list fetch failed on 2025-09-02
+# Manual verification may be required
 name: k8s
 description: Allows LLM-powered applications to interact with Kubernetes clusters.
 tier: Community
@@ -28,7 +30,7 @@ tags:
   - apply
   - get
   - list
-image: ghcr.io/stackloklabs/mkp/server:0.1.0
+image: ghcr.io/stackloklabs/mkp/server:0.2.0
 permissions:
   network:
     outbound:
