@@ -171,8 +171,8 @@ func (or *OfficialRegistry) createPackages(entry *types.RegistryEntry) []model.P
 	}
 
 	pkg := model.Package{
-		RegistryType:         "oci",       // Docker/OCI container
-		Identifier:           entry.Image, // TODO: Fix that since it's a toolhive's assumption
+		RegistryType:         model.RegistryTypeOCI, // Docker/OCI container
+		Identifier:           entry.Image,           // TODO: Fix that since it's a toolhive's assumption
 		EnvironmentVariables: envVars,
 	}
 

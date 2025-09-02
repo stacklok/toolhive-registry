@@ -188,6 +188,8 @@ func buildOfficialMCPRegistryFormat(loader *registry.Loader, outputDir string) e
 		return fmt.Errorf("failed to create output directory: %w", err)
 	}
 
+	// TODO: Add validation step
+
 	// Write JSON output
 	outputPath := filepath.Join(outputDir, "official-registry.json")
 	if err := r.WriteJSON(outputPath); err != nil {
