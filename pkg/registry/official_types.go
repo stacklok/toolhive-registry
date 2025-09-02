@@ -19,8 +19,8 @@ type Group struct {
 }
 
 type Data struct {
-	Servers []upstream.ServerRecord `json:"servers" yaml:"servers"`
-	Groups  []Group                 `json:"groups" yaml:"groups"`
+	Servers []upstream.ServerJSON `json:"servers" yaml:"servers"`
+	Groups  []Group               `json:"groups" yaml:"groups"`
 }
 
 type Meta struct {
