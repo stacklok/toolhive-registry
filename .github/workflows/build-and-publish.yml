@@ -91,18 +91,21 @@ jobs:
       - name: Build registry-builder
         run: go build -o registry-builder ./cmd/registry-builder
 
-      - name: Build registry.json
+      - name: Build registry files (both formats)
         run: |
           mkdir -p dist
-          ./registry-builder build -v
+          ./registry-builder build --format all -v
           cp build/registry.json dist/registry.json
+          cp build/official-registry.json dist/official-registry.json
           CONTAINER_COUNT=$(jq '.servers | length' dist/registry.json)
           REMOTE_COUNT=$(jq '.remote_servers | length // 0' dist/registry.json)
           TOTAL_COUNT=$((CONTAINER_COUNT + REMOTE_COUNT))
           echo "Registry built successfully with $TOTAL_COUNT entries ($CONTAINER_COUNT container-based, $REMOTE_COUNT remote)"
+          echo "Both ToolHive and official MCP formats generated"
 
-      - name: Validate JSON
+      - name: Validate JSON files
         run: |
+          echo "Validating ToolHive format..."
           # Validate JSON structure
           jq empty dist/registry.json
           echo "✅ Valid JSON"
@@ -119,6 +122,35 @@ jobs:
           
           jq -e '."$schema"' dist/registry.json > /dev/null
           echo "✅ Has schema field"
+          
+          echo ""
+          echo "Validating Official MCP format..."
+          # Validate official registry JSON structure
+          jq empty dist/official-registry.json
+          echo "✅ Valid JSON"
+          
+          # Check required fields for official format
+          jq -e '.version' dist/official-registry.json > /dev/null
+          echo "✅ Has version field"
+          
+          jq -e '.meta.last_updated' dist/official-registry.json > /dev/null
+          echo "✅ Has meta.last_updated field"
+          
+          jq -e '.data.servers' dist/official-registry.json > /dev/null
+          echo "✅ Has data.servers field"
+          
+          # Check that servers have the flattened structure with _meta
+          SERVER_COUNT=$(jq '.data.servers | length' dist/official-registry.json)
+          if [ "$SERVER_COUNT" -gt 0 ]; then
+            jq -e '.data.servers[0].name' dist/official-registry.json > /dev/null
+            echo "✅ Servers have name field"
+            
+            jq -e '.data.servers[0]._meta.publisher' dist/official-registry.json > /dev/null
+            echo "✅ Servers have _meta.publisher field"
+            
+            jq -e '.data.servers[0]._meta."io.modelcontextprotocol.registry"' dist/official-registry.json > /dev/null
+            echo "✅ Servers have registry extensions"
+          fi
 
       - name: Generate metadata
         id: metadata
@@ -175,11 +207,15 @@ jobs:
           cd dist
           sha256sum registry.json > registry.json.sha256
           md5sum registry.json > registry.json.md5
+          sha256sum official-registry.json > official-registry.json.sha256
+          md5sum official-registry.json > official-registry.json.md5
 
       - name: Create tarball
         run: |
           cd dist
-          tar -czf registry-${{ steps.metadata.outputs.version }}.tar.gz registry.json registry.json.sha256 registry.json.md5
+          tar -czf registry-${{ steps.metadata.outputs.version }}.tar.gz \
+            registry.json registry.json.sha256 registry.json.md5 \
+            official-registry.json official-registry.json.sha256 official-registry.json.md5
           tar -tzf registry-${{ steps.metadata.outputs.version }}.tar.gz
 
       - name: Check if release exists
@@ -251,16 +287,22 @@ jobs:
             
             ### 📥 Download Options
             
-            - **registry.json** - The complete registry file
-            - **registry-${{ steps.metadata.outputs.version }}.tar.gz** - Archive with checksums
+            **Individual Files:**
+            - **registry.json** - ToolHive format registry file
+            - **official-registry.json** - Official MCP format registry file
+            
+            **Archives:**
+            - **registry-${{ steps.metadata.outputs.version }}.tar.gz** - Complete archive with both formats and checksums
             
             ### 🔗 Direct URLs
             
-            Latest registry is always available at:
-            - `https://github.com/stacklok/toolhive-registry/releases/latest/download/registry.json`
+            **ToolHive Format:**
+            - Latest: `https://github.com/stacklok/toolhive-registry/releases/latest/download/registry.json`
+            - This version: `https://github.com/stacklok/toolhive-registry/releases/download/v${{ steps.metadata.outputs.version }}/registry.json`
             
-            This specific version:
-            - `https://github.com/stacklok/toolhive-registry/releases/download/v${{ steps.metadata.outputs.version }}/registry.json`
+            **Official MCP Format:**
+            - Latest: `https://github.com/stacklok/toolhive-registry/releases/latest/download/official-registry.json`
+            - This version: `https://github.com/stacklok/toolhive-registry/releases/download/v${{ steps.metadata.outputs.version }}/official-registry.json`
             
             ### 📝 Recent Changes
             
@@ -272,6 +314,9 @@ jobs:
             dist/registry.json
             dist/registry.json.sha256
             dist/registry.json.md5
+            dist/official-registry.json
+            dist/official-registry.json.sha256
+            dist/official-registry.json.md5
             dist/registry-${{ steps.metadata.outputs.version }}.tar.gz
           makeLatest: true
           artifactErrorsFailBuild: true
@@ -285,6 +330,9 @@ jobs:
           gh release delete-asset "v${{ steps.metadata.outputs.version }}" registry.json --yes || true
           gh release delete-asset "v${{ steps.metadata.outputs.version }}" registry.json.sha256 --yes || true
           gh release delete-asset "v${{ steps.metadata.outputs.version }}" registry.json.md5 --yes || true
+          gh release delete-asset "v${{ steps.metadata.outputs.version }}" official-registry.json --yes || true
+          gh release delete-asset "v${{ steps.metadata.outputs.version }}" official-registry.json.sha256 --yes || true
+          gh release delete-asset "v${{ steps.metadata.outputs.version }}" official-registry.json.md5 --yes || true
           gh release delete-asset "v${{ steps.metadata.outputs.version }}" "registry-${{ steps.metadata.outputs.version }}.tar.gz" --yes || true
           
           # Upload new assets
@@ -292,6 +340,9 @@ jobs:
             dist/registry.json \
             dist/registry.json.sha256 \
             dist/registry.json.md5 \
+            dist/official-registry.json \
+            dist/official-registry.json.sha256 \
+            dist/official-registry.json.md5 \
             "dist/registry-${{ steps.metadata.outputs.version }}.tar.gz" \
             --clobber
           

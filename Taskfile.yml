@@ -152,16 +152,41 @@ tasks:
       - ./{{.BUILD_DIR}}/registry-builder list -v
 
   build:registry:
-    desc: Build the registry JSON from YAML files
+    desc: Build registry files in both ToolHive and official MCP formats
     deps: [build:registry-builder]
     cmds:
-      - echo "🏗️ Building registry.json..."
-      - ./{{.BUILD_DIR}}/registry-builder build -v
+      - echo "🏗️ Building registry files (both formats)..."
+      - ./{{.BUILD_DIR}}/registry-builder build --format all -v
     sources:
       - "{{.REGISTRY_DIR}}/**/*.yaml"
       - "{{.REGISTRY_DIR}}/**/*.yml"
     generates:
       - "{{.BUILD_DIR}}/registry.json"
+      - "{{.BUILD_DIR}}/official-registry.json"
+
+  build:registry:toolhive:
+    desc: Build registry in ToolHive format only
+    deps: [build:registry-builder]
+    cmds:
+      - echo "🏗️ Building ToolHive registry.json..."
+      - ./{{.BUILD_DIR}}/registry-builder build --format toolhive -v
+    sources:
+      - "{{.REGISTRY_DIR}}/**/*.yaml"
+      - "{{.REGISTRY_DIR}}/**/*.yml"
+    generates:
+      - "{{.BUILD_DIR}}/registry.json"
+
+  build:registry:official:
+    desc: Build registry in official MCP format only
+    deps: [build:registry-builder]
+    cmds:
+      - echo "🏗️ Building official MCP registry..."
+      - ./{{.BUILD_DIR}}/registry-builder build --format official-mcp-registry -v
+    sources:
+      - "{{.REGISTRY_DIR}}/**/*.yaml"
+      - "{{.REGISTRY_DIR}}/**/*.yml"
+    generates:
+      - "{{.BUILD_DIR}}/official-registry.json"
 
   test:
     desc: Run tests
@@ -212,7 +237,9 @@ tasks:
       - task: validate
       - task: build:registry
       - echo "✨ Full cycle complete!"
-      - 'echo "Registry JSON available at: {{.BUILD_DIR}}/registry.json"'
+      - 'echo "Registry files available at:"'
+      - 'echo "  - ToolHive format: {{.BUILD_DIR}}/registry.json"'
+      - 'echo "  - Official MCP format: {{.BUILD_DIR}}/official-registry.json"'
 
   quick-start:
     desc: Quick start for new users
@@ -225,7 +252,7 @@ tasks:
       - 'echo "  1. Review imported entries in {{.REGISTRY_DIR}}/"'
       - echo "  2. Add new entries by creating directories with spec.yaml files"
       - echo "  3. Run 'task validate' to check your changes"
-      - echo "  4. Run 'task build:registry' to generate the final JSON"
+      - echo "  4. Run 'task build:registry' to generate registry files (both formats)"
 
   version:
     desc: Show version information
