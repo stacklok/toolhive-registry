@@ -343,7 +343,7 @@ func displayEntry(entry *types.RegistryEntry, verbose bool) {
 func getEntryStatus(entry *types.RegistryEntry) string {
 	status := entry.GetStatus()
 	if status == "" {
-		status = "Active"
+		status = types.StatusActive
 	}
 	return status
 }
@@ -351,7 +351,7 @@ func getEntryStatus(entry *types.RegistryEntry) string {
 func getEntryTier(entry *types.RegistryEntry) string {
 	tier := entry.GetTier()
 	if tier == "" {
-		tier = "Community"
+		tier = types.TierCommunity
 	}
 	return tier
 }

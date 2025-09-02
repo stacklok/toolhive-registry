@@ -67,8 +67,8 @@ func TestLoader_ValidateEntry(t *testing.T) {
 					BaseServerMetadata: toolhiveRegistry.BaseServerMetadata{
 						Description: "Test server",
 						Transport:   "stdio",
-						Tier:        "Official",
-						Status:      "Active",
+						Tier:        types.TierOfficial,
+						Status:      types.StatusActive,
 						Tools:       []string{"test-tool"},
 					},
 					Image: "test/image:latest",

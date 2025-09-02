@@ -344,9 +344,9 @@ func (or *OfficialRegistry) addCommonExtensions(extensions map[string]interface{
 // convertStatus converts ToolHive status to MCP model.Status
 func (or *OfficialRegistry) convertStatus(status string) model.Status {
 	switch status {
-	case "Active", "":
+	case types.StatusActive, "":
 		return model.StatusActive
-	case "Deprecated":
+	case types.StatusDeprecated:
 		return model.StatusDeprecated
 	default:
 		return model.StatusActive // Default to active

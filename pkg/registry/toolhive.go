@@ -8,6 +8,7 @@ import (
 	"sort"
 	"time"
 
+	"github.com/stacklok/toolhive-registry/pkg/types"
 	"github.com/stacklok/toolhive/pkg/permissions"
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
 )
@@ -68,11 +69,11 @@ func (*Builder) processImageMetadata(metadata *toolhiveRegistry.ImageMetadata) *
 
 	// Set defaults if not specified
 	if result.Tier == "" {
-		result.Tier = "Community"
+		result.Tier = types.TierCommunity
 	}
 
 	if result.Status == "" {
-		result.Status = "Active"
+		result.Status = types.StatusActive
 	}
 
 	// Initialize empty slices if nil to match JSON output
@@ -127,11 +128,11 @@ func (*Builder) processRemoteMetadata(metadata *toolhiveRegistry.RemoteServerMet
 
 	// Set defaults if not specified
 	if result.Tier == "" {
-		result.Tier = "Community"
+		result.Tier = types.TierCommunity
 	}
 
 	if result.Status == "" {
-		result.Status = "Active"
+		result.Status = types.StatusActive
 	}
 
 	// Initialize empty slices if nil to match JSON output
