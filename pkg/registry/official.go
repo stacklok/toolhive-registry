@@ -12,6 +12,7 @@ import (
 	"github.com/google/uuid"
 	upstream "github.com/modelcontextprotocol/registry/pkg/api/v0"
 	"github.com/modelcontextprotocol/registry/pkg/model"
+	"github.com/xeipuuv/gojsonschema"
 
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
@@ -29,9 +30,15 @@ func NewOfficialRegistry(loader *Loader) *OfficialRegistry {
 }
 
 // WriteJSON builds the official MCP registry and writes it to the specified path
+// The registry is validated against the schema before writing - generation fails if validation fails
 func (or *OfficialRegistry) WriteJSON(path string) error {
 	// Build the registry structure
 	registry := or.build()
+
+	// Validate the registry before writing
+	if err := or.validateRegistry(registry); err != nil {
+		return fmt.Errorf("registry validation failed: %w", err)
+	}
 
 	// Create the directory if it doesn't exist
 	dir := filepath.Dir(path)
@@ -48,6 +55,53 @@ func (or *OfficialRegistry) WriteJSON(path string) error {
 	// Write to file
 	if err := os.WriteFile(path, data, 0600); err != nil {
 		return fmt.Errorf("failed to write file: %w", err)
+	}
+
+	return nil
+}
+
+// ValidateAgainstSchema validates the built registry against the schema
+func (or *OfficialRegistry) ValidateAgainstSchema() error {
+	registry := or.build()
+	return or.validateRegistry(registry)
+}
+
+// validateRegistry validates a registry object against the schema
+func (*OfficialRegistry) validateRegistry(registry *ToolHiveRegistryType) error {
+	// Marshal registry to JSON
+	registryJSON, err := json.Marshal(registry)
+	if err != nil {
+		return fmt.Errorf("failed to marshal registry: %w", err)
+	}
+
+	// Load schema from local file (fallback to remote if needed)
+	schemaPath := "schemas/registry.schema.json"
+	var schemaLoader gojsonschema.JSONLoader
+
+	// Try local schema first
+	if _, err := os.Stat(schemaPath); err == nil {
+		schemaLoader = gojsonschema.NewReferenceLoader("file://" + schemaPath)
+	} else {
+		// Fall back to remote schema
+		schemaLoader = gojsonschema.NewReferenceLoader(
+			"https://raw.githubusercontent.com/stacklok/toolhive-registry/main/schemas/registry.schema.json")
+	}
+
+	// Create document loader from registry data
+	documentLoader := gojsonschema.NewBytesLoader(registryJSON)
+
+	// Perform validation
+	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
+	if err != nil {
+		return fmt.Errorf("schema validation failed: %w", err)
+	}
+
+	if !result.Valid() {
+		var errorMessages []string
+		for _, desc := range result.Errors() {
+			errorMessages = append(errorMessages, desc.String())
+		}
+		return fmt.Errorf("validation errors: %v", errorMessages)
 	}
 
 	return nil
@@ -73,7 +127,7 @@ func (or *OfficialRegistry) build() *ToolHiveRegistryType {
 	}
 
 	registry := &ToolHiveRegistryType{
-		Schema:  "", // TODO: Add schema URL once applicable
+		Schema:  "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/schemas/registry.schema.json",
 		Version: "1.0.0",
 		Meta: Meta{
 			LastUpdated: time.Now().UTC().Format(time.RFC3339),
