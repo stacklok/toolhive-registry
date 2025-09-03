@@ -30,12 +30,17 @@ func NewOfficialRegistry(loader *Loader) *OfficialRegistry {
 }
 
 // WriteJSON builds the official MCP registry and writes it to the specified path
-// The registry is validated against the schema before writing - generation fails if validation fails
+// Individual entries and the complete registry are validated before writing - generation fails if validation fails
 func (or *OfficialRegistry) WriteJSON(path string) error {
+	// Validate all entries first
+	if err := or.validateEntries(); err != nil {
+		return fmt.Errorf("entry validation failed: %w", err)
+	}
+
 	// Build the registry structure
 	registry := or.build()
 
-	// Validate the registry before writing
+	// Validate the complete registry against schema
 	if err := or.validateRegistry(registry); err != nil {
 		return fmt.Errorf("registry validation failed: %w", err)
 	}
@@ -102,6 +107,20 @@ func (*OfficialRegistry) validateRegistry(registry *ToolHiveRegistryType) error 
 			errorMessages = append(errorMessages, desc.String())
 		}
 		return fmt.Errorf("validation errors: %v", errorMessages)
+	}
+
+	return nil
+}
+
+// validateEntries validates all individual registry entries
+func (or *OfficialRegistry) validateEntries() error {
+	entries := or.loader.GetEntries()
+	validator := NewSchemaValidator()
+
+	for name, entry := range entries {
+		if err := validator.ValidateEntryFields(entry, name); err != nil {
+			return fmt.Errorf("entry '%s' validation failed: %w", name, err)
+		}
 	}
 
 	return nil
