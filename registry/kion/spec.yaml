@@ -1,0 +1,72 @@
+name: kion
+description: Integrate with a Kion.io instance for cloud management, FinOps, and governance
+tier: Official
+status: Active
+transport: stdio
+repository_url: https://github.com/kionsoftware/kion-mcp
+image: kionsoftware/kion-mcp:0.2.0
+env_vars:
+  - name: KION_BEARER_TOKEN
+    description: App API key for authentication to your Kion instance
+    required: true
+    secret: true
+  - name: KION_SERVER_URL
+    description: 'URL of your Kion instance'
+    required: true
+permissions:
+  network:
+    outbound:
+      insecure_allow_all: true
+tags:
+  - kion
+  - cloud-management
+  - finops
+  - cloudops
+  - compliance
+  - governance
+  - cloud-costs
+tools:
+  - get_accounts
+  - update_budget
+  - get_cloud_provider_services
+  - get_compliance_check
+  - get_compliance_ous
+  - get_compliance_standard_project
+  - get_compliance_standard
+  - get_labels
+  - get_ous
+  - get_ou_budget
+  - get_ou_funding_sources
+  - get_projects
+  - get_project_budget
+  - get_project_spend_plan_with_totals
+  - get_tag_values
+  - get_tag_keys
+  - get_users
+  - get_user_groups
+  - get_user_cloud_access_roles
+  - get_compliance_checks_paginated
+  - get_suppressed_compliance_findings
+  - get_compliance_program
+  - get_compliance_standards_paginated
+  - add_project_spend_plan_entries
+  - get_spend_report
+  - get_label_key_id
+  - get_entity_by_id
+  - get_cloud_access_roles_on_entity
+  - get_cloud_access_role_details
+  - get_user_info
+  - get_compliance_findings
+  - get_permission_scheme
+  - create_project_with_budget
+  - create_project_with_spend_plan
+  - create_funding_source
+  - allocate_funds
+  - get_cloud_providers
+  - create_ou
+  - create_budget
+
+metadata:
+  stars: 7
+  pulls: 114
+  last_updated: 2025-09-03T18:57:03Z
