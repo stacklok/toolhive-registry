@@ -10,10 +10,14 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-  - resolveProviderDocID
-  - getProviderDocs
-  - searchModules
-  - moduleDetails
+  - get_latest_module_version
+  - get_latest_provider_version
+  - get_module_details
+  - get_policy_details
+  - get_provider_details
+  - search_modules
+  - search_policies
+  - search_providers
 metadata:
   stars: 901
   pulls: 9600
