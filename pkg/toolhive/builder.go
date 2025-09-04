@@ -65,13 +65,19 @@ func BuildRunCommand(spec *types.RegistryEntry, tempName, image string) []string
 		// Add environment variables
 		if spec.ImageMetadata.EnvVars != nil {
 			for _, envVar := range spec.ImageMetadata.EnvVars {
-				if envVar.Secret {
-					// For secrets, use placeholder values if required
-					if envVar.Required {
-						builder.AddEnvVar(envVar.Name, "placeholder")
-					}
-				} else if envVar.Default != "" {
+				// Precedence: explicit default from spec > required flag > secret flag
+				if envVar.Default != "" {
 					builder.AddEnvVar(envVar.Name, envVar.Default)
+					continue
+				}
+				if envVar.Required {
+					// Inject a dummy value to allow server startup and tool discovery
+					builder.AddEnvVar(envVar.Name, "placeholder")
+					continue
+				}
+				if envVar.Secret {
+					// Even when not required, inject a dummy for secrets to surface optional tools
+					builder.AddEnvVar(envVar.Name, "placeholder")
 				}
 			}
 		}
@@ -84,6 +90,17 @@ func BuildRunCommand(spec *types.RegistryEntry, tempName, image string) []string
 
 	// Add the image as the last positional argument
 	builder.AddPositional(image)
+
+	// Append registry-specified args after the image using the standard "--" separator
+	// per ToolHive docs (arguments after "--" are passed to the server process).
+	if spec.ImageMetadata != nil && len(spec.Args) > 0 {
+		builder.AddPositional("--")
+		for _, a := range spec.Args {
+			if a != "" {
+				builder.AddPositional(a)
+			}
+		}
+	}
 
 	return builder.Build()
 }
