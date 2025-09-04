@@ -1,0 +1,349 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/schemas/registry.schema.json",
+  "title": "ToolHive Registry Schema",
+  "description": "Schema for ToolHive registry format using official MCP server schema",
+  "type": "object",
+  "required": [
+    "version",
+    "meta", 
+    "data"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri",
+      "description": "JSON Schema URI for this registry format"
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema version of the registry",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "example": "1.0.0"
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "last_updated"
+      ],
+      "properties": {
+        "last_updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the registry was last updated, in RFC3339 format",
+          "example": "2024-01-15T10:30:00Z"
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "servers",
+        "groups"
+      ],
+      "properties": {
+        "servers": {
+          "type": "array",
+          "description": "Array of MCP servers using the official MCP server schema",
+          "items": {
+            "$ref": "#/$defs/ServerJSON"
+          }
+        },
+        "groups": {
+          "type": "array",
+          "description": "Array of server groups (placeholder for future use)",
+          "items": {
+            "type": "object",
+            "description": "Placeholder for future server grouping functionality"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "ServerJSON": {
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "version_detail"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Server name/identifier",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the server's functionality",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "deprecated", "deleted"],
+          "default": "active",
+          "description": "Server lifecycle status"
+        },
+        "repository": {
+          "$ref": "#/$defs/Repository"
+        },
+        "version_detail": {
+          "$ref": "#/$defs/VersionDetail"
+        },
+        "packages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Package"
+          }
+        },
+        "remotes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Remote"
+          }
+        },
+        "meta": {
+          "$ref": "#/$defs/ServerMeta"
+        }
+      }
+    },
+    "Repository": {
+      "type": "object",
+      "required": [
+        "url",
+        "source"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Repository URL"
+        },
+        "source": {
+          "type": "string",
+          "description": "Repository hosting service",
+          "enum": ["github"]
+        },
+        "id": {
+          "type": "string",
+          "description": "Repository identifier"
+        }
+      }
+    },
+    "VersionDetail": {
+      "type": "object",
+      "required": [
+        "version"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "Version string for this server"
+        }
+      }
+    },
+    "Package": {
+      "type": "object",
+      "properties": {
+        "registry_type": {
+          "type": "string",
+          "enum": ["npm", "pypi", "oci", "nuget", "mcpb"],
+          "description": "Registry type for package downloads"
+        },
+        "registry_base_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Base URL of the package registry"
+        },
+        "identifier": {
+          "type": "string",
+          "description": "Package identifier or URL",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "description": "Package version",
+          "minLength": 1
+        },
+        "file_sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$",
+          "description": "SHA-256 hash of the package file"
+        },
+        "runtime_hint": {
+          "type": "string",
+          "enum": ["npx", "uvx", "docker", "dnx"],
+          "description": "Runtime hint for package execution"
+        },
+        "runtime_arguments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Argument"
+          }
+        },
+        "package_arguments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Argument"
+          }
+        },
+        "environment_variables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/KeyValueInput"
+          }
+        }
+      }
+    },
+    "Remote": {
+      "type": "object",
+      "required": [
+        "transport_type",
+        "url"
+      ],
+      "properties": {
+        "transport_type": {
+          "type": "string",
+          "enum": ["streamable", "sse"],
+          "description": "Transport protocol type"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Remote server URL"
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/KeyValueInput"
+          }
+        }
+      }
+    },
+    "ServerMeta": {
+      "type": "object",
+      "properties": {
+        "publisher": {
+          "type": "object",
+          "description": "Publisher-specific extensions",
+          "additionalProperties": true
+        },
+        "_io.modelcontextprotocol.registry": {
+          "type": "object",
+          "description": "Registry-generated metadata",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "published_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updated_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "is_latest": {
+              "type": "boolean"
+            },
+            "release_date": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        }
+      }
+    },
+    "KeyValueInput": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the header or environment variable"
+        },
+        "description": {
+          "type": "string"
+        },
+        "is_required": {
+          "type": "boolean",
+          "default": false
+        },
+        "format": {
+          "type": "string",
+          "enum": ["string", "number", "boolean", "filepath"],
+          "default": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "is_secret": {
+          "type": "boolean",
+          "default": false
+        },
+        "default": {
+          "type": "string"
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Argument": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PositionalArgument"
+        },
+        {
+          "$ref": "#/$defs/NamedArgument"
+        }
+      ]
+    },
+    "PositionalArgument": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["positional"]
+        },
+        "value_hint": {
+          "type": "string"
+        },
+        "is_repeated": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "anyOf": [
+        {"required": ["value_hint"]},
+        {"required": ["value"]}
+      ]
+    },
+    "NamedArgument": {
+      "type": "object",
+      "required": ["type", "name"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["named"]
+        },
+        "name": {
+          "type": "string"
+        },
+        "is_repeated": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  }
+}

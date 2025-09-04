@@ -8,6 +8,19 @@ import (
 	"github.com/stacklok/toolhive/pkg/registry"
 )
 
+const (
+	// StatusActive indicates the server is actively maintained
+	StatusActive = "Active"
+	// StatusDeprecated indicates the server is deprecated
+	StatusDeprecated = "Deprecated"
+
+	// TierCommunity indicates the server is community-supported
+	TierCommunity = "Community"
+
+	// TierOfficial indicates the server is officially supported
+	TierOfficial = "Official"
+)
+
 // RegistryEntry is a unified type that can represent either an image-based or remote MCP server
 // It embeds either ImageMetadata or RemoteServerMetadata from toolhive based on what's in the spec.yaml
 type RegistryEntry struct {
@@ -129,18 +142,18 @@ func (r *RegistryEntry) SetName(name string) {
 func (r *RegistryEntry) SetDefaults() {
 	if r.ImageMetadata != nil {
 		if r.ImageMetadata.Tier == "" {
-			r.ImageMetadata.Tier = "Community"
+			r.ImageMetadata.Tier = TierCommunity
 		}
 		if r.ImageMetadata.Status == "" {
-			r.ImageMetadata.Status = "Active"
+			r.ImageMetadata.Status = StatusActive
 		}
 	}
 	if r.RemoteServerMetadata != nil {
 		if r.RemoteServerMetadata.Tier == "" {
-			r.RemoteServerMetadata.Tier = "Community"
+			r.RemoteServerMetadata.Tier = TierCommunity
 		}
 		if r.RemoteServerMetadata.Status == "" {
-			r.RemoteServerMetadata.Status = "Active"
+			r.RemoteServerMetadata.Status = StatusActive
 		}
 	}
 }

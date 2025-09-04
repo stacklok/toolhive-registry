@@ -14,6 +14,12 @@ import (
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
+const (
+	RegistryToolHiveFormat      = "toolhive"
+	RegistryOfficialMCPRegistry = "official-mcp-registry"
+	RegistryAllFormats          = "all"
+)
+
 var (
 	// Version information (set during build)
 	version = "dev"
@@ -80,7 +86,8 @@ func init() {
 
 	// Build command flags
 	buildCmd.Flags().StringVarP(&outputDir, "output-dir", "o", "build", "Output directory for built registry files")
-	buildCmd.Flags().StringVarP(&outputFormat, "format", "f", "toolhive", "Output format (toolhive, mcp-registry, all)")
+	buildCmd.Flags().StringVarP(&outputFormat, "format", "f", "toolhive",
+		fmt.Sprintf("Output format (%s, %s, %s)", RegistryToolHiveFormat, RegistryOfficialMCPRegistry, RegistryAllFormats))
 
 	// Add commands
 	rootCmd.AddCommand(buildCmd)
@@ -150,32 +157,50 @@ func runBuild(_ *cobra.Command, _ []string) error {
 
 func determineFormats(format string) []string {
 	switch strings.ToLower(format) {
-	case "all":
+	case RegistryAllFormats:
 		// Return all supported formats
-		// For now, just toolhive, but will expand to include mcp-registry
-		return []string{"toolhive"}
-	case "mcp-registry", "mcp":
-		// Future: Upstream MCP Registry format
-		fmt.Println("Note: MCP Registry format support is planned for a future release")
-		fmt.Println("This will generate output compatible with https://github.com/modelcontextprotocol/registry")
-		return []string{}
-	case "toolhive":
-		fallthrough
+		return []string{RegistryToolHiveFormat, RegistryOfficialMCPRegistry}
+	case RegistryOfficialMCPRegistry:
+		return []string{RegistryOfficialMCPRegistry}
+	case RegistryToolHiveFormat:
+		return []string{RegistryToolHiveFormat}
 	default:
-		return []string{"toolhive"}
+		return []string{RegistryToolHiveFormat}
 	}
 }
 
 func buildFormat(loader *registry.Loader, format string, outputDir string) error {
 	switch format {
-	case "toolhive":
+	case RegistryToolHiveFormat:
 		return buildToolhiveFormat(loader, outputDir)
-	case "mcp-registry":
-		// Future implementation
-		return fmt.Errorf("MCP Registry format not yet implemented")
+	case RegistryOfficialMCPRegistry:
+		return buildOfficialMCPRegistryFormat(loader, outputDir)
 	default:
 		return fmt.Errorf("unknown format: %s", format)
 	}
+}
+
+func buildOfficialMCPRegistryFormat(loader *registry.Loader, outputDir string) error {
+	// Create official MCP Registry builder
+	r := registry.NewOfficialRegistry(loader)
+
+	// Ensure output directory exists
+	if err := os.MkdirAll(outputDir, 0750); err != nil {
+		return fmt.Errorf("failed to create output directory: %w", err)
+	}
+
+	// TODO: Add validation step
+
+	// Write JSON output
+	outputPath := filepath.Join(outputDir, "official-registry.json")
+	if err := r.WriteJSON(outputPath); err != nil {
+		return fmt.Errorf("failed to write output: %w", err)
+	}
+
+	if verbose {
+		log.Printf("Written Official MCP Registry format to %s", outputPath)
+	}
+	return nil
 }
 
 func buildToolhiveFormat(loader *registry.Loader, outputDir string) error {
@@ -204,14 +229,6 @@ func buildToolhiveFormat(loader *registry.Loader, outputDir string) error {
 
 	return nil
 }
-
-// Future: buildMCPRegistryFormat function will be added here
-// func buildMCPRegistryFormat(loader *registry.Loader, outputDir string) error {
-//     // Implementation for upstream MCP Registry format
-//     // This will create output compatible with the MCP Registry service:
-//     // https://github.com/modelcontextprotocol/registry
-//     // The format will evolve as the upstream standard evolves
-// }
 
 func runValidate(_ *cobra.Command, _ []string) error {
 	if verbose {
@@ -327,7 +344,7 @@ func displayEntry(entry *types.RegistryEntry, verbose bool) {
 func getEntryStatus(entry *types.RegistryEntry) string {
 	status := entry.GetStatus()
 	if status == "" {
-		status = "Active"
+		status = types.StatusActive
 	}
 	return status
 }
@@ -335,7 +352,7 @@ func getEntryStatus(entry *types.RegistryEntry) string {
 func getEntryTier(entry *types.RegistryEntry) string {
 	tier := entry.GetTier()
 	if tier == "" {
-		tier = "Community"
+		tier = types.TierCommunity
 	}
 	return tier
 }
