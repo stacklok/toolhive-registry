@@ -94,6 +94,22 @@ func (c *Client) ListTools(serverName string) ([]string, error) {
 	return ParseToolsJSON(string(output))
 }
 
+// Logs retrieves logs from a running MCP server
+func (c *Client) Logs(serverName string) (string, error) {
+	logsArgs := NewCommandBuilder("logs").
+		AddFlag("--follow", "false").
+		AddPositional(serverName).
+		Build()
+
+	logsCmd := exec.Command(c.thvPath, logsArgs...) // #nosec G204 - thvPath is validated in NewClient
+	output, err := logsCmd.CombinedOutput()
+	if err != nil {
+		return "", fmt.Errorf("thv logs failed: %w\nOutput: %s", err, string(output))
+	}
+
+	return string(output), nil
+}
+
 // StopServer stops a running MCP server
 func (c *Client) StopServer(serverName string) error {
 	stopCmd := exec.Command(c.thvPath, "stop", serverName) // #nosec G204 - thvPath is validated in NewClient

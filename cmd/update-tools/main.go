@@ -199,6 +199,7 @@ func fetchToolsFromMCP(serverName string) ([]string, error) {
 	}
 
 	// Run the MCP server
+	logger.Infof("Starting temporary MCP server: %s", serverName)
 	tempName, err := client.RunServer(spec, serverName)
 	if err != nil {
 		return nil, fmt.Errorf("failed to run server: %w", err)
@@ -208,14 +209,22 @@ func fetchToolsFromMCP(serverName string) ([]string, error) {
 		if err := client.StopServer(tempName); err != nil {
 			logger.Warnf("Failed to stop temporary server %s: %v", tempName, err)
 		}
-		if err := client.RemoveServer(tempName); err != nil {
-			logger.Warnf("Failed to remove temporary server %s: %v", tempName, err)
-		}
+		//if err := client.RemoveServer(tempName); err != nil {
+		//	logger.Warnf("Failed to remove temporary server %s: %v", tempName, err)
+		//}
 	}()
 
 	// Query the server for tools
 	tools, err := client.ListTools(tempName)
 	if err != nil {
+		// Get Logs for debugging
+		logs, logErr := client.Logs(tempName)
+		if logErr != nil {
+			logger.Warnf("Failed to fetch logs from temporary server %s: %v", tempName, logErr)
+		}
+		if logs != "" {
+			logger.Infof("Logs from temporary server %s:\n%s", tempName, logs)
+		}
 		return nil, fmt.Errorf("failed to list tools: %w", err)
 	}
 
