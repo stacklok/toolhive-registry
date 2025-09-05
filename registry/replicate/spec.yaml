@@ -1,0 +1,43 @@
+url: https://mcp.replicate.com/sse
+description: Replicate's official MCP server providing access to thousands of AI models and ML workflows through natural language commands, supporting model search, comparison, metadata fetching, and predictions
+transport: sse
+homepage: https://replicate.com/docs/reference/mcp
+author: Replicate
+tier: Official
+status: Active
+tags:
+  - remote
+  - ai
+  - replicate
+  - model-hosting
+  - ml-workflows
+  - inference
+  - predictions
+tools:
+  - list_collections
+  - get_collections
+  - create_deployments
+  - update_deployments
+  - list_deployments
+  - get_deployments
+  - create_deployments_predictions
+  - list_hardware
+  - get_account
+  - create_models
+  - list_models
+  - get_models
+  - search_models
+  - list_models_examples
+  - create_models_predictions
+  - get_models_readme
+  - list_models_versions
+  - get_models_versions
+  - create_predictions
+  - list_predictions
+  - cancel_predictions
+  - get_predictions
+  - create_trainings
+  - list_trainings
+  - cancel_trainings
+  - get_trainings
+  - get_default_webhooks_secret

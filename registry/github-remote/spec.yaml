@@ -1,0 +1,118 @@
+url: https://api.githubcopilot.com/mcp
+description: GitHub's official MCP server providing comprehensive access to GitHub repositories, issues, pull requests, actions, security features, and more through OAuth authentication
+transport: streamable-http
+repository_url: https://github.com/github/github-mcp-server
+homepage: https://github.com
+license: MIT
+author: GitHub
+tier: Official
+status: Active
+tags:
+  - remote
+  - github
+  - git
+  - version-control
+  - repositories
+  - issues
+  - pull-requests
+  - actions
+  - copilot
+tools:
+  # Review and comment operations
+  - add_comment_to_pending_review
+  - add_issue_comment
+  - add_sub_issue
+  - assign_copilot_to_issue
+  - cancel_workflow_run
+  - create_and_submit_pull_request_review
+  - create_branch
+  - create_gist
+  - create_issue
+  - create_or_update_file
+  - create_pending_pull_request_review
+  - create_pull_request
+  - create_pull_request_with_copilot
+  - create_repository
+  - delete_file
+  - delete_pending_pull_request_review
+  - delete_workflow_run_logs
+  - dismiss_notification
+  - download_workflow_run_artifact
+  - fork_repository
+  - get_code_scanning_alert
+  - get_commit
+  - get_dependabot_alert
+  - get_discussion
+  - get_discussion_comments
+  - get_file_contents
+  - get_global_security_advisory
+  - get_issue
+  - get_issue_comments
+  - get_job_logs
+  - get_latest_release
+  - get_me
+  - get_notification_details
+  - get_pull_request
+  - get_pull_request_comments
+  - get_pull_request_diff
+  - get_pull_request_files
+  - get_pull_request_reviews
+  - get_pull_request_status
+  - get_release_by_tag
+  - get_secret_scanning_alert
+  - get_tag
+  - get_team_members
+  - get_teams
+  - get_workflow_run
+  - get_workflow_run_logs
+  - get_workflow_run_usage
+  - list_branches
+  - list_code_scanning_alerts
+  - list_commits
+  - list_dependabot_alerts
+  - list_discussion_categories
+  - list_discussions
+  - list_gists
+  - list_global_security_advisories
+  - list_issue_types
+  - list_issues
+  - list_notifications
+  - list_org_repository_security_advisories
+  - list_pull_requests
+  - list_releases
+  - list_repository_security_advisories
+  - list_secret_scanning_alerts
+  - list_sub_issues
+  - list_tags
+  - list_workflow_jobs
+  - list_workflow_run_artifacts
+  - list_workflow_runs
+  - list_workflows
+  - manage_notification_subscription
+  - manage_repository_notification_subscription
+  - mark_all_notifications_read
+  - merge_pull_request
+  - push_files
+  - remove_sub_issue
+  - reprioritize_sub_issue
+  - request_copilot_review
+  - rerun_failed_jobs
+  - rerun_workflow_run
+  - run_workflow
+  - search_code
+  - search_issues
+  - search_orgs
+  - search_pull_requests
+  - search_repositories
+  - search_users
+  - submit_pending_pull_request_review
+  - update_gist
+  - update_issue
+  - update_pull_request
+  - update_pull_request_branch
+oauth:
+  authorize_url: https://github.com/login/oauth/authorize
+  token_url: https://github.com/login/oauth/access_token
+  scopes:
+    - repo
+    - user:email

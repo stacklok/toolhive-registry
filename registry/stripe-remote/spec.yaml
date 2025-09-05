@@ -1,0 +1,65 @@
+url: https://mcp.stripe.com
+description: Stripe's official remote MCP server providing comprehensive access to Stripe's payment processing APIs, customer management, subscriptions, invoices, and more through OAuth authentication
+transport: streamable-http
+homepage: https://docs.stripe.com/mcp
+author: Stripe
+tier: Official
+status: Active
+tags:
+  - remote
+  - payments
+  - ecommerce
+  - financial
+  - stripe
+  - subscriptions
+  - invoices
+  - customers
+tools:
+  # Account operations
+  - get_stripe_account_info
+  
+  # Balance operations
+  - retrieve_balance
+  
+  # Coupon operations
+  - create_coupon
+  - list_coupons
+  
+  # Customer operations
+  - create_customer
+  - list_customers
+  
+  # Dispute operations
+  - list_disputes
+  - update_dispute
+  
+  # Invoice operations
+  - create_invoice
+  - create_invoice_item
+  - finalise_invoice
+  - list_invoices
+  
+  # Payment operations
+  - create_payment_link
+  - list_payment_intents
+  
+  # Price operations
+  - create_price
+  - list_prices
+  
+  # Product operations
+  - create_product
+  - list_products
+  
+  # Refund operations
+  - create_refund
+  
+  # Subscription operations
+  - cancel_subscription
+  - list_subscriptions
+  - update_subscription
+  
+  # Search and documentation
+  - search_stripe_resources
+  - fetch_stripe_resources
+  - search_stripe_documentation

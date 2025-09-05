@@ -1,0 +1,62 @@
+url: https://mcp.paypal.com/mcp
+description: Enables integration with PayPal's MCP server for payment processing, invoice creation, and business operations using natural language
+transport: streamable-http
+homepage: https://www.paypal.ai/docs/tools/mcp-quickstart
+author: PayPal
+tier: Official
+status: Active
+tags:
+  - remote
+  - payments
+  - ecommerce
+  - financial
+  - paypal
+  - transactions
+  - invoices
+tools:
+  # Catalog management
+  - create_product
+  - list_product
+  - show_product_details
+  
+  # Dispute management
+  - list_disputes
+  - get_dispute
+  - accept_dispute_claim
+  
+  # Invoices
+  - create_invoice
+  - list_invoices
+  - get_invoice
+  - send_invoice
+  - send_invoice_reminder
+  - cancel_sent_invoice
+  - generate_invoice_qr_code
+  
+  # Payments
+  - create_order
+  - create_refund
+  - get_order
+  - get_refund
+  - pay_order
+  
+  # Reporting and insights
+  - list_transaction
+  
+  # Shipment tracking
+  - create_shipment_tracking
+  - get_shipment_tracking
+  
+  # Subscription management
+  - cancel_subscription
+  - create_subscription
+  - create_subscription_plan
+  - list_subscription_plans
+  - show_subscription_details
+  - show_subscription_plan_details
+  - update_subscription
+  
+  # Additional commerce tools (with feature flag)
+  - search_product
+  - create_cart
+  - checkout_cart
