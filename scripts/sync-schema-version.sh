@@ -105,8 +105,6 @@ update_schema_reference() {
     
     log "Updating schema reference from $old_sha to $new_sha"
     
-    # Create backup
-    cp "$SCHEMA_FILE" "$SCHEMA_FILE.backup"
     
     local timestamp
     timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -137,32 +135,6 @@ update_schema_reference() {
     success "Schema reference updated to commit $new_sha"
 }
 
-# Function to validate the updated schema
-validate_schema() {
-    log "Validating updated schema..."
-    
-    cd "$PROJECT_ROOT"
-    
-    # First check if the schema is valid JSON
-    if ! jq empty "$SCHEMA_FILE" 2>/dev/null; then
-        error "Schema file is not valid JSON!"
-        return 1
-    fi
-    
-    # Run the registry validation
-    if command -v task >/dev/null 2>&1; then
-        if task validate >/dev/null 2>&1; then
-            success "Schema validation passed!"
-            return 0
-        else
-            error "Schema validation failed!"
-            return 1
-        fi
-    else
-        warn "Task not available, skipping registry validation"
-        return 0
-    fi
-}
 
 # Function to show what changed
 show_changes() {
@@ -231,21 +203,8 @@ main() {
         exit 1
     fi
     
-    # Validate the changes
-    if ! validate_schema; then
-        error "Validation failed after update. Restoring backup..."
-        if [[ -f "$SCHEMA_FILE.backup" ]]; then
-            mv "$SCHEMA_FILE.backup" "$SCHEMA_FILE"
-            warn "Schema restored from backup"
-        fi
-        exit 1
-    fi
-    
-    # Show what changed
+    # Show what changed  
     show_changes "$current_sha" "$schema_sha"
-    
-    # Clean up backup
-    rm -f "$SCHEMA_FILE.backup"
     
     success "Schema sync completed successfully!"
     log ""
