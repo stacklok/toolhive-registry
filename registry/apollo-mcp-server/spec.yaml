@@ -1,0 +1,33 @@
+name: apollo-mcp-server
+image: ghcr.io/apollographql/apollo-mcp-server:v0.7.5
+description: Exposes GraphQL operations as MCP tools for AI-driven API orchestration with Apollo
+tier: Official
+status: Active
+transport: streamable-http
+target_port: 5000
+repository_url: https://github.com/apollographql/apollo-mcp-server
+homepage: https://www.apollographql.com/docs/apollo-mcp-server
+license: MIT
+tags:
+  - graphql
+  - api
+  - orchestration
+  - apollo
+  - mcp
+tools:
+  # Tools are generated from your GraphQL operation names. Replace this with your actual operations.
+  - example_GetAstronautsCurrentlyInSpace
+env_vars:
+  - name: APOLLO_GRAPH_REF
+    description: Graph ref (graph ID and variant) used to fetch persisted queries or schema (required if no config file)
+    required: false
+  - name: APOLLO_KEY
+    description: Apollo Studio API key for the graph (required if no config file)
+    required: false
+    secret: true
+permissions:
+  network:
+    outbound:
+      insecure_allow_all: true
+      allow_port:
+        - 443
