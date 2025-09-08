@@ -5,15 +5,19 @@
 # Import timestamp: 2025-08-14T07:27:00Z
 # ---
 name: terraform
-description: Provides integration with the Terraform ecosystem and interaction capabilities for Infrastructure as Code (IaC) development.
+description: Terraform ecosystem integration with IaC development capabilities and provider documentation
 tier: Official
 status: Active
 transport: stdio
 tools:
-  - resolveProviderDocID
-  - getProviderDocs
-  - searchModules
-  - moduleDetails
+  - get_latest_module_version
+  - get_latest_provider_version
+  - get_module_details
+  - get_policy_details
+  - get_provider_details
+  - search_modules
+  - search_policies
+  - search_providers
 metadata:
   stars: 901
   pulls: 9600

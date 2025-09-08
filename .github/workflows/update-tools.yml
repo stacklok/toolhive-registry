@@ -184,34 +184,32 @@ jobs:
             fi
           fi
 
-      - name: Commit changes
+      - name: Stage changes for later commit
         if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          # Just stage the files, don't commit yet
+          git add "${{ matrix.spec }}"
           
+          # Create a summary file for the commit job to use
           SERVER_NAME="${{ steps.server-info.outputs.server-name }}"
+          mkdir -p /tmp/commit-info
           
           if [ "${{ steps.update.outputs.changed }}" = "true" ]; then
-            git add "${{ matrix.spec }}"
-            git commit -m "chore: update tool list for $SERVER_NAME
-
-          Automatically updated tool list using 'thv mcp list --server $SERVER_NAME'
-          
-          Co-authored-by: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+            echo "update" > "/tmp/commit-info/${SERVER_NAME}.type"
+            echo "$SERVER_NAME" > "/tmp/commit-info/${SERVER_NAME}.name"
+            echo "${{ matrix.spec }}" > "/tmp/commit-info/${SERVER_NAME}.spec"
           else
-            git add "${{ matrix.spec }}"
-            git commit -m "chore: add warning for $SERVER_NAME tool list update failure
-
-          Could not fetch tools from MCP server, added warning comment.
-          
-          Co-authored-by: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+            echo "warning" > "/tmp/commit-info/${SERVER_NAME}.type"
+            echo "$SERVER_NAME" > "/tmp/commit-info/${SERVER_NAME}.name"
+            echo "${{ matrix.spec }}" > "/tmp/commit-info/${SERVER_NAME}.spec"
           fi
-
-      - name: Push changes
+      
+      - name: Upload commit info
         if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
-        run: |
-          git push
+        uses: actions/upload-artifact@v4
+        with:
+          name: commit-info-${{ steps.server-info.outputs.server-name }}
+          path: /tmp/commit-info/
 
       - name: Output diff for workflow dispatch
         if: github.event_name == 'workflow_dispatch' && (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true')
@@ -247,6 +245,89 @@ jobs:
           echo "**Spec File**: \`${{ matrix.spec }}\`" >> $GITHUB_STEP_SUMMARY
           echo "**Triggered by**: @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
 
+  commit-all-changes:
+    name: Commit All Tool Updates
+    needs: update-tools
+    if: always() && needs.detect-changes.outputs.has-changes == 'true' && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref || github.ref }}
+
+      - name: Download all commit info artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/artifacts/
+          pattern: commit-info-*
+          merge-multiple: true
+
+      - name: Check if any changes were made
+        id: check_changes
+        run: |
+          if [ -d "/tmp/artifacts" ] && [ "$(ls -A /tmp/artifacts 2>/dev/null)" ]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Found commit info files:"
+            ls -la /tmp/artifacts/
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No changes to commit"
+          fi
+
+      - name: Commit and push all changes
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Pull any remote changes first to avoid conflicts
+          git pull origin ${{ github.head_ref || github.ref_name }} --rebase
+          
+          # Collect all the server names that were updated
+          UPDATED_SERVERS=""
+          WARNING_SERVERS=""
+          
+          for file in /tmp/artifacts/*.type; do
+            if [ -f "$file" ]; then
+              SERVER_NAME=$(basename "$file" .type)
+              TYPE=$(cat "$file")
+              
+              if [ "$TYPE" = "update" ]; then
+                UPDATED_SERVERS="$UPDATED_SERVERS $SERVER_NAME"
+              else
+                WARNING_SERVERS="$WARNING_SERVERS $SERVER_NAME"
+              fi
+              
+              # Stage the corresponding spec file
+              SPEC_FILE=$(cat "/tmp/artifacts/${SERVER_NAME}.spec")
+              git add "$SPEC_FILE"
+            fi
+          done
+          
+          # Create commit message
+          COMMIT_MSG="chore: update tool lists for MCP servers"
+          
+          if [ -n "$UPDATED_SERVERS" ]; then
+            COMMIT_MSG="$COMMIT_MSG\n\nUpdated servers:$(echo $UPDATED_SERVERS | sed 's/ /\\n- /g' | sed 's/^/\\n- /')"
+          fi
+          
+          if [ -n "$WARNING_SERVERS" ]; then
+            COMMIT_MSG="$COMMIT_MSG\n\nWarning added for servers:$(echo $WARNING_SERVERS | sed 's/ /\\n- /g' | sed 's/^/\\n- /')"
+          fi
+          
+          COMMIT_MSG="$COMMIT_MSG\n\nAutomatically updated using 'thv mcp list' command.\n\nCo-authored-by: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+          
+          # Check if there are actually any changes to commit
+          if ! git diff --cached --quiet; then
+            git commit -m "$COMMIT_MSG"
+            git push
+            echo "✅ Successfully committed and pushed all tool updates"
+          else
+            echo "ℹ️ No changes to commit (files may have been identical)"
+          fi
+
   comment-summary:
     name: Post Summary Comment
     needs: [detect-changes, update-tools]
@@ -261,6 +342,41 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
           body-includes: '## 🔧 MCP Server Tool List Updates'
+
+      - name: Download all commit info artifacts  
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/comment-artifacts/
+          pattern: commit-info-*
+          merge-multiple: true
+
+      - name: Generate summary from artifacts
+        id: generate-summary
+        run: |
+          SUMMARY=""
+          
+          if [ -d "/tmp/comment-artifacts" ] && [ "$(ls -A /tmp/comment-artifacts 2>/dev/null)" ]; then
+            for file in /tmp/comment-artifacts/*.type; do
+              if [ -f "$file" ]; then
+                SERVER_NAME=$(basename "$file" .type)
+                TYPE=$(cat "$file")
+                
+                if [ "$TYPE" = "update" ]; then
+                  SUMMARY="$SUMMARY| $SERVER_NAME | ✅ Updated | Tool list refreshed |\n"
+                else
+                  SUMMARY="$SUMMARY| $SERVER_NAME | ⚠️ Warning | Could not fetch tools, added warning comment |\n"
+                fi
+              fi
+            done
+          fi
+          
+          if [ -z "$SUMMARY" ]; then
+            SUMMARY="| _No changes detected_ | | |"
+          fi
+          
+          echo "summary<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$SUMMARY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create or update comment
         if: github.event_name == 'pull_request'
@@ -277,7 +393,7 @@ jobs:
             
             | Server | Status | Details |
             |--------|--------|---------|
-            ${{ needs.update-tools.outputs.summary || '| _Processing results..._ | | |' }}
+            ${{ steps.generate-summary.outputs.summary }}
             
             ---
             _This comment is automatically generated and will be updated as the workflow progresses._

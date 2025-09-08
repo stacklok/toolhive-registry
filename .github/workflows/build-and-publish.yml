@@ -63,13 +63,17 @@ jobs:
           name: codecov-umbrella
         continue-on-error: true
 
-      - name: Build tools
+      - name: Install Task
+        uses: arduino/setup-task@v2
+
+      - name: Validate schema file syntax
         run: |
-          go build -o registry-builder ./cmd/registry-builder
-          go build -o import-from-toolhive ./cmd/import-from-toolhive
+          echo "Validating schema JSON syntax..."
+          jq empty schemas/registry.schema.json
+          echo "✅ Schema file is valid JSON"
 
       - name: Validate registry entries
-        run: ./registry-builder validate -v
+        run: task validate
 
   build-and-release:
     name: Build and Release Registry
@@ -88,13 +92,13 @@ jobs:
           go-version-file: 'go.mod'
           cache: true
 
-      - name: Build registry-builder
-        run: go build -o registry-builder ./cmd/registry-builder
+      - name: Install Task
+        uses: arduino/setup-task@v2
 
       - name: Build registry files (both formats)
         run: |
           mkdir -p dist
-          ./registry-builder build --format all -v
+          task build:registry
           cp build/registry.json dist/registry.json
           cp build/official-registry.json dist/official-registry.json
           CONTAINER_COUNT=$(jq '.servers | length' dist/registry.json)
