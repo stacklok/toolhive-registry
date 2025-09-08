@@ -7,18 +7,19 @@
 # WARNING: Tool list fetch failed on 2025-08-23
 # Manual verification may be required
 name: semgrep
-description: Allows you to scan code for security vulnerabilities using Semgrep, a fast, deterministic static analysis tool that semantically understands many languages and comes with over 5,000 rules.
+description: Scan code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules
 tier: Official
 status: Active
 transport: sse
 tools:
-  - security_check
-  - semgrep_scan
-  - semgrep_scan_with_custom_rule
   - get_abstract_syntax_tree
-  - supported_languages
+  - get_supported_languages
+  - security_check
+  - semgrep_findings
   - semgrep_rule_schema
-  - write_custom_semgrep_rule
+  - semgrep_scan
+  - semgrep_scan_local
+  - semgrep_scan_with_custom_rule
 metadata:
   stars: 522
   pulls: 12180
@@ -35,7 +36,7 @@ tags:
   - semgrep
   - ast
   - code-analysis
-image: ghcr.io/semgrep/mcp:0.7.1
+image: ghcr.io/semgrep/mcp:0.7.2
 permissions:
   network:
     outbound:

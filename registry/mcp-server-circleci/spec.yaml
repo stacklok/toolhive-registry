@@ -1,7 +1,7 @@
 # Docker/OCI image reference (REQUIRED)
 image: ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.14.0
 # One-line description (REQUIRED)
-description: Official CircleCI MCP server for CI/CD operations, enabling AI models to manage pipelines, analyze test results, debug build failures, and optimize resource usage
+description: CircleCI MCP server for CI/CD operations, pipeline management, and build analysis
 # Communication protocol (REQUIRED)
 transport: stdio
 # Source code repository (HIGHLY RECOMMENDED)
@@ -77,6 +77,6 @@ provenance:
   signer_identity: /.github/workflows/build-containers.yml
   sigstore_url: tuf-repo-cdn.sigstore.dev
 metadata:
-  stars: 59
+  stars: 63
   pulls: 0
-  last_updated: 2025-08-24T02:35:26Z
+  last_updated: 2025-09-08T02:31:32Z

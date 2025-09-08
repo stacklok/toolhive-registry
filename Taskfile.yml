@@ -260,6 +260,13 @@ tasks:
     cmds:
       - ./{{.BUILD_DIR}}/registry-builder version
 
+  sync-schema:
+    desc: Sync schema reference with Go dependency version
+    cmds:
+      - echo "🔄 Syncing schema version with Go dependency..."
+      - ./scripts/sync-schema-version.sh
+      - echo "✅ Schema sync complete. Run 'task validate' to verify."
+
   watch:
     desc: Watch for changes and rebuild (requires entr)
     cmds:

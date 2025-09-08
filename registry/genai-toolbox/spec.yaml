@@ -7,7 +7,7 @@
 # WARNING: Tool list fetch failed on 2025-08-28
 # Manual verification may be required
 name: genai-toolbox
-description: A comprehensive MCP server for database operations that provides tools for connecting to and interacting with various database systems with advanced features like connection pooling, authentication, and observability. Mount and configured via tools.yaml
+description: Database operations MCP server with connection pooling, authentication, and observability
 tier: Official
 status: Active
 transport: sse
@@ -32,7 +32,7 @@ tags:
   - toolbox
   - genai
   - mcp-server
-image: us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.13.0
+image: us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.14.0
 permissions:
   network:
     outbound:

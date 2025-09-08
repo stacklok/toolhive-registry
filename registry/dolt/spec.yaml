@@ -1,7 +1,7 @@
 # Docker/OCI image reference
 image: docker.io/dolthub/dolt-mcp:0.2.0
 # One-line description
-description: Provides Git-like version control for SQL databases using Dolt, enabling branching, merging, and versioning of database schemas and data
+description: Git-like version control for SQL databases with branching, merging, and data versioning
 # Communication protocol
 transport: streamable-http
 # Source code repository
@@ -112,6 +112,6 @@ permissions:
         - 80
         - 8080
 metadata:
-  stars: 2
+  stars: 3
   pulls: 0
-  last_updated: 2025-08-24T02:35:25Z
+  last_updated: 2025-09-08T02:31:32Z
