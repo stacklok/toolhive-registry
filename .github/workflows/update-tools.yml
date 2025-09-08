@@ -258,7 +258,7 @@ jobs:
           ref: ${{ github.head_ref || github.ref }}
 
       - name: Download all commit info artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: /tmp/artifacts/
           pattern: commit-info-*
@@ -344,7 +344,7 @@ jobs:
           body-includes: '## 🔧 MCP Server Tool List Updates'
 
       - name: Download all commit info artifacts  
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: /tmp/comment-artifacts/
           pattern: commit-info-*
