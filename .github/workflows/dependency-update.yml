@@ -33,12 +33,9 @@ jobs:
       with:
         go-version: '1.24.5'
     
-    - name: Install jq
-      run: sudo apt-get update && sudo apt-get install -y jq
     
     - name: Install Task
-      run: |
-        sudo sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+      uses: arduino/setup-task@v2
     
     - name: Check for MCP registry updates
       id: check_updates
@@ -155,7 +152,7 @@ jobs:
           
           🤖 Generated with [Claude Code](https://claude.ai/code)
           
-          Co-Authored-By: Claude <noreply@anthropic.com>
+          Co-authored-by: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         
         branch: automated/update-mcp-registry
         delete-branch: true
@@ -204,7 +201,7 @@ jobs:
           
           🤖 Generated with [Claude Code](https://claude.ai/code)
           
-          Co-Authored-By: Claude <noreply@anthropic.com>
+          Co-authored-by: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         
         branch: automated/update-mcp-registry
         delete-branch: true
