@@ -32,6 +32,26 @@
         "patch"
       ],
       "automerge": true
+    },
+    {
+      "description": "MCP Registry dependency updates with automated schema sync",
+      "matchPackageNames": [
+        "github.com/modelcontextprotocol/registry"
+      ],
+      "postUpgradeTasks": {
+        "commands": [
+          "chmod +x scripts/sync-schema-version.sh",
+          "./scripts/sync-schema-version.sh"
+        ],
+        "fileFilters": [
+          "schemas/registry.schema.json"
+        ],
+        "executionMode": "update"
+      },
+      "prBodyTemplate": "## 🔄 MCP Registry Dependency Update\n\nThis PR updates the MCP registry dependency and automatically syncs the schema reference.\n\n### Changes\n- **Dependency**: `github.com/modelcontextprotocol/registry` `{{currentVersion}}` → `{{newVersion}}`\n- **Schema**: Automatically synced schema reference commit SHA to match the updated dependency\n\n### ✅ Automated Tasks Completed\n- ✅ **Go Modules**: Updated and tidied\n- ✅ **Schema Sync**: Schema reference updated to match dependency version\n\n### 🚀 Next Steps\nThis PR will be validated by the CI workflow:\n- **Registry Validation**: All registry entries will be validated against the new schema\n- **Registry Build**: Both ToolHive and Official MCP formats will be built and tested\n- **Tool Updates**: Any affected registry spec files will be automatically updated\n\nIf validation passes, this PR can be merged immediately. If validation fails, the PR will be converted to draft status with detailed error information.\n\n---\n\n🤖 This PR was created automatically by Renovate with enhanced MCP registry support.\n\n{{{links}}}\n\n{{{controls}}}",
+      "commitMessageTopic": "MCP registry dependency",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps"
     }
   ],
   "prConcurrentLimit": 10,
