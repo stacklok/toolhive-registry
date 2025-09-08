@@ -343,6 +343,41 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: '## 🔧 MCP Server Tool List Updates'
 
+      - name: Download all commit info artifacts  
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/comment-artifacts/
+          pattern: commit-info-*
+          merge-multiple: true
+
+      - name: Generate summary from artifacts
+        id: generate-summary
+        run: |
+          SUMMARY=""
+          
+          if [ -d "/tmp/comment-artifacts" ] && [ "$(ls -A /tmp/comment-artifacts 2>/dev/null)" ]; then
+            for file in /tmp/comment-artifacts/*.type; do
+              if [ -f "$file" ]; then
+                SERVER_NAME=$(basename "$file" .type)
+                TYPE=$(cat "$file")
+                
+                if [ "$TYPE" = "update" ]; then
+                  SUMMARY="$SUMMARY| $SERVER_NAME | ✅ Updated | Tool list refreshed |\n"
+                else
+                  SUMMARY="$SUMMARY| $SERVER_NAME | ⚠️ Warning | Could not fetch tools, added warning comment |\n"
+                fi
+              fi
+            done
+          fi
+          
+          if [ -z "$SUMMARY" ]; then
+            SUMMARY="| _No changes detected_ | | |"
+          fi
+          
+          echo "summary<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$SUMMARY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Create or update comment
         if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v4
@@ -358,7 +393,7 @@ jobs:
             
             | Server | Status | Details |
             |--------|--------|---------|
-            ${{ needs.update-tools.outputs.summary || '| _Processing results..._ | | |' }}
+            ${{ steps.generate-summary.outputs.summary }}
             
             ---
             _This comment is automatically generated and will be updated as the workflow progresses._
