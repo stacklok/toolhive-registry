@@ -1,0 +1,46 @@
+url: https://mcp.canva.com/mcp
+description: Canva's official remote MCP server providing seamless integration with Canva's design capabilities, enabling AI assistants to create designs, autofill templates, search existing designs, and export them as PDFs or images
+transport: streamable-http
+homepage: https://www.canva.dev/docs/connect/canva-mcp-server-setup/
+author: Canva
+tier: Official
+status: Active
+tags:
+  - remote
+  - canva
+  - design
+  - graphics
+  - templates
+  - oauth
+  - creative
+  - visual-content
+  - export
+  - collaboration
+tools:
+  # Asset management
+  - upload-asset-from-url
+  - get-asset-upload-from-url-status
+  
+  # Design operations
+  - search-designs
+  - get-design
+  - get-design-pages
+  - get-design-content
+  - import-design-from-url
+  - get-design-import-from-url-status
+  
+  # Export functionality
+  - export-design
+  - get-export-formats
+  - get-design-export-status
+  
+  # Folder management
+  - create-folder
+  - move-item-to-folder
+  - list-folder-items
+  
+  # Comments and collaboration
+  - comment-on-design
+  - list-comments
+  - list-replies
+  - reply-to-comment
