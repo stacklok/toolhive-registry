@@ -1,0 +1,34 @@
+url: https://mcp.semgrep.ai
+description: Official Semgrep MCP server for code security scanning and vulnerability detection
+transport: streamable-http
+repository_url: https://github.com/semgrep/mcp
+homepage: https://mcp.semgrep.ai
+license: MIT
+author: Semgrep
+tier: Official
+status: Active
+tags:
+  - remote
+  - security
+  - semgrep
+  - static-analysis
+  - vulnerability-detection
+  - code-scanning
+  - security-audit
+tools:
+  # Rule schema and language support
+  - semgrep_rule_schema
+  - get_supported_languages
+  
+  # Findings and results
+  - semgrep_findings
+  
+  # Scanning operations
+  - semgrep_scan_with_custom_rule
+  - semgrep_scan
+  - semgrep_scan_rpc
+  - semgrep_scan_local
+  
+  # Security and analysis
+  - security_check
+  - get_abstract_syntax_tree

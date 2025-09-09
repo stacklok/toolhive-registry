@@ -203,6 +203,14 @@ func (*OfficialRegistry) createRepository(entry *types.RegistryEntry) model.Repo
 	}
 
 	if repositoryURL == "" {
+		// Use a toolhive-registry placeholder URL to satisfy validation when no repository is available for remote servers
+		repositoryURL = "https://github.com/stacklok/toolhive-registry"
+		if entry.IsRemote() {
+			return model.Repository{
+				URL:    repositoryURL,
+				Source: "github",
+			}
+		}
 		return model.Repository{}
 	}
 

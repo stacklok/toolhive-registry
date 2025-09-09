@@ -1,0 +1,41 @@
+url: https://huggingface.co/mcp
+description: Official Hugging Face MCP server for models, datasets, and research papers
+transport: streamable-http
+homepage: https://huggingface.co/mcp
+author: Hugging Face
+tier: Official
+status: Active
+tags:
+  - remote
+  - ai
+  - huggingface
+  - models
+  - datasets
+  - research-papers
+  - documentation
+  - image-generation
+  - authentication
+tools:
+  # User and authentication
+  - hf_whoami
+  
+  # Space operations
+  - space_search
+  
+  # Model operations
+  - model_search
+  - model_details
+  
+  # Research papers
+  - paper_search
+  
+  # Dataset operations
+  - dataset_search
+  - dataset_details
+  
+  # Documentation
+  - hf_doc_search
+  - hf_doc_fetch
+  
+  # Image generation
+  - gr1_flux1_schnell_infer

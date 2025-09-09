@@ -1,0 +1,43 @@
+url: https://mcp.atlassian.com/v1/sse
+description: Atlassian's official remote MCP server for Jira, Confluence, and Compass with OAuth 2.1
+transport: sse
+homepage: https://www.atlassian.com/platform/remote-mcp-server
+author: Atlassian
+tier: Official
+status: Active
+tags:
+  - remote
+  - atlassian
+  - jira
+  - confluence
+  - compass
+  - oauth
+  - project-management
+  - collaboration
+  - documentation
+  - beta
+tools:
+  - atlassianUserInfo
+  - getAccessibleAtlassianResources
+  - getConfluenceSpaces
+  - getConfluencePage
+  - getPagesInConfluenceSpace
+  - getConfluencePageFooterComments
+  - getConfluencePageInlineComments
+  - getConfluencePageDescendants
+  - createConfluencePage
+  - updateConfluencePage
+  - createConfluenceFooterComment
+  - createConfluenceInlineComment
+  - searchConfluenceUsingCql
+  - getJiraIssue
+  - editJiraIssue
+  - createJiraIssue
+  - getTransitionsForJiraIssue
+  - transitionJiraIssue
+  - lookupJiraAccountId
+  - searchJiraIssuesUsingJql
+  - addCommentToJiraIssue
+  - getJiraIssueRemoteIssueLinks
+  - getVisibleJiraProjects
+  - getJiraProjectIssueTypesMetadata

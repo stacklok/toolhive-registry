@@ -1,0 +1,44 @@
+url: https://mcp.sentry.dev/sse
+description: Sentry's official remote MCP server for error monitoring and performance tracking
+transport: sse
+homepage: https://sentry.io
+author: Sentry
+tier: Official
+status: Active
+tags:
+  - remote
+  - sentry
+  - error-monitoring
+  - performance-tracking
+  - debugging
+  - oauth
+  - issues
+  - traces
+  - projects
+  - releases
+tools:
+  # User and organization management
+  - whoami
+  - find_organizations
+  - find_teams
+  - find_projects
+  - find_releases
+  
+  # Issue and trace analysis
+  - get_issue_details
+  - get_trace_details
+  - get_event_attachment
+  
+  # Event search and analysis
+  - search_events
+  
+  # DSN and configuration
+  - find_dsns
+  
+  # AI-powered analysis
+  - analyze_issue_with_seer
+  
+  # Documentation and search
+  - search_docs
+  - get_doc
+  - search_issues

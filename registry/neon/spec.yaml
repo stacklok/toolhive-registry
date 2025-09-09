@@ -1,0 +1,50 @@
+url: https://mcp.neon.tech/sse
+description: Neon's official remote MCP server for serverless Postgres with branching and migrations
+transport: sse
+author: Neon
+tier: Official
+status: Active
+tags:
+  - remote
+  - neon
+  - postgres
+  - serverless
+  - database
+  - oauth
+  - project-management
+  - branching
+  - sql
+  - query-tuning
+tools:
+  # Project and Organization Management
+  - list_projects
+  - list_organizations
+  - list_shared_projects
+  - create_project
+  - delete_project
+  - describe_project
+  
+  # SQL Execution and Schema
+  - run_sql
+  - run_sql_transaction
+  - describe_table_schema
+  - get_database_tables
+  - explain_sql_statement
+  
+  # Database Branching and Migration
+  - create_branch
+  - describe_branch
+  - delete_branch
+  - reset_from_parent
+  - prepare_database_migration
+  - complete_database_migration
+  - list_branch_computes
+  
+  # Authentication and Connection
+  - get_connection_string
+  - provision_neon_auth
+  
+  # Query Tuning
+  - prepare_query_tuning
+  - complete_query_tuning
+  - list_slow_queries
