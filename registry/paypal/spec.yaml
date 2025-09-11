@@ -20,12 +20,10 @@ tools:
   - create_product
   - list_product
   - show_product_details
-  
   # Dispute management
   - list_disputes
   - get_dispute
   - accept_dispute_claim
-  
   # Invoices
   - create_invoice
   - list_invoices
@@ -34,21 +32,17 @@ tools:
   - send_invoice_reminder
   - cancel_sent_invoice
   - generate_invoice_qr_code
-  
   # Payments
   - create_order
   - create_refund
   - get_order
   - get_refund
   - pay_order
-  
   # Reporting and insights
   - list_transaction
-  
   # Shipment tracking
   - create_shipment_tracking
   - get_shipment_tracking
-  
   # Subscription management
   - cancel_subscription
   - create_subscription
@@ -57,8 +51,11 @@ tools:
   - show_subscription_details
   - show_subscription_plan_details
   - update_subscription
-  
   # Additional commerce tools (with feature flag)
   - search_product
   - create_cart
   - checkout_cart
+metadata:
+  stars: 0
+  pulls: 0
+  last_updated: 2025-09-11T02:29:32Z
