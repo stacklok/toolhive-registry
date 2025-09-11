@@ -46,7 +46,7 @@
           "type": "array",
           "description": "Array of MCP servers using the official MCP server schema",
           "items": {
-            "$ref": "https://raw.githubusercontent.com/modelcontextprotocol/registry/6ea3828e3ce62cfd9815376cd6825453da011fa1/docs/server-json/server.schema.json#/$defs/ServerDetail"
+            "$ref": "https://raw.githubusercontent.com/modelcontextprotocol/registry/f975e68cf25c776160d4e837919884ca026027d6/docs/reference/server-json/server.schema.json#/$defs/ServerDetail"
           }
         },
         "groups": {
@@ -61,9 +61,9 @@
     }
   },
   "_schema_version": {
-    "mcp_registry_version": "v0.0.0-20250903150202-6ea3828e3ce6",
-    "mcp_registry_commit": "6ea3828e3ce6",
-    "updated_at": "2025-09-04T14:04:12Z",
+    "mcp_registry_version": "v1.0.0",
+    "mcp_registry_commit": "f975e68cf25c776160d4e837919884ca026027d6",
+    "updated_at": "2025-09-11T14:07:36Z",
     "updated_by": "sync-schema-version.sh"
   }
 }
