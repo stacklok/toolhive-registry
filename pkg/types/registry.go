@@ -158,6 +158,40 @@ func (r *RegistryEntry) SetDefaults() {
 	}
 }
 
+// extendedFields contains fields for YAML parsing that are not part of the standard schema
+type extendedFields struct {
+	Examples []Example `yaml:"examples,omitempty"`
+	License  string    `yaml:"license,omitempty"`
+	// OAuth configuration in simplified YAML format
+	OAuth *struct {
+		Issuer       string            `yaml:"issuer,omitempty"`
+		AuthorizeURL string            `yaml:"authorize_url,omitempty"`
+		TokenURL     string            `yaml:"token_url,omitempty"`
+		ClientID     string            `yaml:"client_id,omitempty"`
+		Scopes       []string          `yaml:"scopes,omitempty"`
+		UsePKCE      *bool             `yaml:"use_pkce,omitempty"`
+		OAuthParams  map[string]string `yaml:"oauth_params,omitempty"`
+		CallbackPort int               `yaml:"callback_port,omitempty"`
+	} `yaml:"oauth,omitempty"`
+	// Headers for remote server authentication
+	Headers []struct {
+		Name        string   `yaml:"name"`
+		Description string   `yaml:"description"`
+		Required    bool     `yaml:"required"`
+		Default     string   `yaml:"default,omitempty"`
+		Secret      bool     `yaml:"secret,omitempty"`
+		Choices     []string `yaml:"choices,omitempty"`
+	} `yaml:"headers,omitempty"`
+	// Environment variables for server configuration
+	EnvVars []struct {
+		Name        string `yaml:"name"`
+		Description string `yaml:"description"`
+		Required    bool   `yaml:"required"`
+		Default     string `yaml:"default,omitempty"`
+		Secret      bool   `yaml:"secret,omitempty"`
+	} `yaml:"env_vars,omitempty"`
+}
+
 // UnmarshalYAML implements custom YAML unmarshaling to determine server type
 func (r *RegistryEntry) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	// First unmarshal into a map to check which fields are present
@@ -192,11 +226,7 @@ func (r *RegistryEntry) UnmarshalYAML(unmarshal func(interface{}) error) error {
 		}
 	}
 
-	// Unmarshal extended fields (examples, license) separately
-	type extendedFields struct {
-		Examples []Example `yaml:"examples,omitempty"`
-		License  string    `yaml:"license,omitempty"`
-	}
+	// Unmarshal extended fields (examples, license, oauth, headers, env_vars) separately
 	var extended extendedFields
 	if err := unmarshal(&extended); err != nil {
 		return err
@@ -204,5 +234,80 @@ func (r *RegistryEntry) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	r.Examples = extended.Examples
 	r.License = extended.License
 
+	// Handle OAuth configuration transformation for remote servers
+	if r.RemoteServerMetadata != nil && extended.OAuth != nil {
+		r.OAuthConfig = &registry.OAuthConfig{
+			Issuer:       extended.OAuth.Issuer,
+			AuthorizeURL: extended.OAuth.AuthorizeURL,
+			TokenURL:     extended.OAuth.TokenURL,
+			ClientID:     extended.OAuth.ClientID,
+			Scopes:       extended.OAuth.Scopes,
+			OAuthParams:  extended.OAuth.OAuthParams,
+			CallbackPort: extended.OAuth.CallbackPort,
+		}
+		// Set UsePKCE default or explicit value
+		if extended.OAuth.UsePKCE != nil {
+			r.OAuthConfig.UsePKCE = *extended.OAuth.UsePKCE
+		} else {
+			r.OAuthConfig.UsePKCE = true // default to true
+		}
+	}
+
+	// Handle additional fields for remote servers
+	if r.RemoteServerMetadata != nil {
+		r.handleRemoteServerFields(&extended, raw)
+	}
+
 	return nil
+}
+
+// handleRemoteServerFields handles headers, env vars, and custom metadata for remote servers
+func (r *RegistryEntry) handleRemoteServerFields(extended *extendedFields, raw map[string]interface{}) {
+	// Handle Headers transformation
+	if len(extended.Headers) > 0 {
+		r.Headers = make([]*registry.Header, len(extended.Headers))
+		for i, h := range extended.Headers {
+			r.Headers[i] = &registry.Header{
+				Name:        h.Name,
+				Description: h.Description,
+				Required:    h.Required,
+				Default:     h.Default,
+				Secret:      h.Secret,
+				Choices:     h.Choices,
+			}
+		}
+	}
+
+	// Handle EnvVars transformation (only for RemoteServerMetadata)
+	if len(extended.EnvVars) > 0 {
+		r.RemoteServerMetadata.EnvVars = make([]*registry.EnvVar, len(extended.EnvVars))
+		for i, e := range extended.EnvVars {
+			r.RemoteServerMetadata.EnvVars[i] = &registry.EnvVar{
+				Name:        e.Name,
+				Description: e.Description,
+				Required:    e.Required,
+				Default:     e.Default,
+				Secret:      e.Secret,
+			}
+		}
+	}
+
+	// Handle custom metadata fields (homepage, license, author, etc.)
+	customFields := make(map[string]interface{})
+
+	// Check for common custom fields
+	if val, exists := raw["homepage"]; exists {
+		customFields["homepage"] = val
+	}
+	if val, exists := raw["license"]; exists {
+		customFields["license"] = val
+	}
+	if val, exists := raw["author"]; exists {
+		customFields["author"] = val
+	}
+
+	// Set custom metadata if we found any custom fields
+	if len(customFields) > 0 {
+		r.RemoteServerMetadata.CustomMetadata = customFields
+	}
 }
