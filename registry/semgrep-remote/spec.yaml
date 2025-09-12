@@ -19,16 +19,17 @@ tools:
   # Rule schema and language support
   - semgrep_rule_schema
   - get_supported_languages
-  
   # Findings and results
   - semgrep_findings
-  
   # Scanning operations
   - semgrep_scan_with_custom_rule
   - semgrep_scan
   - semgrep_scan_rpc
   - semgrep_scan_local
-  
   # Security and analysis
   - security_check
   - get_abstract_syntax_tree
+metadata:
+  stars: 545
+  pulls: 0
+  last_updated: 2025-09-12T02:26:56Z
