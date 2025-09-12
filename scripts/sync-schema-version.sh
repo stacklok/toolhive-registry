@@ -52,8 +52,8 @@ get_current_commit_sha() {
         echo "${BASH_REMATCH[1]}"
     elif [[ "$version" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
         # For tagged versions, we need to resolve to commit SHA
-        warn "Tagged version detected: $version"
-        warn "Will attempt to resolve commit SHA from GitHub..."
+        warn "Tagged version detected: $version" >&2
+        warn "Will attempt to resolve commit SHA from GitHub..." >&2
         
         # Try to get commit SHA for the tag
         local sha
@@ -117,8 +117,8 @@ update_schema_reference() {
        '
        # Update the $ref URL
        .properties.data.properties.servers.items["$ref"] |= 
-         gsub("github.com/modelcontextprotocol/registry/[a-f0-9]*/"; 
-              "github.com/modelcontextprotocol/registry/" + $new_sha + "/") |
+         gsub("/registry/[^/]+/"; 
+              "/registry/" + $new_sha + "/") |
        
        # Add or update _schema_version metadata
        ._schema_version = {
