@@ -150,9 +150,9 @@ jobs:
             echo "✅ Servers have name field"
             
             jq -e '.data.servers[0]._meta."io.modelcontextprotocol.registry/publisher-provided"' dist/official-registry.json > /dev/null
-            echo "✅ Servers have _meta.publisher field"
+            echo "✅ Servers have _meta."io.modelcontextprotocol.registry/publisher-provided" field"
             
-            jq -e '.data.servers[0]._meta."io.modelcontextprotocol.registry"' dist/official-registry.json > /dev/null
+            jq -e '.data.servers[0]._meta."io.modelcontextprotocol.registry/official"' dist/official-registry.json > /dev/null
             echo "✅ Servers have registry extensions"
           fi
 
