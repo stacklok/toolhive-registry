@@ -1,0 +1,28 @@
+name: meta-mcp
+description: MCP server that acts as an intelligent intermediary between AI clients and multiple MCP servers
+tier: Official
+status: Active
+transport: streamable-http
+tools:
+  - find_tool
+  - call_tool
+metadata:
+  stars: 0
+  pulls: 0
+  last_updated: "2025-09-15T08:11:53Z"
+repository_url: https://github.com/StacklokLabs/meta-mcp
+tags:
+  - mcp
+  - proxy
+  - gateway
+  - intelligent
+image: ghcr.io/stackloklabs/meta-mcp:latest
+permissions:
+  network:
+    outbound: {}
+provenance:
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/StacklokLabs/meta-mcp
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/release.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev
