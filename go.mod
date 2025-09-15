@@ -7,7 +7,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/modelcontextprotocol/registry v1.0.0
 	github.com/spf13/cobra v1.10.1
-	github.com/stacklok/toolhive v0.2.17
+	github.com/stacklok/toolhive v0.3.0
 	github.com/stretchr/testify v1.11.1
 	github.com/xeipuuv/gojsonschema v1.2.0
 	gopkg.in/yaml.v3 v3.0.1
