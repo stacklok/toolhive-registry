@@ -187,8 +187,6 @@ If you're not sure, use `stdio` for containers and `sse` for remote servers.
 ### What is "status"?
 
 - `Active` - Fully functional and maintained
-- `Beta` - Still in development but usable
-- `Alpha` - Early development, may have issues
 - `Deprecated` - No longer maintained, will be removed
 
 ### Do I need a Docker image?
