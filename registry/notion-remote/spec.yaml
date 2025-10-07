@@ -1,3 +1,5 @@
+# WARNING: Tool list fetch failed on 2025-10-07
+# Manual verification may be required
 url: https://mcp.notion.com/mcp
 description: Notion's official remote MCP server for workspaces, pages, databases, and comments
 transport: streamable-http
@@ -17,24 +19,25 @@ tags:
   - collaboration
 tools:
   # Search and content retrieval
-  - search
-  - fetch
+  - notion-search
+  - notion-fetch
   # Page operations
-  - create-pages
-  - update-page
-  - move-pages
-  - duplicate-page
+  - notion-create-pages
+  - notion-update-page
+  - notion-move-pages
+  - notion-duplicate-page
   # Database operations
-  - create-database
-  - update-database
+  - notion-create-database
+  - notion-update-database
   # Comment operations
-  - create-comment
-  - get-comments
+  - notion-create-comment
+  - notion-get-comments
   # User operations
-  - get-users
-  - get-user
-  - get-self
+  - notion-get-teams
+  - notion-get-users
+  - notion-get-user
+  - notion-get-self
 metadata:
   stars: 0
   pulls: 0
-  last_updated: 2025-09-11T02:29:32Z
+  last_updated: 2025-10-07T15:14:32Z
