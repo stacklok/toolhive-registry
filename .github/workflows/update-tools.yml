@@ -184,16 +184,13 @@ jobs:
             fi
           fi
 
-      - name: Stage changes for later commit
+      - name: Prepare changes for commit
         if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
         run: |
-          # Just stage the files, don't commit yet
-          git add "${{ matrix.spec }}"
-          
-          # Create a summary file for the commit job to use
+          # Create artifact directory with both metadata and the actual changed file
           SERVER_NAME="${{ steps.server-info.outputs.server-name }}"
           mkdir -p /tmp/commit-info
-          
+
           if [ "${{ steps.update.outputs.changed }}" = "true" ]; then
             echo "update" > "/tmp/commit-info/${SERVER_NAME}.type"
             echo "$SERVER_NAME" > "/tmp/commit-info/${SERVER_NAME}.name"
@@ -203,7 +200,10 @@ jobs:
             echo "$SERVER_NAME" > "/tmp/commit-info/${SERVER_NAME}.name"
             echo "${{ matrix.spec }}" > "/tmp/commit-info/${SERVER_NAME}.spec"
           fi
-      
+
+          # Copy the modified spec file to the artifact directory
+          cp "${{ matrix.spec }}" "/tmp/commit-info/${SERVER_NAME}.spec.yaml"
+
       - name: Upload commit info
         if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
@@ -281,44 +281,49 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          
+
           # Pull any remote changes first to avoid conflicts
           git pull origin ${{ github.head_ref || github.ref_name }} --rebase
-          
+
           # Collect all the server names that were updated
           UPDATED_SERVERS=""
           WARNING_SERVERS=""
-          
+
           for file in /tmp/artifacts/*.type; do
             if [ -f "$file" ]; then
               SERVER_NAME=$(basename "$file" .type)
               TYPE=$(cat "$file")
-              
+
               if [ "$TYPE" = "update" ]; then
                 UPDATED_SERVERS="$UPDATED_SERVERS $SERVER_NAME"
               else
                 WARNING_SERVERS="$WARNING_SERVERS $SERVER_NAME"
               fi
-              
-              # Stage the corresponding spec file
+
+              # Restore the modified spec file from the artifact
               SPEC_FILE=$(cat "/tmp/artifacts/${SERVER_NAME}.spec")
-              git add "$SPEC_FILE"
+              if [ -f "/tmp/artifacts/${SERVER_NAME}.spec.yaml" ]; then
+                cp "/tmp/artifacts/${SERVER_NAME}.spec.yaml" "$SPEC_FILE"
+                git add "$SPEC_FILE"
+              else
+                echo "Warning: Modified spec file not found in artifacts for $SERVER_NAME"
+              fi
             fi
           done
-          
+
           # Create commit message
           COMMIT_MSG="chore: update tool lists for MCP servers"
-          
+
           if [ -n "$UPDATED_SERVERS" ]; then
             COMMIT_MSG="$COMMIT_MSG\n\nUpdated servers:$(echo $UPDATED_SERVERS | sed 's/ /\\n- /g' | sed 's/^/\\n- /')"
           fi
-          
+
           if [ -n "$WARNING_SERVERS" ]; then
             COMMIT_MSG="$COMMIT_MSG\n\nWarning added for servers:$(echo $WARNING_SERVERS | sed 's/ /\\n- /g' | sed 's/^/\\n- /')"
           fi
-          
+
           COMMIT_MSG="$COMMIT_MSG\n\nAutomatically updated using 'thv mcp list' command.\n\nCo-authored-by: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
-          
+
           # Check if there are actually any changes to commit
           if ! git diff --cached --quiet; then
             git commit -m "$COMMIT_MSG"
