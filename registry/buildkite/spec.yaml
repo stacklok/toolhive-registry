@@ -12,30 +12,34 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-  - get_cluster
-  - list_clusters
-  - get_cluster_queue
-  - list_cluster_queues
-  - get_pipeline
-  - list_pipelines
-  - create_pipeline
-  - update_pipeline
-  - list_builds
-  - get_build
-  - create_build
-  - get_build_test_engine_runs
-  - get_jobs
-  - get_job_logs
-  - list_artifacts
-  - get_artifact
-  - list_annotations
-  - list_test_runs
-  - get_test_run
-  - get_failed_executions
-  - get_test
   - access_token
+  - create_build
+  - create_pipeline
   - current_user
+  - get_artifact
+  - get_build
+  - get_build_test_engine_runs
+  - get_cluster
+  - get_cluster_queue
+  - get_failed_executions
+  - get_logs_info
+  - get_pipeline
+  - get_test
+  - get_test_run
+  - list_annotations
+  - list_artifacts
+  - list_builds
+  - list_cluster_queues
+  - list_clusters
+  - list_pipelines
+  - list_test_runs
+  - read_logs
+  - search_logs
+  - tail_logs
+  - unblock_job
+  - update_pipeline
   - user_token_organization
+  - wait_for_build
 metadata:
   stars: 36
   pulls: 3424
