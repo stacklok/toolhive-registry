@@ -1,5 +1,5 @@
 # Docker/OCI image reference (REQUIRED)
-image: ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.2.16
+image: ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.2.17
 # One-line description (REQUIRED)
 description: MCP server for Arize Phoenix observability platform
 # Communication protocol (REQUIRED)
@@ -26,28 +26,25 @@ tags:
   - ai
 # List of tools provided (HIGHLY RECOMMENDED)
 tools:
-  # Span tools
-  - get-spans
+  - add-dataset-examples
+  - add-prompt-version-tag
+  - get-dataset-examples
+  - get-dataset-experiments
+  - get-experiment-by-id
+  - get-latest-prompt
+  - get-prompt-by-identifier
+  - get-prompt-version
+  - get-prompt-version-by-tag
   - get-span-annotations
-  # Project tools
-  - list-projects
-  - get-project
-  # Dataset tools
+  - get-spans
   - list-datasets
-  - get-dataset
-  - create-dataset
-  - add-examples-to-dataset
-  # Experiment tools
-  - list-experiments
-  - get-experiment
-  - get-experiment-runs
-  # Prompt tools
+  - list-experiments-for-dataset
+  - list-projects
+  - list-prompt-version-tags
+  - list-prompt-versions
   - list-prompts
-  - get-prompt
-  - create-prompt
-  - update-prompt
-  # Support tools
-  - share-traces
+  - phoenix-support
+  - upsert-prompt
 # Environment variables (IF APPLICABLE)
 env_vars:
   - name: PHOENIX_API_KEY
