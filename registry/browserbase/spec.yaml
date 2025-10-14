@@ -10,22 +10,23 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-  - createSession
-  - listSessions
-  - closeSession
-  - navigateWithSession
-  - actWithSession
-  - extractWithSession
-  - observeWithSession
-  - getUrlWithSession
-  - getAllUrlsWithSession
-  - closeAllSessions
-  - navigate
-  - act
-  - extract
-  - observe
-  - screenshot
-  - getUrl
+  - browserbase_screenshot
+  - browserbase_session_close
+  - browserbase_session_create
+  - browserbase_stagehand_act
+  - browserbase_stagehand_extract
+  - browserbase_stagehand_get_all_urls
+  - browserbase_stagehand_get_url
+  - browserbase_stagehand_navigate
+  - browserbase_stagehand_observe
+  - multi_browserbase_stagehand_act_session
+  - multi_browserbase_stagehand_extract_session
+  - multi_browserbase_stagehand_get_url_session
+  - multi_browserbase_stagehand_navigate_session
+  - multi_browserbase_stagehand_observe_session
+  - multi_browserbase_stagehand_session_close
+  - multi_browserbase_stagehand_session_create
+  - multi_browserbase_stagehand_session_list
 metadata:
   stars: 2584
   pulls: 133
@@ -37,7 +38,7 @@ tags:
   - web-scraping
   - testing
   - stagehand
-image: ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.1.2
+image: ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.1.3
 permissions:
   network:
     outbound:
