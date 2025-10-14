@@ -1,5 +1,5 @@
 # Docker/OCI image reference
-image: docker.io/dolthub/dolt-mcp:0.2.1
+image: docker.io/dolthub/dolt-mcp:0.2.2
 # One-line description
 description: Git-like version control for SQL databases with branching, merging, and data versioning
 # Communication protocol
@@ -31,6 +31,7 @@ tags:
 # List of tools provided
 tools:
   - add_dolt_remote
+  - add_dolt_test
   - alter_table
   - clone_database
   - create_database
@@ -44,9 +45,8 @@ tools:
   - dolt_fetch_branch
   - dolt_pull_branch
   - dolt_push_branch
-  - dolt_reset_all_tables_soft
   - dolt_reset_hard
-  - dolt_reset_table_soft
+  - dolt_reset_soft
   - drop_database
   - drop_table
   - exec
@@ -63,6 +63,8 @@ tools:
   - move_dolt_branch
   - query
   - remove_dolt_remote
+  - remove_dolt_test
+  - run_dolt_tests
   - select_active_branch
   - select_version
   - show_create_table
