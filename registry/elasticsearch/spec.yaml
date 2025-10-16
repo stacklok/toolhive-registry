@@ -29,7 +29,7 @@ tags:
   - observability
   - metrics
   - logs
-image: docker.io/mcp/elasticsearch:latest
+image: docker.elastic.co/mcp/elasticsearch:0.4.5
 target_port: 8080
 permissions:
   network:
