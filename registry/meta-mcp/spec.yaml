@@ -1,3 +1,5 @@
+# WARNING: Tool list fetch failed on 2025-10-16
+# Manual verification may be required
 name: meta-mcp
 description: MCP server that acts as an intelligent intermediary between AI clients and multiple MCP servers
 tier: Official
@@ -6,6 +8,9 @@ transport: streamable-http
 tools:
   - find_tool
   - call_tool
+  - list_tools
+  - search_registry
+  - install_server
 metadata:
   stars: 0
   pulls: 0
@@ -20,6 +25,28 @@ image: ghcr.io/stackloklabs/meta-mcp:latest
 permissions:
   network:
     outbound: {}
+env_vars:
+  - name: ALLOWED_GROUPS
+    description: "Comma-separated list of ToolHive group names to filter tool lookups (default: no filtering)"
+    required: false
+  - name: MAX_TOOLS_TO_RETURN
+    description: "Number of tools to return from find_tool (default: 8)"
+    required: false
+  - name: TOOL_DISTANCE_THRESHOLD
+    description: "Distance threshold for tool similarity (default: 1.0)"
+    required: false
+  - name: MAX_TOOL_RESPONSE_TOKENS
+    description: "Maximum number of tokens to return from call_tool (default: no limit)"
+    required: false
+  - name: WORKLOAD_POLLING_INTERVAL
+    description: "Polling interval for running MCP servers (default: 60 seconds)"
+    required: false
+  - name: REGISTRY_POLLING_INTERVAL
+    description: "Polling interval for ToolHive registry (default: 24 hours)"
+    required: false
+  - name: RUNTIME_MODE
+    description: "Runtime mode for MCP servers (docker or k8s, default: docker)"
+    required: false
 provenance:
   cert_issuer: https://token.actions.githubusercontent.com
   repository_uri: https://github.com/StacklokLabs/meta-mcp
