@@ -12,21 +12,17 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-  - firecrawl_scrape
-  - firecrawl_batch_scrape
-  - firecrawl_check_batch_status
   - firecrawl_check_crawl_status
-  - firecrawl_search
   - firecrawl_crawl
   - firecrawl_extract
-  - firecrawl_deep_research
-  - firecrawl_generate_llmstxt
   - firecrawl_map
+  - firecrawl_scrape
+  - firecrawl_search
 metadata:
   stars: 4728
   pulls: 12644
   last_updated: "2025-10-17T02:30:04Z"
-repository_url: https://github.com/mendableai/firecrawl-mcp-server
+repository_url: https://github.com/firecrawl/firecrawl-mcp-server
 tags:
   - web-crawler
   - web-scraping
@@ -38,7 +34,7 @@ tags:
   - javascript-rendering
   - research
   - automation
-image: ghcr.io/firecrawl/firecrawl-mcp-server:latest
+image: docker.io/mcp/firecrawl:latest
 permissions:
   network:
     outbound:
