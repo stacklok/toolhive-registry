@@ -4,6 +4,8 @@
 # Original source: https://github.com/stacklok/toolhive
 # Import timestamp: 2025-08-14T07:27:00Z
 # ---
+# WARNING: Tool list fetch failed on 2025-10-17
+# Manual verification may be required
 name: netbird
 description: Enables management of an NetBird network.
 tier: Community
@@ -31,7 +33,7 @@ tags:
   - dns
   - setup-key
   - management
-image: docker.io/aantti/mcp-netbird:latest
+image: ghcr.io/stacklok/dockyard/go/netbird:latest
 target_port: 8001
 permissions:
   network:
