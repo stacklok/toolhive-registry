@@ -10,25 +10,20 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-  - whoami
+  - analyze_issue_with_seer
+  - find_dsns
   - find_organizations
-  - find_teams
   - find_projects
   - find_releases
+  - find_teams
+  - get_doc
+  - get_event_attachment
   - get_issue_details
   - get_trace_details
-  - get_event_attachment
-  - update_issue
-  - search_events
-  - create_team
-  - create_project
-  - update_project
-  - create_dsn
-  - find_dsns
-  - analyze_issue_with_seer
   - search_docs
-  - get_doc
+  - search_events
   - search_issues
+  - whoami
 metadata:
   stars: 384
   pulls: 127
@@ -40,7 +35,7 @@ tags:
   - monitoring
   - error-tracking
   - observability
-image: ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:latest
+image: ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.18.0
 permissions:
   network:
     outbound:

@@ -21,6 +21,7 @@ tools:
   - get_advisors
   - get_anon_key
   - get_cost
+  - get_edge_function
   - get_logs
   - get_organization
   - get_project
@@ -49,7 +50,7 @@ tags:
   - backend
   - baas
   - postgresql
-image: ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:latest
+image: ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.5.6
 permissions:
   network:
     outbound:

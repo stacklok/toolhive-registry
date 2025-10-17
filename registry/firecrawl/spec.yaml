@@ -4,6 +4,8 @@
 # Original source: https://github.com/stacklok/toolhive
 # Import timestamp: 2025-08-14T07:27:00Z
 # ---
+# WARNING: Tool list fetch failed on 2025-10-16
+# Manual verification may be required
 name: firecrawl
 description: Web scraping and content extraction MCP server with advanced crawling and LLM integration
 tier: Official
@@ -36,7 +38,7 @@ tags:
   - javascript-rendering
   - research
   - automation
-image: docker.io/mcp/firecrawl:latest
+image: ghcr.io/firecrawl/firecrawl-mcp-server:latest
 permissions:
   network:
     outbound:
