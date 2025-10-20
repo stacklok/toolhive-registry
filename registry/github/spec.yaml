@@ -14,15 +14,12 @@ tools:
   - add_issue_comment
   - add_sub_issue
   - assign_copilot_to_issue
-  - create_and_submit_pull_request_review
   - create_branch
   - create_issue
   - create_or_update_file
-  - create_pending_pull_request_review
   - create_pull_request
   - create_repository
   - delete_file
-  - delete_pending_pull_request_review
   - fork_repository
   - get_commit
   - get_file_contents
@@ -46,6 +43,7 @@ tools:
   - list_tags
   - merge_pull_request
   - pull_request_read
+  - pull_request_review_write
   - push_files
   - remove_sub_issue
   - reprioritize_sub_issue
@@ -55,7 +53,6 @@ tools:
   - search_pull_requests
   - search_repositories
   - search_users
-  - submit_pending_pull_request_review
   - update_issue
   - update_pull_request
   - update_pull_request_branch
