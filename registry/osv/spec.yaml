@@ -30,6 +30,7 @@ tags:
   - security-scanning
   - vulnerability-detection
 image: ghcr.io/stackloklabs/osv-mcp/server:0.0.7
+target_port: 8080
 permissions:
   network:
     outbound:

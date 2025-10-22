@@ -71,41 +71,41 @@ func (or *OfficialRegistry) ValidateAgainstSchema() error {
 }
 
 // validateRegistry validates a registry object against the schema
+// This validates each server entry against the upstream MCP server schema,
+// ensuring compatibility with the official MCP registry format
 func (*OfficialRegistry) validateRegistry(registry *ToolHiveRegistryType) error {
-	// Marshal registry to JSON
-	registryJSON, err := json.Marshal(registry)
-	if err != nil {
-		return fmt.Errorf("failed to marshal registry: %w", err)
-	}
+	// Use the upstream schema URL directly from the registry package
+	// This ensures we're always validating against the same schema version
+	// that the code is built with, eliminating the need for manual schema syncing
+	schemaLoader := gojsonschema.NewReferenceLoader(model.CurrentSchemaURL)
 
-	// Load schema from local file (fallback to remote if needed)
-	schemaPath := "schemas/registry.schema.json"
-	var schemaLoader gojsonschema.JSONLoader
-
-	// Try local schema first
-	if _, err := os.Stat(schemaPath); err == nil {
-		schemaLoader = gojsonschema.NewReferenceLoader("file://" + schemaPath)
-	} else {
-		// Fall back to remote schema
-		schemaLoader = gojsonschema.NewReferenceLoader(
-			"https://raw.githubusercontent.com/stacklok/toolhive-registry/main/schemas/registry.schema.json")
-	}
-
-	// Create document loader from registry data
-	documentLoader := gojsonschema.NewBytesLoader(registryJSON)
-
-	// Perform validation
-	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
-	if err != nil {
-		return fmt.Errorf("schema validation failed: %w", err)
-	}
-
-	if !result.Valid() {
-		var errorMessages []string
-		for _, desc := range result.Errors() {
-			errorMessages = append(errorMessages, desc.String())
+	// Validate each server individually against the upstream schema
+	var allErrors []string
+	for i, server := range registry.Data.Servers {
+		// Marshal server to JSON
+		serverJSON, err := json.Marshal(server)
+		if err != nil {
+			return fmt.Errorf("failed to marshal server %d: %w", i, err)
 		}
-		return fmt.Errorf("validation errors: %v", errorMessages)
+
+		// Create document loader from server data
+		documentLoader := gojsonschema.NewBytesLoader(serverJSON)
+
+		// Perform validation
+		result, err := gojsonschema.Validate(schemaLoader, documentLoader)
+		if err != nil {
+			return fmt.Errorf("schema validation failed for server %d (%s): %w", i, server.Name, err)
+		}
+
+		if !result.Valid() {
+			for _, desc := range result.Errors() {
+				allErrors = append(allErrors, fmt.Sprintf("data.servers.%d: %s", i, desc.String()))
+			}
+		}
+	}
+
+	if len(allErrors) > 0 {
+		return fmt.Errorf("validation errors: %v", allErrors)
 	}
 
 	return nil
@@ -163,6 +163,7 @@ func (or *OfficialRegistry) build() *ToolHiveRegistryType {
 func (or *OfficialRegistry) transformEntry(name string, entry *types.RegistryEntry) upstream.ServerJSON {
 	// Create the flattened server JSON with _meta extensions
 	serverJSON := upstream.ServerJSON{
+		Schema:      model.CurrentSchemaURL,
 		Name:        or.convertNameToReverseDNS(name),
 		Description: entry.GetDescription(),
 		Repository:  or.createRepository(entry),
@@ -235,14 +236,10 @@ func (*OfficialRegistry) createPackages(entry *types.RegistryEntry) []model.Pack
 		})
 	}
 
-	// Extract registry and version information from the image reference
-	registryBaseURL, identifier, version, err := parseImageReference(entry.Image)
-	if err != nil {
-		// Continue with fallback values
-		registryBaseURL = ""
-		identifier = entry.Image
-		version = ""
-	}
+	// For OCI packages, use the full image reference in the identifier field
+	// The version and registryBaseURL fields are not used for OCI packages
+	// See: https://github.com/modelcontextprotocol/registry/blob/main/pkg/model/types.go
+	identifier := entry.Image
 
 	// Determine transport type - use entry's transport or default to stdio for containers
 	transportType := entry.GetTransport()
@@ -254,15 +251,22 @@ func (*OfficialRegistry) createPackages(entry *types.RegistryEntry) []model.Pack
 		Type: transportType,
 	}
 
-	// Todo: Add URL field for non-stdio transports (required by schema)
+	// Add URL field for non-stdio transports (required by schema)
+	if transportType == model.TransportTypeStreamableHTTP || transportType == model.TransportTypeSSE {
+		// For container-based servers, construct URL template with target port
+		port := 8080 // Default port if not specified
+		if entry.ImageMetadata != nil && entry.ImageMetadata.TargetPort > 0 {
+			port = entry.ImageMetadata.TargetPort
+		}
+		transport.URL = fmt.Sprintf("http://localhost:%d", port)
+	}
 
 	pkg := model.Package{
 		RegistryType:         model.RegistryTypeOCI,
-		RegistryBaseURL:      registryBaseURL,
-		Identifier:           identifier,
-		Version:              version,
+		Identifier:           identifier, // Full image reference including tag
 		EnvironmentVariables: envVars,
 		Transport:            transport,
+		// Version and RegistryBaseURL are omitted for OCI packages
 	}
 
 	return []model.Package{pkg}
