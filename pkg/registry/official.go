@@ -71,17 +71,53 @@ func (or *OfficialRegistry) ValidateAgainstSchema() error {
 }
 
 // validateRegistry validates a registry object against the schema
-// This validates each server entry against the upstream MCP server schema,
-// ensuring compatibility with the official MCP registry format
-func (*OfficialRegistry) validateRegistry(registry *ToolHiveRegistryType) error {
+// This validates both the wrapper structure and each server entry
+func (or *OfficialRegistry) validateRegistry(registry *ToolHiveRegistryType) error {
+	var allErrors []string
+
+	// Step 1: Validate the wrapper structure against the ToolHive registry schema
+	registryJSON, err := json.Marshal(registry)
+	if err != nil {
+		return fmt.Errorf("failed to marshal registry: %w", err)
+	}
+
+	// Load the wrapper schema from local file
+	wrapperSchemaPath := "schemas/registry.schema.json"
+	wrapperSchemaLoader := gojsonschema.NewReferenceLoader("file://" + wrapperSchemaPath)
+
+	wrapperLoader := gojsonschema.NewBytesLoader(registryJSON)
+	wrapperResult, err := gojsonschema.Validate(wrapperSchemaLoader, wrapperLoader)
+	if err != nil {
+		return fmt.Errorf("wrapper schema validation failed: %w", err)
+	}
+
+	if !wrapperResult.Valid() {
+		for _, desc := range wrapperResult.Errors() {
+			allErrors = append(allErrors, fmt.Sprintf("wrapper: %s", desc.String()))
+		}
+	}
+
+	// Step 2: Validate each server individually against the upstream MCP server schema
+	if err := or.validateServers(registry.Data.Servers, &allErrors); err != nil {
+		return err
+	}
+
+	if len(allErrors) > 0 {
+		return fmt.Errorf("validation errors: %v", allErrors)
+	}
+
+	return nil
+}
+
+// validateServers validates each server entry against the upstream MCP server schema
+// This function can be used standalone to validate individual servers
+func (*OfficialRegistry) validateServers(servers []upstream.ServerJSON, allErrors *[]string) error {
 	// Use the upstream schema URL directly from the registry package
 	// This ensures we're always validating against the same schema version
 	// that the code is built with, eliminating the need for manual schema syncing
-	schemaLoader := gojsonschema.NewReferenceLoader(model.CurrentSchemaURL)
+	serverSchemaLoader := gojsonschema.NewReferenceLoader(model.CurrentSchemaURL)
 
-	// Validate each server individually against the upstream schema
-	var allErrors []string
-	for i, server := range registry.Data.Servers {
+	for i, server := range servers {
 		// Marshal server to JSON
 		serverJSON, err := json.Marshal(server)
 		if err != nil {
@@ -92,20 +128,16 @@ func (*OfficialRegistry) validateRegistry(registry *ToolHiveRegistryType) error 
 		documentLoader := gojsonschema.NewBytesLoader(serverJSON)
 
 		// Perform validation
-		result, err := gojsonschema.Validate(schemaLoader, documentLoader)
+		result, err := gojsonschema.Validate(serverSchemaLoader, documentLoader)
 		if err != nil {
 			return fmt.Errorf("schema validation failed for server %d (%s): %w", i, server.Name, err)
 		}
 
 		if !result.Valid() {
 			for _, desc := range result.Errors() {
-				allErrors = append(allErrors, fmt.Sprintf("data.servers.%d: %s", i, desc.String()))
+				*allErrors = append(*allErrors, fmt.Sprintf("data.servers.%d: %s", i, desc.String()))
 			}
 		}
-	}
-
-	if len(allErrors) > 0 {
-		return fmt.Errorf("validation errors: %v", allErrors)
 	}
 
 	return nil
@@ -304,6 +336,7 @@ func (*OfficialRegistry) createRemotes(entry *types.RegistryEntry) []model.Trans
 
 
 // createXPublisherExtensions creates x-publisher extensions with ToolHive-specific data
+// Following the reverse DNS naming convention: io.github.stacklok
 func (or *OfficialRegistry) createXPublisherExtensions(entry *types.RegistryEntry) map[string]interface{} {
 	// Get the key for the ToolHive extensions (image or URL)
 	var key string
@@ -318,8 +351,9 @@ func (or *OfficialRegistry) createXPublisherExtensions(entry *types.RegistryEntr
 	// Create ToolHive-specific extensions
 	toolhiveExtensions := or.createToolHiveExtensions(entry)
 
+	// Use reverse DNS naming convention for vendor-specific data
 	return map[string]interface{}{
-		"toolhive": map[string]interface{}{
+		"io.github.stacklok": map[string]interface{}{
 			key: toolhiveExtensions,
 		},
 	}
@@ -331,6 +365,9 @@ func (or *OfficialRegistry) createToolHiveExtensions(entry *types.RegistryEntry)
 
 	// Always include transport type
 	extensions["transport"] = entry.GetTransport()
+
+	// Add status (active/deprecated)
+	extensions["status"] = string(or.convertStatus(entry.GetStatus()))
 
 	// Add tools list
 	if tools := entry.GetTools(); len(tools) > 0 {
@@ -499,6 +536,6 @@ func (*OfficialRegistry) convertNameToReverseDNS(name string) string {
 		return name
 	}
 
-	// Convert simple names to toolhive namespace format
-	return "io.stacklok.toolhive/" + name
+	// Convert simple names to GitHub-based namespace format
+	return "io.github.stacklok/" + name
 }
