@@ -13,6 +13,8 @@ import (
 // matches the schema version from the Go package (model.CurrentSchemaVersion).
 // This prevents schema drift when upgrading the registry package.
 func TestSchemaVersionSync(t *testing.T) {
+	t.Parallel()
+
 	// Read the schema file
 	schemaPath := "../../schemas/registry.schema.json"
 	schemaData, err := os.ReadFile(schemaPath)

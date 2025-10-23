@@ -287,8 +287,8 @@ func (*OfficialRegistry) createPackages(entry *types.RegistryEntry) []model.Pack
 	if transportType == model.TransportTypeStreamableHTTP || transportType == model.TransportTypeSSE {
 		// For container-based servers, construct URL template with target port
 		port := 8080 // Default port if not specified
-		if entry.ImageMetadata != nil && entry.ImageMetadata.TargetPort > 0 {
-			port = entry.ImageMetadata.TargetPort
+		if entry.ImageMetadata != nil && entry.TargetPort > 0 {
+			port = entry.TargetPort
 		}
 		transport.URL = fmt.Sprintf("http://localhost:%d", port)
 	}
@@ -333,7 +333,6 @@ func (*OfficialRegistry) createRemotes(entry *types.RegistryEntry) []model.Trans
 
 	return []model.Transport{remote}
 }
-
 
 // createXPublisherExtensions creates x-publisher extensions with ToolHive-specific data
 // Following the reverse DNS naming convention: io.github.stacklok
@@ -469,64 +468,6 @@ func (*OfficialRegistry) convertStatus(status string) model.Status {
 	default:
 		return model.StatusActive // Default to active
 	}
-}
-
-// parseImageReference parses a container image reference into basic components
-// Returns error if registry has a port (not supported)
-func parseImageReference(image string) (registryBaseURL, identifier, version string, err error) {
-	// Check for port in registry (not supported)
-	if strings.Contains(image, ":") && strings.Count(image, ":") > 1 {
-		// Multiple colons might indicate registry:port/image:tag
-		parts := strings.Split(image, "/")
-		if len(parts) > 0 && strings.Contains(parts[0], ":") {
-			// First part has colon, likely registry:port
-			return "", "", "", fmt.Errorf("registry with port not supported: %s", parts[0])
-		}
-	}
-
-	// Handle digest (@sha256:...)
-	if strings.Contains(image, "@") {
-		parts := strings.SplitN(image, "@", 2)
-		imageRef := parts[0]
-		digest := parts[1]
-
-		reg, name := splitRegistryAndName(imageRef)
-		return reg, name, digest, nil
-	}
-
-	// Handle tag (:tag)
-	if strings.Contains(image, ":") {
-		parts := strings.SplitN(image, ":", 2)
-		imageRef := parts[0]
-		tag := parts[1]
-
-		reg, name := splitRegistryAndName(imageRef)
-		return reg, name, tag, nil
-	}
-
-	// No tag or digest - default to latest
-	reg, name := splitRegistryAndName(image)
-	return reg, name, "latest", nil
-}
-
-// splitRegistryAndName splits image into registry and name parts
-func splitRegistryAndName(image string) (registryBaseURL, identifier string) {
-	// No slash = Docker Hub image
-	if !strings.Contains(image, "/") {
-		return "https://docker.io", image
-	}
-
-	// Has slash - check if first part looks like registry
-	parts := strings.SplitN(image, "/", 2)
-	firstPart := parts[0]
-
-	// If first part has dot, assume it's a registry hostname
-	if strings.Contains(firstPart, ".") {
-		return "https://" + firstPart, parts[1]
-	}
-
-	// Otherwise assume Docker Hub with namespace
-	return "https://docker.io", image
 }
 
 // convertNameToReverseDNS converts simple server names to reverse-DNS format required by v1.0.0 schema
