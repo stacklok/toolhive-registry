@@ -289,7 +289,11 @@ func createImageExtensions(imageMetadata *registry.ImageMetadata) map[string]int
 
 	// Add tools
 	if len(imageMetadata.Tools) > 0 {
-		extensions["tools"] = imageMetadata.Tools
+		tools := make([]interface{}, len(imageMetadata.Tools))
+		for i, tool := range imageMetadata.Tools {
+			tools[i] = tool
+		}
+		extensions["tools"] = tools
 	}
 
 	// Add tier
@@ -299,14 +303,18 @@ func createImageExtensions(imageMetadata *registry.ImageMetadata) map[string]int
 
 	// Add tags
 	if len(imageMetadata.Tags) > 0 {
-		extensions["tags"] = imageMetadata.Tags
+		tags := make([]interface{}, len(imageMetadata.Tags))
+		for i, tag := range imageMetadata.Tags {
+			tags[i] = tag
+		}
+		extensions["tags"] = tags
 	}
 
 	// Add metadata
 	if imageMetadata.Metadata != nil {
 		extensions["metadata"] = map[string]interface{}{
-			"stars":        imageMetadata.Metadata.Stars,
-			"pulls":        imageMetadata.Metadata.Pulls,
+			"stars":        float64(imageMetadata.Metadata.Stars),
+			"pulls":        float64(imageMetadata.Metadata.Pulls),
 			"last_updated": imageMetadata.Metadata.LastUpdated,
 		}
 	}
@@ -331,7 +339,11 @@ func createRemoteExtensions(remoteMetadata *registry.RemoteServerMetadata) map[s
 
 	// Add tools
 	if len(remoteMetadata.Tools) > 0 {
-		extensions["tools"] = remoteMetadata.Tools
+		tools := make([]interface{}, len(remoteMetadata.Tools))
+		for i, tool := range remoteMetadata.Tools {
+			tools[i] = tool
+		}
+		extensions["tools"] = tools
 	}
 
 	// Add tier
@@ -341,14 +353,18 @@ func createRemoteExtensions(remoteMetadata *registry.RemoteServerMetadata) map[s
 
 	// Add tags
 	if len(remoteMetadata.Tags) > 0 {
-		extensions["tags"] = remoteMetadata.Tags
+		tags := make([]interface{}, len(remoteMetadata.Tags))
+		for i, tag := range remoteMetadata.Tags {
+			tags[i] = tag
+		}
+		extensions["tags"] = tags
 	}
 
 	// Add metadata
 	if remoteMetadata.Metadata != nil {
 		extensions["metadata"] = map[string]interface{}{
-			"stars":        remoteMetadata.Metadata.Stars,
-			"pulls":        remoteMetadata.Metadata.Pulls,
+			"stars":        float64(remoteMetadata.Metadata.Stars),
+			"pulls":        float64(remoteMetadata.Metadata.Pulls),
 			"last_updated": remoteMetadata.Metadata.LastUpdated,
 		}
 	}
