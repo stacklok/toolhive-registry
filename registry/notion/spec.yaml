@@ -24,9 +24,9 @@ tools:
   - API-retrieve-a-comment
   - API-create-a-comment
 metadata:
-  last_updated: "2025-10-07T02:28:19Z"
+  last_updated: "2025-10-25T02:30:08Z"
   pulls: 40073
-  stars: 3277
+  stars: 3363
 repository_url: https://github.com/makenotion/notion-mcp-server
 tags:
   - notion
@@ -46,8 +46,6 @@ env_vars:
     required: true
     secret: true
   - name: OPENAPI_MCP_HEADERS
-    description:
-      'HTTP headers for Notion API requests in JSON format (advanced use cases).
-      Example: {"Authorization":"Bearer ntn_****","Notion-Version":"2022-06-28"}'
+    description: 'HTTP headers for Notion API requests in JSON format (advanced use cases). Example: {"Authorization":"Bearer ntn_****","Notion-Version":"2022-06-28"}'
     required: false
     secret: true
