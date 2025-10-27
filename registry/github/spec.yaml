@@ -12,10 +12,8 @@ transport: stdio
 tools:
   - add_comment_to_pending_review
   - add_issue_comment
-  - add_sub_issue
   - assign_copilot_to_issue
   - create_branch
-  - create_issue
   - create_or_update_file
   - create_pull_request
   - create_repository
@@ -23,8 +21,6 @@ tools:
   - fork_repository
   - get_commit
   - get_file_contents
-  - get_issue
-  - get_issue_comments
   - get_label
   - get_latest_release
   - get_me
@@ -32,28 +28,26 @@ tools:
   - get_tag
   - get_team_members
   - get_teams
+  - issue_read
+  - issue_write
   - list_branches
   - list_commits
   - list_issue_types
   - list_issues
-  - list_label
   - list_pull_requests
   - list_releases
-  - list_sub_issues
   - list_tags
   - merge_pull_request
   - pull_request_read
   - pull_request_review_write
   - push_files
-  - remove_sub_issue
-  - reprioritize_sub_issue
   - request_copilot_review
   - search_code
   - search_issues
   - search_pull_requests
   - search_repositories
   - search_users
-  - update_issue
+  - sub_issue_write
   - update_pull_request
   - update_pull_request_branch
 metadata:
