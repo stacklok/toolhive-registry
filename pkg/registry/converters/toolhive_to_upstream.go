@@ -159,8 +159,7 @@ func createRemotesFromRemoteMetadata(remoteMetadata *registry.RemoteServerMetada
 func createImageExtensions(imageMetadata *registry.ImageMetadata) map[string]interface{} {
 	extensions := make(map[string]interface{})
 
-	// Always include transport and status
-	extensions["transport"] = imageMetadata.Transport
+	// Always include status
 	extensions["status"] = imageMetadata.Status
 	if extensions["status"] == "" {
 		extensions["status"] = "active"
@@ -224,8 +223,7 @@ func createImageExtensions(imageMetadata *registry.ImageMetadata) map[string]int
 func createRemoteExtensions(remoteMetadata *registry.RemoteServerMetadata) map[string]interface{} {
 	extensions := make(map[string]interface{})
 
-	// Always include transport and status
-	extensions["transport"] = remoteMetadata.Transport
+	// Always include status
 	extensions["status"] = remoteMetadata.Status
 	if extensions["status"] == "" {
 		extensions["status"] = "active"

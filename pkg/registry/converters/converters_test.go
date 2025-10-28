@@ -37,11 +37,10 @@ func createTestServerJSON() *upstream.ServerJSON {
 			PublisherProvided: map[string]interface{}{
 				"io.github.stacklok": map[string]interface{}{
 					"ghcr.io/test/server:latest": map[string]interface{}{
-						"status":    "active",
-						"transport": "stdio",
-						"tier":      "Official",
-						"tools":     []interface{}{"tool1", "tool2"},
-						"tags":      []interface{}{"test", "example"},
+						"status": "active",
+						"tier":   "Official",
+						"tools":  []interface{}{"tool1", "tool2"},
+						"tags":   []interface{}{"test", "example"},
 						"metadata": map[string]interface{}{
 							"stars":        float64(100),
 							"pulls":        float64(1000),
@@ -422,7 +421,6 @@ func TestImageMetadataToServerJSON_WithPublisherExtensions(t *testing.T) {
 
 	assert.Equal(t, "active", imageData["status"])
 	assert.Equal(t, "Official", imageData["tier"])
-	assert.Equal(t, model.TransportTypeStdio, imageData["transport"])
 }
 
 func TestImageMetadataToServerJSON_ReverseDNSName(t *testing.T) {
@@ -457,10 +455,9 @@ func TestServerJSONToRemoteServerMetadata_Success(t *testing.T) {
 			PublisherProvided: map[string]interface{}{
 				"io.github.stacklok": map[string]interface{}{
 					"https://api.example.com/mcp": map[string]interface{}{
-						"status":    "active",
-						"transport": "sse",
-						"tier":      "Official",
-						"tools":     []interface{}{"tool1"},
+						"status": "active",
+						"tier":   "Official",
+						"tools":  []interface{}{"tool1"},
 					},
 				},
 			},
@@ -897,9 +894,8 @@ func TestRealWorld_GitHubServer(t *testing.T) {
 			PublisherProvided: map[string]interface{}{
 				"io.github.stacklok": map[string]interface{}{
 					"ghcr.io/github/github-mcp-server:0.19.1": map[string]interface{}{
-						"status":    "active",
-						"transport": "stdio",
-						"tier":      "Official",
+						"status": "active",
+						"tier":   "Official",
 						"tools": []interface{}{
 							"add_comment_to_pending_review", "add_issue_comment", "add_sub_issue",
 							"assign_copilot_to_issue", "create_branch", "create_issue",
@@ -992,7 +988,6 @@ func TestRealWorld_GitHubServer(t *testing.T) {
 	// Verify extensions preserved
 	assert.Equal(t, "active", imageData["status"])
 	assert.Equal(t, "Official", imageData["tier"])
-	assert.Equal(t, "stdio", imageData["transport"])
 
 	// Verify tools are preserved as interface slice
 	tools, ok := imageData["tools"].([]interface{})
