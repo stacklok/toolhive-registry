@@ -194,33 +194,32 @@ func (or *OfficialRegistry) build() *ToolHiveRegistryType {
 
 // transformEntry converts a ToolHive RegistryEntry to an official MCP ServerJSON
 func (or *OfficialRegistry) transformEntry(name string, entry *types.RegistryEntry) upstream.ServerJSON {
-	var serverJSON upstream.ServerJSON
+	var serverJSONPtr *upstream.ServerJSON
 	var err error
 
-	// Use the converters package for the core conversion logic
+	// Use the converters package for all conversion logic
 	if entry.IsImage() {
-		serverJSON, err = converters.ImageMetadataToServerJSON(name, entry.ImageMetadata)
-		if err != nil {
+		serverJSONPtr, err = converters.ImageMetadataToServerJSON(name, entry.ImageMetadata)
+		if err != nil || serverJSONPtr == nil {
 			// This shouldn't happen with valid data, but handle it gracefully
 			// Fall back to creating a minimal server entry
-			serverJSON = or.createFallbackServerJSON(name, entry)
+			fallback := or.createFallbackServerJSON(name, entry)
+			return fallback
 		}
 	} else if entry.IsRemote() {
-		serverJSON, err = converters.RemoteServerMetadataToServerJSON(name, entry.RemoteServerMetadata)
-		if err != nil {
+		serverJSONPtr, err = converters.RemoteServerMetadataToServerJSON(name, entry.RemoteServerMetadata)
+		if err != nil || serverJSONPtr == nil {
 			// Fall back to creating a minimal server entry
-			serverJSON = or.createFallbackServerJSON(name, entry)
+			fallback := or.createFallbackServerJSON(name, entry)
+			return fallback
 		}
 	} else {
 		// Neither image nor remote - create a minimal entry
-		serverJSON = or.createFallbackServerJSON(name, entry)
+		fallback := or.createFallbackServerJSON(name, entry)
+		return fallback
 	}
 
-	// Add additional ToolHive-specific extensions that aren't in base metadata
-	// (permissions, args, examples, license, etc.)
-	or.enhanceWithToolHiveExtensions(&serverJSON, entry)
-
-	return serverJSON
+	return *serverJSONPtr
 }
 
 // createRepository creates repository information from entry
@@ -484,4 +483,15 @@ func (*OfficialRegistry) convertNameToReverseDNS(name string) string {
 
 	// Convert simple names to GitHub-based namespace format
 	return "io.github.stacklok/" + name
+}
+
+// createFallbackServerJSON creates a minimal ServerJSON when conversion fails
+func (or *OfficialRegistry) createFallbackServerJSON(name string, entry *types.RegistryEntry) upstream.ServerJSON {
+	return upstream.ServerJSON{
+		Schema:      model.CurrentSchemaURL,
+		Name:        or.convertNameToReverseDNS(name),
+		Description: entry.GetDescription(),
+		Version:     "1.0.0",
+		Repository:  or.createRepository(entry),
+	}
 }
