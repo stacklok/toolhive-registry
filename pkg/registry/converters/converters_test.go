@@ -371,6 +371,23 @@ func TestImageMetadataToServerJSON_WithTargetPort(t *testing.T) {
 	assert.Equal(t, "http://localhost:9090", serverJSON.Packages[0].Transport.URL)
 }
 
+func TestImageMetadataToServerJSON_HTTPTransportNoPort(t *testing.T) {
+	t.Parallel()
+
+	imageMetadata := createTestImageMetadata()
+	imageMetadata.Transport = model.TransportTypeStreamableHTTP
+	imageMetadata.TargetPort = 0 // No port specified
+
+	serverJSON, err := ImageMetadataToServerJSON("test", imageMetadata)
+
+	require.NoError(t, err)
+	require.NotNil(t, serverJSON)
+	require.Len(t, serverJSON.Packages, 1)
+
+	assert.Equal(t, model.TransportTypeStreamableHTTP, serverJSON.Packages[0].Transport.Type)
+	assert.Equal(t, "http://localhost", serverJSON.Packages[0].Transport.URL) // No port in URL
+}
+
 func TestImageMetadataToServerJSON_StdioTransport(t *testing.T) {
 	t.Parallel()
 

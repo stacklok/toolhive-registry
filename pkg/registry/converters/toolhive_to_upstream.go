@@ -116,11 +116,13 @@ func createPackagesFromImageMetadata(imageMetadata *registry.ImageMetadata) []mo
 
 	// Add URL for non-stdio transports
 	if transportType == model.TransportTypeStreamableHTTP || transportType == model.TransportTypeSSE {
-		port := 8080
 		if imageMetadata.TargetPort > 0 {
-			port = imageMetadata.TargetPort
+			// Include port in URL if explicitly set
+			transport.URL = fmt.Sprintf("http://localhost:%d", imageMetadata.TargetPort)
+		} else {
+			// No port specified - use URL without port
+			transport.URL = "http://localhost"
 		}
-		transport.URL = fmt.Sprintf("http://localhost:%d", port)
 	}
 
 	return []model.Package{{
