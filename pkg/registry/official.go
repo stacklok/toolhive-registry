@@ -13,6 +13,7 @@ import (
 	"github.com/modelcontextprotocol/registry/pkg/model"
 	"github.com/xeipuuv/gojsonschema"
 
+	"github.com/stacklok/toolhive-registry/pkg/registry/converters"
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
@@ -193,27 +194,31 @@ func (or *OfficialRegistry) build() *ToolHiveRegistryType {
 
 // transformEntry converts a ToolHive RegistryEntry to an official MCP ServerJSON
 func (or *OfficialRegistry) transformEntry(name string, entry *types.RegistryEntry) upstream.ServerJSON {
-	// Create the flattened server JSON with _meta extensions
-	serverJSON := upstream.ServerJSON{
-		Schema:      model.CurrentSchemaURL,
-		Name:        or.convertNameToReverseDNS(name),
-		Description: entry.GetDescription(),
-		Repository:  or.createRepository(entry),
-		Version:     "1.0.0", // TODO: Default server version for now, fix this to use package/remote version
-		Meta: &upstream.ServerMeta{
-			PublisherProvided: or.createXPublisherExtensions(entry),
-		},
-	}
+	var serverJSON upstream.ServerJSON
+	var err error
 
-	// Add packages for image-based servers
+	// Use the converters package for the core conversion logic
 	if entry.IsImage() {
-		serverJSON.Packages = or.createPackages(entry)
+		serverJSON, err = converters.ImageMetadataToServerJSON(name, entry.ImageMetadata)
+		if err != nil {
+			// This shouldn't happen with valid data, but handle it gracefully
+			// Fall back to creating a minimal server entry
+			serverJSON = or.createFallbackServerJSON(name, entry)
+		}
+	} else if entry.IsRemote() {
+		serverJSON, err = converters.RemoteServerMetadataToServerJSON(name, entry.RemoteServerMetadata)
+		if err != nil {
+			// Fall back to creating a minimal server entry
+			serverJSON = or.createFallbackServerJSON(name, entry)
+		}
+	} else {
+		// Neither image nor remote - create a minimal entry
+		serverJSON = or.createFallbackServerJSON(name, entry)
 	}
 
-	// Add remotes for remote servers
-	if entry.IsRemote() {
-		serverJSON.Remotes = or.createRemotes(entry)
-	}
+	// Add additional ToolHive-specific extensions that aren't in base metadata
+	// (permissions, args, examples, license, etc.)
+	or.enhanceWithToolHiveExtensions(&serverJSON, entry)
 
 	return serverJSON
 }

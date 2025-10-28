@@ -198,6 +198,21 @@ func createImageExtensions(imageMetadata *registry.ImageMetadata) map[string]int
 		}
 	}
 
+	// Add permissions
+	if imageMetadata.Permissions != nil {
+		extensions["permissions"] = imageMetadata.Permissions
+	}
+
+	// Add args (static container arguments)
+	if len(imageMetadata.Args) > 0 {
+		extensions["args"] = imageMetadata.Args
+	}
+
+	// Add provenance
+	if imageMetadata.Provenance != nil {
+		extensions["provenance"] = imageMetadata.Provenance
+	}
+
 	return map[string]interface{}{
 		"io.github.stacklok": map[string]interface{}{
 			imageMetadata.Image: extensions,
@@ -246,6 +261,11 @@ func createRemoteExtensions(remoteMetadata *registry.RemoteServerMetadata) map[s
 			"pulls":        float64(remoteMetadata.Metadata.Pulls),
 			"last_updated": remoteMetadata.Metadata.LastUpdated,
 		}
+	}
+
+	// Add OAuth config
+	if remoteMetadata.OAuthConfig != nil {
+		extensions["oauth_config"] = remoteMetadata.OAuthConfig
 	}
 
 	return map[string]interface{}{

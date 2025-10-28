@@ -3,12 +3,14 @@
 package converters
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
 
 	upstream "github.com/modelcontextprotocol/registry/pkg/api/v0"
 	"github.com/modelcontextprotocol/registry/pkg/model"
+	"github.com/stacklok/toolhive/pkg/permissions"
 	"github.com/stacklok/toolhive/pkg/registry"
 )
 
@@ -80,7 +82,12 @@ func ServerJSONToImageMetadata(serverJSON *upstream.ServerJSON) (*registry.Image
 		}
 	}
 
-	// Extract publisher-provided extensions
+	// Convert PackageArguments to simple Args (priority: structured arguments first)
+	if len(pkg.PackageArguments) > 0 {
+		imageMetadata.Args = flattenPackageArguments(pkg.PackageArguments)
+	}
+
+	// Extract publisher-provided extensions (including Args fallback)
 	extractImageExtensions(serverJSON, imageMetadata)
 
 	return imageMetadata, nil
@@ -176,6 +183,23 @@ func extractImageExtensions(serverJSON *upstream.ServerJSON, imageMetadata *regi
 			}
 		}
 
+		// Extract args (fallback if PackageArguments wasn't used)
+		if len(imageMetadata.Args) == 0 {
+			if argsData, ok := extensions["args"].([]interface{}); ok {
+				imageMetadata.Args = interfaceSliceToStringSlice(argsData)
+			}
+		}
+
+		// Extract permissions using JSON round-trip
+		if permsData, ok := extensions["permissions"]; ok {
+			imageMetadata.Permissions = remarshalToType[*permissions.Profile](permsData)
+		}
+
+		// Extract provenance using JSON round-trip
+		if provData, ok := extensions["provenance"]; ok {
+			imageMetadata.Provenance = remarshalToType[*registry.Provenance](provData)
+		}
+
 		break // Only process first entry
 	}
 }
@@ -224,6 +248,45 @@ func extractRemoteExtensions(serverJSON *upstream.ServerJSON, remoteMetadata *re
 			}
 		}
 
+		// Extract OAuth config using JSON round-trip
+		if oauthData, ok := extensions["oauth_config"]; ok {
+			remoteMetadata.OAuthConfig = remarshalToType[*registry.OAuthConfig](oauthData)
+		}
+
 		break // Only process first entry
 	}
+}
+
+// remarshalToType converts an interface{} value to a specific type using JSON marshaling
+// This is useful for deserializing complex nested structures from extensions
+func remarshalToType[T any](data interface{}) T {
+	var result T
+
+	// Marshal to JSON
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return result // Return zero value on error
+	}
+
+	// Unmarshal into target type
+	_ = json.Unmarshal(jsonData, &result) // Ignore error, return zero value if fails
+
+	return result
+}
+
+// flattenPackageArguments converts structured PackageArguments to simple string Args
+// This provides better interoperability when importing from upstream sources
+func flattenPackageArguments(args []model.Argument) []string {
+	var result []string
+	for _, arg := range args {
+		// Add the argument name/flag if present
+		if arg.Name != "" {
+			result = append(result, arg.Name)
+		}
+		// Add the value if present (for named args with values or positional args)
+		if arg.Value != "" {
+			result = append(result, arg.Value)
+		}
+	}
+	return result
 }
