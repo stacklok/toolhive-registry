@@ -141,66 +141,88 @@ func ServerJSONToRemoteServerMetadata(serverJSON *upstream.ServerJSON) (*registr
 
 // extractImageExtensions extracts publisher-provided extensions into ImageMetadata
 func extractImageExtensions(serverJSON *upstream.ServerJSON, imageMetadata *registry.ImageMetadata) {
-	if serverJSON.Meta == nil || serverJSON.Meta.PublisherProvided == nil {
+	extensions := getStacklokExtensions(serverJSON)
+	if extensions == nil {
 		return
+	}
+
+	extractBasicImageFields(extensions, imageMetadata)
+	extractImageMetadataField(extensions, imageMetadata)
+	extractComplexImageFields(extensions, imageMetadata)
+}
+
+// getStacklokExtensions retrieves the first stacklok extension data from ServerJSON
+func getStacklokExtensions(serverJSON *upstream.ServerJSON) map[string]interface{} {
+	if serverJSON.Meta == nil || serverJSON.Meta.PublisherProvided == nil {
+		return nil
 	}
 
 	stacklokData, ok := serverJSON.Meta.PublisherProvided["io.github.stacklok"].(map[string]interface{})
 	if !ok {
+		return nil
+	}
+
+	// Return first extension data (keyed by image reference or URL)
+	for _, extensionsData := range stacklokData {
+		if extensions, ok := extensionsData.(map[string]interface{}); ok {
+			return extensions
+		}
+	}
+	return nil
+}
+
+// extractBasicImageFields extracts basic string and slice fields
+func extractBasicImageFields(extensions map[string]interface{}, imageMetadata *registry.ImageMetadata) {
+	if status, ok := extensions["status"].(string); ok {
+		imageMetadata.Status = status
+	}
+	if tier, ok := extensions["tier"].(string); ok {
+		imageMetadata.Tier = tier
+	}
+	if toolsData, ok := extensions["tools"].([]interface{}); ok {
+		imageMetadata.Tools = interfaceSliceToStringSlice(toolsData)
+	}
+	if tagsData, ok := extensions["tags"].([]interface{}); ok {
+		imageMetadata.Tags = interfaceSliceToStringSlice(tagsData)
+	}
+}
+
+// extractImageMetadataField extracts the metadata object (stars, pulls, last_updated)
+func extractImageMetadataField(extensions map[string]interface{}, imageMetadata *registry.ImageMetadata) {
+	metadataData, ok := extensions["metadata"].(map[string]interface{})
+	if !ok {
 		return
 	}
 
-	// Find the extension data (keyed by image reference)
-	for _, extensionsData := range stacklokData {
-		extensions, ok := extensionsData.(map[string]interface{})
-		if !ok {
-			continue
-		}
+	imageMetadata.Metadata = &registry.Metadata{}
+	if stars, ok := metadataData["stars"].(float64); ok {
+		imageMetadata.Metadata.Stars = int(stars)
+	}
+	if pulls, ok := metadataData["pulls"].(float64); ok {
+		imageMetadata.Metadata.Pulls = int(pulls)
+	}
+	if lastUpdated, ok := metadataData["last_updated"].(string); ok {
+		imageMetadata.Metadata.LastUpdated = lastUpdated
+	}
+}
 
-		// Extract fields
-		if status, ok := extensions["status"].(string); ok {
-			imageMetadata.Status = status
+// extractComplexImageFields extracts complex fields (args, permissions, provenance)
+func extractComplexImageFields(extensions map[string]interface{}, imageMetadata *registry.ImageMetadata) {
+	// Extract args (fallback if PackageArguments wasn't used)
+	if len(imageMetadata.Args) == 0 {
+		if argsData, ok := extensions["args"].([]interface{}); ok {
+			imageMetadata.Args = interfaceSliceToStringSlice(argsData)
 		}
-		if tier, ok := extensions["tier"].(string); ok {
-			imageMetadata.Tier = tier
-		}
-		if toolsData, ok := extensions["tools"].([]interface{}); ok {
-			imageMetadata.Tools = interfaceSliceToStringSlice(toolsData)
-		}
-		if tagsData, ok := extensions["tags"].([]interface{}); ok {
-			imageMetadata.Tags = interfaceSliceToStringSlice(tagsData)
-		}
-		if metadataData, ok := extensions["metadata"].(map[string]interface{}); ok {
-			imageMetadata.Metadata = &registry.Metadata{}
-			if stars, ok := metadataData["stars"].(float64); ok {
-				imageMetadata.Metadata.Stars = int(stars)
-			}
-			if pulls, ok := metadataData["pulls"].(float64); ok {
-				imageMetadata.Metadata.Pulls = int(pulls)
-			}
-			if lastUpdated, ok := metadataData["last_updated"].(string); ok {
-				imageMetadata.Metadata.LastUpdated = lastUpdated
-			}
-		}
+	}
 
-		// Extract args (fallback if PackageArguments wasn't used)
-		if len(imageMetadata.Args) == 0 {
-			if argsData, ok := extensions["args"].([]interface{}); ok {
-				imageMetadata.Args = interfaceSliceToStringSlice(argsData)
-			}
-		}
+	// Extract permissions using JSON round-trip
+	if permsData, ok := extensions["permissions"]; ok {
+		imageMetadata.Permissions = remarshalToType[*permissions.Profile](permsData)
+	}
 
-		// Extract permissions using JSON round-trip
-		if permsData, ok := extensions["permissions"]; ok {
-			imageMetadata.Permissions = remarshalToType[*permissions.Profile](permsData)
-		}
-
-		// Extract provenance using JSON round-trip
-		if provData, ok := extensions["provenance"]; ok {
-			imageMetadata.Provenance = remarshalToType[*registry.Provenance](provData)
-		}
-
-		break // Only process first entry
+	// Extract provenance using JSON round-trip
+	if provData, ok := extensions["provenance"]; ok {
+		imageMetadata.Provenance = remarshalToType[*registry.Provenance](provData)
 	}
 }
 

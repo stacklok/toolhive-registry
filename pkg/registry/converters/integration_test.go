@@ -55,6 +55,9 @@ type OfficialRegistry struct {
 
 // TestRoundTrip_RealRegistryData tests that we can convert the official registry back to toolhive format
 // and that it matches the original registry.json
+// Note: This is an integration test that reads from build/ directory, so we don't run it in parallel
+//
+//nolint:paralleltest // Integration test reads from shared build/ directory
 func TestRoundTrip_RealRegistryData(t *testing.T) {
 	// Skip if running in CI or if files don't exist
 	officialPath := filepath.Join("..", "..", "..", "build", "official-registry.json")
@@ -173,6 +176,7 @@ func testImageServerRoundTrip(t *testing.T, name string, serverJSON *upstream.Se
 	conversionErrors int
 	mismatches       []string
 }) {
+	t.Helper()
 	if original == nil {
 		t.Errorf("❌ Original ImageMetadata is nil for '%s'", name)
 		return
@@ -197,6 +201,7 @@ func testRemoteServerRoundTrip(t *testing.T, name string, serverJSON *upstream.S
 	conversionErrors int
 	mismatches       []string
 }) {
+	t.Helper()
 	if original == nil {
 		t.Errorf("❌ Original RemoteServerMetadata is nil for '%s'", name)
 		return
@@ -221,6 +226,7 @@ func compareImageMetadata(t *testing.T, name string, original, converted *regist
 	conversionErrors int
 	mismatches       []string
 }) {
+	t.Helper()
 	// Compare basic fields
 	if original.Image != converted.Image {
 		recordMismatch(t, stats, name, "Image", original.Image, converted.Image)
@@ -288,6 +294,7 @@ func compareRemoteServerMetadata(t *testing.T, name string, original, converted 
 	conversionErrors int
 	mismatches       []string
 }) {
+	t.Helper()
 	// Compare basic fields
 	if original.URL != converted.URL {
 		recordMismatch(t, stats, name, "URL", original.URL, converted.URL)
@@ -345,6 +352,7 @@ func recordMismatch(t *testing.T, stats *struct {
 	conversionErrors int
 	mismatches       []string
 }, serverName, field string, original, converted interface{}) {
+	t.Helper()
 	msg := fmt.Sprintf("%s.%s: expected %v, got %v", serverName, field, original, converted)
 	stats.mismatches = append(stats.mismatches, msg)
 	t.Logf("⚠️  %s", msg)
