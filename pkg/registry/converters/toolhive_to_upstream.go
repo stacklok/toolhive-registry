@@ -1,5 +1,13 @@
-// Package converters provides conversion functions from toolhive ImageMetadata/RemoteServerMetadata formats
-// to upstream MCP ServerJSON format.
+// Package converters provides bidirectional conversion between toolhive registry formats
+// and the upstream MCP (Model Context Protocol) ServerJSON format.
+//
+// The package supports two conversion directions:
+//   - toolhive → upstream: ImageMetadata/RemoteServerMetadata → ServerJSON (this file)
+//   - upstream → toolhive: ServerJSON → ImageMetadata/RemoteServerMetadata (upstream_to_toolhive.go)
+//
+// Toolhive-specific fields (permissions, provenance, metadata) are stored in the upstream
+// format's publisher extensions under "io.github.stacklok", allowing additional metadata
+// while maintaining compatibility with the standard MCP registry format.
 package converters
 
 import (
@@ -34,6 +42,17 @@ func ImageMetadataToServerJSON(name string, imageMetadata *registry.ImageMetadat
 		serverJSON.Repository = model.Repository{
 			URL:    imageMetadata.RepositoryURL,
 			Source: "github", // Assume GitHub
+		}
+	} else {
+		// Use toolhive-registry as fallback when no repository URL is available.
+		// This is necessary for schema validation - the upstream Repository field is a struct
+		// (not a pointer), so it can't be omitted with omitempty and would serialize as
+		// empty strings {"url": "", "source": ""}, which fails URI format validation.
+		// Using the toolhive-registry URL is reasonable since it's where these servers
+		// are registered and documented.
+		serverJSON.Repository = model.Repository{
+			URL:    "https://github.com/stacklok/toolhive-registry",
+			Source: "github",
 		}
 	}
 
@@ -72,6 +91,17 @@ func RemoteServerMetadataToServerJSON(name string, remoteMetadata *registry.Remo
 		serverJSON.Repository = model.Repository{
 			URL:    remoteMetadata.RepositoryURL,
 			Source: "github", // Assume GitHub
+		}
+	} else {
+		// Use toolhive-registry as fallback when no repository URL is available.
+		// This is necessary for schema validation - the upstream Repository field is a struct
+		// (not a pointer), so it can't be omitted with omitempty and would serialize as
+		// empty strings {"url": "", "source": ""}, which fails URI format validation.
+		// Using the toolhive-registry URL is reasonable since it's where these servers
+		// are registered and documented.
+		serverJSON.Repository = model.Repository{
+			URL:    "https://github.com/stacklok/toolhive-registry",
+			Source: "github",
 		}
 	}
 
@@ -115,12 +145,15 @@ func createPackagesFromImageMetadata(imageMetadata *registry.ImageMetadata) []mo
 	}
 
 	// Add URL for non-stdio transports
+	// Note: We use localhost as the host because container-based MCP servers run locally
+	// and are accessed via port forwarding. The actual container may listen on 0.0.0.0,
+	// but clients connect via localhost on the host machine.
 	if transportType == model.TransportTypeStreamableHTTP || transportType == model.TransportTypeSSE {
 		if imageMetadata.TargetPort > 0 {
 			// Include port in URL if explicitly set
 			transport.URL = fmt.Sprintf("http://localhost:%d", imageMetadata.TargetPort)
 		} else {
-			// No port specified - use URL without port
+			// No port specified - use URL without port (standard HTTP port 80)
 			transport.URL = "http://localhost"
 		}
 	}

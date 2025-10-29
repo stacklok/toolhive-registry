@@ -22,23 +22,25 @@ func ServerJSONToImageMetadata(serverJSON *upstream.ServerJSON) (*registry.Image
 	}
 
 	if len(serverJSON.Packages) == 0 {
-		return nil, fmt.Errorf("serverJSON has no packages (not a container-based server)")
+		return nil, fmt.Errorf("server '%s' has no packages (not a container-based server)", serverJSON.Name)
 	}
 
 	// Filter for OCI packages only
 	var ociPackages []model.Package
+	var packageTypes []string
 	for _, pkg := range serverJSON.Packages {
 		if pkg.RegistryType == model.RegistryTypeOCI {
 			ociPackages = append(ociPackages, pkg)
 		}
+		packageTypes = append(packageTypes, string(pkg.RegistryType))
 	}
 
 	if len(ociPackages) == 0 {
-		return nil, fmt.Errorf("serverJSON has no OCI packages")
+		return nil, fmt.Errorf("server '%s' has no OCI packages (found: %v)", serverJSON.Name, packageTypes)
 	}
 
 	if len(ociPackages) > 1 {
-		return nil, fmt.Errorf("serverJSON has %d OCI packages, expected exactly 1", len(ociPackages))
+		return nil, fmt.Errorf("server '%s' has %d OCI packages, expected exactly 1", serverJSON.Name, len(ociPackages))
 	}
 
 	pkg := ociPackages[0]
@@ -75,9 +77,16 @@ func ServerJSONToImageMetadata(serverJSON *upstream.ServerJSON) (*registry.Image
 	if pkg.Transport.URL != "" {
 		// Parse URL like "http://localhost:8080"
 		parsedURL, err := url.Parse(pkg.Transport.URL)
-		if err == nil && parsedURL.Port() != "" {
+		if err != nil {
+			// Log parse error to aid debugging but don't fail conversion
+			fmt.Printf("⚠️  Failed to parse transport URL '%s' for server '%s': %v\n",
+				pkg.Transport.URL, serverJSON.Name, err)
+		} else if parsedURL.Port() != "" {
 			if port, err := strconv.Atoi(parsedURL.Port()); err == nil {
 				imageMetadata.TargetPort = port
+			} else {
+				fmt.Printf("⚠️  Failed to parse port from URL '%s' for server '%s': %v\n",
+					pkg.Transport.URL, serverJSON.Name, err)
 			}
 		}
 	}
@@ -101,7 +110,7 @@ func ServerJSONToRemoteServerMetadata(serverJSON *upstream.ServerJSON) (*registr
 	}
 
 	if len(serverJSON.Remotes) == 0 {
-		return nil, fmt.Errorf("serverJSON has no remotes (not a remote server)")
+		return nil, fmt.Errorf("server '%s' has no remotes (not a remote server)", serverJSON.Name)
 	}
 
 	remote := serverJSON.Remotes[0] // Use first remote

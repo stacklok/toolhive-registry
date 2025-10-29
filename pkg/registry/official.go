@@ -232,16 +232,17 @@ func (*OfficialRegistry) createRepository(entry *types.RegistryEntry) model.Repo
 		repositoryURL = entry.RemoteServerMetadata.RepositoryURL
 	}
 
+	// If no repository URL is available, use toolhive-registry as fallback.
+	// This is necessary for schema validation - the upstream Repository field is a struct
+	// (not a pointer), so it can't be omitted with omitempty and would serialize as
+	// empty strings {"url": "", "source": ""}, which fails URI format validation.
+	// Using the toolhive-registry URL is reasonable since it's where these servers
+	// are registered and documented.
 	if repositoryURL == "" {
-		// Use a toolhive-registry placeholder URL to satisfy validation when no repository is available for remote servers
-		repositoryURL = "https://github.com/stacklok/toolhive-registry"
-		if entry.IsRemote() {
-			return model.Repository{
-				URL:    repositoryURL,
-				Source: "github",
-			}
+		return model.Repository{
+			URL:    "https://github.com/stacklok/toolhive-registry",
+			Source: "github",
 		}
-		return model.Repository{}
 	}
 
 	return model.Repository{

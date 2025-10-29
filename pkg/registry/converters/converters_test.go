@@ -137,7 +137,7 @@ func TestServerJSONToImageMetadata_NoPackages(t *testing.T) {
 
 	assert.Error(t, err)
 	assert.Nil(t, imageMetadata)
-	assert.Contains(t, err.Error(), "serverJSON has no packages")
+	assert.Contains(t, err.Error(), "has no packages")
 }
 
 func TestServerJSONToImageMetadata_NoOCIPackages(t *testing.T) {
@@ -157,7 +157,7 @@ func TestServerJSONToImageMetadata_NoOCIPackages(t *testing.T) {
 
 	assert.Error(t, err)
 	assert.Nil(t, imageMetadata)
-	assert.Contains(t, err.Error(), "serverJSON has no OCI packages")
+	assert.Contains(t, err.Error(), "has no OCI packages")
 }
 
 func TestServerJSONToImageMetadata_MultipleOCIPackages(t *testing.T) {
@@ -181,7 +181,7 @@ func TestServerJSONToImageMetadata_MultipleOCIPackages(t *testing.T) {
 
 	assert.Error(t, err)
 	assert.Nil(t, imageMetadata)
-	assert.Contains(t, err.Error(), "serverJSON has 2 OCI packages")
+	assert.Contains(t, err.Error(), "has 2 OCI packages")
 }
 
 func TestServerJSONToImageMetadata_WithEnvVars(t *testing.T) {
@@ -517,7 +517,7 @@ func TestServerJSONToRemoteServerMetadata_NoRemotes(t *testing.T) {
 
 	assert.Error(t, err)
 	assert.Nil(t, remoteMetadata)
-	assert.Contains(t, err.Error(), "serverJSON has no remotes")
+	assert.Contains(t, err.Error(), "has no remotes")
 }
 
 func TestServerJSONToRemoteServerMetadata_WithHeaders(t *testing.T) {
