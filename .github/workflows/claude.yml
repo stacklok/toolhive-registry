@@ -33,7 +33,7 @@ jobs:
     steps:
       # Check out the repository code so Claude can access it
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Run Claude Code Action to provide AI assistance
       # This action will analyze the context and respond to the @claude mention
