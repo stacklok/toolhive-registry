@@ -1,50 +1,39 @@
 name: Claude PR Assistant
 
-# This workflow allows mentioning @claude in issues and PRs for interactive AI assistance
-# Trigger conditions: issue comments, PR review comments, PR reviews, and new issues
 on:
   issue_comment:
     types: [created]
   pull_request_review_comment:
     types: [created]
+  issues:
+    types: [opened, assigned]
   pull_request_review:
     types: [submitted]
-  issues:
-    types: [opened, edited]
-
-# Permissions required for Claude to read repository content and interact with PRs/issues
-permissions:
-  contents: read        # Read repository files and code
-  pull-requests: read   # Read PR information and comments
-  issues: read          # Read issue information and comments
-  actions: read         # Read workflow information
-  id-token: write       # Required for authentication with Anthropic
 
 jobs:
-  claude-assistant:
-    # Only run if the comment/issue contains @claude mention
-    if: contains(github.event.comment.body, '@claude') || contains(github.event.issue.body, '@claude') || contains(github.event.review.body, '@claude')
-
+  claude:
+    name: Claude Code Action
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && contains(github.event.issue.body, '@claude'))
     runs-on: ubuntu-latest
-
-    # Set timeout to prevent runaway workflows
     timeout-minutes: 20
-
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+      actions: read # Required for Claude to read CI results on PRs
     steps:
-      # Check out the repository code so Claude can access it
       - name: Checkout repository
-        uses: actions/checkout@v5
-
-      # Run Claude Code Action to provide AI assistance
-      # This action will analyze the context and respond to the @claude mention
-      - name: Run Claude PR Assistant
-        uses: anthropics/claude-code-action@v1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
-          # API key for authenticating with Anthropic's Claude API
-          # This must be added as a repository secret at:
-          # Settings → Secrets and variables → Actions → New repository secret
-          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          fetch-depth: 1
 
-          # GitHub token is automatically provided by GitHub Actions
-          # Used for reading/writing comments and accessing repository data
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Claude Code
+        id: claude
+        uses: anthropics/claude-code-action@f4d737af0b61a79741d8246c5207da5887746212 # v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
