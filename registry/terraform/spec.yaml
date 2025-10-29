@@ -14,6 +14,7 @@ tools:
   - get_latest_provider_version
   - get_module_details
   - get_policy_details
+  - get_provider_capabilities
   - get_provider_details
   - search_modules
   - search_policies
@@ -37,7 +38,7 @@ tags:
   - aws
   - gcp
   - azure
-image: docker.io/hashicorp/terraform-mcp-server:0.3.1
+image: docker.io/hashicorp/terraform-mcp-server:0.3.2
 permissions:
   network:
     outbound:
