@@ -223,7 +223,7 @@ func (or *OfficialRegistry) transformEntry(name string, entry *types.RegistryEnt
 }
 
 // createRepository creates repository information from entry
-func (*OfficialRegistry) createRepository(entry *types.RegistryEntry) model.Repository {
+func (*OfficialRegistry) createRepository(entry *types.RegistryEntry) *model.Repository {
 	var repositoryURL string
 
 	if entry.IsImage() && entry.ImageMetadata.RepositoryURL != "" {
@@ -232,20 +232,12 @@ func (*OfficialRegistry) createRepository(entry *types.RegistryEntry) model.Repo
 		repositoryURL = entry.RemoteServerMetadata.RepositoryURL
 	}
 
-	// If no repository URL is available, use toolhive-registry as fallback.
-	// This is necessary for schema validation - the upstream Repository field is a struct
-	// (not a pointer), so it can't be omitted with omitempty and would serialize as
-	// empty strings {"url": "", "source": ""}, which fails URI format validation.
-	// Using the toolhive-registry URL is reasonable since it's where these servers
-	// are registered and documented.
+	// If no repository URL is available, return nil (will be omitted with omitempty)
 	if repositoryURL == "" {
-		return model.Repository{
-			URL:    "https://github.com/stacklok/toolhive-registry",
-			Source: "github",
-		}
+		return nil
 	}
 
-	return model.Repository{
+	return &model.Repository{
 		URL:    repositoryURL,
 		Source: "github", // Assume GitHub for now
 	}
