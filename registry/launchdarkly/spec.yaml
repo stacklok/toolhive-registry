@@ -1,0 +1,60 @@
+# launchdarkly MCP Server Registry Entry
+name: launchdarkly
+description: Official MCP server for LaunchDarkly feature flag management and AI Config orchestration
+tier: Official
+status: Active
+transport: stdio
+repository_url: https://github.com/launchdarkly/mcp-server
+homepage: https://launchdarkly.com/docs/home/getting-started/mcp
+license: MIT
+tags:
+  - feature-flags
+  - ai-config
+  - configuration
+  - devops
+  - launchdarkly
+tools:
+  - create-ai-config
+  - create-ai-config-variation
+  - delete-ai-config
+  - delete-ai-config-variation
+  - get-ai-config
+  - get-ai-config-targeting
+  - get-ai-config-variation
+  - list-ai-configs
+  - update-ai-config
+  - update-ai-config-targeting
+  - update-ai-config-variation
+  - get-code-references
+  - get-environments
+  - create-feature-flag
+  - delete-feature-flag
+  - get-feature-flag
+  - get-flag-status-across-environments
+  - list-feature-flags
+  - update-feature-flag
+env_vars:
+  - name: LAUNCHDARKLY_API_KEY
+    description: LaunchDarkly API access token with appropriate permissions (Writer or Developer role recommended)
+    required: true
+    secret: true
+permissions:
+  network:
+    outbound:
+      allow_host:
+        - app.launchdarkly.com
+        - app.launchdarkly.us
+        - app.eu.launchdarkly.com
+      allow_port:
+        - 443
+image: ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.4.2
+metadata:
+  stars: 16
+  pulls: 0
+  last_updated: "2025-10-28T00:00:00Z"
+provenance:
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/stacklok/dockyard
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev
