@@ -20,7 +20,7 @@ func createTestServerJSON() *upstream.ServerJSON {
 		Name:        "io.github.stacklok/test-server",
 		Description: "Test MCP server",
 		Version:     "1.0.0",
-		Repository: model.Repository{
+		Repository: &model.Repository{
 			URL:    "https://github.com/test/repo",
 			Source: "github",
 		},
@@ -459,7 +459,7 @@ func TestServerJSONToRemoteServerMetadata_Success(t *testing.T) {
 	serverJSON := &upstream.ServerJSON{
 		Name:        "io.github.stacklok/test-remote",
 		Description: "Test remote server",
-		Repository: model.Repository{
+		Repository: &model.Repository{
 			URL: "https://github.com/test/remote",
 		},
 		Remotes: []model.Transport{
@@ -882,7 +882,7 @@ func TestRealWorld_GitHubServer(t *testing.T) {
 		Name:        "io.github.github/github-mcp-server",
 		Description: "Connect AI assistants to GitHub - manage repos, issues, PRs, and workflows through natural language.",
 		Version:     "0.19.1",
-		Repository: model.Repository{
+		Repository: &model.Repository{
 			URL:    "https://github.com/github/github-mcp-server",
 			Source: "github",
 		},

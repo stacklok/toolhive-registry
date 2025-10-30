@@ -55,7 +55,7 @@ func ServerJSONToImageMetadata(serverJSON *upstream.ServerJSON) (*registry.Image
 	}
 
 	// Set repository URL
-	if serverJSON.Repository.URL != "" {
+	if serverJSON.Repository != nil && serverJSON.Repository.URL != "" {
 		imageMetadata.RepositoryURL = serverJSON.Repository.URL
 	}
 
@@ -125,7 +125,7 @@ func ServerJSONToRemoteServerMetadata(serverJSON *upstream.ServerJSON) (*registr
 	}
 
 	// Set repository URL
-	if serverJSON.Repository.URL != "" {
+	if serverJSON.Repository != nil && serverJSON.Repository.URL != "" {
 		remoteMetadata.RepositoryURL = serverJSON.Repository.URL
 	}
 
