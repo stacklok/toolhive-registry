@@ -21,29 +21,10 @@ func ServerJSONToImageMetadata(serverJSON *upstream.ServerJSON) (*registry.Image
 		return nil, fmt.Errorf("serverJSON cannot be nil")
 	}
 
-	if len(serverJSON.Packages) == 0 {
-		return nil, fmt.Errorf("server '%s' has no packages (not a container-based server)", serverJSON.Name)
+	pkg, err := extractSingleOCIPackage(serverJSON)
+	if err != nil {
+		return nil, err
 	}
-
-	// Filter for OCI packages only
-	var ociPackages []model.Package
-	var packageTypes []string
-	for _, pkg := range serverJSON.Packages {
-		if pkg.RegistryType == model.RegistryTypeOCI {
-			ociPackages = append(ociPackages, pkg)
-		}
-		packageTypes = append(packageTypes, string(pkg.RegistryType))
-	}
-
-	if len(ociPackages) == 0 {
-		return nil, fmt.Errorf("server '%s' has no OCI packages (found: %v)", serverJSON.Name, packageTypes)
-	}
-
-	if len(ociPackages) > 1 {
-		return nil, fmt.Errorf("server '%s' has %d OCI packages, expected exactly 1", serverJSON.Name, len(ociPackages))
-	}
-
-	pkg := ociPackages[0]
 
 	imageMetadata := &registry.ImageMetadata{
 		BaseServerMetadata: registry.BaseServerMetadata{
@@ -60,36 +41,10 @@ func ServerJSONToImageMetadata(serverJSON *upstream.ServerJSON) (*registry.Image
 	}
 
 	// Convert environment variables
-	if len(pkg.EnvironmentVariables) > 0 {
-		imageMetadata.EnvVars = make([]*registry.EnvVar, 0, len(pkg.EnvironmentVariables))
-		for _, envVar := range pkg.EnvironmentVariables {
-			imageMetadata.EnvVars = append(imageMetadata.EnvVars, &registry.EnvVar{
-				Name:        envVar.Name,
-				Description: envVar.Description,
-				Required:    envVar.IsRequired,
-				Secret:      envVar.IsSecret,
-				Default:     envVar.Default,
-			})
-		}
-	}
+	imageMetadata.EnvVars = convertEnvironmentVariables(pkg.EnvironmentVariables)
 
 	// Extract target port from transport URL if present
-	if pkg.Transport.URL != "" {
-		// Parse URL like "http://localhost:8080"
-		parsedURL, err := url.Parse(pkg.Transport.URL)
-		if err != nil {
-			// Log parse error to aid debugging but don't fail conversion
-			fmt.Printf("⚠️  Failed to parse transport URL '%s' for server '%s': %v\n",
-				pkg.Transport.URL, serverJSON.Name, err)
-		} else if parsedURL.Port() != "" {
-			if port, err := strconv.Atoi(parsedURL.Port()); err == nil {
-				imageMetadata.TargetPort = port
-			} else {
-				fmt.Printf("⚠️  Failed to parse port from URL '%s' for server '%s': %v\n",
-					pkg.Transport.URL, serverJSON.Name, err)
-			}
-		}
-	}
+	imageMetadata.TargetPort = extractTargetPort(pkg.Transport.URL, serverJSON.Name)
 
 	// Convert PackageArguments to simple Args (priority: structured arguments first)
 	if len(pkg.PackageArguments) > 0 {
@@ -100,6 +55,79 @@ func ServerJSONToImageMetadata(serverJSON *upstream.ServerJSON) (*registry.Image
 	extractImageExtensions(serverJSON, imageMetadata)
 
 	return imageMetadata, nil
+}
+
+// extractSingleOCIPackage validates and extracts the single OCI package from ServerJSON
+func extractSingleOCIPackage(serverJSON *upstream.ServerJSON) (model.Package, error) {
+	if len(serverJSON.Packages) == 0 {
+		return model.Package{}, fmt.Errorf("server '%s' has no packages (not a container-based server)", serverJSON.Name)
+	}
+
+	// Filter for OCI packages only
+	var ociPackages []model.Package
+	var packageTypes []string
+	for _, pkg := range serverJSON.Packages {
+		if pkg.RegistryType == model.RegistryTypeOCI {
+			ociPackages = append(ociPackages, pkg)
+		}
+		packageTypes = append(packageTypes, string(pkg.RegistryType))
+	}
+
+	if len(ociPackages) == 0 {
+		return model.Package{}, fmt.Errorf("server '%s' has no OCI packages (found: %v)", serverJSON.Name, packageTypes)
+	}
+
+	if len(ociPackages) > 1 {
+		return model.Package{}, fmt.Errorf("server '%s' has %d OCI packages, expected exactly 1", serverJSON.Name, len(ociPackages))
+	}
+
+	return ociPackages[0], nil
+}
+
+// convertEnvironmentVariables converts model.KeyValueInput to registry.EnvVar
+func convertEnvironmentVariables(envVars []model.KeyValueInput) []*registry.EnvVar {
+	if len(envVars) == 0 {
+		return nil
+	}
+
+	result := make([]*registry.EnvVar, 0, len(envVars))
+	for _, envVar := range envVars {
+		result = append(result, &registry.EnvVar{
+			Name:        envVar.Name,
+			Description: envVar.Description,
+			Required:    envVar.IsRequired,
+			Secret:      envVar.IsSecret,
+			Default:     envVar.Default,
+		})
+	}
+	return result
+}
+
+// extractTargetPort extracts the port number from a transport URL
+func extractTargetPort(transportURL, serverName string) int {
+	if transportURL == "" {
+		return 0
+	}
+
+	parsedURL, err := url.Parse(transportURL)
+	if err != nil {
+		fmt.Printf("⚠️  Failed to parse transport URL '%s' for server '%s': %v\n",
+			transportURL, serverName, err)
+		return 0
+	}
+
+	if parsedURL.Port() == "" {
+		return 0
+	}
+
+	port, err := strconv.Atoi(parsedURL.Port())
+	if err != nil {
+		fmt.Printf("⚠️  Failed to parse port from URL '%s' for server '%s': %v\n",
+			transportURL, serverName, err)
+		return 0
+	}
+
+	return port
 }
 
 // ServerJSONToRemoteServerMetadata converts an upstream ServerJSON (with remotes) to toolhive RemoteServerMetadata
