@@ -4,7 +4,7 @@ go 1.24.6
 
 require (
 	github.com/google/go-cmp v0.7.0
-	github.com/modelcontextprotocol/registry v1.3.5
+	github.com/modelcontextprotocol/registry v1.3.7
 	github.com/spf13/cobra v1.10.1
 	github.com/stacklok/toolhive v0.3.7
 	github.com/stretchr/testify v1.11.1
@@ -166,7 +166,7 @@ require (
 	golang.org/x/crypto v0.42.0 // indirect
 	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b // indirect
 	golang.org/x/mod v0.29.0 // indirect
-	golang.org/x/net v0.43.0 // indirect
+	golang.org/x/net v0.44.0 // indirect
 	golang.org/x/oauth2 v0.31.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.36.0 // indirect
