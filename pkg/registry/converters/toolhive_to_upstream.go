@@ -37,22 +37,11 @@ func ImageMetadataToServerJSON(name string, imageMetadata *registry.ImageMetadat
 		Version:     "1.0.0", // TODO: Extract from image tag or metadata
 	}
 
-	// Set repository
+	// Set repository if available
 	if imageMetadata.RepositoryURL != "" {
-		serverJSON.Repository = model.Repository{
+		serverJSON.Repository = &model.Repository{
 			URL:    imageMetadata.RepositoryURL,
 			Source: "github", // Assume GitHub
-		}
-	} else {
-		// Use toolhive-registry as fallback when no repository URL is available.
-		// This is necessary for schema validation - the upstream Repository field is a struct
-		// (not a pointer), so it can't be omitted with omitempty and would serialize as
-		// empty strings {"url": "", "source": ""}, which fails URI format validation.
-		// Using the toolhive-registry URL is reasonable since it's where these servers
-		// are registered and documented.
-		serverJSON.Repository = model.Repository{
-			URL:    "https://github.com/stacklok/toolhive-registry",
-			Source: "github",
 		}
 	}
 
@@ -86,22 +75,11 @@ func RemoteServerMetadataToServerJSON(name string, remoteMetadata *registry.Remo
 		Version:     "1.0.0", // TODO: Version management
 	}
 
-	// Set repository
+	// Set repository if available
 	if remoteMetadata.RepositoryURL != "" {
-		serverJSON.Repository = model.Repository{
+		serverJSON.Repository = &model.Repository{
 			URL:    remoteMetadata.RepositoryURL,
 			Source: "github", // Assume GitHub
-		}
-	} else {
-		// Use toolhive-registry as fallback when no repository URL is available.
-		// This is necessary for schema validation - the upstream Repository field is a struct
-		// (not a pointer), so it can't be omitted with omitempty and would serialize as
-		// empty strings {"url": "", "source": ""}, which fails URI format validation.
-		// Using the toolhive-registry URL is reasonable since it's where these servers
-		// are registered and documented.
-		serverJSON.Repository = model.Repository{
-			URL:    "https://github.com/stacklok/toolhive-registry",
-			Source: "github",
 		}
 	}
 

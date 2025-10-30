@@ -21,8 +21,46 @@ func ServerJSONToImageMetadata(serverJSON *upstream.ServerJSON) (*registry.Image
 		return nil, fmt.Errorf("serverJSON cannot be nil")
 	}
 
+	pkg, err := extractSingleOCIPackage(serverJSON)
+	if err != nil {
+		return nil, err
+	}
+
+	imageMetadata := &registry.ImageMetadata{
+		BaseServerMetadata: registry.BaseServerMetadata{
+			Name:        serverJSON.Title,
+			Description: serverJSON.Description,
+			Transport:   pkg.Transport.Type,
+		},
+		Image: pkg.Identifier, // OCI packages store full image ref in Identifier
+	}
+
+	// Set repository URL
+	if serverJSON.Repository != nil && serverJSON.Repository.URL != "" {
+		imageMetadata.RepositoryURL = serverJSON.Repository.URL
+	}
+
+	// Convert environment variables
+	imageMetadata.EnvVars = convertEnvironmentVariables(pkg.EnvironmentVariables)
+
+	// Extract target port from transport URL if present
+	imageMetadata.TargetPort = extractTargetPort(pkg.Transport.URL, serverJSON.Name)
+
+	// Convert PackageArguments to simple Args (priority: structured arguments first)
+	if len(pkg.PackageArguments) > 0 {
+		imageMetadata.Args = flattenPackageArguments(pkg.PackageArguments)
+	}
+
+	// Extract publisher-provided extensions (including Args fallback)
+	extractImageExtensions(serverJSON, imageMetadata)
+
+	return imageMetadata, nil
+}
+
+// extractSingleOCIPackage validates and extracts the single OCI package from ServerJSON
+func extractSingleOCIPackage(serverJSON *upstream.ServerJSON) (model.Package, error) {
 	if len(serverJSON.Packages) == 0 {
-		return nil, fmt.Errorf("server '%s' has no packages (not a container-based server)", serverJSON.Name)
+		return model.Package{}, fmt.Errorf("server '%s' has no packages (not a container-based server)", serverJSON.Name)
 	}
 
 	// Filter for OCI packages only
@@ -36,70 +74,60 @@ func ServerJSONToImageMetadata(serverJSON *upstream.ServerJSON) (*registry.Image
 	}
 
 	if len(ociPackages) == 0 {
-		return nil, fmt.Errorf("server '%s' has no OCI packages (found: %v)", serverJSON.Name, packageTypes)
+		return model.Package{}, fmt.Errorf("server '%s' has no OCI packages (found: %v)", serverJSON.Name, packageTypes)
 	}
 
 	if len(ociPackages) > 1 {
-		return nil, fmt.Errorf("server '%s' has %d OCI packages, expected exactly 1", serverJSON.Name, len(ociPackages))
+		return model.Package{}, fmt.Errorf("server '%s' has %d OCI packages, expected exactly 1", serverJSON.Name, len(ociPackages))
 	}
 
-	pkg := ociPackages[0]
+	return ociPackages[0], nil
+}
 
-	imageMetadata := &registry.ImageMetadata{
-		BaseServerMetadata: registry.BaseServerMetadata{
-			Name:        serverJSON.Title,
-			Description: serverJSON.Description,
-			Transport:   pkg.Transport.Type,
-		},
-		Image: pkg.Identifier, // OCI packages store full image ref in Identifier
+// convertEnvironmentVariables converts model.KeyValueInput to registry.EnvVar
+func convertEnvironmentVariables(envVars []model.KeyValueInput) []*registry.EnvVar {
+	if len(envVars) == 0 {
+		return nil
 	}
 
-	// Set repository URL
-	if serverJSON.Repository.URL != "" {
-		imageMetadata.RepositoryURL = serverJSON.Repository.URL
+	result := make([]*registry.EnvVar, 0, len(envVars))
+	for _, envVar := range envVars {
+		result = append(result, &registry.EnvVar{
+			Name:        envVar.Name,
+			Description: envVar.Description,
+			Required:    envVar.IsRequired,
+			Secret:      envVar.IsSecret,
+			Default:     envVar.Default,
+		})
+	}
+	return result
+}
+
+// extractTargetPort extracts the port number from a transport URL
+func extractTargetPort(transportURL, serverName string) int {
+	if transportURL == "" {
+		return 0
 	}
 
-	// Convert environment variables
-	if len(pkg.EnvironmentVariables) > 0 {
-		imageMetadata.EnvVars = make([]*registry.EnvVar, 0, len(pkg.EnvironmentVariables))
-		for _, envVar := range pkg.EnvironmentVariables {
-			imageMetadata.EnvVars = append(imageMetadata.EnvVars, &registry.EnvVar{
-				Name:        envVar.Name,
-				Description: envVar.Description,
-				Required:    envVar.IsRequired,
-				Secret:      envVar.IsSecret,
-				Default:     envVar.Default,
-			})
-		}
+	parsedURL, err := url.Parse(transportURL)
+	if err != nil {
+		fmt.Printf("⚠️  Failed to parse transport URL '%s' for server '%s': %v\n",
+			transportURL, serverName, err)
+		return 0
 	}
 
-	// Extract target port from transport URL if present
-	if pkg.Transport.URL != "" {
-		// Parse URL like "http://localhost:8080"
-		parsedURL, err := url.Parse(pkg.Transport.URL)
-		if err != nil {
-			// Log parse error to aid debugging but don't fail conversion
-			fmt.Printf("⚠️  Failed to parse transport URL '%s' for server '%s': %v\n",
-				pkg.Transport.URL, serverJSON.Name, err)
-		} else if parsedURL.Port() != "" {
-			if port, err := strconv.Atoi(parsedURL.Port()); err == nil {
-				imageMetadata.TargetPort = port
-			} else {
-				fmt.Printf("⚠️  Failed to parse port from URL '%s' for server '%s': %v\n",
-					pkg.Transport.URL, serverJSON.Name, err)
-			}
-		}
+	if parsedURL.Port() == "" {
+		return 0
 	}
 
-	// Convert PackageArguments to simple Args (priority: structured arguments first)
-	if len(pkg.PackageArguments) > 0 {
-		imageMetadata.Args = flattenPackageArguments(pkg.PackageArguments)
+	port, err := strconv.Atoi(parsedURL.Port())
+	if err != nil {
+		fmt.Printf("⚠️  Failed to parse port from URL '%s' for server '%s': %v\n",
+			transportURL, serverName, err)
+		return 0
 	}
 
-	// Extract publisher-provided extensions (including Args fallback)
-	extractImageExtensions(serverJSON, imageMetadata)
-
-	return imageMetadata, nil
+	return port
 }
 
 // ServerJSONToRemoteServerMetadata converts an upstream ServerJSON (with remotes) to toolhive RemoteServerMetadata
@@ -125,7 +153,7 @@ func ServerJSONToRemoteServerMetadata(serverJSON *upstream.ServerJSON) (*registr
 	}
 
 	// Set repository URL
-	if serverJSON.Repository.URL != "" {
+	if serverJSON.Repository != nil && serverJSON.Repository.URL != "" {
 		remoteMetadata.RepositoryURL = serverJSON.Repository.URL
 	}
 
