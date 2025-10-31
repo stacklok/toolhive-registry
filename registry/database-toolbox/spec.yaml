@@ -1,0 +1,35 @@
+name: database-toolbox
+description: Database operations MCP server with connection pooling, authentication, and observability
+tier: Official
+status: Active
+image: us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.18.0
+transport: streamable-http
+target_port: 5000
+tools:
+  - set_during_runtime
+metadata:
+  stars: 10919
+  pulls: 2408
+  last_updated: "2025-10-14T02:29:24Z"
+repository_url: https://github.com/googleapis/genai-toolbox
+tags:
+  - database
+  - sql
+  - postgresql
+  - mysql
+  - sqlite
+  - mongodb
+  - redis
+  - connection-pooling
+  - authentication
+  - observability
+  - toolbox
+  - genai
+  - mcp-server
+permissions:
+  network:
+    outbound:
+      insecure_allow_all: true
+args:
+  - --address
+  - 0.0.0.0
