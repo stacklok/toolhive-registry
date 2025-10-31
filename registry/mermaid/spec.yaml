@@ -1,0 +1,22 @@
+url: https://mcp.mermaidchart.com/sse
+description: The Mermaid MCP Server enables AI assistants to create, validate, and render Mermaid diagrams seamlessly
+transport: sse
+homepage: https://docs.mermaidchart.com/ai/mcp-server
+author: Mermaid
+tier: Official
+status: Active
+tags:
+  - remote
+  - diagrams
+  - visualization
+  - mermaid
+tools:
+  # Renders Mermaid diagrams directly (Mermaid automatically 
+  # validates during rendering). If successful, returns diagram image.
+  # If Mermaid validation fails, returns error details for fixing.
+  # One tool, one call, simple workflow.
+  - validate_and_render_mermaid_diagram
+metadata:
+  stars: 0
+  pulls: 0
+  last_updated: 2025-10-31T22:51:30Z
