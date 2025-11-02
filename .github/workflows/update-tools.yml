@@ -17,9 +17,79 @@ permissions:
   pull-requests: write
 
 jobs:
+  # Security check for fork PRs - prevents untrusted code execution with write permissions
+  security-check:
+    name: Security Check for Fork PRs
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    outputs:
+      is-fork: ${{ steps.check-fork.outputs.is-fork }}
+      has-label: ${{ steps.check-label.outputs.has-label }}
+      should-run: ${{ steps.check-fork.outputs.should-run }}
+    steps:
+      - name: Check if PR is from a fork
+        id: check-fork
+        run: |
+          # Get PR details from GitHub API
+          PR_DATA=$(gh pr view ${{ github.event.pull_request.number }} --json isCrossRepository,labels --repo ${{ github.repository }})
+
+          IS_FORK=$(echo "$PR_DATA" | jq -r '.isCrossRepository')
+          echo "is-fork=$IS_FORK" >> $GITHUB_OUTPUT
+
+          if [ "$IS_FORK" = "false" ]; then
+            echo "PR is from the same repository - workflow will run automatically"
+            echo "should-run=true" >> $GITHUB_OUTPUT
+          else
+            echo "PR is from a fork - checking for 'safe-to-update' label"
+
+            # Check if PR has the safe-to-update label
+            HAS_LABEL=$(echo "$PR_DATA" | jq -r '.labels | map(select(.name == "safe-to-update")) | length > 0')
+
+            if [ "$HAS_LABEL" = "true" ]; then
+              echo "PR has 'safe-to-update' label - workflow will run"
+              echo "should-run=true" >> $GITHUB_OUTPUT
+            else
+              echo "PR does not have 'safe-to-update' label - workflow will be skipped"
+              echo "should-run=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check label status
+        id: check-label
+        if: steps.check-fork.outputs.is-fork == 'true'
+        run: |
+          PR_DATA=$(gh pr view ${{ github.event.pull_request.number }} --json labels --repo ${{ github.repository }})
+          HAS_LABEL=$(echo "$PR_DATA" | jq -r '.labels | map(select(.name == "safe-to-update")) | length > 0')
+          echo "has-label=$HAS_LABEL" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Post instructions for fork PRs without label
+        if: steps.check-fork.outputs.is-fork == 'true' && steps.check-fork.outputs.should-run == 'false'
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## Security Notice: Fork PR Tool Update Workflow
+
+            This PR is from a forked repository. For security reasons, the automatic tool list update workflow requires a maintainer to add the `safe-to-update` label before it will run.
+
+            A maintainer will review this PR and add the label if appropriate. The workflow will then automatically update the tool lists.
+
+            ---
+
+            **Why is this needed?** This workflow executes code and connects to MCP servers specified in spec files. To prevent potential security issues, we require manual verification for fork PRs.
+
   detect-changes:
     name: Detect Changed Specs
     runs-on: ubuntu-latest
+    needs: [security-check]
+    if: |
+      always() &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event_name == 'pull_request' && needs.security-check.outputs.should-run == 'true'))
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       has-changes: ${{ steps.set-matrix.outputs.has-changes }}
