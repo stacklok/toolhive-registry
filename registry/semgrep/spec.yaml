@@ -10,15 +10,14 @@ name: semgrep
 description: Scan code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules
 tier: Official
 status: Active
-transport: sse
+transport: stdio
 tools:
   - get_abstract_syntax_tree
   - get_supported_languages
-  - security_check
   - semgrep_findings
   - semgrep_rule_schema
   - semgrep_scan
-  - semgrep_scan_local
+  - semgrep_scan_supply_chain
   - semgrep_scan_with_custom_rule
 metadata:
   stars: 591
@@ -51,5 +50,5 @@ env_vars:
     required: false
     secret: true
 args:
-  - --transport
-  - sse
+  - semgrep
+  - mcp
