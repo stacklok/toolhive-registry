@@ -82,7 +82,7 @@ env_vars:
   - name: GRAFANA_URL
     description: URL of the Grafana instance to connect to
     required: true
-  - name: GRAFANA_API_KEY
+  - name: GRAFANA_SERVICE_ACCOUNT_TOKEN
     description: Service account token with appropriate permissions
     required: true
     secret: true
