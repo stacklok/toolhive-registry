@@ -110,6 +110,8 @@ tools:
 
 ### Complete Template
 
+**Note:** The template below includes inline comments for instructional purposes. When creating actual spec files, remove all comment lines (those starting with `#`) to keep the file clean and concise.
+
 ```yaml
 # ============================================
 # REQUIRED FIELDS
@@ -239,6 +241,8 @@ tools:
 ```
 
 ### Complete Template
+
+**Note:** The template below includes inline comments for instructional purposes. When creating actual spec files, remove all comment lines (those starting with `#`) to keep the file clean and concise.
 
 ```yaml
 # ============================================
@@ -544,17 +548,25 @@ oauth_config:
 
 ## Post-Creation Steps
 
-### 1. Validate the Entry
+### 1. Validate Against Schema
+
+Validate that your spec file conforms to the schema:
 
 ```bash
 task validate
 ```
 
-### 2. Build Registry
+This checks that all required fields are present and properly formatted.
+
+### 2. Build and Test Registry
+
+Ensure the registry builds successfully with your new entry:
 
 ```bash
 task build:registry
 ```
+
+This compiles all entries into the registry and verifies there are no conflicts or errors.
 
 ### 3. Verify Entry
 
@@ -630,7 +642,8 @@ Before submitting:
 - [ ] Tags: relevant categories included (and "remote" for remote servers)
 - [ ] Auth: configured if needed
 - [ ] Network permissions: specified if needed (NEVER include filesystem paths)
-- [ ] Validation: `task validate` passes
+- [ ] Validation: `task validate` passes without errors
+- [ ] Registry build: `task build:registry` completes successfully
 
 ---
 
