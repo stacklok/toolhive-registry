@@ -10,6 +10,10 @@ tier: Official
 status: Active
 transport: stdio
 tools:
+  - analyze_issue_with_seer
+  - create_dsn
+  - create_project
+  - create_team
   - find_dsns
   - find_organizations
   - find_projects
@@ -22,7 +26,8 @@ tools:
   - search_docs
   - search_events
   - search_issues
-  - use_sentry
+  - update_issue
+  - update_project
   - whoami
 metadata:
   stars: 411
