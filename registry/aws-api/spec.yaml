@@ -1,0 +1,72 @@
+name: aws-api
+description: Enables AI assistants to interact with AWS services and resources through AWS CLI commands
+tier: Official
+status: Active
+author: AWS Labs
+license: Apache-2.0
+transport: stdio
+tools:
+  - call_aws
+  - suggest_aws_commands
+  - get_execution_plan
+repository_url: https://github.com/awslabs/mcp
+homepage: https://github.com/awslabs/mcp/tree/main/src/aws-api-mcp-server
+tags:
+  - aws
+  - cli
+  - cloud
+  - infrastructure
+  - api
+  - devops
+image: public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.1.3
+permissions:
+  network:
+    outbound:
+      allow_host:
+        - aws.amazon.com
+        - .amazonaws.com
+      allow_port:
+        - 443
+env_vars:
+  - name: AWS_REGION
+    description: Default AWS region for CLI commands unless a specific region is provided in the request
+    required: false
+    default: us-east-1
+  - name: AWS_ACCESS_KEY_ID
+    description: AWS access key ID for authentication
+    required: false
+    secret: true
+  - name: AWS_SECRET_ACCESS_KEY
+    description: AWS secret access key for authentication
+    required: false
+    secret: true
+  - name: AWS_SESSION_TOKEN
+    description: AWS session token for temporary credentials
+    required: false
+    secret: true
+  - name: READ_OPERATIONS_ONLY
+    description: When set to "true", restricts execution to read-only operations
+    required: false
+    default: "false"
+  - name: REQUIRE_MUTATION_CONSENT
+    description: When set to "true", asks explicit consent before executing non-read-only operations
+    required: false
+    default: "false"
+  - name: AWS_API_MCP_WORKING_DIR
+    description: Working directory path for MCP server operations (must be absolute path)
+    required: false
+  - name: AWS_API_MCP_ALLOW_UNRESTRICTED_LOCAL_FILE_ACCESS
+    description: When set to "true", enables system-wide file access (may cause unintended overwrites)
+    required: false
+    default: "false"
+  - name: AWS_API_MCP_TELEMETRY
+    description: Allow sending additional telemetry data to AWS related to server configuration
+    required: false
+    default: "true"
+  - name: EXPERIMENTAL_AGENT_SCRIPTS
+    description: When set to "true", enables experimental agent scripts functionality
+    required: false
+    default: "false"
+  - name: AWS_API_MCP_AGENT_SCRIPTS_DIR
+    description: Directory path containing custom user scripts for agent scripts functionality
+    required: false
