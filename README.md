@@ -4,7 +4,7 @@ This repository contains the registry of MCP (Model Context Protocol) servers av
 
 ## What is this?
 
-Think of this as a catalog of tools that AI assistants can use. Each entry in this registry represents a server that provides specific capabilities - like interacting with GitHub, querying databases, or fetching web content.
+Think of this as a catalog of tools that AI assistants can use. Each entry in this registry represents a server that provides specific capabilities—like interacting with GitHub, querying databases, or fetching web content.
 
 ## How to Add Your MCP Server
 
@@ -33,16 +33,17 @@ Create a `spec.yaml` file with this minimum information:
 
 ```yaml
 # Required fields - you must provide these
-image: docker.io/myorg/my-server:latest  # Your Docker image
+image: docker.io/myorg/my-server:latest # Your Docker image
 description: What your server does in one sentence
-transport: stdio  # How your server communicates (usually "stdio")
+transport: stdio # How your server communicates (usually "stdio")
+tier: Community # "Official" or "Community"
+status: Active # "Active" or "Deprecated"
+tools:
+  - tool_name_1 # List the tools your server provides
+  - tool_name_2 # Or use "set_during_runtime" if tools aren't knowable up-front
 
 # Recommended fields - helps users understand your server
-tools:
-  - tool_name_1  # List the tools your server provides
-  - tool_name_2
-  
-repository_url: https://github.com/myorg/my-server  # Where to find your code
+repository_url: https://github.com/myorg/my-server # Where to find your code
 ```
 
 #### For Remote Servers
@@ -51,19 +52,20 @@ Create a `spec.yaml` file with this minimum information:
 
 ```yaml
 # Required fields - you must provide these
-url: https://api.example.com/mcp  # Your MCP server endpoint
+url: https://api.example.com/mcp # Your MCP server endpoint
 description: What your server does in one sentence
-transport: sse  # Remote servers use "sse" or "streamable-http" (not "stdio")
+transport: streamable-http # Remote servers use "streamable-http" (preferred) or "sse" (not "stdio")
+tier: Community # "Official" or "Community"
+status: Active # "Active" or "Deprecated"
+tools:
+  - tool_name_1 # List the tools your server provides
+  - tool_name_2 # Or use "set_during_runtime" if tools aren't knowable up-front
 
 # Recommended fields - helps users understand your server
-tools:
-  - tool_name_1  # List the tools your server provides
-  - tool_name_2
-  
-repository_url: https://github.com/myorg/my-server  # Where to find your code
+repository_url: https://github.com/myorg/my-server # Where to find your code
 ```
 
-### Step 3: Add More Details (Optional but Helpful)
+### Step 3: Add More Details (Optional but Recommended)
 
 You can add more information to help users:
 
@@ -75,7 +77,7 @@ env_vars:
   - name: API_KEY
     description: Your API key from example.com
     required: true
-    secret: true  # Mark sensitive data
+    secret: true # Mark sensitive data
 
   - name: TIMEOUT
     description: Request timeout in seconds
@@ -89,8 +91,8 @@ tags:
   - productivity
 
 # Server classification
-tier: Community  # or "Official" if maintained by the protocol team
-status: Active   # or "Beta", "Deprecated"
+tier: Community # or "Official" if maintained by the protocol team
+status: Active # or "Deprecated"
 ```
 
 ### Real Examples
@@ -129,7 +131,7 @@ status: Active
 ```yaml
 url: https://api.example.com/mcp/v1
 description: Provides access to Example API services via MCP
-transport: sse
+transport: streamable-http
 repository_url: https://github.com/example/mcp-server
 
 tools:
@@ -137,7 +139,7 @@ tools:
   - process_request
   - submit_job
 
-# Authentication headers for the remote server
+# Authentication headers for remote servers
 headers:
   - name: X-API-Key
     description: API key for authentication
@@ -168,16 +170,20 @@ status: Active
 This tells ToolHive how to communicate with your server:
 
 For **container-based servers**:
+
 - `stdio` - Standard input/output (most common)
 - `sse` - Server-sent events
 - `streamable-http` - HTTP streaming
 
 For **remote servers**:
-- `sse` - Server-sent events (recommended)
-- `streamable-http` - HTTP streaming
+
+- `streamable-http` - HTTP streaming (recommended)
+- `sse` - Server-sent events (deprecated but still supported)
 - **Note:** Remote servers cannot use `stdio`
 
-If you're not sure, use `stdio` for containers and `sse` for remote servers.
+If you're not sure, use `stdio` for containers and `streamable-http` for remote servers.
+
+**Important:** For container servers using `streamable-http` or `sse` transport, you must also specify the `target_port` field.
 
 ### What is "tier"?
 
@@ -189,14 +195,23 @@ If you're not sure, use `stdio` for containers and `sse` for remote servers.
 - `Active` - Fully functional and maintained
 - `Deprecated` - No longer maintained, will be removed
 
+### What about the "tools" field?
+
+List all the tools your server provides. If your server's tools aren't knowable until runtime (for example, if they're dynamically generated based on configuration), you can use `"set_during_runtime"` as the value instead of listing specific tool names.
+
 ### Do I need a Docker image?
 
-**For container-based servers:** Yes! Your MCP server must be packaged as a Docker image and published to a registry like:
+**For container-based servers:** Yes. Your MCP server must be packaged as a Docker image and published to a registry like:
+
 - Docker Hub (`docker.io/username/image`)
 - GitHub Container Registry (`ghcr.io/username/image`)
 - Other public registries
 
-**For remote servers:** No! You just need to provide the URL endpoint where your MCP server is accessible.
+**For remote servers:** No. You just need to provide the URL endpoint where your MCP server is accessible.
+
+### Security Note: Filesystem Permissions
+
+**Important:** Don't specify filesystem paths or volume mounts in your registry entries. Mounting host directories is a security risk and should be configured by users at runtime, not in registry specs. Only network permissions (allowed hosts and ports) should be specified in the `permissions` section.
 
 ### How do I test my entry?
 
@@ -214,24 +229,37 @@ Or submit a pull request and our automated checks will validate it for you.
 1. Fork this repository
 2. Add your server entry as described above
 3. Submit a pull request
-4. We'll review and merge your addition!
+4. We'll review and merge your addition
 
-### Before Submitting, Please Ensure:
+### Registry Inclusion Criteria
+
+We evaluate submissions based on several criteria to ensure quality and usefulness for the community. Your server should:
+
+- Provide clear value and unique capabilities
+- Be well-documented with accurate tool descriptions
+- Follow security best practices
+- Be actively maintained with recent updates
+
+For detailed evaluation criteria, see the [Registry Criteria documentation](https://docs.stacklok.com/toolhive/concepts/registry-criteria).
+
+### Before Submitting, Please Ensure
 
 For **container-based servers**:
+
 - [ ] Your Docker image is publicly accessible
 - [ ] The `description` clearly explains what your server does
 - [ ] You've listed all the tools your server provides
 - [ ] Any required environment variables are documented
-- [ ] Your server actually works with ToolHive
+- [ ] Your server works with ToolHive
 
 For **remote servers**:
+
 - [ ] Your server endpoint is publicly accessible
 - [ ] The `description` clearly explains what your server does
 - [ ] You've listed all the tools your server provides
 - [ ] Any required authentication (headers/OAuth) is documented
-- [ ] The transport is set to `sse` or `streamable-http` (not `stdio`)
-- [ ] Your server actually works with ToolHive's proxy command
+- [ ] The transport is set to `streamable-http` (preferred) or `sse` (not `stdio`)
+- [ ] Your server works with ToolHive's proxy command
 
 ## Need Help?
 

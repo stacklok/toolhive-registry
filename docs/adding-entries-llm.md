@@ -1,107 +1,200 @@
 # Instructions for LLMs: Adding MCP Server Entries to ToolHive Registry
 
 ## Context
+
 You are helping to add an MCP (Model Context Protocol) server entry to the ToolHive registry. Each entry defines a server that provides tools and capabilities to AI assistants.
 
-## Task Overview
-Create a YAML specification file for an MCP server in the correct directory structure. MCP servers can be either container-based (Docker images) or remote (HTTP/HTTPS endpoints).
+## Quick Reference
+
+### Server Types
+
+| Type      | Identifier     | Transport Options                      | Primary Use                   |
+| --------- | -------------- | -------------------------------------- | ----------------------------- |
+| Container | `image:` field | `stdio`, `streamable-http`, `sse`      | Self-hosted Docker containers |
+| Remote    | `url:` field   | `streamable-http`, `sse` (NOT `stdio`) | HTTP/HTTPS API endpoints      |
+
+### Field Priority Levels
+
+- **REQUIRED**: Must be present or validation will fail
+- **HIGHLY RECOMMENDED**: Should be included when available
+- **OPTIONAL**: Include when relevant or needed
 
 ## Step-by-Step Process
 
-### 1. Determine the Server Name
-- Use lowercase letters, numbers, and hyphens only
-- Choose a descriptive, unique name
-- Examples: `github`, `aws-pricing`, `sqlite`, `notion`
+### 1. Determine Server Type
 
-### 2. Create Directory Structure
+**Ask yourself:** Is this a Docker container or a remote HTTP endpoint?
+
+- If Docker/OCI image → Container-based server
+- If HTTP/HTTPS API → Remote server
+
+### 2. Choose Server Name
+
+- Use **only** lowercase letters, numbers, and hyphens
+- Make it descriptive and unique
+- Examples: `github`, `aws-pricing`, `sqlite`, `notion-remote`
+
+### 3. Create Directory
+
 ```bash
 mkdir registry/<server-name>
 ```
 
-### 3. Create spec.yaml File
-Create `registry/<server-name>/spec.yaml` with the appropriate structure based on server type:
+### 4. Gather Information (If Needed)
 
-#### For Container-based Servers
+**When to fetch documentation:**
 
-##### Minimal Required Fields
+- User provides only a repository URL or homepage without details
+- Tool names, descriptions, or authentication requirements are unclear
+- Transport type needs verification for remote servers
+- Environment variables or permissions are unknown
+
+**Where to look:**
+
+1. **Repository README** - Primary source for:
+
+   - Tool/function lists
+   - Quick start examples
+   - Authentication requirements
+   - Environment variables
+
+2. **Official documentation** - Best for:
+
+   - Complete API/tool specifications
+   - Transport protocol details
+   - Authentication flows (OAuth, API keys)
+   - Configuration options
+
+3. **Package/Container registry** - Useful for:
+   - Verifying image references
+   - Checking available versions
+   - Finding pull counts
+
+**What to extract:**
+
+- `tools`: List of function names the server exposes
+- `description`: One-line summary from README or docs
+- `transport`: Protocol type (stdio/sse/streamable-http)
+- `env_vars`: Required environment variables
+- `auth`: Authentication method (headers/OAuth)
+- `permissions`: Network hosts (never filesystem paths)
+- `provenance`: Supply chain security details (Sigstore/cosign signatures)
+
+**Best practices:**
+
+- **Ask first** if uncertain whether to fetch (unless clearly needed)
+- **Prioritize** official docs over README when both exist
+- **Extract** only spec-relevant information, not implementation details
+- **Verify** transport type for remote servers (streamable-http preferred)
+- **Skip** if user has already provided comprehensive details
+
+### 5. Create Specification File
+
+Create `registry/<server-name>/spec.yaml` using the appropriate template below.
+
+---
+
+## Container-Based Servers
+
+### Minimal Required Fields
+
 ```yaml
-image: <docker-image-reference>  # e.g., ghcr.io/org/server:v1.0.0
-description: <one-line-description>  # Clear, concise explanation
-transport: <transport-type>  # Usually "stdio", can be "sse" or "streamable-http"
+image: ghcr.io/org/server:v1.0.0
+description: Clear, concise one-line description
+transport: stdio
+tier: Community
+status: Active
+tools:
+  - tool_name # Or use "set_during_runtime" if tools aren't knowable up-front
 ```
 
-#### For Remote Servers
+### Complete Template
 
-##### Minimal Required Fields
+**Note:** The template below includes inline comments for instructional purposes. When creating actual spec files, remove all comment lines (those starting with `#`) to keep the file clean and concise.
+
 ```yaml
-url: <server-endpoint>  # e.g., https://api.example.com/mcp
-description: <one-line-description>  # Clear, concise explanation
-transport: <transport-type>  # "sse" or "streamable-http" (NOT "stdio")
-```
+# ============================================
+# REQUIRED FIELDS
+# ============================================
 
-#### Complete Template with All Fields
-
-##### Container-based Servers
-```yaml
-# Docker/OCI image reference (REQUIRED for container servers)
+# Docker/OCI image reference with tag
 image: ghcr.io/organization/server-name:v1.0.0
 
-# One-line description (REQUIRED)
+# One-line description of server purpose
 description: Enables interaction with [service/API] for [purpose]
 
-# Communication protocol (REQUIRED)
-transport: stdio  # Most common, alternatives: "sse", "streamable-http"
+# Communication protocol
+transport: stdio # Options: "stdio", "streamable-http", "sse"
 
-# Source code repository (HIGHLY RECOMMENDED)
-repository_url: https://github.com/organization/repository
+# Classification tier
+tier: Community # Options: "Official", "Community"
 
-# Project homepage/documentation (OPTIONAL)
-homepage: https://docs.example.com
+# Development status
+status: Active # Options: "Active", "Deprecated"
 
-# License identifier (OPTIONAL)
-license: MIT  # Common: MIT, Apache-2.0, GPL-3.0
-
-# Author/organization (OPTIONAL)
-author: Organization Name
-
-# Classification tier (OPTIONAL, defaults to "Community")
-tier: Community  # Options: "Official", "Community"
-
-# Development status (OPTIONAL, defaults to "Active")
-status: Active  # Options: "Active", "Beta", "Alpha", "Deprecated"
-
-# Categorization tags (RECOMMENDED)
-tags:
-  - category1  # e.g., "database", "api", "productivity"
-  - category2
-  - category3
-
-# List of tools provided (HIGHLY RECOMMENDED)
+# List of tools this server provides (at least one required)
+# Use actual tool names if known, or "set_during_runtime" if not discoverable
 tools:
-  - tool_name_1  # Actual function names the server exposes
+  - tool_name_1
   - tool_name_2
   - tool_name_3
 
-# Environment variables (IF APPLICABLE)
+# ============================================
+# HIGHLY RECOMMENDED FIELDS
+# ============================================
+
+# Source code repository URL
+repository_url: https://github.com/organization/repository
+
+# Categorization tags
+tags:
+  - category1 # e.g., "database", "api", "productivity"
+  - category2
+  - category3
+
+# ============================================
+# OPTIONAL FIELDS
+# ============================================
+
+# Project homepage or documentation
+homepage: https://docs.example.com
+
+# License identifier (SPDX format)
+license: MIT # Common: MIT, Apache-2.0, GPL-3.0
+
+# Author or organization name
+author: Organization Name
+
+# Server name (defaults to directory name if omitted)
+name: server-name
+
+# ============================================
+# CONDITIONAL FIELDS (include if applicable)
+# ============================================
+
+# Target port (REQUIRED for streamable-http or sse transports)
+target_port: 8080
+
+# Environment variables (for API keys, config, etc.)
 env_vars:
   - name: API_KEY
     description: Authentication key for service
     required: true
-    secret: true  # Mark as secret for sensitive data
-  
+    secret: true # Mark sensitive data as secret
+
   - name: BASE_URL
     description: API endpoint URL
     required: false
     default: "https://api.example.com"
 
-# Command-line arguments (IF APPLICABLE)
+# Command-line arguments
 args:
   - --verbose
   - --config=/path/to/config
 
-# Security permissions (IF APPLICABLE)
+# Security permissions
 permissions:
-  # Network access
+  # Network access control
   network:
     outbound:
       allow_host:
@@ -110,91 +203,188 @@ permissions:
       allow_port:
         - 443
         - 80
-      # insecure_allow_all: false  # Only set to true if absolutely necessary
-  
-  # File system access
-  read:
-    - /config
-    - /data
-  
-  write:
-    - /cache
-    - /logs
+      # insecure_allow_all: false  # Only use if absolutely necessary
 
-# Usage metrics (OPTIONAL, auto-updated)
-metrics:
-  stars: 0  # GitHub stars
-  pulls: 0  # Docker pulls
+  # IMPORTANT: Do NOT specify filesystem paths in registry entries
+  # Mounting host directories is a security risk and should be
+  # configured by users at runtime, not in registry specs
+
+# Usage metrics (auto-updated - typically omit when creating new entries)
+metadata:
+  stars: 0
+  pulls: 0
+  last_updated: 2025-01-01T00:00:00Z
+
+# Provenance for supply chain security
+provenance:
+  cert_issuer: https://token.actions.githubusercontent.com
+  repository_uri: https://github.com/org/repository
+  runner_environment: github-hosted
+  signer_identity: /.github/workflows/build-containers.yml
+  sigstore_url: tuf-repo-cdn.sigstore.dev
 ```
 
-##### Remote Servers
+---
+
+## Remote Servers
+
+### Minimal Required Fields
+
 ```yaml
-url: https://api.example.com/mcp/v1  # REQUIRED endpoint URL
-description: Enables interaction with [service/API] for [purpose]  # REQUIRED
-transport: sse  # REQUIRED: "sse" or "streamable-http" (NOT "stdio")
-repository_url: https://github.com/organization/repository
+url: https://api.example.com/mcp
+description: Clear, concise one-line description
+transport: streamable-http
+tier: Official
+status: Active
+tools:
+  - tool_name # Or use "set_during_runtime" if tools aren't knowable up-front
+```
+
+### Complete Template
+
+**Note:** The template below includes inline comments for instructional purposes. When creating actual spec files, remove all comment lines (those starting with `#`) to keep the file clean and concise.
+
+```yaml
+# ============================================
+# REQUIRED FIELDS
+# ============================================
+
+# Remote server endpoint URL
+url: https://api.example.com/mcp/v1
+
+# One-line description of server purpose
+description: Enables interaction with [service/API] for [purpose]
+
+# Communication protocol (NOT "stdio" for remote servers)
+transport: streamable-http # Options: "streamable-http", "sse" (deprecated)
+
+# Classification tier (REQUIRED)
+tier: Official # Options: "Official", "Community"
+
+# Development status (REQUIRED)
+status: Active # Options: "Active", "Deprecated"
+
+# List of tools this server provides (at least one required)
+# Use actual tool names if known, or "set_during_runtime" if not discoverable
 tools:
   - tool_name_1
   - tool_name_2
-tags:
-  - remote
-  - api
 
-# Authentication options:
+# ============================================
+# HIGHLY RECOMMENDED FIELDS
+# ============================================
+
+# Source code repository (if open source)
+repository_url: https://github.com/organization/repository
+
+# Categorization tags (include "remote")
+tags:
+  - remote # Always include for remote servers
+  - api
+  - integration
+
+# ============================================
+# OPTIONAL FIELDS
+# ============================================
+
+# Project homepage or documentation
+homepage: https://docs.example.com
+
+# Author or organization name
+author: Organization Name
+
+# ============================================
+# AUTHENTICATION (choose one method)
+# ============================================
+
+# Option 1: Header-based authentication (API keys, tokens)
 headers:
   - name: X-API-Key
     description: API key for authentication
     required: true
     secret: true
 
-# Option 2: OAuth configuration
+# Option 2: OAuth 2.0 / OIDC configuration
 oauth_config:
-  issuer: https://auth.example.com  # OIDC discovery
-  authorize_url: https://auth.example.com/authorize  # Non-OIDC
-  token_url: https://auth.example.com/token  # Non-OIDC
+  issuer: https://auth.example.com # For OIDC discovery
+  authorize_url: https://auth.example.com/authorize # For non-OIDC
+  token_url: https://auth.example.com/token # For non-OIDC
   client_id: mcp-client
   scopes:
     - read
     - write
 
+# Usage metrics (auto-updated - typically omit when creating new entries)
+metadata:
+  stars: 0
+  last_updated: 2025-01-01T00:00:00Z
 ```
 
-## Field Selection Guidelines
+---
 
-### Always Include
-**Container servers**: `image`, `description`, `transport` (usually "stdio")
-**Remote servers**: `url`, `description`, `transport` ("sse" or "streamable-http")
+## Field Selection Guide
 
-### Include When Available
-- `repository_url`, `tools`, `tags`
+### For Container Servers
 
-### Include When Needed
-**Both types**: `env_vars` with `secret: true` for sensitive data
-**Container servers**: `permissions`, `args`
-**Remote servers**: `headers` or `oauth_config` for auth
+**Always include:**
 
-### Tier/Status
-- Tier: `"Official"`, `"Community"` (default)
-- Status: `"Active"` (default), `"Beta"`, `"Alpha"`, `"Deprecated"`
+- `image` (with version tag)
+- `description` (one-line, clear)
+- `transport` (`"stdio"`, `"streamable-http"`, or `"sse"`)
+- `tier` (`"Official"` or `"Community"`)
+- `status` (`"Active"` or `"Deprecated"`)
+- `tools` (at least one tool name, or `set_during_runtime` if unknown)
 
-## Validation Rules
+**Highly recommended:**
 
-**Container servers**:
-- `image` must be valid Docker/OCI reference
-- `transport` must be `"stdio"`, `"sse"`, or `"streamable-http"`
+- `repository_url` (GitHub/GitLab link)
+- `tags` (categorization)
 
-**Remote servers**:
-- `url` must be valid HTTP/HTTPS URL
-- `transport` must be `"sse"` or `"streamable-http"` (NOT `"stdio"`)
+**Include when needed:**
 
-## Common Patterns
+- `target_port` (REQUIRED when transport is `"streamable-http"` or `"sse"`)
+- `name` (optional - defaults to directory name if omitted)
+- `env_vars` (for API keys, configuration)
+- `permissions.network` (for network access only - NEVER specify filesystem paths)
+- `args` (command-line arguments)
+- `provenance` (for supply chain security verification - Sigstore/cosign signatures)
 
-### Container-based API Integration Server
+### For Remote Servers
+
+**Always include:**
+
+- `url` (HTTPS endpoint)
+- `description` (one-line, clear)
+- `transport` (`"streamable-http"` or `"sse"`)
+- `tier` (`"Official"` or `"Community"`)
+- `status` (`"Active"` or `"Deprecated"`)
+- `tools` (at least one tool name, or `set_during_runtime` if unknown)
+
+**Highly recommended:**
+
+- `repository_url` (if open source)
+- `tags` (always include `"remote"`)
+
+**Include when needed:**
+
+- `headers` or `oauth_config` (authentication)
+- `homepage` (documentation link)
+
+---
+
+## Common Patterns & Examples
+
+### Pattern 1: Container-Based API Integration
+
 ```yaml
-image: ghcr.io/org/api-server:latest
+image: ghcr.io/org/api-server:v1.2.0
 description: Integrates with ExampleAPI for data retrieval and manipulation
 transport: stdio
 repository_url: https://github.com/org/api-server
+homepage: https://example.com/docs
+author: Example Organization
+tier: Community
+status: Active
 tools:
   - fetch_data
   - create_record
@@ -218,16 +408,21 @@ tags:
   - data
 ```
 
-### Container-based Database Server
+### Pattern 2: Container-Based Database Tool
+
 ```yaml
-image: docker.io/org/db-server:latest
+image: docker.io/org/db-server:v2.0.0
 description: Provides tools for querying and managing PostgreSQL databases
 transport: stdio
 repository_url: https://github.com/org/db-server
+license: Apache-2.0
+tier: Community
+status: Active
 tools:
   - execute_query
   - list_tables
   - describe_table
+  - get_schema
 env_vars:
   - name: DATABASE_URL
     description: PostgreSQL connection string
@@ -237,88 +432,246 @@ tags:
   - database
   - postgresql
   - sql
+  - data
 ```
 
-### Container-based File Processing Server
+### Pattern 3: Container-Based File Processor
+
 ```yaml
-image: ghcr.io/org/file-server:latest
+image: ghcr.io/org/file-server:v1.0.0
 description: Processes and analyzes various file formats
-transport: stdio
+transport: streamable-http
+target_port: 8080
 repository_url: https://github.com/org/file-server
+tier: Community
+status: Active
 tools:
   - read_file
   - analyze_content
   - convert_format
-permissions:
-  read:
-    - /input
-  write:
-    - /output
+  - extract_metadata
 tags:
   - files
   - processing
   - conversion
+# NOTE: File access should be configured by users at runtime,
+# not specified in registry entries for security reasons
 ```
+
+### Pattern 4: Remote API Server
+
+```yaml
+url: https://knowledge-api.example.com/mcp
+description: Documentation and knowledge base API for technical content
+transport: streamable-http
+repository_url: https://github.com/org/knowledge-mcp
+homepage: https://docs.example.com/mcp
+author: Example Inc
+tier: Official
+status: Active
+tools:
+  - search_documentation
+  - get_article
+  - list_categories
+tags:
+  - remote
+  - documentation
+  - api
+  - knowledge
+headers:
+  - name: X-API-Key
+    description: API authentication key
+    required: true
+    secret: true
+```
+
+### Pattern 5: Remote OAuth Service
+
+```yaml
+url: https://api.service.com/mcp/v2
+description: Integration with ServiceAPI using OAuth authentication
+transport: streamable-http
+repository_url: https://github.com/org/service-mcp
+homepage: https://service.com/mcp-docs
+author: Service Inc
+tier: Official
+status: Active
+tools:
+  - query_data
+  - create_resource
+  - update_resource
+tags:
+  - remote
+  - api
+  - oauth
+oauth_config:
+  issuer: https://auth.service.com
+  client_id: mcp-client-id
+  scopes:
+    - read
+    - write
+    - admin
+```
+
+---
+
+## Validation Rules
+
+### Container Servers
+
+| Rule            | Description                                                                                            |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| Image format    | Must be valid Docker/OCI reference (e.g., `registry/org/name:tag`)                                     |
+| Transport       | Must be `"stdio"`, `"sse"`, or `"streamable-http"`                                                     |
+| Required fields | Must have `image`, `description`, `transport`, `tier`, `status`, `tools` (≥1, or `set_during_runtime`) |
+
+### Remote Servers
+
+| Rule            | Description                                                                                          |
+| --------------- | ---------------------------------------------------------------------------------------------------- |
+| URL format      | Must be valid HTTP/HTTPS URL                                                                         |
+| Transport       | Must be `"streamable-http"` or `"sse"` (NOT `"stdio"`)                                               |
+| Required fields | Must have `url`, `description`, `transport`, `tier`, `status`, `tools` (≥1, or `set_during_runtime`) |
+| Tags            | Should include `"remote"` tag                                                                        |
+
+### Both Types
+
+| Rule          | Description                              |
+| ------------- | ---------------------------------------- |
+| Server name   | Lowercase letters, numbers, hyphens only |
+| Description   | Single line, clear, concise              |
+| Tier values   | Exactly `"Official"` or `"Community"`    |
+| Status values | Exactly `"Active"` or `"Deprecated"`     |
+| YAML syntax   | 2-space indentation, proper list format  |
+
+---
 
 ## Post-Creation Steps
 
-After creating the spec.yaml file:
+### 1. Validate Against Schema
 
-1. **Validate the entry:**
-   ```bash
-   task validate
-   ```
+Validate that your spec file conforms to the schema:
 
-2. **Build the registry to verify inclusion:**
-   ```bash
-   task build:registry
-   ```
+```bash
+task validate
+```
 
-3. **Check the generated entry:**
-   ```bash
-   # For container servers:
-   jq '.servers["<server-name>"]' build/registry.json
-   # For remote servers:
-   jq '.remote_servers["<server-name>"]' build/registry.json
-   ```
+This checks that all required fields are present and properly formatted.
 
-## Error Resolution
+### 2. Build and Test Registry
 
-### Common Issues and Solutions
+Ensure the registry builds successfully with your new entry:
 
-1. **Invalid transport type**
-   - Ensure transport is exactly one of: `"stdio"`, `"sse"`, `"streamable-http"`
+```bash
+task build:registry
+```
 
-2. **Missing required fields**
-   - Container: Verify `image`, `description`, and `transport` are present
-   - Remote: Verify `url`, `description`, and `transport` are present
+This compiles all entries into the registry and verifies there are no conflicts or errors.
 
-3. **Invalid tier or status**
-   - Check spelling and capitalization match exactly
+### 3. Verify Entry
 
-4. **YAML syntax errors**
-   - Ensure proper indentation (2 spaces)
-   - Quote strings containing special characters
-   - Use proper list syntax with `-` for arrays
+```bash
+# For container servers:
+jq '.servers["<server-name>"]' build/registry.json
 
-## Examples to Reference
+# For remote servers:
+jq '.remote_servers["<server-name>"]' build/registry.json
+```
 
-Look at these existing entries for patterns:
-- `registry/github/spec.yaml` - Complex API integration
-- `registry/sqlite/spec.yaml` - Database server
-- `registry/fetch/spec.yaml` - Simple tool server
-- `registry/notion/spec.yaml` - Remote server example
+---
+
+## Troubleshooting
+
+### Common Errors
+
+**"Invalid transport type"**
+
+- Container: Use `"stdio"`, `"streamable-http"`, or `"sse"`
+- Remote: Use `"streamable-http"` or `"sse"` (NOT `"stdio"`)
+
+**"Missing required fields"**
+
+- Container: Check `image`, `description`, `transport`
+- Remote: Check `url`, `description`, `transport`
+
+**"Invalid tier or status"**
+
+- Tier: Must be exactly `"Official"` or `"Community"`
+- Status: Must be exactly `"Active"` or `"Deprecated"`
+
+**"YAML syntax error"**
+
+- Use 2-space indentation (not tabs)
+- Quote strings with special characters
+- Use `-` for list items
+- Ensure proper nesting
+
+---
+
+## Reference Examples
+
+Study these existing entries:
+
+- **Container, API**: `registry/github/spec.yaml`
+- **Container, Database**: `registry/sqlite/spec.yaml`
+- **Container, Simple**: `registry/fetch/spec.yaml`
+- **Remote, Full-featured**: `registry/notion-remote/spec.yaml`
+- **Remote, AWS**: `registry/aws-knowledge/spec.yaml`
+
+---
 
 ## Final Checklist
 
-Before completing:
-- [ ] Server name uses only lowercase, numbers, hyphens
-- [ ] Directory created at `registry/<server-name>/`
-- [ ] File named exactly `spec.yaml`
-- [ ] All required fields present (image/url, description, transport)
-- [ ] Image reference complete with tag (container) OR URL valid (remote)
-- [ ] Description is clear and concise
-- [ ] Tools list matches actual server capabilities
-- [ ] Environment variables documented if needed
-- [ ] Permissions specified if network/filesystem access required
-- [ ] Validation passes with `task validate`
+Before submitting:
+
+- [ ] Server name: lowercase, numbers, hyphens only
+- [ ] Directory: `registry/<server-name>/` exists
+- [ ] File: named exactly `spec.yaml`
+- [ ] Required fields: present and valid
+  - Container: `image`, `description`, `transport`, `tier`, `status`, `tools`
+  - Remote: `url`, `description`, `transport`, `tier`, `status`, `tools`
+- [ ] Image/URL: complete and correct
+- [ ] Description: clear and concise
+- [ ] Transport: appropriate for server type
+  - Container: `stdio`, `streamable-http`, or `sse`
+  - Remote: `streamable-http` or `sse` (NOT `stdio`)
+- [ ] Target port: specified if transport is `streamable-http` or `sse` (containers only)
+- [ ] Tier: set to "Official" or "Community"
+- [ ] Status: set to "Active" or "Deprecated"
+- [ ] Tools: at least one tool listed (actual tool names if known, or `set_during_runtime` if tools can't be determined)
+- [ ] Tags: relevant categories included (and "remote" for remote servers)
+- [ ] Auth: configured if needed
+- [ ] Network permissions: specified if needed (NEVER include filesystem paths)
+- [ ] Validation: `task validate` passes without errors
+- [ ] Registry build: `task build:registry` completes successfully
+
+---
+
+## Decision Tree for LLMs
+
+```
+Start
+  ↓
+Do you have complete information (tools, auth, description)?
+  ├─ No → Gather information
+  │   ├─ Check repository README
+  │   ├─ Review official documentation
+  │   └─ Extract: tools, description, transport, auth, env_vars
+  │
+  └─ Yes → Proceed to server type
+      ↓
+Is this a Docker container or HTTP endpoint?
+  ├─ Docker → Use Container template
+  │   ├─ Add: image, description, transport (stdio)
+  │   ├─ Add: repository_url, tools, tags
+  │   ├─ Need API keys? → Add env_vars with secret: true
+  │   └─ Need network access? → Add permissions.network (NEVER filesystem paths)
+  │
+  └─ HTTP → Use Remote template
+      ├─ Add: url, description, transport (streamable-http or sse)
+      ├─ Add: repository_url, tools, tags (include "remote")
+      ├─ Need auth?
+      │   ├─ API key → Add headers
+      │   └─ OAuth → Add oauth_config
+      └─ Validate with task validate
+```
