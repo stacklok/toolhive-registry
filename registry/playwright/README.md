@@ -4,11 +4,11 @@ Provides browser automation capabilities using Playwright
 
 ## Basic Information
 
-- **Image:** `mcr.microsoft.com/playwright/mcp:v0.0.32`
+- **Image:** `mcr.microsoft.com/playwright/mcp`
 - **Repository:** [https://github.com/microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp)
 - **Tier:** Official
 - **Status:** Active
-- **Transport:** sse
+- **Transport:** stdio
 
 ## Available Tools
 
