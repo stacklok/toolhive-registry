@@ -4,51 +4,62 @@
 # Original source: https://github.com/stacklok/toolhive
 # Import timestamp: 2025-08-14T07:27:00Z
 # ---
-# WARNING: Tool list fetch failed on 2025-11-03
-# Manual verification may be required
 name: grafana
 description: Grafana integration for dashboard search, datasource queries, alerting, and incident response
 tier: Official
 status: Active
 transport: sse
 tools:
-  - list_teams
-  - search_dashboards
-  - get_dashboard_by_uid
-  - update_dashboard
-  - get_dashboard_panel_queries
-  - list_datasources
-  - get_datasource_by_uid
-  - get_datasource_by_name
-  - query_prometheus
-  - list_prometheus_metric_metadata
-  - list_prometheus_metric_names
-  - list_prometheus_label_names
-  - list_prometheus_label_values
-  - list_incidents
-  - create_incident
   - add_activity_to_incident
-  - resolve_incident
-  - query_loki_logs
-  - list_loki_label_names
-  - list_loki_label_values
-  - query_loki_stats
-  - list_alert_rules
-  - get_alert_rule_by_uid
-  - list_oncall_schedules
-  - get_oncall_shift
-  - get_current_oncall_users
-  - list_oncall_teams
-  - list_oncall_users
-  - get_investigation
-  - get_analysis
-  - list_investigations
+  - create_alert_rule
+  - create_folder
+  - create_incident
+  - delete_alert_rule
+  - fetch_pyroscope_profile
   - find_error_pattern_logs
   - find_slow_requests
+  - generate_deeplink
+  - get_alert_group
+  - get_alert_rule_by_uid
+  - get_assertions
+  - get_current_oncall_users
+  - get_dashboard_by_uid
+  - get_dashboard_panel_queries
+  - get_dashboard_property
+  - get_dashboard_summary
+  - get_datasource_by_name
+  - get_datasource_by_uid
+  - get_incident
+  - get_oncall_shift
+  - get_sift_analysis
+  - get_sift_investigation
+  - list_alert_groups
+  - list_alert_rules
+  - list_contact_points
+  - list_datasources
+  - list_incidents
+  - list_loki_label_names
+  - list_loki_label_values
+  - list_oncall_schedules
+  - list_oncall_teams
+  - list_oncall_users
+  - list_prometheus_label_names
+  - list_prometheus_label_values
+  - list_prometheus_metric_metadata
+  - list_prometheus_metric_names
   - list_pyroscope_label_names
   - list_pyroscope_label_values
   - list_pyroscope_profile_types
-  - fetch_pyroscope_profile
+  - list_sift_investigations
+  - list_teams
+  - list_users_by_org
+  - query_loki_logs
+  - query_loki_stats
+  - query_prometheus
+  - search_dashboards
+  - search_folders
+  - update_alert_rule
+  - update_dashboard
 metadata:
   stars: 1728
   pulls: 8120
