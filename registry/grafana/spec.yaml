@@ -1,6 +1,6 @@
 # grafana MCP Server Registry Entry
 # Auto-imported from ToolHive registry.json
-# 
+#
 # Original source: https://github.com/stacklok/toolhive
 # Import timestamp: 2025-08-14T07:27:00Z
 # ---
@@ -88,3 +88,6 @@ env_vars:
     description: Service account token with appropriate permissions
     required: true
     secret: true
+  - name: GRAFANA_ORG_ID
+    description: Organization ID for multi-organization Grafana instances
+    required: false
