@@ -14,7 +14,9 @@ transport: sse
 tools:
   - add_activity_to_incident
   - create_alert_rule
+  - create_annotation
   - create_folder
+  - create_graphite_annotation
   - create_incident
   - delete_alert_rule
   - fetch_pyroscope_profile
@@ -23,6 +25,8 @@ tools:
   - generate_deeplink
   - get_alert_group
   - get_alert_rule_by_uid
+  - get_annotation_tags
+  - get_annotations
   - get_assertions
   - get_current_oncall_users
   - get_dashboard_by_uid
@@ -55,12 +59,14 @@ tools:
   - list_sift_investigations
   - list_teams
   - list_users_by_org
+  - patch_annotation
   - query_loki_logs
   - query_loki_stats
   - query_prometheus
   - search_dashboards
   - search_folders
   - update_alert_rule
+  - update_annotation
   - update_dashboard
 metadata:
   stars: 1728
