@@ -4,40 +4,40 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-  - search_providers
-  - get_provider_details
-  - get_latest_provider_version
-  - search_modules
-  - get_module_details
+  - attach_variable_set_to_workspaces
+  - create_no_code_workspace
+  - create_run
+  - create_variable_in_variable_set
+  - create_variable_set
+  - create_workspace
+  - create_workspace_tags
+  - create_workspace_variable
+  - delete_variable_in_variable_set
+  - detach_variable_set_from_workspaces
   - get_latest_module_version
-  - search_policies
+  - get_latest_provider_version
+  - get_module_details
   - get_policy_details
+  - get_private_module_details
+  - get_private_provider_details
+  - get_provider_capabilities
+  - get_provider_details
+  - get_run_details
+  - get_workspace_details
+  - list_runs
   - list_terraform_orgs
   - list_terraform_projects
-  - list_workspaces
-  - get_workspace_details
-  - create_workspace
-  - update_workspace
-  - delete_workspace_safely
-  - list_runs
-  - get_run_details
-  - create_run
-  - action_run
-  - search_private_modules
-  - get_private_module_details
-  - search_private_providers
-  - get_private_provider_details
   - list_variable_sets
-  - create_variable_set
-  - create_variable_in_variable_set
-  - delete_variable_in_variable_set
-  - attach_variable_set_to_workspaces
-  - detach_variable_set_from_workspaces
   - list_workspace_variables
-  - create_workspace_variable
-  - update_workspace_variable
-  - create_workspace_tags
+  - list_workspaces
   - read_workspace_tags
+  - search_modules
+  - search_policies
+  - search_private_modules
+  - search_private_providers
+  - search_providers
+  - update_workspace
+  - update_workspace_variable
 repository_url: https://github.com/hashicorp/terraform-mcp-server
 tags:
   - terraform
