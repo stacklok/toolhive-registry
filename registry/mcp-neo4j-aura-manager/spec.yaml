@@ -4,6 +4,8 @@
 # Original source: https://github.com/stacklok/toolhive
 # Import timestamp: 2025-08-14T07:27:00Z
 # ---
+# WARNING: Tool list fetch failed on 2025-11-11
+# Manual verification may be required
 name: mcp-neo4j-aura-manager
 description: MCP server for managing Neo4j Aura cloud instances and services
 tier: Community
@@ -28,7 +30,7 @@ tags:
   - aura
   - cloud
   - management
-image: ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-aura-manager:0.4.3
+image: ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-aura-manager:0.4.5
 permissions:
   network:
     outbound:
