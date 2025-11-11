@@ -4,6 +4,8 @@
 # Original source: https://github.com/stacklok/toolhive
 # Import timestamp: 2025-08-14T07:27:00Z
 # ---
+# WARNING: Tool list fetch failed on 2025-11-11
+# Manual verification may be required
 name: mcp-neo4j-memory
 description: MCP server for Neo4j memory management and knowledge graph storage operations
 tier: Community
@@ -26,7 +28,7 @@ tags:
   - memory
   - knowledge-graph
   - graph-database
-image: ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-memory:0.4.1
+image: ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-memory:0.4.2
 permissions:
   network:
     outbound:
