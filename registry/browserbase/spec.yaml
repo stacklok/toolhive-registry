@@ -14,6 +14,7 @@ tools:
   - browserbase_session_close
   - browserbase_session_create
   - browserbase_stagehand_act
+  - browserbase_stagehand_agent
   - browserbase_stagehand_extract
   - browserbase_stagehand_get_url
   - browserbase_stagehand_navigate
@@ -29,7 +30,7 @@ tags:
   - web-scraping
   - testing
   - stagehand
-image: ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.2.0
+image: ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.4.0
 permissions:
   network:
     outbound:
