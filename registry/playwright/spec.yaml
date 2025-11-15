@@ -24,6 +24,7 @@ tools:
   - browser_network_requests
   - browser_press_key
   - browser_resize
+  - browser_run_code
   - browser_select_option
   - browser_snapshot
   - browser_tabs
@@ -43,7 +44,7 @@ tags:
   - testing
   - web
   - accessibility
-image: mcr.microsoft.com/playwright/mcp:v0.0.46
+image: mcr.microsoft.com/playwright/mcp:v0.0.47
 target_port: 8931
 permissions:
   network:
