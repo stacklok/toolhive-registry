@@ -3,7 +3,7 @@ package registry
 import (
 	"testing"
 
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
+	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/types"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/stacklok/toolhive-registry/pkg/types"

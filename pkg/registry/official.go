@@ -13,7 +13,7 @@ import (
 	"github.com/modelcontextprotocol/registry/pkg/model"
 	"github.com/xeipuuv/gojsonschema"
 
-	"github.com/stacklok/toolhive-registry/pkg/registry/converters"
+	"github.com/stacklok/toolhive/pkg/registry/converters"
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 

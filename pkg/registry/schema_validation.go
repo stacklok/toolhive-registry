@@ -5,7 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
+	toolhiveRegistryPkg "github.com/stacklok/toolhive/pkg/registry"
+	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/types"
 
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
@@ -33,7 +34,7 @@ func (v *SchemaValidator) ValidateEntry(entry *types.RegistryEntry, name string)
 	}
 
 	// Use toolhive's schema validation
-	if err := toolhiveRegistry.ValidateRegistrySchema(registryJSON); err != nil {
+	if err := toolhiveRegistryPkg.ValidateRegistrySchema(registryJSON); err != nil {
 		return fmt.Errorf("schema validation failed for entry '%s': %w", name, err)
 	}
 
@@ -41,15 +42,15 @@ func (v *SchemaValidator) ValidateEntry(entry *types.RegistryEntry, name string)
 }
 
 // ValidateRegistry validates a complete registry using the toolhive schema
-func (*SchemaValidator) ValidateRegistry(registry *toolhiveRegistry.Registry) error {
+func (*SchemaValidator) ValidateRegistry(reg *toolhiveRegistry.Registry) error {
 	// Serialize to JSON for schema validation
-	registryJSON, err := json.Marshal(registry)
+	registryJSON, err := json.Marshal(reg)
 	if err != nil {
 		return fmt.Errorf("failed to marshal registry for validation: %w", err)
 	}
 
 	// Use toolhive's schema validation
-	if err := toolhiveRegistry.ValidateRegistrySchema(registryJSON); err != nil {
+	if err := toolhiveRegistryPkg.ValidateRegistrySchema(registryJSON); err != nil {
 		return fmt.Errorf("registry schema validation failed: %w", err)
 	}
 
