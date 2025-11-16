@@ -11,9 +11,9 @@ import (
 
 	upstream "github.com/modelcontextprotocol/registry/pkg/api/v0"
 	"github.com/modelcontextprotocol/registry/pkg/model"
+	"github.com/stacklok/toolhive/pkg/registry/converters"
 	"github.com/xeipuuv/gojsonschema"
 
-	"github.com/stacklok/toolhive-registry/pkg/registry/converters"
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
 
