@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/stacklok/toolhive/pkg/permissions"
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
+	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/types"
 
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )

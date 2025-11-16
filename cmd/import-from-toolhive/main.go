@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
+	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/types"
 	"gopkg.in/yaml.v3"
 )
 
