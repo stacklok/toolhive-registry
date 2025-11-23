@@ -1,3 +1,5 @@
+# WARNING: Tool list fetch failed on 2025-11-22
+# Manual verification may be required
 name: aws-api
 description: Enables AI assistants to interact with AWS services and resources through AWS CLI commands
 tier: Official
@@ -17,7 +19,7 @@ tags:
   - infrastructure
   - api
   - devops
-image: public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.1.5
+image: public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.1.7
 permissions:
   network:
     outbound:
