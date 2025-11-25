@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	toolhiveRegistryPkg "github.com/stacklok/toolhive/pkg/registry"
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/types"
+	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
 
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
