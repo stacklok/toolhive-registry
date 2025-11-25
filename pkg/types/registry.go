@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	registry "github.com/stacklok/toolhive/pkg/registry/types"
+	registry "github.com/stacklok/toolhive/pkg/registry/registry"
 )
 
 const (

@@ -17,7 +17,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stacklok/toolhive/pkg/container/verifier"
 	"github.com/stacklok/toolhive/pkg/logger"
-	"github.com/stacklok/toolhive/pkg/registry/types"
+	"github.com/stacklok/toolhive/pkg/registry/registry"
 	"gopkg.in/yaml.v3"
 
 	registryTypes "github.com/stacklok/toolhive-registry/pkg/types"
@@ -165,20 +165,20 @@ func updateServerInfo(server serverWithName) error {
 	return updateServerMetadata(server, currentStars, newStars, currentPulls, newPulls)
 }
 
-func getServerMetadata(server serverWithName) (string, *types.Metadata, error) {
+func getServerMetadata(server serverWithName) (string, *registry.Metadata, error) {
 	var repoURL string
-	var metadata *types.Metadata
+	var metadata *registry.Metadata
 
 	if server.entry.IsImage() && server.entry.ImageMetadata != nil {
 		repoURL = server.entry.ImageMetadata.RepositoryURL
 		if server.entry.ImageMetadata.Metadata == nil {
-			server.entry.ImageMetadata.Metadata = &types.Metadata{}
+			server.entry.ImageMetadata.Metadata = &registry.Metadata{}
 		}
 		metadata = server.entry.ImageMetadata.Metadata
 	} else if server.entry.IsRemote() && server.entry.RemoteServerMetadata != nil {
 		repoURL = server.entry.RemoteServerMetadata.RepositoryURL
 		if server.entry.RemoteServerMetadata.Metadata == nil {
-			server.entry.RemoteServerMetadata.Metadata = &types.Metadata{}
+			server.entry.RemoteServerMetadata.Metadata = &registry.Metadata{}
 		}
 		metadata = server.entry.RemoteServerMetadata.Metadata
 	} else {
