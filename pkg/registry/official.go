@@ -41,9 +41,9 @@ func (or *OfficialRegistry) WriteJSON(path string) error {
 	// Build the registry structure
 	builtRegistry := or.build()
 
-	// Validate the complete registry against schema (warnings only for now)
+	// Validate the complete registry against schema
 	if err := or.validateRegistry(builtRegistry); err != nil {
-		fmt.Printf("⚠️  Schema validation warnings: %v\n", err)
+		return fmt.Errorf("schema validation failed: %w", err)
 	}
 
 	// Create the directory if it doesn't exist
@@ -165,7 +165,11 @@ func (or *OfficialRegistry) transformEntry(name string, entry *types.RegistryEnt
 		return fallback
 	}
 
-	return *serverJSONPtr
+	// Convert name to reverse-DNS format as required by the upstream registry schema
+	// The converters use the name from metadata, so we need to update it after conversion
+	serverJSON := *serverJSONPtr
+	serverJSON.Name = or.convertNameToReverseDNS(serverJSON.Name)
+	return serverJSON
 }
 
 // createRepository creates repository information from entry
