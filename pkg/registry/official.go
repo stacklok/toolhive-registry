@@ -11,8 +11,9 @@ import (
 
 	upstream "github.com/modelcontextprotocol/registry/pkg/api/v0"
 	"github.com/modelcontextprotocol/registry/pkg/model"
+	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
 	"github.com/stacklok/toolhive/pkg/registry/converters"
-	"github.com/xeipuuv/gojsonschema"
+	"github.com/stacklok/toolhive/pkg/registry/registry"
 
 	"github.com/stacklok/toolhive-registry/pkg/types"
 )
@@ -38,10 +39,10 @@ func (or *OfficialRegistry) WriteJSON(path string) error {
 	}
 
 	// Build the registry structure
-	registry := or.build()
+	builtRegistry := or.build()
 
 	// Validate the complete registry against schema (warnings only for now)
-	if err := or.validateRegistry(registry); err != nil {
+	if err := or.validateRegistry(builtRegistry); err != nil {
 		fmt.Printf("⚠️  Schema validation warnings: %v\n", err)
 	}
 
@@ -52,7 +53,7 @@ func (or *OfficialRegistry) WriteJSON(path string) error {
 	}
 
 	// Marshal to JSON with indentation
-	data, err := json.MarshalIndent(registry, "", "  ")
+	data, err := json.MarshalIndent(builtRegistry, "", "  ")
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON: %w", err)
 	}
@@ -67,78 +68,23 @@ func (or *OfficialRegistry) WriteJSON(path string) error {
 
 // ValidateAgainstSchema validates the built registry against the schema
 func (or *OfficialRegistry) ValidateAgainstSchema() error {
-	registry := or.build()
-	return or.validateRegistry(registry)
+	builtRegistry := or.build()
+	return or.validateRegistry(builtRegistry)
 }
 
 // validateRegistry validates a registry object against the schema
-// This validates both the wrapper structure and each server entry
-func (or *OfficialRegistry) validateRegistry(registry *ToolHiveRegistryType) error {
-	var allErrors []string
-
-	// Step 1: Validate the wrapper structure against the ToolHive registry schema
-	registryJSON, err := json.Marshal(registry)
+// Uses toolhive's validation which validates the entire structure including all servers
+func (*OfficialRegistry) validateRegistry(upstreamRegistry *registry.UpstreamRegistry) error {
+	// Serialize to JSON for validation
+	registryJSON, err := json.Marshal(upstreamRegistry)
 	if err != nil {
 		return fmt.Errorf("failed to marshal registry: %w", err)
 	}
 
-	// Load the wrapper schema from local file
-	wrapperSchemaPath := "schemas/registry.schema.json"
-	wrapperSchemaLoader := gojsonschema.NewReferenceLoader("file://" + wrapperSchemaPath)
-
-	wrapperLoader := gojsonschema.NewBytesLoader(registryJSON)
-	wrapperResult, err := gojsonschema.Validate(wrapperSchemaLoader, wrapperLoader)
-	if err != nil {
-		return fmt.Errorf("wrapper schema validation failed: %w", err)
-	}
-
-	if !wrapperResult.Valid() {
-		for _, desc := range wrapperResult.Errors() {
-			allErrors = append(allErrors, fmt.Sprintf("wrapper: %s", desc.String()))
-		}
-	}
-
-	// Step 2: Validate each server individually against the upstream MCP server schema
-	if err := or.validateServers(registry.Data.Servers, &allErrors); err != nil {
-		return err
-	}
-
-	if len(allErrors) > 0 {
-		return fmt.Errorf("validation errors: %v", allErrors)
-	}
-
-	return nil
-}
-
-// validateServers validates each server entry against the upstream MCP server schema
-// This function can be used standalone to validate individual servers
-func (*OfficialRegistry) validateServers(servers []upstream.ServerJSON, allErrors *[]string) error {
-	// Use the upstream schema URL directly from the registry package
-	// This ensures we're always validating against the same schema version
-	// that the code is built with, eliminating the need for manual schema syncing
-	serverSchemaLoader := gojsonschema.NewReferenceLoader(model.CurrentSchemaURL)
-
-	for i, server := range servers {
-		// Marshal server to JSON
-		serverJSON, err := json.Marshal(server)
-		if err != nil {
-			return fmt.Errorf("failed to marshal server %d: %w", i, err)
-		}
-
-		// Create document loader from server data
-		documentLoader := gojsonschema.NewBytesLoader(serverJSON)
-
-		// Perform validation
-		result, err := gojsonschema.Validate(serverSchemaLoader, documentLoader)
-		if err != nil {
-			return fmt.Errorf("schema validation failed for server %d (%s): %w", i, server.Name, err)
-		}
-
-		if !result.Valid() {
-			for _, desc := range result.Errors() {
-				*allErrors = append(*allErrors, fmt.Sprintf("data.servers.%d: %s", i, desc.String()))
-			}
-		}
+	// Use toolhive's built-in validation for UpstreamRegistry
+	// This validates the complete structure including all servers via $ref
+	if err := toolhiveRegistry.ValidateUpstreamRegistry(registryJSON); err != nil {
+		return fmt.Errorf("registry validation failed: %w", err)
 	}
 
 	return nil
@@ -158,8 +104,8 @@ func (or *OfficialRegistry) validateEntries() error {
 	return nil
 }
 
-// build creates the ToolHiveRegistryType structure from loaded entries
-func (or *OfficialRegistry) build() *ToolHiveRegistryType {
+// build creates the UpstreamRegistry structure from loaded entries
+func (or *OfficialRegistry) build() *registry.UpstreamRegistry {
 	entries := or.loader.GetEntries()
 
 	// Get sorted entry names for consistent output
@@ -177,19 +123,19 @@ func (or *OfficialRegistry) build() *ToolHiveRegistryType {
 		servers = append(servers, serverJSON)
 	}
 
-	registry := &ToolHiveRegistryType{
-		Schema:  "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/schemas/registry.schema.json",
+	upstreamRegistry := &registry.UpstreamRegistry{
+		Schema:  "https://raw.githubusercontent.com/stacklok/toolhive/main/pkg/registry/data/upstream-registry.schema.json",
 		Version: "1.0.0",
-		Meta: Meta{
+		Meta: registry.UpstreamMeta{
 			LastUpdated: time.Now().UTC().Format(time.RFC3339),
 		},
-		Data: Data{
+		Data: registry.UpstreamData{
 			Servers: servers,
-			Groups:  []Group{}, // Empty for now, placeholder for future use
+			Groups:  []registry.UpstreamGroup{}, // Empty for now, placeholder for future use
 		},
 	}
 
-	return registry
+	return upstreamRegistry
 }
 
 // transformEntry converts a ToolHive RegistryEntry to an official MCP ServerJSON
