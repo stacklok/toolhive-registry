@@ -66,12 +66,6 @@ jobs:
       - name: Install Task
         uses: arduino/setup-task@v2
 
-      - name: Validate schema file syntax
-        run: |
-          echo "Validating schema JSON syntax..."
-          jq empty schemas/registry.schema.json
-          echo "✅ Schema file is valid JSON"
-
       - name: Validate registry entries
         run: task validate
 
