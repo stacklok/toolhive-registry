@@ -40,8 +40,6 @@ env_vars:
     description: LaunchDarkly API access token with appropriate permissions (Writer or Developer role recommended)
     required: true
     secret: true
-args:
-  - start
 permissions:
   network:
     outbound:
