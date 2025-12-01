@@ -1,0 +1,55 @@
+image: ghcr.io/pab1it0/prometheus-mcp-server:1.5.1
+description: Provides access to Prometheus metrics and queries
+transport: stdio
+repository_url: https://github.com/pab1it0/prometheus-mcp-server
+license: MIT
+tier: Community
+status: Active
+tools:
+  - health_check
+  - execute_query
+  - execute_range_query
+  - list_metrics
+  - get_metric_metadata
+  - get_targets
+env_vars:
+  - name: PROMETHEUS_URL
+    description: URL of your Prometheus server
+    required: true
+  - name: PROMETHEUS_USERNAME
+    description: Username for basic authentication
+    required: false
+  - name: PROMETHEUS_PASSWORD
+    description: Password for basic authentication
+    required: false
+    secret: true
+  - name: PROMETHEUS_TOKEN
+    description: Bearer token for authentication
+    required: false
+    secret: true
+  - name: PROMETHEUS_URL_SSL_VERIFY
+    description: Set to False to disable SSL verification
+    required: false
+  - name: PROMETHEUS_DISABLE_LINKS
+    description: Set to True to disable Prometheus UI links in query results (saves context tokens)
+    required: false
+  - name: ORG_ID
+    description: Organization ID for multi-tenant setups
+    required: false
+  - name: PROMETHEUS_CUSTOM_HEADERS
+    description: Custom headers as JSON string
+    required: false
+permissions:
+  network:
+    outbound:
+      insecure_allow_all: true
+tags:
+  - monitoring
+  - metrics
+  - prometheus
+  - observability
+  - query
+metadata:
+  stars: 297
+  pulls: 0
+  last_updated: 2025-12-01T17:31:24Z
