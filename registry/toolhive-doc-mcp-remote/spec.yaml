@@ -1,13 +1,13 @@
 # WARNING: Tool list fetch failed on 2025-11-26
 # Manual verification may be required
 name: toolhive-doc-mcp-remote
-description: Remote MCP server for semantic search over Stacklok documentation using vector embeddings
+description: Search ToolHive docs for help with using and contributing to the project (hosted version)
 tier: Official
 status: Active
 transport: streamable-http
-url: https://toolhive-doc-mcp.stacklok.dev
-repository_url: https://github.com/stacklok/toolhive-doc-mcp
-homepage: https://github.com/stacklok/toolhive-doc-mcp
+url: https://toolhive-doc-mcp.stacklok.dev/mcp
+repository_url: https://github.com/StacklokLabs/toolhive-doc-mcp
+homepage: https://github.com/StacklokLabs/toolhive-doc-mcp
 license: Apache-2.0
 author: Stacklok
 tools:
@@ -15,14 +15,14 @@ tools:
   - get_chunk
 tags:
   - remote
+  - docs
   - documentation
+  - help
   - search
-  - semantic-search
   - stacklok
+  - support
   - toolhive
-  - vector-embeddings
 metadata:
   stars: 0
   pulls: 0
   last_updated: "2025-11-26T00:00:00Z"
-
