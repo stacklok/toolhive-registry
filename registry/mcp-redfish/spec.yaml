@@ -1,0 +1,49 @@
+image: ghcr.io/nokia/mcp-redfish:0.3.0
+description: Natural language interface for managing infrastructure via Redfish API
+transport: stdio
+repository_url: https://github.com/nokia/mcp-redfish
+license: BSD-3-Clause
+author: Nokia
+tier: Community
+status: Active
+tools:
+  - get_resource_data
+  - list_servers
+tags:
+  - infrastructure
+  - redfish
+  - api
+  - hardware
+  - server-management
+env_vars:
+  - name: REDFISH_HOSTS
+    description: JSON array of Redfish endpoint configurations with address, port, username, password, auth_method, and tls_server_ca_cert
+    required: true
+    default: '[{"address":"127.0.0.1"}]'
+  - name: REDFISH_PORT
+    description: Default port for Redfish API endpoints
+    required: false
+    default: "443"
+  - name: REDFISH_AUTH_METHOD
+    description: Authentication method (basic or session)
+    required: false
+    default: "session"
+  - name: REDFISH_USERNAME
+    description: Default username for Redfish authentication
+    required: false
+    secret: true
+  - name: REDFISH_PASSWORD
+    description: Default password for Redfish authentication
+    required: false
+    secret: true
+  - name: REDFISH_SERVER_CA_CERT
+    description: Path to CA certificate for TLS verification
+    required: false
+  - name: MCP_TRANSPORT
+    description: MCP transport method (stdio, sse, or streamable-http)
+    required: false
+    default: "stdio"
+  - name: MCP_REDFISH_LOG_LEVEL
+    description: Logging verbosity level
+    required: false
+    default: "INFO"
