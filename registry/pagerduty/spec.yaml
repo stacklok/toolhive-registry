@@ -23,6 +23,7 @@ tools:
   - delete_alert_grouping_setting
   - delete_team
   - get_alert_grouping_setting
+  - get_change_event
   - get_escalation_policy
   - get_event_orchestration
   - get_event_orchestration_global
@@ -39,13 +40,16 @@ tools:
   - get_team
   - get_user_data
   - list_alert_grouping_settings
+  - list_change_events
   - list_escalation_policies
   - list_event_orchestrations
+  - list_incident_change_events
   - list_incident_workflows
   - list_incidents
   - list_oncalls
   - list_schedule_users
   - list_schedules
+  - list_service_change_events
   - list_services
   - list_status_page_impacts
   - list_status_page_post_updates
