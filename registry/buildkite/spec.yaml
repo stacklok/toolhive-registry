@@ -26,7 +26,8 @@ tools:
   - get_test
   - get_test_run
   - list_annotations
-  - list_artifacts
+  - list_artifacts_for_build
+  - list_artifacts_for_job
   - list_builds
   - list_cluster_queues
   - list_clusters
@@ -53,7 +54,7 @@ tags:
   - jobs
   - devops
   - testing
-image: ghcr.io/buildkite/buildkite-mcp-server:0.7.4
+image: ghcr.io/buildkite/buildkite-mcp-server:0.8.0
 permissions:
   network:
     outbound:
