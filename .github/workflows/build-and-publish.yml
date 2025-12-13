@@ -387,7 +387,7 @@ jobs:
           echo "The registry.json will be published when this PR is merged." >> pr-comment.md
 
       - name: Upload PR artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: pr-registry-json
           path: build/registry.json
