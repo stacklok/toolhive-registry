@@ -10,10 +10,9 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-  - run_select_query
   - list_databases
   - list_tables
-  - run_chdb_select_query
+  - run_select_query
 metadata:
   stars: 599
   pulls: 81
@@ -25,7 +24,7 @@ tags:
   - sql
   - analytics
   - olap
-image: ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.1.12
+image: ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.1.13
 permissions:
   network:
     outbound:
