@@ -6,11 +6,9 @@ tier: Official
 status: Active
 transport: streamable-http
 tools:
-  - find_tool
   - call_tool
+  - find_tool
   - list_tools
-  - search_registry
-  - install_server
 metadata:
   stars: 4
   pulls: 0
@@ -22,7 +20,7 @@ tags:
   - proxy
   - gateway
   - intelligent
-image: ghcr.io/stackloklabs/mcp-optimizer:0.1.3
+image: ghcr.io/stackloklabs/mcp-optimizer:0.2.0
 permissions:
   network:
     outbound: {}
