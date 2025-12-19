@@ -1,3 +1,5 @@
+# WARNING: Tool list fetch failed on 2025-12-19
+# Manual verification may be required
 name: toolhive-doc-mcp
 description: Search ToolHive docs for help with using and contributing to the project (local version)
 tier: Official
@@ -7,7 +9,7 @@ tools:
   - query_docs
   - get_chunk
 repository_url: https://github.com/StacklokLabs/toolhive-doc-mcp
-image: ghcr.io/stackloklabs/toolhive-doc-mcp:0.0.8
+image: ghcr.io/stackloklabs/toolhive-doc-mcp:0.0.9
 target_port: 8080
 tags:
   - docs
