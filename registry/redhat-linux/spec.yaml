@@ -1,0 +1,56 @@
+name: redhat-linux
+image: quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:0.1.0a4
+description: Read-only Linux sysadmin, diagnostics, and troubleshooting optimized for RHEL-based systems
+transport: stdio
+tier: Official
+status: Active
+tools:
+  - get_audit_logs
+  - get_cpu_information
+  - get_disk_usage
+  - get_hardware_information
+  - get_journal_logs
+  - get_listening_ports
+  - get_memory_information
+  - get_network_connections
+  - get_network_interfaces
+  - get_process_info
+  - get_service_logs
+  - get_service_status
+  - get_system_information
+  - list_block_devices
+  - list_directories
+  - list_files
+  - list_processes
+  - list_services
+  - read_file
+  - read_log_file
+repository_url: https://github.com/rhel-lightspeed/linux-mcp-server
+license: Apache-2.0
+author: Red Hat
+tags:
+  - linux
+  - diagnostics
+  - sysadmin
+  - rhel
+  - monitoring
+  - troubleshooting
+  - networking
+env_vars:
+  - name: LINUX_MCP_USER
+    description: Username for SSH connections
+    required: false
+  - name: LINUX_MCP_KEY_PASSPHRASE
+    description: Passphrase for encrypted SSH key decryption
+    required: false
+    secret: true
+  - name: LINUX_MCP_SSH_KEY_PATH
+    description: Path to SSH private key for remote execution (mounted into container)
+    required: false
+  - name: LINUX_MCP_ALLOWED_LOG_PATHS
+    description: Comma-separated whitelist of accessible log file paths
+    required: false
+  - name: LINUX_MCP_LOG_LEVEL
+    description: Logging level (DEBUG, INFO, WARNING, ERROR, or CRITICAL)
+    required: false
+    default: "INFO"
