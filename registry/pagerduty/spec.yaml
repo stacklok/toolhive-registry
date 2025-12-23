@@ -1,4 +1,4 @@
-image: ghcr.io/stacklok/dockyard/uvx/pagerduty-mcp:0.10.0
+image: ghcr.io/stacklok/dockyard/uvx/pagerduty-mcp:0.11.0
 description: Interact with PagerDuty for managing incidents, services, schedules, and event orchestrations
 transport: stdio
 repository_url: https://github.com/PagerDuty/pagerduty-mcp-server
@@ -44,6 +44,7 @@ tools:
   - list_escalation_policies
   - list_event_orchestrations
   - list_incident_change_events
+  - list_incident_notes
   - list_incident_workflows
   - list_incidents
   - list_oncalls
