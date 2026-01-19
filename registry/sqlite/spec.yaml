@@ -10,7 +10,7 @@ name: sqlite
 description: Provides tools and resources for querying SQLite databases.
 tier: Community
 status: Active
-transport: sse
+transport: streamable-http
 tools:
   - execute_query
   - execute_statement
@@ -28,7 +28,7 @@ tags:
   - query
   - sql
   - sqlite
-image: ghcr.io/stackloklabs/sqlite-mcp/server:0.0.1
+image: ghcr.io/stackloklabs/sqlite-mcp/server:0.1.0
 permissions:
   network:
     outbound: {}

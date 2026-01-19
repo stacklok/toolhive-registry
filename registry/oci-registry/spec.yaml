@@ -8,7 +8,7 @@ name: oci-registry
 description: Secure OCI container registry querying with image introspection and manifest retrieval
 tier: Community
 status: Active
-transport: sse
+transport: streamable-http
 tools:
   - get_image_info
   - list_tags
@@ -30,7 +30,7 @@ tags:
   - config
   - mcp
   - docker
-image: ghcr.io/stackloklabs/ocireg-mcp/server:0.0.6
+image: ghcr.io/stackloklabs/ocireg-mcp/server:0.1.0
 permissions:
   network:
     outbound:
