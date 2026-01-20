@@ -29,6 +29,20 @@ This server provides 5 tools:
 - **SLACK_MCP_XOXB_TOKEN**: Bot token (xoxb-...) for Slack API access. Bot has limited access (invited channels only, no search).
 - **SLACK_MCP_XOXC_TOKEN** + **SLACK_MCP_XOXD_TOKEN**: Browser session tokens for session-based authentication.
 
+#### How to get a User OAuth Token (xoxp)
+
+1. Go to [api.slack.com/apps](https://api.slack.com/apps) and click **Create New App** → **From scratch**
+2. Name it (e.g., "Slack MCP") and select your workspace
+3. In the sidebar, click **OAuth & Permissions**
+4. Scroll to **User Token Scopes** and add:
+   - `channels:history`, `channels:read`
+   - `groups:history`, `groups:read`
+   - `im:history`, `im:read`, `im:write`
+   - `mpim:history`, `mpim:read`, `mpim:write`
+   - `users:read`, `chat:write`, `search:read`
+5. Click **Install to Workspace** and authorize
+6. Copy the **User OAuth Token** (starts with `xoxp-`)
+
 ### Server Configuration
 
 - **SLACK_MCP_HOST**: Host address for the MCP server to bind to. Default: `0.0.0.0` (required for container accessibility).
