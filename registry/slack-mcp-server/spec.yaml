@@ -1,0 +1,68 @@
+# Slack MCP Server Registry Entry
+# The most powerful MCP server for Slack with multiple transports, DMs, Group DMs,
+# and smart history fetch logic. Supports OAuth, Bot tokens, and session-based auth.
+#
+# Repository: https://github.com/korotovsky/slack-mcp-server
+# ---
+# WARNING: Tool list fetch failed on 2026-01-20
+# Manual verification may be required
+name: slack-mcp-server
+description: MCP server for Slack with channels, DMs, message history, search, and smart pagination
+tier: Community
+status: Active
+transport: sse
+image: ghcr.io/korotovsky/slack-mcp-server:v1.1.28
+target_port: 13080
+tools:
+  - conversations_history
+  - conversations_replies
+  - conversations_add_message
+  - conversations_search_messages
+  - channels_list
+repository_url: https://github.com/korotovsky/slack-mcp-server
+tags:
+  - slack
+  - messaging
+  - channels
+  - search
+  - history
+  - communication
+  - workspace
+env_vars:
+  - name: SLACK_MCP_HOST
+    description: Host address for the MCP server to bind to. Required for container accessibility.
+    required: false
+    secret: false
+    default: "0.0.0.0"
+  - name: SLACK_MCP_XOXP_TOKEN
+    description: User OAuth token (xoxp-...) for Slack API access. Recommended authentication method.
+    required: false
+    secret: true
+  - name: SLACK_MCP_XOXB_TOKEN
+    description: Bot token (xoxb-...) for Slack API access. Bot has limited access (invited channels only, no search).
+    required: false
+    secret: true
+  - name: SLACK_MCP_XOXC_TOKEN
+    description: Browser session token (xoxc-...). Requires SLACK_MCP_XOXD_TOKEN as well.
+    required: false
+    secret: true
+  - name: SLACK_MCP_XOXD_TOKEN
+    description: Browser cookie d value (xoxd-...). Used with SLACK_MCP_XOXC_TOKEN.
+    required: false
+    secret: true
+  - name: SLACK_MCP_ADD_MESSAGE_TOOL
+    description: Enable message posting. Set to 'true' for all channels, or comma-separated channel IDs to whitelist.
+    required: false
+    secret: false
+  - name: SLACK_MCP_LOG_LEVEL
+    description: Log level (debug, info, warn, error, panic, fatal). Default is 'info'.
+    required: false
+    secret: false
+permissions:
+  network:
+    outbound:
+      allow_host:
+        - .slack.com
+        - .slack-edge.com
+      allow_port:
+        - 443
