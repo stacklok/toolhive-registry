@@ -22,6 +22,7 @@ tools:
   - get_doc
   - get_event_attachment
   - get_issue_details
+  - get_issue_tag_values
   - get_trace_details
   - search_docs
   - search_events
@@ -41,7 +42,7 @@ tags:
   - monitoring
   - error-tracking
   - observability
-image: ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.26.0
+image: ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.27.0
 permissions:
   network:
     outbound:
