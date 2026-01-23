@@ -4,6 +4,7 @@ tier: Official
 status: Active
 transport: stdio
 tools:
+  - attach_policy_set_to_workspaces
   - attach_variable_set_to_workspaces
   - create_no_code_workspace
   - create_run
@@ -23,11 +24,15 @@ tools:
   - get_provider_capabilities
   - get_provider_details
   - get_run_details
+  - get_stack_details
+  - get_token_permissions
   - get_workspace_details
   - list_runs
+  - list_stacks
   - list_terraform_orgs
   - list_terraform_projects
   - list_variable_sets
+  - list_workspace_policy_sets
   - list_workspace_variables
   - list_workspaces
   - read_workspace_tags
