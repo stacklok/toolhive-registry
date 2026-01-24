@@ -1,4 +1,4 @@
-image: ghcr.io/stacklok/dockyard/uvx/pagerduty-mcp:0.11.1
+image: ghcr.io/stacklok/dockyard/uvx/pagerduty-mcp:0.12.0
 description: Interact with PagerDuty for managing incidents, services, schedules, and event orchestrations
 transport: stdio
 repository_url: https://github.com/PagerDuty/pagerduty-mcp-server
@@ -22,6 +22,7 @@ tools:
   - create_team
   - delete_alert_grouping_setting
   - delete_team
+  - get_alert_from_incident
   - get_alert_grouping_setting
   - get_change_event
   - get_escalation_policy
@@ -31,6 +32,7 @@ tools:
   - get_event_orchestration_service
   - get_incident
   - get_incident_workflow
+  - get_log_entry
   - get_outlier_incident
   - get_past_incidents
   - get_related_incidents
@@ -40,6 +42,7 @@ tools:
   - get_team
   - get_user_data
   - list_alert_grouping_settings
+  - list_alerts_from_incident
   - list_change_events
   - list_escalation_policies
   - list_event_orchestrations
@@ -47,6 +50,7 @@ tools:
   - list_incident_notes
   - list_incident_workflows
   - list_incidents
+  - list_log_entries
   - list_oncalls
   - list_schedule_users
   - list_schedules
