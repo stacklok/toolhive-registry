@@ -10,10 +10,10 @@ tier: Official
 status: Active
 transport: stdio
 tools:
-  - tavily-search
-  - tavily-extract
-  - tavily-crawl
-  - tavily-map
+  - tavily_crawl
+  - tavily_extract
+  - tavily_map
+  - tavily_search
 metadata:
   stars: 1025
   pulls: 80
@@ -27,7 +27,7 @@ tags:
   - extract
   - api
   - real-time
-image: ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.12
+image: ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.13
 permissions:
   network:
     outbound:
