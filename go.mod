@@ -6,7 +6,7 @@ require (
 	github.com/google/go-cmp v0.7.0
 	github.com/modelcontextprotocol/registry v1.4.0
 	github.com/spf13/cobra v1.10.2
-	github.com/stacklok/toolhive v0.7.0
+	github.com/stacklok/toolhive v0.7.2
 	github.com/stretchr/testify v1.11.1
 	gopkg.in/yaml.v3 v3.0.1
 )
