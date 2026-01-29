@@ -23,32 +23,32 @@ tags:
   - testing
 tools:
   - click
+  - close_page
   - drag
+  - emulate
+  - evaluate_script
   - fill
   - fill_form
+  - get_console_message
+  - get_network_request
   - handle_dialog
   - hover
-  - press_key
-  - upload_file
-  - close_page
+  - list_console_messages
+  - list_network_requests
   - list_pages
   - navigate_page
   - new_page
-  - select_page
-  - wait_for
-  - emulate
-  - resize_page
   - performance_analyze_insight
   - performance_start_trace
   - performance_stop_trace
-  - get_network_request
-  - list_network_requests
-  - evaluate_script
-  - get_console_message
-  - list_console_messages
+  - press_key
+  - resize_page
+  - select_page
   - take_screenshot
   - take_snapshot
-image: ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.13.0
+  - upload_file
+  - wait_for
+image: ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.14.0
 permissions:
   network:
     outbound:
