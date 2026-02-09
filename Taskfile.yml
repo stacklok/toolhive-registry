@@ -206,13 +206,13 @@ tasks:
     desc: Run linter (requires golangci-lint)
     cmds:
       - echo "🔍 Running linter..."
-      - golangci-lint run ./...
+      - golangci-lint run --allow-parallel-runners ./...
 
   lint:fix:
     desc: Run linter with auto-fix
     cmds:
       - echo "🔧 Running linter with auto-fix..."
-      - golangci-lint run --fix ./...
+      - golangci-lint run --allow-parallel-runners --fix ./...
 
   clean:
     desc: Clean build artifacts
