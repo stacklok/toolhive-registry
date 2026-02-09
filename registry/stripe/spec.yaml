@@ -4,23 +4,26 @@ tier: Official
 status: Active
 transport: stdio
 tools:
+  - cancel_subscription
   - create_coupon
   - create_customer
+  - create_invoice
+  - create_invoice_item
   - create_payment_link
   - create_price
   - create_product
   - create_refund
-  - create_invoice_item
-  - create_invoice
   - finalize_invoice
   - list_coupons
   - list_customers
   - list_disputes
+  - list_invoices
+  - list_payment_intents
   - list_prices
   - list_products
   - list_subscriptions
   - retrieve_balance
-  - cancel_subscription
+  - search_stripe_documentation
   - update_dispute
   - update_subscription
 metadata:
