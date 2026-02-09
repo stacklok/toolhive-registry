@@ -477,6 +477,8 @@ func getContainerPullCount(image string) (int, error) {
 	// Determine registry and fetch accordingly
 	if strings.HasPrefix(imageName, "ghcr.io/") {
 		return getGHCRPullCount(imageName)
+	} else if strings.HasPrefix(imageName, "docker.io/") {
+		return getDockerHubPullCount(imageName)
 	} else if strings.Contains(imageName, "/") && !strings.Contains(imageName, ".") {
 		// Likely Docker Hub (no dots in the hostname part)
 		return getDockerHubPullCount(imageName)
