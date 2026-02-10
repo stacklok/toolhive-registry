@@ -37,10 +37,16 @@ tools:
   - get_datasource_by_uid
   - get_incident
   - get_oncall_shift
+  - get_panel_image
+  - get_resource_description
+  - get_resource_permissions
+  - get_role_assignments
+  - get_role_details
   - get_sift_analysis
   - get_sift_investigation
   - list_alert_groups
   - list_alert_rules
+  - list_all_roles
   - list_contact_points
   - list_datasources
   - list_incidents
@@ -57,10 +63,13 @@ tools:
   - list_pyroscope_label_values
   - list_pyroscope_profile_types
   - list_sift_investigations
+  - list_team_roles
   - list_teams
+  - list_user_roles
   - list_users_by_org
   - patch_annotation
   - query_loki_logs
+  - query_loki_patterns
   - query_loki_stats
   - query_prometheus
   - search_dashboards
@@ -91,7 +100,7 @@ tags:
   - sift
   - investigations
   - oncall
-image: docker.io/mcp/grafana:latest
+image: docker.io/grafana/mcp-grafana:0.9.0
 target_port: 8000
 permissions:
   network:
