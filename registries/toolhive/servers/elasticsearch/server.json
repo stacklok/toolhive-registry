@@ -1,0 +1,104 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/elasticsearch",
+  "description": "Connect to your Elasticsearch data.",
+  "title": "elasticsearch",
+  "repository": {
+    "url": "https://github.com/elastic/mcp-server-elasticsearch",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.elastic.co/mcp/elasticsearch:0.4.6",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080"
+      },
+      "environmentVariables": [
+        {
+          "description": "Your Elasticsearch instance URL",
+          "isRequired": true,
+          "name": "ES_URL"
+        },
+        {
+          "description": "Elasticsearch API key for authentication",
+          "isSecret": true,
+          "name": "ES_API_KEY"
+        },
+        {
+          "description": "Elasticsearch username for basic authentication",
+          "name": "ES_USERNAME"
+        },
+        {
+          "description": "Elasticsearch password for basic authentication",
+          "isSecret": true,
+          "name": "ES_PASSWORD"
+        },
+        {
+          "description": "Path to custom CA certificate for Elasticsearch SSL/TLS",
+          "name": "ES_CA_CERT"
+        },
+        {
+          "description": "Set to '1' or 'true' to skip SSL certificate verification",
+          "name": "ES_SSL_SKIP_VERIFY"
+        },
+        {
+          "description": "Path prefix for Elasticsearch instance exposed at a non-root path",
+          "name": "ES_PATH_PREFIX"
+        },
+        {
+          "description": "Server assumes Elasticsearch 9.x. Set to 8 target Elasticsearch 8.x",
+          "name": "ES_VERSION"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.elastic.co/mcp/elasticsearch:0.4.6": {
+          "args": [
+            "http"
+          ],
+          "metadata": {
+            "last_updated": "2026-02-05T02:58:03Z",
+            "pulls": 10995,
+            "stars": 603
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443,
+                  9200
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "elasticsearch",
+            "search",
+            "analytics",
+            "data",
+            "alerting",
+            "observability",
+            "metrics",
+            "logs"
+          ],
+          "tier": "Official",
+          "tools": [
+            "esql",
+            "get_mappings",
+            "get_shards",
+            "list_indices",
+            "search"
+          ]
+        }
+      }
+    }
+  }
+}

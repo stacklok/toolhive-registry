@@ -1,0 +1,56 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/semgrep-remote",
+  "description": "Official Semgrep MCP server for code security scanning and vulnerability detection",
+  "title": "semgrep-remote",
+  "repository": {
+    "url": "https://github.com/semgrep/mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.semgrep.ai/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.semgrep.ai/mcp": {
+          "custom_metadata": {
+            "author": "Semgrep",
+            "homepage": "https://mcp.semgrep.ai",
+            "license": "MIT"
+          },
+          "metadata": {
+            "last_updated": "2026-02-08T03:02:26Z",
+            "stars": 636
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "security",
+            "semgrep",
+            "static-analysis",
+            "vulnerability-detection",
+            "code-scanning",
+            "security-audit"
+          ],
+          "tier": "Official",
+          "tools": [
+            "semgrep_rule_schema",
+            "get_supported_languages",
+            "semgrep_findings",
+            "semgrep_scan_with_custom_rule",
+            "semgrep_scan",
+            "semgrep_scan_rpc",
+            "semgrep_scan_local",
+            "security_check",
+            "get_abstract_syntax_tree"
+          ]
+        }
+      }
+    }
+  }
+}

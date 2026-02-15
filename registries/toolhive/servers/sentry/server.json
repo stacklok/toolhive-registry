@@ -1,0 +1,103 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/sentry",
+  "description": "Sentry MCP service for human-in-the-loop coding agents and developer workflow debugging",
+  "title": "sentry",
+  "repository": {
+    "url": "https://github.com/getsentry/sentry-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.29.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Sentry user auth token with necessary scopes",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "SENTRY_ACCESS_TOKEN"
+        },
+        {
+          "description": "Sentry host URL (e.g., sentry.example.com)",
+          "name": "SENTRY_HOST"
+        },
+        {
+          "description": "OpenAI API key for AI-powered search tools (search_events, search_issues)",
+          "isSecret": true,
+          "name": "OPENAI_API_KEY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.29.0": {
+          "metadata": {
+            "last_updated": "2026-01-25T13:39:53Z",
+            "pulls": 127,
+            "stars": 519
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  ".sentry.io",
+                  "sentry.io"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "sentry",
+            "debugging",
+            "monitoring",
+            "error-tracking",
+            "observability"
+          ],
+          "tier": "Official",
+          "tools": [
+            "analyze_issue_with_seer",
+            "create_dsn",
+            "create_project",
+            "create_team",
+            "find_dsns",
+            "find_organizations",
+            "find_projects",
+            "find_releases",
+            "find_teams",
+            "get_doc",
+            "get_event_attachment",
+            "get_issue_details",
+            "get_issue_tag_values",
+            "get_profile",
+            "get_trace_details",
+            "search_docs",
+            "search_events",
+            "search_issue_events",
+            "search_issues",
+            "update_issue",
+            "update_project",
+            "whoami"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/ida-pro-mcp",
+  "description": "MCP server for IDA Pro reverse engineering and analysis",
+  "title": "ida-pro-mcp",
+  "repository": {
+    "url": "https://github.com/mrexodia/ida-pro-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/ida-pro-mcp:1.4.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/ida-pro-mcp:1.4.0": {
+          "metadata": {
+            "last_updated": "2026-02-09T03:01:53Z",
+            "pulls": 99,
+            "stars": 5444
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "reverse-engineering",
+            "ida-pro",
+            "analysis",
+            "security",
+            "disassembly",
+            "decompilation"
+          ],
+          "tier": "Community",
+          "tools": [
+            "check_connection",
+            "get_metadata",
+            "get_function_by_name",
+            "get_function_by_address",
+            "get_current_address",
+            "get_current_function",
+            "convert_number",
+            "list_functions",
+            "list_globals_filter",
+            "list_globals",
+            "list_strings_filter",
+            "list_strings",
+            "list_local_types",
+            "decompile_function",
+            "disassemble_function",
+            "get_xrefs_to",
+            "get_xrefs_to_field",
+            "get_entry_points",
+            "set_comment",
+            "rename_local_variable",
+            "rename_global_variable",
+            "set_global_variable_type",
+            "rename_function",
+            "set_function_prototype",
+            "declare_c_type",
+            "set_local_variable_type",
+            "dbg_get_registers",
+            "dbg_get_call_stack",
+            "dbg_list_breakpoints",
+            "dbg_start_process",
+            "dbg_exit_process",
+            "dbg_continue_process",
+            "dbg_run_to",
+            "dbg_set_breakpoint",
+            "dbg_delete_breakpoint",
+            "dbg_enable_breakpoint"
+          ]
+        }
+      }
+    }
+  }
+}

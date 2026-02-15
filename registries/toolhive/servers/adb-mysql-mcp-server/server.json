@@ -1,0 +1,89 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/adb-mysql-mcp-server",
+  "description": "Official MCP server for AnalyticDB for MySQL of Alibaba Cloud",
+  "title": "adb-mysql-mcp-server",
+  "repository": {
+    "url": "https://github.com/aliyun/alibabacloud-adb-mysql-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/adb-mysql-mcp-server:1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "AnalyticDB for MySQL host address",
+          "isRequired": true,
+          "name": "ADB_MYSQL_HOST"
+        },
+        {
+          "description": "AnalyticDB for MySQL port number",
+          "isRequired": true,
+          "name": "ADB_MYSQL_PORT"
+        },
+        {
+          "description": "Database user for authentication",
+          "isRequired": true,
+          "name": "ADB_MYSQL_USER"
+        },
+        {
+          "description": "Database password for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "ADB_MYSQL_PASSWORD"
+        },
+        {
+          "description": "Database name to connect to",
+          "isRequired": true,
+          "name": "ADB_MYSQL_DATABASE"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/adb-mysql-mcp-server:1.0.0": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:47:25Z",
+            "stars": 21
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "mysql",
+            "analytics",
+            "sql",
+            "alibaba-cloud",
+            "data-warehouse"
+          ],
+          "tier": "Official",
+          "tools": [
+            "execute_sql",
+            "get_query_plan",
+            "get_execution_plan"
+          ]
+        }
+      }
+    }
+  }
+}

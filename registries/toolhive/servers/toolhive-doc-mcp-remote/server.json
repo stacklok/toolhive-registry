@@ -1,0 +1,50 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/toolhive-doc-mcp-remote",
+  "description": "Search ToolHive docs for help with using and contributing to the project (hosted version)",
+  "title": "toolhive-doc-mcp-remote",
+  "repository": {
+    "url": "https://github.com/StacklokLabs/toolhive-doc-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://toolhive-doc-mcp.stacklok.dev/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://toolhive-doc-mcp.stacklok.dev/mcp": {
+          "custom_metadata": {
+            "author": "Stacklok",
+            "homepage": "https://github.com/StacklokLabs/toolhive-doc-mcp",
+            "license": "Apache-2.0"
+          },
+          "metadata": {
+            "last_updated": "2026-02-14T02:56:20Z",
+            "stars": 3
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "docs",
+            "documentation",
+            "help",
+            "search",
+            "stacklok",
+            "support",
+            "toolhive"
+          ],
+          "tier": "Official",
+          "tools": [
+            "query_docs",
+            "get_chunk"
+          ]
+        }
+      }
+    }
+  }
+}

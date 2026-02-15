@@ -1,0 +1,101 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/buildkite",
+  "description": "Connect your Buildkite data (pipelines, builds, jobs, tests) to AI tooling and editors.",
+  "title": "buildkite",
+  "repository": {
+    "url": "https://github.com/buildkite/buildkite-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:0.9.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Your Buildkite API access token",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "BUILDKITE_API_TOKEN"
+        },
+        {
+          "description": "Token threshold for job logs. If exceeded, logs will be written to disk and returned by path (for local use only).",
+          "name": "JOB_LOG_TOKEN_THRESHOLD"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/buildkite/buildkite-mcp-server:0.9.0": {
+          "args": [
+            "stdio"
+          ],
+          "metadata": {
+            "last_updated": "2026-01-30T02:55:47Z",
+            "stars": 45
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  ".buildkite.com"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "buildkite",
+            "continuous-integration",
+            "continuous-delivery",
+            "pipelines",
+            "builds",
+            "jobs",
+            "devops",
+            "testing"
+          ],
+          "tier": "Official",
+          "tools": [
+            "access_token",
+            "create_build",
+            "create_pipeline",
+            "current_user",
+            "get_artifact",
+            "get_build",
+            "get_build_test_engine_runs",
+            "get_cluster",
+            "get_cluster_queue",
+            "get_failed_executions",
+            "get_pipeline",
+            "get_test",
+            "get_test_run",
+            "list_annotations",
+            "list_artifacts_for_build",
+            "list_artifacts_for_job",
+            "list_builds",
+            "list_cluster_queues",
+            "list_clusters",
+            "list_pipelines",
+            "list_test_runs",
+            "read_logs",
+            "search_logs",
+            "tail_logs",
+            "unblock_job",
+            "update_pipeline",
+            "user_token_organization",
+            "wait_for_build"
+          ]
+        }
+      }
+    }
+  }
+}

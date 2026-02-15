@@ -1,0 +1,53 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/aws-knowledge",
+  "description": "Documentation, code samples, regional availability knowledge, and other official AWS content",
+  "title": "aws-knowledge",
+  "repository": {
+    "url": "https://github.com/awslabs/mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://knowledge-mcp.global.api.aws"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://knowledge-mcp.global.api.aws": {
+          "custom_metadata": {
+            "author": "AWS Labs",
+            "homepage": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server/"
+          },
+          "metadata": {
+            "last_updated": "2026-01-28T02:42:37Z",
+            "stars": 7978
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "aws",
+            "documentation",
+            "cloudformation",
+            "reference",
+            "blogs",
+            "well-architected",
+            "code-samples",
+            "regional-availability"
+          ],
+          "tier": "Official",
+          "tools": [
+            "search_documentation",
+            "read_documentation",
+            "recommend",
+            "list_regions",
+            "get_regional_availability"
+          ]
+        }
+      }
+    }
+  }
+}

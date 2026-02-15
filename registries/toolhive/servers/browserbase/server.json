@@ -1,0 +1,86 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/browserbase",
+  "description": "MCP server for cloud browser automation with Browserbase and Stagehand",
+  "title": "browserbase",
+  "repository": {
+    "url": "https://github.com/browserbase/mcp-server-browserbase",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.4.3",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Browserbase API key",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "BROWSERBASE_API_KEY"
+        },
+        {
+          "description": "Browserbase project ID",
+          "isRequired": true,
+          "name": "BROWSERBASE_PROJECT_ID"
+        },
+        {
+          "description": "Google Gemini API key for Stagehand",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "GEMINI_API_KEY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.4.3": {
+          "metadata": {
+            "last_updated": "2026-02-14T02:56:20Z",
+            "pulls": 133,
+            "stars": 3128
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "browser",
+            "automation",
+            "web-scraping",
+            "testing",
+            "stagehand"
+          ],
+          "tier": "Official",
+          "tools": [
+            "browserbase_screenshot",
+            "browserbase_session_close",
+            "browserbase_session_create",
+            "browserbase_stagehand_act",
+            "browserbase_stagehand_agent",
+            "browserbase_stagehand_extract",
+            "browserbase_stagehand_get_url",
+            "browserbase_stagehand_navigate",
+            "browserbase_stagehand_observe"
+          ]
+        }
+      }
+    }
+  }
+}

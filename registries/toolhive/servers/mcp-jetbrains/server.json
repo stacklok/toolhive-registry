@@ -1,0 +1,75 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/mcp-jetbrains",
+  "description": "A MCP proxy to redirect requests to JetBrains IDEs",
+  "title": "mcp-jetbrains",
+  "repository": {
+    "url": "https://github.com/JetBrains/mcp-jetbrains",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-jetbrains:1.8.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Port of IDE's built-in webserver (if running multiple IDEs)",
+          "name": "IDE_PORT"
+        },
+        {
+          "description": "Host/address of IDE's built-in webserver",
+          "default": "127.0.0.1",
+          "name": "HOST"
+        },
+        {
+          "description": "Enable logging for debugging",
+          "default": "false",
+          "name": "LOG_ENABLED"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/mcp-jetbrains:1.8.0": {
+          "metadata": {
+            "last_updated": "2026-02-13T03:02:09Z",
+            "pulls": 77,
+            "stars": 944
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "ide",
+            "jetbrains",
+            "proxy",
+            "development",
+            "intellij"
+          ],
+          "tier": "Official",
+          "tools": [
+            "dynamic_tools_from_ide"
+          ]
+        }
+      }
+    }
+  }
+}

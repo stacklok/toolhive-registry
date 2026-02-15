@@ -1,0 +1,67 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/monday",
+  "description": "Monday.com's official remote MCP server for project and workflow management",
+  "title": "monday",
+  "repository": {
+    "url": "https://github.com/mondaycom/mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "sse",
+      "url": "https://mcp.monday.com/sse"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.monday.com/sse": {
+          "custom_metadata": {
+            "author": "Monday.com",
+            "license": "MIT"
+          },
+          "metadata": {
+            "last_updated": "2026-02-05T04:49:20Z",
+            "stars": 366
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "monday",
+            "project-management",
+            "workflow",
+            "collaboration",
+            "boards",
+            "items",
+            "api-token",
+            "work-os",
+            "automation"
+          ],
+          "tier": "Official",
+          "tools": [
+            "get_board_items_by_name",
+            "create_item",
+            "create_update",
+            "get_board_activity",
+            "get_board_info",
+            "create_board",
+            "create_column",
+            "list_users_and_teams",
+            "all_monday_api",
+            "get_graphql_schema",
+            "get_column_type_info",
+            "get_type_details",
+            "read_docs",
+            "workspace_info",
+            "list_workspaces",
+            "create_doc",
+            "create_dashboard",
+            "all_widgets_schema"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/graphlit",
+  "description": "MCP server for Graphlit platform - ingest, search, and retrieve knowledge from multiple sources",
+  "title": "graphlit",
+  "repository": {
+    "url": "https://github.com/graphlit/graphlit-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/graphlit-mcp-server:1.0.20260112001",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Your Graphlit environment ID",
+          "isRequired": true,
+          "name": "GRAPHLIT_ENVIRONMENT_ID"
+        },
+        {
+          "description": "Your Graphlit organization ID",
+          "isRequired": true,
+          "name": "GRAPHLIT_ORGANIZATION_ID"
+        },
+        {
+          "description": "Your JWT secret for signing the JWT token",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "GRAPHLIT_JWT_SECRET"
+        },
+        {
+          "description": "Slack bot token for Slack integration",
+          "isSecret": true,
+          "name": "SLACK_BOT_TOKEN"
+        },
+        {
+          "description": "Discord bot token for Discord integration",
+          "isSecret": true,
+          "name": "DISCORD_BOT_TOKEN"
+        },
+        {
+          "description": "Twitter/X API token",
+          "isSecret": true,
+          "name": "TWITTER_TOKEN"
+        },
+        {
+          "description": "Google refresh token for Gmail integration",
+          "isSecret": true,
+          "name": "GOOGLE_EMAIL_REFRESH_TOKEN"
+        },
+        {
+          "description": "Google client ID for Gmail integration",
+          "name": "GOOGLE_EMAIL_CLIENT_ID"
+        },
+        {
+          "description": "Google client secret for Gmail integration",
+          "isSecret": true,
+          "name": "GOOGLE_EMAIL_CLIENT_SECRET"
+        },
+        {
+          "description": "Linear API key for Linear integration",
+          "isSecret": true,
+          "name": "LINEAR_API_KEY"
+        },
+        {
+          "description": "GitHub personal access token",
+          "isSecret": true,
+          "name": "GITHUB_PERSONAL_ACCESS_TOKEN"
+        },
+        {
+          "description": "Jira email for authentication",
+          "name": "JIRA_EMAIL"
+        },
+        {
+          "description": "Jira API token",
+          "isSecret": true,
+          "name": "JIRA_TOKEN"
+        },
+        {
+          "description": "Notion API key for Notion integration",
+          "isSecret": true,
+          "name": "NOTION_API_KEY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/graphlit-mcp-server:1.0.20260112001": {
+          "metadata": {
+            "last_updated": "2026-02-14T02:56:20Z",
+            "pulls": 109,
+            "stars": 373
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "knowledge-base",
+            "rag",
+            "search",
+            "ingestion",
+            "data-connectors"
+          ],
+          "tier": "Official",
+          "tools": [
+            "addContentsToCollection",
+            "askGraphlit",
+            "configureProject",
+            "createCollection",
+            "deleteCollection",
+            "deleteCollections",
+            "deleteContent",
+            "deleteContents",
+            "deleteConversation",
+            "deleteConversations",
+            "deleteFeed",
+            "deleteFeeds",
+            "describeImageContent",
+            "describeImageUrl",
+            "extractText",
+            "ingestBoxFiles",
+            "ingestDiscordMessages",
+            "ingestDropboxFiles",
+            "ingestFile",
+            "ingestGitHubFiles",
+            "ingestGitHubIssues",
+            "ingestGoogleDriveFiles",
+            "ingestGoogleEmail",
+            "ingestJiraIssues",
+            "ingestLinearIssues",
+            "ingestMemory",
+            "ingestMicrosoftEmail",
+            "ingestMicrosoftTeamsMessages",
+            "ingestNotionPages",
+            "ingestOneDriveFiles",
+            "ingestRSS",
+            "ingestRedditPosts",
+            "ingestSharePointFiles",
+            "ingestSlackMessages",
+            "ingestText",
+            "ingestTwitterPosts",
+            "ingestTwitterSearch",
+            "ingestUrl",
+            "isContentDone",
+            "isFeedDone",
+            "listBoxFolders",
+            "listDiscordChannels",
+            "listDiscordGuilds",
+            "listDropboxFolders",
+            "listGoogleCalendars",
+            "listLinearProjects",
+            "listMicrosoftCalendars",
+            "listNotionDatabases",
+            "listNotionPages",
+            "listSharePointFolders",
+            "listSharePointLibraries",
+            "listSlackChannels",
+            "promptConversation",
+            "publishAudio",
+            "publishImage",
+            "queryCollections",
+            "queryContents",
+            "queryConversations",
+            "queryFeeds",
+            "queryProjectUsage",
+            "removeContentsFromCollection",
+            "retrieveImages",
+            "retrieveSources",
+            "screenshotPage",
+            "sendEmailNotification",
+            "sendSlackNotification",
+            "sendTwitterNotification",
+            "sendWebHookNotification",
+            "webCrawl",
+            "webMap",
+            "webSearch"
+          ]
+        }
+      }
+    }
+  }
+}

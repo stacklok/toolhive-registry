@@ -1,0 +1,56 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/wix",
+  "description": "Wix's official remote MCP server for development platform and site management",
+  "title": "wix",
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.wix.com/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.wix.com/mcp": {
+          "custom_metadata": {
+            "author": "Wix",
+            "homepage": "https://dev.wix.com"
+          },
+          "metadata": {
+            "last_updated": "2026-02-13T03:02:08Z"
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "wix",
+            "website-builder",
+            "documentation",
+            "sdk",
+            "headless",
+            "site-management",
+            "api",
+            "development",
+            "build-apps"
+          ],
+          "tier": "Official",
+          "tools": [
+            "WixREADME",
+            "SearchWixWDSDocumentation",
+            "SearchWixRESTDocumentation",
+            "SearchWixSDKDocumentation",
+            "SearchBuildAppsDocumentation",
+            "SearchWixHeadlessDocumentation",
+            "ReadFullDocsArticle",
+            "ReadFullDocsMethodSchema",
+            "CallWixSiteAPI",
+            "ListWixSites",
+            "ManageWixSite",
+            "SupportAndFeedback"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/vercel",
+  "description": "Vercel's official remote MCP server for deployment platform and project management",
+  "title": "vercel",
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.vercel.com"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.vercel.com": {
+          "custom_metadata": {
+            "author": "Vercel",
+            "homepage": "https://vercel.com/docs/mcp/vercel-mcp"
+          },
+          "metadata": {
+            "last_updated": "2026-02-09T03:01:53Z"
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "vercel",
+            "deployment",
+            "hosting",
+            "oauth",
+            "web-development",
+            "serverless",
+            "domains",
+            "environment-variables",
+            "projects"
+          ],
+          "tier": "Official",
+          "tools": [
+            "search_vercel_documentation",
+            "list_teams",
+            "list_projects",
+            "get_project",
+            "list_deployments",
+            "get_deployment",
+            "get_deployment_events",
+            "get_access_to_vercel_url",
+            "web_fetch_vercel_url"
+          ]
+        }
+      }
+    }
+  }
+}

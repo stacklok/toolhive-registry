@@ -1,0 +1,70 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/toolhive-doc-mcp",
+  "description": "Search ToolHive docs for help with using and contributing to the project (local version)",
+  "title": "toolhive-doc-mcp",
+  "repository": {
+    "url": "https://github.com/StacklokLabs/toolhive-doc-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:0.0.9",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080"
+      },
+      "environmentVariables": [
+        {
+          "description": "Enable/disable OpenTelemetry logging",
+          "default": "false",
+          "name": "OTEL_ENABLED"
+        },
+        {
+          "description": "OpenTelemetry collector endpoint",
+          "name": "OTEL_ENDPOINT"
+        },
+        {
+          "description": "Service name for telemetry",
+          "default": "toolhive-doc-mcp",
+          "name": "OTEL_SERVICE_NAME"
+        },
+        {
+          "description": "Service version for telemetry",
+          "default": "1.0.0",
+          "name": "OTEL_SERVICE_VERSION"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stackloklabs/toolhive-doc-mcp:0.0.9": {
+          "metadata": {
+            "last_updated": "2026-01-25T13:39:48Z",
+            "stars": 3
+          },
+          "status": "Active",
+          "tags": [
+            "docs",
+            "documentation",
+            "help",
+            "knowledge-base",
+            "search",
+            "stacklok",
+            "support",
+            "toolhive"
+          ],
+          "tier": "Official",
+          "tools": [
+            "query_docs",
+            "get_chunk"
+          ]
+        }
+      }
+    }
+  }
+}

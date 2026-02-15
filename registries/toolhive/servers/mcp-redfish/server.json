@@ -1,0 +1,87 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/mcp-redfish",
+  "description": "Natural language interface for managing infrastructure via Redfish API",
+  "title": "mcp-redfish",
+  "repository": {
+    "url": "https://github.com/nokia/mcp-redfish",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/nokia/mcp-redfish:0.3.3",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "JSON array of Redfish endpoint configurations with address, port, username, password, auth_method, and tls_server_ca_cert",
+          "isRequired": true,
+          "default": "[{\"address\":\"127.0.0.1\"}]",
+          "name": "REDFISH_HOSTS"
+        },
+        {
+          "description": "Default port for Redfish API endpoints",
+          "default": "443",
+          "name": "REDFISH_PORT"
+        },
+        {
+          "description": "Authentication method (basic or session)",
+          "default": "session",
+          "name": "REDFISH_AUTH_METHOD"
+        },
+        {
+          "description": "Default username for Redfish authentication",
+          "isSecret": true,
+          "name": "REDFISH_USERNAME"
+        },
+        {
+          "description": "Default password for Redfish authentication",
+          "isSecret": true,
+          "name": "REDFISH_PASSWORD"
+        },
+        {
+          "description": "Path to CA certificate for TLS verification",
+          "name": "REDFISH_SERVER_CA_CERT"
+        },
+        {
+          "description": "MCP transport method (stdio, sse, or streamable-http)",
+          "default": "stdio",
+          "name": "MCP_TRANSPORT"
+        },
+        {
+          "description": "Logging verbosity level",
+          "default": "INFO",
+          "name": "MCP_REDFISH_LOG_LEVEL"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/nokia/mcp-redfish:0.3.3": {
+          "metadata": {
+            "last_updated": "2026-01-30T02:55:47Z",
+            "stars": 4
+          },
+          "status": "Active",
+          "tags": [
+            "infrastructure",
+            "redfish",
+            "api",
+            "hardware",
+            "server-management"
+          ],
+          "tier": "Community",
+          "tools": [
+            "get_resource_data",
+            "list_servers"
+          ]
+        }
+      }
+    }
+  }
+}

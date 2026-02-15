@@ -1,0 +1,149 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/dolt",
+  "description": "Git-like version control for SQL databases with branching, merging, and data versioning",
+  "title": "dolt",
+  "repository": {
+    "url": "https://github.com/dolthub/dolt-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/dolthub/dolt-mcp:0.3.4",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080"
+      },
+      "environmentVariables": [
+        {
+          "description": "Hostname of the Dolt SQL server",
+          "isRequired": true,
+          "name": "DOLT_HOST"
+        },
+        {
+          "description": "Dolt server port",
+          "default": "3306",
+          "name": "DOLT_PORT"
+        },
+        {
+          "description": "Username for Dolt server authentication",
+          "isRequired": true,
+          "name": "DOLT_USER"
+        },
+        {
+          "description": "Password for Dolt server authentication",
+          "isSecret": true,
+          "name": "DOLT_PASSWORD"
+        },
+        {
+          "description": "Name of the database to connect to",
+          "isRequired": true,
+          "name": "DOLT_DATABASE"
+        },
+        {
+          "description": "Server mode (stdio or http)",
+          "default": "http",
+          "name": "MCP_MODE"
+        },
+        {
+          "description": "HTTP server port (HTTP mode only)",
+          "default": "8080",
+          "name": "MCP_PORT"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/dolthub/dolt-mcp:0.3.4": {
+          "metadata": {
+            "last_updated": "2026-02-09T09:15:26Z",
+            "pulls": 993,
+            "stars": 6
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "localhost",
+                  "dolthub.com",
+                  ".dolthub.com"
+                ],
+                "allow_port": [
+                  3306,
+                  443,
+                  80,
+                  8080
+                ]
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "version-control",
+            "sql",
+            "mysql",
+            "git",
+            "collaboration",
+            "data-science",
+            "branching",
+            "merging",
+            "reproducibility"
+          ],
+          "tier": "Official",
+          "tools": [
+            "add_dolt_remote",
+            "add_dolt_test",
+            "alter_table",
+            "clone_database",
+            "create_database",
+            "create_dolt_branch",
+            "create_dolt_branch_from_head",
+            "create_dolt_commit",
+            "create_table",
+            "delete_dolt_branch",
+            "describe_table",
+            "dolt_fetch_all_branches",
+            "dolt_fetch_branch",
+            "dolt_pull_branch",
+            "dolt_push_branch",
+            "dolt_reset_hard",
+            "dolt_reset_soft",
+            "drop_database",
+            "drop_table",
+            "exec",
+            "get_dolt_merge_status",
+            "kill_process",
+            "list_databases",
+            "list_dolt_branches",
+            "list_dolt_commits",
+            "list_dolt_diff_changes_by_table_name",
+            "list_dolt_diff_changes_in_date_range",
+            "list_dolt_diff_changes_in_working_set",
+            "list_dolt_remotes",
+            "merge_dolt_branch",
+            "merge_dolt_branch_no_fast_forward",
+            "move_dolt_branch",
+            "query",
+            "remove_dolt_remote",
+            "remove_dolt_test",
+            "run_dolt_tests",
+            "select_active_branch",
+            "select_version",
+            "show_create_table",
+            "show_processlist",
+            "show_tables",
+            "stage_all_tables_for_dolt_commit",
+            "stage_table_for_dolt_commit",
+            "unstage_all_tables",
+            "unstage_table"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/memory",
+  "description": "Persistent memory for LLM applications using local knowledge graph to store user information",
+  "title": "memory",
+  "repository": {
+    "url": "https://github.com/modelcontextprotocol/servers",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/mcp/memory:latest",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Path to the memory storage JSON file (default: memory.json in the server directory)",
+          "name": "MEMORY_FILE_PATH"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/mcp/memory:latest": {
+          "metadata": {
+            "last_updated": "2026-01-27T02:44:59Z",
+            "pulls": 15854,
+            "stars": 77255
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "entities",
+            "graph",
+            "knowledge",
+            "memory",
+            "observations",
+            "persistent",
+            "relations"
+          ],
+          "tier": "Community",
+          "tools": [
+            "create_entities",
+            "create_relations",
+            "add_observations",
+            "delete_entities",
+            "delete_observations",
+            "delete_relations",
+            "read_graph",
+            "search_nodes",
+            "open_nodes"
+          ]
+        }
+      }
+    }
+  }
+}

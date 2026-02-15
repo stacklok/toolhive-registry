@@ -1,0 +1,70 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/aws-diagram",
+  "description": "Generate AWS diagrams, sequence diagrams, flow diagrams, and class diagrams using Python code.",
+  "title": "aws-diagram",
+  "repository": {
+    "url": "https://github.com/awslabs/mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-diagram:1.0.18",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Directory where diagrams will be saved",
+          "default": "/tmp/diagrams",
+          "name": "OUTPUT_DIR"
+        },
+        {
+          "description": "Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)",
+          "default": "ERROR",
+          "name": "FASTMCP_LOG_LEVEL"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/aws-diagram:1.0.18": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:47:28Z",
+            "stars": 8053
+          },
+          "permissions": {
+            "network": {
+              "outbound": {}
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "aws",
+            "cloud",
+            "diagrams",
+            "architecture",
+            "visualization"
+          ],
+          "tier": "Official",
+          "tools": [
+            "generate_diagram",
+            "get_diagram_examples",
+            "list_icons"
+          ]
+        }
+      }
+    }
+  }
+}

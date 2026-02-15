@@ -1,0 +1,103 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/firecrawl",
+  "description": "Web scraping and content extraction MCP server with advanced crawling and LLM integration",
+  "title": "firecrawl",
+  "repository": {
+    "url": "https://github.com/firecrawl/firecrawl-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/mcp/firecrawl:latest",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "API key for FireCrawl service authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "FIRECRAWL_API_KEY"
+        },
+        {
+          "description": "FireCrawl API URL (default: https://api.firecrawl.dev/v1)",
+          "name": "FIRECRAWL_API_URL"
+        },
+        {
+          "description": "Maximum number of retry attempts for API calls",
+          "name": "FIRECRAWL_RETRY_MAX_ATTEMPTS"
+        },
+        {
+          "description": "Initial delay in milliseconds for retry backoff",
+          "name": "FIRECRAWL_RETRY_INITIAL_DELAY"
+        },
+        {
+          "description": "Maximum delay in milliseconds for retry backoff",
+          "name": "FIRECRAWL_RETRY_MAX_DELAY"
+        },
+        {
+          "description": "Backoff factor for retry delay calculation",
+          "name": "FIRECRAWL_RETRY_BACKOFF_FACTOR"
+        },
+        {
+          "description": "Credit threshold for warning notifications",
+          "name": "FIRECRAWL_CREDIT_WARNING_THRESHOLD"
+        },
+        {
+          "description": "Credit threshold for critical notifications",
+          "name": "FIRECRAWL_CREDIT_CRITICAL_THRESHOLD"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/mcp/firecrawl:latest": {
+          "metadata": {
+            "last_updated": "2026-01-26T02:48:41Z",
+            "pulls": 12644,
+            "stars": 5334
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "api.firecrawl.dev"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "web-crawler",
+            "web-scraping",
+            "data-collection",
+            "batch-processing",
+            "content-extraction",
+            "search-api",
+            "llm-tools",
+            "javascript-rendering",
+            "research",
+            "automation"
+          ],
+          "tier": "Official",
+          "tools": [
+            "firecrawl_check_crawl_status",
+            "firecrawl_crawl",
+            "firecrawl_extract",
+            "firecrawl_map",
+            "firecrawl_scrape",
+            "firecrawl_search"
+          ]
+        }
+      }
+    }
+  }
+}
