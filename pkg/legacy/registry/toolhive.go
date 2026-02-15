@@ -11,7 +11,7 @@ import (
 	"github.com/stacklok/toolhive/pkg/permissions"
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
 
-	"github.com/stacklok/toolhive-registry/pkg/types"
+	"github.com/stacklok/toolhive-registry/pkg/legacy/types"
 )
 
 // Builder builds the final registry JSON from loaded entries
