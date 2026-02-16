@@ -98,6 +98,8 @@ func init() {
 	rootCmd.AddCommand(buildCmd)
 	rootCmd.AddCommand(validateCmd)
 	rootCmd.AddCommand(versionCmd)
+	rootCmd.AddCommand(updateMetadataCmd)
+	rootCmd.AddCommand(updateToolsCmd)
 }
 
 func main() {
