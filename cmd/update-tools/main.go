@@ -13,8 +13,8 @@ import (
 	"github.com/stacklok/toolhive/pkg/logger"
 	"gopkg.in/yaml.v3"
 
-	"github.com/stacklok/toolhive-registry/pkg/toolhive"
-	"github.com/stacklok/toolhive-registry/pkg/types"
+	"github.com/stacklok/toolhive-registry/pkg/legacy/toolhive"
+	"github.com/stacklok/toolhive-registry/pkg/legacy/types"
 )
 
 var (

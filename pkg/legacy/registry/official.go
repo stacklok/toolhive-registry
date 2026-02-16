@@ -15,7 +15,7 @@ import (
 	"github.com/stacklok/toolhive/pkg/registry/converters"
 	"github.com/stacklok/toolhive/pkg/registry/registry"
 
-	"github.com/stacklok/toolhive-registry/pkg/types"
+	"github.com/stacklok/toolhive-registry/pkg/legacy/types"
 )
 
 // OfficialRegistry handles building and writing the toolhive MCP registry based on the official server format

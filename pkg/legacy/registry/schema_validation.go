@@ -8,7 +8,7 @@ import (
 	toolhiveRegistryPkg "github.com/stacklok/toolhive/pkg/registry"
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
 
-	"github.com/stacklok/toolhive-registry/pkg/types"
+	"github.com/stacklok/toolhive-registry/pkg/legacy/types"
 )
 
 // SchemaValidator provides comprehensive schema-based validation using the toolhive library

@@ -10,8 +10,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/stacklok/toolhive-registry/pkg/registry"
-	"github.com/stacklok/toolhive-registry/pkg/types"
+	"github.com/stacklok/toolhive-registry/pkg/legacy/registry"
+	"github.com/stacklok/toolhive-registry/pkg/legacy/types"
 )
 
 const (

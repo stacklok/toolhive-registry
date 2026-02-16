@@ -20,7 +20,7 @@ import (
 	"github.com/stacklok/toolhive/pkg/registry/registry"
 	"gopkg.in/yaml.v3"
 
-	registryTypes "github.com/stacklok/toolhive-registry/pkg/types"
+	registryTypes "github.com/stacklok/toolhive-registry/pkg/legacy/types"
 )
 
 var (
