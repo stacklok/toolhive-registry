@@ -9,7 +9,7 @@ import (
 
 	"github.com/stacklok/toolhive/pkg/logger"
 
-	"github.com/stacklok/toolhive-registry/pkg/types"
+	"github.com/stacklok/toolhive-registry/pkg/legacy/types"
 )
 
 // Client represents a ToolHive client

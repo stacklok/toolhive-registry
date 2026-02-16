@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/stacklok/toolhive-registry/pkg/types"
+	"github.com/stacklok/toolhive-registry/pkg/legacy/types"
 )
 
 func TestLoader_LoadEntry(t *testing.T) {

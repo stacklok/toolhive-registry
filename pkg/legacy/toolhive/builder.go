@@ -3,7 +3,7 @@ package toolhive
 import (
 	"fmt"
 
-	"github.com/stacklok/toolhive-registry/pkg/types"
+	"github.com/stacklok/toolhive-registry/pkg/legacy/types"
 )
 
 // CommandBuilder helps build command line arguments for thv

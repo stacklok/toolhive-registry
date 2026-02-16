@@ -6,7 +6,7 @@ import (
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/stacklok/toolhive-registry/pkg/types"
+	"github.com/stacklok/toolhive-registry/pkg/legacy/types"
 )
 
 func TestBuilder_Build(t *testing.T) {
