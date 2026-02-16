@@ -182,7 +182,7 @@ func writeServerJSON(name string, serverJSON *upstream.ServerJSON) error {
 		return fmt.Errorf("mkdir: %w", err)
 	}
 
-	if err := os.WriteFile(path, data, 0644); err != nil {
+	if err := os.WriteFile(path, data, 0600); err != nil {
 		return fmt.Errorf("write: %w", err)
 	}
 

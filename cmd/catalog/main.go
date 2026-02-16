@@ -86,7 +86,9 @@ var versionCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&registriesDir, "registries", "r", defaultRegistries, "Path to the registries root directory")
+	rootCmd.PersistentFlags().StringVarP(
+		&registriesDir, "registries", "r", defaultRegistries, "Path to the registries root directory",
+	)
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose output")
 
 	buildCmd.Flags().StringVarP(&outputDir, "output-dir", "o", defaultOutputDir, "Output directory")

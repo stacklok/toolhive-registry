@@ -26,7 +26,7 @@ tasks:
 
   build:
     desc: Build all binaries
-    deps: [build:registry-builder, build:import-tool, build:update-tools]
+    deps: [build:registry-builder, build:catalog, build:import-tool, build:update-tools]
 
   build:registry-builder:
     desc: Build the registry-builder tool
@@ -41,6 +41,20 @@ tasks:
       - go.sum
     generates:
       - "{{.BUILD_DIR}}/registry-builder"
+
+  build:catalog:
+    desc: Build the catalog tool
+    cmds:
+      - echo "🔨 Building catalog..."
+      - mkdir -p {{.BUILD_DIR}}
+      - go build {{.LDFLAGS}} -o {{.BUILD_DIR}}/catalog ./cmd/catalog
+    sources:
+      - cmd/catalog/**/*.go
+      - internal/**/*.go
+      - go.mod
+      - go.sum
+    generates:
+      - "{{.BUILD_DIR}}/catalog"
 
   build:import-tool:
     desc: Build the import-from-toolhive tool
@@ -187,6 +201,25 @@ tasks:
       - "{{.REGISTRY_DIR}}/**/*.yml"
     generates:
       - "{{.BUILD_DIR}}/official-registry.json"
+
+  catalog:build:
+    desc: Build registry files from server.json using catalog (both formats)
+    deps: [build:catalog]
+    cmds:
+      - echo "🏗️ Building catalog (both formats)..."
+      - ./{{.BUILD_DIR}}/catalog build --format all -v
+    sources:
+      - registries/**/server.json
+    generates:
+      - "{{.BUILD_DIR}}/*/registry.json"
+      - "{{.BUILD_DIR}}/*/official-registry.json"
+
+  catalog:validate:
+    desc: Validate all server.json entries via catalog
+    deps: [build:catalog]
+    cmds:
+      - echo "✅ Validating catalog entries..."
+      - ./{{.BUILD_DIR}}/catalog validate -v
 
   test:
     desc: Run tests

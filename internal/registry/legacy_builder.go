@@ -13,7 +13,8 @@ import (
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
 )
 
-const legacyRegistrySchema = "https://raw.githubusercontent.com/stacklok/toolhive/main/pkg/registry/data/toolhive-legacy-registry.schema.json"
+const legacyRegistrySchema = "https://raw.githubusercontent.com/stacklok/toolhive/main/" +
+	"pkg/registry/data/toolhive-legacy-registry.schema.json"
 
 // LegacyBuilder assembles a legacy toolhive Registry from loaded ServerJSON entries.
 // It converts each ServerJSON back to ImageMetadata or RemoteServerMetadata
