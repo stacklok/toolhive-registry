@@ -43,9 +43,6 @@ Thumbs.db
 # Log files
 *.log
 
-# Registry build output (but not the source)
-/registry.json
-
 # Go workspace file
 go.work
 go.work.sum
@@ -53,6 +50,5 @@ go.work.sum
 # Task runtime files
 .task/*
 
-regup
+# CLI binaries (built in repo root by workflows)
 catalog
-migrate
