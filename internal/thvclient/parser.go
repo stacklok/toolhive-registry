@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+
+	"github.com/mark3labs/mcp-go/mcp"
 )
 
 // tool represents an MCP tool from thv mcp list output.
@@ -42,6 +44,47 @@ func ParseToolsJSON(output string) ([]string, error) {
 
 	sort.Strings(tools)
 	return tools, nil
+}
+
+// ParseToolDefinitions parses JSON output from thv mcp list tools --format json
+// into full mcp.Tool definitions. Returns nil (not an error) if the output is
+// text-only, since text format contains only tool names.
+func ParseToolDefinitions(output string) ([]mcp.Tool, error) {
+	jsonStart := strings.Index(output, "{")
+	if jsonStart == -1 {
+		// Text format has no schema information — return nil.
+		return nil, nil
+	}
+	jsonOutput := output[jsonStart:]
+
+	var result mcpListOutput
+	if err := json.Unmarshal([]byte(jsonOutput), &result); err != nil {
+		// Not valid JSON — treat as text-only.
+		return nil, nil
+	}
+
+	defs := make([]mcp.Tool, 0, len(result.Tools))
+	for _, t := range result.Tools {
+		// JSON round-trip: internal tool struct → bytes → mcp.Tool.
+		// This works because mcp.Tool uses default UnmarshalJSON and its
+		// nested types (ToolInputSchema, ToolAnnotation) have custom
+		// unmarshalers that handle map[string]any → typed struct conversion.
+		b, err := json.Marshal(t)
+		if err != nil {
+			return nil, fmt.Errorf("failed to marshal tool %s: %w", t.Name, err)
+		}
+		var mcpTool mcp.Tool
+		if err := json.Unmarshal(b, &mcpTool); err != nil {
+			return nil, fmt.Errorf("failed to unmarshal tool %s into mcp.Tool: %w", t.Name, err)
+		}
+		defs = append(defs, mcpTool)
+	}
+
+	sort.Slice(defs, func(i, j int) bool {
+		return defs[i].Name < defs[j].Name
+	})
+
+	return defs, nil
 }
 
 // ParseToolsText parses text output from thv mcp list (fallback parser).

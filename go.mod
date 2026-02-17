@@ -4,6 +4,7 @@ go 1.25.7
 
 require (
 	github.com/google/go-cmp v0.7.0
+	github.com/mark3labs/mcp-go v0.44.0
 	github.com/modelcontextprotocol/registry v1.4.1
 	github.com/spf13/cobra v1.10.2
 	github.com/stacklok/toolhive v0.9.4
@@ -79,7 +80,6 @@ require (
 	github.com/invopop/jsonschema v0.13.0 // indirect
 	github.com/klauspost/compress v1.18.1 // indirect
 	github.com/mailru/easyjson v0.9.0 // indirect
-	github.com/mark3labs/mcp-go v0.44.0 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/moby/docker-image-spec v1.3.1 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
