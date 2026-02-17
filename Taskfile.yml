@@ -214,6 +214,60 @@ tasks:
       - "{{.BUILD_DIR}}/*/registry.json"
       - "{{.BUILD_DIR}}/*/official-registry.json"
 
+  catalog:update-metadata:
+    desc: Update metadata for a specific server.json file
+    deps: [build:catalog]
+    cmds:
+      - echo "🔄 Updating metadata for {{.SERVER}}..."
+      - ./{{.BUILD_DIR}}/catalog update-metadata {{.SERVER}} {{.CLI_ARGS}}
+    vars:
+      SERVER: '{{.SERVER | default ""}}'
+    preconditions:
+      - sh: test -n "{{.SERVER}}"
+        msg: "Please specify a server.json file with SERVER=path/to/server.json"
+
+  catalog:update-metadata:oldest:
+    desc: Update metadata for the N oldest entries
+    deps: [build:catalog]
+    cmds:
+      - echo "🔄 Updating {{.COUNT}} oldest entries..."
+      - ./{{.BUILD_DIR}}/catalog update-metadata --oldest {{.COUNT}} -v {{.CLI_ARGS}}
+    vars:
+      COUNT: '{{.COUNT | default "5"}}'
+
+  catalog:update-metadata:oldest:dry-run:
+    desc: Preview metadata updates for the N oldest entries
+    deps: [build:catalog]
+    cmds:
+      - echo "👀 Preview updating {{.COUNT}} oldest entries..."
+      - ./{{.BUILD_DIR}}/catalog update-metadata --oldest {{.COUNT}} --dry-run -v
+    vars:
+      COUNT: '{{.COUNT | default "5"}}'
+
+  catalog:update-tools:
+    desc: Update tool lists for a specific server.json file
+    deps: [build:catalog]
+    cmds:
+      - echo "🔧 Updating tools for {{.SERVER}}..."
+      - ./{{.BUILD_DIR}}/catalog update-tools {{.SERVER}} {{.CLI_ARGS}}
+    vars:
+      SERVER: '{{.SERVER | default ""}}'
+    preconditions:
+      - sh: test -n "{{.SERVER}}"
+        msg: "Please specify a server.json file with SERVER=path/to/server.json"
+
+  catalog:update-tools:dry-run:
+    desc: Preview tool list updates for a specific server.json file
+    deps: [build:catalog]
+    cmds:
+      - echo "👀 Preview tool updates for {{.SERVER}}..."
+      - ./{{.BUILD_DIR}}/catalog update-tools {{.SERVER}} --dry-run -v
+    vars:
+      SERVER: '{{.SERVER | default ""}}'
+    preconditions:
+      - sh: test -n "{{.SERVER}}"
+        msg: "Please specify a server.json file with SERVER=path/to/server.json"
+
   catalog:validate:
     desc: Validate all server.json entries via catalog
     deps: [build:catalog]
