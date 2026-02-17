@@ -213,7 +213,7 @@ jobs:
           echo "Updating tools for ${{ steps.server-info.outputs.server-name }}..."
 
           # Run the update tool
-          if /tmp/catalog update-tools "${{ matrix.server }}" -v; then
+          if /tmp/catalog update-tools "${{ matrix.server }}" -v --max-meta-size 46080; then
             echo "update-status=success" >> $GITHUB_OUTPUT
 
             # Check if file was modified

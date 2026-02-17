@@ -16,9 +16,12 @@ import (
 	"github.com/stacklok/toolhive-registry/internal/thvclient"
 )
 
+const defaultMaxMetaSize = 45 * 1024 // 45 KB
+
 var (
 	dryRunTools bool
 	thvPath     string
+	maxMetaSize int
 )
 
 var updateToolsCmd = &cobra.Command{
@@ -38,6 +41,10 @@ func init() {
 	updateToolsCmd.Flags().StringVar(
 		&thvPath, "thv-path", "",
 		"Path to thv binary (searches PATH if empty)",
+	)
+	updateToolsCmd.Flags().IntVar(
+		&maxMetaSize, "max-meta-size", defaultMaxMetaSize,
+		"Max _meta size in bytes before compacting tool definitions (0 to disable)",
 	)
 }
 
@@ -149,7 +156,9 @@ func applyToolsUpdate(
 	toolsChanged := !slices.Equal(currentTools, newTools)
 	defsChanged := !toolDefinitionsEqual(currentDefs, newDefs)
 
-	if !toolsChanged && !defsChanged {
+	needsCompaction := maxMetaSize > 0 && len(newDefs) > 0 && sf.MetaSize() > maxMetaSize
+
+	if !toolsChanged && !defsChanged && !needsCompaction {
 		fmt.Printf("Tools list is already up to date (_meta size: %s)\n", formatBytes(sf.MetaSize()))
 		return nil
 	}
@@ -175,6 +184,10 @@ func applyToolsUpdate(
 
 	if err := sf.UpdateExtensions(ext); err != nil {
 		return fmt.Errorf("failed to write server.json: %w", err)
+	}
+
+	if compacted := compactIfOversize(sf, ext); compacted != "" {
+		fmt.Printf("Compacted tool definitions: %s\n", compacted)
 	}
 
 	fmt.Printf("Successfully updated tools list (_meta size: %s)\n", formatBytes(sf.MetaSize()))
@@ -259,4 +272,50 @@ func formatBytes(b int) string {
 		return fmt.Sprintf("%d B", b)
 	}
 	return fmt.Sprintf("%.1f KB", float64(b)/float64(kb))
+}
+
+// compactIfOversize progressively strips fields from tool definitions
+// when _meta exceeds maxMetaSize. Returns a description of what was
+// removed, or "" if no compaction was needed.
+func compactIfOversize(sf *serverjson.ServerFile, ext *toolhiveRegistry.ServerExtensions) string {
+	if maxMetaSize <= 0 || len(ext.ToolDefinitions) == 0 {
+		return ""
+	}
+
+	if sf.MetaSize() <= maxMetaSize {
+		return ""
+	}
+
+	// Step 1: strip inputSchema (biggest contributor).
+	compactToolDefinitions(ext, true, false)
+	if err := sf.UpdateExtensions(ext); err != nil {
+		return ""
+	}
+	if sf.MetaSize() <= maxMetaSize {
+		return "removed inputSchema"
+	}
+
+	// Step 2: also strip annotations.
+	compactToolDefinitions(ext, true, true)
+	if err := sf.UpdateExtensions(ext); err != nil {
+		return ""
+	}
+	if sf.MetaSize() <= maxMetaSize {
+		return "removed inputSchema and annotations"
+	}
+
+	return fmt.Sprintf("removed inputSchema and annotations (still %s)", formatBytes(sf.MetaSize()))
+}
+
+// compactToolDefinitions strips fields from tool definitions to reduce size.
+// It always preserves name and description.
+func compactToolDefinitions(ext *toolhiveRegistry.ServerExtensions, stripSchema, stripAnnotations bool) {
+	for i := range ext.ToolDefinitions {
+		if stripSchema {
+			ext.ToolDefinitions[i].InputSchema = mcp.ToolInputSchema{}
+		}
+		if stripAnnotations {
+			ext.ToolDefinitions[i].Annotations = mcp.ToolAnnotation{}
+		}
+	}
 }
