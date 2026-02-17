@@ -1,60 +1,12 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/mcp-optimizer",
-  "description": "MCP server that acts as an intelligent intermediary between AI clients and multiple MCP servers",
-  "title": "mcp-optimizer",
-  "repository": {
-    "url": "https://github.com/StacklokLabs/mcp-optimizer",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stackloklabs/mcp-optimizer:0.2.5",
-      "transport": {
-        "type": "streamable-http",
-        "url": "http://localhost:9900"
-      },
-      "environmentVariables": [
-        {
-          "description": "Comma-separated list of ToolHive group names to filter tool lookups (default: no filtering)",
-          "name": "ALLOWED_GROUPS"
-        },
-        {
-          "description": "Number of tools to return from find_tool (default: 8)",
-          "name": "MAX_TOOLS_TO_RETURN"
-        },
-        {
-          "description": "Distance threshold for tool similarity (default: 1.0)",
-          "name": "TOOL_DISTANCE_THRESHOLD"
-        },
-        {
-          "description": "Maximum number of tokens to return from call_tool (default: no limit)",
-          "name": "MAX_TOOL_RESPONSE_TOKENS"
-        },
-        {
-          "description": "Polling interval for running MCP servers (default: 60 seconds)",
-          "name": "WORKLOAD_POLLING_INTERVAL"
-        },
-        {
-          "description": "Polling interval for ToolHive registry (default: 24 hours)",
-          "name": "REGISTRY_POLLING_INTERVAL"
-        },
-        {
-          "description": "Runtime mode for MCP servers (docker or k8s, default: docker)",
-          "name": "RUNTIME_MODE"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/mcp-optimizer:0.2.5": {
           "metadata": {
-            "last_updated": "2026-01-25T13:39:50Z",
-            "stars": 9
+            "last_updated": "2026-02-17T15:33:18Z",
+            "stars": 10
           },
           "permissions": {
             "network": {
@@ -84,5 +36,53 @@
         }
       }
     }
-  }
+  },
+  "description": "MCP server that acts as an intelligent intermediary between AI clients and multiple MCP servers",
+  "name": "io.github.stacklok/mcp-optimizer",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Comma-separated list of ToolHive group names to filter tool lookups (default: no filtering)",
+          "name": "ALLOWED_GROUPS"
+        },
+        {
+          "description": "Number of tools to return from find_tool (default: 8)",
+          "name": "MAX_TOOLS_TO_RETURN"
+        },
+        {
+          "description": "Distance threshold for tool similarity (default: 1.0)",
+          "name": "TOOL_DISTANCE_THRESHOLD"
+        },
+        {
+          "description": "Maximum number of tokens to return from call_tool (default: no limit)",
+          "name": "MAX_TOOL_RESPONSE_TOKENS"
+        },
+        {
+          "description": "Polling interval for running MCP servers (default: 60 seconds)",
+          "name": "WORKLOAD_POLLING_INTERVAL"
+        },
+        {
+          "description": "Polling interval for ToolHive registry (default: 24 hours)",
+          "name": "REGISTRY_POLLING_INTERVAL"
+        },
+        {
+          "description": "Runtime mode for MCP servers (docker or k8s, default: docker)",
+          "name": "RUNTIME_MODE"
+        }
+      ],
+      "identifier": "ghcr.io/stackloklabs/mcp-optimizer:0.2.5",
+      "registryType": "oci",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:9900"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/StacklokLabs/mcp-optimizer"
+  },
+  "title": "mcp-optimizer",
+  "version": "1.0.0"
 }
