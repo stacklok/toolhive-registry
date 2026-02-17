@@ -153,6 +153,20 @@ func (sf *ServerFile) UpdateExtensions(ext *registry.ServerExtensions) error {
 	return nil
 }
 
+// MetaSize returns the size in bytes of the _meta field when serialized as JSON.
+// Returns 0 if there is no _meta field.
+func (sf *ServerFile) MetaSize() int {
+	var doc map[string]json.RawMessage
+	if err := json.Unmarshal(sf.rawBytes, &doc); err != nil {
+		return 0
+	}
+	meta, ok := doc["_meta"]
+	if !ok {
+		return 0
+	}
+	return len(meta)
+}
+
 // ensureMap gets or creates a nested map[string]any at the given key.
 func ensureMap(parent map[string]any, key string) map[string]any {
 	if val, ok := parent[key].(map[string]any); ok {

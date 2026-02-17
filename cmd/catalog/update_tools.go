@@ -150,7 +150,7 @@ func applyToolsUpdate(
 	defsChanged := !toolDefinitionsEqual(currentDefs, newDefs)
 
 	if !toolsChanged && !defsChanged {
-		fmt.Println("Tools list is already up to date")
+		fmt.Printf("Tools list is already up to date (_meta size: %s)\n", formatBytes(sf.MetaSize()))
 		return nil
 	}
 
@@ -177,7 +177,7 @@ func applyToolsUpdate(
 		return fmt.Errorf("failed to write server.json: %w", err)
 	}
 
-	fmt.Println("Successfully updated tools list")
+	fmt.Printf("Successfully updated tools list (_meta size: %s)\n", formatBytes(sf.MetaSize()))
 	return nil
 }
 
@@ -251,4 +251,12 @@ func toolDefNames(defs []mcp.Tool) []string {
 		names = append(names, d.Name)
 	}
 	return names
+}
+
+func formatBytes(b int) string {
+	const kb = 1024
+	if b < kb {
+		return fmt.Sprintf("%d B", b)
+	}
+	return fmt.Sprintf("%.1f KB", float64(b)/float64(kb))
 }
