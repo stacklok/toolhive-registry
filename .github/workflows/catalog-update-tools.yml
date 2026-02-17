@@ -197,7 +197,7 @@ jobs:
       - name: Build catalog
         run: |
           echo "Building catalog..."
-          go build -o catalog ./cmd/catalog
+          go build -o /tmp/catalog ./cmd/catalog
 
       - name: Extract server name
         id: server-info
@@ -213,7 +213,7 @@ jobs:
           echo "Updating tools for ${{ steps.server-info.outputs.server-name }}..."
 
           # Run the update tool
-          if ./catalog update-tools "${{ matrix.server }}" -v; then
+          if /tmp/catalog update-tools "${{ matrix.server }}" -v; then
             echo "update-status=success" >> $GITHUB_OUTPUT
 
             # Check if file was modified
@@ -480,9 +480,9 @@ jobs:
           cache: true
 
       - name: Build catalog
-        run: go build -o catalog ./cmd/catalog
+        run: go build -o /tmp/catalog ./cmd/catalog
 
       - name: Validate all server.json entries
         run: |
           echo "Validating all catalog entries after updates..."
-          ./catalog validate -v
+          /tmp/catalog validate -v
