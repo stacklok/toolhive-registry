@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.14.1": {
           "metadata": {
-            "last_updated": "2026-02-17T17:49:59Z",
+            "last_updated": "2026-02-17T23:36:12Z",
             "stars": 76
           },
           "permissions": {
@@ -47,9 +47,45 @@
               "annotations": {},
               "description": "\n  This tool is used to analyze a git diff (unstaged, staged, or all changes) against IDE rules to identify rule violations.\n  By default, the tool will use the staged changes, unless the user explicitly asks for unstaged or all changes.\n\n  Parameters:\n  - params: An object containing:\n    - speedMode: boolean - A mode that can be enabled to speed up the analysis. Default value is false.\n    - filterBy: enum - \"Violations\" | \"Compliants\" | \"Human Review Required\" | \"None\" - A filter that can be applied to set the focus of the analysis. Default is None.\n    - diff: string - A git diff string.\n    - rules: string - Rules to use for analysis, found in the rules subdirectory of the IDE workspace settings. Combine all rules from multiple files by separating them with ---\n\n  Returns:\n  - A list of rule violations found in the git diff.\n  ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "diff": {
+                        "description": "Git diff content to analyze. Defaults to staged changes, unless the user explicitly asks for unstaged changes or all changes.",
+                        "type": "string"
+                      },
+                      "filterBy": {
+                        "default": "None",
+                        "description": "Analysis filter. Defaults to None",
+                        "enum": [
+                          "Violations",
+                          "Compliants",
+                          "Human Review Required",
+                          "None"
+                        ],
+                        "type": "string"
+                      },
+                      "rules": {
+                        "description": "Rules to use for analysis, found in the rules subdirectory of the IDE workspace settings. Combine all rules from multiple files by separating them with ---",
+                        "type": "string"
+                      },
+                      "speedMode": {
+                        "default": false,
+                        "description": "The status of speed mode. Defaults to false.",
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "diff",
+                      "rules"
+                    ],
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "analyze_diff"
             },
@@ -57,9 +93,24 @@
               "annotations": {},
               "description": "\n  This tool helps analyze and validate and fix CircleCI configuration files.\n\n  Parameters:\n  - params: An object containing:\n    - configFile: string - The full contents of the CircleCI config file as a string. This should be the raw YAML content, not a file path.\n\n  Example usage:\n  {\n    \"params\": {\n      \"configFile\": \"version: 2.1\norbs:\n  node: circleci/node@7\n...\"\n    }\n  }\n\n  Note: The configFile content should be provided as a properly escaped string with newlines represented as \n.\n\n  Tool output instructions:\n    - If the config is invalid, the tool will return the errors and the original config. Use the errors to fix the config.\n    - If the config is valid, do nothing.\n  ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "configFile": {
+                        "description": "The contents of the circleci config file. This should be the contents of the circleci config file, not the path to the file. Typically located at .circleci/config.yml",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "configFile"
+                    ],
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "config_helper"
             },
@@ -67,9 +118,43 @@
               "annotations": {},
               "description": "\n  ABOUT THIS TOOL:\n  - This tool is part of a toolchain that generates and provides test cases for a prompt template.\n  - This tool helps an AI assistant to generate a prompt template based on one of the following:\n    1. feature requirements defined by a user - in which case the tool will generate a new prompt template based on the feature requirements.\n    2. a pre-existing prompt or prompt template that a user wants to test, evaluate, or modify - in which case the tool will convert it into a more structured and testable prompt template while leaving the original prompt language relatively unchanged.\n  - This tool will return a structured prompt template (e.g. `template`) along with a context schema (e.g. ``contextSchema``) that defines the expected input parameters for the prompt template.\n  - In some cases, a user will want to add test coverage for ALL of the prompts in a given application. In these cases, the AI agent should use this tool to generate a prompt template for each prompt in the application, and should check the entire application for AI prompts that are not already covered by a prompt template in the `./prompts` directory.\n\n  WHEN SHOULD THIS TOOL BE TRIGGERED?\n  - This tool should be triggered whenever the user provides requirements for a new AI-enabled application or a new AI-enabled feature of an existing  application (i.e. one that requires a prompt request to an LLM or any AI model).\n  - This tool should also be triggered if the user provides a pre-existing prompt or prompt template from their codebase that they want to test, evaluate, or modify.\n  - This tool should be triggered even if there are pre-existing files in the `./prompts` directory with the `\u003crelevant-name\u003e.prompt.yml` convention (e.g. `bedtime-story-generator.prompt.yml`, `plant-care-assistant.prompt.yml`, `customer-support-chatbot.prompt.yml`, etc.). Similar files should NEVER be generated directly by the AI agent. Instead, the AI agent should use this tool to first generate a new prompt template.\n\n  PARAMETERS:\n  - params: object\n    - prompt: string (the feature requirements or pre-existing prompt/prompt template that will be used to generate a prompt template. Can be a multi-line string.)\n    - promptOrigin: \"codebase\" | \"requirements\" (indicates whether the prompt comes from an existing codebase or from new requirements)\n    - model: string (the model that the prompt template will be tested against. Explicitly specify the model if it can be inferred from the codebase. Otherwise, defaults to `gpt-4.1-mini`.)\n    - temperature: number (the temperature of the prompt template. Explicitly specify the temperature if it can be inferred from the codebase. Otherwise, defaults to 1.)\n\n  EXAMPLE USAGE (from new requirements):\n  {\n    \"params\": {\n      \"prompt\": \"Create an app that takes any topic and an age (in years), then renders a 1-minute bedtime story for a person of that age.\",\n      \"promptOrigin\": \"requirements\"\n      \"model\": \"gpt-4.1-mini\"\n      \"temperature\": 1.0\n    }\n  }\n\n  EXAMPLE USAGE (from pre-existing prompt/prompt template in codebase):\n  {\n    \"params\": {\n      \"prompt\": \"The user wants a bedtime story about {{topic}} for a person of age {{age}} years old. Please craft a captivating tale that captivates their imagination and provides a delightful bedtime experience.\",\n      \"promptOrigin\": \"codebase\"\n      \"model\": \"claude-3-5-sonnet-latest\"\n      \"temperature\": 0.7\n    }\n  }\n\n  TOOL OUTPUT INSTRUCTIONS:\n  - The tool will return...\n    - a `template` that reformulates the user's prompt into a more structured format.\n    - a ``contextSchema`` that defines the expected input parameters for the template.\n    - a `promptOrigin` that indicates whether the prompt comes from an existing prompt or prompt template in the user's codebase or from new requirements.\n  - The tool output -- the `template`, ``contextSchema``, and `promptOrigin` -- will also be used as input to the `recommend_prompt_template_tests` tool to generate a list of recommended tests that can be used to test the prompt template.\n  ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "model": {
+                        "default": "gpt-4.1-mini",
+                        "description": "The model that the prompt template will be tested against. Explicitly specify the model if it can be inferred from the codebase. Otherwise, defaults to `gpt-4.1-mini`.",
+                        "type": "string"
+                      },
+                      "prompt": {
+                        "description": "The user's application, feature, or product requirements that will be used to generate a prompt template. Alternatively, a pre-existing prompt or prompt template can be provided if a user wants to test, evaluate, or modify it. (Can be a multi-line string.)",
+                        "type": "string"
+                      },
+                      "promptOrigin": {
+                        "description": "The origin of the prompt - either \"codebase\" for existing prompts from the codebase, or \"requirements\" for new prompts from requirements.",
+                        "enum": [
+                          "codebase",
+                          "requirements"
+                        ],
+                        "type": "string"
+                      },
+                      "temperature": {
+                        "default": 1,
+                        "description": "The temperature of the prompt template. Explicitly specify the temperature if it can be inferred from the codebase. Otherwise, defaults to 1.",
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "prompt",
+                      "promptOrigin"
+                    ],
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "create_prompt_template"
             },
@@ -77,9 +162,41 @@
               "annotations": {},
               "description": "\n    ⚠️ **MANDATORY: The handler will REJECT any call that does not include BOTH outputDir and originalUserMessage. These parameters are REQUIRED for all tool calls.**\n    \n    ⚠️ **MANDATORY OUTPUT DIRECTORY SELECTION FOR AI AGENTS:**\n    1. If the project root (workspace root) is available (e.g., via `workspaceRoot` or known repository context), you MUST pass it as the `outputDir` parameter.\n    2. If the project root is not available, you MUST use the user's Downloads folder (e.g., `~/Downloads` or `%USERPROFILE%\\Downloads`) as the `outputDir` parameter.\n    3. Only if neither is available, use the current working directory (`process.cwd()`).\n    4. **Never omit the `outputDir` parameter. Always make the output location explicit.**\n    5. **Omitting `outputDir` is a critical error. Tool calls without `outputDir` may be rejected or flagged as incorrect. Repeated violations may be treated as a bug in the AI agent.**\n    6. **AI agents MUST validate their tool calls to ensure `outputDir` is present before execution.**\n\n    Downloads usage data from the CircleCI Usage API for a given organization and date range.\n    This tool both starts the export job and downloads the resulting CSV file when ready.\n    Required parameters: orgId, startDate, endDate, outputDir.\n\n    **outputDir (required):**\n    The directory where the usage data CSV will be saved.\n    - You MUST provide `outputDir` for every tool call.\n    - The file will be saved in the specified directory.\n    - Omitting `outputDir` will result in an error.\n\n    **Directory Selection Instructions for AI Agents:**\n    - If the project root is available (e.g., via `workspaceRoot`, `outputDir`, or known repository context), always use it as the output directory for file outputs.\n    - If no project root is available (e.g., running in the user's home directory or a generic environment), use the user's Downloads folder (e.g., `~/Downloads` or `%USERPROFILE%\\Downloads`)\n    - If neither is available, fall back to the current working directory.\n    - Never place output files in a location that is hard to discover for the user.\n    - **Always double-check that `outputDir` is present in your tool call.**\n    - **Always double-check that `originalUserMessage` is present in your tool call.**\n\n    This ensures that downloaded usage data is always saved in a location that is relevant and easy for the user to find, and that the output is always copy-paste friendly for status checks, regardless of the environment in which the tool is run.\n  ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "endDate": {
+                        "description": "Optional. The end date for the usage data in YYYY-MM-DD format (or natural language). Used when starting a new export job.",
+                        "type": "string"
+                      },
+                      "jobId": {
+                        "description": "Generated by the initial tool call when starting the usage export job. Required for subsequent tool calls.",
+                        "type": "string"
+                      },
+                      "orgId": {
+                        "description": "The ID of the CircleCI organization",
+                        "type": "string"
+                      },
+                      "outputDir": {
+                        "description": "The directory to save the downloaded usage data CSV file.",
+                        "type": "string"
+                      },
+                      "startDate": {
+                        "description": "Optional. The start date for the usage data in YYYY-MM-DD format (or natural language). Used when starting a new export job.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "orgId",
+                      "outputDir"
+                    ],
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "download_usage_api_data"
             },
@@ -87,9 +204,33 @@
               "annotations": {},
               "description": "\n    This tool retrieves information about flaky tests in a CircleCI project. \n    \n    The agent receiving this output MUST analyze the flaky test data and implement appropriate fixes based on the specific issues identified.\n\n    CRITICAL REQUIREMENTS:\n    1. Truncation Handling (HIGHEST PRIORITY):\n       - ALWAYS check for \u003cMCPTruncationWarning\u003e in the output\n       - When present, you MUST start your response with:\n         \"WARNING: The logs have been truncated. Only showing the most recent entries. Earlier build failures may not be visible.\"\n       - Only proceed with log analysis after acknowledging the truncation\n\n    Input options (EXACTLY ONE of these THREE options must be used):\n\n    Option 1 - Project Slug:\n    - projectSlug: The project slug obtained from listFollowedProjects tool (e.g., \"gh/organization/project\")\n\n    Option 2 - Direct URL (provide ONE of these):\n    - projectURL: The URL of the CircleCI project in any of these formats:\n      * Project URL: https://app.circleci.com/pipelines/gh/organization/project\n      * Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n      * Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n      * Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz\n\n    Option 3 - Project Detection (ALL of these must be provided together):\n    - workspaceRoot: The absolute path to the workspace root\n    - gitRemoteURL: The URL of the git remote repository\n\n    Additional Requirements:\n    - Never call this tool with incomplete parameters\n    - If using Option 1, make sure to extract the projectSlug exactly as provided by listFollowedProjects\n    - If using Option 2, the URLs MUST be provided by the user - do not attempt to construct or guess URLs\n    - If using Option 3, BOTH parameters (workspaceRoot, gitRemoteURL) must be provided\n    - If none of the options can be fully satisfied, ask the user for the missing information before making the tool call\n    ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "gitRemoteURL": {
+                        "description": "The URL of the remote git repository. This should be the URL of the repository that you cloned to your local workspace. For example: \"https://github.com/user/my-project.git\"",
+                        "type": "string"
+                      },
+                      "projectSlug": {
+                        "description": "The project slug from listFollowedProjects tool (e.g., \"gh/organization/project\").",
+                        "type": "string"
+                      },
+                      "projectURL": {
+                        "description": "The URL of the CircleCI project. Can be any of these formats:\n- Project URL: https://app.circleci.com/pipelines/gh/organization/project\n- Project URL with branch: https://app.circleci.com/pipelines/gh/organization/project?branch=feature-branch\n- Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n- Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n- Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz",
+                        "type": "string"
+                      },
+                      "workspaceRoot": {
+                        "description": "The absolute path to the root directory of your project workspace. This should be the top-level folder containing your source code, configuration files, and dependencies. For example: \"/home/user/my-project\" or \"C:\\Users\\user\\my-project\"",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "find_flaky_tests"
             },
@@ -97,9 +238,29 @@
               "annotations": {},
               "description": "\n    Analyzes a CircleCI usage data CSV file to find jobs/resource classes with average or max CPU/RAM usage below a given threshold (default 40%).\n    This helps identify underused resource classes that may be oversized for their workload.\n\n    Required parameter:\n    - csvFilePath: Path to the usage data CSV file (string). IMPORTANT: This must be an absolute path. If you are given a relative path, you must resolve it to an absolute path before calling this tool.\n\n    Optional parameter:\n    - threshold: Usage percentage threshold (number, default 40)\n\n    The tool expects the CSV to have columns: job_name, resource_class, median_cpu_utilization_pct, max_cpu_utilization_pct, median_ram_utilization_pct, max_ram_utilization_pct (case-insensitive). These required columns are a subset of the columns in the CircleCI usage API output and the tool will work with the full set of columns from the usage API CSV.\n    It returns a summary report listing all jobs/resource classes where any of these metrics is below the threshold.\n  ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "csvFilePath": {
+                        "description": "The path to the usage data CSV file to analyze.",
+                        "type": "string"
+                      },
+                      "threshold": {
+                        "default": 40,
+                        "description": "The usage percentage threshold. Jobs with usage below this will be reported. Default is 40.",
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "csvFilePath"
+                    ],
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "find_underused_resource_classes"
             },
@@ -107,9 +268,37 @@
               "annotations": {},
               "description": "\n    This tool helps debug CircleCI build failures by retrieving failure logs.\n\n    CRITICAL REQUIREMENTS:\n    1. Truncation Handling (HIGHEST PRIORITY):\n       - ALWAYS check for \u003cMCPTruncationWarning\u003e in the output\n       - When present, you MUST start your response with:\n         \"WARNING: The logs have been truncated. Only showing the most recent entries. Earlier build failures may not be visible.\"\n       - Only proceed with log analysis after acknowledging the truncation\n\n    Input options (EXACTLY ONE of these THREE options must be used):\n\n    Option 1 - Project Slug and branch (BOTH required):\n    - projectSlug: The project slug obtained from listFollowedProjects tool (e.g., \"gh/organization/project\")\n    - branch: The name of the branch (required when using projectSlug)\n\n    Option 2 - Direct URL (provide ONE of these):\n    - projectURL: The URL of the CircleCI project in any of these formats:\n      * Project URL: https://app.circleci.com/pipelines/gh/organization/project\n      * Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n      * Legacy Job URL: https://circleci.com/pipelines/gh/organization/project/123\n      * Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n      * Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz\n\n    Option 3 - Project Detection (ALL of these must be provided together):\n    - workspaceRoot: The absolute path to the workspace root\n    - gitRemoteURL: The URL of the git remote repository\n    - branch: The name of the current branch\n    \n    Recommended Workflow:\n    1. Use listFollowedProjects tool to get a list of projects\n    2. Extract the projectSlug from the chosen project (format: \"gh/organization/project\")\n    3. Use that projectSlug with a branch name for this tool\n\n    Additional Requirements:\n    - Never call this tool with incomplete parameters\n    - If using Option 1, make sure to extract the projectSlug exactly as provided by listFollowedProjects\n    - If using Option 2, the URLs MUST be provided by the user - do not attempt to construct or guess URLs\n    - If using Option 3, ALL THREE parameters (workspaceRoot, gitRemoteURL, branch) must be provided\n    - If none of the options can be fully satisfied, ask the user for the missing information before making the tool call\n    ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "branch": {
+                        "description": "The name of the branch currently checked out in local workspace. This should match local git branch. For example: \"feature/my-branch\", \"bugfix/123\", \"main\", \"master\" etc.",
+                        "type": "string"
+                      },
+                      "gitRemoteURL": {
+                        "description": "The URL of the remote git repository. This should be the URL of the repository that you cloned to your local workspace. For example: \"https://github.com/user/my-project.git\"",
+                        "type": "string"
+                      },
+                      "projectSlug": {
+                        "description": "The project slug from listFollowedProjects tool (e.g., \"gh/organization/project\"). When using this option, branch must also be provided.",
+                        "type": "string"
+                      },
+                      "projectURL": {
+                        "description": "The URL of the CircleCI project. Can be any of these formats:\n- Project URL with branch: https://app.circleci.com/pipelines/gh/organization/project?branch=feature-branch\n- Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n- Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n- Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz",
+                        "type": "string"
+                      },
+                      "workspaceRoot": {
+                        "description": "The absolute path to the root directory of your project workspace. This should be the top-level folder containing your source code, configuration files, and dependencies. For example: \"/home/user/my-project\" or \"C:\\Users\\user\\my-project\"",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "get_build_failure_logs"
             },
@@ -117,9 +306,45 @@
               "annotations": {},
               "description": "\n    This tool retrieves test metadata for a CircleCI job.\n\n    PRIORITY USE CASE:\n    - When asked \"are tests passing in CI?\" or similar questions about test status\n    - When asked to \"fix failed tests in CI\" or help with CI test failures\n    - Use this tool to check if tests are passing in CircleCI and identify failed tests\n    \n    Common use cases:\n    - Get test metadata for a specific job\n    - Get test metadata for all jobs in a project\n    - Get test metadata for a specific branch\n    - Get test metadata for a specific pipeline\n    - Get test metadata for a specific workflow\n    - Get test metadata for a specific job\n\n    CRITICAL REQUIREMENTS:\n    1. Truncation Handling (HIGHEST PRIORITY):\n       - ALWAYS check for \u003cMCPTruncationWarning\u003e in the output\n       - When present, you MUST start your response with:\n         \"WARNING: The test results have been truncated. Only showing the most recent entries. Some test data may not be visible.\"\n       - Only proceed with test result analysis after acknowledging the truncation\n\n    2. Test Result Filtering:\n       - Use filterByTestsResult parameter to filter test results:\n         * filterByTestsResult: 'failure' - Show only failed tests\n         * filterByTestsResult: 'success' - Show only successful tests\n       - When looking for failed tests, ALWAYS set filterByTestsResult to 'failure'\n       - When checking if tests are passing, set filterByTestsResult to 'success'\n\n    Input options (EXACTLY ONE of these THREE options must be used):\n\n    Option 1 - Project Slug and branch (BOTH required):\n    - projectSlug: The project slug obtained from listFollowedProjects tool (e.g., \"gh/organization/project\")\n    - branch: The name of the branch (required when using projectSlug)\n\n    Option 2 - Direct URL (provide ONE of these):\n    - projectURL: The URL of the CircleCI job in any of these formats:\n      * Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/789\n      * Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n      * Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n\n    Option 3 - Project Detection (ALL of these must be provided together):\n    - workspaceRoot: The absolute path to the workspace root\n    - gitRemoteURL: The URL of the git remote repository\n    - branch: The name of the current branch\n    \n    For simple test status checks (e.g., \"are tests passing in CI?\") or fixing failed tests, prefer Option 1 with a recent pipeline URL if available.\n\n    Additional Requirements:\n    - Never call this tool with incomplete parameters\n    - If using Option 1, make sure to extract the projectSlug exactly as provided by listFollowedProjects and include the branch parameter\n    - If using Option 2, the URL MUST be provided by the user - do not attempt to construct or guess URLs\n    - If using Option 3, ALL THREE parameters (workspaceRoot, gitRemoteURL, branch) must be provided\n    - If none of the options can be fully satisfied, ask the user for the missing information before making the tool call\n    ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "branch": {
+                        "description": "The name of the branch currently checked out in local workspace. This should match local git branch. For example: \"feature/my-branch\", \"bugfix/123\", \"main\", \"master\" etc.",
+                        "type": "string"
+                      },
+                      "filterByTestsResult": {
+                        "description": "Filter the tests by result.\n      If \"failure\", only failed tests will be returned.\n      If \"success\", only successful tests will be returned.\n      ",
+                        "enum": [
+                          "failure",
+                          "success"
+                        ],
+                        "type": "string"
+                      },
+                      "gitRemoteURL": {
+                        "description": "The URL of the remote git repository. This should be the URL of the repository that you cloned to your local workspace. For example: \"https://github.com/user/my-project.git\"",
+                        "type": "string"
+                      },
+                      "projectSlug": {
+                        "description": "The project slug from listFollowedProjects tool (e.g., \"gh/organization/project\"). When using this option, branch must also be provided.",
+                        "type": "string"
+                      },
+                      "projectURL": {
+                        "description": "The URL of the CircleCI project. Can be any of these formats:\n- Project URL: https://app.circleci.com/pipelines/gh/organization/project\n- Project URL with branch: https://app.circleci.com/pipelines/gh/organization/project?branch=feature-branch\n- Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n- Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n- Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/123",
+                        "type": "string"
+                      },
+                      "workspaceRoot": {
+                        "description": "The absolute path to the root directory of your project workspace. This should be the top-level folder containing your source code, configuration files, and dependencies. For example: \"/home/user/my-project\" or \"C:\\Users\\user\\my-project\"",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "get_job_test_results"
             },
@@ -127,9 +352,37 @@
               "annotations": {},
               "description": "\n    This tool retrieves the status of the latest pipeline for a CircleCI project. It can be used to check pipeline status, get latest build status, or view current pipeline state.\n\n    Common use cases:\n    - Check latest pipeline status\n    - Get current build status\n    - View pipeline state\n    - Check build progress\n    - Get pipeline information\n\n    Input options (EXACTLY ONE of these THREE options must be used):\n\n    Option 1 - Project Slug and branch (BOTH required):\n    - projectSlug: The project slug obtained from listFollowedProjects tool (e.g., \"gh/organization/project\")\n    - branch: The name of the branch (required when using projectSlug)\n\n    Option 2 - Direct URL (provide ONE of these):\n    - projectURL: The URL of the CircleCI project in any of these formats:\n      * Project URL: https://app.circleci.com/pipelines/gh/organization/project\n      * Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n      * Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n      * Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz\n      * Legacy Job URL: https://circleci.com/gh/organization/project/123\n\n    Option 3 - Project Detection (ALL of these must be provided together):\n    - workspaceRoot: The absolute path to the workspace root\n    - gitRemoteURL: The URL of the git remote repository\n    - branch: The name of the current branch\n    \n    Recommended Workflow:\n    1. Use listFollowedProjects tool to get a list of projects\n    2. Extract the projectSlug from the chosen project (format: \"gh/organization/project\")\n    3. Use that projectSlug with a branch name for this tool\n\n    Additional Requirements:\n    - Never call this tool with incomplete parameters\n    - If using Option 1, make sure to extract the projectSlug exactly as provided by listFollowedProjects\n    - If using Option 2, the URLs MUST be provided by the user - do not attempt to construct or guess URLs\n    - If using Option 3, ALL THREE parameters (workspaceRoot, gitRemoteURL, branch) must be provided\n    - If none of the options can be fully satisfied, ask the user for the missing information before making the tool call\n  ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "branch": {
+                        "description": "The name of the branch currently checked out in local workspace. This should match local git branch. For example: \"feature/my-branch\", \"bugfix/123\", \"main\", \"master\" etc.",
+                        "type": "string"
+                      },
+                      "gitRemoteURL": {
+                        "description": "The URL of the remote git repository. This should be the URL of the repository that you cloned to your local workspace. For example: \"https://github.com/user/my-project.git\"",
+                        "type": "string"
+                      },
+                      "projectSlug": {
+                        "description": "The project slug from listFollowedProjects tool (e.g., \"gh/organization/project\"). When using this option, branch must also be provided.",
+                        "type": "string"
+                      },
+                      "projectURL": {
+                        "description": "The URL of the CircleCI project. Can be any of these formats:\n- Project URL with branch: https://app.circleci.com/pipelines/gh/organization/project?branch=feature-branch\n- Legacy Pipeline URL: https://circleci.com/gh/organization/project/123\n- Legacy Pipeline URL with branch: https://circleci.com/gh/organization/project/123?branch=feature-branch\n- Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n- Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n- Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz",
+                        "type": "string"
+                      },
+                      "workspaceRoot": {
+                        "description": "The absolute path to the root directory of your project workspace. This should be the top-level folder containing your source code, configuration files, and dependencies. For example: \"/home/user/my-project\" or \"C:\\Users\\user\\my-project\"",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "get_latest_pipeline_status"
             },
@@ -137,9 +390,38 @@
               "annotations": {},
               "description": "\n     This tool lists all versions for a CircleCI component. It guides you through a multi-step process to gather the required information and provides lists of available options when parameters are missing.\n\n     **Initial Requirements:**\n     - You need either a `projectSlug` (from `listFollowedProjects`) or a `projectID`. The tool will automatically resolve the `orgID` from either of these.\n\n     **Typical Flow:**\n     1. **Start:** User requests component versions or deployment information.\n     2. **Project Information:** Provide either `projectSlug` or `projectID`. The tool will automatically resolve the `orgID` and `projectID` as needed.\n     3. **Environment Selection:** If `environmentID` is not provided, the tool will list all available environments for the organization and prompt the user to select one. Always return all available values without categorizing them.\n     4. **Component Selection:** If `componentID` is not provided, the tool will list all available components for the project and prompt the user to select one. Always return all available values without categorizing them.\n     5. **Version Listing:** Once both `environmentID` and `componentID` are provided, the tool will list all versions for that component in the specified environment.\n     6. **Selection:** User selects a version from the list for subsequent operations.\n\n     **Parameters:**\n     - `projectSlug` (optional): The project slug from `listFollowedProjects` (e.g., \"gh/organization/project\"). Either this or `projectID` must be provided.\n     - `projectID` (optional): The CircleCI project ID (UUID). Either this or `projectSlug` must be provided.\n     - `orgID` (optional): The organization ID. If not provided, it will be automatically resolved from `projectSlug` or `projectID`.\n     - `environmentID` (optional): The environment ID. If not provided, available environments will be listed.\n     - `componentID` (optional): The component ID. If not provided, available components will be listed.\n\n     **Behavior:**\n     - The tool will guide you through the selection process step by step.\n     - Automatically resolves `orgID` from `projectSlug` or `projectID` when needed.\n     - When `environmentID` is missing, it lists environments and waits for user selection.\n     - When `componentID` is missing (but `environmentID` is provided), it lists components and waits for user selection.\n     - Only when both `environmentID` and `componentID` are provided will it list the actual component versions.\n     - Make multiple calls to this tool as you gather the required parameters.\n\n     **Common Use Cases:**\n     - Identify which versions were deployed for a component\n     - Identify which versions are live for a component\n     - Identify which versions were deployed to an environment for a component\n     - Identify which versions are not live for a component in an environment\n     - Select a version for rollback or deployment operations\n     - Obtain version name, namespace, and environment details for other CircleCI tools\n\n     **Returns:**\n     - When missing `environmentID`: A list of available environments with their IDs\n     - When missing `componentID`: A list of available components with their IDs  \n     - When both `environmentID` and `componentID` provided: A list of component versions with version name, namespace, environment ID, and is_live status\n\n     **Important Notes:**\n     - This tool requires multiple calls to gather all necessary information.\n     - Either `projectSlug` or `projectID` must be provided; the tool will resolve the missing project information automatically.\n     - The tool will prompt for missing `environmentID` and `componentID` by providing selection lists.\n     - Always use the exact IDs returned by the tool in subsequent calls.\n     - If pagination limits are reached, the tool will indicate that not all items could be displayed.\n\n     **IMPORTANT:** Do not automatically run additional tools after this tool is called. Wait for explicit user instruction before executing further tool calls. The LLM MUST NOT invoke other CircleCI tools until receiving clear instruction from the user about what to do next, even if the user selects an option. It is acceptable to list out tool call options for the user to choose from, but do not execute them until instructed.\n     ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentID": {
+                        "description": "The ID of the component to list versions for. If not provided, available components will be listed.",
+                        "type": "string"
+                      },
+                      "environmentID": {
+                        "description": "The ID of the environment to list versions for. If not provided, available environments will be listed.",
+                        "type": "string"
+                      },
+                      "orgID": {
+                        "description": "The ID of the organization. This is the ID of the organization that the components and environments belong to. If not provided, it will be resolved from projectSlug or projectID.",
+                        "type": "string"
+                      },
+                      "projectID": {
+                        "description": "The ID of the CircleCI project (UUID)",
+                        "format": "uuid",
+                        "type": "string"
+                      },
+                      "projectSlug": {
+                        "description": "The project slug from listFollowedProjects tool (e.g., \"gh/organization/project\").",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "list_component_versions"
             },
@@ -147,9 +429,16 @@
               "annotations": {},
               "description": "\n    This tool lists all projects that the user is following on CircleCI.\n    \n    Common use cases:\n    - Identify which CircleCI projects are available to the user\n    - Select a project for subsequent operations\n    - Obtain the projectSlug needed for other CircleCI tools\n    \n    Returns:\n    - A list of projects that the user is following on CircleCI\n    - Each entry includes the project name and its projectSlug\n    \n    Workflow:\n    1. Run this tool to see available projects\n    2. User selects a project from the list\n    3. The LLM should extract and use the projectSlug (not the project name) from the selected project for subsequent tool calls\n    4. The projectSlug is required for many other CircleCI tools, and will be used for those tool calls after a project is selected\n    \n    Note: If pagination limits are reached, the tool will indicate that not all projects could be displayed.\n    \n    IMPORTANT: Do not automatically run any additional tools after this tool is called. Wait for explicit user instruction before executing further tool calls. The LLM MUST NOT invoke any other CircleCI tools until receiving a clear instruction from the user about what to do next, even if the user selects a project. It is acceptable to list out tool call options for the user to choose from, but do not execute them until instructed.\n    ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "list_followed_projects"
             },
@@ -157,9 +446,51 @@
               "annotations": {},
               "description": "\n  About this tool:\n  - This tool is part of a toolchain that generates and provides test cases for a prompt template.\n  - This tool generates an array of recommended tests for a given prompt template.\n\n  Parameters:\n  - params: object\n    - promptTemplate: string (the prompt template to be tested)\n    - contextSchema: object (the context schema that defines the expected input parameters for the prompt template)\n    - promptOrigin: \"codebase\" | \"requirements\" (indicates whether the prompt comes from an existing codebase or from new requirements)\n    - model: string (the model that the prompt template will be tested against)\n    \n  Example usage:\n  {\n    \"params\": {\n      \"promptTemplate\": \"The user wants a bedtime story about {{topic}} for a person of age {{age}} years old. Please craft a captivating tale that captivates their imagination and provides a delightful bedtime experience.\",\n      \"contextSchema\": {\n        \"topic\": \"string\",\n        \"age\": \"number\"\n      },\n      \"promptOrigin\": \"codebase\"\n    }\n  }\n\n  The tool will return a structured array of test cases that can be used to test the prompt template.\n\n  Tool output instructions:\n    - The tool will return a `recommendedTests` array that can be used to test the prompt template.\n  ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "contextSchema": {
+                        "additionalProperties": {
+                          "type": "string"
+                        },
+                        "description": "The context schema that defines the expected input parameters for the prompt template. Use the `contextSchema` from the latest `create_prompt_template` tool output.",
+                        "type": "object"
+                      },
+                      "model": {
+                        "default": "gpt-4.1-mini",
+                        "description": "The model to use for generating actual prompt outputs for testing. Defaults to gpt-4.1-mini.",
+                        "type": "string"
+                      },
+                      "promptOrigin": {
+                        "description": "The origin of the prompt template, indicating where it came from (e.g. \"codebase\" or \"requirements\").",
+                        "enum": [
+                          "codebase",
+                          "requirements"
+                        ],
+                        "type": "string"
+                      },
+                      "temperature": {
+                        "default": 1,
+                        "description": "The temperature of the prompt template. Explicitly specify the temperature if it can be inferred from the codebase. Otherwise, defaults to 1.",
+                        "type": "number"
+                      },
+                      "template": {
+                        "description": "The prompt template to be tested. Use the `promptTemplate` from the latest `create_prompt_template` tool output (if available).",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "template",
+                      "contextSchema",
+                      "promptOrigin"
+                    ],
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "recommend_prompt_template_tests"
             },
@@ -167,9 +498,29 @@
               "annotations": {},
               "description": "\n  This tool is used to rerun a workflow from start or from the failed job.\n\n  Common use cases:\n  - Rerun a workflow from a failed job\n  - Rerun a workflow from start\n\nInput options (EXACTLY ONE of these TWO options must be used):\n\nOption 1 - Workflow ID:\n- workflowId: The ID of the workflow to rerun\n- fromFailed: true to rerun from failed, false to rerun from start. If omitted, behavior is based on workflow status. (optional)\n\nOption 2 - Workflow URL:\n- workflowURL: The URL of the workflow to rerun\n  * Workflow URL: https://app.circleci.com/pipelines/:vcsType/:orgName/:projectName/:pipelineNumber/workflows/:workflowId\n  * Workflow Job URL: https://app.circleci.com/pipelines/:vcsType/:orgName/:projectName/:pipelineNumber/workflows/:workflowId/jobs/:buildNumber\n- fromFailed: true to rerun from failed, false to rerun from start. If omitted, behavior is based on workflow status. (optional)\n  ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "fromFailed": {
+                        "description": "If true, reruns the workflow from failed. If false, reruns the workflow from the start. If omitted, the rerun behavior is based on the workflow status.",
+                        "type": "boolean"
+                      },
+                      "workflowId": {
+                        "description": "This should be the workflowId of the workflow that need rerun. The workflowId is an UUID. An example workflowId is a12145c5-90f8-4cc9-98f2-36cb85db9e4b",
+                        "type": "string"
+                      },
+                      "workflowURL": {
+                        "description": "The URL of the CircleCI workflow or job. Can be any of these formats:\n- Workflow URL: https://app.circleci.com/pipelines/:vcsType/:orgName/:projectName/:pipelineNumber/workflows/:workflowId- Job URL: https://app.circleci.com/pipelines/:vcsType/:orgName/:projectName/:pipelineNumber/workflows/:workflowId/jobs/:buildNumber",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "rerun_workflow"
             },
@@ -177,9 +528,66 @@
               "annotations": {},
               "description": "\n    This tool allows the users to run evaluation tests on a circleci pipeline.\n    They can be referred to as \"Prompt Tests\" or \"Evaluation Tests\".\n\n    This tool triggers a new CircleCI pipeline and returns the URL to monitor its progress.\n    The tool will generate an appropriate circleci configuration file and trigger a pipeline using this temporary configuration.\n    The tool will return the project slug.\n\n    Input options (EXACTLY ONE of these THREE options must be used):\n\n    Option 1 - Project Slug and branch (BOTH required):\n    - projectSlug: The project slug obtained from listFollowedProjects tool (e.g., \"gh/organization/project\")\n    - branch: The name of the branch (required when using projectSlug)\n\n    Option 2 - Direct URL (provide ONE of these):\n    - projectURL: The URL of the CircleCI project in any of these formats:\n      * Project URL with branch: https://app.circleci.com/pipelines/gh/organization/project?branch=feature-branch\n      * Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n      * Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n      * Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz\n\n    Option 3 - Project Detection (ALL of these must be provided together):\n    - workspaceRoot: The absolute path to the workspace root\n    - gitRemoteURL: The URL of the git remote repository\n    - branch: The name of the current branch\n\n    Test Files:\n    - promptFiles: Array of prompt template file objects from the ./prompts directory, each containing:\n      * fileName: The name of the prompt template file\n      * fileContent: The contents of the prompt template file\n\n    Pipeline Selection:\n    - If the project has multiple pipeline definitions, the tool will return a list of available pipelines\n    - You must then make another call with the chosen pipeline name using the pipelineChoiceName parameter\n    - The pipelineChoiceName must exactly match one of the pipeline names returned by the tool\n    - If the project has only one pipeline definition, pipelineChoiceName is not needed\n\n    Additional Requirements:\n    - Never call this tool with incomplete parameters\n    - If using Option 1, make sure to extract the projectSlug exactly as provided by listFollowedProjects\n    - If using Option 2, the URLs MUST be provided by the user - do not attempt to construct or guess URLs\n    - If using Option 3, ALL THREE parameters (workspaceRoot, gitRemoteURL, branch) must be provided\n    - If none of the options can be fully satisfied, ask the user for the missing information before making the tool call\n\n    Returns:\n    - A URL to the newly triggered pipeline that can be used to monitor its progress\n    ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "branch": {
+                        "description": "The name of the branch currently checked out in local workspace. This should match local git branch. For example: \"feature/my-branch\", \"bugfix/123\", \"main\", \"master\" etc.",
+                        "type": "string"
+                      },
+                      "gitRemoteURL": {
+                        "description": "The URL of the remote git repository. This should be the URL of the repository that you cloned to your local workspace. For example: \"https://github.com/user/my-project.git\"",
+                        "type": "string"
+                      },
+                      "pipelineChoiceName": {
+                        "description": "The name of the pipeline to run. This parameter is only needed if the project has multiple pipeline definitions. If not provided and multiple pipelines exist, the tool will return a list of available pipelines for the user to choose from. If provided, it must exactly match one of the pipeline names returned by the tool.",
+                        "type": "string"
+                      },
+                      "projectSlug": {
+                        "description": "The project slug from listFollowedProjects tool (e.g., \"gh/organization/project\"). When using this option, branch must also be provided.",
+                        "type": "string"
+                      },
+                      "projectURL": {
+                        "description": "The URL of the CircleCI project. Can be any of these formats:\n- Project URL with branch: https://app.circleci.com/pipelines/gh/organization/project?branch=feature-branch\n- Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n- Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n- Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz",
+                        "type": "string"
+                      },
+                      "promptFiles": {
+                        "description": "Array of prompt template files in the ./prompts directory (e.g. \u003crelevant-name\u003e.prompt.yml).",
+                        "items": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "fileContent": {
+                              "description": "The contents of the prompt template file",
+                              "type": "string"
+                            },
+                            "fileName": {
+                              "description": "The name of the prompt template file",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "fileName",
+                            "fileContent"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "workspaceRoot": {
+                        "description": "The absolute path to the root directory of your project workspace. This should be the top-level folder containing your source code, configuration files, and dependencies. For example: \"/home/user/my-project\" or \"C:\\Users\\user\\my-project\"",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "promptFiles"
+                    ],
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "run_evaluation_tests"
             },
@@ -187,9 +595,45 @@
               "annotations": {},
               "description": "\n    This tool triggers a new CircleCI pipeline and returns the URL to monitor its progress.\n\n    Input options (EXACTLY ONE of these THREE options must be used):\n\n    Option 1 - Project Slug and branch (BOTH required):\n    - projectSlug: The project slug obtained from listFollowedProjects tool (e.g., \"gh/organization/project\")\n    - branch: The name of the branch (required when using projectSlug)\n\n    Option 2 - Direct URL (provide ONE of these):\n    - projectURL: The URL of the CircleCI project in any of these formats:\n      * Project URL with branch: https://app.circleci.com/pipelines/gh/organization/project?branch=feature-branch\n      * Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n      * Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n      * Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz\n\n    Option 3 - Project Detection (ALL of these must be provided together):\n    - workspaceRoot: The absolute path to the workspace root\n    - gitRemoteURL: The URL of the git remote repository\n    - branch: The name of the current branch\n\n    Configuration:\n    - an optional configContent parameter can be provided to override the default pipeline configuration\n\n    Pipeline Selection:\n    - If the project has multiple pipeline definitions, the tool will return a list of available pipelines\n    - You must then make another call with the chosen pipeline name using the pipelineChoiceName parameter\n    - The pipelineChoiceName must exactly match one of the pipeline names returned by the tool\n    - If the project has only one pipeline definition, pipelineChoiceName is not needed\n\n    Additional Requirements:\n    - Never call this tool with incomplete parameters\n    - If using Option 1, make sure to extract the projectSlug exactly as provided by listFollowedProjects\n    - If using Option 2, the URLs MUST be provided by the user - do not attempt to construct or guess URLs\n    - If using Option 3, ALL THREE parameters (workspaceRoot, gitRemoteURL, branch) must be provided\n    - If none of the options can be fully satisfied, ask the user for the missing information before making the tool call\n\n    Returns:\n    - A URL to the newly triggered pipeline that can be used to monitor its progress\n    ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "branch": {
+                        "description": "The name of the branch currently checked out in local workspace. This should match local git branch. For example: \"feature/my-branch\", \"bugfix/123\", \"main\", \"master\" etc.",
+                        "type": "string"
+                      },
+                      "configContent": {
+                        "description": "The content of the CircleCI YAML configuration file for the pipeline.",
+                        "type": "string"
+                      },
+                      "gitRemoteURL": {
+                        "description": "The URL of the remote git repository. This should be the URL of the repository that you cloned to your local workspace. For example: \"https://github.com/user/my-project.git\"",
+                        "type": "string"
+                      },
+                      "pipelineChoiceName": {
+                        "description": "The name of the pipeline to run. This parameter is only needed if the project has multiple pipeline definitions. If not provided and multiple pipelines exist, the tool will return a list of available pipelines for the user to choose from. If provided, it must exactly match one of the pipeline names returned by the tool.",
+                        "type": "string"
+                      },
+                      "projectSlug": {
+                        "description": "The project slug from listFollowedProjects tool (e.g., \"gh/organization/project\"). When using this option, branch must also be provided.",
+                        "type": "string"
+                      },
+                      "projectURL": {
+                        "description": "The URL of the CircleCI project. Can be any of these formats:\n- Project URL with branch: https://app.circleci.com/pipelines/gh/organization/project?branch=feature-branch\n- Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n- Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n- Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz",
+                        "type": "string"
+                      },
+                      "workspaceRoot": {
+                        "description": "The absolute path to the root directory of your project workspace. This should be the top-level folder containing your source code, configuration files, and dependencies. For example: \"/home/user/my-project\" or \"C:\\Users\\user\\my-project\"",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "run_pipeline"
             },
@@ -197,9 +641,62 @@
               "annotations": {},
               "description": "\n    Run a rollback pipeline for a CircleCI project. This tool guides you through the full rollback process, adapting to the information you provide and prompting for any missing details.\n\n    **Initial Requirements:**\n    - You need either a `projectSlug` (from `listFollowedProjects`) or a `projectID`. The tool will automatically resolve the project information from either of these.\n\n    **Typical Flow:**\n    1. **Start:** User initiates a rollback request.\n    2. **Project Selection:** If project id or project slug are not provided, call `listFollowedProjects` to get the list of projects the user follows and present the full list of projects to the user so that they can select the project they want to rollback.\n    3. **Project Information:** Provide either `projectSlug` or `projectID`. The tool will automatically resolve the project information as needed.\n    4. **Version Selection:** If component environment and version are not provided, call `listComponentVersions` to get the list of versions for the selected component and environment. If there is only one version, proceed automatically and do not ask the user to select a version. Otherwise, present the user with the full list of versions and ask them to select one. Always return all available values without categorizing them.\n    5. **Rollback Reason** ask the user for an optional reason for the rollback (e.g., \"Critical bug fix\"). Skip this step is the user explicitly requests a rollback by workflow rerun.\n    6. **Rollback pipeline check** if the tool reports that no rollback pipeline is defined, ask the user if they want to trigger a rollback by workflow rerun or suggest to setup a rollback pipeline following the documentation at https://circleci.com/docs/deploy/rollback-a-project-using-the-rollback-pipeline/.\n    7. **Confirmation:** Summarize the rollback request and confirm with the user before submitting.\n    8. **Pipeline Rollback:**  if the user requested a rollback by pipeline, call `runRollbackPipeline` passing all parameters including the namespace associated with the version to the tool.\n    9. **Workflow Rerun** If the user requested a rollback by workflow rerun, call `rerunWorkflow` passing the workflow ID of the selected version to the tool.\n    10.**Completion:** Report the outcome of the operation.\n\n    **Parameters:**\n    - `projectSlug` (optional): The project slug from `listFollowedProjects` (e.g., \"gh/organization/project\"). Either this or `projectID` must be provided.\n    - `projectID` (optional): The CircleCI project ID (UUID). Either this or `projectSlug` must be provided.\n    - `environmentName` (required): The target environment (e.g., \"production\", \"staging\").\n    - `componentName` (required): The component to rollback (e.g., \"frontend\", \"backend\").\n    - `currentVersion` (required): The currently deployed version.\n    - `targetVersion` (required): The version to rollback to.\n    - `namespace` (required): The namespace of the component.\n    - `reason` (optional): Reason for the rollback.\n    - `parameters` (optional): Additional rollback parameters as key-value pairs.\n\n    **Behavior:**\n    - If there are more than 20 environments or components, ask the user to refine their selection.\n    - Never attempt to guess or construct project slugs or URLs; always use values provided by the user or from `listFollowedProjects`.\n    - Do not prompt for missing parameters until versions have been listed.\n    - Do not call this tool with incomplete parameters.\n    - If the selected project lacks rollback pipeline configuration, provide a definitive error message without suggesting alternative projects.\n\n    **Returns:**\n    - On success: The rollback ID or a confirmation in case of workflow rerun.\n    - On error: A clear message describing what is missing or what went wrong.\n    - If the selected project does not have a rollback pipeline configured: The tool will provide a clear error message specific to that project and will NOT suggest trying another project.\n\n    **Important Note:**\n    - This tool is designed to work only with the specific project provided by the user.\n    - If a project does not have rollback capability configured, the tool will NOT recommend trying other projects.\n    - The assistant should NOT suggest trying different projects when a project lacks rollback configuration.\n    - Each project must have its own rollback pipeline configuration to be eligible for rollback operations.\n    - When a project cannot be rolled back, provide only the configuration guidance for THAT specific project.\n    - The tool automatically resolves project information from either `projectSlug` or `projectID`.\n    If no version is found, the tool will suggest the user to set up deploy markers following the documentation at:\n    https://circleci.com/docs/deploy/configure-deploy-markers/\n  ",
               "inputSchema": {
-                "properties": {},
+                "additionalProperties": false,
+                "properties": {
+                  "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentName": {
+                        "description": "The component name",
+                        "type": "string"
+                      },
+                      "currentVersion": {
+                        "description": "The current version",
+                        "type": "string"
+                      },
+                      "environmentName": {
+                        "description": "The environment name",
+                        "type": "string"
+                      },
+                      "namespace": {
+                        "description": "The namespace of the component",
+                        "type": "string"
+                      },
+                      "parameters": {
+                        "additionalProperties": {},
+                        "description": "The extra parameters for the rollback pipeline",
+                        "type": "object"
+                      },
+                      "projectID": {
+                        "description": "The ID of the CircleCI project (UUID)",
+                        "format": "uuid",
+                        "type": "string"
+                      },
+                      "projectSlug": {
+                        "description": "The project slug from listFollowedProjects tool (e.g., \"gh/organization/project\").",
+                        "type": "string"
+                      },
+                      "reason": {
+                        "description": "The reason for the rollback",
+                        "type": "string"
+                      },
+                      "targetVersion": {
+                        "description": "The target version",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "environmentName",
+                      "componentName",
+                      "currentVersion",
+                      "targetVersion",
+                      "namespace"
+                    ],
+                    "type": "object"
+                  }
+                },
                 "required": [],
-                "type": ""
+                "type": "object"
               },
               "name": "run_rollback_pipeline"
             }
