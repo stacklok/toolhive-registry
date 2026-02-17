@@ -1,20 +1,221 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/prometheus",
-  "description": "Provides access to Prometheus metrics and queries",
-  "title": "prometheus",
-  "repository": {
-    "url": "https://github.com/pab1it0/prometheus-mcp-server",
-    "source": "github"
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3": {
+          "metadata": {
+            "last_updated": "2026-02-17T17:21:34Z",
+            "stars": 360
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "monitoring",
+            "metrics",
+            "prometheus",
+            "observability",
+            "query"
+          ],
+          "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Execute PromQL Query"
+              },
+              "description": "Execute a PromQL instant query against Prometheus",
+              "inputSchema": {
+                "properties": {
+                  "query": {
+                    "title": "Query",
+                    "type": "string"
+                  },
+                  "time": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Time"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "execute_query"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Execute PromQL Range Query"
+              },
+              "description": "Execute a PromQL range query with start time, end time, and step interval",
+              "inputSchema": {
+                "properties": {
+                  "end": {
+                    "title": "End",
+                    "type": "string"
+                  },
+                  "query": {
+                    "title": "Query",
+                    "type": "string"
+                  },
+                  "start": {
+                    "title": "Start",
+                    "type": "string"
+                  },
+                  "step": {
+                    "title": "Step",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query",
+                  "start",
+                  "end",
+                  "step"
+                ],
+                "type": "object"
+              },
+              "name": "execute_range_query"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get Metric Metadata"
+              },
+              "description": "Get metadata for a specific metric",
+              "inputSchema": {
+                "properties": {
+                  "metric": {
+                    "title": "Metric",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "metric"
+                ],
+                "type": "object"
+              },
+              "name": "get_metric_metadata"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get Scrape Targets"
+              },
+              "description": "Get information about all scrape targets",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_targets"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Health Check"
+              },
+              "description": "Health check endpoint for container monitoring and status verification",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "health_check"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "List Available Metrics"
+              },
+              "description": "List all available metrics in Prometheus with optional pagination support",
+              "inputSchema": {
+                "properties": {
+                  "filter_pattern": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Filter Pattern"
+                  },
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "title": "Offset",
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_metrics"
+            }
+          ],
+          "tools": [
+            "execute_query",
+            "execute_range_query",
+            "get_metric_metadata",
+            "get_targets",
+            "health_check",
+            "list_metrics"
+          ]
+        }
+      }
+    }
   },
-  "version": "1.0.0",
+  "description": "Provides access to Prometheus metrics and queries",
+  "name": "io.github.stacklok/prometheus",
   "packages": [
     {
-      "registryType": "oci",
-      "identifier": "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3",
-      "transport": {
-        "type": "stdio"
-      },
       "environmentVariables": [
         {
           "description": "URL of your Prometheus server",
@@ -51,43 +252,18 @@
           "description": "Custom headers as JSON string",
           "name": "PROMETHEUS_CUSTOM_HEADERS"
         }
-      ]
-    }
-  ],
-  "_meta": {
-    "io.modelcontextprotocol.registry/publisher-provided": {
-      "io.github.stacklok": {
-        "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3": {
-          "metadata": {
-            "last_updated": "2026-01-30T02:55:46Z",
-            "stars": 360
-          },
-          "permissions": {
-            "network": {
-              "outbound": {
-                "insecure_allow_all": true
-              }
-            }
-          },
-          "status": "Active",
-          "tags": [
-            "monitoring",
-            "metrics",
-            "prometheus",
-            "observability",
-            "query"
-          ],
-          "tier": "Community",
-          "tools": [
-            "health_check",
-            "execute_query",
-            "execute_range_query",
-            "list_metrics",
-            "get_metric_metadata",
-            "get_targets"
-          ]
-        }
+      ],
+      "identifier": "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
       }
     }
-  }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/pab1it0/prometheus-mcp-server"
+  },
+  "title": "prometheus",
+  "version": "1.0.0"
 }

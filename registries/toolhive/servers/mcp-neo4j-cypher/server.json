@@ -1,51 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/mcp-neo4j-cypher",
-  "description": "MCP server for executing Cypher queries against Neo4j databases with natural language interface",
-  "title": "mcp-neo4j-cypher",
-  "repository": {
-    "url": "https://github.com/neo4j-contrib/mcp-neo4j",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-cypher:0.5.2",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Neo4j database connection URI",
-          "isRequired": true,
-          "default": "bolt://localhost:7687",
-          "name": "NEO4J_URI"
-        },
-        {
-          "description": "Neo4j database username",
-          "default": "neo4j",
-          "name": "NEO4J_USERNAME"
-        },
-        {
-          "description": "Neo4j database password",
-          "isSecret": true,
-          "name": "NEO4J_PASSWORD"
-        },
-        {
-          "description": "Neo4j database name",
-          "default": "neo4j",
-          "name": "NEO4J_DATABASE"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-cypher:0.5.2": {
           "metadata": {
-            "last_updated": "2026-02-14T02:56:21Z",
+            "last_updated": "2026-02-17T17:19:19Z",
             "pulls": 91,
             "stars": 898
           },
@@ -82,6 +42,88 @@
             "graph-database"
           ],
           "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get Neo4j Schema"
+              },
+              "description": "Returns nodes, their properties (with types and indexed flags), and relationships\nusing APOC's schema inspection.\n\nYou should only provide a `sample_size` value if requested by the user, or tuning the retrieval performance.\n\nPerformance Notes:\n    - If `sample_size` is not provided, uses the server's default sample setting defined in the server configuration.\n    - If retrieving the schema times out, try lowering the sample size, e.g. `sample_size=100`.\n    - To sample the entire graph use `sample_size=-1`.",
+              "inputSchema": {
+                "properties": {
+                  "sample_size": {
+                    "default": 1000,
+                    "description": "The sample size used to infer the graph schema. Larger samples are slower, but more accurate. Smaller samples are faster, but might miss information.",
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_neo4j_schema"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Read Neo4j Cypher"
+              },
+              "description": "Execute a read Cypher query on the neo4j database.",
+              "inputSchema": {
+                "properties": {
+                  "params": {
+                    "additionalProperties": true,
+                    "default": {},
+                    "description": "The parameters to pass to the Cypher query.",
+                    "type": "object"
+                  },
+                  "query": {
+                    "description": "The Cypher query to execute.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "read_neo4j_cypher"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Write Neo4j Cypher"
+              },
+              "description": "Execute a write Cypher query on the neo4j database.",
+              "inputSchema": {
+                "properties": {
+                  "params": {
+                    "additionalProperties": true,
+                    "default": {},
+                    "description": "The parameters to pass to the Cypher query.",
+                    "type": "object"
+                  },
+                  "query": {
+                    "description": "The Cypher query to execute.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "write_neo4j_cypher"
+            }
+          ],
           "tools": [
             "get_neo4j_schema",
             "read_neo4j_cypher",
@@ -90,5 +132,45 @@
         }
       }
     }
-  }
+  },
+  "description": "MCP server for executing Cypher queries against Neo4j databases with natural language interface",
+  "name": "io.github.stacklok/mcp-neo4j-cypher",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "default": "bolt://localhost:7687",
+          "description": "Neo4j database connection URI",
+          "isRequired": true,
+          "name": "NEO4J_URI"
+        },
+        {
+          "default": "neo4j",
+          "description": "Neo4j database username",
+          "name": "NEO4J_USERNAME"
+        },
+        {
+          "description": "Neo4j database password",
+          "isSecret": true,
+          "name": "NEO4J_PASSWORD"
+        },
+        {
+          "default": "neo4j",
+          "description": "Neo4j database name",
+          "name": "NEO4J_DATABASE"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-cypher:0.5.2",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/neo4j-contrib/mcp-neo4j"
+  },
+  "title": "mcp-neo4j-cypher",
+  "version": "1.0.0"
 }

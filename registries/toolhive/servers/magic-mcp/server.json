@@ -1,36 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/magic-mcp",
-  "description": "AI-powered UI component generator MCP server by 21st.dev",
-  "title": "magic-mcp",
-  "repository": {
-    "url": "https://github.com/21st-dev/magic-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/npx/magic-mcp:0.1.0",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "21st.dev Magic API key for component generation",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "API_KEY"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/magic-mcp:0.1.0": {
           "metadata": {
-            "last_updated": "2026-02-13T03:02:08Z",
+            "last_updated": "2026-02-17T17:18:33Z",
             "pulls": 128,
             "stars": 4262
           },
@@ -65,14 +40,161 @@
             "react"
           ],
           "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "\n\"Use this tool when the user requests a new UI component—e.g., mentions /ui, /21 /21st, or asks for a button, input, dialog, table, form, banner, card, or other React component.\nThis tool ONLY returns the text snippet for that UI component. \nAfter calling this tool, you must edit or add files to integrate the snippet into the codebase.\"\n",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "absolutePathToCurrentFile": {
+                    "description": "Absolute path to the current file to which we want to apply changes",
+                    "type": "string"
+                  },
+                  "absolutePathToProjectDirectory": {
+                    "description": "Absolute path to the project root directory",
+                    "type": "string"
+                  },
+                  "message": {
+                    "description": "Full users message",
+                    "type": "string"
+                  },
+                  "searchQuery": {
+                    "description": "Generate a search query for 21st.dev (library for searching UI components) to find a UI component that matches the user's message. Must be a two-four words max or phrase",
+                    "type": "string"
+                  },
+                  "standaloneRequestQuery": {
+                    "description": "You need to formulate what component user wants to create, based on his message, possbile chat histroy and a place where he makes the request.Extract additional context about what should be done to create a ui component/page based on the user's message, search query, and conversation history, files. Don't halucinate and be on point.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "message",
+                  "searchQuery",
+                  "absolutePathToCurrentFile",
+                  "absolutePathToProjectDirectory",
+                  "standaloneRequestQuery"
+                ],
+                "type": "object"
+              },
+              "name": "21st_magic_component_builder"
+            },
+            {
+              "annotations": {},
+              "description": "\n\"Use this tool when the user wants to see component, get inspiration, or /21st fetch data and previews from 21st.dev. This tool returns the JSON data of matching components without generating new code. This tool ONLY returns the text snippet for that UI component. \nAfter calling this tool, you must edit or add files to integrate the snippet into the codebase.\"\n",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "message": {
+                    "description": "Full users message",
+                    "type": "string"
+                  },
+                  "searchQuery": {
+                    "description": "Search query for 21st.dev (library for searching UI components) to find a UI component that matches the user's message. Must be a two-four words max or phrase",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "message",
+                  "searchQuery"
+                ],
+                "type": "object"
+              },
+              "name": "21st_magic_component_inspiration"
+            },
+            {
+              "annotations": {},
+              "description": "\n\"Use this tool when the user requests to re-design/refine/improve current UI component with /ui or /21 commands, \nor when context is about improving, or refining UI for a React component or molecule (NOT for big pages).\nThis tool improves UI of components and returns redesigned version of the component and instructions on how to implement it.\"\n",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "absolutePathToRefiningFile": {
+                    "description": "Absolute path to the file that needs to be refined",
+                    "type": "string"
+                  },
+                  "context": {
+                    "description": "Extract the specific UI elements and aspects that need improvement based on user messages, code, and conversation history. Identify exactly which components (buttons, forms, modals, etc.) the user is referring to and what aspects (styling, layout, responsiveness, etc.) they want to enhance. Do not include generic improvements - focus only on what the user explicitly mentions or what can be reasonably inferred from the available context. If nothing specific is mentioned or you cannot determine what needs improvement, return an empty string.",
+                    "type": "string"
+                  },
+                  "userMessage": {
+                    "description": "Full user's message about UI refinement",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "userMessage",
+                  "absolutePathToRefiningFile",
+                  "context"
+                ],
+                "type": "object"
+              },
+              "name": "21st_magic_component_refiner"
+            },
+            {
+              "annotations": {},
+              "description": "\nSearch and return logos in specified format (JSX, TSX, SVG).\nSupports single and multiple logo searches with category filtering.\nCan return logos in different themes (light/dark) if available.\n\nWhen to use this tool:\n1. When user types \"/logo\" command (e.g., \"/logo GitHub\")\n2. When user asks to add a company logo that's not in the local project\n\nExample queries:\n- Single company: [\"discord\"]\n- Multiple companies: [\"discord\", \"github\", \"slack\"]\n- Specific brand: [\"microsoft office\"]\n- Command style: \"/logo GitHub\" -\u003e [\"github\"]\n- Request style: \"Add Discord logo to the project\" -\u003e [\"discord\"]\n\nFormat options:\n- TSX: Returns TypeScript React component\n- JSX: Returns JavaScript React component\n- SVG: Returns raw SVG markup\n\nEach result includes:\n- Component name (e.g., DiscordIcon)\n- Component code\n- Import instructions\n",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "format": {
+                    "description": "Output format",
+                    "enum": [
+                      "JSX",
+                      "TSX",
+                      "SVG"
+                    ],
+                    "type": "string"
+                  },
+                  "queries": {
+                    "description": "List of company names to search for logos",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "queries",
+                  "format"
+                ],
+                "type": "object"
+              },
+              "name": "logo_search"
+            }
+          ],
           "tools": [
-            "create_ui",
-            "fetch_ui",
-            "logo_search",
-            "refine_ui"
+            "21st_magic_component_builder",
+            "21st_magic_component_inspiration",
+            "21st_magic_component_refiner",
+            "logo_search"
           ]
         }
       }
     }
-  }
+  },
+  "description": "AI-powered UI component generator MCP server by 21st.dev",
+  "name": "io.github.stacklok/magic-mcp",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "21st.dev Magic API key for component generation",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "API_KEY"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/magic-mcp:0.1.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/21st-dev/magic-mcp"
+  },
+  "title": "magic-mcp",
+  "version": "1.0.0"
 }

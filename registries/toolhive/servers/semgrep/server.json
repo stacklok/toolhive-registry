@@ -1,29 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/semgrep",
-  "description": "Scan code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules",
-  "title": "semgrep",
-  "repository": {
-    "url": "https://github.com/semgrep/semgrep",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "semgrep/semgrep:latest",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Token for connecting to Semgrep AppSec Platform",
-          "isSecret": true,
-          "name": "SEMGREP_APP_TOKEN"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -33,7 +9,7 @@
             "mcp"
           ],
           "metadata": {
-            "last_updated": "2026-02-05T04:47:25Z",
+            "last_updated": "2026-02-17T17:22:18Z",
             "pulls": 21632974,
             "stars": 14048
           },
@@ -63,6 +39,229 @@
             "code-analysis"
           ],
           "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "\n    Returns the Abstract Syntax Tree (AST) for the provided code file in JSON format\n\n    Use this tool when you need to:\n      - get the Abstract Syntax Tree (AST) for the provided code file      - get the AST of a file\n      - understand the structure of the code in a more granular way\n      - see what a parser sees in the code\n    ",
+              "inputSchema": {
+                "properties": {
+                  "code": {
+                    "description": "The code to get the AST for",
+                    "title": "Code",
+                    "type": "string"
+                  },
+                  "language": {
+                    "description": "The programming language of the code",
+                    "title": "Language",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code",
+                  "language"
+                ],
+                "type": "object"
+              },
+              "name": "get_abstract_syntax_tree"
+            },
+            {
+              "annotations": {},
+              "description": "\n    Returns a list of supported languages by Semgrep\n\n    Only use this tool if you are not sure what languages Semgrep supports.\n    ",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_supported_languages"
+            },
+            {
+              "annotations": {},
+              "description": "\n    Fetches findings from the Semgrep AppSec Platform Findings API.\n\n    This function retrieves security, code quality, and supply chain findings that have already been\n    identified by previous Semgrep scans and uploaded to the Semgrep AppSec platform. It does NOT\n    perform a new scan or analyze code directly. Instead, it queries the Semgrep API to access\n    historical scan results for a given repository or set of repositories.\n\n    DEFAULT BEHAVIOR: By default, this tool should filter by the current repository. The model\n    should determine the current repository name and pass it in the 'repos' parameter to ensure\n    findings are scoped to the relevant codebase. However, users may explicitly request findings\n    from other repositories, in which case the model should respect that request.\n\n    Use this function when a prompt requests a summary, list, or analysis of existing findings,\n    such as:\n        - \"Please list the top 10 security findings and propose solutions for them.\"\n        - \"Show all open critical vulnerabilities in this repository.\"\n        - \"Summarize the most recent Semgrep scan results.\"\n        - \"Get findings from repository X\" (explicitly requesting different repo)\n\n    This function is ideal for:\n    - Reviewing, listing, or summarizing findings from past scans.\n    - Providing actionable insights or remediation advice based on existing scan data.\n\n    Do NOT use this function to perform a new scan or check code that has not yet been analyzed by\n    Semgrep. For new scans, use the appropriate scanning function.\n\n    Args:\n        issue_type (str): Filter findings by type. Use 'sast' for code analysis\n            findings and 'sca' for supply chain analysis findings (e.g., 'sast', 'sca').\n        status (Optional[str]): Filter findings by status (default: 'open').\n        repos (Optional[List[str]]): List of repository names to filter results. By default, should\n            include the current repository name to scope findings appropriately. Can be overridden\n            when users explicitly request findings from other repositories.\n        severities (Optional[List[str]]): Filter findings by severity (e.g., ['critical', 'high']).\n        confidence (Optional[List[str]]): Filter findings by confidence level (e.g., ['high']).\n        autotriage_verdict (Optional[str]): Filter findings by auto-triage verdict\n            (default: 'true_positive').\n        page (Optional[int]): Page number for paginated results. (default: 0)\n        page_size (int): Number of findings per page (default: 100, min: 100, max: 3000).\n\n    Returns:\n        List[Finding]: A list of findings matching the specified filters, where each finding\n        contains details such as rule ID, description, severity, file location, and remediation\n        guidance if available.\n    ",
+              "inputSchema": {
+                "properties": {
+                  "autotriage_verdict": {
+                    "default": "true_positive",
+                    "title": "Autotriage Verdict",
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Confidence"
+                  },
+                  "issue_type": {
+                    "default": "sast",
+                    "title": "Issue Type",
+                    "type": "string"
+                  },
+                  "page": {
+                    "default": 0,
+                    "title": "Page",
+                    "type": "integer"
+                  },
+                  "page_size": {
+                    "default": 100,
+                    "title": "Page Size",
+                    "type": "integer"
+                  },
+                  "repos": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Repos"
+                  },
+                  "severities": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Severities"
+                  },
+                  "status": {
+                    "default": "open",
+                    "title": "Status",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "semgrep_findings"
+            },
+            {
+              "annotations": {},
+              "description": "\n    Get the schema for a Semgrep rule\n\n    Use this tool when you need to:\n      - get the schema required to write a Semgrep rule\n      - need to see what fields are available for a Semgrep rule\n      - verify what fields are available for a Semgrep rule\n      - verify the syntax for a Semgrep rule is correct\n    ",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "semgrep_rule_schema"
+            },
+            {
+              "annotations": {},
+              "description": "\n    Runs a Semgrep scan locally on provided code files returns the findings in JSON format.\n\n    Files are expected to be absolute paths to the code files.\n\n    Use this tool when you need to:\n      - scan code files for security vulnerabilities\n      - scan code files for other issues\n    ",
+              "inputSchema": {
+                "$defs": {
+                  "CodePath": {
+                    "properties": {
+                      "path": {
+                        "description": "Absolute path of the code file",
+                        "title": "Path",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "path"
+                    ],
+                    "title": "CodePath",
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "code_files": {
+                    "description": "List of dictionaries with 'path' pointing to the absolute path of the code file",
+                    "items": {
+                      "$ref": "#/$defs/CodePath"
+                    },
+                    "title": "Code Files",
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "code_files"
+                ],
+                "type": "object"
+              },
+              "name": "semgrep_scan"
+            },
+            {
+              "annotations": {},
+              "description": "\n    Runs a Semgrep supply chain scan on the provided workspace directory,\n    to identify potential third-party security vulnerabilities.\n\n    Use this tool when you:\n      - change the version of a dependency in a project\n      - add a new dependency to a project\n      - update the lockfiles of a project\n    ",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "semgrep_scan_supply_chain"
+            },
+            {
+              "annotations": {},
+              "description": "\n    Runs a Semgrep scan with a custom rule on provided code content\n    and returns the findings in JSON format\n\n    Use this tool when you need to:\n      - scan code files for specific security vulnerability not covered by the default Semgrep rules\n      - scan code files for specific issue not covered by the default Semgrep rules\n    ",
+              "inputSchema": {
+                "$defs": {
+                  "CodeFile": {
+                    "properties": {
+                      "content": {
+                        "description": "Content of the code file",
+                        "title": "Content",
+                        "type": "string"
+                      },
+                      "path": {
+                        "description": "Path of the code file",
+                        "title": "Path",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "content"
+                    ],
+                    "title": "CodeFile",
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "code_files": {
+                    "description": "List of dictionaries with 'path' and 'content' keys",
+                    "items": {
+                      "$ref": "#/$defs/CodeFile"
+                    },
+                    "title": "Code Files",
+                    "type": "array"
+                  },
+                  "rule": {
+                    "description": "Semgrep YAML rule string",
+                    "title": "Rule",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code_files",
+                  "rule"
+                ],
+                "type": "object"
+              },
+              "name": "semgrep_scan_with_custom_rule"
+            }
+          ],
           "tools": [
             "get_abstract_syntax_tree",
             "get_supported_languages",
@@ -75,5 +274,29 @@
         }
       }
     }
-  }
+  },
+  "description": "Scan code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules",
+  "name": "io.github.stacklok/semgrep",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Token for connecting to Semgrep AppSec Platform",
+          "isSecret": true,
+          "name": "SEMGREP_APP_TOKEN"
+        }
+      ],
+      "identifier": "semgrep/semgrep:latest",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/semgrep/semgrep"
+  },
+  "title": "semgrep",
+  "version": "1.0.0"
 }

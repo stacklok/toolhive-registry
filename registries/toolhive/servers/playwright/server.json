@@ -1,28 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/playwright",
-  "description": "Provides browser automation capabilities using Playwright",
-  "title": "playwright",
-  "repository": {
-    "url": "https://github.com/microsoft/playwright-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.68",
-      "transport": {
-        "type": "stdio"
-      }
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "mcr.microsoft.com/playwright/mcp:v0.0.68": {
           "metadata": {
-            "last_updated": "2026-01-27T02:45:00Z",
+            "last_updated": "2026-02-17T17:21:40Z",
             "pulls": 23622,
             "stars": 26247
           },
@@ -47,6 +30,676 @@
             "accessibility"
           ],
           "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Click"
+              },
+              "description": "Perform click on a web page",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "button": {
+                    "description": "Button to click, defaults to left",
+                    "enum": [
+                      "left",
+                      "right",
+                      "middle"
+                    ],
+                    "type": "string"
+                  },
+                  "doubleClick": {
+                    "description": "Whether to perform a double click instead of a single click",
+                    "type": "boolean"
+                  },
+                  "element": {
+                    "description": "Human-readable element description used to obtain permission to interact with the element",
+                    "type": "string"
+                  },
+                  "modifiers": {
+                    "description": "Modifier keys to press",
+                    "items": {
+                      "enum": [
+                        "Alt",
+                        "Control",
+                        "ControlOrMeta",
+                        "Meta",
+                        "Shift"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "ref": {
+                    "description": "Exact target element reference from the page snapshot",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ref"
+                ],
+                "type": "object"
+              },
+              "name": "browser_click"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Close browser"
+              },
+              "description": "Close the page",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "browser_close"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get console messages"
+              },
+              "description": "Returns all console messages",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "filename": {
+                    "description": "Filename to save the console messages to. If not provided, messages are returned as text.",
+                    "type": "string"
+                  },
+                  "level": {
+                    "default": "info",
+                    "description": "Level of the console messages to return. Each level includes the messages of more severe levels. Defaults to \"info\".",
+                    "enum": [
+                      "error",
+                      "warning",
+                      "info",
+                      "debug"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "level"
+                ],
+                "type": "object"
+              },
+              "name": "browser_console_messages"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Drag mouse"
+              },
+              "description": "Perform drag and drop between two elements",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "endElement": {
+                    "description": "Human-readable target element description used to obtain the permission to interact with the element",
+                    "type": "string"
+                  },
+                  "endRef": {
+                    "description": "Exact target element reference from the page snapshot",
+                    "type": "string"
+                  },
+                  "startElement": {
+                    "description": "Human-readable source element description used to obtain the permission to interact with the element",
+                    "type": "string"
+                  },
+                  "startRef": {
+                    "description": "Exact source element reference from the page snapshot",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "startElement",
+                  "startRef",
+                  "endElement",
+                  "endRef"
+                ],
+                "type": "object"
+              },
+              "name": "browser_drag"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Evaluate JavaScript"
+              },
+              "description": "Evaluate JavaScript expression on page or element",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "element": {
+                    "description": "Human-readable element description used to obtain permission to interact with the element",
+                    "type": "string"
+                  },
+                  "function": {
+                    "description": "() =\u003e { /* code */ } or (element) =\u003e { /* code */ } when element is provided",
+                    "type": "string"
+                  },
+                  "ref": {
+                    "description": "Exact target element reference from the page snapshot",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "function"
+                ],
+                "type": "object"
+              },
+              "name": "browser_evaluate"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Upload files"
+              },
+              "description": "Upload one or multiple files",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "paths": {
+                    "description": "The absolute paths to the files to upload. Can be single file or multiple files. If omitted, file chooser is cancelled.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "browser_file_upload"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Fill form"
+              },
+              "description": "Fill multiple form fields",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "fields": {
+                    "description": "Fields to fill in",
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "name": {
+                          "description": "Human-readable field name",
+                          "type": "string"
+                        },
+                        "ref": {
+                          "description": "Exact target field reference from the page snapshot",
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "Type of the field",
+                          "enum": [
+                            "textbox",
+                            "checkbox",
+                            "radio",
+                            "combobox",
+                            "slider"
+                          ],
+                          "type": "string"
+                        },
+                        "value": {
+                          "description": "Value to fill in the field. If the field is a checkbox, the value should be `true` or `false`. If the field is a combobox, the value should be the text of the option.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "type",
+                        "ref",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "fields"
+                ],
+                "type": "object"
+              },
+              "name": "browser_fill_form"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Handle a dialog"
+              },
+              "description": "Handle a dialog",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "accept": {
+                    "description": "Whether to accept the dialog.",
+                    "type": "boolean"
+                  },
+                  "promptText": {
+                    "description": "The text of the prompt in case of a prompt dialog.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "accept"
+                ],
+                "type": "object"
+              },
+              "name": "browser_handle_dialog"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Hover mouse"
+              },
+              "description": "Hover over element on page",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "element": {
+                    "description": "Human-readable element description used to obtain permission to interact with the element",
+                    "type": "string"
+                  },
+                  "ref": {
+                    "description": "Exact target element reference from the page snapshot",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ref"
+                ],
+                "type": "object"
+              },
+              "name": "browser_hover"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Install the browser specified in the config"
+              },
+              "description": "Install the browser specified in the config. Call this if you get an error about the browser not being installed.",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "browser_install"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Navigate to a URL"
+              },
+              "description": "Navigate to a URL",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "url": {
+                    "description": "The URL to navigate to",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "type": "object"
+              },
+              "name": "browser_navigate"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Go back"
+              },
+              "description": "Go back to the previous page in the history",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "browser_navigate_back"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "List network requests"
+              },
+              "description": "Returns all network requests since loading the page",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "filename": {
+                    "description": "Filename to save the network requests to. If not provided, requests are returned as text.",
+                    "type": "string"
+                  },
+                  "includeStatic": {
+                    "default": false,
+                    "description": "Whether to include successful static resources like images, fonts, scripts, etc. Defaults to false.",
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "includeStatic"
+                ],
+                "type": "object"
+              },
+              "name": "browser_network_requests"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Press a key"
+              },
+              "description": "Press a key on the keyboard",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "key": {
+                    "description": "Name of the key to press or a character to generate, such as `ArrowLeft` or `a`",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key"
+                ],
+                "type": "object"
+              },
+              "name": "browser_press_key"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Resize browser window"
+              },
+              "description": "Resize the browser window",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "height": {
+                    "description": "Height of the browser window",
+                    "type": "number"
+                  },
+                  "width": {
+                    "description": "Width of the browser window",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "width",
+                  "height"
+                ],
+                "type": "object"
+              },
+              "name": "browser_resize"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Run Playwright code"
+              },
+              "description": "Run Playwright code snippet",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "code": {
+                    "description": "A JavaScript function containing Playwright code to execute. It will be invoked with a single argument, page, which you can use for any page interaction. For example: `async (page) =\u003e { await page.getByRole('button', { name: 'Submit' }).click(); return await page.title(); }`",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code"
+                ],
+                "type": "object"
+              },
+              "name": "browser_run_code"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Select option"
+              },
+              "description": "Select an option in a dropdown",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "element": {
+                    "description": "Human-readable element description used to obtain permission to interact with the element",
+                    "type": "string"
+                  },
+                  "ref": {
+                    "description": "Exact target element reference from the page snapshot",
+                    "type": "string"
+                  },
+                  "values": {
+                    "description": "Array of values to select in the dropdown. This can be a single value or multiple values.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "ref",
+                  "values"
+                ],
+                "type": "object"
+              },
+              "name": "browser_select_option"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Page snapshot"
+              },
+              "description": "Capture accessibility snapshot of the current page, this is better than screenshot",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "filename": {
+                    "description": "Save snapshot to markdown file instead of returning it in the response.",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "browser_snapshot"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Manage tabs"
+              },
+              "description": "List, create, close, or select a browser tab.",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "action": {
+                    "description": "Operation to perform",
+                    "enum": [
+                      "list",
+                      "new",
+                      "close",
+                      "select"
+                    ],
+                    "type": "string"
+                  },
+                  "index": {
+                    "description": "Tab index, used for close/select. If omitted for close, current tab is closed.",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "action"
+                ],
+                "type": "object"
+              },
+              "name": "browser_tabs"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Take a screenshot"
+              },
+              "description": "Take a screenshot of the current page. You can't perform actions based on the screenshot, use browser_snapshot for actions.",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "element": {
+                    "description": "Human-readable element description used to obtain permission to screenshot the element. If not provided, the screenshot will be taken of viewport. If element is provided, ref must be provided too.",
+                    "type": "string"
+                  },
+                  "filename": {
+                    "description": "File name to save the screenshot to. Defaults to `page-{timestamp}.{png|jpeg}` if not specified. Prefer relative file names to stay within the output directory.",
+                    "type": "string"
+                  },
+                  "fullPage": {
+                    "description": "When true, takes a screenshot of the full scrollable page, instead of the currently visible viewport. Cannot be used with element screenshots.",
+                    "type": "boolean"
+                  },
+                  "ref": {
+                    "description": "Exact target element reference from the page snapshot. If not provided, the screenshot will be taken of viewport. If ref is provided, element must be provided too.",
+                    "type": "string"
+                  },
+                  "type": {
+                    "default": "png",
+                    "description": "Image format for the screenshot. Default is png.",
+                    "enum": [
+                      "png",
+                      "jpeg"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "type": "object"
+              },
+              "name": "browser_take_screenshot"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Type text"
+              },
+              "description": "Type text into editable element",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "element": {
+                    "description": "Human-readable element description used to obtain permission to interact with the element",
+                    "type": "string"
+                  },
+                  "ref": {
+                    "description": "Exact target element reference from the page snapshot",
+                    "type": "string"
+                  },
+                  "slowly": {
+                    "description": "Whether to type one character at a time. Useful for triggering key handlers in the page. By default entire text is filled in at once.",
+                    "type": "boolean"
+                  },
+                  "submit": {
+                    "description": "Whether to submit entered text (press Enter after)",
+                    "type": "boolean"
+                  },
+                  "text": {
+                    "description": "Text to type into the element",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ref",
+                  "text"
+                ],
+                "type": "object"
+              },
+              "name": "browser_type"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Wait for"
+              },
+              "description": "Wait for text to appear or disappear or a specified time to pass",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "description": "The text to wait for",
+                    "type": "string"
+                  },
+                  "textGone": {
+                    "description": "The text to wait for to disappear",
+                    "type": "string"
+                  },
+                  "time": {
+                    "description": "The time to wait in seconds",
+                    "type": "number"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "browser_wait_for"
+            }
+          ],
           "tools": [
             "browser_click",
             "browser_close",
@@ -74,5 +727,22 @@
         }
       }
     }
-  }
+  },
+  "description": "Provides browser automation capabilities using Playwright",
+  "name": "io.github.stacklok/playwright",
+  "packages": [
+    {
+      "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.68",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/microsoft/playwright-mcp"
+  },
+  "title": "playwright",
+  "version": "1.0.0"
 }

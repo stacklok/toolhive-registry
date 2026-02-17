@@ -1,29 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/fetch",
-  "description": "Allows you to fetch content from the web",
-  "title": "fetch",
-  "repository": {
-    "url": "https://github.com/stackloklabs/gofetch",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stackloklabs/gofetch/server:1.0.3",
-      "transport": {
-        "type": "streamable-http",
-        "url": "http://localhost:8080"
-      }
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/gofetch/server:1.0.3": {
           "metadata": {
-            "last_updated": "2026-02-05T04:47:22Z",
+            "last_updated": "2026-02-17T17:16:43Z",
             "pulls": 12390,
             "stars": 20
           },
@@ -58,11 +40,63 @@
             "modelcontextprotocol"
           ],
           "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Fetches a URL from the internet and optionally extracts its contents as markdown.",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "max_length": {
+                    "type": [
+                      "null",
+                      "integer"
+                    ]
+                  },
+                  "raw": {
+                    "type": "boolean"
+                  },
+                  "start_index": {
+                    "type": [
+                      "null",
+                      "integer"
+                    ]
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "type": "object"
+              },
+              "name": "fetch"
+            }
+          ],
           "tools": [
             "fetch"
           ]
         }
       }
     }
-  }
+  },
+  "description": "Allows you to fetch content from the web",
+  "name": "io.github.stacklok/fetch",
+  "packages": [
+    {
+      "identifier": "ghcr.io/stackloklabs/gofetch/server:1.0.3",
+      "registryType": "oci",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/stackloklabs/gofetch"
+  },
+  "title": "fetch",
+  "version": "1.0.0"
 }

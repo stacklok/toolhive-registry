@@ -35,7 +35,7 @@
       "io.github.stacklok": {
         "kionsoftware/kion-mcp:v0.4.0": {
           "metadata": {
-            "last_updated": "2026-01-28T02:42:37Z",
+            "last_updated": "2026-02-17T17:19:14Z",
             "pulls": 651,
             "stars": 7
           },
@@ -57,6 +57,1796 @@
             "cloud-costs"
           ],
           "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Adds one or more entries to an existing project spend plan.\n\n\n**Path Parameters:**\n\n- **id** (Required): Project ID.\n\n\n**Query Parameters:**\n\n- **reprocess**: Flag used to force payment reprocessing.\n\n- **skipValidation**: Flag used to skip spend plan validation\n\n\n**Request Body:**\n\nStructure for updating project funding (Required)\n\n\n**Request Properties:**",
+              "inputSchema": {
+                "$defs": {
+                  "SpendPlanV4Put": {
+                    "properties": {
+                      "amount": {
+                        "description": "Amount of funding from the funding source.",
+                        "example": "1000",
+                        "type": "string"
+                      },
+                      "end_datecode": {
+                        "description": "The month this funding source stops being usable (YYYY-MM).",
+                        "example": "2019-12",
+                        "type": "string"
+                      },
+                      "funding_source_id": {
+                        "description": "ID of the funding source the money is coming from.",
+                        "example": 1,
+                        "format": "uint64",
+                        "type": "integer"
+                      },
+                      "start_datecode": {
+                        "description": "The month this funding source starts being usable (YYYY-MM).",
+                        "example": "2019-01",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "amount",
+                      "end_datecode",
+                      "funding_source_id",
+                      "start_datecode"
+                    ],
+                    "title": "SpendPlanV4Put defines spend plan PUT record.",
+                    "type": "object",
+                    "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+                  }
+                },
+                "properties": {
+                  "id": {
+                    "description": "Project ID.",
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "reprocess": {
+                    "description": "Flag used to force payment reprocessing.",
+                    "type": "boolean"
+                  },
+                  "skipValidation": {
+                    "description": "Flag used to skip spend plan validation",
+                    "type": "boolean"
+                  },
+                  "spend-plan": {
+                    "items": {
+                      "$ref": "#/$defs/SpendPlanV4Put"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "add_project_spend_plan_entries"
+            },
+            {
+              "annotations": {},
+              "description": "Creates an allocation of funds from a funding source from one OU in the application to another.\n\n\n**Request Body:**\n\nFields to create an allocation. (Required)\n\n\n**Request Properties:**\n\n- **allocate_all_available_funds**: Whether all available funds should be allocated to the OU. If this is true, then amount will be ignored.\n\n- **amount**: Amount of money being allocated from one OU to another.\n\n- **comments**: Comments about the allocation.\n\n- **from_ou_id** (Required): The ID of the OU the money will be coming from.\n\n- **funding_source_id** (Required): The ID of the funding source where the money originally came from.\n\n- **to_ou_id** (Required): The ID of the OU the money will be going to.\n\nYou can use this tool to allocate funding source funds from a parent ou to a child ou. THIS IS AN IMPORTANT FINANCIAL OPERATION! ALWAYS ask the user for explicit permission before using this tool.",
+              "inputSchema": {
+                "properties": {
+                  "allocate_all_available_funds": {
+                    "description": "Whether all available funds should be allocated to the OU. If this is true, then amount will be ignored.",
+                    "example": false,
+                    "type": "boolean"
+                  },
+                  "amount": {
+                    "description": "Amount of money being allocated from one OU to another.",
+                    "example": "1000",
+                    "type": "string"
+                  },
+                  "comments": {
+                    "description": "Comments about the allocation.",
+                    "example": "Allocating new funds to be used for R\u0026D.",
+                    "type": "string"
+                  },
+                  "from_ou_id": {
+                    "description": "The ID of the OU the money will be coming from.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "funding_source_id": {
+                    "description": "The ID of the funding source where the money originally came from.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "to_ou_id": {
+                    "description": "The ID of the OU the money will be going to.",
+                    "example": 2,
+                    "format": "uint64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "from_ou_id",
+                  "funding_source_id",
+                  "to_ou_id"
+                ],
+                "type": "object"
+              },
+              "name": "allocate_funds"
+            },
+            {
+              "annotations": {},
+              "description": "Creates a budget in the application.\n\n\n**Request Body:**\n\nStructure for creating a budget.\n\n\n**Request Properties:**\n\n- **amount**: Total amount for the budget. This is required if data is not specified.\nBudget entries are created between start_datecode and end_datecode (exclusive)\nwith the amount evenly distributed across the months.\n\n- **data**: Month to month budget amounts. If not specified, these values are generated based on\namount, start_datecode, end_datecode, and funding_source_ids.\n\n- **end_datecode** (Required): Year and month the budget ends. This is an exclusive date.\n\n- **funding_source_ids**: Optional funding source IDs to use when data is not specified.\nThis value is ignored is data is specified.\nIf specified, the amount is distributed evenly across months and funding sources.\nFunding sources will be processed in order from first to last.\n\n- **ou_id**: ID of OU this budget is attached to. Required for OU thresholds.\n\n- **project_id**: ID of project this budget is attached to. Required for project budgets.\n\n- **start_datecode** (Required): Year and month the budget starts.\n\n\n\nFUNDING REQUIREMENT: Must link funding sources with sufficient funds for the entire time period. Check GET /v3/ou/{id}/funding-source for availability. The system is in allocation mode meaning that the parent ou will need to have appropriate funds allocated to it. Check 'available' and 'allocated_in' fields to check the ou's allocation. If insufficient, ask the user if you can allocate funds from the top level ou's funding sources or if you can create a new funding source.",
+              "inputSchema": {
+                "$defs": {
+                  "BudgetDataCreate": {
+                    "properties": {
+                      "amount": {
+                        "description": "Amount of the budget entry in dollars.",
+                        "example": "1000",
+                        "type": "string"
+                      },
+                      "datecode": {
+                        "description": "Year and month for the budget data entry.",
+                        "example": "2022-01",
+                        "type": "string"
+                      },
+                      "funding_source_id": {
+                        "description": "ID of funding source for the budget entry. This is optional.",
+                        "example": 1,
+                        "format": "uint64",
+                        "type": "integer"
+                      },
+                      "priority": {
+                        "description": "Priority order of the budget entry. This is required if funding_source_id is specified.",
+                        "example": 1,
+                        "format": "uint64",
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "amount",
+                      "datecode"
+                    ],
+                    "title": "BudgetDataCreate is used to create a new budget entry.",
+                    "type": "object",
+                    "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+                  }
+                },
+                "properties": {
+                  "amount": {
+                    "description": "Total amount for the budget. This is required if data is not specified.\nBudget entries are created between start_datecode and end_datecode (exclusive)\nwith the amount evenly distributed across the months.",
+                    "example": 1000,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "data": {
+                    "description": "Month to month budget amounts. If not specified, these values are generated based on\namount, start_datecode, end_datecode, and funding_source_ids.",
+                    "items": {
+                      "$ref": "#/$defs/BudgetDataCreate"
+                    },
+                    "type": "array"
+                  },
+                  "end_datecode": {
+                    "description": "Year and month the budget ends. This is an exclusive date.",
+                    "example": "2022-01",
+                    "type": "string"
+                  },
+                  "funding_source_ids": {
+                    "description": "Optional funding source IDs to use when data is not specified.\nThis value is ignored is data is specified.\nIf specified, the amount is distributed evenly across months and funding sources.\nFunding sources will be processed in order from first to last.",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "format": "uint64",
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "ou_id": {
+                    "description": "ID of OU this budget is attached to. Required for OU thresholds.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "project_id": {
+                    "description": "ID of project this budget is attached to. Required for project budgets.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "start_datecode": {
+                    "description": "Year and month the budget starts.",
+                    "example": "2022-01",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "create_budget"
+            },
+            {
+              "annotations": {},
+              "description": "Creates a funding source in the application.\n\n\n**Request Body:**\n\nStructure for creating a funding source (Required)\n\n\n**Request Properties:**\n\n- **amount** (Required): Amount of the funding source.\n\n- **description**: Description for the funding source in the application.\n\n- **end_datecode** (Required): The month this funding source stops being usable - this is exclusive of the date returned (YYYY-MM).\n\n- **name** (Required): Name of the funding source in the application.\n\n- **ou_id**: ID of the top level OU that will receive the funding from this funding source.\n\n- **owner_user_group_ids**: List of groups IDs who will own the funding source. Is required if no owner user IDs are listed.\n\n- **owner_user_ids**: List of user IDs who will own the funding source. Is required if no owner group IDs are listed.\n\n- **permission_scheme_id** (Required): ID of the permission scheme applied to the funding source.\n\n- **start_datecode** (Required): The month this funding source starts being usable (YYYY-MM).\n\nFunding sources can only be created on top level ous. DO NOT!!! create a funding source without explicit user permission on the details. ALWAYS!! ask the user for permission before using this tool.",
+              "inputSchema": {
+                "properties": {
+                  "amount": {
+                    "description": "Amount of the funding source.",
+                    "example": "1000000",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "Description for the funding source in the application.",
+                    "example": "Internal research and development funding for the 2019 financial year.",
+                    "type": "string"
+                  },
+                  "end_datecode": {
+                    "description": "The month this funding source stops being usable - this is exclusive of the date returned (YYYY-MM).",
+                    "example": "2019-12",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Name of the funding source in the application.",
+                    "example": "2019 IRAD funding",
+                    "type": "string"
+                  },
+                  "ou_id": {
+                    "description": "ID of the top level OU that will receive the funding from this funding source.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "owner_user_group_ids": {
+                    "description": "List of groups IDs who will own the funding source. Is required if no owner user IDs are listed.",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "format": "uint64",
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "owner_user_ids": {
+                    "description": "List of user IDs who will own the funding source. Is required if no owner group IDs are listed.",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "format": "uint64",
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "permission_scheme_id": {
+                    "description": "ID of the permission scheme applied to the funding source.",
+                    "example": 4,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "start_datecode": {
+                    "description": "The month this funding source starts being usable (YYYY-MM).",
+                    "example": "2019-01",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "end_datecode",
+                  "name",
+                  "permission_scheme_id",
+                  "start_datecode"
+                ],
+                "type": "object"
+              },
+              "name": "create_funding_source"
+            },
+            {
+              "annotations": {},
+              "description": "Creates an OU in the application.\n\n\n**Request Body:**\n\nStructure for creating an OU (Required)\n\n\n**Request Properties:**\n\n- **description**: Description for the OU in the application.\n\n- **name** (Required): Name of the OU in the application.\n\n- **owner_user_group_ids**: List of groups IDs who will own the ou. Is required if no owner user IDs are listed.\n\n- **owner_user_ids**: List of user IDs who will own the ou. Is required if no owner group IDs are listed.\n\n- **parent_ou_id** (Required): ID of the OU containing this OU. A parent OU ID of 0 will create a top-level OU.\n\n- **permission_scheme_id** (Required): ID of the permission scheme applied to the ou.\n\nOUs need to have an owner, have an owner user id or user group id ready before calling this tool.",
+              "inputSchema": {
+                "properties": {
+                  "description": {
+                    "description": "Description for the OU in the application.",
+                    "example": "Internal research and development of cloud applications.",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Name of the OU in the application.",
+                    "example": "Research and Development",
+                    "type": "string"
+                  },
+                  "owner_user_group_ids": {
+                    "description": "List of groups IDs who will own the ou. Is required if no owner user IDs are listed.",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "format": "uint64",
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "owner_user_ids": {
+                    "description": "List of user IDs who will own the ou. Is required if no owner group IDs are listed.",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "format": "uint64",
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "parent_ou_id": {
+                    "description": "ID of the OU containing this OU. A parent OU ID of 0 will create a top-level OU.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "permission_scheme_id": {
+                    "description": "ID of the permission scheme applied to the ou.",
+                    "example": 2,
+                    "format": "uint64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "name",
+                  "parent_ou_id",
+                  "permission_scheme_id"
+                ],
+                "type": "object"
+              },
+              "name": "create_ou"
+            },
+            {
+              "annotations": {},
+              "description": "Creates a project in the application when financial system settings are configured to use Budgets, whether or not budgets are configured to be enforced.\n\n\n**Request Body:**\n\nStructure for creating a Project.\n\n\n**Request Properties:**\n\n- **auto_pay**: True means the application can use the spend plan to process payments from\nthe account. Should be true unless using a custom module.\n\n- **default_aws_region**: Default AWS region that the project will use for assuming into accounts.\n\n- **description**: Description for the project in the application.\n\n- **name** (Required): Name of the Project in the application.\n\n- **ou_id** (Required): ID of the OU containing the project.\n\n- **owner_user_group_ids**: List of groups IDs who will own the project. Is required if no owner user IDs are listed.\n\n- **owner_user_ids**: List of user IDs who will own the project. Is required if no owner group IDs are listed.\n\n- **permission_scheme_id** (Required): ID of the permission scheme applied to the project.\n\n\n\nFUNDING REQUIREMENT: Budget/spend plan required for project creation.",
+              "inputSchema": {
+                "$defs": {
+                  "BudgetCreate": {
+                    "properties": {
+                      "amount": {
+                        "description": "Total amount for the budget. This is required if data is not specified.\nBudget entries are created between start_datecode and end_datecode (exclusive)\nwith the amount evenly distributed across the months.",
+                        "example": 1000,
+                        "format": "uint64",
+                        "type": "integer"
+                      },
+                      "data": {
+                        "description": "Month to month budget amounts. If not specified, these values are generated based on\namount, start_datecode, end_datecode, and funding_source_ids.",
+                        "items": {
+                          "$ref": "#/$defs/BudgetDataCreate"
+                        },
+                        "type": "array"
+                      },
+                      "end_datecode": {
+                        "description": "Year and month the budget ends. This is an exclusive date.",
+                        "example": "2022-01",
+                        "type": "string"
+                      },
+                      "funding_source_ids": {
+                        "description": "Optional funding source IDs to use when data is not specified.\nThis value is ignored is data is specified.\nIf specified, the amount is distributed evenly across months and funding sources.\nFunding sources will be processed in order from first to last.",
+                        "example": [
+                          1,
+                          2
+                        ],
+                        "items": {
+                          "format": "uint64",
+                          "type": "integer"
+                        },
+                        "type": "array"
+                      },
+                      "ou_id": {
+                        "description": "ID of OU this budget is attached to. Required for OU thresholds.",
+                        "example": 1,
+                        "format": "uint64",
+                        "type": "integer"
+                      },
+                      "project_id": {
+                        "description": "ID of project this budget is attached to. Required for project budgets.",
+                        "example": 1,
+                        "format": "uint64",
+                        "type": "integer"
+                      },
+                      "start_datecode": {
+                        "description": "Year and month the budget starts.",
+                        "example": "2022-01",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "end_datecode",
+                      "start_datecode"
+                    ],
+                    "title": "BudgetCreate is used to create a new project budget or OU threshold.",
+                    "type": "object",
+                    "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+                  },
+                  "BudgetDataCreate": {
+                    "properties": {
+                      "amount": {
+                        "description": "Amount of the budget entry in dollars.",
+                        "example": "1000",
+                        "type": "string"
+                      },
+                      "datecode": {
+                        "description": "Year and month for the budget data entry.",
+                        "example": "2022-01",
+                        "type": "string"
+                      },
+                      "funding_source_id": {
+                        "description": "ID of funding source for the budget entry. This is optional.",
+                        "example": 1,
+                        "format": "uint64",
+                        "type": "integer"
+                      },
+                      "priority": {
+                        "description": "Priority order of the budget entry. This is required if funding_source_id is specified.",
+                        "example": 1,
+                        "format": "uint64",
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "amount",
+                      "datecode"
+                    ],
+                    "title": "BudgetDataCreate is used to create a new budget entry.",
+                    "type": "object",
+                    "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+                  }
+                },
+                "properties": {
+                  "auto_pay": {
+                    "description": "True means the application can use the spend plan to process payments from\nthe account. Should be true unless using a custom module.",
+                    "example": true,
+                    "type": "boolean"
+                  },
+                  "budget": {
+                    "items": {
+                      "$ref": "#/$defs/BudgetCreate"
+                    },
+                    "type": "array"
+                  },
+                  "default_aws_region": {
+                    "description": "Default AWS region that the project will use for assuming into accounts.",
+                    "example": "us-east-1",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "Description for the project in the application.",
+                    "example": "Project being used to test cloud migration.",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Name of the Project in the application.",
+                    "example": "Tech Project 1",
+                    "type": "string"
+                  },
+                  "ou_id": {
+                    "description": "ID of the OU containing the project.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "owner_user_group_ids": {
+                    "description": "List of groups IDs who will own the project. Is required if no owner user IDs are listed.",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "format": "uint64",
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "owner_user_ids": {
+                    "description": "List of user IDs who will own the project. Is required if no owner group IDs are listed.",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "format": "uint64",
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "permission_scheme_id": {
+                    "description": "ID of the permission scheme applied to the project.",
+                    "example": 3,
+                    "format": "uint64",
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "create_project_with_budget"
+            },
+            {
+              "annotations": {},
+              "description": "Creates a project in the application when financial system settings are configured to use Spend Plans.\n\n\n**Request Body:**\n\nStructure for creating a Project.\n\n\n**Request Properties:**\n\n- **auto_pay**: True means the application can use the spend plan to process payments from\nthe account. Should be true unless using a custom module.\n\n- **default_aws_region**: Default AWS region that the project will use for assuming into accounts.\n\n- **description**: Description for the project in the application.\n\n- **name** (Required): Name of the Project in the application.\n\n- **ou_id** (Required): ID of the OU containing the project.\n\n- **owner_user_group_ids**: List of groups IDs who will own the project. Is required if no owner user IDs are listed.\n\n- **owner_user_ids**: List of user IDs who will own the project. Is required if no owner group IDs are listed.\n\n- **permission_scheme_id** (Required): ID of the permission scheme applied to the project.\n\n\n\nFUNDING REQUIREMENT: Budget/spend plan required for project creation.",
+              "inputSchema": {
+                "$defs": {
+                  "ProjectFundingCreate": {
+                    "properties": {
+                      "amount": {
+                        "description": "Amount of funding from the funding source.",
+                        "example": "1000",
+                        "type": "string"
+                      },
+                      "end_datecode": {
+                        "description": "The month this funding source stops being usable - this is exclusive of the date returned (YYYY-MM).",
+                        "example": "2019-12",
+                        "type": "string"
+                      },
+                      "funding_order": {
+                        "description": "The priority of this funding for the project. Funding with order 1 will be drawn from first, then 2, 3, etc.",
+                        "example": 1,
+                        "format": "int64",
+                        "type": "integer"
+                      },
+                      "funding_source_id": {
+                        "description": "ID of the funding source the money is coming from.",
+                        "example": 1,
+                        "format": "uint64",
+                        "type": "integer"
+                      },
+                      "start_datecode": {
+                        "description": "The month this funding source starts being usable (YYYY-MM).",
+                        "example": "2019-01",
+                        "type": "string"
+                      }
+                    },
+                    "title": "ProjectFundingCreate defines a funding source for a project.",
+                    "type": "object",
+                    "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+                  }
+                },
+                "properties": {
+                  "auto_pay": {
+                    "description": "True means the application can use the spend plan to process payments from\nthe account. Should be true unless using a custom module.",
+                    "example": true,
+                    "type": "boolean"
+                  },
+                  "default_aws_region": {
+                    "description": "Default AWS region that the project will use for assuming into accounts.",
+                    "example": "us-east-1",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "Description for the project in the application.",
+                    "example": "Project being used to test cloud migration.",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Name of the Project in the application.",
+                    "example": "Tech Project 1",
+                    "type": "string"
+                  },
+                  "ou_id": {
+                    "description": "ID of the OU containing the project.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "owner_user_group_ids": {
+                    "description": "List of groups IDs who will own the project. Is required if no owner user IDs are listed.",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "format": "uint64",
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "owner_user_ids": {
+                    "description": "List of user IDs who will own the project. Is required if no owner group IDs are listed.",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "format": "uint64",
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "permission_scheme_id": {
+                    "description": "ID of the permission scheme applied to the project.",
+                    "example": 3,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "project_funding": {
+                    "items": {
+                      "$ref": "#/$defs/ProjectFundingCreate"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "create_project_with_spend_plan"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a list of accounts from the application.\n\n\n**Query Parameters:**\n\n- **name**: Specifies a name pattern to look up.\n\n- **alias**: Filters results to only return Accounts that match the given account alias exactly.\n\n- **account_type**: Filters results to only return Accounts that match the given account type ID.\n\n- **label**: Filters results to only return Accounts with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production\n\n- **label_key**: Filters results to only return Accounts with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env\n\n- **label_value**: Filters results to only return Accounts with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production\n\n- **label_id**: Filters results to only return Accounts with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3",
+              "inputSchema": {
+                "properties": {
+                  "account_type": {
+                    "description": "Filters results to only return Accounts that match the given account type ID.",
+                    "type": "string"
+                  },
+                  "alias": {
+                    "description": "Filters results to only return Accounts that match the given account alias exactly.",
+                    "type": "string"
+                  },
+                  "label": {
+                    "description": "Filters results to only return Accounts with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production",
+                    "type": "string"
+                  },
+                  "label_id": {
+                    "description": "Filters results to only return Accounts with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3",
+                    "type": "string"
+                  },
+                  "label_key": {
+                    "description": "Filters results to only return Accounts with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env",
+                    "type": "string"
+                  },
+                  "label_value": {
+                    "description": "Filters results to only return Accounts with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Specifies a name pattern to look up.",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_accounts"
+            },
+            {
+              "annotations": {},
+              "description": "Get detailed cloud access role information by ID (the specific CAR id, you'll need to know this before calling this tool) and role type (project or ou). This includes embedded IAM policies, Azure roles, GCP roles, accounts, and user/group mappings.\n        ",
+              "inputSchema": {
+                "properties": {
+                  "role_id": {
+                    "description": "The ID of the cloud access role to get details for",
+                    "title": "Role Id",
+                    "type": "integer"
+                  },
+                  "role_type": {
+                    "description": "Type of cloud access role. Must be 'project' or 'ou'",
+                    "enum": [
+                      "project",
+                      "ou"
+                    ],
+                    "title": "Role Type",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "role_type",
+                  "role_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_cloud_access_role_details"
+            },
+            {
+              "annotations": {},
+              "description": "Get cloud access roles on an entity by ID and entity type (project or ou). This will include both local and inherited CARs.\nNOTE: CARs are how Kion manages user permissions in the cloud. Get this to then get IAMs, SCPs, and other policies.",
+              "inputSchema": {
+                "properties": {
+                  "entity_id": {
+                    "description": "The ID of the entity to get cloud access roles for",
+                    "title": "Entity Id",
+                    "type": "integer"
+                  },
+                  "entity_type": {
+                    "description": "Type of entity to get cloud access roles for. Must be 'project' or 'ou'",
+                    "enum": [
+                      "project",
+                      "ou"
+                    ],
+                    "title": "Entity Type",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "entity_type",
+                  "entity_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_cloud_access_roles_on_entity"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a list of cloud provider services from the application.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_cloud_provider_services"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a list of cloud providers and their enabled status.\n\n\n**Query Parameters:**\n\n- **only_enabled**: Cloud provider filter by enabled. \"true\" only returns enabled providers. Default \"false\" will return all providers.\n\nCall this before using cloud provider IDs in the spend report tool.",
+              "inputSchema": {
+                "properties": {
+                  "only_enabled": {
+                    "description": "Cloud provider filter by enabled. \"true\" only returns enabled providers. Default \"false\" will return all providers.",
+                    "type": "boolean"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_cloud_providers"
+            },
+            {
+              "annotations": {},
+              "description": "Finds a Compliance Check by ID in the application.\n\n\n**Path Parameters:**\n\n- **id** (Required): Compliance Check ID.",
+              "inputSchema": {
+                "properties": {
+                  "id": {
+                    "description": "Compliance Check ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "get_compliance_check"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a paginated result of all Compliance Checks in the application.\n\n\n**Query Parameters:**\n\n- **ou_id**: OU ID.\n\n- **project_id**: Project ID.\n\n- **standard_id**: Standard ID.\n\n- **account_id**: Account ID.\n\n- **detailed**: Detailed whether to show more details about the compliance check.\n\n- **non_compliant**: Filters checks based on whether they are noncompliant.\n\n- **page**: Page number of results. Optional\n\n- **count**: Number of results to return. Required if page is specified.\n\n- **query**: Query string for check names. Optional",
+              "inputSchema": {
+                "properties": {
+                  "account_id": {
+                    "description": "Account ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "count": {
+                    "default": 10,
+                    "description": "Number of results to return. Required if page is specified.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "detailed": {
+                    "description": "Detailed whether to show more details about the compliance check.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "non_compliant": {
+                    "description": "Filters checks based on whether they are noncompliant.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "ou_id": {
+                    "description": "OU ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "page": {
+                    "default": 1,
+                    "description": "Page number of results. Optional",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "project_id": {
+                    "description": "Project ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "query": {
+                    "description": "Query string for check names. Optional",
+                    "type": "string"
+                  },
+                  "standard_id": {
+                    "description": "Standard ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_compliance_checks_paginated"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a paginated list of compliance findings matching the requested parameters.\n\n\n**Query Parameters:**\n\n- **project_id**: Project ID.\n\n- **check_id**: Check ID.\n\n- **standard_id**: Standard ID.\n\n- **finding_type** (Required): Finding Type.\n\n- **severity_type_id**: Severity Type ID.\n1 - Informational.\n2 - Low.\n3 - Medium.\n4 - High.\n\n- **page**: Page number of results. Optional\n\n- **count**: Number of results to return. Required if page is specified.\n\nThere are 5 compliance levels: 1 informational, 2 low, 3 medium, 4 high, and 5 critical. When calling this tool ALWAYS specify a count and page parameter, responses can be very large so using pagination is critical. It's also highly recommended to control the response with filters as much as possible. The `finding_type ` parameter MUST be either `active` or `archived`",
+              "inputSchema": {
+                "properties": {
+                  "check_id": {
+                    "description": "Check ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "count": {
+                    "description": "Number of results to return. Required if page is specified.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "finding_type": {
+                    "description": "Finding Type.",
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number of results. Optional",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "project_id": {
+                    "description": "Project ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "severity_type_id": {
+                    "description": "Severity Type ID.\n1 - Informational.\n2 - Low.\n3 - Medium.\n4 - High.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "standard_id": {
+                    "description": "Standard ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "finding_type"
+                ],
+                "type": "object"
+              },
+              "name": "get_compliance_findings"
+            },
+            {
+              "annotations": {},
+              "description": "Finds OUs based on their compliance records.\n\n\n**Query Parameters:**\n\n- **non_compliant**: Whether to return non_compliant or compliant OUs.\n\n- **detailed**: Whether to full details of compliance counts for OUs\n\n- **standard_id**: Filter the OUs by the associated compliance standard ID\n\n- **check_id**: Filter the OUs by the associated compliance check ID",
+              "inputSchema": {
+                "properties": {
+                  "check_id": {
+                    "description": "Filter the OUs by the associated compliance check ID",
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "detailed": {
+                    "default": true,
+                    "description": "Whether to full details of compliance counts for OUs",
+                    "type": "boolean"
+                  },
+                  "non_compliant": {
+                    "default": false,
+                    "description": "Whether to return non_compliant or compliant OUs.",
+                    "type": "boolean"
+                  },
+                  "standard_id": {
+                    "description": "Filter the OUs by the associated compliance standard ID",
+                    "format": "uint64",
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_compliance_ous"
+            },
+            {
+              "annotations": {},
+              "description": "Finds an Compliance Program by ID in the application.\n\n\n**Path Parameters:**\n\n- **id** (Required): compliance program ID.",
+              "inputSchema": {
+                "properties": {
+                  "id": {
+                    "description": "compliance program ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "get_compliance_program"
+            },
+            {
+              "annotations": {},
+              "description": "Finds an Compliance Standard by ID in the application.\n\n\n**Path Parameters:**\n\n- **id** (Required): Compliance Standard ID.",
+              "inputSchema": {
+                "properties": {
+                  "id": {
+                    "description": "Compliance Standard ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "get_compliance_standard"
+            },
+            {
+              "annotations": {},
+              "description": "Finds projects based on their compliance standards.\n\n\n**Query Parameters:**\n\n- **non_compliant**: Whether to return non_compliant or compliant projects.\n\n- **detailed**: Whether to full details of project\n\n- **standard_id**: Filter the projects by the associated compliance standard ID\n\n- **check_id**: Filter the projects by the associated compliance check ID\n\n- **ou_id**: Filter the projects by an OU ancestor. The compliance and findings counts will also be filtered based on this OU.",
+              "inputSchema": {
+                "properties": {
+                  "check_id": {
+                    "description": "Filter the projects by the associated compliance check ID",
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "detailed": {
+                    "default": true,
+                    "description": "Whether to full details of project",
+                    "type": "boolean"
+                  },
+                  "non_compliant": {
+                    "default": false,
+                    "description": "Whether to return non_compliant or compliant projects.",
+                    "type": "boolean"
+                  },
+                  "ou_id": {
+                    "description": "Filter the projects by an OU ancestor. The compliance and findings counts will also be filtered based on this OU.",
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "standard_id": {
+                    "description": "Filter the projects by the associated compliance standard ID",
+                    "format": "uint64",
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_compliance_standard_project"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a paginated list of Compliance Standards from the application.\n\n\n**Query Parameters:**\n\n- **ou_id**: OU ID.\n\n- **project_id**: Project ID.\n\n- **check_id**: Check ID.\n\n- **cloud_rule_id**: Cloud Rule ID.\n\n- **account_id**: Account ID.\n\n- **detailed**: Whether to display more information about the compliance standard\n\n- **non_compliant**: Filters checks based on whether they are noncompliant.\n\n- **page**: Page number of results. Optional\n\n- **count**: Number of results to return. Required if page is specified.\n\n- **query**: Query string for check names. Optional",
+              "inputSchema": {
+                "properties": {
+                  "account_id": {
+                    "description": "Account ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "check_id": {
+                    "description": "Check ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "cloud_rule_id": {
+                    "description": "Cloud Rule ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "count": {
+                    "description": "Number of results to return. Required if page is specified.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "detailed": {
+                    "description": "Whether to display more information about the compliance standard",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "non_compliant": {
+                    "description": "Filters checks based on whether they are noncompliant.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "ou_id": {
+                    "description": "OU ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "page": {
+                    "description": "Page number of results. Optional",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "project_id": {
+                    "description": "Project ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "query": {
+                    "description": "Query string for check names. Optional",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_compliance_standards_paginated"
+            },
+            {
+              "annotations": {},
+              "description": "Get entity details by ID and type.\n\nThis tool retrieves details for OUs, projects, or accounts\nby their ID. It replaces the individual GET operations for each entity type.",
+              "inputSchema": {
+                "properties": {
+                  "entity_id": {
+                    "description": "The ID of the entity to retrieve",
+                    "title": "Entity Id",
+                    "type": "integer"
+                  },
+                  "entity_type": {
+                    "description": "Type of entity to retrieve. Must be one of 'account', 'ou', or 'project'",
+                    "enum": [
+                      "account",
+                      "ou",
+                      "project"
+                    ],
+                    "title": "Entity Type",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "entity_type",
+                  "entity_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_entity_by_id"
+            },
+            {
+              "annotations": {},
+              "description": "Get a label's key ID by label ID. This is used to get the key ID needed for tag filtering operations.",
+              "inputSchema": {
+                "properties": {
+                  "label_id": {
+                    "description": "The label ID to get the key ID for",
+                    "title": "Label Id",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "label_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_label_key_id"
+            },
+            {
+              "annotations": {},
+              "description": "You may opttionally filter results with the key, value and search parameters.\n\n\n**Query Parameters:**\n\n- **key**: Return labels with the given key (exact match).\n\n- **value**: Return labels with the given value (exact match).\n\n- **search**: Search for matching application label (fuzzy match).  Accepts a single search keyword that searches against label keys or values, or a key:value pair of keywords that searches against labels keys and values respectively.\n\nExample\\: env:production\n\n- **page**: Page number of results.\n\n- **count**: Number of results to return. Required if page is specified.\n\n- **sortMethod**: Options are: key, value.\n\n- **sortOrder**: Options are: ASC, DESC.",
+              "inputSchema": {
+                "properties": {
+                  "count": {
+                    "default": 100,
+                    "description": "Number of results to return. Required if page is specified.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "key": {
+                    "description": "Return labels with the given key (exact match).",
+                    "type": "string"
+                  },
+                  "page": {
+                    "default": 1,
+                    "description": "Page number of results.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "search": {
+                    "description": "Search for matching application label (fuzzy match).  Accepts a single search keyword that searches against label keys or values, or a key:value pair of keywords that searches against labels keys and values respectively.\n\nExample\\: env:production",
+                    "type": "string"
+                  },
+                  "sortMethod": {
+                    "default": "key",
+                    "description": "Options are: key, value.",
+                    "type": "string"
+                  },
+                  "sortOrder": {
+                    "default": "ASC",
+                    "description": "Options are: ASC, DESC.",
+                    "type": "string"
+                  },
+                  "value": {
+                    "description": "Return labels with the given value (exact match).",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_labels"
+            },
+            {
+              "annotations": {},
+              "description": "Returns all thresholds for an OU.\n\n\n**Path Parameters:**\n\n- **id** (Required): OU ID.",
+              "inputSchema": {
+                "properties": {
+                  "id": {
+                    "description": "OU ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "get_ou_budget"
+            },
+            {
+              "annotations": {},
+              "description": "Finds the funding sources in an OU.\n\n\n**Path Parameters:**\n\n- **id** (Required): OU ID.",
+              "inputSchema": {
+                "properties": {
+                  "id": {
+                    "description": "OU ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "get_ou_funding_sources"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a list of OUs from the application.\n\n\n**Query Parameters:**\n\n- **name**: Specifies a name pattern to look up.\n\n- **label**: Filters results to only return OUs with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production\n\n- **label_key**: Filters results to only return OUs with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env\n\n- **label_value**: Filters results to only return OUs with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production\n\n- **label_id**: Filters results to only return OUs with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3\n\n- **includeArchived**: Specifies if archived OUs are included in the list. Options are: true, false.\n\n- **parent_ou_id**: Filters results to OUs that are direct descendants of a parent OU. This includes the provided OU.\n\nExample\\: 3\n\n- **ancestor_ou_id**: Filters results to OUs to all descendants of an OU. This includes the provided OU.\n\nExample\\: 3",
+              "inputSchema": {
+                "properties": {
+                  "ancestor_ou_id": {
+                    "description": "Filters results to OUs to all descendants of an OU. This includes the provided OU.\n\nExample\\: 3",
+                    "type": "string"
+                  },
+                  "includeArchived": {
+                    "default": "false",
+                    "description": "Specifies if archived OUs are included in the list. Options are: true, false.",
+                    "type": "string"
+                  },
+                  "label": {
+                    "description": "Filters results to only return OUs with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production",
+                    "type": "string"
+                  },
+                  "label_id": {
+                    "description": "Filters results to only return OUs with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3",
+                    "type": "string"
+                  },
+                  "label_key": {
+                    "description": "Filters results to only return OUs with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env",
+                    "type": "string"
+                  },
+                  "label_value": {
+                    "description": "Filters results to only return OUs with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Specifies a name pattern to look up.",
+                    "type": "string"
+                  },
+                  "parent_ou_id": {
+                    "description": "Filters results to OUs that are direct descendants of a parent OU. This includes the provided OU.\n\nExample\\: 3",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_ous"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a list of permission schemes by type from the application.\n\n\n**Path Parameters:**\n\n- **type** (Required): Type of scheme. Options are: global, ou, project, or funding_source.\n\nNOTE: This tool is only useful for getting a permission scheme ID for endpoints that need it",
+              "inputSchema": {
+                "properties": {
+                  "type": {
+                    "description": "Type of scheme. Options are: global, ou, project, or funding_source.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "type": "object"
+              },
+              "name": "get_permission_scheme"
+            },
+            {
+              "annotations": {},
+              "description": "Returns all budgets for a project.\n\n\n**Path Parameters:**\n\n- **id** (Required): Project ID.",
+              "inputSchema": {
+                "properties": {
+                  "id": {
+                    "description": "Project ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "get_project_budget"
+            },
+            {
+              "annotations": {},
+              "description": "Finds the spend plan for a project by ID in the application, with total planned and total spend attached for all funding sources.\n\n\n**Path Parameters:**\n\n- **id** (Required): Project ID.",
+              "inputSchema": {
+                "properties": {
+                  "id": {
+                    "description": "Project ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "get_project_spend_plan_with_totals"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a list of projects from the application.\n\n\n**Query Parameters:**\n\n- **name**: Specifies a name pattern to look up.\n\n- **label**: Filters results to only return Projects with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production\n\n- **label_key**: Filters results to only return Projects with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env\n\n- **label_value**: Filters results to only return Projects with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production\n\n- **label_id**: Filters results to only return Projects with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3\n\n- **includeArchived**: Specifies if archived Projects are included in the list. Options are: true, false.",
+              "inputSchema": {
+                "properties": {
+                  "includeArchived": {
+                    "default": "false",
+                    "description": "Specifies if archived Projects are included in the list. Options are: true, false.",
+                    "type": "string"
+                  },
+                  "label": {
+                    "description": "Filters results to only return Projects with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production",
+                    "type": "string"
+                  },
+                  "label_id": {
+                    "description": "Filters results to only return Projects with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3",
+                    "type": "string"
+                  },
+                  "label_key": {
+                    "description": "Filters results to only return Projects with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env",
+                    "type": "string"
+                  },
+                  "label_value": {
+                    "description": "Filters results to only return Projects with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Specifies a name pattern to look up.",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_projects"
+            },
+            {
+              "annotations": {},
+              "description": "Get a spend report for the specified date range and filters. This can be dimensioned on many different things like Kion org structures, cloud provider info, and more.\nNote that OUs are the primary organizational method in Kion and will likely be your primary filter unless asked for a specific other filter case.\nNOTE: If more than 20 dimensions are returned, only the top 19 dimensions by spend will be shown individually, with all remaining dimensions aggregated into an \"other\" category (e.g., \"other services\", \"other accounts\", etc.).\nNOTE: This tool is in beta. If there is a non-authentication error with the request or a server error handling the response (or the returns are empty unexpectedly like if 0 spend is unexpected) that means the MCP server is outdated. If you get either of these errors direct the user to update their MCP server, they most likely installed it with either pypi and just need to use pip to update their 'kion-mcp-server' package or via dxt and need to redownload and install the latest dxt. After they complete the update they will need to restart the MCP server most likely by restarting the client you are running in. Direct and help the user through this process.\nAlways try to use this tool to get the exact number you are passing to the user, only do analysis to derive other numbers if you have access to analysis or code execution tools which you can then use to ensure exact results.\nWhen filtering on something you'll almost certainly NEED an ID for it, look at other tools you can call to get any IDs BEFORE calling this tool. CAREFULLY review your filter options and ensure you're using the correct one with the correct IDs.\nIMPORTANT!: UNLESS you are in daily mode (time_granularity_id=2) you MUST ensure the start date is the first of a month and the end date is the first of the excluded end month, otherwise you will get an error. In monthly or by default dates MUST have 01 as their day, e.g., 2023-01-01 to 2023-02-01. DO NOT pass a day other than 01 like 2025-07-31 UNLESS you are in daily mode.",
+              "inputSchema": {
+                "properties": {
+                  "account_exclusive": {
+                    "default": false,
+                    "description": "If true, exclude the specified account IDs; if false, include only the specified account IDs",
+                    "title": "Account Exclusive",
+                    "type": "boolean"
+                  },
+                  "account_ids": {
+                    "default": [],
+                    "description": "List of account IDs to filter by",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "title": "Account Ids",
+                    "type": "array"
+                  },
+                  "app_label_ids_dimension": {
+                    "default": [],
+                    "description": "REQUIRED when dimension is 'label', type int. List of label IDs to show as dimensions. Empty list shows shows all values as dimensions, specific IDs show only those values.",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "title": "App Label Ids Dimension",
+                    "type": "array"
+                  },
+                  "app_label_key_id_dimension": {
+                    "default": null,
+                    "description": "REQUIRED when dimension is 'label', type int. The key ID for the label dimension. Use get_label_key_id tool to get this value.",
+                    "title": "App Label Key Id Dimension",
+                    "type": "integer"
+                  },
+                  "billing_source_exclusive": {
+                    "default": false,
+                    "description": "If true, exclude the specified billing source IDs; if false, include only the specified billing source IDs",
+                    "title": "Billing Source Exclusive",
+                    "type": "boolean"
+                  },
+                  "billing_source_ids": {
+                    "default": [],
+                    "description": "List of billing source IDs to filter by",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "title": "Billing Source Ids",
+                    "type": "array"
+                  },
+                  "cloud_provider_exclusive": {
+                    "default": false,
+                    "description": "If true, exclude the specified cloud provider IDs; if false, include only the specified cloud provider IDs",
+                    "title": "Cloud Provider Exclusive",
+                    "type": "boolean"
+                  },
+                  "cloud_provider_ids": {
+                    "default": [],
+                    "description": "List of cloud provider IDs to filter by)",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "title": "Cloud Provider Ids",
+                    "type": "array"
+                  },
+                  "cloud_provider_tag_key_id_dimension": {
+                    "default": null,
+                    "description": "REQUIRED when dimension is 'cloudProviderTag'. The tag key ID for the tag dimension. Use tag key tools to get this value.",
+                    "title": "Cloud Provider Tag Key Id Dimension",
+                    "type": "integer"
+                  },
+                  "cloud_provider_tag_value_ids_dimension": {
+                    "default": [],
+                    "description": "REQUIRED when dimension is 'cloudProviderTag'. List of tag value IDs to show as dimensions. Empty list shows all values as dimensions and a dimension for everything without that key tag, specific IDs show only those values, include 0 with other IDs to also show resources without this tag key.",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "title": "Cloud Provider Tag Value Ids Dimension",
+                    "type": "array"
+                  },
+                  "deduct_credits": {
+                    "default": true,
+                    "description": "Whether to to deduct credits from spend or split them out into a separate field",
+                    "title": "Deduct Credits",
+                    "type": "boolean"
+                  },
+                  "deduct_refunds": {
+                    "default": true,
+                    "description": "Whether to to deduct refunds from spend or split them out into a separate field",
+                    "title": "Deduct Refunds",
+                    "type": "boolean"
+                  },
+                  "dimension": {
+                    "default": "none",
+                    "description": "What groupings of spend are returned, like spend by Kion project or spend by cloud provider. If using this filter valid dimensions include: none, ou, project, account, cloudProvider, billingSource, cloudProviderTag, fundingSource, label, region, service, resource",
+                    "title": "Dimension",
+                    "type": "string"
+                  },
+                  "end_date": {
+                    "description": "End date for the report in YYYY-MM-DD format. End date is EXCLUSIVE.",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "title": "End Date",
+                    "type": "string"
+                  },
+                  "exclude_app_label_ids": {
+                    "additionalProperties": {
+                      "items": {
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    },
+                    "default": {},
+                    "description": "Filter to exclude the passed Kion app labels. The map key is the str of the key ID, the list of ints are that key's value IDs (passing an empty list applies filter to all values of key). Use the label key tool to get the key ID.",
+                    "title": "Exclude App Label Ids",
+                    "type": "object"
+                  },
+                  "exclude_cloud_provider_tag_ids": {
+                    "additionalProperties": {
+                      "items": {
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    },
+                    "default": {},
+                    "description": "Filter to exclude the passed cloud provider tags. The map key is the str of the key ID, the list of ints are that key's value IDs (passing an empty list applies filter to all values of key). Use tag key and value tools to get these IDs.",
+                    "title": "Exclude Cloud Provider Tag Ids",
+                    "type": "object"
+                  },
+                  "funding_source_exclusive": {
+                    "default": false,
+                    "description": "If true, exclude the specified funding source IDs; if false, include only the specified funding source IDs",
+                    "title": "Funding Source Exclusive",
+                    "type": "boolean"
+                  },
+                  "funding_source_ids": {
+                    "default": [],
+                    "description": "List of funding source IDs to filter by",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "title": "Funding Source Ids",
+                    "type": "array"
+                  },
+                  "include_app_label_ids": {
+                    "additionalProperties": {
+                      "items": {
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    },
+                    "default": {},
+                    "description": "Filter including only the passed Kion app labels. The map key is the str of the key ID, the list of ints are that key's value IDs (passing an empty list applies filter to all values of key). Use the label key tool to get the key ID.",
+                    "title": "Include App Label Ids",
+                    "type": "object"
+                  },
+                  "include_cloud_provider_tag_ids": {
+                    "additionalProperties": {
+                      "items": {
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    },
+                    "default": {},
+                    "description": "Filter including only the passed cloud provider tags. The map key is the str of the key ID, the list of ints are that key's value IDs (passing an empty list applies filter to all values of key). Use tag key and value tools to get these IDs.",
+                    "title": "Include Cloud Provider Tag Ids",
+                    "type": "object"
+                  },
+                  "include_descendants": {
+                    "default": true,
+                    "description": "Whether to include descendant OUs in the filter (only applies to OU filters)",
+                    "title": "Include Descendants",
+                    "type": "boolean"
+                  },
+                  "include_timeslice_breakdown": {
+                    "default": false,
+                    "description": "Whether to include detailed breakdown by time intervals or just totals",
+                    "title": "Include Timeslice Breakdown",
+                    "type": "boolean"
+                  },
+                  "ou_exclusive": {
+                    "default": false,
+                    "description": "If true, exclude the specified OU IDs; if false, include only the specified OU IDs",
+                    "title": "Ou Exclusive",
+                    "type": "boolean"
+                  },
+                  "ou_ids": {
+                    "default": [],
+                    "description": "List of OU (kion organizational unit) IDs to filter by",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "title": "Ou Ids",
+                    "type": "array"
+                  },
+                  "project_exclusive": {
+                    "default": false,
+                    "description": "If true, exclude the specified project IDs; if false, include only the specified project IDs",
+                    "title": "Project Exclusive",
+                    "type": "boolean"
+                  },
+                  "project_ids": {
+                    "default": [],
+                    "description": "List of project (mostly account specific in kion) IDs to filter by",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "title": "Project Ids",
+                    "type": "array"
+                  },
+                  "service_exclusive": {
+                    "default": false,
+                    "description": "If true, exclude the specified service IDs; if false, include only the specified service IDs",
+                    "title": "Service Exclusive",
+                    "type": "boolean"
+                  },
+                  "service_ids": {
+                    "default": [],
+                    "description": "List of service IDs to filter by. You can get these IDs using the CSP Service get tool.",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "title": "Service Ids",
+                    "type": "array"
+                  },
+                  "spend_type": {
+                    "default": "billed",
+                    "description": "How spend is calculated, amortized and attributed which shows spend spread across the time-period it occurred attributed to the correct accounts (`attributed`), `billed` what's invoiced from the provider (default value), amortized spend spread across the time it occurs but not attributed and shown at the billing source level (`unattributed`), or `list` the public list price",
+                    "title": "Spend Type",
+                    "type": "string"
+                  },
+                  "start_date": {
+                    "description": "Start date for the report in YYYY-MM-DD format. Start date is INCLUSIVE.",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "title": "Start Date",
+                    "type": "string"
+                  },
+                  "time_granularity_id": {
+                    "default": 1,
+                    "description": "Whether the report is split into monthly (1) or daily (2) time frames. `1`and `2` are the only valid options.",
+                    "title": "Time Granularity Id",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "start_date",
+                  "end_date"
+                ],
+                "type": "object"
+              },
+              "name": "get_spend_report"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a paginated list of suppressed compliance findings matching the requested parameters.\n\n\n**Query Parameters:**\n\n- **project_id**: Project ID.\n\n- **check_id**: Check ID.\n\n- **standard_id**: Standard ID.\n\n- **severity_type_id**: Severity Type ID.\n1 - Informational.\n2 - Low.\n3 - Medium.\n4 - High.\n\n- **page**: Page number of results. Optional\n\n- **count**: Number of results to return. Required if page is specified.",
+              "inputSchema": {
+                "properties": {
+                  "check_id": {
+                    "description": "Check ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "count": {
+                    "description": "Number of results to return. Required if page is specified.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "page": {
+                    "description": "Page number of results. Optional",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "project_id": {
+                    "description": "Project ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "severity_type_id": {
+                    "description": "Severity Type ID.\n1 - Informational.\n2 - Low.\n3 - Medium.\n4 - High.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "standard_id": {
+                    "description": "Standard ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_suppressed_compliance_findings"
+            },
+            {
+              "annotations": {},
+              "description": "Returns all tag keys in the application.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_tag_keys"
+            },
+            {
+              "annotations": {},
+              "description": "Returns all values for a tag key in the application.\n\n\n**Path Parameters:**\n\n- **id** (Required): Tag Key ID.",
+              "inputSchema": {
+                "properties": {
+                  "id": {
+                    "description": "Tag Key ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "get_tag_values"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a list of all cloud access roles that are available to a user.\n\n\n**Path Parameters:**\n\n- **id** (Required): User ID.\n\n\n**Query Parameters:**\n\n- **account_alias**: Filters results to only CARs on accounts that match the given account alias exactly.",
+              "inputSchema": {
+                "properties": {
+                  "account_alias": {
+                    "description": "Filters results to only CARs on accounts that match the given account alias exactly.",
+                    "type": "string"
+                  },
+                  "id": {
+                    "description": "User ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "get_user_cloud_access_roles"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a list of user groups in the application.\n\n\n**Query Parameters:**\n\n- **name**: Query for searching by name. Optional",
+              "inputSchema": {
+                "properties": {
+                  "name": {
+                    "description": "Query for searching by name. Optional",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_user_groups"
+            },
+            {
+              "annotations": {},
+              "description": "Get user information by type and ID. Use 'me' for current user ID, 'user' for specific user details, or 'user_group' for user group information. user and user group will return what users are in a group or what groups a user is in.\n        ",
+              "inputSchema": {
+                "properties": {
+                  "user_id": {
+                    "default": 0,
+                    "description": "The ID of the user or user group (required for 'user' and 'user_group' types)",
+                    "title": "User Id",
+                    "type": "integer"
+                  },
+                  "user_type": {
+                    "description": "Type of user info to retrieve. 'me' for current user, 'user' for specific user, 'user_group' for user group",
+                    "enum": [
+                      "me",
+                      "user",
+                      "user_group"
+                    ],
+                    "title": "User Type",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user_type"
+                ],
+                "type": "object"
+              },
+              "name": "get_user_info"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a list of users from the application.\n\n\n**Query Parameters:**\n\n- **state**: Options are: all, enabled, disabled\n\n- **include-deleted**: Whether or not to include deleted users\n\n- **username**: An optional username to filter the results by",
+              "inputSchema": {
+                "properties": {
+                  "include-deleted": {
+                    "default": false,
+                    "description": "Whether or not to include deleted users",
+                    "type": "boolean"
+                  },
+                  "state": {
+                    "default": "all",
+                    "description": "Options are: all, enabled, disabled",
+                    "type": "string"
+                  },
+                  "username": {
+                    "description": "An optional username to filter the results by",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_users"
+            },
+            {
+              "annotations": {},
+              "description": "Updates a budget by ID in the application.\n\n\n**Path Parameters:**\n\n- **id** (Required): Budget ID.\n\n\n**Request Body:**\n\nStructure for updating a budget.\n\n\n**Request Properties:**\n\n- **amount**: Total amount for the budget. This is required if data is not specified.\n\n- **data**: Month to month budget amounts. If not specified, these values are generated based on\namount, start_datecode, end_datecode, and funding_source_ids.\n\n- **end_datecode**: Year and month the budget ends. This is an exclusive date.\n\n- **funding_source_ids**: Optional funding source IDs to use when data is not specified.\nThis value is ignored is data is specified.\n\n- **start_datecode**: Year and month the budget starts.",
+              "inputSchema": {
+                "$defs": {
+                  "BudgetDataCreate": {
+                    "properties": {
+                      "amount": {
+                        "description": "Amount of the budget entry in dollars.",
+                        "example": "1000",
+                        "type": "string"
+                      },
+                      "datecode": {
+                        "description": "Year and month for the budget data entry.",
+                        "example": "2022-01",
+                        "type": "string"
+                      },
+                      "funding_source_id": {
+                        "description": "ID of funding source for the budget entry. This is optional.",
+                        "example": 1,
+                        "format": "uint64",
+                        "type": "integer"
+                      },
+                      "priority": {
+                        "description": "Priority order of the budget entry. This is required if funding_source_id is specified.",
+                        "example": 1,
+                        "format": "uint64",
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "amount",
+                      "datecode"
+                    ],
+                    "title": "BudgetDataCreate is used to create a new budget entry.",
+                    "type": "object",
+                    "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+                  }
+                },
+                "properties": {
+                  "amount": {
+                    "description": "Total amount for the budget. This is required if data is not specified.",
+                    "example": 1000,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "data": {
+                    "description": "Month to month budget amounts. If not specified, these values are generated based on\namount, start_datecode, end_datecode, and funding_source_ids.",
+                    "items": {
+                      "$ref": "#/$defs/BudgetDataCreate"
+                    },
+                    "type": "array"
+                  },
+                  "end_datecode": {
+                    "description": "Year and month the budget ends. This is an exclusive date.",
+                    "example": "2022-01",
+                    "type": "string"
+                  },
+                  "funding_source_ids": {
+                    "description": "Optional funding source IDs to use when data is not specified.\nThis value is ignored is data is specified.",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "format": "uint64",
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "id": {
+                    "description": "Budget ID.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "start_datecode": {
+                    "description": "Year and month the budget starts.",
+                    "example": "2022-01",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "update_budget"
+            }
+          ],
           "tools": [
             "add_project_spend_plan_entries",
             "allocate_funds",
@@ -101,5 +1891,35 @@
         }
       }
     }
-  }
+  },
+  "description": "Integrate with a Kion.io instance for cloud management, FinOps, and governance",
+  "name": "io.github.stacklok/kion",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "App API key for authentication to your Kion instance",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "KION_BEARER_TOKEN"
+        },
+        {
+          "description": "URL of your Kion instance",
+          "isRequired": true,
+          "name": "KION_SERVER_URL"
+        }
+      ],
+      "identifier": "kionsoftware/kion-mcp:v0.3.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/kionsoftware/kion-mcp"
+  },
+  "title": "kion",
+  "version": "1.0.0"
 }

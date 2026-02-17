@@ -1,36 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/agentql-mcp",
-  "description": "Model Context Protocol server that integrates AgentQL data extraction capabilities",
-  "title": "agentql-mcp",
-  "repository": {
-    "url": "https://github.com/tinyfish-io/agentql-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/npx/agentql-mcp:1.0.0",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "API key for AgentQL service",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "AGENTQL_API_KEY"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/agentql-mcp:1.0.0": {
           "metadata": {
-            "last_updated": "2026-02-05T04:47:26Z",
+            "last_updated": "2026-02-17T17:15:19Z",
             "stars": 142
           },
           "permissions": {
@@ -61,11 +36,60 @@
             "web"
           ],
           "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Extracts structured data as JSON from a web page given a URL using a Natural Language description of the data.",
+              "inputSchema": {
+                "properties": {
+                  "prompt": {
+                    "description": "Natural Language description of the data to extract from the page",
+                    "type": "string"
+                  },
+                  "url": {
+                    "description": "The URL of the public webpage to extract data from",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url",
+                  "prompt"
+                ],
+                "type": "object"
+              },
+              "name": "extract-web-data"
+            }
+          ],
           "tools": [
             "extract-web-data"
           ]
         }
       }
     }
-  }
+  },
+  "description": "Model Context Protocol server that integrates AgentQL data extraction capabilities",
+  "name": "io.github.stacklok/agentql-mcp",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "API key for AgentQL service",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "AGENTQL_API_KEY"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/agentql-mcp:1.0.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/tinyfish-io/agentql-mcp"
+  },
+  "title": "agentql-mcp",
+  "version": "1.0.0"
 }

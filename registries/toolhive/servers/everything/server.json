@@ -1,28 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/everything",
-  "description": "This MCP server attempts to exercise all the features of the MCP protocol",
-  "title": "everything",
-  "repository": {
-    "url": "https://github.com/modelcontextprotocol/servers",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "docker.io/mcp/everything:latest",
-      "transport": {
-        "type": "stdio"
-      }
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "docker.io/mcp/everything:latest": {
           "metadata": {
-            "last_updated": "2026-02-09T09:15:24Z",
+            "last_updated": "2026-02-17T17:17:02Z",
             "pulls": 14373,
             "stars": 78304
           },
@@ -45,6 +28,164 @@
             "tools"
           ],
           "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Adds two numbers",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "a": {
+                    "description": "First number",
+                    "type": "number"
+                  },
+                  "b": {
+                    "description": "Second number",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "a",
+                  "b"
+                ],
+                "type": "object"
+              },
+              "name": "add"
+            },
+            {
+              "annotations": {},
+              "description": "Demonstrates how annotations can be used to provide metadata about content",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "includeImage": {
+                    "default": false,
+                    "description": "Whether to include an example image",
+                    "type": "boolean"
+                  },
+                  "messageType": {
+                    "description": "Type of message to demonstrate different annotation patterns",
+                    "enum": [
+                      "error",
+                      "success",
+                      "debug"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "messageType"
+                ],
+                "type": "object"
+              },
+              "name": "annotatedMessage"
+            },
+            {
+              "annotations": {},
+              "description": "Echoes back the input",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "message": {
+                    "description": "Message to echo",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "message"
+                ],
+                "type": "object"
+              },
+              "name": "echo"
+            },
+            {
+              "annotations": {},
+              "description": "Returns a resource reference that can be used by MCP clients",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "resourceId": {
+                    "description": "ID of the resource to reference (1-100)",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "resourceId"
+                ],
+                "type": "object"
+              },
+              "name": "getResourceReference"
+            },
+            {
+              "annotations": {},
+              "description": "Returns the MCP_TINY_IMAGE",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "getTinyImage"
+            },
+            {
+              "annotations": {},
+              "description": "Demonstrates a long running operation with progress updates",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "duration": {
+                    "default": 10,
+                    "description": "Duration of the operation in seconds",
+                    "type": "number"
+                  },
+                  "steps": {
+                    "default": 5,
+                    "description": "Number of steps in the operation",
+                    "type": "number"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "longRunningOperation"
+            },
+            {
+              "annotations": {},
+              "description": "Prints all environment variables, helpful for debugging MCP server configuration",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "printEnv"
+            },
+            {
+              "annotations": {},
+              "description": "Samples from an LLM using MCP's sampling feature",
+              "inputSchema": {
+                "additionalProperties": false,
+                "properties": {
+                  "maxTokens": {
+                    "default": 100,
+                    "description": "Maximum number of tokens to generate",
+                    "type": "number"
+                  },
+                  "prompt": {
+                    "description": "The prompt to send to the LLM",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "prompt"
+                ],
+                "type": "object"
+              },
+              "name": "sampleLLM"
+            }
+          ],
           "tools": [
             "add",
             "annotatedMessage",
@@ -58,5 +199,22 @@
         }
       }
     }
-  }
+  },
+  "description": "This MCP server attempts to exercise all the features of the MCP protocol",
+  "name": "io.github.stacklok/everything",
+  "packages": [
+    {
+      "identifier": "docker.io/mcp/everything:latest",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/modelcontextprotocol/servers"
+  },
+  "title": "everything",
+  "version": "1.0.0"
 }
