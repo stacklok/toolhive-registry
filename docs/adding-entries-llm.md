@@ -2,16 +2,16 @@
 
 ## Context
 
-You are helping to add an MCP (Model Context Protocol) server entry to the ToolHive registry. Each entry defines a server that provides tools and capabilities to AI assistants.
+You are helping to add an MCP (Model Context Protocol) server entry to the ToolHive registry. Each entry is a `server.json` file following the [upstream MCP ServerJSON schema](https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json) with ToolHive-specific extensions in the `_meta` field.
 
 ## Quick Reference
 
 ### Server Types
 
-| Type      | Identifier     | Transport Options                      | Primary Use                   |
-| --------- | -------------- | -------------------------------------- | ----------------------------- |
-| Container | `image:` field | `stdio`, `streamable-http`, `sse`      | Self-hosted Docker containers |
-| Remote    | `url:` field   | `streamable-http`, `sse` (NOT `stdio`) | HTTP/HTTPS API endpoints      |
+| Type      | Identifier         | Transport Options                      | Primary Use                   |
+| --------- | ------------------ | -------------------------------------- | ----------------------------- |
+| Container | `packages` field   | `stdio`, `streamable-http`, `sse`      | Self-hosted Docker containers |
+| Remote    | `remotes` field    | `streamable-http`, `sse` (NOT `stdio`) | HTTP/HTTPS API endpoints      |
 
 ### Field Priority Levels
 
@@ -25,8 +25,8 @@ You are helping to add an MCP (Model Context Protocol) server entry to the ToolH
 
 **Ask yourself:** Is this a Docker container or a remote HTTP endpoint?
 
-- If Docker/OCI image → Container-based server
-- If HTTP/HTTPS API → Remote server
+- If Docker/OCI image → Container-based server (uses `packages`)
+- If HTTP/HTTPS API → Remote server (uses `remotes`)
 
 ### 2. Choose Server Name
 
@@ -37,7 +37,7 @@ You are helping to add an MCP (Model Context Protocol) server entry to the ToolH
 ### 3. Create Directory
 
 ```bash
-mkdir registry/<server-name>
+mkdir -p registries/toolhive/servers/<server-name>
 ```
 
 ### 4. Gather Information (If Needed)
@@ -75,7 +75,7 @@ mkdir registry/<server-name>
 - `tools`: List of function names the server exposes
 - `description`: One-line summary from README or docs
 - `transport`: Protocol type (stdio/sse/streamable-http)
-- `env_vars`: Required environment variables
+- `environmentVariables`: Required environment variables
 - `auth`: Authentication method (headers/OAuth)
 - `permissions`: Network hosts (never filesystem paths)
 - `provenance`: Supply chain security details (Sigstore/cosign signatures)
@@ -88,9 +88,27 @@ mkdir registry/<server-name>
 - **Verify** transport type for remote servers (streamable-http preferred)
 - **Skip** if user has already provided comprehensive details
 
-### 5. Create Specification File
+### 5. Create the server.json File
 
-Create `registry/<server-name>/spec.yaml` using the appropriate template below.
+Create `registries/toolhive/servers/<server-name>/server.json` using the appropriate template below.
+
+---
+
+## server.json Structure
+
+Every `server.json` file has two main sections:
+
+1. **Top-level fields** - Standard MCP ServerJSON fields (`name`, `description`, `packages`/`remotes`, etc.)
+2. **`_meta` extensions** - ToolHive-specific data (tier, status, tags, tools, permissions, etc.)
+
+The `_meta` extensions are nested at:
+```
+_meta["io.modelcontextprotocol.registry/publisher-provided"]["io.github.stacklok"]["<extension-key>"]
+```
+
+The **extension key** must match:
+- For containers: the `packages[0].identifier` value
+- For remotes: the `remotes[0].url` value
 
 ---
 
@@ -98,130 +116,112 @@ Create `registry/<server-name>/spec.yaml` using the appropriate template below.
 
 ### Minimal Required Fields
 
-```yaml
-image: ghcr.io/org/server:v1.0.0
-description: Clear, concise one-line description
-transport: stdio
-tier: Community
-status: Active
-tools:
-  - tool_name # Or use "set_during_runtime" if tools aren't knowable up-front
+```json
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/my-server",
+  "description": "Clear, concise one-line description",
+  "title": "my-server",
+  "repository": {
+    "url": "https://github.com/org/server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/org/server:v1.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/org/server:v1.0.0": {
+          "tier": "Community",
+          "status": "Active",
+          "tools": ["tool_name"]
+        }
+      }
+    }
+  }
+}
 ```
 
 ### Complete Template
 
-**Note:** The template below includes inline comments for instructional purposes. When creating actual spec files, remove all comment lines (those starting with `#`) to keep the file clean and concise.
-
-```yaml
-# ============================================
-# REQUIRED FIELDS
-# ============================================
-
-# Docker/OCI image reference with tag
-image: ghcr.io/organization/server-name:v1.0.0
-
-# One-line description of server purpose
-description: Enables interaction with [service/API] for [purpose]
-
-# Communication protocol
-transport: stdio # Options: "stdio", "streamable-http", "sse"
-
-# Classification tier
-tier: Community # Options: "Official", "Community"
-
-# Development status
-status: Active # Options: "Active", "Deprecated"
-
-# List of tools this server provides (at least one required)
-# Use actual tool names if known, or "set_during_runtime" if not discoverable
-tools:
-  - tool_name_1
-  - tool_name_2
-  - tool_name_3
-
-# ============================================
-# HIGHLY RECOMMENDED FIELDS
-# ============================================
-
-# Source code repository URL
-repository_url: https://github.com/organization/repository
-
-# Categorization tags
-tags:
-  - category1 # e.g., "database", "api", "productivity"
-  - category2
-  - category3
-
-# ============================================
-# OPTIONAL FIELDS
-# ============================================
-
-# Project homepage or documentation
-homepage: https://docs.example.com
-
-# License identifier (SPDX format)
-license: MIT # Common: MIT, Apache-2.0, GPL-3.0
-
-# Author or organization name
-author: Organization Name
-
-# Server name (defaults to directory name if omitted)
-name: server-name
-
-# ============================================
-# CONDITIONAL FIELDS (include if applicable)
-# ============================================
-
-# Target port (REQUIRED for streamable-http or sse transports)
-target_port: 8080
-
-# Environment variables (for API keys, config, etc.)
-env_vars:
-  - name: API_KEY
-    description: Authentication key for service
-    required: true
-    secret: true # Mark sensitive data as secret
-
-  - name: BASE_URL
-    description: API endpoint URL
-    required: false
-    default: "https://api.example.com"
-
-# Command-line arguments
-args:
-  - --verbose
-  - --config=/path/to/config
-
-# Security permissions
-permissions:
-  # Network access control
-  network:
-    outbound:
-      allow_host:
-        - api.example.com
-        - auth.example.com
-      allow_port:
-        - 443
-        - 80
-      # insecure_allow_all: false  # Only use if absolutely necessary
-
-  # IMPORTANT: Do NOT specify filesystem paths in registry entries
-  # Mounting host directories is a security risk and should be
-  # configured by users at runtime, not in registry specs
-
-# Usage metrics (auto-updated - typically omit when creating new entries)
-metadata:
-  stars: 0
-  pulls: 0
-  last_updated: 2025-01-01T00:00:00Z
-
-# Provenance for supply chain security
-provenance:
-  cert_issuer: https://token.actions.githubusercontent.com
-  repository_uri: https://github.com/org/repository
-  runner_environment: github-hosted
-  signer_identity: /.github/workflows/build-containers.yml
-  sigstore_url: tuf-repo-cdn.sigstore.dev
+```json
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/<server-name>",
+  "description": "Enables interaction with [service/API] for [purpose]",
+  "title": "<server-name>",
+  "repository": {
+    "url": "https://github.com/organization/repository",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/organization/server-name:v1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "API_KEY",
+          "description": "Authentication key for service",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "BASE_URL",
+          "description": "API endpoint URL (optional)"
+        }
+      ],
+      "arguments": ["--verbose"]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/organization/server-name:v1.0.0": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": ["category1", "category2"],
+          "tools": [
+            "tool_name_1",
+            "tool_name_2",
+            "tool_name_3"
+          ],
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": ["api.example.com", "auth.example.com"],
+                "allow_port": [443, 80]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/organization/repository",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "custom_metadata": {
+            "author": "Organization Name",
+            "homepage": "https://docs.example.com",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
 ```
 
 ---
@@ -230,145 +230,129 @@ provenance:
 
 ### Minimal Required Fields
 
-```yaml
-url: https://api.example.com/mcp
-description: Clear, concise one-line description
-transport: streamable-http
-tier: Official
-status: Active
-tools:
-  - tool_name # Or use "set_during_runtime" if tools aren't knowable up-front
+```json
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/my-remote-server",
+  "description": "Clear, concise one-line description",
+  "title": "my-remote-server",
+  "repository": {
+    "url": "https://github.com/org/server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.example.com/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://api.example.com/mcp": {
+          "tier": "Official",
+          "status": "Active",
+          "tools": ["tool_name"]
+        }
+      }
+    }
+  }
+}
 ```
 
 ### Complete Template
 
-**Note:** The template below includes inline comments for instructional purposes. When creating actual spec files, remove all comment lines (those starting with `#`) to keep the file clean and concise.
-
-```yaml
-# ============================================
-# REQUIRED FIELDS
-# ============================================
-
-# Remote server endpoint URL
-url: https://api.example.com/mcp/v1
-
-# One-line description of server purpose
-description: Enables interaction with [service/API] for [purpose]
-
-# Communication protocol (NOT "stdio" for remote servers)
-transport: streamable-http # Options: "streamable-http", "sse" (deprecated)
-
-# Classification tier (REQUIRED)
-tier: Official # Options: "Official", "Community"
-
-# Development status (REQUIRED)
-status: Active # Options: "Active", "Deprecated"
-
-# List of tools this server provides (at least one required)
-# Use actual tool names if known, or "set_during_runtime" if not discoverable
-tools:
-  - tool_name_1
-  - tool_name_2
-
-# ============================================
-# HIGHLY RECOMMENDED FIELDS
-# ============================================
-
-# Source code repository (if open source)
-repository_url: https://github.com/organization/repository
-
-# Categorization tags (include "remote")
-tags:
-  - remote # Always include for remote servers
-  - api
-  - integration
-
-# ============================================
-# OPTIONAL FIELDS
-# ============================================
-
-# Project homepage or documentation
-homepage: https://docs.example.com
-
-# Author or organization name
-author: Organization Name
-
-# ============================================
-# AUTHENTICATION (choose one method)
-# ============================================
-
-# Option 1: Header-based authentication (API keys, tokens)
-headers:
-  - name: X-API-Key
-    description: API key for authentication
-    required: true
-    secret: true
-
-# Option 2: OAuth 2.0 / OIDC configuration
-oauth_config:
-  issuer: https://auth.example.com # For OIDC discovery
-  authorize_url: https://auth.example.com/authorize # For non-OIDC
-  token_url: https://auth.example.com/token # For non-OIDC
-  client_id: mcp-client
-  scopes:
-    - read
-    - write
-
-# Usage metrics (auto-updated - typically omit when creating new entries)
-metadata:
-  stars: 0
-  last_updated: 2025-01-01T00:00:00Z
+```json
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/<server-name>",
+  "description": "Enables interaction with [service/API] for [purpose]",
+  "title": "<server-name>",
+  "repository": {
+    "url": "https://github.com/organization/repository",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.example.com/mcp/v1"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://api.example.com/mcp/v1": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": ["remote", "api", "integration"],
+          "tools": [
+            "tool_name_1",
+            "tool_name_2"
+          ],
+          "custom_metadata": {
+            "author": "Organization Name",
+            "homepage": "https://docs.example.com",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
 ```
 
 ---
 
 ## Field Selection Guide
 
-### For Container Servers
+### Top-Level Fields
 
 **Always include:**
 
-- `image` (with version tag)
-- `description` (one-line, clear)
-- `transport` (`"stdio"`, `"streamable-http"`, or `"sse"`)
-- `tier` (`"Official"` or `"Community"`)
-- `status` (`"Active"` or `"Deprecated"`)
-- `tools` (at least one tool name, or `set_during_runtime` if unknown)
+- `$schema` - Always `"https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json"`
+- `name` - Format: `"io.github.stacklok/<server-name>"`
+- `description` - One-line, clear
+- `title` - Same as the directory name
+- `version` - `"1.0.0"` for new entries
+- `repository.url` and `repository.source`
 
-**Highly recommended:**
+**For containers (`packages`):**
 
-- `repository_url` (GitHub/GitLab link)
-- `tags` (categorization)
+- `packages[0].registryType` - Always `"oci"`
+- `packages[0].identifier` - Full image reference with tag (e.g., `ghcr.io/org/server:v1.0.0`)
+- `packages[0].transport.type` - `"stdio"`, `"streamable-http"`, or `"sse"`
+- `packages[0].environmentVariables` - When the server needs API keys or configuration
 
-**Include when needed:**
+**For remotes (`remotes`):**
 
-- `target_port` (REQUIRED when transport is `"streamable-http"` or `"sse"`)
-- `name` (optional - defaults to directory name if omitted)
-- `env_vars` (for API keys, configuration)
-- `permissions.network` (for network access only - NEVER specify filesystem paths)
-- `args` (command-line arguments)
-- `provenance` (for supply chain security verification - Sigstore/cosign signatures)
+- `remotes[0].type` - `"streamable-http"` or `"sse"` (NOT `"stdio"`)
+- `remotes[0].url` - HTTPS endpoint
 
-### For Remote Servers
+### Extensions (`_meta`) Fields
 
 **Always include:**
 
-- `url` (HTTPS endpoint)
-- `description` (one-line, clear)
-- `transport` (`"streamable-http"` or `"sse"`)
-- `tier` (`"Official"` or `"Community"`)
-- `status` (`"Active"` or `"Deprecated"`)
-- `tools` (at least one tool name, or `set_during_runtime` if unknown)
+- `tier` - `"Official"` or `"Community"`
+- `status` - `"Active"` or `"Deprecated"`
+- `tools` - List of tool names (or `["set_during_runtime"]` if dynamic)
 
 **Highly recommended:**
 
-- `repository_url` (if open source)
-- `tags` (always include `"remote"`)
+- `tags` - Categorization (include `"remote"` for remote servers)
 
-**Include when needed:**
+**Include when applicable:**
 
-- `headers` or `oauth_config` (authentication)
-- `homepage` (documentation link)
+- `permissions.network` - For network access only (NEVER filesystem paths)
+- `provenance` - Supply chain security (Sigstore/cosign)
+- `custom_metadata` - Author, homepage, license
+
+**Auto-populated (do NOT include for new entries):**
+
+- `metadata.stars` - GitHub stars (updated by CI)
+- `metadata.pulls` - Docker pull count (updated by CI)
+- `metadata.last_updated` - Timestamp (updated by CI)
 
 ---
 
@@ -376,141 +360,137 @@ metadata:
 
 ### Pattern 1: Container-Based API Integration
 
-```yaml
-image: ghcr.io/org/api-server:v1.2.0
-description: Integrates with ExampleAPI for data retrieval and manipulation
-transport: stdio
-repository_url: https://github.com/org/api-server
-homepage: https://example.com/docs
-author: Example Organization
-tier: Community
-status: Active
-tools:
-  - fetch_data
-  - create_record
-  - update_record
-  - delete_record
-env_vars:
-  - name: API_KEY
-    description: API key from example.com
-    required: true
-    secret: true
-permissions:
-  network:
-    outbound:
-      allow_host:
-        - api.example.com
-      allow_port:
-        - 443
-tags:
-  - api
-  - integration
-  - data
+```json
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/api-server",
+  "description": "Integrates with ExampleAPI for data retrieval and manipulation",
+  "title": "api-server",
+  "repository": {
+    "url": "https://github.com/org/api-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/org/api-server:v1.2.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "API_KEY",
+          "description": "API key from example.com",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/org/api-server:v1.2.0": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": ["api", "integration", "data"],
+          "tools": ["fetch_data", "create_record", "update_record", "delete_record"],
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": ["api.example.com"],
+                "allow_port": [443]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 ```
 
 ### Pattern 2: Container-Based Database Tool
 
-```yaml
-image: docker.io/org/db-server:v2.0.0
-description: Provides tools for querying and managing PostgreSQL databases
-transport: stdio
-repository_url: https://github.com/org/db-server
-license: Apache-2.0
-tier: Community
-status: Active
-tools:
-  - execute_query
-  - list_tables
-  - describe_table
-  - get_schema
-env_vars:
-  - name: DATABASE_URL
-    description: PostgreSQL connection string
-    required: true
-    secret: true
-tags:
-  - database
-  - postgresql
-  - sql
-  - data
+```json
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/db-server",
+  "description": "Provides tools for querying and managing PostgreSQL databases",
+  "title": "db-server",
+  "repository": {
+    "url": "https://github.com/org/db-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/org/db-server:v2.0.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "DATABASE_URL",
+          "description": "PostgreSQL connection string",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/org/db-server:v2.0.0": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": ["database", "postgresql", "sql", "data"],
+          "tools": ["execute_query", "list_tables", "describe_table", "get_schema"],
+          "custom_metadata": {
+            "license": "Apache-2.0"
+          }
+        }
+      }
+    }
+  }
+}
 ```
 
-### Pattern 3: Container-Based File Processor
+### Pattern 3: Remote API Server
 
-```yaml
-image: ghcr.io/org/file-server:v1.0.0
-description: Processes and analyzes various file formats
-transport: streamable-http
-target_port: 8080
-repository_url: https://github.com/org/file-server
-tier: Community
-status: Active
-tools:
-  - read_file
-  - analyze_content
-  - convert_format
-  - extract_metadata
-tags:
-  - files
-  - processing
-  - conversion
-# NOTE: File access should be configured by users at runtime,
-# not specified in registry entries for security reasons
-```
-
-### Pattern 4: Remote API Server
-
-```yaml
-url: https://knowledge-api.example.com/mcp
-description: Documentation and knowledge base API for technical content
-transport: streamable-http
-repository_url: https://github.com/org/knowledge-mcp
-homepage: https://docs.example.com/mcp
-author: Example Inc
-tier: Official
-status: Active
-tools:
-  - search_documentation
-  - get_article
-  - list_categories
-tags:
-  - remote
-  - documentation
-  - api
-  - knowledge
-headers:
-  - name: X-API-Key
-    description: API authentication key
-    required: true
-    secret: true
-```
-
-### Pattern 5: Remote OAuth Service
-
-```yaml
-url: https://api.service.com/mcp/v2
-description: Integration with ServiceAPI using OAuth authentication
-transport: streamable-http
-repository_url: https://github.com/org/service-mcp
-homepage: https://service.com/mcp-docs
-author: Service Inc
-tier: Official
-status: Active
-tools:
-  - query_data
-  - create_resource
-  - update_resource
-tags:
-  - remote
-  - api
-  - oauth
-oauth_config:
-  issuer: https://auth.service.com
-  client_id: mcp-client-id
-  scopes:
-    - read
-    - write
-    - admin
+```json
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/knowledge-remote",
+  "description": "Documentation and knowledge base API for technical content",
+  "title": "knowledge-remote",
+  "repository": {
+    "url": "https://github.com/org/knowledge-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://knowledge-api.example.com/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://knowledge-api.example.com/mcp": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": ["remote", "documentation", "api", "knowledge"],
+          "tools": ["search_documentation", "get_article", "list_categories"],
+          "custom_metadata": {
+            "author": "Example Inc",
+            "homepage": "https://docs.example.com/mcp"
+          }
+        }
+      }
+    }
+  }
+}
 ```
 
 ---
@@ -519,30 +499,33 @@ oauth_config:
 
 ### Container Servers
 
-| Rule            | Description                                                                                            |
-| --------------- | ------------------------------------------------------------------------------------------------------ |
-| Image format    | Must be valid Docker/OCI reference (e.g., `registry/org/name:tag`)                                     |
-| Transport       | Must be `"stdio"`, `"sse"`, or `"streamable-http"`                                                     |
-| Required fields | Must have `image`, `description`, `transport`, `tier`, `status`, `tools` (≥1, or `set_during_runtime`) |
+| Rule            | Description                                                                |
+| --------------- | -------------------------------------------------------------------------- |
+| Image format    | Must be valid OCI reference with tag (e.g., `ghcr.io/org/name:v1.0.0`)    |
+| Transport       | Must be `"stdio"`, `"sse"`, or `"streamable-http"`                         |
+| Required fields | `$schema`, `name`, `description`, `title`, `version`, `packages`, `_meta`  |
+| Extension key   | Must match `packages[0].identifier` exactly                                |
 
 ### Remote Servers
 
-| Rule            | Description                                                                                          |
-| --------------- | ---------------------------------------------------------------------------------------------------- |
-| URL format      | Must be valid HTTP/HTTPS URL                                                                         |
-| Transport       | Must be `"streamable-http"` or `"sse"` (NOT `"stdio"`)                                               |
-| Required fields | Must have `url`, `description`, `transport`, `tier`, `status`, `tools` (≥1, or `set_during_runtime`) |
-| Tags            | Should include `"remote"` tag                                                                        |
+| Rule            | Description                                                                |
+| --------------- | -------------------------------------------------------------------------- |
+| URL format      | Must be valid HTTPS URL                                                    |
+| Transport       | Must be `"streamable-http"` or `"sse"` (NOT `"stdio"`)                     |
+| Required fields | `$schema`, `name`, `description`, `title`, `version`, `remotes`, `_meta`   |
+| Extension key   | Must match `remotes[0].url` exactly                                        |
+| Tags            | Should include `"remote"` tag                                              |
 
 ### Both Types
 
 | Rule          | Description                              |
 | ------------- | ---------------------------------------- |
 | Server name   | Lowercase letters, numbers, hyphens only |
+| Name format   | `io.github.stacklok/<server-name>`       |
 | Description   | Single line, clear, concise              |
 | Tier values   | Exactly `"Official"` or `"Community"`    |
 | Status values | Exactly `"Active"` or `"Deprecated"`     |
-| YAML syntax   | 2-space indentation, proper list format  |
+| JSON syntax   | Valid JSON, 2-space indentation          |
 
 ---
 
@@ -550,10 +533,10 @@ oauth_config:
 
 ### 1. Validate Against Schema
 
-Validate that your spec file conforms to the schema:
+Validate that your server.json file conforms to the schema:
 
 ```bash
-task validate
+task catalog:validate
 ```
 
 This checks that all required fields are present and properly formatted.
@@ -563,7 +546,7 @@ This checks that all required fields are present and properly formatted.
 Ensure the registry builds successfully with your new entry:
 
 ```bash
-task build:registry
+task catalog:build
 ```
 
 This compiles all entries into the registry and verifies there are no conflicts or errors.
@@ -572,10 +555,10 @@ This compiles all entries into the registry and verifies there are no conflicts 
 
 ```bash
 # For container servers:
-jq '.servers["<server-name>"]' build/registry.json
+jq '.servers["<server-name>"]' build/toolhive/registry.json
 
 # For remote servers:
-jq '.remote_servers["<server-name>"]' build/registry.json
+jq '.remote_servers["<server-name>"]' build/toolhive/registry.json
 ```
 
 ---
@@ -584,6 +567,11 @@ jq '.remote_servers["<server-name>"]' build/registry.json
 
 ### Common Errors
 
+**"Extension key mismatch"**
+
+- The key in `_meta` must exactly match `packages[0].identifier` (containers) or `remotes[0].url` (remotes)
+- Including the version tag: `ghcr.io/org/server:v1.0.0`, not `ghcr.io/org/server`
+
 **"Invalid transport type"**
 
 - Container: Use `"stdio"`, `"streamable-http"`, or `"sse"`
@@ -591,20 +579,20 @@ jq '.remote_servers["<server-name>"]' build/registry.json
 
 **"Missing required fields"**
 
-- Container: Check `image`, `description`, `transport`
-- Remote: Check `url`, `description`, `transport`
+- Check `$schema`, `name`, `description`, `title`, `version`
+- Container: Check `packages` array
+- Remote: Check `remotes` array
 
 **"Invalid tier or status"**
 
 - Tier: Must be exactly `"Official"` or `"Community"`
 - Status: Must be exactly `"Active"` or `"Deprecated"`
 
-**"YAML syntax error"**
+**"Invalid JSON"**
 
-- Use 2-space indentation (not tabs)
-- Quote strings with special characters
-- Use `-` for list items
-- Ensure proper nesting
+- Ensure proper JSON syntax (no trailing commas, quoted keys)
+- Use 2-space indentation
+- Validate with `jq . < server.json`
 
 ---
 
@@ -612,11 +600,11 @@ jq '.remote_servers["<server-name>"]' build/registry.json
 
 Study these existing entries:
 
-- **Container, API**: `registry/github/spec.yaml`
-- **Container, Database**: `registry/sqlite/spec.yaml`
-- **Container, Simple**: `registry/fetch/spec.yaml`
-- **Remote, Full-featured**: `registry/notion-remote/spec.yaml`
-- **Remote, AWS**: `registry/aws-knowledge/spec.yaml`
+- **Container, API**: `registries/toolhive/servers/github/server.json`
+- **Container, Database**: `registries/toolhive/servers/sqlite/server.json`
+- **Container, Simple**: `registries/toolhive/servers/fetch/server.json`
+- **Remote, Full-featured**: `registries/toolhive/servers/semgrep-remote/server.json`
+- **Remote, AWS**: `registries/toolhive/servers/aws-knowledge/server.json`
 
 ---
 
@@ -625,25 +613,27 @@ Study these existing entries:
 Before submitting:
 
 - [ ] Server name: lowercase, numbers, hyphens only
-- [ ] Directory: `registry/<server-name>/` exists
-- [ ] File: named exactly `spec.yaml`
-- [ ] Required fields: present and valid
-  - Container: `image`, `description`, `transport`, `tier`, `status`, `tools`
-  - Remote: `url`, `description`, `transport`, `tier`, `status`, `tools`
-- [ ] Image/URL: complete and correct
-- [ ] Description: clear and concise
+- [ ] Directory: `registries/toolhive/servers/<server-name>/` exists
+- [ ] File: named exactly `server.json`
+- [ ] `$schema` field present
+- [ ] `name` follows format `io.github.stacklok/<server-name>`
+- [ ] `description` is clear and concise
+- [ ] `title` matches directory name
+- [ ] `version` is `"1.0.0"`
+- [ ] `repository.url` and `repository.source` are set
+- [ ] Container: `packages` with `registryType`, `identifier`, `transport`
+- [ ] Remote: `remotes` with `type` and `url`
 - [ ] Transport: appropriate for server type
-  - Container: `stdio`, `streamable-http`, or `sse`
-  - Remote: `streamable-http` or `sse` (NOT `stdio`)
-- [ ] Target port: specified if transport is `streamable-http` or `sse` (containers only)
-- [ ] Tier: set to "Official" or "Community"
-- [ ] Status: set to "Active" or "Deprecated"
-- [ ] Tools: at least one tool listed (actual tool names if known, or `set_during_runtime` if tools can't be determined)
+- [ ] `_meta` extensions block present with correct nesting
+- [ ] Extension key matches `identifier` (containers) or `url` (remotes)
+- [ ] `tier`: "Official" or "Community"
+- [ ] `status`: "Active" or "Deprecated"
+- [ ] `tools`: at least one tool listed
 - [ ] Tags: relevant categories included (and "remote" for remote servers)
-- [ ] Auth: configured if needed
 - [ ] Network permissions: specified if needed (NEVER include filesystem paths)
-- [ ] Validation: `task validate` passes without errors
-- [ ] Registry build: `task build:registry` completes successfully
+- [ ] `metadata` fields (stars, pulls, last_updated) are NOT included (auto-populated by CI)
+- [ ] Validation: `task catalog:validate` passes without errors
+- [ ] Registry build: `task catalog:build` completes successfully
 
 ---
 
@@ -651,27 +641,25 @@ Before submitting:
 
 ```
 Start
-  ↓
+  |
 Do you have complete information (tools, auth, description)?
-  ├─ No → Gather information
-  │   ├─ Check repository README
-  │   ├─ Review official documentation
-  │   └─ Extract: tools, description, transport, auth, env_vars
-  │
-  └─ Yes → Proceed to server type
-      ↓
+  |-- No --> Gather information
+  |   |-- Check repository README
+  |   |-- Review official documentation
+  |   +-- Extract: tools, description, transport, auth, env vars
+  |
+  +-- Yes --> Proceed to server type
+      |
 Is this a Docker container or HTTP endpoint?
-  ├─ Docker → Use Container template
-  │   ├─ Add: image, description, transport (stdio)
-  │   ├─ Add: repository_url, tools, tags
-  │   ├─ Need API keys? → Add env_vars with secret: true
-  │   └─ Need network access? → Add permissions.network (NEVER filesystem paths)
-  │
-  └─ HTTP → Use Remote template
-      ├─ Add: url, description, transport (streamable-http or sse)
-      ├─ Add: repository_url, tools, tags (include "remote")
-      ├─ Need auth?
-      │   ├─ API key → Add headers
-      │   └─ OAuth → Add oauth_config
-      └─ Validate with task validate
+  |-- Docker --> Use Container template
+  |   |-- Set: packages with identifier, transport (stdio)
+  |   |-- Set: _meta extensions with matching key
+  |   |-- Need API keys? --> Add environmentVariables with isSecret: true
+  |   +-- Need network access? --> Add permissions.network (NEVER filesystem paths)
+  |
+  +-- HTTP --> Use Remote template
+      |-- Set: remotes with url, type (streamable-http)
+      |-- Set: _meta extensions with matching key (= the URL)
+      |-- Tags: include "remote"
+      +-- Validate with task catalog:validate
 ```
