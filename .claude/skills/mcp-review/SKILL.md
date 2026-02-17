@@ -1,12 +1,12 @@
 ---
 name: mcp-review
-description: Review MCP server specifications and updates for compliance, security, and quality. Use when evaluating spec.yaml files, PRs adding/updating servers, or assessing MCP server changes.
+description: Review MCP server specifications and updates for compliance, security, and quality. Use when evaluating server.json files, PRs adding/updating servers, or assessing MCP server changes.
 allowed-tools: Read, Grep, Glob, Bash, WebFetch
 ---
 
 # MCP Server Specification Review
 
-You are an expert reviewer for the ToolHive Registry, a curated catalog of MCP (Model Context Protocol) servers. Your role is to evaluate spec.yaml files and MCP server submissions for compliance, security, quality, and completeness.
+You are an expert reviewer for the ToolHive Registry, a curated catalog of MCP (Model Context Protocol) servers. Your role is to evaluate server.json files and MCP server submissions for compliance, security, quality, and completeness.
 
 ## Registry Inclusion Criteria
 
@@ -23,7 +23,7 @@ All MCP servers in the ToolHive Registry must meet these criteria from the offic
 
 | Requirement | Description | How to Verify |
 |-------------|-------------|---------------|
-| **Provenance** | Software provenance verification via Sigstore or GitHub Attestations | Check for `provenance` field in spec, verify cosign signatures |
+| **Provenance** | Software provenance verification via Sigstore or GitHub Attestations | Check for `provenance` field in `_meta` extensions |
 | **SLSA Compliance** | Supply chain security assessment | Review build workflows for SLSA compliance |
 | **Pinned Dependencies** | Dependencies and GitHub Actions must be pinned | Check lockfiles and workflow files |
 | **SBOM** | Published Software Bill of Materials | Look for SBOM in releases or repository |
@@ -59,77 +59,99 @@ All MCP servers in the ToolHive Registry must meet these criteria from the offic
 
 ---
 
-## Spec.yaml Review Process
+## server.json Review Process
 
 ### 1. Determine Server Type
 
 | Type | Identifier | Valid Transports |
 |------|------------|------------------|
-| **Container** | `image:` field | `stdio`, `streamable-http`, `sse` |
-| **Remote** | `url:` field | `streamable-http`, `sse` (NOT `stdio`) |
+| **Container** | `packages` field | `stdio`, `streamable-http`, `sse` |
+| **Remote** | `remotes` field | `streamable-http`, `sse` (NOT `stdio`) |
 
-### 2. Validate Required Fields
+### 2. Validate Top-Level Fields
+
+```json
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/<server-name>",
+  "description": "Clear one-line description",
+  "title": "<server-name>",
+  "repository": { "url": "https://github.com/org/repo", "source": "github" },
+  "version": "1.0.0"
+}
+```
+
+### 3. Validate Package/Remote Configuration
 
 **Container servers:**
-```yaml
-image: ghcr.io/org/server:v1.0.0  # Valid OCI reference with version tag
-description: Clear one-line description
-transport: stdio                   # stdio, streamable-http, or sse
-tier: Community                    # Official or Community
-status: Active                     # Active or Deprecated
-tools:
-  - tool_name                      # At least one, or "set_during_runtime"
+```json
+{
+  "packages": [{
+    "registryType": "oci",
+    "identifier": "ghcr.io/org/server:v1.0.0",
+    "transport": { "type": "stdio" },
+    "environmentVariables": [
+      { "name": "API_KEY", "description": "...", "isRequired": true, "isSecret": true }
+    ]
+  }]
+}
 ```
 
 **Remote servers:**
-```yaml
-url: https://api.example.com/mcp   # Valid HTTPS endpoint
-description: Clear one-line description
-transport: streamable-http         # streamable-http or sse (NEVER stdio)
-tier: Official                     # Official or Community
-status: Active                     # Active or Deprecated
-tools:
-  - tool_name                      # At least one, or "set_during_runtime"
+```json
+{
+  "remotes": [{
+    "type": "streamable-http",
+    "url": "https://api.example.com/mcp"
+  }]
+}
 ```
 
-### 3. Validate Recommended Fields
+### 4. Validate `_meta` Extensions
 
-```yaml
-repository_url: https://github.com/org/repo  # Source code (REQUIRED for review)
-tags:
-  - relevant-tag
-  - remote  # Required for remote servers
+The `_meta` block must follow this nesting:
+```json
+{
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "<extension-key>": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": ["..."],
+          "tools": ["..."]
+        }
+      }
+    }
+  }
+}
 ```
 
-### 4. Validate Conditional Fields
-
-| Field | When Required |
-|-------|---------------|
-| `target_port` | Transport is `streamable-http` or `sse` (containers) |
-| `env_vars` | Server needs API keys or configuration |
-| `permissions.network` | Server makes outbound connections |
-| `oauth_config` or `headers` | Remote server authentication |
-| `provenance` | Container images with Sigstore signatures |
-| `license` | Should match repository license |
+**Critical:** The `<extension-key>` must exactly match:
+- For containers: `packages[0].identifier` (e.g., `ghcr.io/org/server:v1.0.0`)
+- For remotes: `remotes[0].url` (e.g., `https://api.example.com/mcp`)
 
 ### 5. Security Review
 
 **CRITICAL - Must verify:**
 
 1. **No filesystem paths** in `permissions` - Users configure mounts at runtime
-2. **Secrets marked** with `secret: true` in `env_vars`
+2. **Secrets marked** with `isSecret: true` in `environmentVariables`
 3. **Network scoped** - No `insecure_allow_all: true` unless justified
 4. **Specific image tags** - Never use `latest`, always pin versions
-5. **OAuth scopes minimal** - Only request necessary permissions
+5. **Extension key matches** - `_meta` key must match `identifier` or `url`
 
-**Supply Chain Security:**
-```yaml
-provenance:
-  cert_issuer: https://token.actions.githubusercontent.com
-  repository_uri: https://github.com/org/repo
-  runner_environment: github-hosted
-  signer_identity: /.github/workflows/release.yml
-  sigstore_url: tuf-repo-cdn.sigstore.dev
+**Supply Chain Security (in `_meta` extensions):**
+```json
+{
+  "provenance": {
+    "cert_issuer": "https://token.actions.githubusercontent.com",
+    "repository_uri": "https://github.com/org/repo",
+    "runner_environment": "github-hosted",
+    "signer_identity": "/.github/workflows/release.yml",
+    "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+  }
+}
 ```
 
 ---
@@ -219,7 +241,9 @@ Provide structured feedback:
 
 | Field | Status | Notes |
 |-------|--------|-------|
-| Required fields | Pass/Fail | |
+| Top-level fields | Pass/Fail | |
+| Package/Remote config | Pass/Fail | |
+| Extension key match | Pass/Fail | |
 | Transport valid | Pass/Fail | |
 | Tools listed | Pass/Fail | |
 | Security fields | Pass/Fail | |
@@ -227,9 +251,10 @@ Provide structured feedback:
 ### Security Review
 
 - [ ] No filesystem paths in permissions
-- [ ] Secrets properly marked
+- [ ] Secrets properly marked (isSecret: true)
 - [ ] Network permissions scoped
 - [ ] Image tag pinned (not `latest`)
+- [ ] Extension key matches identifier/URL
 - [ ] Provenance configured (if applicable)
 
 ### Findings
@@ -243,7 +268,7 @@ Provide structured feedback:
 ---
 
 ### Validation
-Run `task validate` to verify spec compliance.
+Run `task catalog:validate` to verify spec compliance.
 ```
 
 ---
@@ -253,10 +278,11 @@ Run `task validate` to verify spec compliance.
 When reviewing updates to existing servers:
 
 1. **Identify changes** - What fields changed?
-2. **Check changelog** - What's new in this version?
-3. **Verify tools** - Added or removed tools?
-4. **Breaking changes** - Transport, env vars, or auth changes?
-5. **Security implications** - New permissions or scopes?
+2. **Check both locations** - Was the image tag updated in BOTH `identifier` AND `_meta` key?
+3. **Check changelog** - What's new in this version?
+4. **Verify tools** - Added or removed tools?
+5. **Breaking changes** - Transport, env vars, or auth changes?
+6. **Security implications** - New permissions or scopes?
 
 Focus review on changed aspects, not full re-review.
 
@@ -265,21 +291,15 @@ Focus review on changed aspects, not full re-review.
 ## Workflow Commands
 
 ```bash
-# Validate all specs
-task validate
-
-# Validate single entry (check output for errors)
-task validate 2>&1 | grep -A5 "<server-name>"
+# Validate all entries
+task catalog:validate
 
 # Build registry and verify
-task build:registry
+task catalog:build
 
-# Check specific entry in output
-jq '.servers["<name>"]' build/registry.json
-jq '.remote_servers["<name>"]' build/registry.json
-
-# List all entries
-task list
+# Check specific entry in built output
+jq '.servers["<name>"]' build/toolhive/registry.json
+jq '.remote_servers["<name>"]' build/toolhive/registry.json
 ```
 
 ---

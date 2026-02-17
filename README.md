@@ -8,159 +8,149 @@ Think of this as a catalog of tools that AI assistants can use. Each entry in th
 
 ## How to Add Your MCP Server
 
-Adding your MCP server to the registry is simple! You just need to create a YAML file with some basic information about your server. We support two types of MCP servers:
+Adding your MCP server to the registry is simple! You need to create a `server.json` file following the [upstream MCP ServerJSON schema](https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json), with ToolHive-specific extensions in the `_meta` field. We support two types of MCP servers:
 
-1. **Container-based servers** - Run as Docker containers
-2. **Remote servers** - Accessed via HTTP/HTTPS endpoints
+1. **Container-based servers** - Run as Docker containers (use `packages` field)
+2. **Remote servers** - Accessed via HTTP/HTTPS endpoints (use `remotes` field)
 
 ### Step 1: Create a Folder
 
-Create a new folder in the `registry/` directory with your server's name (use lowercase and hyphens):
+Create a new folder in `registries/toolhive/servers/` with your server's name (use lowercase and hyphens):
 
 ```
-registry/
-  └── my-awesome-server/
-      └── spec.yaml
+registries/
+  └── toolhive/
+      └── servers/
+          └── my-awesome-server/
+              └── server.json
 ```
 
-### Step 2: Create Your spec.yaml File
+### Step 2: Create Your server.json File
 
 Choose the appropriate format based on your server type:
 
 #### For Container-based Servers
 
-Create a `spec.yaml` file with this minimum information:
+Create a `server.json` file:
 
-```yaml
-# Required fields - you must provide these
-image: docker.io/myorg/my-server:latest # Your Docker image
-description: What your server does in one sentence
-transport: stdio # How your server communicates (usually "stdio")
-tier: Community # "Official" or "Community"
-status: Active # "Active" or "Deprecated"
-tools:
-  - tool_name_1 # List the tools your server provides
-  - tool_name_2 # Or use "set_during_runtime" if tools aren't knowable up-front
-
-# Recommended fields - helps users understand your server
-repository_url: https://github.com/myorg/my-server # Where to find your code
+```json
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/my-server",
+  "description": "What your server does in one sentence",
+  "title": "my-server",
+  "repository": {
+    "url": "https://github.com/myorg/my-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/myorg/my-server:v1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "API_KEY",
+          "description": "Your API key",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/myorg/my-server:v1.0.0": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": ["api", "integration"],
+          "tools": ["tool_name_1", "tool_name_2"]
+        }
+      }
+    }
+  }
+}
 ```
 
 #### For Remote Servers
 
-Create a `spec.yaml` file with this minimum information:
-
-```yaml
-# Required fields - you must provide these
-url: https://api.example.com/mcp # Your MCP server endpoint
-description: What your server does in one sentence
-transport: streamable-http # Remote servers use "streamable-http" (preferred) or "sse" (not "stdio")
-tier: Community # "Official" or "Community"
-status: Active # "Active" or "Deprecated"
-tools:
-  - tool_name_1 # List the tools your server provides
-  - tool_name_2 # Or use "set_during_runtime" if tools aren't knowable up-front
-
-# Recommended fields - helps users understand your server
-repository_url: https://github.com/myorg/my-server # Where to find your code
+```json
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/my-remote-server",
+  "description": "What your server does in one sentence",
+  "title": "my-remote-server",
+  "repository": {
+    "url": "https://github.com/myorg/my-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.example.com/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://api.example.com/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": ["remote", "api"],
+          "tools": ["tool_name_1", "tool_name_2"]
+        }
+      }
+    }
+  }
+}
 ```
+
+### Key Concepts
+
+**The `_meta` extensions block** holds ToolHive-specific data (tier, status, tags, tools, permissions, etc.) nested under `io.modelcontextprotocol.registry/publisher-provided` > `io.github.stacklok` > `<extension-key>`.
+
+The **extension key** must match:
+- For containers: the `packages[0].identifier` value (e.g., `ghcr.io/myorg/my-server:v1.0.0`)
+- For remotes: the `remotes[0].url` value (e.g., `https://api.example.com/mcp`)
 
 ### Step 3: Add More Details (Optional but Recommended)
 
-You can add more information to help users:
+You can add more information in the `_meta` extensions block:
 
-```yaml
-# ... required fields above ...
-
-# Tell users what environment variables they need
-env_vars:
-  - name: API_KEY
-    description: Your API key from example.com
-    required: true
-    secret: true # Mark sensitive data
-
-  - name: TIMEOUT
-    description: Request timeout in seconds
-    required: false
-    default: "30"
-
-# Help users find your server
-tags:
-  - api
-  - integration
-  - productivity
-
-# Server classification
-tier: Community # or "Official" if maintained by the protocol team
-status: Active # or "Deprecated"
-```
-
-### Real Examples
-
-#### Container-based Server Example
-
-```yaml
-image: ghcr.io/github/github-mcp-server:v0.10.0
-description: Provides integration with GitHub's APIs for repository management
-transport: stdio
-repository_url: https://github.com/github/github-mcp-server
-
-tools:
-  - create_issue
-  - create_pull_request
-  - get_file_contents
-  - search_repositories
-
-env_vars:
-  - name: GITHUB_PERSONAL_ACCESS_TOKEN
-    description: GitHub personal access token with appropriate permissions
-    required: true
-    secret: true
-
-tags:
-  - github
-  - version-control
-  - api
-
-tier: Official
-status: Active
-```
-
-#### Remote Server Example
-
-```yaml
-url: https://api.example.com/mcp/v1
-description: Provides access to Example API services via MCP
-transport: streamable-http
-repository_url: https://github.com/example/mcp-server
-
-tools:
-  - fetch_data
-  - process_request
-  - submit_job
-
-# Authentication headers for remote servers
-headers:
-  - name: X-API-Key
-    description: API key for authentication
-    required: true
-    secret: true
-
-# OAuth configuration (alternative to headers)
-oauth_config:
-  issuer: https://auth.example.com
-  client_id: mcp-client
-  scopes:
-    - read
-    - write
-
-tags:
-  - api
-  - remote
-  - cloud
-
-tier: Community
-status: Active
+```json
+{
+  "ghcr.io/myorg/my-server:v1.0.0": {
+    "tier": "Community",
+    "status": "Active",
+    "tags": ["api", "integration", "productivity"],
+    "tools": ["tool_name_1", "tool_name_2"],
+    "permissions": {
+      "network": {
+        "outbound": {
+          "allow_host": ["api.example.com"],
+          "allow_port": [443]
+        }
+      }
+    },
+    "provenance": {
+      "cert_issuer": "https://token.actions.githubusercontent.com",
+      "repository_uri": "https://github.com/myorg/my-server",
+      "runner_environment": "github-hosted",
+      "signer_identity": "/.github/workflows/build.yml",
+      "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+    },
+    "custom_metadata": {
+      "author": "My Organization",
+      "homepage": "https://docs.example.com",
+      "license": "MIT"
+    }
+  }
+}
 ```
 
 ## Common Questions
@@ -169,21 +159,19 @@ status: Active
 
 This tells ToolHive how to communicate with your server:
 
-For **container-based servers**:
+For **container-based servers** (in `packages[].transport.type`):
 
 - `stdio` - Standard input/output (most common)
 - `sse` - Server-sent events
 - `streamable-http` - HTTP streaming
 
-For **remote servers**:
+For **remote servers** (in `remotes[].type`):
 
 - `streamable-http` - HTTP streaming (recommended)
 - `sse` - Server-sent events (deprecated but still supported)
 - **Note:** Remote servers cannot use `stdio`
 
 If you're not sure, use `stdio` for containers and `streamable-http` for remote servers.
-
-**Important:** For container servers using `streamable-http` or `sse` transport, you must also specify the `target_port` field.
 
 ### What is "tier"?
 
@@ -197,7 +185,7 @@ If you're not sure, use `stdio` for containers and `streamable-http` for remote 
 
 ### What about the "tools" field?
 
-List all the tools your server provides. If your server's tools aren't knowable until runtime (for example, if they're dynamically generated based on configuration), you can use `"set_during_runtime"` as the value instead of listing specific tool names.
+List all the tools your server provides in the `_meta` extensions block. If your server's tools aren't knowable until runtime, you can use `["set_during_runtime"]`.
 
 ### Do I need a Docker image?
 
@@ -218,8 +206,11 @@ List all the tools your server provides. If your server's tools aren't knowable 
 After adding your entry, you can validate it:
 
 ```bash
-# If you have the build tools installed
-task validate
+# Validate all entries
+task catalog:validate
+
+# Build the registry files
+task catalog:build
 ```
 
 Or submit a pull request and our automated checks will validate it for you.
@@ -257,13 +248,13 @@ For **remote servers**:
 - [ ] Your server endpoint is publicly accessible
 - [ ] The `description` clearly explains what your server does
 - [ ] You've listed all the tools your server provides
-- [ ] Any required authentication (headers/OAuth) is documented
+- [ ] Any required authentication is documented
 - [ ] The transport is set to `streamable-http` (preferred) or `sse` (not `stdio`)
 - [ ] Your server works with ToolHive's proxy command
 
 ## Need Help?
 
-- Check existing entries in the `registry/` folder for examples
+- Check existing entries in `registries/toolhive/servers/` for examples
 - Open an issue if you have questions
 - Join our community discussions
 
@@ -272,14 +263,14 @@ For **remote servers**:
 If you need to work with the registry programmatically:
 
 ```bash
-# Import existing registry
-task import
-
 # Validate all entries
-task validate
+task catalog:validate
 
-# Build the registry.json
-task build:registry
+# Build the registry files (both ToolHive and official MCP formats)
+task catalog:build
+
+# Update metadata for oldest entries
+task catalog:update-metadata:oldest
 
 # See all available commands
 task
