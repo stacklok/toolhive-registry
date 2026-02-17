@@ -1,0 +1,80 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/hass-mcp",
+  "description": "Home Assistant integration enabling direct interaction with smart home devices and automations",
+  "title": "hass-mcp",
+  "repository": {
+    "url": "https://github.com/voska/hass-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/voska/hass-mcp:0.1.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Home Assistant instance URL (e.g. http://homeassistant.local:8123)",
+          "isRequired": true,
+          "name": "HA_URL"
+        },
+        {
+          "description": "Home Assistant Long-Lived Access Token",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "HA_TOKEN"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/voska/hass-mcp:0.1.1": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:47:22Z",
+            "pulls": 17082,
+            "stars": 271
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "home-assistant",
+            "smart-home",
+            "automation",
+            "iot",
+            "sensors",
+            "devices",
+            "control",
+            "monitoring",
+            "home-automation",
+            "domotics"
+          ],
+          "tier": "Community",
+          "tools": [
+            "get_version",
+            "get_entity",
+            "entity_action",
+            "list_entities",
+            "search_entities_tool",
+            "domain_summary_tool",
+            "list_automations",
+            "call_service_tool",
+            "restart_ha",
+            "get_history",
+            "get_error_log"
+          ]
+        }
+      }
+    }
+  }
+}

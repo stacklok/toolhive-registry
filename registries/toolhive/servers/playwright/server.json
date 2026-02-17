@@ -1,0 +1,78 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/playwright",
+  "description": "Provides browser automation capabilities using Playwright",
+  "title": "playwright",
+  "repository": {
+    "url": "https://github.com/microsoft/playwright-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.68",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "mcr.microsoft.com/playwright/mcp:v0.0.68": {
+          "metadata": {
+            "last_updated": "2026-01-27T02:45:00Z",
+            "pulls": 23622,
+            "stars": 26247
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "playwright",
+            "automation",
+            "browser",
+            "navigate",
+            "testing",
+            "web",
+            "accessibility"
+          ],
+          "tier": "Official",
+          "tools": [
+            "browser_click",
+            "browser_close",
+            "browser_console_messages",
+            "browser_drag",
+            "browser_evaluate",
+            "browser_file_upload",
+            "browser_fill_form",
+            "browser_handle_dialog",
+            "browser_hover",
+            "browser_install",
+            "browser_navigate",
+            "browser_navigate_back",
+            "browser_network_requests",
+            "browser_press_key",
+            "browser_resize",
+            "browser_run_code",
+            "browser_select_option",
+            "browser_snapshot",
+            "browser_tabs",
+            "browser_take_screenshot",
+            "browser_type",
+            "browser_wait_for"
+          ]
+        }
+      }
+    }
+  }
+}

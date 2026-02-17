@@ -1,0 +1,62 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/canva",
+  "description": "Canva's official remote MCP server for design creation and template management",
+  "title": "canva",
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.canva.com/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.canva.com/mcp": {
+          "custom_metadata": {
+            "author": "Canva",
+            "homepage": "https://www.canva.dev/docs/connect/canva-mcp-server-setup/"
+          },
+          "metadata": {
+            "last_updated": "2026-02-05T04:49:18Z"
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "canva",
+            "design",
+            "graphics",
+            "templates",
+            "oauth",
+            "creative",
+            "visual-content",
+            "export",
+            "collaboration"
+          ],
+          "tier": "Official",
+          "tools": [
+            "upload-asset-from-url",
+            "get-asset-upload-from-url-status",
+            "search-designs",
+            "get-design",
+            "get-design-pages",
+            "get-design-content",
+            "import-design-from-url",
+            "get-design-import-from-url-status",
+            "export-design",
+            "get-export-formats",
+            "get-design-export-status",
+            "create-folder",
+            "move-item-to-folder",
+            "list-folder-items",
+            "comment-on-design",
+            "list-comments",
+            "list-replies",
+            "reply-to-comment"
+          ]
+        }
+      }
+    }
+  }
+}

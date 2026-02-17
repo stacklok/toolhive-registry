@@ -1,0 +1,81 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/chroma-mcp",
+  "description": "MCP server for ChromaDB vector database operations",
+  "title": "chroma-mcp",
+  "repository": {
+    "url": "https://github.com/chroma-core/chroma-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/chroma-mcp:0.2.6",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "ChromaDB server URL",
+          "default": "http://localhost:8000",
+          "name": "CHROMA_SERVER_URL"
+        },
+        {
+          "description": "API key for ChromaDB authentication",
+          "isSecret": true,
+          "name": "CHROMA_API_KEY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/chroma-mcp:0.2.6": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:47:28Z",
+            "stars": 483
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "vector-database",
+            "embeddings",
+            "ai",
+            "chromadb"
+          ],
+          "tier": "Official",
+          "tools": [
+            "chroma_list_collections",
+            "chroma_create_collection",
+            "chroma_peek_collection",
+            "chroma_get_collection_info",
+            "chroma_get_collection_count",
+            "chroma_modify_collection",
+            "chroma_delete_collection",
+            "chroma_add_documents",
+            "chroma_query_documents",
+            "chroma_get_documents",
+            "chroma_update_documents",
+            "chroma_delete_documents"
+          ]
+        }
+      }
+    }
+  }
+}

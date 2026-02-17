@@ -1,0 +1,75 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/k8s",
+  "description": "Allows LLM-powered applications to interact with Kubernetes clusters.",
+  "title": "k8s",
+  "repository": {
+    "url": "https://github.com/StacklokLabs/mkp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stackloklabs/mkp/server:0.2.4",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080"
+      },
+      "environmentVariables": [
+        {
+          "description": "Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)",
+          "name": "KUBECONFIG"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stackloklabs/mkp/server:0.2.4": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:47:24Z",
+            "pulls": 13952,
+            "stars": 56
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/StacklokLabs/mkp",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/release.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "kubernetes",
+            "k8s",
+            "api",
+            "resources",
+            "cluster",
+            "namespaced",
+            "apply",
+            "get",
+            "list"
+          ],
+          "tier": "Community",
+          "tools": [
+            "list_resources",
+            "get_resource",
+            "apply_resource"
+          ]
+        }
+      }
+    }
+  }
+}

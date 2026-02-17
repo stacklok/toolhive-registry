@@ -1,0 +1,94 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/mcp-neo4j-cypher",
+  "description": "MCP server for executing Cypher queries against Neo4j databases with natural language interface",
+  "title": "mcp-neo4j-cypher",
+  "repository": {
+    "url": "https://github.com/neo4j-contrib/mcp-neo4j",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-cypher:0.5.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Neo4j database connection URI",
+          "isRequired": true,
+          "default": "bolt://localhost:7687",
+          "name": "NEO4J_URI"
+        },
+        {
+          "description": "Neo4j database username",
+          "default": "neo4j",
+          "name": "NEO4J_USERNAME"
+        },
+        {
+          "description": "Neo4j database password",
+          "isSecret": true,
+          "name": "NEO4J_PASSWORD"
+        },
+        {
+          "description": "Neo4j database name",
+          "default": "neo4j",
+          "name": "NEO4J_DATABASE"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-cypher:0.5.2": {
+          "metadata": {
+            "last_updated": "2026-02-14T02:56:21Z",
+            "pulls": 91,
+            "stars": 898
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "localhost",
+                  ".neo4j.io",
+                  ".databases.neo4j.io"
+                ],
+                "allow_port": [
+                  7687,
+                  7473,
+                  7474,
+                  443
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "neo4j",
+            "cypher",
+            "query",
+            "graph-database"
+          ],
+          "tier": "Community",
+          "tools": [
+            "get_neo4j_schema",
+            "read_neo4j_cypher",
+            "write_neo4j_cypher"
+          ]
+        }
+      }
+    }
+  }
+}

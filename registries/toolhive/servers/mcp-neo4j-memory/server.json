@@ -1,0 +1,91 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/mcp-neo4j-memory",
+  "description": "MCP server for Neo4j memory management and knowledge graph storage operations",
+  "title": "mcp-neo4j-memory",
+  "repository": {
+    "url": "https://github.com/neo4j-contrib/mcp-neo4j",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-memory:0.4.4",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Neo4j database connection URI",
+          "isRequired": true,
+          "default": "bolt://localhost:7687",
+          "name": "NEO4J_URI"
+        },
+        {
+          "description": "Neo4j database username",
+          "default": "neo4j",
+          "name": "NEO4J_USERNAME"
+        },
+        {
+          "description": "Neo4j database password",
+          "isSecret": true,
+          "name": "NEO4J_PASSWORD"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-memory:0.4.4": {
+          "metadata": {
+            "last_updated": "2026-02-16T03:01:20Z",
+            "pulls": 105,
+            "stars": 899
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "localhost",
+                  ".neo4j.io",
+                  ".databases.neo4j.io"
+                ],
+                "allow_port": [
+                  7687,
+                  7473,
+                  7474,
+                  443
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "neo4j",
+            "memory",
+            "knowledge-graph",
+            "graph-database"
+          ],
+          "tier": "Community",
+          "tools": [
+            "store_memory",
+            "retrieve_memory",
+            "search_memories",
+            "delete_memory",
+            "list_memories"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/prometheus",
+  "description": "Provides access to Prometheus metrics and queries",
+  "title": "prometheus",
+  "repository": {
+    "url": "https://github.com/pab1it0/prometheus-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "URL of your Prometheus server",
+          "isRequired": true,
+          "name": "PROMETHEUS_URL"
+        },
+        {
+          "description": "Username for basic authentication",
+          "name": "PROMETHEUS_USERNAME"
+        },
+        {
+          "description": "Password for basic authentication",
+          "isSecret": true,
+          "name": "PROMETHEUS_PASSWORD"
+        },
+        {
+          "description": "Bearer token for authentication",
+          "isSecret": true,
+          "name": "PROMETHEUS_TOKEN"
+        },
+        {
+          "description": "Set to False to disable SSL verification",
+          "name": "PROMETHEUS_URL_SSL_VERIFY"
+        },
+        {
+          "description": "Set to True to disable Prometheus UI links in query results (saves context tokens)",
+          "name": "PROMETHEUS_DISABLE_LINKS"
+        },
+        {
+          "description": "Organization ID for multi-tenant setups",
+          "name": "ORG_ID"
+        },
+        {
+          "description": "Custom headers as JSON string",
+          "name": "PROMETHEUS_CUSTOM_HEADERS"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3": {
+          "metadata": {
+            "last_updated": "2026-01-30T02:55:46Z",
+            "stars": 360
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "monitoring",
+            "metrics",
+            "prometheus",
+            "observability",
+            "query"
+          ],
+          "tier": "Community",
+          "tools": [
+            "health_check",
+            "execute_query",
+            "execute_range_query",
+            "list_metrics",
+            "get_metric_metadata",
+            "get_targets"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/mcp-server-circleci",
+  "description": "CircleCI MCP server for CI/CD operations, pipeline management, and build analysis",
+  "title": "mcp-server-circleci",
+  "repository": {
+    "url": "https://github.com/CircleCI-Public/mcp-server-circleci",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.14.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "CircleCI Personal API Token for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "CIRCLECI_TOKEN"
+        },
+        {
+          "description": "CircleCI base URL (optional, defaults to https://circleci.com)",
+          "default": "https://circleci.com",
+          "name": "CIRCLECI_BASE_URL"
+        },
+        {
+          "description": "Directory for file outputs (optional, used by some tools)",
+          "name": "FILE_OUTPUT_DIRECTORY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.14.1": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:49:16Z",
+            "stars": 76
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "circleci.com",
+                  "app.circleci.com"
+                ],
+                "allow_port": [
+                  443,
+                  80
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "circleci",
+            "ci-cd",
+            "devops",
+            "testing",
+            "automation",
+            "pipeline",
+            "continuous-integration",
+            "continuous-deployment",
+            "build-automation"
+          ],
+          "tier": "Official",
+          "tools": [
+            "get_build_failure_logs",
+            "find_flaky_tests",
+            "get_latest_pipeline_status",
+            "get_job_test_results",
+            "config_helper",
+            "create_prompt_template",
+            "recommend_prompt_template_tests",
+            "list_followed_projects",
+            "run_pipeline",
+            "run_rollback_pipeline",
+            "rerun_workflow",
+            "analyze_diff",
+            "list_component_versions",
+            "download_usage_api_data",
+            "find_underused_resource_classes"
+          ]
+        }
+      }
+    }
+  }
+}

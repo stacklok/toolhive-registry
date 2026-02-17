@@ -1,0 +1,136 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/azure",
+  "description": "The Azure MCP Server, bringing the power of Azure to your agents.",
+  "title": "azure",
+  "repository": {
+    "url": "https://github.com/Azure/azure-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "mcr.microsoft.com/azure-sdk/azure-mcp:1.0.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Your Azure tenant ID",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "AZURE_TENANT_ID"
+        },
+        {
+          "description": "Your Azure client ID for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "AZURE_CLIENT_ID"
+        },
+        {
+          "description": "Your Azure client secret for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "AZURE_CLIENT_SECRET"
+        },
+        {
+          "description": "HTTP proxy URL for outbound requests (optional)",
+          "name": "HTTP_PROXY"
+        },
+        {
+          "description": "HTTPS proxy URL for outbound requests (optional)",
+          "name": "HTTPS_PROXY"
+        },
+        {
+          "description": "Comma-separated list of hosts to exclude from proxying (optional)",
+          "name": "NO_PROXY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "mcr.microsoft.com/azure-sdk/azure-mcp:1.0.1": {
+          "metadata": {
+            "last_updated": "2026-02-16T03:01:21Z",
+            "pulls": 1809,
+            "stars": 1201
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "login.microsoftonline.com",
+                  "login.windows.net",
+                  "management.azure.com",
+                  "graph.microsoft.com",
+                  ".blob.core.windows.net",
+                  ".table.core.windows.net",
+                  ".vault.azure.net",
+                  ".documents.azure.com",
+                  ".servicebus.windows.net"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "azure",
+            "microsoft",
+            "cloud",
+            "iaas",
+            "paas",
+            "infrastructure",
+            "database",
+            "storage"
+          ],
+          "tier": "Official",
+          "tools": [
+            "acr",
+            "aks",
+            "appconfig",
+            "azuremanagedlustre",
+            "azureterraformbestpractices",
+            "bicepschema",
+            "cloudarchitect",
+            "cosmos",
+            "datadog",
+            "deploy",
+            "documentation",
+            "extension_az",
+            "extension_azd",
+            "extension_azqr",
+            "foundry",
+            "functionapp",
+            "get_bestpractices",
+            "grafana",
+            "group",
+            "keyvault",
+            "kusto",
+            "loadtesting",
+            "marketplace",
+            "monitor",
+            "mysql",
+            "postgres",
+            "quota",
+            "redis",
+            "resourcehealth",
+            "role",
+            "search",
+            "servicebus",
+            "sql",
+            "storage",
+            "subscription",
+            "virtualdesktop",
+            "workbooks"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/terraform",
+  "description": "Terraform registry and Cloud/Enterprise integration for providers, modules, policies, and workspaces",
+  "title": "terraform",
+  "repository": {
+    "url": "https://github.com/hashicorp/terraform-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/hashicorp/terraform-mcp-server:0.4.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "API authentication token for Terraform Cloud/Enterprise access",
+          "isSecret": true,
+          "name": "TFE_TOKEN"
+        },
+        {
+          "description": "HCP Terraform/Enterprise endpoint URL",
+          "default": "https://app.terraform.io",
+          "name": "TFE_ADDRESS"
+        },
+        {
+          "description": "Enable destructive operations (use cautiously in production)",
+          "default": "false",
+          "name": "ENABLE_TF_OPERATIONS"
+        },
+        {
+          "description": "Bypass TLS certificate validation (development only)",
+          "default": "false",
+          "name": "TFE_SKIP_TLS_VERIFY"
+        },
+        {
+          "description": "Protocol selection (stdio or streamable-http)",
+          "default": "stdio",
+          "name": "TRANSPORT_MODE"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/hashicorp/terraform-mcp-server:0.4.0": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:47:27Z",
+            "pulls": 9600,
+            "stars": 1206
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "registry.terraform.io",
+                  "app.terraform.io"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "terraform",
+            "iac",
+            "infrastructure",
+            "automation",
+            "providers",
+            "modules",
+            "hcl",
+            "workspace",
+            "variables",
+            "governance",
+            "policy",
+            "registry"
+          ],
+          "tier": "Official",
+          "tools": [
+            "attach_policy_set_to_workspaces",
+            "attach_variable_set_to_workspaces",
+            "create_no_code_workspace",
+            "create_run",
+            "create_variable_in_variable_set",
+            "create_variable_set",
+            "create_workspace",
+            "create_workspace_tags",
+            "create_workspace_variable",
+            "delete_variable_in_variable_set",
+            "detach_variable_set_from_workspaces",
+            "get_latest_module_version",
+            "get_latest_provider_version",
+            "get_module_details",
+            "get_policy_details",
+            "get_private_module_details",
+            "get_private_provider_details",
+            "get_provider_capabilities",
+            "get_provider_details",
+            "get_run_details",
+            "get_stack_details",
+            "get_token_permissions",
+            "get_workspace_details",
+            "list_runs",
+            "list_stacks",
+            "list_terraform_orgs",
+            "list_terraform_projects",
+            "list_variable_sets",
+            "list_workspace_policy_sets",
+            "list_workspace_variables",
+            "list_workspaces",
+            "read_workspace_tags",
+            "search_modules",
+            "search_policies",
+            "search_private_modules",
+            "search_private_providers",
+            "search_providers",
+            "update_workspace",
+            "update_workspace_variable"
+          ]
+        }
+      }
+    }
+  }
+}

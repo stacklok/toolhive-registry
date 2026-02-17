@@ -1,0 +1,108 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/mcp-clickhouse",
+  "description": "MCP server for ClickHouse with SQL queries, database/table listing, and optional chDB OLAP engine",
+  "title": "mcp-clickhouse",
+  "repository": {
+    "url": "https://github.com/ClickHouse/mcp-clickhouse",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.2.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "The hostname of your ClickHouse server",
+          "isRequired": true,
+          "name": "CLICKHOUSE_HOST"
+        },
+        {
+          "description": "The username for authentication",
+          "isRequired": true,
+          "name": "CLICKHOUSE_USER"
+        },
+        {
+          "description": "The password for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "CLICKHOUSE_PASSWORD"
+        },
+        {
+          "description": "The port number of your ClickHouse server",
+          "default": "8443",
+          "name": "CLICKHOUSE_PORT"
+        },
+        {
+          "description": "Enable/disable HTTPS connection",
+          "default": "true",
+          "name": "CLICKHOUSE_SECURE"
+        },
+        {
+          "description": "Enable/disable SSL certificate verification",
+          "default": "true",
+          "name": "CLICKHOUSE_VERIFY"
+        },
+        {
+          "description": "Default database to use",
+          "name": "CLICKHOUSE_DATABASE"
+        },
+        {
+          "description": "Enable/disable chDB functionality",
+          "default": "false",
+          "name": "CHDB_ENABLED"
+        },
+        {
+          "description": "The path to the chDB data directory",
+          "default": ":memory:",
+          "name": "CHDB_DATA_PATH"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.2.0": {
+          "metadata": {
+            "last_updated": "2026-02-13T03:02:09Z",
+            "pulls": 81,
+            "stars": 688
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "clickhouse",
+            "sql",
+            "analytics",
+            "olap"
+          ],
+          "tier": "Official",
+          "tools": [
+            "list_databases",
+            "list_tables",
+            "run_select_query"
+          ]
+        }
+      }
+    }
+  }
+}

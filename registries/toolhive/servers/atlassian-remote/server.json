@@ -1,0 +1,68 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/atlassian-remote",
+  "description": "Atlassian's official remote MCP server for Jira, Confluence, and Compass with OAuth 2.1",
+  "title": "atlassian-remote",
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "sse",
+      "url": "https://mcp.atlassian.com/v1/sse"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.atlassian.com/v1/sse": {
+          "custom_metadata": {
+            "author": "Atlassian",
+            "homepage": "https://www.atlassian.com/platform/remote-mcp-server"
+          },
+          "metadata": {
+            "last_updated": "2026-02-05T04:49:18Z"
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "atlassian",
+            "jira",
+            "confluence",
+            "compass",
+            "oauth",
+            "project-management",
+            "collaboration",
+            "documentation",
+            "beta"
+          ],
+          "tier": "Official",
+          "tools": [
+            "atlassianUserInfo",
+            "getAccessibleAtlassianResources",
+            "getConfluenceSpaces",
+            "getConfluencePage",
+            "getPagesInConfluenceSpace",
+            "getConfluencePageFooterComments",
+            "getConfluencePageInlineComments",
+            "getConfluencePageDescendants",
+            "createConfluencePage",
+            "updateConfluencePage",
+            "createConfluenceFooterComment",
+            "createConfluenceInlineComment",
+            "searchConfluenceUsingCql",
+            "getJiraIssue",
+            "editJiraIssue",
+            "createJiraIssue",
+            "getTransitionsForJiraIssue",
+            "transitionJiraIssue",
+            "lookupJiraAccountId",
+            "searchJiraIssuesUsingJql",
+            "addCommentToJiraIssue",
+            "getJiraIssueRemoteIssueLinks",
+            "getVisibleJiraProjects",
+            "getJiraProjectIssueTypesMetadata"
+          ]
+        }
+      }
+    }
+  }
+}

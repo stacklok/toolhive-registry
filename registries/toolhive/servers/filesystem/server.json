@@ -1,0 +1,71 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/filesystem",
+  "description": "Allows you to do filesystem operations. Mount paths under /projects using --volume.",
+  "title": "filesystem",
+  "repository": {
+    "url": "https://github.com/modelcontextprotocol/servers",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/mcp/filesystem:1.0.2",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/mcp/filesystem:1.0.2": {
+          "args": [
+            "/projects"
+          ],
+          "metadata": {
+            "last_updated": "2026-01-26T02:48:41Z",
+            "pulls": 20619,
+            "stars": 77164
+          },
+          "permissions": {
+            "network": {
+              "outbound": {}
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "create_directory",
+            "edit_file",
+            "filesystem",
+            "get_file_info",
+            "implementing",
+            "list_allowed_directories",
+            "list_directory",
+            "move_file",
+            "node",
+            "operations"
+          ],
+          "tier": "Community",
+          "tools": [
+            "create_directory",
+            "directory_tree",
+            "edit_file",
+            "get_file_info",
+            "list_allowed_directories",
+            "list_directory",
+            "list_directory_with_sizes",
+            "move_file",
+            "read_file",
+            "read_media_file",
+            "read_multiple_files",
+            "read_text_file",
+            "search_files",
+            "write_file"
+          ]
+        }
+      }
+    }
+  }
+}

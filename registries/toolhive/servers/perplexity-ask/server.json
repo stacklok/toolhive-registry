@@ -1,0 +1,65 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/perplexity-ask",
+  "description": "Integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks.",
+  "title": "perplexity-ask",
+  "repository": {
+    "url": "https://github.com/ppl-ai/modelcontextprotocol",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/mcp/perplexity-ask:latest",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Perplexity API key",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "PERPLEXITY_API_KEY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/mcp/perplexity-ask:latest": {
+          "metadata": {
+            "last_updated": "2026-02-05T02:58:03Z",
+            "pulls": 15188,
+            "stars": 1921
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "api.perplexity.ai"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "ask",
+            "perplexity",
+            "perplexity-ask"
+          ],
+          "tier": "Official",
+          "tools": [
+            "perplexity_ask",
+            "perplexity_research",
+            "perplexity_reason"
+          ]
+        }
+      }
+    }
+  }
+}

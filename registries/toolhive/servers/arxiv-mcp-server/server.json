@@ -1,0 +1,80 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/arxiv-mcp-server",
+  "description": "AI assistants search and access arXiv papers through MCP with persistent paper storage",
+  "title": "arxiv-mcp-server",
+  "repository": {
+    "url": "https://github.com/blazickjp/arxiv-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.3.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Directory path where downloaded papers will be stored",
+          "default": "/arxiv-papers",
+          "name": "ARXIV_STORAGE_PATH"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.3.2": {
+          "args": [
+            "--storage-path",
+            "/arxiv-papers"
+          ],
+          "metadata": {
+            "last_updated": "2026-02-08T03:02:27Z",
+            "pulls": 77,
+            "stars": 2140
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "arxiv.org",
+                  "export.arxiv.org"
+                ],
+                "allow_port": [
+                  443,
+                  80
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "research",
+            "academic",
+            "papers",
+            "arxiv",
+            "search"
+          ],
+          "tier": "Community",
+          "tools": [
+            "search_papers",
+            "download_paper",
+            "list_papers",
+            "read_paper"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/heroku",
+  "description": "MCP server for seamless interaction between LLMs and the Heroku Platform",
+  "title": "heroku",
+  "repository": {
+    "url": "https://github.com/heroku/heroku-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Your Heroku authorization token",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "HEROKU_API_KEY"
+        },
+        {
+          "description": "Timeout in milliseconds for command execution",
+          "default": "15000",
+          "name": "MCP_SERVER_REQUEST_TIMEOUT"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7": {
+          "metadata": {
+            "last_updated": "2026-01-25T13:39:52Z",
+            "pulls": 104,
+            "stars": 73
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  ".heroku.com",
+                  ".herokuapp.com"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "heroku",
+            "paas",
+            "deployment",
+            "cloud",
+            "devops"
+          ],
+          "tier": "Official",
+          "tools": [
+            "list_apps",
+            "get_app_info",
+            "create_app",
+            "rename_app",
+            "transfer_app",
+            "deploy_to_heroku",
+            "deploy_one_off_dyno",
+            "ps_list",
+            "ps_scale",
+            "ps_restart",
+            "list_addons",
+            "get_addon_info",
+            "create_addon",
+            "maintenance_on",
+            "maintenance_off",
+            "get_app_logs",
+            "pipelines_create",
+            "pipelines_promote",
+            "pipelines_list",
+            "pipelines_info",
+            "list_teams",
+            "list_private_spaces",
+            "pg_psql",
+            "pg_info",
+            "pg_ps",
+            "pg_locks",
+            "pg_outliers",
+            "pg_credentials",
+            "pg_kill",
+            "pg_maintenance",
+            "pg_backups",
+            "pg_upgrade"
+          ]
+        }
+      }
+    }
+  }
+}

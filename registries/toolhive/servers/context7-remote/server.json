@@ -1,0 +1,44 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/context7-remote",
+  "description": "Remote Context7 MCP server pulls version-specific docs and code examples directly into your prompt",
+  "title": "context7-remote",
+  "repository": {
+    "url": "https://github.com/upstash/context7",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.context7.com/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.context7.com/mcp": {
+          "custom_metadata": {
+            "author": "Upstash",
+            "homepage": "https://context7.com/"
+          },
+          "metadata": {
+            "last_updated": "2026-02-05T04:47:23Z",
+            "pulls": 313,
+            "stars": 44756
+          },
+          "status": "Active",
+          "tags": [
+            "documentation",
+            "code-examples"
+          ],
+          "tier": "Official",
+          "tools": [
+            "resolve-library-id",
+            "get-library-docs"
+          ]
+        }
+      }
+    }
+  }
+}

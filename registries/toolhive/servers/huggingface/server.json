@@ -1,0 +1,53 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/huggingface",
+  "description": "Official Hugging Face MCP server for models, datasets, and research papers",
+  "title": "huggingface",
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://huggingface.co/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://huggingface.co/mcp": {
+          "custom_metadata": {
+            "author": "Hugging Face",
+            "homepage": "https://huggingface.co/mcp"
+          },
+          "metadata": {
+            "last_updated": "2026-02-05T04:49:20Z"
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "ai",
+            "huggingface",
+            "models",
+            "datasets",
+            "research-papers",
+            "documentation",
+            "image-generation",
+            "authentication"
+          ],
+          "tier": "Official",
+          "tools": [
+            "hf_whoami",
+            "space_search",
+            "model_search",
+            "model_details",
+            "paper_search",
+            "dataset_search",
+            "dataset_details",
+            "hf_doc_search",
+            "hf_doc_fetch",
+            "gr1_flux1_schnell_infer"
+          ]
+        }
+      }
+    }
+  }
+}
