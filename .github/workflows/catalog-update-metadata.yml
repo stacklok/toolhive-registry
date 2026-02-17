@@ -33,7 +33,7 @@ jobs:
           cache: true
 
       - name: Build catalog
-        run: go build -o catalog ./cmd/catalog
+        run: go build -o /tmp/catalog ./cmd/catalog
 
       - name: Determine count
         id: count
@@ -44,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Updating ${{ steps.count.outputs.value }} oldest entries..."
-          ./catalog update-metadata \
+          /tmp/catalog update-metadata \
             --oldest "${{ steps.count.outputs.value }}" \
             --github-token "$GITHUB_TOKEN" \
             -v
