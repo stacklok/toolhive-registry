@@ -1,0 +1,82 @@
+name: "Catalog: Update Registry Metadata"
+
+on:
+  schedule:
+    # Run daily at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      count:
+        description: 'Number of oldest entries to update'
+        required: false
+        default: '5'
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-metadata:
+    name: Update Registry Metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Build catalog
+        run: go build -o catalog ./cmd/catalog
+
+      - name: Determine count
+        id: count
+        run: echo "value=${{ github.event.inputs.count || '5' }}" >> $GITHUB_OUTPUT
+
+      - name: Update oldest entries
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Updating ${{ steps.count.outputs.value }} oldest entries..."
+          ./catalog update-metadata \
+            --oldest "${{ steps.count.outputs.value }}" \
+            --github-token "$GITHUB_TOKEN" \
+            -v
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes detected"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected"
+            echo "changed=true" >> $GITHUB_OUTPUT
+            git diff --stat
+          fi
+
+      - name: Create Pull Request
+        if: steps.check-changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update registry metadata (stars and pulls)'
+          title: 'chore: update registry metadata'
+          body: |
+            ## Registry Metadata Update
+
+            This PR updates the GitHub stars counts for the oldest registry entries
+            (server.json format).
+
+            Updated the **${{ steps.count.outputs.value }}** oldest entries by `last_updated` timestamp.
+
+            ---
+            *This is an automated PR created by the daily metadata update workflow.*
+          branch: catalog-update-metadata-${{ github.run_number }}
+          delete-branch: true
