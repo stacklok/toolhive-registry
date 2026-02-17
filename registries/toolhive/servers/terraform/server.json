@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "docker.io/hashicorp/terraform-mcp-server:0.4.0": {
           "metadata": {
-            "last_updated": "2026-02-17T17:21:50Z",
+            "last_updated": "2026-02-17T18:00:54Z",
             "pulls": 9600,
             "stars": 1206
           },
@@ -48,21 +48,9 @@
               },
               "description": "Attach a policy set to one or more workspaces. Note: Policy sets marked as global cannot be attached to individual workspaces.",
               "inputSchema": {
-                "properties": {
-                  "policy_set_id": {
-                    "description": "The ID of the policy set to attach (e.g., polset-3yVQZvHzf5j3WRJ1)",
-                    "type": "string"
-                  },
-                  "workspace_ids": {
-                    "description": "Comma-separated list of workspace IDs to attach the policy set to",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "policy_set_id",
-                  "workspace_ids"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "attach_policy_set_to_workspaces"
             },
@@ -75,21 +63,9 @@
               },
               "description": "Attach a variable set to one or more workspaces.",
               "inputSchema": {
-                "properties": {
-                  "variable_set_id": {
-                    "description": "Variable set ID",
-                    "type": "string"
-                  },
-                  "workspace_ids": {
-                    "description": "Comma-separated list of workspace IDs",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "variable_set_id",
-                  "workspace_ids"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "attach_variable_set_to_workspaces"
             },
@@ -103,31 +79,9 @@
               },
               "description": "Creates a new Terraform No Code module workspace. The tool uses the MCP elicitation feature to automatically discover and collect required variables from the user.",
               "inputSchema": {
-                "properties": {
-                  "auto_apply": {
-                    "default": false,
-                    "description": "Whether to automatically apply changes in the workspace: 'true' or 'false'",
-                    "type": "boolean"
-                  },
-                  "no_code_module_id": {
-                    "description": "The ID of the No Code module to create a workspace for",
-                    "type": "string"
-                  },
-                  "project_id": {
-                    "description": "The ID of the project to use",
-                    "type": "string"
-                  },
-                  "workspace_name": {
-                    "description": "The name of the workspace to create",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "no_code_module_id",
-                  "workspace_name",
-                  "project_id"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_no_code_workspace"
             },
@@ -141,37 +95,9 @@
               },
               "description": "Creates a new Terraform run in the specified workspace.",
               "inputSchema": {
-                "properties": {
-                  "message": {
-                    "default": "Triggered via Terraform MCP Server",
-                    "description": "Optional message for the run",
-                    "type": "string"
-                  },
-                  "run_type": {
-                    "default": "plan_and_apply",
-                    "description": "A run type for the run",
-                    "enum": [
-                      "plan_and_apply",
-                      "refresh_state",
-                      "plan_only",
-                      "allow_empty_apply"
-                    ],
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
-                    "type": "string"
-                  },
-                  "workspace_name": {
-                    "description": "The name of the workspace to create a run in",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "workspace_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_run"
             },
@@ -184,49 +110,9 @@
               },
               "description": "Create a new variable in a variable set.",
               "inputSchema": {
-                "properties": {
-                  "category": {
-                    "default": "terraform",
-                    "description": "Variable category: terraform or env",
-                    "enum": [
-                      "terraform",
-                      "env"
-                    ],
-                    "type": "string"
-                  },
-                  "description": {
-                    "description": "Variable description",
-                    "type": "string"
-                  },
-                  "hcl": {
-                    "default": false,
-                    "description": "Whether variable is HCL: true or false",
-                    "type": "boolean"
-                  },
-                  "key": {
-                    "description": "Variable key/name",
-                    "type": "string"
-                  },
-                  "sensitive": {
-                    "default": false,
-                    "description": "Whether variable is sensitive: true or false",
-                    "type": "boolean"
-                  },
-                  "value": {
-                    "description": "Variable value",
-                    "type": "string"
-                  },
-                  "variable_set_id": {
-                    "description": "Variable set ID",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "variable_set_id",
-                  "key",
-                  "value"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_variable_in_variable_set"
             },
@@ -239,30 +125,9 @@
               },
               "description": "Create a new variable set in an organization.",
               "inputSchema": {
-                "properties": {
-                  "description": {
-                    "description": "Variable set description",
-                    "type": "string"
-                  },
-                  "global": {
-                    "default": false,
-                    "description": "Whether variable set is global: true or false",
-                    "type": "boolean"
-                  },
-                  "name": {
-                    "description": "Variable set name",
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "Organization name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_variable_set"
             },
@@ -276,61 +141,9 @@
               },
               "description": "Creates a new Terraform workspace in the specified organization. This is a destructive operation that will create new infrastructure resources.",
               "inputSchema": {
-                "properties": {
-                  "auto_apply": {
-                    "description": "Whether to automatically apply successful plans: 'true' or 'false' (default: 'false')",
-                    "type": "string"
-                  },
-                  "description": {
-                    "description": "Optional description for the workspace",
-                    "type": "string"
-                  },
-                  "execution_mode": {
-                    "description": "Execution mode: 'remote', 'local', or 'agent' (default: 'remote')",
-                    "type": "string"
-                  },
-                  "project_id": {
-                    "description": "Optional project ID to associate the workspace with",
-                    "type": "string"
-                  },
-                  "tags": {
-                    "description": "Optional comma-separated list of tags to apply to the workspace",
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
-                    "type": "string"
-                  },
-                  "terraform_version": {
-                    "description": "Optional Terraform version to use (e.g., '1.5.0')",
-                    "type": "string"
-                  },
-                  "vcs_repo_branch": {
-                    "description": "Optional VCS repository branch (default: main/master)",
-                    "type": "string"
-                  },
-                  "vcs_repo_identifier": {
-                    "description": "Optional VCS repository identifier (e.g., 'org/repo')",
-                    "type": "string"
-                  },
-                  "vcs_repo_oauth_token_id": {
-                    "description": "OAuth token ID for VCS integration",
-                    "type": "string"
-                  },
-                  "working_directory": {
-                    "description": "Optional working directory for Terraform operations",
-                    "type": "string"
-                  },
-                  "workspace_name": {
-                    "description": "The name of the workspace to create",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "workspace_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_workspace"
             },
@@ -343,26 +156,9 @@
               },
               "description": "Add tags to a Terraform workspace.",
               "inputSchema": {
-                "properties": {
-                  "tags": {
-                    "description": "Comma-separated list of tag names to add, for key-value tags use key:value",
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "Organization name",
-                    "type": "string"
-                  },
-                  "workspace_name": {
-                    "description": "Workspace name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "workspace_name",
-                  "tags"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_workspace_tags"
             },
@@ -375,55 +171,9 @@
               },
               "description": "Create a new variable in a Terraform workspace.",
               "inputSchema": {
-                "properties": {
-                  "category": {
-                    "default": "env",
-                    "description": "Variable category: terraform or env",
-                    "enum": [
-                      "terraform",
-                      "env"
-                    ],
-                    "type": "string"
-                  },
-                  "description": {
-                    "default": "",
-                    "description": "Variable description",
-                    "type": "string"
-                  },
-                  "hcl": {
-                    "default": false,
-                    "description": "Whether variable is HCL: true or false",
-                    "type": "boolean"
-                  },
-                  "key": {
-                    "description": "Variable key/name",
-                    "type": "string"
-                  },
-                  "sensitive": {
-                    "default": false,
-                    "description": "Whether variable is sensitive: true or false",
-                    "type": "boolean"
-                  },
-                  "terraform_org_name": {
-                    "description": "Organization name",
-                    "type": "string"
-                  },
-                  "value": {
-                    "description": "Variable value",
-                    "type": "string"
-                  },
-                  "workspace_name": {
-                    "description": "Workspace name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "workspace_name",
-                  "key",
-                  "value"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_workspace_variable"
             },
@@ -436,21 +186,9 @@
               },
               "description": "Delete a variable in a variable set.",
               "inputSchema": {
-                "properties": {
-                  "variable_id": {
-                    "description": "Variable ID to delete",
-                    "type": "string"
-                  },
-                  "variable_set_id": {
-                    "description": "Variable set ID",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "variable_set_id",
-                  "variable_id"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "delete_variable_in_variable_set"
             },
@@ -463,21 +201,9 @@
               },
               "description": "Detach a variable set from one or more workspaces.",
               "inputSchema": {
-                "properties": {
-                  "variable_set_id": {
-                    "description": "Variable set ID",
-                    "type": "string"
-                  },
-                  "workspace_ids": {
-                    "description": "Comma-separated list of workspace IDs",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "variable_set_id",
-                  "workspace_ids"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "detach_variable_set_from_workspaces"
             },
@@ -491,26 +217,9 @@
               },
               "description": "Fetches the latest version of a Terraform module from the public registry",
               "inputSchema": {
-                "properties": {
-                  "module_name": {
-                    "description": "The name of the module, this is usually the service or group of service the user is deploying e.g., 'security-group', 'secrets-manager' etc.",
-                    "type": "string"
-                  },
-                  "module_provider": {
-                    "description": "The name of the Terraform provider for the module, e.g., 'aws', 'google', 'azurerm' etc.",
-                    "type": "string"
-                  },
-                  "module_publisher": {
-                    "description": "The publisher of the module, e.g., 'hashicorp', 'aws-ia', 'terraform-google-modules', 'Azure' etc.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "module_publisher",
-                  "module_name",
-                  "module_provider"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_latest_module_version"
             },
@@ -524,21 +233,9 @@
               },
               "description": "Fetches the latest version of a Terraform provider from the public registry",
               "inputSchema": {
-                "properties": {
-                  "name": {
-                    "description": "The name of the Terraform provider, e.g., 'aws', 'azurerm', 'google', etc.",
-                    "type": "string"
-                  },
-                  "namespace": {
-                    "description": "The namespace of the Terraform provider, typically the name of the company, or their GitHub organization name that created the provider e.g., 'hashicorp'",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "namespace",
-                  "name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_latest_provider_version"
             },
@@ -552,16 +249,9 @@
               },
               "description": "Fetches up-to-date documentation on how to use a Terraform module. You must call 'search_modules' first to obtain the exact valid and compatible module_id required to use this tool.",
               "inputSchema": {
-                "properties": {
-                  "module_id": {
-                    "description": "Exact valid and compatible module_id retrieved from search_modules (e.g., 'squareops/terraform-kubernetes-mongodb/mongodb/2.1.1', 'GoogleCloudPlatform/vertex-ai/google/0.2.0')",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "module_id"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_module_details"
             },
@@ -575,16 +265,9 @@
               },
               "description": "Fetches up-to-date documentation for a specific policy from the Terraform registry. You must call 'search_policies' first to obtain the exact terraform_policy_id required to use this tool.",
               "inputSchema": {
-                "properties": {
-                  "terraform_policy_id": {
-                    "description": "Matching terraform_policy_id retrieved from the 'search_policies' tool (e.g., 'policies/hashicorp/CIS-Policy-Set-for-AWS-Terraform/1.0.1')",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_policy_id"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_policy_details"
             },
@@ -598,34 +281,9 @@
               },
               "description": "This tool retrieves detailed information about a specific private module in your Terraform Cloud/Enterprise organization.\nIt provides comprehensive details including inputs, outputs, dependencies, versions, and usage examples. The private_module_id format is 'module-namespace/module-name/module-provider-name'.\nThis can be obtained by calling 'search_private_modules' first to obtain the exact private_module_id required to use this tool. This tool requires a valid Terraform token to be configured.",
               "inputSchema": {
-                "properties": {
-                  "private_module_id": {
-                    "description": "The private module ID should be in the format 'module-namespace/module-name/module-provider-name' (for example, 'my-tfc-org/vpc/aws' or 'my-module-namespace/vm/azurerm').\nThe module-namespace is usually the name of the Terraform organization. Obtain this ID by calling 'search_private_modules'.",
-                    "type": "string"
-                  },
-                  "private_module_version": {
-                    "description": "Specific version of the module to retrieve details for. If not provided, the latest version will be used",
-                    "type": "string"
-                  },
-                  "registry_name": {
-                    "default": "private",
-                    "description": "The type of Terraform registry to search within Terraform Cloud/Enterprise (e.g., 'private', 'public')",
-                    "enum": [
-                      "private",
-                      "public"
-                    ],
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "private_module_id"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_private_module_details"
             },
@@ -639,40 +297,9 @@
               },
               "description": "This tool retrieves information about a specific private provider in your Terraform Cloud/Enterprise organization.\nIt provides details on how to use the provider, permissions, available versions, and more. This tool requires a valid Terraform token to be configured.\n",
               "inputSchema": {
-                "properties": {
-                  "include_versions": {
-                    "default": true,
-                    "description": "Whether to include detailed version information",
-                    "type": "boolean"
-                  },
-                  "private_provider_name": {
-                    "description": "The name of the private provider",
-                    "type": "string"
-                  },
-                  "private_provider_namespace": {
-                    "description": "The namespace of the private provider in your Terraform Cloud/Enterprise organization. For public registry, use the namespace from the public Terraform registry.",
-                    "type": "string"
-                  },
-                  "registry_name": {
-                    "default": "private",
-                    "description": "The type of Terraform registry to search within Terraform Cloud/Enterprise (e.g., 'private', 'public')",
-                    "enum": [
-                      "private",
-                      "public"
-                    ],
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "private_provider_namespace",
-                  "private_provider_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_private_provider_details"
             },
@@ -686,25 +313,9 @@
               },
               "description": "Get the capabilities of a Terraform provider including the types of resources, data sources, functions, guides, and other features it supports.\nThis tool analyzes the provider documentation to determine what types of capabilities are available:\n- resources: Infrastructure resources that can be created/managed\n- data-sources: Read-only data sources for querying existing infrastructure  \n- functions: Provider-specific functions for data transformation\n- guides: Documentation guides and tutorials for using the provider\n- actions: Available provider actions (if any)\n- ephemeral resources: Temporary resources for credentials and tokens\n- list-resources: List resources for querying existing cloud resources (Terraform Search)\n\nReturns a summary with counts and examples for each capability type.",
               "inputSchema": {
-                "properties": {
-                  "name": {
-                    "description": "The name of the Terraform provider, e.g., 'aws', 'azurerm', 'google', etc.",
-                    "type": "string"
-                  },
-                  "namespace": {
-                    "description": "The namespace of the Terraform provider, typically the name of the company, or their GitHub organization name that created the provider e.g., 'hashicorp'",
-                    "type": "string"
-                  },
-                  "version": {
-                    "description": "The version of the provider to analyze (defaults to 'latest')",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "namespace",
-                  "name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_provider_capabilities"
             },
@@ -718,16 +329,9 @@
               },
               "description": "Fetches up-to-date documentation for a specific service from a Terraform provider. \nYou must call 'search_providers' tool first to obtain the exact tfprovider-compatible provider_doc_id required to use this tool.",
               "inputSchema": {
-                "properties": {
-                  "provider_doc_id": {
-                    "description": "Exact tfprovider-compatible provider_doc_id, (e.g., '8894603', '8906901') retrieved from 'search_providers'",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "provider_doc_id"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_provider_details"
             },
@@ -741,16 +345,9 @@
               },
               "description": "Fetches detailed information about a specific Terraform run.",
               "inputSchema": {
-                "properties": {
-                  "run_id": {
-                    "description": "The ID of the run to get details for",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "run_id"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_run_details"
             },
@@ -764,21 +361,9 @@
               },
               "description": "Fetches detailed information about a specific Terraform Stack.",
               "inputSchema": {
-                "properties": {
-                  "stack_id": {
-                    "description": "The ID of the stack to get details for",
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "stack_id"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_stack_details"
             },
@@ -792,16 +377,9 @@
               },
               "description": "Fetches the permissions the current token has for the specified terraform organization.",
               "inputSchema": {
-                "properties": {
-                  "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_token_permissions"
             },
@@ -815,21 +393,9 @@
               },
               "description": "Fetches detailed information about a specific Terraform workspace, including configuration, variables, and current state information.",
               "inputSchema": {
-                "properties": {
-                  "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
-                    "type": "string"
-                  },
-                  "workspace_name": {
-                    "description": "The name of the workspace to get details for",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "workspace_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_workspace_details"
             },
@@ -843,71 +409,9 @@
               },
               "description": "List or search Terraform runs in a specific workspace with optional filtering.",
               "inputSchema": {
-                "properties": {
-                  "page": {
-                    "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "pageSize": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "status": {
-                    "description": "Optional run status filter",
-                    "items": {
-                      "enum": [
-                        "pending",
-                        "fetching",
-                        "fetching_completed",
-                        "pre_plan_running",
-                        "pre_plan_completed",
-                        "queuing",
-                        "plan_queued",
-                        "planning",
-                        "planned",
-                        "cost_estimating",
-                        "cost_estimated",
-                        "policy_checking",
-                        "policy_override",
-                        "policy_soft_failed",
-                        "policy_checked",
-                        "confirmed",
-                        "post_plan_running",
-                        "post_plan_completed",
-                        "planned_and_finished",
-                        "planned_and_saved",
-                        "apply_queued",
-                        "applying",
-                        "applied",
-                        "discarded",
-                        "errored",
-                        "canceled",
-                        "force_canceled"
-                      ],
-                      "type": "string"
-                    },
-                    "type": "array"
-                  },
-                  "terraform_org_name": {
-                    "description": "Lists the runs in Terraform Cloud/Enterprise organization based on filters if no workspace is specified",
-                    "type": "string"
-                  },
-                  "vcs_username": {
-                    "description": "Searches for runs that match the VCS username you supply",
-                    "type": "string"
-                  },
-                  "workspace_name": {
-                    "description": "If specified, lists the runs in the given workspace instead of the organization based on filters",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_runs"
             },
@@ -921,35 +425,9 @@
               },
               "description": "List Stacks within a specified organization. Returns all stacks when no project or search query is supplied. Supports pagination for large result sets.",
               "inputSchema": {
-                "properties": {
-                  "page": {
-                    "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "pageSize": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "project_id": {
-                    "description": "Optional project ID to filter stacks",
-                    "type": "string"
-                  },
-                  "search_query": {
-                    "description": "Optional search query to filter stacks by name",
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "The Terraform organization name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_stacks"
             },
@@ -963,21 +441,9 @@
               },
               "description": "Fetches a list of all Terraform organizations. Supports Pagination for large result sets.",
               "inputSchema": {
-                "properties": {
-                  "page": {
-                    "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "pageSize": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
-                  }
-                },
+                "properties": {},
                 "required": [],
-                "type": "object"
+                "type": ""
               },
               "name": "list_terraform_orgs"
             },
@@ -991,27 +457,9 @@
               },
               "description": "Fetches a list of all Terraform projects. Supports pagination for large result sets.",
               "inputSchema": {
-                "properties": {
-                  "page": {
-                    "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "pageSize": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "terraform_org_name": {
-                    "description": "The name of the Terraform organization to list projects for.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_terraform_projects"
             },
@@ -1024,31 +472,9 @@
               },
               "description": "List all variable sets in an organization. Returns all if query is empty.",
               "inputSchema": {
-                "properties": {
-                  "page": {
-                    "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "pageSize": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "query": {
-                    "description": "Optional filter query for variable set names",
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "Organization name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_variable_sets"
             },
@@ -1061,21 +487,9 @@
               },
               "description": "Read all policy sets attached to a workspace. Returns both directly attached policy sets and global policy sets that apply to all workspaces.",
               "inputSchema": {
-                "properties": {
-                  "terraform_org_name": {
-                    "description": "Organization name",
-                    "type": "string"
-                  },
-                  "workspace_id": {
-                    "description": "The workspace ID to get policy sets for (e.g., ws-2HRvNs49EWPjDqT1)",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "workspace_id"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_workspace_policy_sets"
             },
@@ -1088,32 +502,9 @@
               },
               "description": "List all variables in a Terraform workspace. Returns all variables if query is empty.",
               "inputSchema": {
-                "properties": {
-                  "page": {
-                    "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "pageSize": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "terraform_org_name": {
-                    "description": "Organization name",
-                    "type": "string"
-                  },
-                  "workspace_name": {
-                    "description": "Workspace name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "workspace_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_workspace_variables"
             },
@@ -1127,47 +518,9 @@
               },
               "description": "Search and list Terraform workspaces within a specified organization. Returns all workspaces when no filters are applied, or filters results based on name patterns, tags, or search queries. Supports pagination for large result sets. Returns a truncated summary of the workspace, use get_workspace_details to get the full details for a specific workspace.",
               "inputSchema": {
-                "properties": {
-                  "exclude_tags": {
-                    "description": "Optional comma-separated list of tags to exclude from results",
-                    "type": "string"
-                  },
-                  "page": {
-                    "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "pageSize": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "project_id": {
-                    "description": "Optional project ID to filter workspaces",
-                    "type": "string"
-                  },
-                  "search_query": {
-                    "description": "Optional search query to filter workspaces by name",
-                    "type": "string"
-                  },
-                  "tags": {
-                    "description": "Optional comma-separated list of tags to filter workspaces",
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "The Terraform organization name",
-                    "type": "string"
-                  },
-                  "wildcard_name": {
-                    "description": "Optional wildcard pattern to match workspace names",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_workspaces"
             },
@@ -1180,21 +533,9 @@
               },
               "description": "Read all tags from a Terraform workspace.",
               "inputSchema": {
-                "properties": {
-                  "terraform_org_name": {
-                    "description": "Organization name",
-                    "type": "string"
-                  },
-                  "workspace_name": {
-                    "description": "Workspace name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "workspace_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "read_workspace_tags"
             },
@@ -1208,22 +549,9 @@
               },
               "description": "Resolves a Terraform module name to obtain a compatible module_id for the get_module_details tool and returns a list of matching Terraform modules.\nYou MUST call this function before 'get_module_details' to obtain a valid and compatible module_id.\nWhen selecting the best match, consider the following:\n\t- Name similarity to the query\n\t- Description relevance\n\t- Verification status (verified)\n\t- Download counts (popularity)\nReturn the selected module_id and explain your choice. If there are multiple good matches, mention this but proceed with the most relevant one.\nIf no modules were found, reattempt the search with a new moduleName query.",
               "inputSchema": {
-                "properties": {
-                  "current_offset": {
-                    "default": 0,
-                    "description": "Current offset for pagination",
-                    "minimum": 0,
-                    "type": "number"
-                  },
-                  "module_query": {
-                    "description": "The query to search for Terraform modules.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "module_query"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "search_modules"
             },
@@ -1237,16 +565,9 @@
               },
               "description": "Searches for Terraform policies based on a query string.\nThis tool returns a list of matching policies, which can be used to retrieve detailed policy information using the 'get_policy_details' tool.\nYou MUST call this function before 'get_policy_details' to obtain a valid terraform_policy_id.\nWhen selecting the best match, consider the following:\n\t- Name similarity to the query\n\t- Title relevance\n\t- Verification status (verified)\n\t- Download counts (popularity)\nReturn the selected policyID and explain your choice. If there are multiple good matches, mention this but proceed with the most relevant one.\nIf no policies were found, reattempt the search with a new policy_query.",
               "inputSchema": {
-                "properties": {
-                  "policy_query": {
-                    "description": "The query to search for Terraform modules.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "policy_query"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "search_policies"
             },
@@ -1260,31 +581,9 @@
               },
               "description": "This tool searches for private modules in your Terraform Cloud/Enterprise organization.\nIt retrieves a list of private modules that match the search criteria. This tool requires a valid Terraform token to be configured.",
               "inputSchema": {
-                "properties": {
-                  "page_number": {
-                    "description": "Page number for pagination (starts at 1)",
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "page_size": {
-                    "description": "Number of results to return per page (max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "search_query": {
-                    "description": "Optional search query to filter modules by name or namespace. If not provided, all modules will be returned",
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name to search within",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "search_private_modules"
             },
@@ -1298,40 +597,9 @@
               },
               "description": "This tool searches for private providers in your Terraform Cloud/Enterprise organization.\nIt retrieves a list of private providers that match the search criteria. This tool requires a valid Terraform token to be configured.",
               "inputSchema": {
-                "properties": {
-                  "page_number": {
-                    "description": "Page number for pagination (starts at 1)",
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "page_size": {
-                    "description": "Number of results to return per page (max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
-                  },
-                  "registry_name": {
-                    "default": "private",
-                    "description": "The type of Terraform registry to search within Terraform Cloud/Enterprise (e.g., 'private', 'public')",
-                    "enum": [
-                      "private",
-                      "public"
-                    ],
-                    "type": "string"
-                  },
-                  "search_query": {
-                    "description": "Optional search query to filter providers by name or namespace. If not provided, all providers will be returned",
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name to search within",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "search_private_providers"
             },
@@ -1345,44 +613,9 @@
               },
               "description": "This tool retrieves a list of potential documents based on the 'service_slug' and 'provider_document_type' provided.\nYou MUST call this function before 'get_provider_details' to obtain a valid tfprovider-compatible 'provider_doc_id'.\nUse the most relevant single word as the search query for 'service_slug', if unsure about the 'service_slug', use the 'provider_name' for its value.\nWhen selecting the best match, consider the following:\n\t- Title similarity to the query\n\t- Category relevance\nReturn the selected 'provider_doc_id' and explain your choice.\nIf there are multiple good matches, mention this but proceed with the most relevant one.",
               "inputSchema": {
-                "properties": {
-                  "provider_document_type": {
-                    "description": "The type of the document to retrieve,\nfor general overview of the provider use 'overview',\nfor guidance on upgrading a provider or custom configuration information use 'guides',\nfor deploying resources use 'resources', for reading pre-deployed resources use 'data-sources',\nfor functions use 'functions',\nfor Terraform actions use 'actions',\nfor listing resources using Terraform Search use 'list-resources'",
-                    "enum": [
-                      "resources",
-                      "data-sources",
-                      "functions",
-                      "guides",
-                      "overview",
-                      "actions",
-                      "list-resources"
-                    ],
-                    "type": "string"
-                  },
-                  "provider_name": {
-                    "description": "The name of the Terraform provider to perform the read or deployment operation",
-                    "type": "string"
-                  },
-                  "provider_namespace": {
-                    "description": "The publisher of the Terraform provider, typically the name of the company, or their GitHub organization name that created the provider",
-                    "type": "string"
-                  },
-                  "provider_version": {
-                    "description": "The version of the Terraform provider to retrieve in the format 'x.y.z', or 'latest' to get the latest version",
-                    "type": "string"
-                  },
-                  "service_slug": {
-                    "description": "The slug of the service you want to deploy or read using the Terraform provider, prefer using a single word, use underscores for multiple words and if unsure about the service_slug, use the provider_name for its value",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "provider_name",
-                  "provider_namespace",
-                  "service_slug",
-                  "provider_document_type"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "search_providers"
             },
@@ -1396,65 +629,9 @@
               },
               "description": "Updates an existing Terraform workspace configuration. This is a potentially destructive operation that may affect infrastructure resources.",
               "inputSchema": {
-                "properties": {
-                  "auto_apply": {
-                    "description": "Whether to automatically apply successful plans: 'true' or 'false'",
-                    "type": "string"
-                  },
-                  "description": {
-                    "description": "Optional new description for the workspace",
-                    "type": "string"
-                  },
-                  "execution_mode": {
-                    "description": "Execution mode: 'remote', 'local', or 'agent'",
-                    "type": "string"
-                  },
-                  "file_triggers_enabled": {
-                    "description": "Whether file triggers are enabled: 'true' or 'false'",
-                    "type": "string"
-                  },
-                  "new_name": {
-                    "description": "Optional new name for the workspace",
-                    "type": "string"
-                  },
-                  "queue_all_runs": {
-                    "description": "Whether to queue all runs: 'true' or 'false'",
-                    "type": "string"
-                  },
-                  "speculative_enabled": {
-                    "description": "Whether speculative plans are enabled: 'true' or 'false'",
-                    "type": "string"
-                  },
-                  "tags": {
-                    "description": "Optional comma-separated list of tags to replace existing tags",
-                    "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
-                    "type": "string"
-                  },
-                  "terraform_version": {
-                    "description": "Optional new Terraform version to use (e.g., '1.5.0')",
-                    "type": "string"
-                  },
-                  "trigger_prefixes": {
-                    "description": "Optional comma-separated list of trigger prefixes",
-                    "type": "string"
-                  },
-                  "working_directory": {
-                    "description": "Optional new working directory for Terraform operations",
-                    "type": "string"
-                  },
-                  "workspace_name": {
-                    "description": "The name of the workspace to update",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "workspace_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "update_workspace"
             },
@@ -1467,50 +644,9 @@
               },
               "description": "Update an existing variable in a Terraform workspace.",
               "inputSchema": {
-                "properties": {
-                  "description": {
-                    "description": "Variable description",
-                    "type": "string"
-                  },
-                  "hcl": {
-                    "default": false,
-                    "description": "Whether variable is HCL: true or false",
-                    "type": "boolean"
-                  },
-                  "key": {
-                    "description": "Variable key/name",
-                    "type": "string"
-                  },
-                  "sensitive": {
-                    "default": false,
-                    "description": "Whether variable is sensitive: true or false",
-                    "type": "boolean"
-                  },
-                  "terraform_org_name": {
-                    "description": "Organization name",
-                    "type": "string"
-                  },
-                  "value": {
-                    "description": "Variable value",
-                    "type": "string"
-                  },
-                  "variable_id": {
-                    "description": "Variable ID to update",
-                    "type": "string"
-                  },
-                  "workspace_name": {
-                    "description": "Workspace name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "terraform_org_name",
-                  "workspace_name",
-                  "variable_id",
-                  "key",
-                  "value"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "update_workspace_variable"
             }

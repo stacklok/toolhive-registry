@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "docker.io/dolthub/dolt-mcp:0.3.4": {
           "metadata": {
-            "last_updated": "2026-02-17T17:16:41Z",
+            "last_updated": "2026-02-17T18:00:58Z",
             "pulls": 993,
             "stars": 6
           },
@@ -50,26 +50,9 @@
               },
               "description": "Adds a remote to the Dolt server.",
               "inputSchema": {
-                "properties": {
-                  "remote_name": {
-                    "description": "The name of the remote to add.",
-                    "type": "string"
-                  },
-                  "remote_url": {
-                    "description": "The URL of the remote to add.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "remote_name",
-                  "remote_url"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "add_dolt_remote"
             },
@@ -82,49 +65,9 @@
               },
               "description": "Adds or updates a row in the dolt_tests table.",
               "inputSchema": {
-                "properties": {
-                  "assertion_comparator": {
-                    "description": "Comparator: == | != | \u003c | \u003e | \u003c= | \u003e=",
-                    "type": "string"
-                  },
-                  "assertion_type": {
-                    "description": "Assertion type: expected_rows | expected_columns | expected_single_value",
-                    "type": "string"
-                  },
-                  "assertion_value": {
-                    "description": "Optional assertion value; set empty for NULL",
-                    "type": "string"
-                  },
-                  "query": {
-                    "description": "Read-only SQL to validate",
-                    "type": "string"
-                  },
-                  "test_group": {
-                    "description": "Optional test_group for grouping tests",
-                    "type": "string"
-                  },
-                  "test_name": {
-                    "description": "Unique test_name identifier",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "test_name",
-                  "query",
-                  "assertion_type",
-                  "assertion_comparator"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "add_dolt_test"
             },
@@ -137,26 +80,9 @@
               },
               "description": "Alters a table.",
               "inputSchema": {
-                "properties": {
-                  "query": {
-                    "description": "The ALTER TABLE statement to run.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "query"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "alter_table"
             },
@@ -169,20 +95,9 @@
               },
               "description": "Clones a database from the specified remote URL.",
               "inputSchema": {
-                "properties": {
-                  "name": {
-                    "description": "The local name of the cloned database.",
-                    "type": "string"
-                  },
-                  "remote_url": {
-                    "description": "The url of the remote database to clone.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "remote_url"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "clone_database"
             },
@@ -195,20 +110,9 @@
               },
               "description": "Creates a database in the Dolt server.",
               "inputSchema": {
-                "properties": {
-                  "database": {
-                    "description": "The name of the database to create.",
-                    "type": "string"
-                  },
-                  "if_not_exists": {
-                    "description": "If true will only create the specified database if it does not exist in the Dolt server.",
-                    "type": "boolean"
-                  }
-                },
-                "required": [
-                  "database"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_database"
             },
@@ -221,30 +125,9 @@
               },
               "description": "Creates a new branch from the specified original branch.",
               "inputSchema": {
-                "properties": {
-                  "force": {
-                    "description": "If true, will force the creation of the new branch even if it already exists.",
-                    "type": "boolean"
-                  },
-                  "new_branch": {
-                    "description": "The name of the new branch.",
-                    "type": "string"
-                  },
-                  "original_branch": {
-                    "description": "The name of the branch to copy.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "original_branch",
-                  "new_branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_dolt_branch"
             },
@@ -257,30 +140,9 @@
               },
               "description": "Creates a new branch from current HEAD.",
               "inputSchema": {
-                "properties": {
-                  "force": {
-                    "description": "If true, will force the creation of the new branch even if it already exists.",
-                    "type": "boolean"
-                  },
-                  "new_branch": {
-                    "description": "The name of the new branch.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "new_branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_dolt_branch_from_head"
             },
@@ -293,26 +155,9 @@
               },
               "description": "Creates a Dolt commit with the specified message.",
               "inputSchema": {
-                "properties": {
-                  "message": {
-                    "description": "The message to use in the Dolt commit.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "message"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_dolt_commit"
             },
@@ -325,26 +170,9 @@
               },
               "description": "Creates a table.",
               "inputSchema": {
-                "properties": {
-                  "query": {
-                    "description": "The CREATE TABLE statement to run.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "query"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "create_table"
             },
@@ -357,30 +185,9 @@
               },
               "description": "Deletes a branch.",
               "inputSchema": {
-                "properties": {
-                  "branch": {
-                    "description": "The name of the branch to delete.",
-                    "type": "string"
-                  },
-                  "force": {
-                    "description": "If true, will force the deletion of the specified branch even if it has uncommitted changes.",
-                    "type": "boolean"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "delete_dolt_branch"
             },
@@ -393,26 +200,9 @@
               },
               "description": "Describes a table in the current database.",
               "inputSchema": {
-                "properties": {
-                  "table": {
-                    "description": "The name of the table to describe.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "table"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "describe_table"
             },
@@ -425,21 +215,9 @@
               },
               "description": "Fetches all branches from the remote.",
               "inputSchema": {
-                "properties": {
-                  "remote_name": {
-                    "description": "The name of the remote to fetch all branches from.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "remote_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "dolt_fetch_all_branches"
             },
@@ -452,26 +230,9 @@
               },
               "description": "Fetches the specified branch from the remote.",
               "inputSchema": {
-                "properties": {
-                  "branch": {
-                    "description": "The name of the remote branch to fetch.",
-                    "type": "string"
-                  },
-                  "remote_name": {
-                    "description": "The name of the remote to fetch the branch from.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "remote_name",
-                  "branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "dolt_fetch_branch"
             },
@@ -484,30 +245,9 @@
               },
               "description": "Pulls the specified branch from the remote.",
               "inputSchema": {
-                "properties": {
-                  "branch": {
-                    "description": "The name of the remote branch to pull.",
-                    "type": "string"
-                  },
-                  "force": {
-                    "description": "If true, the specified branch is force pulled.",
-                    "type": "boolean"
-                  },
-                  "remote_name": {
-                    "description": "The name of the remote to pull the branch from.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "remote_name",
-                  "branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "dolt_pull_branch"
             },
@@ -520,30 +260,9 @@
               },
               "description": "Pushes the specified branch to the remote.",
               "inputSchema": {
-                "properties": {
-                  "branch": {
-                    "description": "The name of the local branch to push.",
-                    "type": "string"
-                  },
-                  "force": {
-                    "description": "If true, the specified branch is force pushed.",
-                    "type": "boolean"
-                  },
-                  "remote_name": {
-                    "description": "The name of the remote to push the branch to.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "remote_name",
-                  "branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "dolt_push_branch"
             },
@@ -556,26 +275,9 @@
               },
               "description": "Hard resets the working set to the specified revision.",
               "inputSchema": {
-                "properties": {
-                  "revision": {
-                    "description": "The revision to reset to (working set, table name, branch, commit sha, or '.' for all tables).",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "revision"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "dolt_reset_hard"
             },
@@ -588,26 +290,9 @@
               },
               "description": "Soft resets the working set to the specified revision.",
               "inputSchema": {
-                "properties": {
-                  "revision": {
-                    "description": "The revision to reset to (working set, table name, branch, commit sha, or '.' for all tables).",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "revision"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "dolt_reset_soft"
             },
@@ -620,20 +305,9 @@
               },
               "description": "Drops a database in the Dolt server.",
               "inputSchema": {
-                "properties": {
-                  "database": {
-                    "description": "The name of the database to drop.",
-                    "type": "string"
-                  },
-                  "if_exists": {
-                    "description": "If true will only drop the specified database if it exists in the Dolt server.",
-                    "type": "boolean"
-                  }
-                },
-                "required": [
-                  "database"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "drop_database"
             },
@@ -646,30 +320,9 @@
               },
               "description": "Drops the specified table.",
               "inputSchema": {
-                "properties": {
-                  "if_exists": {
-                    "description": "If true will only drop the specified table if it exists.",
-                    "type": "boolean"
-                  },
-                  "table": {
-                    "description": "The name of the table to drop.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "table"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "drop_table"
             },
@@ -682,26 +335,9 @@
               },
               "description": "Executes a WRITE query.",
               "inputSchema": {
-                "properties": {
-                  "query": {
-                    "description": "The query to run.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "query"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "exec"
             },
@@ -714,21 +350,9 @@
               },
               "description": "Get the current merge status of the checked out branch.",
               "inputSchema": {
-                "properties": {
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "get_dolt_merge_status"
             },
@@ -741,30 +365,9 @@
               },
               "description": "Kill a running process by id (KILL [QUERY] \u003cid\u003e).",
               "inputSchema": {
-                "properties": {
-                  "kill_query": {
-                    "description": "If true, uses KILL QUERY \u003cid\u003e instead of KILL \u003cid\u003e.",
-                    "type": "boolean"
-                  },
-                  "process_id": {
-                    "description": "The process id to kill (from SHOW PROCESSLIST). Must be a positive integer.",
-                    "type": "number"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "process_id"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "kill_process"
             },
@@ -779,7 +382,7 @@
               "inputSchema": {
                 "properties": {},
                 "required": [],
-                "type": "object"
+                "type": ""
               },
               "name": "list_databases"
             },
@@ -792,16 +395,9 @@
               },
               "description": "Lists all Dolt branches.",
               "inputSchema": {
-                "properties": {
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_dolt_branches"
             },
@@ -814,21 +410,9 @@
               },
               "description": "Lists all Dolt commits on the current branch, newest to oldest.",
               "inputSchema": {
-                "properties": {
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_dolt_commits"
             },
@@ -841,42 +425,9 @@
               },
               "description": "Lists dolt_diff changes for the specified table between two Dolt commits.",
               "inputSchema": {
-                "properties": {
-                  "from_commit": {
-                    "description": "The 'from' commit of the Dolt diff.",
-                    "type": "string"
-                  },
-                  "hash_of_from_commit": {
-                    "description": "The 'from' commit of the Dolt diff.",
-                    "type": "string"
-                  },
-                  "hash_of_to_commit": {
-                    "description": "The 'from' commit of the Dolt diff.",
-                    "type": "string"
-                  },
-                  "table": {
-                    "description": "The name of the table.",
-                    "type": "string"
-                  },
-                  "to_commit": {
-                    "description": "The 'from' commit of the Dolt diff.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "table"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_dolt_diff_changes_by_table_name"
             },
@@ -889,31 +440,9 @@
               },
               "description": "Creates a new branch from the specified original branch.",
               "inputSchema": {
-                "properties": {
-                  "end": {
-                    "description": "The end date of the range in the format 'YYYY-MM-DD'.",
-                    "type": "string"
-                  },
-                  "start": {
-                    "description": "The start date of the range in the format 'YYYY-MM-DD'.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "start",
-                  "end"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_dolt_diff_changes_in_date_range"
             },
@@ -926,21 +455,9 @@
               },
               "description": "Lists all dolt_diff changes in the current working set.",
               "inputSchema": {
-                "properties": {
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_dolt_diff_changes_in_working_set"
             },
@@ -953,16 +470,9 @@
               },
               "description": "Lists the Dolt server's remotes.",
               "inputSchema": {
-                "properties": {
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "list_dolt_remotes"
             },
@@ -975,30 +485,9 @@
               },
               "description": "Merges the specified branch into the currently checked out branch.",
               "inputSchema": {
-                "properties": {
-                  "branch": {
-                    "description": "The name of the branch to merge into the currently checked out branch.",
-                    "type": "string"
-                  },
-                  "message": {
-                    "description": "The message for the Dolt commit resulting from a successful merge.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "merge_dolt_branch"
             },
@@ -1011,30 +500,9 @@
               },
               "description": "Performs a non fast-foward merge of the specified branch into the currently checked out branch.",
               "inputSchema": {
-                "properties": {
-                  "branch": {
-                    "description": "The name of the branch to merge into the currently checked out branch.",
-                    "type": "string"
-                  },
-                  "message": {
-                    "description": "The message for the Dolt commit resulting from a successful merge.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "merge_dolt_branch_no_fast_forward"
             },
@@ -1047,30 +515,9 @@
               },
               "description": "Moves/renames a branch from the specified original branch to the provided new name.",
               "inputSchema": {
-                "properties": {
-                  "force": {
-                    "description": "If true, will force the original branch to be moved to its new name even if a branch of that name already exists.",
-                    "type": "boolean"
-                  },
-                  "new_name": {
-                    "description": "The new name of the branch.",
-                    "type": "string"
-                  },
-                  "old_name": {
-                    "description": "The name of the branch to move/rename.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "old_name",
-                  "new_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "move_dolt_branch"
             },
@@ -1083,26 +530,9 @@
               },
               "description": "Executes a READ query.",
               "inputSchema": {
-                "properties": {
-                  "query": {
-                    "description": "The query to run.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_branch",
-                  "working_database",
-                  "query"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "query"
             },
@@ -1115,21 +545,9 @@
               },
               "description": "Removes a remote from the Dolt server.",
               "inputSchema": {
-                "properties": {
-                  "remote_name": {
-                    "description": "The name of the remote to remove.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "remote_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "remove_dolt_remote"
             },
@@ -1142,26 +560,9 @@
               },
               "description": "Removes a row from the dolt_tests table.",
               "inputSchema": {
-                "properties": {
-                  "test_name": {
-                    "description": "Unique test_name identifier",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "test_name"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "remove_dolt_test"
             },
@@ -1174,25 +575,9 @@
               },
               "description": "Runs dolt_tests via SELECT * FROM dolt_test_run(). Optionally filter by test name or group.",
               "inputSchema": {
-                "properties": {
-                  "target": {
-                    "description": "Optional filter: '*' for all, a specific test_name, or a test_group. If omitted, runs all tests.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_branch",
-                  "working_database"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "run_dolt_tests"
             },
@@ -1205,21 +590,9 @@
               },
               "description": "Displays the currently checked out branch.",
               "inputSchema": {
-                "properties": {
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "select_active_branch"
             },
@@ -1234,7 +607,7 @@
               "inputSchema": {
                 "properties": {},
                 "required": [],
-                "type": "object"
+                "type": ""
               },
               "name": "select_version"
             },
@@ -1247,26 +620,9 @@
               },
               "description": "Shows the schema of the specified table.",
               "inputSchema": {
-                "properties": {
-                  "table": {
-                    "description": "The name of the table.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_branch",
-                  "working_database",
-                  "table"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "show_create_table"
             },
@@ -1279,25 +635,9 @@
               },
               "description": "Show the server process list (SHOW [FULL] PROCESSLIST).",
               "inputSchema": {
-                "properties": {
-                  "full": {
-                    "description": "If true, uses SHOW FULL PROCESSLIST.",
-                    "type": "boolean"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_branch",
-                  "working_database"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "show_processlist"
             },
@@ -1310,21 +650,9 @@
               },
               "description": "Show tables in the current database.",
               "inputSchema": {
-                "properties": {
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_branch",
-                  "working_database"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "show_tables"
             },
@@ -1337,21 +665,9 @@
               },
               "description": "Stages a table for a Dolt commit.",
               "inputSchema": {
-                "properties": {
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "stage_all_tables_for_dolt_commit"
             },
@@ -1364,26 +680,9 @@
               },
               "description": "Stages a table for a Dolt commit.",
               "inputSchema": {
-                "properties": {
-                  "table": {
-                    "description": "The name of the table to stage.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "table"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "stage_table_for_dolt_commit"
             },
@@ -1396,21 +695,9 @@
               },
               "description": "Removes all staged tables from the staging area.",
               "inputSchema": {
-                "properties": {
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "unstage_all_tables"
             },
@@ -1423,26 +710,9 @@
               },
               "description": "Removes a staged table from the staging area.",
               "inputSchema": {
-                "properties": {
-                  "table": {
-                    "description": "The name of the table to remove from the staging area.",
-                    "type": "string"
-                  },
-                  "working_branch": {
-                    "description": "The name of the working branch to checkout prior to making the tool call.",
-                    "type": "string"
-                  },
-                  "working_database": {
-                    "description": "The name of the database to use prior to making the tool call.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "working_database",
-                  "working_branch",
-                  "table"
-                ],
-                "type": "object"
+                "properties": {},
+                "required": [],
+                "type": ""
               },
               "name": "unstage_table"
             }
