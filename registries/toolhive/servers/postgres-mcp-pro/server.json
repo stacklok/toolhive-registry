@@ -1,0 +1,84 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/postgres-mcp-pro",
+  "description": "Provides configurable read/write access and performance analysis for PostgreSQL databases.",
+  "title": "postgres-mcp-pro",
+  "repository": {
+    "url": "https://github.com/crystaldba/postgres-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "crystaldba/postgres-mcp:0.3.0",
+      "transport": {
+        "type": "sse",
+        "url": "http://localhost:8000"
+      },
+      "environmentVariables": [
+        {
+          "description": "PostgreSQL connection string, like 'postgresql://username:password@host.docker.internal:5432/dbname'",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "DATABASE_URI"
+        },
+        {
+          "description": "OpenAI API key for experimental index tuning by LLM",
+          "isSecret": true,
+          "name": "OPENAI_API_KEY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "crystaldba/postgres-mcp:0.3.0": {
+          "args": [
+            "--transport=sse",
+            "--sse-host=0.0.0.0",
+            "--sse-port=8000"
+          ],
+          "metadata": {
+            "last_updated": "2026-01-27T02:45:00Z",
+            "pulls": 70324,
+            "stars": 1903
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "data",
+            "postgres",
+            "postgresql",
+            "sql",
+            "query",
+            "storage",
+            "analytics",
+            "performance",
+            "monitoring"
+          ],
+          "tier": "Official",
+          "tools": [
+            "list_schemas",
+            "list_objects",
+            "get_object_details",
+            "execute_sql",
+            "explain_query",
+            "get_top_queries",
+            "analyze_workload_indexes",
+            "analyze_query_indexes",
+            "analyze_db_health"
+          ]
+        }
+      }
+    }
+  }
+}

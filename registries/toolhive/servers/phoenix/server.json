@@ -1,0 +1,89 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/phoenix",
+  "description": "MCP server for Arize Phoenix observability platform",
+  "title": "phoenix",
+  "repository": {
+    "url": "https://github.com/Arize-ai/phoenix",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.3.6",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "API key for Phoenix authentication",
+          "isSecret": true,
+          "name": "PHOENIX_API_KEY"
+        },
+        {
+          "description": "Base URL for Phoenix instance",
+          "default": "http://localhost:6006",
+          "name": "PHOENIX_BASE_URL"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.3.6": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:49:18Z",
+            "stars": 8461
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "observability",
+            "llm",
+            "monitoring",
+            "tracing",
+            "evaluation",
+            "ai"
+          ],
+          "tier": "Official",
+          "tools": [
+            "add-dataset-examples",
+            "add-prompt-version-tag",
+            "get-dataset-examples",
+            "get-dataset-experiments",
+            "get-experiment-by-id",
+            "get-latest-prompt",
+            "get-prompt-by-identifier",
+            "get-prompt-version",
+            "get-prompt-version-by-tag",
+            "get-span-annotations",
+            "get-spans",
+            "list-datasets",
+            "list-experiments-for-dataset",
+            "list-projects",
+            "list-prompt-version-tags",
+            "list-prompt-versions",
+            "list-prompts",
+            "phoenix-support",
+            "upsert-prompt"
+          ]
+        }
+      }
+    }
+  }
+}

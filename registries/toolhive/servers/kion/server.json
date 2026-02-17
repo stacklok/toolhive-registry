@@ -1,0 +1,105 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/kion",
+  "description": "Integrate with a Kion.io instance for cloud management, FinOps, and governance",
+  "title": "kion",
+  "repository": {
+    "url": "https://github.com/kionsoftware/kion-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "kionsoftware/kion-mcp:v0.3.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "App API key for authentication to your Kion instance",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "KION_BEARER_TOKEN"
+        },
+        {
+          "description": "URL of your Kion instance",
+          "isRequired": true,
+          "name": "KION_SERVER_URL"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "kionsoftware/kion-mcp:v0.3.0": {
+          "metadata": {
+            "last_updated": "2026-01-28T02:42:37Z",
+            "pulls": 651,
+            "stars": 7
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "kion",
+            "cloud-management",
+            "finops",
+            "cloudops",
+            "compliance",
+            "governance",
+            "cloud-costs"
+          ],
+          "tier": "Official",
+          "tools": [
+            "add_project_spend_plan_entries",
+            "allocate_funds",
+            "create_budget",
+            "create_funding_source",
+            "create_ou",
+            "create_project_with_budget",
+            "create_project_with_spend_plan",
+            "get_accounts",
+            "get_cloud_access_role_details",
+            "get_cloud_access_roles_on_entity",
+            "get_cloud_provider_services",
+            "get_cloud_providers",
+            "get_compliance_check",
+            "get_compliance_checks_paginated",
+            "get_compliance_findings",
+            "get_compliance_ous",
+            "get_compliance_program",
+            "get_compliance_standard",
+            "get_compliance_standard_project",
+            "get_compliance_standards_paginated",
+            "get_entity_by_id",
+            "get_label_key_id",
+            "get_labels",
+            "get_ou_budget",
+            "get_ou_funding_sources",
+            "get_ous",
+            "get_permission_scheme",
+            "get_project_budget",
+            "get_project_spend_plan_with_totals",
+            "get_projects",
+            "get_spend_report",
+            "get_suppressed_compliance_findings",
+            "get_tag_keys",
+            "get_tag_values",
+            "get_user_cloud_access_roles",
+            "get_user_groups",
+            "get_user_info",
+            "get_users",
+            "update_budget"
+          ]
+        }
+      }
+    }
+  }
+}

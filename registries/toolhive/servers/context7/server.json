@@ -1,0 +1,69 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/context7",
+  "description": "Context7 MCP pulls version-specific docs and code examples directly into your prompt",
+  "title": "context7",
+  "repository": {
+    "url": "https://github.com/upstash/context7",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/context7:2.1.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "API key for higher rate limits",
+          "isSecret": true,
+          "name": "CONTEXT7_API_KEY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/context7:2.1.1": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:49:19Z",
+            "pulls": 313,
+            "stars": 44756
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "context7.com"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "documentation",
+            "code-examples"
+          ],
+          "tier": "Official",
+          "tools": [
+            "query-docs",
+            "resolve-library-id"
+          ]
+        }
+      }
+    }
+  }
+}

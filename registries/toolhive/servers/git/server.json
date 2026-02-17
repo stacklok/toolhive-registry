@@ -1,0 +1,65 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/git",
+  "description": "Provides support for interacting with Git repositories",
+  "title": "git",
+  "repository": {
+    "url": "https://github.com/modelcontextprotocol/servers",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/mcp/git:latest",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/mcp/git:latest": {
+          "metadata": {
+            "last_updated": "2026-01-27T02:44:59Z",
+            "pulls": 10404,
+            "stars": 77255
+          },
+          "permissions": {
+            "network": {
+              "outbound": {}
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "adds",
+            "automation",
+            "git",
+            "interaction",
+            "records",
+            "repository",
+            "shows",
+            "tools",
+            "unstages"
+          ],
+          "tier": "Community",
+          "tools": [
+            "git_status",
+            "git_diff_unstaged",
+            "git_diff_staged",
+            "git_diff",
+            "git_commit",
+            "git_add",
+            "git_reset",
+            "git_log",
+            "git_create_branch",
+            "git_checkout",
+            "git_show",
+            "git_init"
+          ]
+        }
+      }
+    }
+  }
+}

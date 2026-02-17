@@ -1,0 +1,91 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/launchdarkly",
+  "description": "Official MCP server for LaunchDarkly feature flag management and AI Config orchestration",
+  "title": "launchdarkly",
+  "repository": {
+    "url": "https://github.com/launchdarkly/mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.4.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "LaunchDarkly API access token with appropriate permissions (Writer or Developer role recommended)",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "LAUNCHDARKLY_API_KEY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.4.2": {
+          "metadata": {
+            "last_updated": "2026-02-07T02:54:31Z",
+            "stars": 18
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "app.launchdarkly.com",
+                  "app.launchdarkly.us",
+                  "app.eu.launchdarkly.com"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "feature-flags",
+            "ai-config",
+            "configuration",
+            "devops",
+            "launchdarkly"
+          ],
+          "tier": "Official",
+          "tools": [
+            "create-ai-config",
+            "create-ai-config-variation",
+            "delete-ai-config",
+            "delete-ai-config-variation",
+            "get-ai-config",
+            "get-ai-config-targeting",
+            "get-ai-config-variation",
+            "list-ai-configs",
+            "update-ai-config",
+            "update-ai-config-targeting",
+            "update-ai-config-variation",
+            "get-code-references",
+            "get-environments",
+            "create-feature-flag",
+            "delete-feature-flag",
+            "get-feature-flag",
+            "get-flag-status-across-environments",
+            "list-feature-flags",
+            "update-feature-flag"
+          ]
+        }
+      }
+    }
+  }
+}

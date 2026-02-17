@@ -1,0 +1,94 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/cloud-run",
+  "description": "Deploy apps to Google Cloud Run with integrated logging and service management",
+  "title": "cloud-run",
+  "repository": {
+    "url": "https://github.com/GoogleCloudPlatform/cloud-run-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/mcp/cloud-run-mcp:latest",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Path to Google Cloud credentials JSON file",
+          "isSecret": true,
+          "name": "GOOGLE_APPLICATION_CREDENTIALS"
+        },
+        {
+          "description": "Google Cloud project ID for deployments",
+          "name": "GOOGLE_CLOUD_PROJECT"
+        },
+        {
+          "description": "Default Google Cloud region for deployments",
+          "name": "GOOGLE_CLOUD_REGION"
+        },
+        {
+          "description": "Default Cloud Run service name",
+          "name": "DEFAULT_SERVICE_NAME"
+        },
+        {
+          "description": "Skip IAM permission checks (true/false)",
+          "name": "SKIP_IAM_CHECK"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/mcp/cloud-run-mcp:latest": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:49:20Z",
+            "pulls": 273,
+            "stars": 532
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "run.googleapis.com",
+                  "cloudbuild.googleapis.com",
+                  "storage.googleapis.com",
+                  "logging.googleapis.com",
+                  "cloudresourcemanager.googleapis.com"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "google-cloud",
+            "cloud-run",
+            "deployment",
+            "gcp",
+            "serverless",
+            "containers",
+            "devops"
+          ],
+          "tier": "Official",
+          "tools": [
+            "deploy_file_contents",
+            "deploy_local_files",
+            "deploy_local_folder",
+            "deploy_container_image",
+            "list_services",
+            "get_service",
+            "get_service_log",
+            "list_projects",
+            "create_project"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/supabase",
+  "description": "Connect Supabase projects to AI assistants for table management, config, and data querying",
+  "title": "supabase",
+  "repository": {
+    "url": "https://github.com/supabase-community/supabase-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.6.3",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Personal access token from Supabase dashboard",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "SUPABASE_ACCESS_TOKEN"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.6.3": {
+          "metadata": {
+            "last_updated": "2026-01-26T02:48:40Z",
+            "pulls": 102,
+            "stars": 2421
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  ".supabase.co",
+                  ".supabase.com"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "supabase",
+            "database",
+            "backend",
+            "baas",
+            "postgresql"
+          ],
+          "tier": "Official",
+          "tools": [
+            "apply_migration",
+            "confirm_cost",
+            "create_branch",
+            "create_project",
+            "delete_branch",
+            "deploy_edge_function",
+            "execute_sql",
+            "generate_typescript_types",
+            "get_advisors",
+            "get_cost",
+            "get_edge_function",
+            "get_logs",
+            "get_organization",
+            "get_project",
+            "get_project_url",
+            "get_publishable_keys",
+            "list_branches",
+            "list_edge_functions",
+            "list_extensions",
+            "list_migrations",
+            "list_organizations",
+            "list_projects",
+            "list_tables",
+            "merge_branch",
+            "pause_project",
+            "rebase_branch",
+            "reset_branch",
+            "restore_project",
+            "search_docs"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/kiwi",
+  "description": "Kiwi.com Flight Search MCP server to search and book flights",
+  "title": "kiwi",
+  "repository": {
+    "url": "https://github.com/alpic-ai/kiwi-mcp-server-public",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.kiwi.com"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.kiwi.com": {
+          "custom_metadata": {
+            "author": "Kiwi.com",
+            "homepage": "https://kiwi.com"
+          },
+          "metadata": {
+            "last_updated": "2026-02-07T02:54:31Z",
+            "stars": 8
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "travel",
+            "flights",
+            "booking",
+            "search",
+            "kiwi"
+          ],
+          "tier": "Official",
+          "tools": [
+            "search-flight"
+          ]
+        }
+      }
+    }
+  }
+}

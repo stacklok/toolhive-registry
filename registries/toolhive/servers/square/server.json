@@ -1,0 +1,52 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/square",
+  "description": "Square's official remote MCP server for payment processing and commerce",
+  "title": "square",
+  "repository": {
+    "url": "https://github.com/square/square-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "sse",
+      "url": "https://mcp.squareup.com/sse"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.squareup.com/sse": {
+          "custom_metadata": {
+            "author": "Square",
+            "homepage": "https://developer.squareup.com/docs/mcp"
+          },
+          "metadata": {
+            "last_updated": "2026-02-09T03:01:52Z",
+            "stars": 91
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "square",
+            "payments",
+            "ecommerce",
+            "oauth",
+            "commerce",
+            "customers",
+            "orders",
+            "items",
+            "beta"
+          ],
+          "tier": "Official",
+          "tools": [
+            "make_api_request",
+            "get_type_info",
+            "get_service_info"
+          ]
+        }
+      }
+    }
+  }
+}

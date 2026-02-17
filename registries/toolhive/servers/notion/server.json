@@ -1,0 +1,88 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/notion",
+  "description": "Provides integration with Notion APIs through a local Notion MCP Server.",
+  "title": "notion",
+  "repository": {
+    "url": "https://github.com/makenotion/notion-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/notion:2.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Notion integration token (ntn_****).",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "NOTION_TOKEN"
+        },
+        {
+          "description": "HTTP headers for Notion API requests in JSON format (advanced use cases). Example: {\"Authorization\":\"Bearer ntn_****\",\"Notion-Version\":\"2022-06-28\"}",
+          "isSecret": true,
+          "name": "OPENAPI_MCP_HEADERS"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/notion:2.1.0": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:49:19Z",
+            "pulls": 40073,
+            "stars": 3846
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "api.notion.com"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "notion",
+            "notes"
+          ],
+          "tier": "Official",
+          "tools": [
+            "API-create-a-comment",
+            "API-create-a-data-source",
+            "API-delete-a-block",
+            "API-get-block-children",
+            "API-get-self",
+            "API-get-user",
+            "API-get-users",
+            "API-list-data-source-templates",
+            "API-move-page",
+            "API-patch-block-children",
+            "API-patch-page",
+            "API-post-page",
+            "API-post-search",
+            "API-query-data-source",
+            "API-retrieve-a-block",
+            "API-retrieve-a-comment",
+            "API-retrieve-a-data-source",
+            "API-retrieve-a-database",
+            "API-retrieve-a-page",
+            "API-retrieve-a-page-property",
+            "API-update-a-block",
+            "API-update-a-data-source"
+          ]
+        }
+      }
+    }
+  }
+}

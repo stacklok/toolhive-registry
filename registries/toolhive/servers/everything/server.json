@@ -1,0 +1,62 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/everything",
+  "description": "This MCP server attempts to exercise all the features of the MCP protocol",
+  "title": "everything",
+  "repository": {
+    "url": "https://github.com/modelcontextprotocol/servers",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/mcp/everything:latest",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/mcp/everything:latest": {
+          "metadata": {
+            "last_updated": "2026-02-09T09:15:24Z",
+            "pulls": 14373,
+            "stars": 78304
+          },
+          "permissions": {
+            "network": {
+              "outbound": {}
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "adds",
+            "all",
+            "attempts",
+            "demonstrates",
+            "everything",
+            "exercise",
+            "features",
+            "returns",
+            "simple",
+            "tools"
+          ],
+          "tier": "Community",
+          "tools": [
+            "add",
+            "annotatedMessage",
+            "echo",
+            "getResourceReference",
+            "getTinyImage",
+            "longRunningOperation",
+            "printEnv",
+            "sampleLLM"
+          ]
+        }
+      }
+    }
+  }
+}

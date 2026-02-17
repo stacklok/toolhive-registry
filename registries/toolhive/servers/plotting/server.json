@@ -1,0 +1,62 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/plotting",
+  "description": "Provides plotting capabilities for visualizing data in various formats.",
+  "title": "plotting",
+  "repository": {
+    "url": "https://github.com/StacklokLabs/plotting-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stackloklabs/plotting-mcp:v0.0.2",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:9090"
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stackloklabs/plotting-mcp:v0.0.2": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:47:23Z",
+            "pulls": 1314,
+            "stars": 7
+          },
+          "permissions": {
+            "network": {
+              "outbound": {}
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/StacklokLabs/plotting-mcp",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/release.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "plotting",
+            "visualization",
+            "data",
+            "charts",
+            "graphs",
+            "matplotlib",
+            "seaborn",
+            "cartopy",
+            "maps"
+          ],
+          "tier": "Community",
+          "tools": [
+            "generate_plot"
+          ]
+        }
+      }
+    }
+  }
+}

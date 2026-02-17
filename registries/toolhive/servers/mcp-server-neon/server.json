@@ -1,0 +1,97 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/mcp-server-neon",
+  "description": "MCP server for interacting with Neon Management API and databases",
+  "title": "mcp-server-neon",
+  "repository": {
+    "url": "https://github.com/neondatabase-labs/mcp-server-neon",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-server-neon:0.6.5",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "API key for Neon database service",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "NEON_API_KEY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/mcp-server-neon:0.6.5": {
+          "metadata": {
+            "last_updated": "2026-01-25T13:39:51Z",
+            "pulls": 55,
+            "stars": 540
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "console.neon.tech",
+                  "api.neon.tech",
+                  "neon.tech"
+                ],
+                "allow_port": [
+                  443,
+                  5432
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "postgresql",
+            "api",
+            "management",
+            "sql",
+            "migration",
+            "branching"
+          ],
+          "tier": "Official",
+          "tools": [
+            "list_projects",
+            "describe_project",
+            "create_project",
+            "delete_project",
+            "create_branch",
+            "delete_branch",
+            "describe_branch",
+            "list_branch_computes",
+            "list_organizations",
+            "get_connection_string",
+            "run_sql",
+            "run_sql_transaction",
+            "get_database_tables",
+            "describe_table_schema",
+            "list_slow_queries",
+            "prepare_database_migration",
+            "complete_database_migration",
+            "explain_sql_statement",
+            "prepare_query_tuning",
+            "complete_query_tuning",
+            "provision_neon_auth"
+          ]
+        }
+      }
+    }
+  }
+}

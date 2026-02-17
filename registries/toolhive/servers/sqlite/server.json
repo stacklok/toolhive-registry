@@ -1,0 +1,54 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/sqlite",
+  "description": "Provides tools and resources for querying SQLite databases.",
+  "title": "sqlite",
+  "repository": {
+    "url": "https://github.com/StacklokLabs/sqlite-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stackloklabs/sqlite-mcp/server:0.1.0",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080"
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stackloklabs/sqlite-mcp/server:0.1.0": {
+          "metadata": {
+            "last_updated": "2026-01-25T13:39:53Z",
+            "pulls": 4212,
+            "stars": 12
+          },
+          "permissions": {
+            "network": {
+              "outbound": {}
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "data",
+            "database",
+            "query",
+            "sql",
+            "sqlite"
+          ],
+          "tier": "Community",
+          "tools": [
+            "execute_query",
+            "execute_statement",
+            "list_tables",
+            "describe_table"
+          ]
+        }
+      }
+    }
+  }
+}

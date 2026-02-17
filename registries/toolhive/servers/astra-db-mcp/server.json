@@ -1,0 +1,92 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/astra-db-mcp",
+  "description": "Model Context Protocol server for interacting with DataStax Astra DB",
+  "title": "astra-db-mcp",
+  "repository": {
+    "url": "https://github.com/datastax/astra-db-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/astra-db-mcp:1.2.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Astra DB application token for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "ASTRA_DB_APPLICATION_TOKEN"
+        },
+        {
+          "description": "Astra DB API endpoint URL",
+          "isRequired": true,
+          "name": "ASTRA_DB_API_ENDPOINT"
+        },
+        {
+          "description": "Astra DB keyspace to use (defaults to default_keyspace)",
+          "default": "default_keyspace",
+          "name": "ASTRA_DB_KEYSPACE"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/astra-db-mcp:1.2.2": {
+          "metadata": {
+            "last_updated": "2026-02-05T04:47:26Z",
+            "stars": 38
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "nosql",
+            "cassandra",
+            "vector-database",
+            "datastax",
+            "astra"
+          ],
+          "tier": "Official",
+          "tools": [
+            "GetCollections",
+            "CreateCollection",
+            "UpdateCollection",
+            "DeleteCollection",
+            "ListRecords",
+            "GetRecord",
+            "CreateRecord",
+            "UpdateRecord",
+            "DeleteRecord",
+            "FindRecord",
+            "BulkCreateRecords",
+            "BulkUpdateRecords",
+            "BulkDeleteRecords",
+            "OpenBrowser",
+            "HelpAddToClient",
+            "EstimateDocumentCount"
+          ]
+        }
+      }
+    }
+  }
+}
