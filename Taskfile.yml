@@ -2,7 +2,6 @@ version: '3'
 
 vars:
   BUILD_DIR: build
-  REGISTRY_DIR: registry
   VERSION:
     sh: git describe --tags --always --dirty 2>/dev/null || echo "dev"
   COMMIT:
@@ -20,32 +19,12 @@ tasks:
   deps:
     desc: Download and install dependencies
     cmds:
-      - echo "📦 Downloading dependencies..."
       - go mod download
       - go mod tidy
 
   build:
-    desc: Build all binaries
-    deps: [build:registry-builder, build:catalog, build:import-tool, build:update-tools]
-
-  build:registry-builder:
-    desc: Build the registry-builder tool
+    desc: Build the catalog binary
     cmds:
-      - echo "🔨 Building registry-builder..."
-      - mkdir -p {{.BUILD_DIR}}
-      - go build {{.LDFLAGS}} -o {{.BUILD_DIR}}/registry-builder ./cmd/registry-builder
-    sources:
-      - cmd/registry-builder/**/*.go
-      - pkg/**/*.go
-      - go.mod
-      - go.sum
-    generates:
-      - "{{.BUILD_DIR}}/registry-builder"
-
-  build:catalog:
-    desc: Build the catalog tool
-    cmds:
-      - echo "🔨 Building catalog..."
       - mkdir -p {{.BUILD_DIR}}
       - go build {{.LDFLAGS}} -o {{.BUILD_DIR}}/catalog ./cmd/catalog
     sources:
@@ -56,157 +35,10 @@ tasks:
     generates:
       - "{{.BUILD_DIR}}/catalog"
 
-  build:import-tool:
-    desc: Build the import-from-toolhive tool
-    cmds:
-      - echo "🔨 Building import-from-toolhive..."
-      - mkdir -p {{.BUILD_DIR}}
-      - go build {{.LDFLAGS}} -o {{.BUILD_DIR}}/import-from-toolhive ./cmd/import-from-toolhive
-    sources:
-      - cmd/import-from-toolhive/**/*.go
-      - pkg/**/*.go
-      - go.mod
-      - go.sum
-    generates:
-      - "{{.BUILD_DIR}}/import-from-toolhive"
-
-  build:update-tools:
-    desc: Build the update-tools tool
-    cmds:
-      - echo "🔨 Building update-tools..."
-      - mkdir -p {{.BUILD_DIR}}
-      - go build {{.LDFLAGS}} -o {{.BUILD_DIR}}/update-tools ./cmd/update-tools
-    sources:
-      - cmd/update-tools/**/*.go
-      - pkg/**/*.go
-      - go.mod
-      - go.sum
-    generates:
-      - "{{.BUILD_DIR}}/update-tools"
-
-  import:
-    desc: Import the existing ToolHive registry
-    deps: [build:import-tool]
-    cmds:
-      - echo "📥 Importing ToolHive registry..."
-      - ./{{.BUILD_DIR}}/import-from-toolhive -v
-
-  import:dry-run:
-    desc: Preview what would be imported (dry run)
-    deps: [build:import-tool]
-    cmds:
-      - echo "👀 Preview import (dry run)..."
-      - ./{{.BUILD_DIR}}/import-from-toolhive --dry-run
-
-  update-tools:
-    desc: Update tool lists for a specific MCP server spec file
-    deps: [build:update-tools]
-    cmds:
-      - echo "🔧 Updating tools for {{.SPEC}}..."
-      - ./{{.BUILD_DIR}}/update-tools {{.SPEC}} {{.CLI_ARGS}}
-    vars:
-      SPEC: '{{.SPEC | default ""}}'
-    preconditions:
-      - sh: test -n "{{.SPEC}}"
-        msg: "Please specify a spec file with SPEC=path/to/spec.yaml"
-
-  update-tools:dry-run:
-    desc: Preview tool list updates for a specific MCP server spec file
-    deps: [build:update-tools]
-    cmds:
-      - echo "👀 Preview tool updates for {{.SPEC}}..."
-      - ./{{.BUILD_DIR}}/update-tools {{.SPEC}} --dry-run -v
-    vars:
-      SPEC: '{{.SPEC | default ""}}'
-    preconditions:
-      - sh: test -n "{{.SPEC}}"
-        msg: "Please specify a spec file with SPEC=path/to/spec.yaml"
-
-  update-tools:all:
-    desc: Update tool lists for all MCP server spec files
-    deps: [build:update-tools]
-    cmds:
-      - echo "🔧 Updating tools for all spec files..."
-      - |
-        find {{.REGISTRY_DIR}} -name "spec.yaml" -o -name "spec.yml" | while read spec; do
-          echo "Processing $spec..."
-          ./{{.BUILD_DIR}}/update-tools "$spec" -v || echo "Failed to update $spec"
-        done
-
-  update-tools:all:dry-run:
-    desc: Preview tool list updates for all MCP server spec files
-    deps: [build:update-tools]
-    cmds:
-      - echo "👀 Preview tool updates for all spec files..."
-      - |
-        find {{.REGISTRY_DIR}} -name "spec.yaml" -o -name "spec.yml" | while read spec; do
-          echo "Processing $spec..."
-          ./{{.BUILD_DIR}}/update-tools "$spec" --dry-run -v || echo "Failed to process $spec"
-        done
-
-  validate:
-    desc: Validate all registry entries
-    deps: [build:registry-builder]
-    cmds:
-      - echo "✅ Validating registry entries..."
-      - ./{{.BUILD_DIR}}/registry-builder validate -v
-
-  list:
-    desc: List all registry entries
-    deps: [build:registry-builder]
-    cmds:
-      - echo "📋 Listing registry entries..."
-      - ./{{.BUILD_DIR}}/registry-builder list
-
-  list:verbose:
-    desc: List all registry entries with details
-    deps: [build:registry-builder]
-    cmds:
-      - echo "📋 Listing registry entries (verbose)..."
-      - ./{{.BUILD_DIR}}/registry-builder list -v
-
-  build:registry:
-    desc: Build registry files in both ToolHive and official MCP formats
-    deps: [build:registry-builder]
-    cmds:
-      - echo "🏗️ Building registry files (both formats)..."
-      - ./{{.BUILD_DIR}}/registry-builder build --format all -v
-    sources:
-      - "{{.REGISTRY_DIR}}/**/*.yaml"
-      - "{{.REGISTRY_DIR}}/**/*.yml"
-    generates:
-      - "{{.BUILD_DIR}}/registry.json"
-      - "{{.BUILD_DIR}}/official-registry.json"
-
-  build:registry:toolhive:
-    desc: Build registry in ToolHive format only
-    deps: [build:registry-builder]
-    cmds:
-      - echo "🏗️ Building ToolHive registry.json..."
-      - ./{{.BUILD_DIR}}/registry-builder build --format toolhive -v
-    sources:
-      - "{{.REGISTRY_DIR}}/**/*.yaml"
-      - "{{.REGISTRY_DIR}}/**/*.yml"
-    generates:
-      - "{{.BUILD_DIR}}/registry.json"
-
-  build:registry:official:
-    desc: Build registry in official MCP format only
-    deps: [build:registry-builder]
-    cmds:
-      - echo "🏗️ Building official MCP registry..."
-      - ./{{.BUILD_DIR}}/registry-builder build --format official-mcp-registry -v
-    sources:
-      - "{{.REGISTRY_DIR}}/**/*.yaml"
-      - "{{.REGISTRY_DIR}}/**/*.yml"
-    generates:
-      - "{{.BUILD_DIR}}/official-registry.json"
-
   catalog:build:
-    desc: Build registry files from server.json using catalog (both formats)
-    deps: [build:catalog]
+    desc: Build registry files from server.json (both formats)
+    deps: [build]
     cmds:
-      - echo "🏗️ Building catalog (both formats)..."
       - ./{{.BUILD_DIR}}/catalog build --format all -v
     sources:
       - registries/**/server.json
@@ -214,11 +46,16 @@ tasks:
       - "{{.BUILD_DIR}}/*/registry.json"
       - "{{.BUILD_DIR}}/*/official-registry.json"
 
+  catalog:validate:
+    desc: Validate all server.json entries
+    deps: [build]
+    cmds:
+      - ./{{.BUILD_DIR}}/catalog validate -v
+
   catalog:update-metadata:
     desc: Update metadata for a specific server.json file
-    deps: [build:catalog]
+    deps: [build]
     cmds:
-      - echo "🔄 Updating metadata for {{.SERVER}}..."
       - ./{{.BUILD_DIR}}/catalog update-metadata {{.SERVER}} {{.CLI_ARGS}}
     vars:
       SERVER: '{{.SERVER | default ""}}'
@@ -228,27 +65,24 @@ tasks:
 
   catalog:update-metadata:oldest:
     desc: Update metadata for the N oldest entries
-    deps: [build:catalog]
+    deps: [build]
     cmds:
-      - echo "🔄 Updating {{.COUNT}} oldest entries..."
       - ./{{.BUILD_DIR}}/catalog update-metadata --oldest {{.COUNT}} -v {{.CLI_ARGS}}
     vars:
       COUNT: '{{.COUNT | default "5"}}'
 
   catalog:update-metadata:oldest:dry-run:
     desc: Preview metadata updates for the N oldest entries
-    deps: [build:catalog]
+    deps: [build]
     cmds:
-      - echo "👀 Preview updating {{.COUNT}} oldest entries..."
       - ./{{.BUILD_DIR}}/catalog update-metadata --oldest {{.COUNT}} --dry-run -v
     vars:
       COUNT: '{{.COUNT | default "5"}}'
 
   catalog:update-tools:
     desc: Update tool lists for a specific server.json file
-    deps: [build:catalog]
+    deps: [build]
     cmds:
-      - echo "🔧 Updating tools for {{.SERVER}}..."
       - ./{{.BUILD_DIR}}/catalog update-tools {{.SERVER}} {{.CLI_ARGS}}
     vars:
       SERVER: '{{.SERVER | default ""}}'
@@ -258,9 +92,8 @@ tasks:
 
   catalog:update-tools:dry-run:
     desc: Preview tool list updates for a specific server.json file
-    deps: [build:catalog]
+    deps: [build]
     cmds:
-      - echo "👀 Preview tool updates for {{.SERVER}}..."
       - ./{{.BUILD_DIR}}/catalog update-tools {{.SERVER}} --dry-run -v
     vars:
       SERVER: '{{.SERVER | default ""}}'
@@ -268,87 +101,42 @@ tasks:
       - sh: test -n "{{.SERVER}}"
         msg: "Please specify a server.json file with SERVER=path/to/server.json"
 
-  catalog:validate:
-    desc: Validate all server.json entries via catalog
-    deps: [build:catalog]
+  version:
+    desc: Show version information
+    deps: [build]
     cmds:
-      - echo "✅ Validating catalog entries..."
-      - ./{{.BUILD_DIR}}/catalog validate -v
+      - ./{{.BUILD_DIR}}/catalog version
 
   test:
     desc: Run tests
     cmds:
-      - echo "🧪 Running tests..."
       - go test -v -race -coverprofile=coverage.out ./...
 
   test:coverage:
     desc: Run tests with coverage report
     deps: [test]
     cmds:
-      - echo "📊 Generating coverage report..."
       - go tool cover -html=coverage.out -o coverage.html
       - 'echo "Coverage report generated: coverage.html"'
 
   lint:
     desc: Run linter (requires golangci-lint)
     cmds:
-      - echo "🔍 Running linter..."
       - golangci-lint run --allow-parallel-runners ./...
 
   lint:fix:
     desc: Run linter with auto-fix
     cmds:
-      - echo "🔧 Running linter with auto-fix..."
       - golangci-lint run --allow-parallel-runners --fix ./...
 
   clean:
     desc: Clean build artifacts
     cmds:
-      - echo "🧹 Cleaning..."
       - rm -rf {{.BUILD_DIR}}
       - rm -f coverage.out coverage.html
       - go clean
 
-  clean:registry:
-    desc: Clean imported registry files
-    cmds:
-      - echo "🧹 Cleaning registry directory..."
-      - rm -rf {{.REGISTRY_DIR}}
-
-  full-cycle:
-    desc: Run the full import -> validate -> build cycle
-    cmds:
-      - task: clean
-      - task: clean:registry
-      - task: import
-      - task: validate
-      - task: build:registry
-      - echo "✨ Full cycle complete!"
-      - 'echo "Registry files available at:"'
-      - 'echo "  - ToolHive format: {{.BUILD_DIR}}/registry.json"'
-      - 'echo "  - Official MCP format: {{.BUILD_DIR}}/official-registry.json"'
-
-  quick-start:
-    desc: Quick start for new users
-    cmds:
-      - task: deps
-      - task: full-cycle
-      - echo "🚀 Quick start complete!"
-      - echo ""
-      - echo "Next steps:"
-      - 'echo "  1. Review imported entries in {{.REGISTRY_DIR}}/"'
-      - echo "  2. Add new entries by creating directories with spec.yaml files"
-      - echo "  3. Run 'task validate' to check your changes"
-      - echo "  4. Run 'task build:registry' to generate registry files (both formats)"
-
-  version:
-    desc: Show version information
-    deps: [build:registry-builder]
-    cmds:
-      - ./{{.BUILD_DIR}}/registry-builder version
-
   watch:
     desc: Watch for changes and rebuild (requires entr)
     cmds:
-      - echo "👁️ Watching for changes..."
-      - find cmd pkg -name '*.go' | entr -c task build
+      - find cmd internal -name '*.go' | entr -c task build

@@ -12,12 +12,14 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Update Docker/OCI image versions in registry YAML files",
+      "description": "Update OCI image versions in server.json files (identifier and _meta key)",
       "managerFilePatterns": [
-        "/^registry/.*/spec\\.ya?ml$/"
+        "/^registries/.*/servers/.*/server\\.json$/"
       ],
+      "matchStringsStrategy": "any",
       "matchStrings": [
-        "image:\\s*[\"']?(?<depName>[^:\"'\\s]+):(?<currentValue>[^\"'\\s]+)[\"']?\\s*(?:#.*)?"
+        "\"identifier\":\\s*\"(?<depName>[^:\"]+):(?<currentValue>[^\"]+)\"",
+        "\"(?<depName>[^:\"]*\\/[^:\"]+):(?<currentValue>[^\"]+)\":\\s*\\{"
       ],
       "datasourceTemplate": "docker"
     }
@@ -26,7 +28,7 @@
     {
       "description": "Automerge patch updates for registry images",
       "matchFileNames": [
-        "registry/**"
+        "registries/**"
       ],
       "matchUpdateTypes": [
         "patch"
