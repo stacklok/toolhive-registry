@@ -1,43 +1,13 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/mcp-server-box",
-  "description": "Box API integration for file operations, AI querying, metadata management, and document generation",
-  "title": "mcp-server-box",
-  "repository": {
-    "url": "https://github.com/box-community/mcp-server-box",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-server-box:0.1.2",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Box API Client ID",
-          "isRequired": true,
-          "name": "BOX_CLIENT_ID"
-        },
-        {
-          "description": "Box API Client Secret",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "BOX_CLIENT_SECRET"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/mcp-server-box:0.1.2": {
           "metadata": {
-            "last_updated": "2026-01-25T13:39:50Z",
+            "last_updated": "2026-02-17T15:33:17Z",
             "pulls": 52,
-            "stars": 93
+            "stars": 96
           },
           "permissions": {
             "network": {
@@ -102,5 +72,35 @@
         }
       }
     }
-  }
+  },
+  "description": "Box API integration for file operations, AI querying, metadata management, and document generation",
+  "name": "io.github.stacklok/mcp-server-box",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Box API Client ID",
+          "isRequired": true,
+          "name": "BOX_CLIENT_ID"
+        },
+        {
+          "description": "Box API Client Secret",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "BOX_CLIENT_SECRET"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-server-box:0.1.2",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/box-community/mcp-server-box"
+  },
+  "title": "mcp-server-box",
+  "version": "1.0.0"
 }
