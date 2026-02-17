@@ -1,75 +1,13 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/mongodb",
-  "description": "Provides support for interacting with MongoDB Databases and MongoDB Atlas.",
-  "title": "mongodb",
-  "repository": {
-    "url": "https://github.com/mongodb-js/mongodb-mcp-server",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "docker.io/mongodb/mongodb-mcp-server:1.6.0",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "MongoDB connection string for direct database connections (optional, if not set, you'll need to call the connect tool before interacting with MongoDB data)",
-          "isSecret": true,
-          "name": "MDB_MCP_CONNECTION_STRING"
-        },
-        {
-          "description": "Atlas API client ID for authentication (required for running Atlas tools)",
-          "isSecret": true,
-          "name": "MDB_MCP_API_CLIENT_ID"
-        },
-        {
-          "description": "Atlas API client secret for authentication (required for running Atlas tools)",
-          "isSecret": true,
-          "name": "MDB_MCP_API_CLIENT_SECRET"
-        },
-        {
-          "description": "Atlas API base URL (default is https://cloud.mongodb.com/)",
-          "name": "MDB_MCP_API_BASE_URL"
-        },
-        {
-          "description": "MongoDB server address for direct connections (optional, used for connect tool)",
-          "name": "MDB_MCP_SERVER_ADDRESS"
-        },
-        {
-          "description": "MongoDB server port for direct connections (optional, used for connect tool)",
-          "name": "MDB_MCP_SERVER_PORT"
-        },
-        {
-          "description": "Folder to store logs (inside the container)",
-          "name": "MDB_MCP_LOG_PATH"
-        },
-        {
-          "description": "Comma-separated list of tool names, operation types, and/or categories of tools to disable",
-          "name": "MDB_MCP_DISABLED_TOOLS"
-        },
-        {
-          "description": "When set to true, only allows read and metadata operation types",
-          "name": "MDB_MCP_READ_ONLY"
-        },
-        {
-          "description": "When set to disabled, disables telemetry collection",
-          "name": "MDB_MCP_TELEMETRY"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "docker.io/mongodb/mongodb-mcp-server:1.6.0": {
           "metadata": {
-            "last_updated": "2026-01-25T13:39:52Z",
+            "last_updated": "2026-02-17T11:57:37Z",
             "pulls": 5060,
-            "stars": 896
+            "stars": 917
           },
           "permissions": {
             "network": {
@@ -121,5 +59,67 @@
         }
       }
     }
-  }
+  },
+  "description": "Provides support for interacting with MongoDB Databases and MongoDB Atlas.",
+  "name": "io.github.stacklok/mongodb",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "MongoDB connection string for direct database connections (optional, if not set, you'll need to call the connect tool before interacting with MongoDB data)",
+          "isSecret": true,
+          "name": "MDB_MCP_CONNECTION_STRING"
+        },
+        {
+          "description": "Atlas API client ID for authentication (required for running Atlas tools)",
+          "isSecret": true,
+          "name": "MDB_MCP_API_CLIENT_ID"
+        },
+        {
+          "description": "Atlas API client secret for authentication (required for running Atlas tools)",
+          "isSecret": true,
+          "name": "MDB_MCP_API_CLIENT_SECRET"
+        },
+        {
+          "description": "Atlas API base URL (default is https://cloud.mongodb.com/)",
+          "name": "MDB_MCP_API_BASE_URL"
+        },
+        {
+          "description": "MongoDB server address for direct connections (optional, used for connect tool)",
+          "name": "MDB_MCP_SERVER_ADDRESS"
+        },
+        {
+          "description": "MongoDB server port for direct connections (optional, used for connect tool)",
+          "name": "MDB_MCP_SERVER_PORT"
+        },
+        {
+          "description": "Folder to store logs (inside the container)",
+          "name": "MDB_MCP_LOG_PATH"
+        },
+        {
+          "description": "Comma-separated list of tool names, operation types, and/or categories of tools to disable",
+          "name": "MDB_MCP_DISABLED_TOOLS"
+        },
+        {
+          "description": "When set to true, only allows read and metadata operation types",
+          "name": "MDB_MCP_READ_ONLY"
+        },
+        {
+          "description": "When set to disabled, disables telemetry collection",
+          "name": "MDB_MCP_TELEMETRY"
+        }
+      ],
+      "identifier": "docker.io/mongodb/mongodb-mcp-server:1.6.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/mongodb-js/mongodb-mcp-server"
+  },
+  "title": "mongodb",
+  "version": "1.0.0"
 }
