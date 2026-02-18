@@ -1,38 +1,13 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/mcp-server-neon",
-  "description": "MCP server for interacting with Neon Management API and databases",
-  "title": "mcp-server-neon",
-  "repository": {
-    "url": "https://github.com/neondatabase-labs/mcp-server-neon",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-server-neon:0.6.5",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "API key for Neon database service",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "NEON_API_KEY"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/mcp-server-neon:0.6.5": {
           "metadata": {
-            "last_updated": "2026-01-25T13:39:51Z",
+            "last_updated": "2026-02-18T08:06:19Z",
             "pulls": 55,
-            "stars": 540
+            "stars": 553
           },
           "permissions": {
             "network": {
@@ -93,5 +68,30 @@
         }
       }
     }
-  }
+  },
+  "description": "MCP server for interacting with Neon Management API and databases",
+  "name": "io.github.stacklok/mcp-server-neon",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "API key for Neon database service",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "NEON_API_KEY"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-server-neon:0.6.5",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/neondatabase-labs/mcp-server-neon"
+  },
+  "title": "mcp-server-neon",
+  "version": "1.0.0"
 }
