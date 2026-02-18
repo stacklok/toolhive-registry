@@ -70,6 +70,36 @@ const testRemoteServerJSON = `{
 }
 `
 
+const testOverviewServerJSON = `{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/test-overview",
+  "description": "A test server with overview",
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/test/overview:v1.0.0",
+      "transport": { "type": "stdio" }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/test/overview:v1.0.0": {
+          "status": "Active",
+          "tier": "Official",
+          "overview": "## Test Server\n\nA longer **Markdown** description for web display.",
+          "metadata": {
+            "stars": 42,
+            "last_updated": "2026-01-01T00:00:00Z"
+          }
+        }
+      }
+    }
+  }
+}
+`
+
 const testNoMetaServerJSON = `{
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.stacklok/no-meta",
@@ -515,5 +545,118 @@ func TestUpdateExtensions_NoMeta(t *testing.T) {
 	}
 	if ext2.Metadata == nil || ext2.Metadata.Stars != 50 {
 		t.Errorf("expected 50 stars, got %v", ext2.Metadata)
+	}
+}
+
+func TestGetExtensions_Overview(t *testing.T) {
+	t.Parallel()
+	dir := t.TempDir()
+	path := writeTestFile(t, dir, "server.json", testOverviewServerJSON)
+
+	sf, err := LoadServerFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ext, err := sf.GetExtensions()
+	if err != nil {
+		t.Fatalf("GetExtensions failed: %v", err)
+	}
+
+	expectedOverview := "## Test Server\n\nA longer **Markdown** description for web display."
+	if ext.Overview != expectedOverview {
+		t.Errorf("expected overview %q, got %q", expectedOverview, ext.Overview)
+	}
+}
+
+func TestUpdateExtensions_OverviewRoundTrip(t *testing.T) {
+	t.Parallel()
+	dir := t.TempDir()
+	path := writeTestFile(t, dir, "server.json", testPackageServerJSON)
+
+	sf, err := LoadServerFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ext, err := sf.GetExtensions()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Set overview
+	overview := "## My Server\n\nA detailed **Markdown** overview for the catalog page."
+	ext.Overview = overview
+
+	if err := sf.UpdateExtensions(ext); err != nil {
+		t.Fatalf("UpdateExtensions failed: %v", err)
+	}
+
+	// Reload and verify
+	sf2, err := LoadServerFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ext2, err := sf2.GetExtensions()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ext2.Overview != overview {
+		t.Errorf("expected overview %q, got %q", overview, ext2.Overview)
+	}
+
+	// Other fields should be preserved
+	if ext2.Status != statusActive {
+		t.Errorf("expected status Active, got %s", ext2.Status)
+	}
+	if ext2.Tier != "Official" {
+		t.Errorf("expected tier Official, got %s", ext2.Tier)
+	}
+}
+
+func TestGetExtensions_OverviewOmittedWhenEmpty(t *testing.T) {
+	t.Parallel()
+	dir := t.TempDir()
+	path := writeTestFile(t, dir, "server.json", testPackageServerJSON)
+
+	sf, err := LoadServerFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ext, err := sf.GetExtensions()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Overview should be empty since the fixture has no overview field
+	if ext.Overview != "" {
+		t.Errorf("expected empty overview, got %q", ext.Overview)
+	}
+
+	// Write extensions back and verify overview is not in the JSON output
+	if err := sf.UpdateExtensions(ext); err != nil {
+		t.Fatal(err)
+	}
+
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var doc map[string]any
+	if err := json.Unmarshal(data, &doc); err != nil {
+		t.Fatal(err)
+	}
+
+	meta := doc["_meta"].(map[string]any)
+	pp := meta["io.modelcontextprotocol.registry/publisher-provided"].(map[string]any)
+	stacklok := pp["io.github.stacklok"].(map[string]any)
+	extData := stacklok["ghcr.io/test/server:v1.0.0"].(map[string]any)
+
+	if _, ok := extData["overview"]; ok {
+		t.Error("overview key should not be present when empty (omitempty)")
 	}
 }
