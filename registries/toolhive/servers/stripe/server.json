@@ -8,7 +8,7 @@
             "--tools=all"
           ],
           "metadata": {
-            "last_updated": "2026-02-17T17:23:00Z",
+            "last_updated": "2026-02-18T00:06:18Z",
             "pulls": 18407,
             "stars": 1258
           },
@@ -44,7 +44,6 @@
               },
               "description": "\nThis tool will cancel a subscription in Stripe.\n\nIt takes the following arguments:\n- subscription (str, required): The ID of the subscription to cancel.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "subscription": {
                     "description": "The ID of the subscription to cancel.",
@@ -68,7 +67,6 @@
               },
               "description": "\nThis tool will create a coupon in Stripe.\n\n\nIt takes several arguments:\n- name (str): The name of the coupon.\n\nOnly use one of percent_off or amount_off, not both:\n- percent_off (number, optional): The percentage discount to apply (between 0 and 100).\n- amount_off (number, optional): The amount to subtract from an invoice (in cents).\n\nOptional arguments for duration. Use if specific duration is desired, otherwise default to 'once'.\n- duration (str, optional): How long the discount will last ('once', 'repeating', or 'forever'). Defaults to 'once'.\n- duration_in_months (number, optional): The number of months the discount will last if duration is repeating.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "amount_off": {
                     "description": "A positive integer representing the amount to subtract from an invoice total (required if percent_off is not passed)",
@@ -122,7 +120,6 @@
               },
               "description": "\nThis tool will create a customer in Stripe.\n\nIt takes two arguments:\n- name (str): The name of the customer.\n- email (str, optional): The email of the customer.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "email": {
                     "description": "The email of the customer",
@@ -151,7 +148,6 @@
               },
               "description": "\n  This tool will create an invoice in Stripe.\n  \n  It takes two arguments:\n  - customer (str): The ID of the customer to create the invoice for.\n\n  - days_until_due (int, optional): The number of days until the invoice is due.\n  ",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "customer": {
                     "description": "The ID of the customer to create the invoice for.",
@@ -179,7 +175,6 @@
               },
               "description": "\nThis tool will create an invoice item in Stripe.\n\nIt takes three arguments'}:\n- customer (str): The ID of the customer to create the invoice item for.\n\n- price (str): The ID of the price to create the invoice item for.\n- invoice (str): The ID of the invoice to create the invoice item for.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "customer": {
                     "description": "The ID of the customer to create the invoice item for.",
@@ -213,7 +208,6 @@
               },
               "description": "\nThis tool will create a payment link in Stripe.\n\nIt takes two arguments:\n- price (str): The ID of the price to create the payment link for.\n- quantity (int): The quantity of the product to include in the payment link.\n- redirect_url (str, optional): The URL to redirect to after the payment is completed.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "price": {
                     "description": "The ID of the price to create the payment link for.",
@@ -246,7 +240,6 @@
               },
               "description": "\nThis tool will create a price in Stripe. If a product has not already been specified, a product should be created first.\n\nIt takes three arguments:\n- product (str): The ID of the product to create the price for.\n- unit_amount (int): The unit amount of the price in cents.\n- currency (str): The currency of the price.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "currency": {
                     "description": "The currency of the price.",
@@ -280,7 +273,6 @@
               },
               "description": "\nThis tool will create a product in Stripe.\n\nIt takes two arguments:\n- name (str): The name of the product.\n- description (str, optional): The description of the product.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "description": {
                     "description": "The description of the product.",
@@ -308,7 +300,6 @@
               },
               "description": "\nThis tool will refund a payment intent in Stripe.\n\nIt takes three arguments:\n- payment_intent (str): The ID of the payment intent to refund.\n- amount (int, optional): The amount to refund in cents.\n- reason (str, optional): The reason for the refund.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "amount": {
                     "description": "The amount to refund in cents.",
@@ -336,7 +327,6 @@
               },
               "description": "\nThis tool will finalize an invoice in Stripe.\n\nIt takes one argument:\n- invoice (str): The ID of the invoice to finalize.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "invoice": {
                     "description": "The ID of the invoice to finalize.",
@@ -360,7 +350,6 @@
               },
               "description": "\nThis tool will fetch a list of Coupons from Stripe.\n\nIt takes one optional argument:\n- limit (int, optional): The number of coupons to return.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "limit": {
                     "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100.",
@@ -384,7 +373,6 @@
               },
               "description": "\nThis tool will fetch a list of Customers from Stripe.\n\nIt takes two arguments:\n- limit (int, optional): The number of customers to return.\n- email (str, optional): A case-sensitive filter on the list based on the customer's email field.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "email": {
                     "description": "A case-sensitive filter on the list based on the customer's email field. The value must be a string.",
@@ -412,7 +400,6 @@
               },
               "description": "\nThis tool will fetch a list of disputes in Stripe.\n\nIt takes the following arguments:\n- charge (string, optional): Only return disputes associated to the charge specified by this charge ID.\n- payment_intent (string, optional): Only return disputes associated to the PaymentIntent specified by this PaymentIntent ID.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "charge": {
                     "description": "Only return disputes associated to the charge specified by this charge ID.",
@@ -445,7 +432,6 @@
               },
               "description": "\nThis tool will fetch a list of Invoices from Stripe.\n\nIt takes two arguments:\n- customer (str, optional): The ID of the customer to list invoices for.\n\n- limit (int, optional): The number of invoices to return.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "customer": {
                     "description": "The ID of the customer to list invoices for.",
@@ -473,7 +459,6 @@
               },
               "description": "\nThis tool will list payment intents in Stripe.\n\nIt takes two arguments:\n- customer (str, optional): The ID of the customer to list payment intents for.\n\n- limit (int, optional): The number of payment intents to return.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "customer": {
                     "description": "The ID of the customer to list payment intents for.",
@@ -501,7 +486,6 @@
               },
               "description": "\nThis tool will fetch a list of Prices from Stripe.\n\nIt takes two arguments.\n- product (str, optional): The ID of the product to list prices for.\n- limit (int, optional): The number of prices to return.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "limit": {
                     "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.",
@@ -529,7 +513,6 @@
               },
               "description": "\nThis tool will fetch a list of Products from Stripe.\n\nIt takes one optional argument:\n- limit (int, optional): The number of products to return.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "limit": {
                     "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.",
@@ -553,7 +536,6 @@
               },
               "description": "\nThis tool will list all subscriptions in Stripe.\n\nIt takes four arguments:\n- customer (str, optional): The ID of the customer to list subscriptions for.\n\n- price (str, optional): The ID of the price to list subscriptions for.\n- status (str, optional): The status of the subscriptions to list.\n- limit (int, optional): The number of subscriptions to return.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "customer": {
                     "description": "The ID of the customer to list subscriptions for.",
@@ -599,7 +581,6 @@
               },
               "description": "\nThis tool will retrieve the balance from Stripe. It takes no input.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {},
                 "required": [],
                 "type": "object"
@@ -616,7 +597,6 @@
               },
               "description": "\nThis tool will take in a user question about integrating with Stripe in their application, then search and retrieve relevant Stripe documentation to answer the question.\n\nIt takes two arguments:\n- question (str): The user question to search an answer for in the Stripe documentation.\n- language (str, optional): The programming language to search for in the the documentation.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "language": {
                     "description": "The programming language to search for in the the documentation.",
@@ -654,7 +634,6 @@
               },
               "description": "\nWhen you receive a dispute, contacting your customer is always the best first step. If that doesn't work, you can submit evidence to help resolve the dispute in your favor. This tool helps.\n\nIt takes the following arguments:\n- dispute (string): The ID of the dispute to update\n- evidence (object, optional): Evidence to upload for the dispute.\n    - cancellation_policy_disclosure (string)\n    - cancellation_rebuttal (string)\n    - duplicate_charge_explanation (string)\n    - uncategorized_text (string, optional): Any additional evidence or statements.\n- submit (boolean, optional): Whether to immediately submit evidence to the bank. If false, evidence is staged on the dispute.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "dispute": {
                     "description": "The ID of the dispute to update",
@@ -704,7 +683,6 @@
               },
               "description": "This tool will update an existing subscription in Stripe. If changing an existing subscription item, the existing subscription item has to be set to deleted and the new one has to be added.\n  \n  It takes the following arguments:\n  - subscription (str, required): The ID of the subscription to update.\n  - proration_behavior (str, optional): Determines how to handle prorations when the subscription items change. Options: 'create_prorations', 'none', 'always_invoice', 'none_implicit'.\n  - items (array, optional): A list of subscription items to update, add, or remove. Each item can have the following properties:\n    - id (str, optional): The ID of the subscription item to modify.\n    - price (str, optional): The ID of the price to switch to.\n    - quantity (int, optional): The quantity of the plan to subscribe to.\n    - deleted (bool, optional): Whether to delete this item.\n  ",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "items": {
                     "description": "A list of subscription items to update, add, or remove.",

@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "mcr.microsoft.com/playwright/mcp:v0.0.68": {
           "metadata": {
-            "last_updated": "2026-02-17T17:21:40Z",
+            "last_updated": "2026-02-18T00:05:49Z",
             "pulls": 23622,
             "stars": 26247
           },
@@ -40,7 +40,6 @@
               },
               "description": "Perform click on a web page",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "button": {
                     "description": "Button to click, defaults to left",
@@ -94,7 +93,6 @@
               },
               "description": "Close the page",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {},
                 "required": [],
                 "type": "object"
@@ -110,7 +108,6 @@
               },
               "description": "Returns all console messages",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "filename": {
                     "description": "Filename to save the console messages to. If not provided, messages are returned as text.",
@@ -144,7 +141,6 @@
               },
               "description": "Perform drag and drop between two elements",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "endElement": {
                     "description": "Human-readable target element description used to obtain the permission to interact with the element",
@@ -182,7 +178,6 @@
               },
               "description": "Evaluate JavaScript expression on page or element",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "element": {
                     "description": "Human-readable element description used to obtain permission to interact with the element",
@@ -213,7 +208,6 @@
               },
               "description": "Upload one or multiple files",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "paths": {
                     "description": "The absolute paths to the files to upload. Can be single file or multiple files. If omitted, file chooser is cancelled.",
@@ -237,7 +231,6 @@
               },
               "description": "Fill multiple form fields",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "fields": {
                     "description": "Fields to fill in",
@@ -295,7 +288,6 @@
               },
               "description": "Handle a dialog",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "accept": {
                     "description": "Whether to accept the dialog.",
@@ -322,7 +314,6 @@
               },
               "description": "Hover over element on page",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "element": {
                     "description": "Human-readable element description used to obtain permission to interact with the element",
@@ -349,7 +340,6 @@
               },
               "description": "Install the browser specified in the config. Call this if you get an error about the browser not being installed.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {},
                 "required": [],
                 "type": "object"
@@ -365,7 +355,6 @@
               },
               "description": "Navigate to a URL",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "url": {
                     "description": "The URL to navigate to",
@@ -388,7 +377,6 @@
               },
               "description": "Go back to the previous page in the history",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {},
                 "required": [],
                 "type": "object"
@@ -404,7 +392,6 @@
               },
               "description": "Returns all network requests since loading the page",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "filename": {
                     "description": "Filename to save the network requests to. If not provided, requests are returned as text.",
@@ -432,7 +419,6 @@
               },
               "description": "Press a key on the keyboard",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "key": {
                     "description": "Name of the key to press or a character to generate, such as `ArrowLeft` or `a`",
@@ -455,7 +441,6 @@
               },
               "description": "Resize the browser window",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "height": {
                     "description": "Height of the browser window",
@@ -483,7 +468,6 @@
               },
               "description": "Run Playwright code snippet",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "code": {
                     "description": "A JavaScript function containing Playwright code to execute. It will be invoked with a single argument, page, which you can use for any page interaction. For example: `async (page) =\u003e { await page.getByRole('button', { name: 'Submit' }).click(); return await page.title(); }`",
@@ -506,7 +490,6 @@
               },
               "description": "Select an option in a dropdown",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "element": {
                     "description": "Human-readable element description used to obtain permission to interact with the element",
@@ -541,7 +524,6 @@
               },
               "description": "Capture accessibility snapshot of the current page, this is better than screenshot",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "filename": {
                     "description": "Save snapshot to markdown file instead of returning it in the response.",
@@ -562,7 +544,6 @@
               },
               "description": "List, create, close, or select a browser tab.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "action": {
                     "description": "Operation to perform",
@@ -595,7 +576,6 @@
               },
               "description": "Take a screenshot of the current page. You can't perform actions based on the screenshot, use browser_snapshot for actions.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "element": {
                     "description": "Human-readable element description used to obtain permission to screenshot the element. If not provided, the screenshot will be taken of viewport. If element is provided, ref must be provided too.",
@@ -639,7 +619,6 @@
               },
               "description": "Type text into editable element",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "element": {
                     "description": "Human-readable element description used to obtain permission to interact with the element",
@@ -679,7 +658,6 @@
               },
               "description": "Wait for text to appear or disappear or a specified time to pass",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "text": {
                     "description": "The text to wait for",

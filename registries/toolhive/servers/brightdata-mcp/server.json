@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.8.4": {
           "metadata": {
-            "last_updated": "2026-02-17T17:15:57Z",
+            "last_updated": "2026-02-18T00:05:40Z",
             "pulls": 65,
             "stars": 2007
           },
@@ -48,7 +48,6 @@
               },
               "description": "Scrape a single webpage URL with advanced options for content extraction and get back the results in MarkDown language. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "url": {
                     "format": "uri",
@@ -70,7 +69,6 @@
               },
               "description": "Scrape multiple webpages URLs with advanced options for content extraction and get back the results in MarkDown language. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "urls": {
                     "description": "Array of URLs to scrape (max 5)",
@@ -98,7 +96,6 @@
               },
               "description": "Scrape search results from Google, Bing or Yandex. Returns SERP results in JSON or Markdown (URL, title, description), Ideal forgathering current information, news, and detailed search results.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "cursor": {
                     "description": "Pagination cursor for next page",
@@ -132,7 +129,6 @@
               },
               "description": "Run multiple search queries simultaneously. Returns JSON for Google, Markdown for Bing/Yandex.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "queries": {
                     "items": {

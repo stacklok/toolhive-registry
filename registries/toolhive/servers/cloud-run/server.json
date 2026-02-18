@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "docker.io/mcp/cloud-run-mcp:latest": {
           "metadata": {
-            "last_updated": "2026-02-17T17:17:24Z",
+            "last_updated": "2026-02-18T00:06:16Z",
             "pulls": 273,
             "stars": 532
           },
@@ -41,7 +41,6 @@
               "annotations": {},
               "description": "Creates a new GCP project and attempts to attach it to the first available billing account. A project ID can be optionally specified; otherwise it will be automatically generated.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "projectId": {
                     "description": "Optional. The desired ID for the new GCP project. If not provided, an ID will be auto-generated.",
@@ -57,7 +56,6 @@
               "annotations": {},
               "description": "Deploys a container image to Cloud Run. Use this tool if the user provides a container image URL.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "imageUrl": {
                     "description": "The URL of the container image to deploy (e.g. \"gcr.io/cloudrun/hello\")",
@@ -89,7 +87,6 @@
               "annotations": {},
               "description": "Deploy files to Cloud Run by providing their contents directly. Takes an array of file objects containing filename and content. Use this tool if the files only exist in the current chat context.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "files": {
                     "description": "Array of file objects containing filename and content",
@@ -138,7 +135,6 @@
               "annotations": {},
               "description": "Deploy a local folder to Cloud Run. Takes an absolute folder path from the local filesystem that will be deployed. Use this tool if the entire folder content needs to be deployed.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "folderPath": {
                     "description": "Absolute path to the folder to deploy (e.g. \"/home/user/project/src\")",
@@ -170,7 +166,6 @@
               "annotations": {},
               "description": "Gets details for a specific Cloud Run service.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "project": {
                     "description": "Google Cloud project ID containing the service",
@@ -198,7 +193,6 @@
               "annotations": {},
               "description": "Gets Logs and Error Messages for a specific Cloud Run service.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "project": {
                     "description": "Google Cloud project ID containing the service",
@@ -236,7 +230,6 @@
               "annotations": {},
               "description": "Lists all Cloud Run services in a given project.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "project": {
                     "description": "Google Cloud project ID",

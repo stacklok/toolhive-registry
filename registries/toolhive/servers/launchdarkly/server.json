@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.4.2": {
           "metadata": {
-            "last_updated": "2026-02-17T17:18:24Z",
+            "last_updated": "2026-02-18T00:05:49Z",
             "stars": 18
           },
           "permissions": {
@@ -43,7 +43,6 @@
               "annotations": {},
               "description": "Creates a new AI Config within a project. Useful for setting up LLM configurations programmatically.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -117,7 +116,6 @@
               "annotations": {},
               "description": "Adds a new variation to an AI Config, supporting experimentation or multi-model strategies.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -208,7 +206,6 @@
               "annotations": {},
               "description": "Creates a new feature flag within a project. AI agents can use this operation to define feature toggles for controlled rollouts, experimentation, or gated features, automating the flag setup process.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -392,7 +389,6 @@
               "annotations": {},
               "description": "Deletes an AI Config and its associated variations. Intended for cleanup or deprecation workflows.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -429,7 +425,6 @@
               "annotations": {},
               "description": "Deletes an AI Config variation.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -470,7 +465,6 @@
               "annotations": {},
               "description": "Removes a feature flag from the project. Used by AI agents to clean up deprecated toggles that are no longer in use, improving system hygiene and maintainability.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -500,7 +494,6 @@
               "annotations": {},
               "description": "Retrieves details of a specific AI Config, including variations and model settings.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -537,7 +530,6 @@
               "annotations": {},
               "description": "Retrieves the targeting details of a specific AI Config, including individual targets, rules, and rollouts.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -574,7 +566,6 @@
               "annotations": {},
               "description": "Retrieves an AI configuration variation.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -615,7 +606,6 @@
               "annotations": {},
               "description": "Identifies which repositories have code references to a given flag, helping agents determine if they're operating on the correct repository and understand the scope of cleanup (single vs multi-repo).\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -647,7 +637,6 @@
               "annotations": {},
               "description": "Identifies which environments exist in a project and determines which are marked as \"critical\" (production, staging, etc.). Allows agents to programmatically identify critical environments instead of hardcoding assumptions.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -685,7 +674,6 @@
               "annotations": {},
               "description": "Fetches the full configuration for a specific feature flag, including environments, variations, and targeting rules. Useful for agents auditing or managing specific feature toggles in a detailed, contextual manner.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -721,7 +709,6 @@
               "annotations": {},
               "description": "Returns lifecycle status (new, active, inactive, launched) based on actual usage patterns, evaluation counts, and configuration stability. This is the key intelligence for removal readiness assessment.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -754,7 +741,6 @@
               "annotations": {},
               "description": "Retrieves AI configuration settings for a specific project. This endpoint allows agents to access and modify AI-related configurations, ensuring that the AI's behavior aligns with project requirements and user expectations.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -799,7 +785,6 @@
               "annotations": {},
               "description": "Retrieves all feature flags within a project, including metadata and targeting rules. Enables AI agents to enumerate existing flags for inspection, configuration analysis, or generating flag usage reports across environments.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -855,7 +840,6 @@
               "annotations": {},
               "description": "Updates metadata or configuration of an existing AI Config.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -916,7 +900,6 @@
               "annotations": {},
               "description": "Updates the targeting of an existing AI Config.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -976,7 +959,6 @@
               "annotations": {},
               "description": "Updates a specific variation within an AI Config. Enables fine-tuned control of model behavior.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,
@@ -1068,7 +1050,6 @@
               "annotations": {},
               "description": "Updates the configuration of an existing feature flag. Enables agents to change targeting rules, modify variations, or adapt rollout strategies dynamically in response to user behavior or experiment results.\n",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "request": {
                     "additionalProperties": false,

@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "docker.io/mcp/everything:latest": {
           "metadata": {
-            "last_updated": "2026-02-17T17:17:02Z",
+            "last_updated": "2026-02-18T00:06:10Z",
             "pulls": 14373,
             "stars": 78304
           },
@@ -33,7 +33,6 @@
               "annotations": {},
               "description": "Adds two numbers",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "a": {
                     "description": "First number",
@@ -56,7 +55,6 @@
               "annotations": {},
               "description": "Demonstrates how annotations can be used to provide metadata about content",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "includeImage": {
                     "default": false,
@@ -84,7 +82,6 @@
               "annotations": {},
               "description": "Echoes back the input",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "message": {
                     "description": "Message to echo",
@@ -102,7 +99,6 @@
               "annotations": {},
               "description": "Returns a resource reference that can be used by MCP clients",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "resourceId": {
                     "description": "ID of the resource to reference (1-100)",
@@ -122,7 +118,6 @@
               "annotations": {},
               "description": "Returns the MCP_TINY_IMAGE",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {},
                 "required": [],
                 "type": "object"
@@ -133,7 +128,6 @@
               "annotations": {},
               "description": "Demonstrates a long running operation with progress updates",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "duration": {
                     "default": 10,
@@ -155,7 +149,6 @@
               "annotations": {},
               "description": "Prints all environment variables, helpful for debugging MCP server configuration",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {},
                 "required": [],
                 "type": "object"
@@ -166,7 +159,6 @@
               "annotations": {},
               "description": "Samples from an LLM using MCP's sampling feature",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "maxTokens": {
                     "default": 100,

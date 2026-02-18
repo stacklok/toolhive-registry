@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.4.3": {
           "metadata": {
-            "last_updated": "2026-02-17T17:16:38Z",
+            "last_updated": "2026-02-18T00:05:53Z",
             "pulls": 133,
             "stars": 3128
           },
@@ -37,7 +37,6 @@
               "annotations": {},
               "description": "Capture a full-page screenshot and return it (and save as a resource).",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "name": {
                     "description": "The name of the screenshot",
@@ -63,7 +62,6 @@
               "annotations": {},
               "description": "Create or reuse a Browserbase browser session and set it as active.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "sessionId": {
                     "description": "Optional session ID to use/reuse. If not provided or invalid, a new session is created.",
@@ -79,7 +77,6 @@
               "annotations": {},
               "description": "Perform a single action on the page (e.g., click, type).",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "action": {
                     "description": "The action to perform. Should be as atomic and specific as possible,\n      i.e. 'Click the sign in button' or 'Type 'hello' into the search input'.",
@@ -103,7 +100,6 @@
               "annotations": {},
               "description": "Execute a task autonomously using Gemini Computer Use agent. The agent will navigate and interact with web pages to complete the given task.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "prompt": {
                     "description": "The task prompt describing what you want the sub-agent to accomplish.\n    Be clear and specific about the goal. For example:\n    'Go to Hacker News and find the most controversial post from today, then summarize the top 3 comments'.\n    The agent will autonomously navigate and interact with web pages to complete this task.",
@@ -121,7 +117,6 @@
               "annotations": {},
               "description": "Extract structured data or text from the current page using an instruction.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "instruction": {
                     "description": "The specific instruction for what information to extract from the current page.\n    Be as detailed and specific as possible about what you want to extract. For example:\n    'Extract all product names and prices from the listing page'.The more specific your instruction,\n    the better the extraction results will be.",
@@ -149,7 +144,6 @@
               "annotations": {},
               "description": "Navigate to a URL in the browser. Only use this tool with URLs you're confident will work and be up to date. \n    Otherwise, use https://google.com as the starting point",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "url": {
                     "description": "The URL to navigate to",
@@ -167,7 +161,6 @@
               "annotations": {},
               "description": "Find interactive elements on the page from an instruction; optionally return an action.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "instruction": {
                     "description": "Detailed instruction for what specific elements or components to observe on the web page.\n        This instruction must be extremely specific and descriptive. For example: 'Find the red login button\n        in the top right corner', 'Locate the search input field with placeholder text', or 'Identify all\n        clickable product cards on the page'. The more specific and detailed your instruction, the better\n        the observation results will be. Avoid generic instructions like 'find buttons' or 'see elements'.\n        Instead, describe the visual characteristics, location, text content, or functionality of the elements\n        you want to observe. This tool is designed to help you identify interactive elements that you can\n        later use with the act tool for performing actions like clicking, typing, or form submission.",

@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.17.0": {
           "metadata": {
-            "last_updated": "2026-02-17T17:16:20Z",
+            "last_updated": "2026-02-18T00:05:43Z",
             "stars": 23258
           },
           "permissions": {
@@ -45,7 +45,6 @@
               },
               "description": "Clicks on the provided element",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "dblClick": {
                     "description": "Set to true for double clicks. Default is false.",
@@ -73,7 +72,6 @@
               },
               "description": "Closes the page by its index. The last open page cannot be closed.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "pageId": {
                     "description": "The ID of the page to close. Call list_pages to list pages.",
@@ -93,7 +91,6 @@
               },
               "description": "Drag an element onto another element",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "from_uid": {
                     "description": "The uid of the element to drag",
@@ -122,7 +119,6 @@
               },
               "description": "Emulates various features on the selected page.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "colorScheme": {
                     "description": "Emulate the dark or the light mode. Set to \"auto\" to reset to the default.",
@@ -245,7 +241,6 @@
               },
               "description": "Evaluate a JavaScript function inside the currently selected page. Returns the response as JSON,\nso returned values have to be JSON-serializable.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "args": {
                     "description": "An optional list of arguments to pass to the function.",
@@ -282,7 +277,6 @@
               },
               "description": "Type text into a input, text area or select an option from a \u003cselect\u003e element.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "includeSnapshot": {
                     "description": "Whether to include a snapshot in the response. Default is false.",
@@ -311,7 +305,6 @@
               },
               "description": "Fill out multiple form elements at once",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "elements": {
                     "description": "Elements from snapshot to fill out.",
@@ -353,7 +346,6 @@
               },
               "description": "Gets a console message by its ID. You can get all messages by calling list_console_messages.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "msgid": {
                     "description": "The msgid of a console message on the page from the listed console messages",
@@ -373,7 +365,6 @@
               },
               "description": "Gets a network request by an optional reqid, if omitted returns the currently selected request in the DevTools Network panel.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "reqid": {
                     "description": "The reqid of the network request. If omitted returns the currently selected request in the DevTools Network panel.",
@@ -399,7 +390,6 @@
               },
               "description": "If a browser dialog was opened, use this command to handle it",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "action": {
                     "description": "Whether to dismiss or accept the dialog",
@@ -427,7 +417,6 @@
               },
               "description": "Hover over the provided element",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "includeSnapshot": {
                     "description": "Whether to include a snapshot in the response. Default is false.",
@@ -451,7 +440,6 @@
               },
               "description": "List all console messages for the currently selected page since the last navigation.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "includePreservedMessages": {
                     "default": false,
@@ -509,7 +497,6 @@
               },
               "description": "List all requests for the currently selected page since the last navigation.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "includePreservedRequests": {
                     "default": false,
@@ -578,7 +565,6 @@
               },
               "description": "Navigates the currently selected page to a URL.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "handleBeforeUnload": {
                     "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
@@ -626,7 +612,6 @@
               },
               "description": "Creates a new page",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "background": {
                     "description": "Whether to open the page in the background without bringing it to the front. Default is false (foreground).",
@@ -654,7 +639,6 @@
               },
               "description": "Provides more detailed information on a specific Performance Insight of an insight set that was highlighted in the results of a trace recording.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "insightName": {
                     "description": "The name of the Insight you want more information on. For example: \"DocumentLatency\" or \"LCPBreakdown\"",
@@ -679,7 +663,6 @@
               },
               "description": "Starts a performance trace recording on the selected page. This can be used to look for performance problems and insights to improve the performance of the page. It will also report Core Web Vital (CWV) scores for the page.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "autoStop": {
                     "description": "Determines if the trace recording should be automatically stopped.",
@@ -708,7 +691,6 @@
               },
               "description": "Stops the active performance trace recording on the selected page.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "filePath": {
                     "description": "The absolute file path, or a file path relative to the current working directory, to save the raw trace data. For example, trace.json.gz (compressed) or trace.json (uncompressed).",
@@ -726,7 +708,6 @@
               },
               "description": "Press a key or key combination. Use this when other input methods like fill() cannot be used (e.g., keyboard shortcuts, navigation keys, or special key combinations).",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "includeSnapshot": {
                     "description": "Whether to include a snapshot in the response. Default is false.",
@@ -750,7 +731,6 @@
               },
               "description": "Resizes the selected page's window so that the page has specified dimension",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "height": {
                     "description": "Page height",
@@ -775,7 +755,6 @@
               },
               "description": "Select a page as a context for future tool calls.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "bringToFront": {
                     "description": "Whether to focus the page and bring it to the top.",
@@ -799,7 +778,6 @@
               },
               "description": "Take a screenshot of the page or element.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "filePath": {
                     "description": "The absolute path, or a path relative to the current working directory, to save the screenshot to instead of attaching it to the response.",
@@ -841,7 +819,6 @@
               },
               "description": "Take a text snapshot of the currently selected page based on the a11y tree. The snapshot lists page elements along with a unique\nidentifier (uid). Always use the latest snapshot. Prefer taking a snapshot over taking a screenshot. The snapshot indicates the element selected\nin the DevTools Elements panel (if any).",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "filePath": {
                     "description": "The absolute path, or a path relative to the current working directory, to save the snapshot to instead of attaching it to the response.",
@@ -863,7 +840,6 @@
               },
               "description": "Upload a file through a provided element.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "filePath": {
                     "description": "The local path of the file to upload",
@@ -892,7 +868,6 @@
               },
               "description": "Wait for the specified text to appear on the selected page.",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "text": {
                     "description": "Text to appear on the page",

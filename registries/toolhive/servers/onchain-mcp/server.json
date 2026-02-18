@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/onchain-mcp:1.0.6": {
           "metadata": {
-            "last_updated": "2026-02-17T17:20:09Z",
+            "last_updated": "2026-02-18T00:05:43Z",
             "stars": 75
           },
           "permissions": {
@@ -42,7 +42,6 @@
               "annotations": {},
               "description": "Builds an event topic signature based on event name and arguments",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "arguments": {
                     "description": "Event arguments types",
@@ -90,7 +89,6 @@
               "annotations": {},
               "description": "Gets the ABI for a given contract on a specific network",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "contract": {
                     "description": "The contract address",
@@ -113,7 +111,6 @@
               "annotations": {},
               "description": "Gets detailed information about a specific block by number or hash",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "blockId": {
                     "description": "The block number or block hash to fetch information for",
@@ -136,7 +133,6 @@
               "annotations": {},
               "description": "Fetches event logs for a given network and filter criteria",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "addresses": {
                     "description": "List of contract addresses to filter events",
@@ -185,7 +181,6 @@
               "annotations": {},
               "description": "Gets the proxy address for a given network and contract",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "contract": {
                     "description": "The contract address to request the proxy implementation contract for",
@@ -208,7 +203,6 @@
               "annotations": {},
               "description": "Gets the source code for a given contract on a specific network",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "contract": {
                     "description": "The contract address",
@@ -231,7 +225,6 @@
               "annotations": {},
               "description": "Gets all token balances for a given address on a specific network",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "address": {
                     "description": "The address to check token balances for",
@@ -254,7 +247,6 @@
               "annotations": {},
               "description": "Gets transaction history for a user and optional contract",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "contract": {
                     "description": "The contract address (optional)",
@@ -303,7 +295,6 @@
               "annotations": {},
               "description": "Gets detailed information about a specific transaction",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "network": {
                     "description": "The blockchain network (e.g., \"ethereum\", \"polygon\")",
@@ -326,7 +317,6 @@
               "annotations": {},
               "description": "Read contract state from a blockchain. important:  \n                \n                In case of a tuple, don't use type tuple, but specify the inner types (found in the source) in order. For nested structs, include the substructs types.\n    \n    Example: \n    struct DataTypeA {\n    DataTypeB b;\n    //the liquidity index. Expressed in ray\n    uint128 liquidityIndex;\n    }\n    \n    struct DataTypeB {\n    address token;\n    }\n    \n    results in outputs for function with return type DataTypeA (tuple in abi): outputs: [{\"type\": \"address\"}, {\"type\": \"uint128\"}]",
               "inputSchema": {
-                "additionalProperties": false,
                 "properties": {
                   "contract": {
                     "description": "The contract address",
