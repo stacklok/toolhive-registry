@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/mark3labs/mcp-go/mcp"
+
 	"github.com/stacklok/toolhive-registry/internal/serverjson"
 )
 
@@ -95,6 +97,29 @@ func (c *Client) ListTools(serverName string) ([]string, error) {
 	}
 
 	return ParseToolsJSON(string(output))
+}
+
+// ListToolDefinitions queries a running MCP server for full tool definitions.
+// Returns nil (not an error) if the output is text-only.
+func (c *Client) ListToolDefinitions(serverName string) ([]mcp.Tool, error) {
+	listArgs := NewCommandBuilder("mcp").
+		AddPositional("list").
+		AddPositional("tools").
+		AddFlag("--server", serverName).
+		AddFlag("--format", "json").
+		Build()
+
+	// #nosec G204 - thvPath is validated in NewClient via exec.LookPath
+	listCmd := exec.Command(c.thvPath, listArgs...)
+	output, err := listCmd.CombinedOutput()
+	if err != nil {
+		return nil, fmt.Errorf(
+			"thv mcp list failed: %w\nOutput: %s",
+			err, string(output),
+		)
+	}
+
+	return ParseToolDefinitions(string(output))
 }
 
 // Logs retrieves logs from a running MCP server.

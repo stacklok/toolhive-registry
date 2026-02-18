@@ -1,45 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/oci-registry",
-  "description": "Secure OCI container registry querying with image introspection and manifest retrieval",
-  "title": "oci-registry",
-  "repository": {
-    "url": "https://github.com/StacklokLabs/ocireg-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stackloklabs/ocireg-mcp/server:0.1.0",
-      "transport": {
-        "type": "streamable-http",
-        "url": "http://localhost:8080"
-      },
-      "environmentVariables": [
-        {
-          "description": "Bearer token for OCI registry authentication",
-          "isSecret": true,
-          "name": "OCI_TOKEN"
-        },
-        {
-          "description": "Username for registry authentication",
-          "name": "OCI_USERNAME"
-        },
-        {
-          "description": "Password for registry authentication",
-          "isSecret": true,
-          "name": "OCI_PASSWORD"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/ocireg-mcp/server:0.1.0": {
           "metadata": {
-            "last_updated": "2026-02-05T04:47:24Z",
+            "last_updated": "2026-02-17T17:19:50Z",
             "pulls": 8029,
             "stars": 11
           },
@@ -73,14 +39,138 @@
             "docker"
           ],
           "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Get the config for an OCI image",
+              "inputSchema": {
+                "properties": {
+                  "image_ref": {
+                    "description": "The image reference (e.g., docker.io/library/alpine:latest)",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "image_ref"
+                ],
+                "type": "object"
+              },
+              "name": "get_image_config"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Get information about an OCI image",
+              "inputSchema": {
+                "properties": {
+                  "image_ref": {
+                    "description": "The image reference (e.g., docker.io/library/alpine:latest)",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "image_ref"
+                ],
+                "type": "object"
+              },
+              "name": "get_image_info"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Get the manifest for an OCI image",
+              "inputSchema": {
+                "properties": {
+                  "image_ref": {
+                    "description": "The image reference (e.g., docker.io/library/alpine:latest)",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "image_ref"
+                ],
+                "type": "object"
+              },
+              "name": "get_image_manifest"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "List tags for a repository",
+              "inputSchema": {
+                "properties": {
+                  "repository": {
+                    "description": "The repository name (e.g., docker.io/library/alpine)",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "repository"
+                ],
+                "type": "object"
+              },
+              "name": "list_tags"
+            }
+          ],
           "tools": [
+            "get_image_config",
             "get_image_info",
-            "list_tags",
             "get_image_manifest",
-            "get_image_config"
+            "list_tags"
           ]
         }
       }
     }
-  }
+  },
+  "description": "Secure OCI container registry querying with image introspection and manifest retrieval",
+  "name": "io.github.stacklok/oci-registry",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Bearer token for OCI registry authentication",
+          "isSecret": true,
+          "name": "OCI_TOKEN"
+        },
+        {
+          "description": "Username for registry authentication",
+          "name": "OCI_USERNAME"
+        },
+        {
+          "description": "Password for registry authentication",
+          "isSecret": true,
+          "name": "OCI_PASSWORD"
+        }
+      ],
+      "identifier": "ghcr.io/stackloklabs/ocireg-mcp/server:0.1.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/StacklokLabs/ocireg-mcp"
+  },
+  "title": "oci-registry",
+  "version": "1.0.0"
 }

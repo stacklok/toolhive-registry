@@ -1,35 +1,77 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/mcp-redfish",
-  "description": "Natural language interface for managing infrastructure via Redfish API",
-  "title": "mcp-redfish",
-  "repository": {
-    "url": "https://github.com/nokia/mcp-redfish",
-    "source": "github"
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/nokia/mcp-redfish:0.3.4": {
+          "metadata": {
+            "last_updated": "2026-02-18T00:05:45Z",
+            "stars": 4
+          },
+          "status": "Active",
+          "tags": [
+            "infrastructure",
+            "redfish",
+            "api",
+            "hardware",
+            "server-management"
+          ],
+          "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Given a Redfish resource URL (e.g., 'https://\u003cserver address\u003e/redfish/v1'), fetches and returns its data as JSON.\nTo construct a valid Redfish resource URL as input, use the following url schema 'https://\u003cserver address\u003e/redfish/v1/\u003cresource path\u003e'.\n\nArgs:\n    url (str): The Redfish URL to access the resource.\n\nReturns:\n    dict: A JSON document containing:\n        - \"headers\": Response headers including Allow, Content-Type, Content-Encoding (optional), ETag, and Link\n        - \"data\": The actual resource data in JSON format\n    Returns an error message if the URL is invalid.",
+              "inputSchema": {
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "type": "object"
+              },
+              "name": "get_resource_data"
+            },
+            {
+              "annotations": {},
+              "description": "List all Redfish Servers that can be accessed.\n\nReturns:\n    list: A list of Redfish Servers that can be accessed",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_servers"
+            }
+          ],
+          "tools": [
+            "get_resource_data",
+            "list_servers"
+          ]
+        }
+      }
+    }
   },
-  "version": "1.0.0",
+  "description": "Natural language interface for managing infrastructure via Redfish API",
+  "name": "io.github.stacklok/mcp-redfish",
   "packages": [
     {
-      "registryType": "oci",
-      "identifier": "ghcr.io/nokia/mcp-redfish:0.3.4",
-      "transport": {
-        "type": "stdio"
-      },
       "environmentVariables": [
         {
+          "default": "[{\"address\":\"127.0.0.1\"}]",
           "description": "JSON array of Redfish endpoint configurations with address, port, username, password, auth_method, and tls_server_ca_cert",
           "isRequired": true,
-          "default": "[{\"address\":\"127.0.0.1\"}]",
           "name": "REDFISH_HOSTS"
         },
         {
-          "description": "Default port for Redfish API endpoints",
           "default": "443",
+          "description": "Default port for Redfish API endpoints",
           "name": "REDFISH_PORT"
         },
         {
-          "description": "Authentication method (basic or session)",
           "default": "session",
+          "description": "Authentication method (basic or session)",
           "name": "REDFISH_AUTH_METHOD"
         },
         {
@@ -47,41 +89,27 @@
           "name": "REDFISH_SERVER_CA_CERT"
         },
         {
-          "description": "MCP transport method (stdio, sse, or streamable-http)",
           "default": "stdio",
+          "description": "MCP transport method (stdio, sse, or streamable-http)",
           "name": "MCP_TRANSPORT"
         },
         {
-          "description": "Logging verbosity level",
           "default": "INFO",
+          "description": "Logging verbosity level",
           "name": "MCP_REDFISH_LOG_LEVEL"
         }
-      ]
-    }
-  ],
-  "_meta": {
-    "io.modelcontextprotocol.registry/publisher-provided": {
-      "io.github.stacklok": {
-        "ghcr.io/nokia/mcp-redfish:0.3.4": {
-          "metadata": {
-            "last_updated": "2026-01-30T02:55:47Z",
-            "stars": 4
-          },
-          "status": "Active",
-          "tags": [
-            "infrastructure",
-            "redfish",
-            "api",
-            "hardware",
-            "server-management"
-          ],
-          "tier": "Community",
-          "tools": [
-            "get_resource_data",
-            "list_servers"
-          ]
-        }
+      ],
+      "identifier": "ghcr.io/nokia/mcp-redfish:0.3.4",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
       }
     }
-  }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/nokia/mcp-redfish"
+  },
+  "title": "mcp-redfish",
+  "version": "1.0.0"
 }

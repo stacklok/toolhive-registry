@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/spf13/cobra"
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
 
@@ -54,34 +55,36 @@ func runUpdateTools(_ *cobra.Command, args []string) error {
 	}
 
 	currentTools := ext.Tools
+	currentDefs := ext.ToolDefinitions
 	serverName := filepath.Base(filepath.Dir(path))
 
 	if verbose {
 		fmt.Printf("Processing server: %s\n", serverName)
 		fmt.Printf("Current tools count: %d\n", len(currentTools))
+		fmt.Printf("Current tool definitions count: %d\n", len(currentDefs))
 	}
 
-	newTools, err := fetchToolsFromServer(sf, serverName)
+	newTools, newDefs, err := fetchToolsFromServer(sf, serverName)
 	if err != nil {
 		return err
 	}
 
-	return applyToolsUpdate(sf, ext, currentTools, newTools)
+	return applyToolsUpdate(sf, ext, currentTools, newTools, currentDefs, newDefs)
 }
 
 // fetchToolsFromServer starts a temporary MCP server and queries its tools.
 func fetchToolsFromServer(
 	sf *serverjson.ServerFile, serverName string,
-) ([]string, error) {
+) ([]string, []mcp.Tool, error) {
 	client, err := thvclient.NewClient(thvPath, verbose)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create thv client: %w", err)
+		return nil, nil, fmt.Errorf("failed to create thv client: %w", err)
 	}
 
 	fmt.Printf("Starting temporary MCP server: %s\n", serverName)
 	tempName, err := client.RunServer(sf, serverName)
 	if err != nil {
-		return nil, fmt.Errorf("failed to run server: %w", err)
+		return nil, nil, fmt.Errorf("failed to run server: %w", err)
 	}
 	defer func() {
 		if stopErr := client.StopServer(tempName); stopErr != nil {
@@ -92,23 +95,45 @@ func fetchToolsFromServer(
 		}
 	}()
 
+	// Fetch full tool definitions first; extract names from them.
+	defs, err := client.ListToolDefinitions(tempName)
+	if err != nil {
+		if logs, logErr := client.Logs(tempName); logErr == nil && logs != "" {
+			fmt.Printf("Server logs:\n%s\n", logs)
+		}
+		return nil, nil, fmt.Errorf("failed to fetch tools: %w", err)
+	}
+
+	// If we got definitions, extract tool names from them.
+	if defs != nil {
+		var tools []string
+		for _, d := range defs {
+			tools = append(tools, d.Name)
+		}
+		sort.Strings(tools)
+		fmt.Printf("Discovered %d tools (with definitions)\n", len(tools))
+		return tools, defs, nil
+	}
+
+	// Text fallback: no definitions available, get names only.
 	tools, err := client.ListTools(tempName)
 	if err != nil {
 		if logs, logErr := client.Logs(tempName); logErr == nil && logs != "" {
 			fmt.Printf("Server logs:\n%s\n", logs)
 		}
-		return nil, fmt.Errorf("failed to fetch tools: %w", err)
+		return nil, nil, fmt.Errorf("failed to fetch tools: %w", err)
 	}
 
-	fmt.Printf("Discovered %d tools\n", len(tools))
-	return tools, nil
+	fmt.Printf("Discovered %d tools (names only)\n", len(tools))
+	return tools, nil, nil
 }
 
-// applyToolsUpdate compares and writes the updated tools list.
+// applyToolsUpdate compares and writes the updated tools list and tool definitions.
 func applyToolsUpdate(
 	sf *serverjson.ServerFile,
 	ext *toolhiveRegistry.ServerExtensions,
 	currentTools, newTools []string,
+	currentDefs, newDefs []mcp.Tool,
 ) error {
 	if len(newTools) == 0 && len(currentTools) > 0 {
 		fmt.Printf(
@@ -121,12 +146,20 @@ func applyToolsUpdate(
 	sort.Strings(currentTools)
 	sort.Strings(newTools)
 
-	if slices.Equal(currentTools, newTools) {
-		fmt.Println("Tools list is already up to date")
+	toolsChanged := !slices.Equal(currentTools, newTools)
+	defsChanged := !toolDefinitionsEqual(currentDefs, newDefs)
+
+	if !toolsChanged && !defsChanged {
+		fmt.Printf("Tools list is already up to date (_meta size: %s)\n", formatBytes(sf.MetaSize()))
 		return nil
 	}
 
-	printToolsDiff(currentTools, newTools)
+	if toolsChanged {
+		printToolsDiff(currentTools, newTools)
+	}
+	if defsChanged {
+		printToolDefsDiff(currentDefs, newDefs)
+	}
 
 	if dryRunTools {
 		fmt.Println("[DRY RUN] Would update tools list")
@@ -134,6 +167,7 @@ func applyToolsUpdate(
 	}
 
 	ext.Tools = newTools
+	ext.ToolDefinitions = newDefs
 	if ext.Metadata == nil {
 		ext.Metadata = &toolhiveRegistry.Metadata{}
 	}
@@ -143,7 +177,7 @@ func applyToolsUpdate(
 		return fmt.Errorf("failed to write server.json: %w", err)
 	}
 
-	fmt.Println("Successfully updated tools list")
+	fmt.Printf("Successfully updated tools list (_meta size: %s)\n", formatBytes(sf.MetaSize()))
 	return nil
 }
 
@@ -183,4 +217,40 @@ func diffSlices(a, b []string) []string {
 		}
 	}
 	return result
+}
+
+// toolDefinitionsEqual deeply compares two slices of tool definitions,
+// including inputSchema and annotations, so that compact-to-full transitions
+// are detected.
+func toolDefinitionsEqual(a, b []mcp.Tool) bool {
+	return cmp.Equal(a, b)
+}
+
+func printToolDefsDiff(currentDefs, newDefs []mcp.Tool) {
+	if verbose {
+		currentNames := toolDefNames(currentDefs)
+		newNames := toolDefNames(newDefs)
+		diff := cmp.Diff(currentNames, newNames)
+		if diff != "" {
+			fmt.Printf("Tool definitions diff:\n%s\n", diff)
+		}
+	} else {
+		fmt.Printf("  Tool definitions: %d -> %d\n", len(currentDefs), len(newDefs))
+	}
+}
+
+func toolDefNames(defs []mcp.Tool) []string {
+	names := make([]string, 0, len(defs))
+	for _, d := range defs {
+		names = append(names, d.Name)
+	}
+	return names
+}
+
+func formatBytes(b int) string {
+	const kb = 1024
+	if b < kb {
+		return fmt.Sprintf("%d B", b)
+	}
+	return fmt.Sprintf("%.1f KB", float64(b)/float64(kb))
 }
