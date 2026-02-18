@@ -7,7 +7,7 @@ require (
 	github.com/mark3labs/mcp-go v0.44.0
 	github.com/modelcontextprotocol/registry v1.4.1
 	github.com/spf13/cobra v1.10.2
-	github.com/stacklok/toolhive v0.9.4
+	github.com/stacklok/toolhive v0.9.5-0.20260217220626-7c88309a5734
 	github.com/stretchr/testify v1.11.1
 )
 
@@ -103,7 +103,7 @@ require (
 	github.com/spf13/cast v1.10.0 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/spf13/viper v1.21.0 // indirect
-	github.com/stacklok/toolhive-core v0.0.3 // indirect
+	github.com/stacklok/toolhive-core v0.0.4 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/tetratelabs/wabin v0.0.0-20230304001439-f6f874872834 // indirect
 	github.com/tetratelabs/wazero v1.9.0 // indirect

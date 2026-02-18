@@ -137,6 +137,16 @@ func (sf *ServerFile) UpdateExtensions(ext *registry.ServerExtensions) error {
 	meta := ensureMap(doc, "_meta")
 	publisherProvided := ensureMap(meta, registry.PublisherProvidedKey)
 	stacklok := ensureMap(publisherProvided, registry.ToolHivePublisherNamespace)
+
+	// Remove any stale extension keys so there's always exactly one entry
+	// under the publisher namespace. Stale keys can accumulate when the
+	// package identifier changes (e.g. Renovate bumps a Docker tag).
+	for k := range stacklok {
+		if k != extKey {
+			delete(stacklok, k)
+		}
+	}
+
 	stacklok[extKey] = extMap
 
 	out, err := json.MarshalIndent(doc, "", "  ")
