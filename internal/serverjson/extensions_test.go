@@ -390,6 +390,92 @@ func TestRepositoryURL(t *testing.T) {
 	}
 }
 
+func TestUpdateExtensions_RemovesStaleKeys(t *testing.T) {
+	t.Parallel()
+
+	// Simulate a server that had its package identifier bumped from v1.0.0 to v2.0.0
+	// but still has a stale extension entry under the old key.
+	serverWithStaleKey := `{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/test-server",
+  "description": "A test server",
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/test/server:v2.0.0",
+      "transport": { "type": "stdio" }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/test/server:v1.0.0": {
+          "status": "Active",
+          "tools": ["old_tool"]
+        },
+        "ghcr.io/test/server:v2.0.0": {
+          "status": "Active",
+          "tools": ["new_tool"]
+        }
+      }
+    }
+  }
+}`
+
+	dir := t.TempDir()
+	path := writeTestFile(t, dir, "server.json", serverWithStaleKey)
+
+	sf, err := LoadServerFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ext, err := sf.GetExtensions()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Update extensions — should remove the stale v1.0.0 key
+	ext.Tools = []string{"new_tool", "another_tool"}
+	if err := sf.UpdateExtensions(ext); err != nil {
+		t.Fatalf("UpdateExtensions failed: %v", err)
+	}
+
+	// Reload and verify only the current key remains
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var doc map[string]any
+	if err := json.Unmarshal(data, &doc); err != nil {
+		t.Fatal(err)
+	}
+
+	meta := doc["_meta"].(map[string]any)
+	pp := meta["io.modelcontextprotocol.registry/publisher-provided"].(map[string]any)
+	stacklok := pp["io.github.stacklok"].(map[string]any)
+
+	if len(stacklok) != 1 {
+		t.Errorf("expected 1 extension key, got %d: %v", len(stacklok), keys(stacklok))
+	}
+	if _, ok := stacklok["ghcr.io/test/server:v2.0.0"]; !ok {
+		t.Error("expected ghcr.io/test/server:v2.0.0 key to exist")
+	}
+	if _, ok := stacklok["ghcr.io/test/server:v1.0.0"]; ok {
+		t.Error("stale ghcr.io/test/server:v1.0.0 key should have been removed")
+	}
+}
+
+func keys(m map[string]any) []string {
+	result := make([]string, 0, len(m))
+	for k := range m {
+		result = append(result, k)
+	}
+	return result
+}
+
 func TestUpdateExtensions_NoMeta(t *testing.T) {
 	t.Parallel()
 	dir := t.TempDir()

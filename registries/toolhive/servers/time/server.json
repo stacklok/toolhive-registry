@@ -1,28 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/time",
-  "description": "Provides time information and IANA timezone conversions with auto system timezone detection.",
-  "title": "time",
-  "repository": {
-    "url": "https://github.com/modelcontextprotocol/servers",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "docker.io/mcp/time:latest",
-      "transport": {
-        "type": "stdio"
-      }
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "docker.io/mcp/time:latest": {
           "metadata": {
-            "last_updated": "2026-01-28T02:42:36Z",
+            "last_updated": "2026-02-17T17:34:54Z",
             "pulls": 10986,
             "stars": 77357
           },
@@ -45,12 +28,75 @@
             "examples"
           ],
           "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Convert time between timezones",
+              "inputSchema": {
+                "properties": {
+                  "source_timezone": {
+                    "description": "Source IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'UTC' as local timezone if no source timezone provided by the user.",
+                    "type": "string"
+                  },
+                  "target_timezone": {
+                    "description": "Target IANA timezone name (e.g., 'Asia/Tokyo', 'America/San_Francisco'). Use 'UTC' as local timezone if no target timezone provided by the user.",
+                    "type": "string"
+                  },
+                  "time": {
+                    "description": "Time to convert in 24-hour format (HH:MM)",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "source_timezone",
+                  "time",
+                  "target_timezone"
+                ],
+                "type": "object"
+              },
+              "name": "convert_time"
+            },
+            {
+              "annotations": {},
+              "description": "Get current time in a specific timezones",
+              "inputSchema": {
+                "properties": {
+                  "timezone": {
+                    "description": "IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'UTC' as local timezone if no timezone provided by the user.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "timezone"
+                ],
+                "type": "object"
+              },
+              "name": "get_current_time"
+            }
+          ],
           "tools": [
-            "get_current_time",
-            "convert_time"
+            "convert_time",
+            "get_current_time"
           ]
         }
       }
     }
-  }
+  },
+  "description": "Provides time information and IANA timezone conversions with auto system timezone detection.",
+  "name": "io.github.stacklok/time",
+  "packages": [
+    {
+      "identifier": "docker.io/mcp/time:latest",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/modelcontextprotocol/servers"
+  },
+  "title": "time",
+  "version": "1.0.0"
 }

@@ -1,36 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/perplexity-ask",
-  "description": "Integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks.",
-  "title": "perplexity-ask",
-  "repository": {
-    "url": "https://github.com/ppl-ai/modelcontextprotocol",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "docker.io/mcp/perplexity-ask:latest",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Perplexity API key",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "PERPLEXITY_API_KEY"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "docker.io/mcp/perplexity-ask:latest": {
           "metadata": {
-            "last_updated": "2026-02-05T02:58:03Z",
+            "last_updated": "2026-02-17T17:20:49Z",
             "pulls": 15188,
             "stars": 1921
           },
@@ -53,13 +28,142 @@
             "perplexity-ask"
           ],
           "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Engages in a conversation using the Sonar API. Accepts an array of messages (each with a role and content) and returns a ask completion response from the Perplexity model.",
+              "inputSchema": {
+                "properties": {
+                  "messages": {
+                    "description": "Array of conversation messages",
+                    "items": {
+                      "properties": {
+                        "content": {
+                          "description": "The content of the message",
+                          "type": "string"
+                        },
+                        "role": {
+                          "description": "Role of the message (e.g., system, user, assistant)",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "role",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "messages"
+                ],
+                "type": "object"
+              },
+              "name": "perplexity_ask"
+            },
+            {
+              "annotations": {},
+              "description": "Performs reasoning tasks using the Perplexity API. Accepts an array of messages (each with a role and content) and returns a well-reasoned response using the sonar-reasoning-pro model.",
+              "inputSchema": {
+                "properties": {
+                  "messages": {
+                    "description": "Array of conversation messages",
+                    "items": {
+                      "properties": {
+                        "content": {
+                          "description": "The content of the message",
+                          "type": "string"
+                        },
+                        "role": {
+                          "description": "Role of the message (e.g., system, user, assistant)",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "role",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "messages"
+                ],
+                "type": "object"
+              },
+              "name": "perplexity_reason"
+            },
+            {
+              "annotations": {},
+              "description": "Performs deep research using the Perplexity API. Accepts an array of messages (each with a role and content) and returns a comprehensive research response with citations.",
+              "inputSchema": {
+                "properties": {
+                  "messages": {
+                    "description": "Array of conversation messages",
+                    "items": {
+                      "properties": {
+                        "content": {
+                          "description": "The content of the message",
+                          "type": "string"
+                        },
+                        "role": {
+                          "description": "Role of the message (e.g., system, user, assistant)",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "role",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "messages"
+                ],
+                "type": "object"
+              },
+              "name": "perplexity_research"
+            }
+          ],
           "tools": [
             "perplexity_ask",
-            "perplexity_research",
-            "perplexity_reason"
+            "perplexity_reason",
+            "perplexity_research"
           ]
         }
       }
     }
-  }
+  },
+  "description": "Integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks.",
+  "name": "io.github.stacklok/perplexity-ask",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Perplexity API key",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "PERPLEXITY_API_KEY"
+        }
+      ],
+      "identifier": "docker.io/mcp/perplexity-ask:latest",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/ppl-ai/modelcontextprotocol"
+  },
+  "title": "perplexity-ask",
+  "version": "1.0.0"
 }

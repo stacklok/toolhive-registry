@@ -1,34 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/buildkite",
-  "description": "Connect your Buildkite data (pipelines, builds, jobs, tests) to AI tooling and editors.",
-  "title": "buildkite",
-  "repository": {
-    "url": "https://github.com/buildkite/buildkite-mcp-server",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:0.10.0",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Your Buildkite API access token",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "BUILDKITE_API_TOKEN"
-        },
-        {
-          "description": "Token threshold for job logs. If exceeded, logs will be written to disk and returned by path (for local use only).",
-          "name": "JOB_LOG_TOKEN_THRESHOLD"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -37,7 +8,7 @@
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-01-30T02:55:47Z",
+            "last_updated": "2026-02-18T00:05:39Z",
             "stars": 45
           },
           "permissions": {
@@ -64,6 +35,1070 @@
             "testing"
           ],
           "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Access Token"
+              },
+              "description": "Get information about the current API access token including its scopes and UUID",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "access_token"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": false,
+                "title": "Create Build"
+              },
+              "description": "Trigger a new build on a Buildkite pipeline for a specific commit and branch, with optional environment variables, metadata, and author information",
+              "inputSchema": {
+                "properties": {
+                  "branch": {
+                    "description": "The branch to build",
+                    "type": "string"
+                  },
+                  "commit": {
+                    "description": "The commit SHA to build",
+                    "type": "string"
+                  },
+                  "environment": {
+                    "description": "Environment variables to set for the build",
+                    "items": {
+                      "properties": {
+                        "key": {
+                          "description": "The environment variable name",
+                          "type": "string"
+                        },
+                        "value": {
+                          "description": "The environment variable value",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "key",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "ignore_branch_filters": {
+                    "default": false,
+                    "description": "Whether to ignore branch filters when triggering the build",
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "description": "The commit message for the build",
+                    "type": "string"
+                  },
+                  "metadata": {
+                    "description": "Meta-data values to set for the build",
+                    "items": {
+                      "properties": {
+                        "key": {
+                          "description": "The meta-data item key",
+                          "type": "string"
+                        },
+                        "value": {
+                          "description": "The meta-data item value",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "key",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "commit",
+                  "branch",
+                  "message"
+                ],
+                "type": "object"
+              },
+              "name": "create_build"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": false,
+                "title": "Create Pipeline"
+              },
+              "description": "Set up a new CI/CD pipeline in Buildkite with YAML configuration, repository connection, and cluster assignment",
+              "inputSchema": {
+                "properties": {
+                  "cancel_running_branch_builds": {
+                    "description": "Cancel running builds when new builds are created on the same branch",
+                    "type": "boolean"
+                  },
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "configuration": {
+                    "description": "The pipeline configuration in YAML format. Contains the build steps and pipeline settings. If not provided, a basic configuration will be used",
+                    "type": "string"
+                  },
+                  "create_webhook": {
+                    "default": true,
+                    "description": "Create a GitHub webhook to trigger builds in response to pull-request and push events",
+                    "type": "boolean"
+                  },
+                  "default_branch": {
+                    "description": "The default branch for builds and metrics filtering",
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "description": "The organization slug",
+                    "type": "string"
+                  },
+                  "repository_url": {
+                    "type": "string"
+                  },
+                  "skip_queued_branch_builds": {
+                    "description": "Skip intermediate builds when new builds are created on the same branch",
+                    "type": "boolean"
+                  },
+                  "tags": {
+                    "description": "Tags to apply to the pipeline. These can be used for filtering and organization",
+                    "items": {
+                      "description": "A tag to apply to the pipeline",
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "name",
+                  "repository_url",
+                  "cluster_id",
+                  "configuration",
+                  "create_webhook"
+                ],
+                "type": "object"
+              },
+              "name": "create_pipeline"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Current User"
+              },
+              "description": "Get details about the user account that owns the API token, including name, email, avatar, and account creation date",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "current_user"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Artifact"
+              },
+              "description": "Get detailed information about a specific artifact including its metadata, file size, SHA-1 hash, and download URL",
+              "inputSchema": {
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "type": "object"
+              },
+              "name": "get_artifact"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Build"
+              },
+              "description": "Get detailed information about a specific build including its jobs, timing, and execution details",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "detail_level": {
+                    "description": "Response detail level: 'summary' (essential fields), 'detailed' (medium detail), or 'full' (complete build data). Default: 'detailed'",
+                    "type": "string"
+                  },
+                  "include_agent": {
+                    "description": "Include full agent details in job objects. When false (default), only agent.id is included to reduce response size.",
+                    "type": "boolean"
+                  },
+                  "job_state": {
+                    "description": "Filter jobs by state. Comma-separated for multiple states (e.g., \"failed,broken,canceled\"). Valid states: scheduled, running, passed, failed, canceled, skipped, broken, waiting, waiting_failed, blocked, etc.",
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number"
+                ],
+                "type": "object"
+              },
+              "name": "get_build"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Build Test Engine Runs"
+              },
+              "description": "Get test engine runs data for a specific build in Buildkite. This can be used to look up Test Runs.",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number"
+                ],
+                "type": "object"
+              },
+              "name": "get_build_test_engine_runs"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Cluster"
+              },
+              "description": "Get detailed information about a specific cluster including its name, description, default queue, and configuration",
+              "inputSchema": {
+                "properties": {
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "cluster_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_cluster"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Cluster Queue"
+              },
+              "description": "Get detailed information about a specific queue including its key, description, dispatch status, and hosted agent configuration",
+              "inputSchema": {
+                "properties": {
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "queue_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "cluster_id",
+                  "queue_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_cluster_queue"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Failed Test Executions"
+              },
+              "description": "Get failed test executions for a specific test run in Buildkite Test Engine. Optionally get the expanded failure details such as full error messages and stack traces.",
+              "inputSchema": {
+                "properties": {
+                  "include_failure_expanded": {
+                    "description": "Include the expanded failure details such as full error messages and stack traces. This can be used to explain and diganose the cause of test failures.",
+                    "type": "boolean"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "perPage": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "run_id": {
+                    "type": "string"
+                  },
+                  "test_suite_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "test_suite_slug",
+                  "run_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_failed_executions"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Pipeline"
+              },
+              "description": "Get detailed information about a specific pipeline including its configuration, steps, environment variables, and build statistics",
+              "inputSchema": {
+                "properties": {
+                  "detail_level": {
+                    "description": "Response detail level: 'summary', 'detailed', or 'full' (default)",
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug"
+                ],
+                "type": "object"
+              },
+              "name": "get_pipeline"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Test"
+              },
+              "description": "Get a specific test in Buildkite Test Engine. This provides additional metadata for failed test executions",
+              "inputSchema": {
+                "properties": {
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "test_id": {
+                    "type": "string"
+                  },
+                  "test_suite_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "test_suite_slug",
+                  "test_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_test"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Test Run"
+              },
+              "description": "Get a specific test run in Buildkite Test Engine",
+              "inputSchema": {
+                "properties": {
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "run_id": {
+                    "type": "string"
+                  },
+                  "test_suite_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "test_suite_slug",
+                  "run_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_test_run"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "List Annotations"
+              },
+              "description": "List all annotations for a build, including their context, style (success/info/warning/error), rendered HTML content, and creation timestamps",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "perPage": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number"
+                ],
+                "type": "object"
+              },
+              "name": "list_annotations"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Build Artifact List"
+              },
+              "description": "List all artifacts for a build across all jobs, including file details, paths, sizes, MIME types, and download URLs",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "perPage": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number"
+                ],
+                "type": "object"
+              },
+              "name": "list_artifacts_for_build"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Job Artifact List"
+              },
+              "description": "List all artifacts for an individual job, including file details, paths, sizes, MIME types, and download URLs",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "job_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "perPage": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number",
+                  "job_id"
+                ],
+                "type": "object"
+              },
+              "name": "list_artifacts_for_job"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "List Builds"
+              },
+              "description": "List all builds for a pipeline with their status, commit information, and metadata",
+              "inputSchema": {
+                "properties": {
+                  "branch": {
+                    "description": "Filter builds by git branch name",
+                    "type": "string"
+                  },
+                  "commit": {
+                    "description": "Filter builds by specific commit SHA",
+                    "type": "string"
+                  },
+                  "creator": {
+                    "description": "Filter builds by build creator",
+                    "type": "string"
+                  },
+                  "detail_level": {
+                    "description": "Response detail level: 'summary' (essential fields), 'detailed' (medium detail), or 'full' (complete build data). Default: 'summary'",
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "type": "number"
+                  },
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "type": "number"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "description": "Filter builds by state. Supports actual states (scheduled, running, passed, failed, canceled, skipped, etc.)",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug"
+                ],
+                "type": "object"
+              },
+              "name": "list_builds"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "List Cluster Queues"
+              },
+              "description": "List all queues in a cluster with their keys, descriptions, dispatch status, and agent configuration",
+              "inputSchema": {
+                "properties": {
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "perPage": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "cluster_id"
+                ],
+                "type": "object"
+              },
+              "name": "list_cluster_queues"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "List Clusters"
+              },
+              "description": "List all clusters in an organization with their names, descriptions, default queues, and creation details",
+              "inputSchema": {
+                "properties": {
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "perPage": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "org_slug"
+                ],
+                "type": "object"
+              },
+              "name": "list_clusters"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "List Pipelines"
+              },
+              "description": "List all pipelines in an organization with their basic details, build counts, and current status",
+              "inputSchema": {
+                "properties": {
+                  "detail_level": {
+                    "description": "Response detail level: 'summary' (default), 'detailed', or 'full'",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Filter pipelines by name",
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "perPage": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "repository": {
+                    "description": "Filter pipelines by repository URL",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug"
+                ],
+                "type": "object"
+              },
+              "name": "list_pipelines"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "List Test Runs"
+              },
+              "description": "List all test runs for a test suite in Buildkite Test Engine",
+              "inputSchema": {
+                "properties": {
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "perPage": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "test_suite_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "test_suite_slug"
+                ],
+                "type": "object"
+              },
+              "name": "list_test_runs"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Read Logs"
+              },
+              "description": "Read log entries from the file, optionally starting from a specific row number. ⚠️ ALWAYS use 'limit' parameter to avoid excessive tokens. For recent failures, use 'tail_logs' instead. Recommended limits: investigation (100-500), exploration (use seek + small limits). The json format: {ts: timestamp_ms, c: content, rn: row_number}.",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "cache_ttl": {
+                    "description": "Cache TTL for non-terminal jobs (default: \"30s\")",
+                    "type": "string"
+                  },
+                  "force_refresh": {
+                    "description": "Force refresh cached entry (default: false)",
+                    "type": "boolean"
+                  },
+                  "job_id": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 100,
+                    "description": "Limit number of entries returned (default: 100, 0 = no limit)",
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  },
+                  "seek": {
+                    "description": "Row number to start from (0-based, default: 0)",
+                    "minimum": 0,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number",
+                  "job_id"
+                ],
+                "type": "object"
+              },
+              "name": "read_logs"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Search Logs"
+              },
+              "description": "Search log entries using regex patterns with optional context lines. 💡 For recent failures, try 'tail_logs' first, then use search_logs with patterns like 'error|failed|exception' and limit: 10-20. The json format: {ts: timestamp_ms, c: content, rn: row_number}.",
+              "inputSchema": {
+                "properties": {
+                  "after_context": {
+                    "description": "Show NUM lines after each match (default: 0)",
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "before_context": {
+                    "description": "Show NUM lines before each match (default: 0)",
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "cache_ttl": {
+                    "description": "Cache TTL for non-terminal jobs (default: \"30s\")",
+                    "type": "string"
+                  },
+                  "case_sensitive": {
+                    "description": "Case-sensitive search (default: false)",
+                    "type": "boolean"
+                  },
+                  "context": {
+                    "description": "Show NUM lines before and after each match (default: 0)",
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "force_refresh": {
+                    "description": "Force refresh cached entry (default: false)",
+                    "type": "boolean"
+                  },
+                  "invert_match": {
+                    "description": "Show non-matching lines (default: false)",
+                    "type": "boolean"
+                  },
+                  "job_id": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 100,
+                    "description": "Limit number of matches returned (default: 100, 0 = no limit)",
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pattern": {
+                    "description": "Regex pattern to search for",
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  },
+                  "reverse": {
+                    "description": "Search backwards from end/seek position (default: false)",
+                    "type": "boolean"
+                  },
+                  "seek_start": {
+                    "description": "Start search from this row number (0-based, useful with reverse: true)",
+                    "minimum": 0,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number",
+                  "job_id",
+                  "pattern"
+                ],
+                "type": "object"
+              },
+              "name": "search_logs"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Tail Logs"
+              },
+              "description": "Show the last N entries from the log file. 🔥 RECOMMENDED for failure diagnosis - most build failures appear in the final log entries. More token-efficient than read_logs for recent issues. The json format: {ts: timestamp_ms, c: content, rn: row_number}.",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "cache_ttl": {
+                    "description": "Cache TTL for non-terminal jobs (default: \"30s\")",
+                    "type": "string"
+                  },
+                  "force_refresh": {
+                    "description": "Force refresh cached entry (default: false)",
+                    "type": "boolean"
+                  },
+                  "job_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  },
+                  "tail": {
+                    "default": 10,
+                    "description": "Number of lines to show from end (default: 10)",
+                    "minimum": 1,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number",
+                  "job_id"
+                ],
+                "type": "object"
+              },
+              "name": "tail_logs"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": false,
+                "title": "Unblock Job"
+              },
+              "description": "Unblock a blocked job in a Buildkite build to allow it to continue execution",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "fields": {
+                    "description": "JSON object containing string values for block step fields",
+                    "properties": {},
+                    "type": "object"
+                  },
+                  "job_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number",
+                  "job_id"
+                ],
+                "type": "object"
+              },
+              "name": "unblock_job"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": false,
+                "title": "Update Pipeline"
+              },
+              "description": "Modify an existing Buildkite pipeline's configuration, repository, settings, or metadata",
+              "inputSchema": {
+                "properties": {
+                  "cancel_running_branch_builds": {
+                    "description": "Cancel running builds when new builds are created on the same branch",
+                    "type": "boolean"
+                  },
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "configuration": {
+                    "description": "The pipeline configuration in YAML format. Contains the build steps and pipeline settings. If not provided, the existing configuration will be used",
+                    "type": "string"
+                  },
+                  "default_branch": {
+                    "description": "The default branch for builds and metrics filtering",
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  },
+                  "repository_url": {
+                    "description": "The Git repository URL to use for the pipeline",
+                    "type": "string"
+                  },
+                  "skip_queued_branch_builds": {
+                    "description": "Skip intermediate builds when new builds are created on the same branch",
+                    "type": "boolean"
+                  },
+                  "tags": {
+                    "description": "Tags to apply to the pipeline. These can be used for filtering and organization",
+                    "items": {
+                      "description": "A tag to apply to the pipeline",
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug"
+                ],
+                "type": "object"
+              },
+              "name": "update_pipeline"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Organization for User Token"
+              },
+              "description": "Get the organization associated with the user token used for this request",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "user_token_organization"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Wait for Build"
+              },
+              "description": "Wait for a specific build to complete",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  },
+                  "wait_timeout": {
+                    "default": 300,
+                    "description": "Timeout in seconds to wait for job completion",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number"
+                ],
+                "type": "object"
+              },
+              "name": "wait_for_build"
+            }
+          ],
           "tools": [
             "access_token",
             "create_build",
@@ -97,5 +1132,34 @@
         }
       }
     }
-  }
+  },
+  "description": "Connect your Buildkite data (pipelines, builds, jobs, tests) to AI tooling and editors.",
+  "name": "io.github.stacklok/buildkite",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Your Buildkite API access token",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "BUILDKITE_API_TOKEN"
+        },
+        {
+          "description": "Token threshold for job logs. If exceeded, logs will be written to disk and returned by path (for local use only).",
+          "name": "JOB_LOG_TOKEN_THRESHOLD"
+        }
+      ],
+      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:0.10.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/buildkite/buildkite-mcp-server"
+  },
+  "title": "buildkite",
+  "version": "1.0.0"
 }

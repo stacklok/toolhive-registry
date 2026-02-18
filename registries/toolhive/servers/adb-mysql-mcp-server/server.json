@@ -1,20 +1,103 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/adb-mysql-mcp-server",
-  "description": "Official MCP server for AnalyticDB for MySQL of Alibaba Cloud",
-  "title": "adb-mysql-mcp-server",
-  "repository": {
-    "url": "https://github.com/aliyun/alibabacloud-adb-mysql-mcp-server",
-    "source": "github"
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/adb-mysql-mcp-server:1.0.0": {
+          "metadata": {
+            "last_updated": "2026-02-17T17:15:49Z",
+            "stars": 21
+          },
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "mysql",
+            "analytics",
+            "sql",
+            "alibaba-cloud",
+            "data-warehouse"
+          ],
+          "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Execute a SQL query in the Adb MySQL Cluster",
+              "inputSchema": {
+                "properties": {
+                  "query": {
+                    "description": "The SQL query to execute",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "execute_sql"
+            },
+            {
+              "annotations": {},
+              "description": "Get the actual execution plan with runtime statistics for a SQL query",
+              "inputSchema": {
+                "properties": {
+                  "query": {
+                    "description": "The SQL query to analyze",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "get_execution_plan"
+            },
+            {
+              "annotations": {},
+              "description": "Get the query plan for a SQL query",
+              "inputSchema": {
+                "properties": {
+                  "query": {
+                    "description": "The SQL query to analyze",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "get_query_plan"
+            }
+          ],
+          "tools": [
+            "execute_sql",
+            "get_execution_plan",
+            "get_query_plan"
+          ]
+        }
+      }
+    }
   },
-  "version": "1.0.0",
+  "description": "Official MCP server for AnalyticDB for MySQL of Alibaba Cloud",
+  "name": "io.github.stacklok/adb-mysql-mcp-server",
   "packages": [
     {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/adb-mysql-mcp-server:1.0.0",
-      "transport": {
-        "type": "stdio"
-      },
       "environmentVariables": [
         {
           "description": "AnalyticDB for MySQL host address",
@@ -42,48 +125,18 @@
           "isRequired": true,
           "name": "ADB_MYSQL_DATABASE"
         }
-      ]
-    }
-  ],
-  "_meta": {
-    "io.modelcontextprotocol.registry/publisher-provided": {
-      "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/uvx/adb-mysql-mcp-server:1.0.0": {
-          "metadata": {
-            "last_updated": "2026-02-05T04:47:25Z",
-            "stars": 21
-          },
-          "permissions": {
-            "network": {
-              "outbound": {
-                "insecure_allow_all": true
-              }
-            }
-          },
-          "provenance": {
-            "cert_issuer": "https://token.actions.githubusercontent.com",
-            "repository_uri": "https://github.com/stacklok/dockyard",
-            "runner_environment": "github-hosted",
-            "signer_identity": "/.github/workflows/build-containers.yml",
-            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
-          },
-          "status": "Active",
-          "tags": [
-            "database",
-            "mysql",
-            "analytics",
-            "sql",
-            "alibaba-cloud",
-            "data-warehouse"
-          ],
-          "tier": "Official",
-          "tools": [
-            "execute_sql",
-            "get_query_plan",
-            "get_execution_plan"
-          ]
-        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/adb-mysql-mcp-server:1.0.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
       }
     }
-  }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/aliyun/alibabacloud-adb-mysql-mcp-server"
+  },
+  "title": "adb-mysql-mcp-server",
+  "version": "1.0.0"
 }

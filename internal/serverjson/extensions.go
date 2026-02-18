@@ -137,6 +137,16 @@ func (sf *ServerFile) UpdateExtensions(ext *registry.ServerExtensions) error {
 	meta := ensureMap(doc, "_meta")
 	publisherProvided := ensureMap(meta, registry.PublisherProvidedKey)
 	stacklok := ensureMap(publisherProvided, registry.ToolHivePublisherNamespace)
+
+	// Remove any stale extension keys so there's always exactly one entry
+	// under the publisher namespace. Stale keys can accumulate when the
+	// package identifier changes (e.g. Renovate bumps a Docker tag).
+	for k := range stacklok {
+		if k != extKey {
+			delete(stacklok, k)
+		}
+	}
+
 	stacklok[extKey] = extMap
 
 	out, err := json.MarshalIndent(doc, "", "  ")
@@ -151,6 +161,20 @@ func (sf *ServerFile) UpdateExtensions(ext *registry.ServerExtensions) error {
 
 	sf.rawBytes = out
 	return nil
+}
+
+// MetaSize returns the size in bytes of the _meta field when serialized as JSON.
+// Returns 0 if there is no _meta field.
+func (sf *ServerFile) MetaSize() int {
+	var doc map[string]json.RawMessage
+	if err := json.Unmarshal(sf.rawBytes, &doc); err != nil {
+		return 0
+	}
+	meta, ok := doc["_meta"]
+	if !ok {
+		return 0
+	}
+	return len(meta)
 }
 
 // ensureMap gets or creates a nested map[string]any at the given key.

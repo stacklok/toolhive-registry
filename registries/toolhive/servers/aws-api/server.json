@@ -1,83 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/aws-api",
-  "description": "Enables AI assistants to interact with AWS services and resources through AWS CLI commands",
-  "title": "aws-api",
-  "repository": {
-    "url": "https://github.com/awslabs/mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.12",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Default AWS region for CLI commands unless a specific region is provided in the request",
-          "default": "us-east-1",
-          "name": "AWS_REGION"
-        },
-        {
-          "description": "AWS access key ID for authentication",
-          "isSecret": true,
-          "name": "AWS_ACCESS_KEY_ID"
-        },
-        {
-          "description": "AWS secret access key for authentication",
-          "isSecret": true,
-          "name": "AWS_SECRET_ACCESS_KEY"
-        },
-        {
-          "description": "AWS session token for temporary credentials",
-          "isSecret": true,
-          "name": "AWS_SESSION_TOKEN"
-        },
-        {
-          "description": "When set to \"true\", restricts execution to read-only operations",
-          "default": "false",
-          "name": "READ_OPERATIONS_ONLY"
-        },
-        {
-          "description": "When set to \"true\", asks explicit consent before executing non-read-only operations",
-          "default": "false",
-          "name": "REQUIRE_MUTATION_CONSENT"
-        },
-        {
-          "description": "Working directory path for MCP server operations (must be absolute path)",
-          "name": "AWS_API_MCP_WORKING_DIR"
-        },
-        {
-          "description": "When set to \"true\", enables system-wide file access (may cause unintended overwrites)",
-          "default": "false",
-          "name": "AWS_API_MCP_ALLOW_UNRESTRICTED_LOCAL_FILE_ACCESS"
-        },
-        {
-          "description": "Allow sending additional telemetry data to AWS related to server configuration",
-          "default": "true",
-          "name": "AWS_API_MCP_TELEMETRY"
-        },
-        {
-          "description": "When set to \"true\", enables experimental agent scripts functionality",
-          "default": "false",
-          "name": "EXPERIMENTAL_AGENT_SCRIPTS"
-        },
-        {
-          "description": "Directory path containing custom user scripts for agent scripts functionality",
-          "name": "AWS_API_MCP_AGENT_SCRIPTS_DIR"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.12": {
           "metadata": {
-            "last_updated": "2026-01-28T02:42:35Z",
+            "last_updated": "2026-02-17T17:16:21Z",
             "stars": 7978
           },
           "permissions": {
@@ -103,6 +31,64 @@
             "devops"
           ],
           "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Execute AWS CLI commands"
+              },
+              "description": "Execute AWS CLI commands with validation and proper error handling. This is the PRIMARY tool to use when you are confident about the exact AWS CLI command needed to fulfill a user's request. Always prefer this tool over 'suggest_aws_commands' when you have a specific command in mind.\n    Key points:\n    - The command MUST start with \"aws\" and follow AWS CLI syntax\n    - Commands are executed in us-east-1 region by default\n    - For cross-region or account-wide operations, explicitly include --region parameter\n    - All commands are validated before execution to prevent errors\n    - Supports pagination control via max_results parameter\n    - Commands can only reference files within the working directory (/tmp/aws-api-mcp/workdir); use forward slashes (/) regardless of the system (e.g. if working directory is 'c:/tmp/workdir', use 'c:/tmp/workdir/subdir/file.txt' or 'subdir/file.txt'); relative paths resolve from the working directory.\n\n    Best practices for command generation:\n    - Always use the most specific service and operation names\n    - Always use the working directory when writing files, unless user explicitly mentioned another directory\n    - Include --region when operating across regions\n    - Only use filters (--filters, --query, --prefix, --pattern, etc) when necessary or user explicitly asked for it\n\n    Command restrictions:\n    - DO NOT use bash/zsh pipes (|) or any shell operators\n    - DO NOT use bash/zsh tools like grep, awk, sed, etc.\n    - DO NOT use shell redirection operators (\u003e, \u003e\u003e, \u003c)\n    - DO NOT use command substitution ($())\n    - DO NOT use shell variables or environment variables\n\n    Common pitfalls to avoid:\n    1. Missing required parameters - always include all required parameters\n    2. Incorrect parameter values - ensure values match expected format\n    3. Missing --region when operating across regions\n\n    Returns:\n        CLI execution results with API response data or error message\n    ",
+              "inputSchema": {
+                "properties": {
+                  "cli_command": {
+                    "description": "The complete AWS CLI command to execute. MUST start with \"aws\"",
+                    "type": "string"
+                  },
+                  "max_results": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Optional limit for number of results (useful for pagination)"
+                  }
+                },
+                "required": [
+                  "cli_command"
+                ],
+                "type": "object"
+              },
+              "name": "call_aws"
+            },
+            {
+              "annotations": {
+                "openWorldHint": false,
+                "readOnlyHint": true,
+                "title": "Suggest AWS CLI commands"
+              },
+              "description": "Suggest AWS CLI commands based on a natural language query. This is a FALLBACK tool to use when you are uncertain about the exact AWS CLI command needed to fulfill a user's request.\n\n    IMPORTANT: Only use this tool when:\n    1. You are unsure about the exact AWS service or operation to use\n    2. The user's request is ambiguous or lacks specific details\n    3. You need to explore multiple possible approaches to solve a task\n    4. You want to provide options to the user for different ways to accomplish their goal\n\n    DO NOT use this tool when:\n    1. You are confident about the exact AWS CLI command needed - use 'call_aws' instead\n    2. The user's request is clear and specific about the AWS service and operation\n    3. You already know the exact parameters and syntax needed\n    4. The task requires immediate execution of a known command\n\n    Best practices for query formulation:\n    1. Include the user's primary goal or intent\n    2. Specify any relevant AWS services if mentioned\n    3. Include important parameters or conditions mentioned\n    4. Add context about the environment or constraints\n    5. Mention any specific requirements or preferences\n\n    CRITICAL: Query Granularity\n    - Each query should be granular enough to be accomplished by a single CLI command\n    - If the user's request requires multiple commands to complete, break it down into individual tasks\n    - Call this tool separately for each specific task to get the most relevant suggestions\n    - Example of breaking down a complex request:\n      User request: \"Set up a new EC2 instance with a security group and attach it to an EBS volume\"\n      Break down into:\n      1. \"Create a new security group with inbound rules for SSH and HTTP\"\n      2. \"Create a new EBS volume with 100GB size\"\n      3. \"Launch an EC2 instance with t2.micro instance type\"\n      4. \"Attach the EBS volume to the EC2 instance\"\n\n    Query examples:\n    1. \"List all running EC2 instances in us-east-1 region\"\n    2. \"Get the size of my S3 bucket named 'my-backup-bucket'\"\n    3. \"List all IAM users who have AdministratorAccess policy\"\n    4. \"List all Lambda functions in my account\"\n    5. \"Create a new S3 bucket with versioning enabled and server-side encryption\"\n    6. \"Update the memory allocation of my Lambda function 'data-processor' to 1024MB\"\n    7. \"Add a new security group rule to allow inbound traffic on port 443\"\n    8. \"Tag all EC2 instances in the 'production' environment with 'Environment=prod'\"\n    9. \"Configure CloudWatch alarms for high CPU utilization on my RDS instance\"\n\n    Returns:\n        A list of up to 10 most likely AWS CLI commands that could accomplish the task, including:\n        - The CLI command\n        - Confidence score for the suggestion\n        - Required parameters\n        - Description of what the command does\n    ",
+              "inputSchema": {
+                "properties": {
+                  "query": {
+                    "description": "A natural language description of what you want to do in AWS. Should be detailed enough to capture the user's intent and any relevant context.",
+                    "maxLength": 2000,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "suggest_aws_commands"
+            }
+          ],
           "tools": [
             "call_aws",
             "suggest_aws_commands"
@@ -110,5 +96,77 @@
         }
       }
     }
-  }
+  },
+  "description": "Enables AI assistants to interact with AWS services and resources through AWS CLI commands",
+  "name": "io.github.stacklok/aws-api",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "default": "us-east-1",
+          "description": "Default AWS region for CLI commands unless a specific region is provided in the request",
+          "name": "AWS_REGION"
+        },
+        {
+          "description": "AWS access key ID for authentication",
+          "isSecret": true,
+          "name": "AWS_ACCESS_KEY_ID"
+        },
+        {
+          "description": "AWS secret access key for authentication",
+          "isSecret": true,
+          "name": "AWS_SECRET_ACCESS_KEY"
+        },
+        {
+          "description": "AWS session token for temporary credentials",
+          "isSecret": true,
+          "name": "AWS_SESSION_TOKEN"
+        },
+        {
+          "default": "false",
+          "description": "When set to \"true\", restricts execution to read-only operations",
+          "name": "READ_OPERATIONS_ONLY"
+        },
+        {
+          "default": "false",
+          "description": "When set to \"true\", asks explicit consent before executing non-read-only operations",
+          "name": "REQUIRE_MUTATION_CONSENT"
+        },
+        {
+          "description": "Working directory path for MCP server operations (must be absolute path)",
+          "name": "AWS_API_MCP_WORKING_DIR"
+        },
+        {
+          "default": "false",
+          "description": "When set to \"true\", enables system-wide file access (may cause unintended overwrites)",
+          "name": "AWS_API_MCP_ALLOW_UNRESTRICTED_LOCAL_FILE_ACCESS"
+        },
+        {
+          "default": "true",
+          "description": "Allow sending additional telemetry data to AWS related to server configuration",
+          "name": "AWS_API_MCP_TELEMETRY"
+        },
+        {
+          "default": "false",
+          "description": "When set to \"true\", enables experimental agent scripts functionality",
+          "name": "EXPERIMENTAL_AGENT_SCRIPTS"
+        },
+        {
+          "description": "Directory path containing custom user scripts for agent scripts functionality",
+          "name": "AWS_API_MCP_AGENT_SCRIPTS_DIR"
+        }
+      ],
+      "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.12",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/awslabs/mcp"
+  },
+  "title": "aws-api",
+  "version": "1.0.0"
 }

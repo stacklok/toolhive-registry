@@ -1,55 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/brightdata-mcp",
-  "description": "An MCP interface into the Bright Data toolset for web scraping and data extraction",
-  "title": "brightdata-mcp",
-  "repository": {
-    "url": "https://github.com/brightdata/brightdata-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.8.4",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Bright Data API token for authentication",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "API_TOKEN"
-        },
-        {
-          "description": "Rate limiting configuration (format: limit/time+unit, e.g., 100/1h, 50/30m, 10/5s)",
-          "name": "RATE_LIMIT"
-        },
-        {
-          "description": "Custom Web Unlocker zone name",
-          "default": "mcp_unlocker",
-          "name": "WEB_UNLOCKER_ZONE"
-        },
-        {
-          "description": "Custom Browser API zone name",
-          "default": "mcp_browser",
-          "name": "BROWSER_ZONE"
-        },
-        {
-          "description": "Enable pro mode to access all tools including browser automation and web data extraction",
-          "default": "false",
-          "name": "PRO_MODE"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.8.4": {
           "metadata": {
-            "last_updated": "2026-02-09T03:01:53Z",
+            "last_updated": "2026-02-18T00:05:40Z",
             "pulls": 65,
             "stars": 2007
           },
@@ -83,6 +39,135 @@
             "browser"
           ],
           "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Scrape as Markdown"
+              },
+              "description": "Scrape a single webpage URL with advanced options for content extraction and get back the results in MarkDown language. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
+              "inputSchema": {
+                "properties": {
+                  "url": {
+                    "format": "uri",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "type": "object"
+              },
+              "name": "scrape_as_markdown"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Scrape Batch"
+              },
+              "description": "Scrape multiple webpages URLs with advanced options for content extraction and get back the results in MarkDown language. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
+              "inputSchema": {
+                "properties": {
+                  "urls": {
+                    "description": "Array of URLs to scrape (max 5)",
+                    "items": {
+                      "format": "uri",
+                      "type": "string"
+                    },
+                    "maxItems": 5,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "urls"
+                ],
+                "type": "object"
+              },
+              "name": "scrape_batch"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Search Engine"
+              },
+              "description": "Scrape search results from Google, Bing or Yandex. Returns SERP results in JSON or Markdown (URL, title, description), Ideal forgathering current information, news, and detailed search results.",
+              "inputSchema": {
+                "properties": {
+                  "cursor": {
+                    "description": "Pagination cursor for next page",
+                    "type": "string"
+                  },
+                  "engine": {
+                    "default": "google",
+                    "enum": [
+                      "google",
+                      "bing",
+                      "yandex"
+                    ],
+                    "type": "string"
+                  },
+                  "query": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "search_engine"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Search Engine Batch"
+              },
+              "description": "Run multiple search queries simultaneously. Returns JSON for Google, Markdown for Bing/Yandex.",
+              "inputSchema": {
+                "properties": {
+                  "queries": {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "cursor": {
+                          "type": "string"
+                        },
+                        "engine": {
+                          "default": "google",
+                          "enum": [
+                            "google",
+                            "bing",
+                            "yandex"
+                          ],
+                          "type": "string"
+                        },
+                        "query": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "object"
+                    },
+                    "maxItems": 5,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "queries"
+                ],
+                "type": "object"
+              },
+              "name": "search_engine_batch"
+            }
+          ],
           "tools": [
             "scrape_as_markdown",
             "scrape_batch",
@@ -92,5 +177,49 @@
         }
       }
     }
-  }
+  },
+  "description": "An MCP interface into the Bright Data toolset for web scraping and data extraction",
+  "name": "io.github.stacklok/brightdata-mcp",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Bright Data API token for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "API_TOKEN"
+        },
+        {
+          "description": "Rate limiting configuration (format: limit/time+unit, e.g., 100/1h, 50/30m, 10/5s)",
+          "name": "RATE_LIMIT"
+        },
+        {
+          "default": "mcp_unlocker",
+          "description": "Custom Web Unlocker zone name",
+          "name": "WEB_UNLOCKER_ZONE"
+        },
+        {
+          "default": "mcp_browser",
+          "description": "Custom Browser API zone name",
+          "name": "BROWSER_ZONE"
+        },
+        {
+          "default": "false",
+          "description": "Enable pro mode to access all tools including browser automation and web data extraction",
+          "name": "PRO_MODE"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.8.4",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/brightdata/brightdata-mcp"
+  },
+  "title": "brightdata-mcp",
+  "version": "1.0.0"
 }

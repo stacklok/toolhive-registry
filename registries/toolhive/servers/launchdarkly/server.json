@@ -1,36 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/launchdarkly",
-  "description": "Official MCP server for LaunchDarkly feature flag management and AI Config orchestration",
-  "title": "launchdarkly",
-  "repository": {
-    "url": "https://github.com/launchdarkly/mcp-server",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.4.2",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "LaunchDarkly API access token with appropriate permissions (Writer or Developer role recommended)",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "LAUNCHDARKLY_API_KEY"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.4.2": {
           "metadata": {
-            "last_updated": "2026-02-07T02:54:31Z",
+            "last_updated": "2026-02-18T00:05:49Z",
             "stars": 18
           },
           "permissions": {
@@ -63,29 +38,1128 @@
             "launchdarkly"
           ],
           "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Creates a new AI Config within a project. Useful for setting up LLM configurations programmatically.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "AIConfigPost": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "description": {
+                            "default": "",
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "maintainerId": {
+                            "type": "string"
+                          },
+                          "maintainerTeamKey": {
+                            "type": "string"
+                          },
+                          "mode": {
+                            "default": "completion",
+                            "enum": [
+                              "agent",
+                              "completion"
+                            ],
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "tags": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "LD-API-Version": {
+                        "enum": [
+                          "beta"
+                        ],
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "LD-API-Version",
+                      "projectKey",
+                      "AIConfigPost"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "create-ai-config"
+            },
+            {
+              "annotations": {},
+              "description": "Adds a new variation to an AI Config, supporting experimentation or multi-model strategies.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "AIConfigVariationPost": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "comment": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "instructions": {
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "messages": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "content": {
+                                  "type": "string"
+                                },
+                                "role": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "content",
+                                "role"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "model": {
+                            "additionalProperties": false,
+                            "properties": {},
+                            "type": "object"
+                          },
+                          "modelConfigKey": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "messages",
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "LD-API-Version": {
+                        "enum": [
+                          "beta"
+                        ],
+                        "type": "string"
+                      },
+                      "configKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "LD-API-Version",
+                      "projectKey",
+                      "configKey",
+                      "AIConfigVariationPost"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "create-ai-config-variation"
+            },
+            {
+              "annotations": {},
+              "description": "Creates a new feature flag within a project. AI agents can use this operation to define feature toggles for controlled rollouts, experimentation, or gated features, automating the flag setup process.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "FeatureFlagBody": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "clientSideAvailability": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "usingEnvironmentId": {
+                                "type": "boolean"
+                              },
+                              "usingMobileKey": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "usingEnvironmentId",
+                              "usingMobileKey"
+                            ],
+                            "type": "object"
+                          },
+                          "customProperties": {
+                            "additionalProperties": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "type": "array"
+                                }
+                              },
+                              "required": [
+                                "name",
+                                "value"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "object"
+                          },
+                          "defaults": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "offVariation": {
+                                "type": "integer"
+                              },
+                              "onVariation": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "onVariation",
+                              "offVariation"
+                            ],
+                            "type": "object"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "includeInSnippet": {
+                            "type": "boolean"
+                          },
+                          "initialPrerequisites": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "key": {
+                                  "type": "string"
+                                },
+                                "variationId": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "variationId"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "isFlagOn": {
+                            "type": "boolean"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "maintainerId": {
+                            "type": "string"
+                          },
+                          "maintainerTeamKey": {
+                            "type": "string"
+                          },
+                          "migrationSettings": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "contextKind": {
+                                "type": "string"
+                              },
+                              "stageCount": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "stageCount"
+                            ],
+                            "type": "object"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "purpose": {
+                            "enum": [
+                              "migration",
+                              "holdout"
+                            ],
+                            "type": "string"
+                          },
+                          "tags": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "temporary": {
+                            "type": "boolean"
+                          },
+                          "variations": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "_id": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "value": {}
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "key"
+                        ],
+                        "type": "object"
+                      },
+                      "clone": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "projectKey",
+                      "FeatureFlagBody"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "create-feature-flag"
+            },
+            {
+              "annotations": {},
+              "description": "Deletes an AI Config and its associated variations. Intended for cleanup or deprecation workflows.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "LD-API-Version": {
+                        "enum": [
+                          "beta"
+                        ],
+                        "type": "string"
+                      },
+                      "configKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "LD-API-Version",
+                      "projectKey",
+                      "configKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "delete-ai-config"
+            },
+            {
+              "annotations": {},
+              "description": "Deletes an AI Config variation.",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "LD-API-Version": {
+                        "enum": [
+                          "beta"
+                        ],
+                        "type": "string"
+                      },
+                      "configKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      },
+                      "variationKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "LD-API-Version",
+                      "projectKey",
+                      "configKey",
+                      "variationKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "delete-ai-config-variation"
+            },
+            {
+              "annotations": {},
+              "description": "Removes a feature flag from the project. Used by AI agents to clean up deprecated toggles that are no longer in use, improving system hygiene and maintainability.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "featureFlagKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "projectKey",
+                      "featureFlagKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "delete-feature-flag"
+            },
+            {
+              "annotations": {},
+              "description": "Retrieves details of a specific AI Config, including variations and model settings.",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "LD-API-Version": {
+                        "enum": [
+                          "beta"
+                        ],
+                        "type": "string"
+                      },
+                      "configKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "LD-API-Version",
+                      "projectKey",
+                      "configKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "get-ai-config"
+            },
+            {
+              "annotations": {},
+              "description": "Retrieves the targeting details of a specific AI Config, including individual targets, rules, and rollouts.",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "LD-API-Version": {
+                        "enum": [
+                          "beta"
+                        ],
+                        "type": "string"
+                      },
+                      "configKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "LD-API-Version",
+                      "projectKey",
+                      "configKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "get-ai-config-targeting"
+            },
+            {
+              "annotations": {},
+              "description": "Retrieves an AI configuration variation.",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "LD-API-Version": {
+                        "enum": [
+                          "beta"
+                        ],
+                        "type": "string"
+                      },
+                      "configKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      },
+                      "variationKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "LD-API-Version",
+                      "projectKey",
+                      "configKey",
+                      "variationKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "get-ai-config-variation"
+            },
+            {
+              "annotations": {},
+              "description": "Identifies which repositories have code references to a given flag, helping agents determine if they're operating on the correct repository and understand the scope of cleanup (single vs multi-repo).\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "flagKey": {
+                        "type": "string"
+                      },
+                      "projKey": {
+                        "type": "string"
+                      },
+                      "withBranches": {
+                        "type": "string"
+                      },
+                      "withReferencesForDefaultBranch": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "get-code-references"
+            },
+            {
+              "annotations": {},
+              "description": "Identifies which environments exist in a project and determines which are marked as \"critical\" (production, staging, etc.). Allows agents to programmatically identify critical environments instead of hardcoding assumptions.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "filter": {
+                        "type": "string"
+                      },
+                      "limit": {
+                        "type": "integer"
+                      },
+                      "offset": {
+                        "type": "integer"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      },
+                      "sort": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "projectKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "get-environments"
+            },
+            {
+              "annotations": {},
+              "description": "Fetches the full configuration for a specific feature flag, including environments, variations, and targeting rules. Useful for agents auditing or managing specific feature toggles in a detailed, contextual manner.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "env": {
+                        "type": "string"
+                      },
+                      "expand": {
+                        "type": "string"
+                      },
+                      "featureFlagKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "projectKey",
+                      "featureFlagKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "get-feature-flag"
+            },
+            {
+              "annotations": {},
+              "description": "Returns lifecycle status (new, active, inactive, launched) based on actual usage patterns, evaluation counts, and configuration stability. This is the key intelligence for removal readiness assessment.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "env": {
+                        "type": "string"
+                      },
+                      "featureFlagKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "projectKey",
+                      "featureFlagKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "get-flag-status-across-environments"
+            },
+            {
+              "annotations": {},
+              "description": "Retrieves AI configuration settings for a specific project. This endpoint allows agents to access and modify AI-related configurations, ensuring that the AI's behavior aligns with project requirements and user expectations.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "LD-API-Version": {
+                        "enum": [
+                          "beta"
+                        ],
+                        "type": "string"
+                      },
+                      "filter": {
+                        "type": "string"
+                      },
+                      "limit": {
+                        "type": "integer"
+                      },
+                      "offset": {
+                        "type": "integer"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      },
+                      "sort": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "LD-API-Version",
+                      "projectKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "list-ai-configs"
+            },
+            {
+              "annotations": {},
+              "description": "Retrieves all feature flags within a project, including metadata and targeting rules. Enables AI agents to enumerate existing flags for inspection, configuration analysis, or generating flag usage reports across environments.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "archived": {
+                        "type": "boolean"
+                      },
+                      "compare": {
+                        "type": "boolean"
+                      },
+                      "env": {
+                        "type": "string"
+                      },
+                      "expand": {
+                        "type": "string"
+                      },
+                      "filter": {
+                        "type": "string"
+                      },
+                      "limit": {
+                        "type": "integer"
+                      },
+                      "offset": {
+                        "type": "integer"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      },
+                      "sort": {
+                        "type": "string"
+                      },
+                      "summary": {
+                        "type": "boolean"
+                      },
+                      "tag": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "projectKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "list-feature-flags"
+            },
+            {
+              "annotations": {},
+              "description": "Updates metadata or configuration of an existing AI Config.",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "AIConfigPatch": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "description": {
+                            "type": "string"
+                          },
+                          "maintainerId": {
+                            "type": "string"
+                          },
+                          "maintainerTeamKey": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "tags": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "LD-API-Version": {
+                        "enum": [
+                          "beta"
+                        ],
+                        "type": "string"
+                      },
+                      "configKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "LD-API-Version",
+                      "projectKey",
+                      "configKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "update-ai-config"
+            },
+            {
+              "annotations": {},
+              "description": "Updates the targeting of an existing AI Config.",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "AIConfigTargetingPatch": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "comment": {
+                            "type": "string"
+                          },
+                          "environmentKey": {
+                            "type": "string"
+                          },
+                          "instructions": {
+                            "items": {
+                              "additionalProperties": {},
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "environmentKey",
+                          "instructions"
+                        ],
+                        "type": "object"
+                      },
+                      "LD-API-Version": {
+                        "enum": [
+                          "beta"
+                        ],
+                        "type": "string"
+                      },
+                      "configKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "LD-API-Version",
+                      "projectKey",
+                      "configKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "update-ai-config-targeting"
+            },
+            {
+              "annotations": {},
+              "description": "Updates a specific variation within an AI Config. Enables fine-tuned control of model behavior.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "AIConfigVariationPatch": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "comment": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "instructions": {
+                            "type": "string"
+                          },
+                          "messages": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "content": {
+                                  "type": "string"
+                                },
+                                "role": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "content",
+                                "role"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "model": {
+                            "additionalProperties": false,
+                            "properties": {},
+                            "type": "object"
+                          },
+                          "modelConfigKey": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "published": {
+                            "type": "boolean"
+                          },
+                          "state": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "LD-API-Version": {
+                        "enum": [
+                          "beta"
+                        ],
+                        "type": "string"
+                      },
+                      "configKey": {
+                        "type": "string"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      },
+                      "variationKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "LD-API-Version",
+                      "projectKey",
+                      "configKey",
+                      "variationKey"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "update-ai-config-variation"
+            },
+            {
+              "annotations": {},
+              "description": "Updates the configuration of an existing feature flag. Enables agents to change targeting rules, modify variations, or adapt rollout strategies dynamically in response to user behavior or experiment results.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "PatchWithComment": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "comment": {
+                            "type": "string"
+                          },
+                          "patch": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "op": {
+                                  "type": "string"
+                                },
+                                "path": {
+                                  "type": "string"
+                                },
+                                "value": {}
+                              },
+                              "required": [
+                                "op",
+                                "path"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "patch"
+                        ],
+                        "type": "object"
+                      },
+                      "featureFlagKey": {
+                        "type": "string"
+                      },
+                      "ignoreConflicts": {
+                        "type": "boolean"
+                      },
+                      "projectKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "projectKey",
+                      "featureFlagKey",
+                      "PatchWithComment"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "update-feature-flag"
+            }
+          ],
           "tools": [
             "create-ai-config",
             "create-ai-config-variation",
+            "create-feature-flag",
             "delete-ai-config",
             "delete-ai-config-variation",
+            "delete-feature-flag",
             "get-ai-config",
             "get-ai-config-targeting",
             "get-ai-config-variation",
+            "get-code-references",
+            "get-environments",
+            "get-feature-flag",
+            "get-flag-status-across-environments",
             "list-ai-configs",
+            "list-feature-flags",
             "update-ai-config",
             "update-ai-config-targeting",
             "update-ai-config-variation",
-            "get-code-references",
-            "get-environments",
-            "create-feature-flag",
-            "delete-feature-flag",
-            "get-feature-flag",
-            "get-flag-status-across-environments",
-            "list-feature-flags",
             "update-feature-flag"
           ]
         }
       }
     }
-  }
+  },
+  "description": "Official MCP server for LaunchDarkly feature flag management and AI Config orchestration",
+  "name": "io.github.stacklok/launchdarkly",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "LaunchDarkly API access token with appropriate permissions (Writer or Developer role recommended)",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "LAUNCHDARKLY_API_KEY"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.4.2",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/launchdarkly/mcp-server"
+  },
+  "title": "launchdarkly",
+  "version": "1.0.0"
 }
