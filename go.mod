@@ -7,7 +7,7 @@ require (
 	github.com/mark3labs/mcp-go v0.44.0
 	github.com/modelcontextprotocol/registry v1.4.1
 	github.com/spf13/cobra v1.10.2
-	github.com/stacklok/toolhive v0.9.5-0.20260217220626-7c88309a5734
+	github.com/stacklok/toolhive v0.9.5-0.20260218073801-de65ad0a7cc2
 	github.com/stretchr/testify v1.11.1
 )
 
@@ -43,7 +43,6 @@ require (
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/go-logr/zapr v1.3.0 // indirect
 	github.com/go-openapi/analysis v0.24.1 // indirect
 	github.com/go-openapi/errors v0.22.6 // indirect
 	github.com/go-openapi/jsonpointer v0.22.4 // indirect
@@ -124,8 +123,6 @@ require (
 	go.opentelemetry.io/otel/metric v1.40.0 // indirect
 	go.opentelemetry.io/otel/trace v1.40.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.9.0 // indirect
-	go.uber.org/multierr v1.11.0 // indirect
-	go.uber.org/zap v1.27.1 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.48.0 // indirect
 	golang.org/x/mod v0.33.0 // indirect
