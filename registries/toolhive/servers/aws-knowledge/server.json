@@ -1,19 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/aws-knowledge",
-  "description": "Documentation, code samples, regional availability knowledge, and other official AWS content",
-  "title": "AWS Knowledge Bases",
-  "repository": {
-    "url": "https://github.com/awslabs/mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://knowledge-mcp.global.api.aws"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -23,8 +9,8 @@
             "homepage": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server/"
           },
           "metadata": {
-            "last_updated": "2026-01-28T02:42:37Z",
-            "stars": 7978
+            "last_updated": "2026-02-18T22:27:15Z",
+            "stars": 8185
           },
           "status": "Active",
           "tags": [
@@ -49,5 +35,19 @@
         }
       }
     }
-  }
+  },
+  "description": "Documentation, code samples, regional availability knowledge, and other official AWS content",
+  "name": "io.github.stacklok/aws-knowledge",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://knowledge-mcp.global.api.aws"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/awslabs/mcp"
+  },
+  "title": "AWS Knowledge Bases",
+  "version": "1.0.0"
 }
