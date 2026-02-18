@@ -1,41 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/heroku",
-  "description": "MCP server for seamless interaction between LLMs and the Heroku Platform",
-  "title": "heroku",
-  "repository": {
-    "url": "https://github.com/heroku/heroku-mcp-server",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Your Heroku authorization token",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "HEROKU_API_KEY"
-        },
-        {
-          "description": "Timeout in milliseconds for command execution",
-          "default": "15000",
-          "name": "MCP_SERVER_REQUEST_TIMEOUT"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7": {
           "metadata": {
-            "last_updated": "2026-01-25T13:39:52Z",
+            "last_updated": "2026-02-18T08:06:20Z",
             "pulls": 104,
             "stars": 73
           },
@@ -105,5 +75,35 @@
         }
       }
     }
-  }
+  },
+  "description": "MCP server for seamless interaction between LLMs and the Heroku Platform",
+  "name": "io.github.stacklok/heroku",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Your Heroku authorization token",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "HEROKU_API_KEY"
+        },
+        {
+          "default": "15000",
+          "description": "Timeout in milliseconds for command execution",
+          "name": "MCP_SERVER_REQUEST_TIMEOUT"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/heroku/heroku-mcp-server"
+  },
+  "title": "heroku",
+  "version": "1.0.0"
 }

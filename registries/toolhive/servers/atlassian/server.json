@@ -1,96 +1,13 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/atlassian",
-  "description": "Connect to Atlassian products like Confluence, Jira Cloud and Server/Data deployments.",
-  "title": "atlassian",
-  "repository": {
-    "url": "https://github.com/sooperset/mcp-atlassian",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/sooperset/mcp-atlassian:0.14.0",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Confluence URL (e.g., https://your-domain.atlassian.net/wiki)",
-          "name": "CONFLUENCE_URL"
-        },
-        {
-          "description": "Confluence username/email for Cloud deployments",
-          "name": "CONFLUENCE_USERNAME"
-        },
-        {
-          "description": "Confluence API token for Cloud deployments",
-          "isSecret": true,
-          "name": "CONFLUENCE_API_TOKEN"
-        },
-        {
-          "description": "Confluence Personal Access Token for Server/Data Center deployments",
-          "isSecret": true,
-          "name": "CONFLUENCE_PERSONAL_TOKEN"
-        },
-        {
-          "description": "Verify SSL certificates for Confluence Server/Data Center (true/false)",
-          "name": "CONFLUENCE_SSL_VERIFY"
-        },
-        {
-          "description": "Comma-separated list of Confluence space keys to filter search results",
-          "name": "CONFLUENCE_SPACES_FILTER"
-        },
-        {
-          "description": "Jira URL (e.g., https://your-domain.atlassian.net)",
-          "name": "JIRA_URL"
-        },
-        {
-          "description": "Jira username/email for Cloud deployments",
-          "name": "JIRA_USERNAME"
-        },
-        {
-          "description": "Jira API token for Cloud deployments",
-          "isSecret": true,
-          "name": "JIRA_API_TOKEN"
-        },
-        {
-          "description": "Jira Personal Access Token for Server/Data Center deployments",
-          "isSecret": true,
-          "name": "JIRA_PERSONAL_TOKEN"
-        },
-        {
-          "description": "Verify SSL certificates for Jira Server/Data Center (true/false)",
-          "name": "JIRA_SSL_VERIFY"
-        },
-        {
-          "description": "Comma-separated list of Jira project keys to filter search results",
-          "name": "JIRA_PROJECTS_FILTER"
-        },
-        {
-          "description": "Run in read-only mode (disables all write operations)",
-          "name": "READ_ONLY_MODE"
-        },
-        {
-          "description": "Increase logging verbosity",
-          "name": "MCP_VERBOSE"
-        },
-        {
-          "description": "Comma-separated list of tool names to enable (if not set, all tools are enabled)",
-          "name": "ENABLED_TOOLS"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/sooperset/mcp-atlassian:0.14.0": {
           "metadata": {
-            "last_updated": "2026-01-26T02:48:40Z",
+            "last_updated": "2026-02-18T08:06:20Z",
             "pulls": 12849,
-            "stars": 4076
+            "stars": 4306
           },
           "permissions": {
             "network": {
@@ -165,5 +82,88 @@
         }
       }
     }
-  }
+  },
+  "description": "Connect to Atlassian products like Confluence, Jira Cloud and Server/Data deployments.",
+  "name": "io.github.stacklok/atlassian",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Confluence URL (e.g., https://your-domain.atlassian.net/wiki)",
+          "name": "CONFLUENCE_URL"
+        },
+        {
+          "description": "Confluence username/email for Cloud deployments",
+          "name": "CONFLUENCE_USERNAME"
+        },
+        {
+          "description": "Confluence API token for Cloud deployments",
+          "isSecret": true,
+          "name": "CONFLUENCE_API_TOKEN"
+        },
+        {
+          "description": "Confluence Personal Access Token for Server/Data Center deployments",
+          "isSecret": true,
+          "name": "CONFLUENCE_PERSONAL_TOKEN"
+        },
+        {
+          "description": "Verify SSL certificates for Confluence Server/Data Center (true/false)",
+          "name": "CONFLUENCE_SSL_VERIFY"
+        },
+        {
+          "description": "Comma-separated list of Confluence space keys to filter search results",
+          "name": "CONFLUENCE_SPACES_FILTER"
+        },
+        {
+          "description": "Jira URL (e.g., https://your-domain.atlassian.net)",
+          "name": "JIRA_URL"
+        },
+        {
+          "description": "Jira username/email for Cloud deployments",
+          "name": "JIRA_USERNAME"
+        },
+        {
+          "description": "Jira API token for Cloud deployments",
+          "isSecret": true,
+          "name": "JIRA_API_TOKEN"
+        },
+        {
+          "description": "Jira Personal Access Token for Server/Data Center deployments",
+          "isSecret": true,
+          "name": "JIRA_PERSONAL_TOKEN"
+        },
+        {
+          "description": "Verify SSL certificates for Jira Server/Data Center (true/false)",
+          "name": "JIRA_SSL_VERIFY"
+        },
+        {
+          "description": "Comma-separated list of Jira project keys to filter search results",
+          "name": "JIRA_PROJECTS_FILTER"
+        },
+        {
+          "description": "Run in read-only mode (disables all write operations)",
+          "name": "READ_ONLY_MODE"
+        },
+        {
+          "description": "Increase logging verbosity",
+          "name": "MCP_VERBOSE"
+        },
+        {
+          "description": "Comma-separated list of tool names to enable (if not set, all tools are enabled)",
+          "name": "ENABLED_TOOLS"
+        }
+      ],
+      "identifier": "ghcr.io/sooperset/mcp-atlassian:0.14.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/sooperset/mcp-atlassian"
+  },
+  "title": "atlassian",
+  "version": "1.0.0"
 }
