@@ -1,50 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/crowdstrike-falcon",
-  "description": "CrowdStrike Falcon integration for security analysis, detections, incidents, and threat intel",
-  "title": "CrowdStrike Falcon",
-  "repository": {
-    "url": "https://github.com/crowdstrike/falcon-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "quay.io/crowdstrike/falcon-mcp:latest",
-      "transport": {
-        "type": "streamable-http",
-        "url": "http://localhost:8000"
-      },
-      "environmentVariables": [
-        {
-          "description": "CrowdStrike API client ID",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "FALCON_CLIENT_ID"
-        },
-        {
-          "description": "CrowdStrike API client secret",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "FALCON_CLIENT_SECRET"
-        },
-        {
-          "description": "CrowdStrike API base URL (e.g., https://api.crowdstrike.com, https://api.us-2.crowdstrike.com, https://api.eu-1.crowdstrike.com)",
-          "isRequired": true,
-          "name": "FALCON_BASE_URL"
-        },
-        {
-          "description": "Comma-separated list of modules to enable (detections,incidents,intel,hosts,spotlight,cloud,idp). If not set, all modules are enabled.",
-          "name": "FALCON_MCP_MODULES"
-        },
-        {
-          "description": "Enable debug logging - true or false (default: false)",
-          "name": "FALCON_MCP_DEBUG"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -58,8 +13,8 @@
             "8000"
           ],
           "metadata": {
-            "last_updated": "2026-02-05T04:47:22Z",
-            "stars": 98
+            "last_updated": "2026-02-18T22:27:15Z",
+            "stars": 107
           },
           "permissions": {
             "network": {
@@ -118,5 +73,50 @@
         }
       }
     }
-  }
+  },
+  "description": "CrowdStrike Falcon integration for security analysis, detections, incidents, and threat intel",
+  "name": "io.github.stacklok/crowdstrike-falcon",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "CrowdStrike API client ID",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "FALCON_CLIENT_ID"
+        },
+        {
+          "description": "CrowdStrike API client secret",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "FALCON_CLIENT_SECRET"
+        },
+        {
+          "description": "CrowdStrike API base URL (e.g., https://api.crowdstrike.com, https://api.us-2.crowdstrike.com, https://api.eu-1.crowdstrike.com)",
+          "isRequired": true,
+          "name": "FALCON_BASE_URL"
+        },
+        {
+          "description": "Comma-separated list of modules to enable (detections,incidents,intel,hosts,spotlight,cloud,idp). If not set, all modules are enabled.",
+          "name": "FALCON_MCP_MODULES"
+        },
+        {
+          "description": "Enable debug logging - true or false (default: false)",
+          "name": "FALCON_MCP_DEBUG"
+        }
+      ],
+      "identifier": "quay.io/crowdstrike/falcon-mcp:latest",
+      "registryType": "oci",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8000"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/crowdstrike/falcon-mcp"
+  },
+  "title": "CrowdStrike Falcon",
+  "version": "1.0.0"
 }

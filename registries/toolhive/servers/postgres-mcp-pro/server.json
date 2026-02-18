@@ -1,36 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/postgres-mcp-pro",
-  "description": "Provides configurable read/write access and performance analysis for PostgreSQL databases.",
-  "title": "PostgreSQL Pro",
-  "repository": {
-    "url": "https://github.com/crystaldba/postgres-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "crystaldba/postgres-mcp:0.3.0",
-      "transport": {
-        "type": "sse",
-        "url": "http://localhost:8000"
-      },
-      "environmentVariables": [
-        {
-          "description": "PostgreSQL connection string, like 'postgresql://username:password@host.docker.internal:5432/dbname'",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "DATABASE_URI"
-        },
-        {
-          "description": "OpenAI API key for experimental index tuning by LLM",
-          "isSecret": true,
-          "name": "OPENAI_API_KEY"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -41,8 +10,8 @@
             "--sse-port=8000"
           ],
           "metadata": {
-            "last_updated": "2026-01-27T02:45:00Z",
-            "stars": 1903
+            "last_updated": "2026-02-18T22:27:15Z",
+            "stars": 2066
           },
           "permissions": {
             "network": {
@@ -79,5 +48,36 @@
         }
       }
     }
-  }
+  },
+  "description": "Provides configurable read/write access and performance analysis for PostgreSQL databases.",
+  "name": "io.github.stacklok/postgres-mcp-pro",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "PostgreSQL connection string, like 'postgresql://username:password@host.docker.internal:5432/dbname'",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "DATABASE_URI"
+        },
+        {
+          "description": "OpenAI API key for experimental index tuning by LLM",
+          "isSecret": true,
+          "name": "OPENAI_API_KEY"
+        }
+      ],
+      "identifier": "crystaldba/postgres-mcp:0.3.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "sse",
+        "url": "http://localhost:8000"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/crystaldba/postgres-mcp"
+  },
+  "title": "PostgreSQL Pro",
+  "version": "1.0.0"
 }
