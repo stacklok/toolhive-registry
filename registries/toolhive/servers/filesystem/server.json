@@ -1,22 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/filesystem",
-  "description": "Allows you to do filesystem operations. Mount paths under /projects using --volume.",
-  "title": "Filesystem",
-  "repository": {
-    "url": "https://github.com/modelcontextprotocol/servers",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "docker.io/mcp/filesystem:1.0.2",
-      "transport": {
-        "type": "stdio"
-      }
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -25,8 +8,8 @@
             "/projects"
           ],
           "metadata": {
-            "last_updated": "2026-01-26T02:48:41Z",
-            "stars": 77164
+            "last_updated": "2026-02-18T22:27:14Z",
+            "stars": 78940
           },
           "permissions": {
             "network": {
@@ -66,5 +49,22 @@
         }
       }
     }
-  }
+  },
+  "description": "Allows you to do filesystem operations. Mount paths under /projects using --volume.",
+  "name": "io.github.stacklok/filesystem",
+  "packages": [
+    {
+      "identifier": "docker.io/mcp/filesystem:1.0.2",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/modelcontextprotocol/servers"
+  },
+  "title": "Filesystem",
+  "version": "1.0.0"
 }
