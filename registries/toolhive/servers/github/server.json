@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/github/github-mcp-server:v0.31.0": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:08Z",
+            "last_updated": "2026-02-19T21:06:27Z",
             "stars": 26386
           },
           "permissions": {
@@ -149,6 +149,45 @@
                 "type": "object"
               },
               "name": "add_issue_comment"
+            },
+            {
+              "annotations": {
+                "title": "Add reply to pull request comment"
+              },
+              "description": "Add a reply to an existing pull request comment. This creates a new comment that is linked as a reply to the specified comment.",
+              "inputSchema": {
+                "properties": {
+                  "body": {
+                    "description": "The text of the reply",
+                    "type": "string"
+                  },
+                  "commentId": {
+                    "description": "The ID of the comment to reply to",
+                    "type": "number"
+                  },
+                  "owner": {
+                    "description": "Repository owner",
+                    "type": "string"
+                  },
+                  "pullNumber": {
+                    "description": "Pull request number",
+                    "type": "number"
+                  },
+                  "repo": {
+                    "description": "Repository name",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "owner",
+                  "repo",
+                  "pullNumber",
+                  "commentId",
+                  "body"
+                ],
+                "type": "object"
+              },
+              "name": "add_reply_to_pull_request_comment"
             },
             {
               "annotations": {
@@ -1799,6 +1838,7 @@
           "tools": [
             "add_comment_to_pending_review",
             "add_issue_comment",
+            "add_reply_to_pull_request_comment",
             "assign_copilot_to_issue",
             "create_branch",
             "create_or_update_file",
