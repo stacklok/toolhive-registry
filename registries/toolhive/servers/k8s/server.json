@@ -1,35 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/k8s",
-  "description": "Allows LLM-powered applications to interact with Kubernetes clusters.",
-  "title": "Kubernetes",
-  "repository": {
-    "url": "https://github.com/StacklokLabs/mkp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stackloklabs/mkp/server:0.2.4",
-      "transport": {
-        "type": "streamable-http",
-        "url": "http://localhost:8080"
-      },
-      "environmentVariables": [
-        {
-          "description": "Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)",
-          "name": "KUBECONFIG"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/mkp/server:0.2.4": {
           "metadata": {
-            "last_updated": "2026-02-05T04:47:24Z",
+            "last_updated": "2026-02-19T03:03:34Z",
             "stars": 56
           },
           "permissions": {
@@ -70,5 +46,29 @@
         }
       }
     }
-  }
+  },
+  "description": "Allows LLM-powered applications to interact with Kubernetes clusters.",
+  "name": "io.github.stacklok/k8s",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)",
+          "name": "KUBECONFIG"
+        }
+      ],
+      "identifier": "ghcr.io/stackloklabs/mkp/server:0.2.4",
+      "registryType": "oci",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/StacklokLabs/mkp"
+  },
+  "title": "Kubernetes",
+  "version": "1.0.0"
 }

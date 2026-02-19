@@ -1,35 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/netbird",
-  "description": "Enables management of an NetBird network.",
-  "title": "NetBird",
-  "repository": {
-    "url": "https://github.com/aantti/mcp-netbird",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/go/netbird:latest",
-      "transport": {
-        "type": "sse",
-        "url": "http://localhost:8001"
-      },
-      "environmentVariables": [
-        {
-          "description": "NetBird API token for authentication",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "NETBIRD_API_TOKEN"
-        },
-        {
-          "description": "NetBird API host (default is api.netbird.io)",
-          "name": "NETBIRD_HOST"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -41,8 +11,8 @@
             ":8001"
           ],
           "metadata": {
-            "last_updated": "2026-02-05T04:47:24Z",
-            "stars": 41
+            "last_updated": "2026-02-19T03:03:34Z",
+            "stars": 42
           },
           "permissions": {
             "network": {
@@ -81,5 +51,35 @@
         }
       }
     }
-  }
+  },
+  "description": "Enables management of an NetBird network.",
+  "name": "io.github.stacklok/netbird",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "NetBird API token for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "NETBIRD_API_TOKEN"
+        },
+        {
+          "description": "NetBird API host (default is api.netbird.io)",
+          "name": "NETBIRD_HOST"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/go/netbird:latest",
+      "registryType": "oci",
+      "transport": {
+        "type": "sse",
+        "url": "http://localhost:8001"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/aantti/mcp-netbird"
+  },
+  "title": "NetBird",
+  "version": "1.0.0"
 }
