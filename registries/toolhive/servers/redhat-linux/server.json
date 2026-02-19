@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.3.2": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:49Z",
+            "last_updated": "2026-02-19T21:06:58Z",
             "stars": 160
           },
           "status": "Active",
@@ -136,15 +136,7 @@
                     "type": "integer"
                   },
                   "priority": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "default": null,
+                    "default": "",
                     "description": "Filter by syslog priority level (0-7), name, or range",
                     "examples": [
                       "err",
@@ -153,18 +145,11 @@
                       "debug",
                       "3",
                       "err..warning"
-                    ]
+                    ],
+                    "type": "string"
                   },
                   "since": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "default": null,
+                    "default": "",
                     "description": "Filter entries since specified time (absolute or relative)",
                     "examples": [
                       "today",
@@ -173,7 +158,8 @@
                       "-30m",
                       "-7d",
                       "2025-01-15 10:00:00"
-                    ]
+                    ],
+                    "type": "string"
                   },
                   "transport": {
                     "anyOf": [
@@ -188,15 +174,7 @@
                     "description": "Filter by journal transport (e.g., 'audit' for audit logs, 'kernel' for kernel messages, 'syslog' for syslog messages)"
                   },
                   "unit": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "default": null,
+                    "default": "",
                     "description": "Filter by systemd unit name or pattern",
                     "examples": [
                       "sshd.service",
@@ -204,7 +182,8 @@
                       "httpd",
                       "systemd-*",
                       "audit*"
-                    ]
+                    ],
+                    "type": "string"
                   }
                 },
                 "required": [],
