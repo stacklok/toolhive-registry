@@ -14,7 +14,7 @@ on:
 
 permissions:
   contents: write
-  pull-requests: read
+  pull-requests: write
 
 jobs:
   lint:
@@ -342,6 +342,56 @@ jobs:
           echo "Release updated successfully"
         env:
           GH_TOKEN: ${{ github.token }}
+
+  open-dist-pr:
+    name: Open PR with Built Registry Files
+    runs-on: ubuntu-latest
+    needs: [build-and-release]
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+
+      - name: Build registry files
+        run: |
+          task catalog:build
+          mkdir -p dist
+          for registry_dir in build/*/; do
+            [ -f "$registry_dir/registry.json" ] || continue
+            cp "$registry_dir/registry.json" dist/registry.json
+            cp "$registry_dir/official-registry.json" dist/official-registry.json
+          done
+
+      - name: Generate version
+        id: metadata
+        run: echo "version=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
+
+      - name: Open PR with built registry files
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update built registry files for v${{ steps.metadata.outputs.version }}'
+          title: 'chore: update built registry files for v${{ steps.metadata.outputs.version }}'
+          body: |
+            Automated PR to commit the built registry files for release `v${{ steps.metadata.outputs.version }}`.
+
+            Files updated:
+            - `dist/registry.json` — ToolHive format
+            - `dist/official-registry.json` — Official MCP format
+          branch: update-dist-${{ steps.metadata.outputs.version }}
+          delete-branch: true
+          add-paths: |
+            dist/registry.json
+            dist/official-registry.json
 
   build-pr:
     name: Build PR Preview
