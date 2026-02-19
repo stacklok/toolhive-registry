@@ -1,29 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/plotting",
-  "description": "Provides plotting capabilities for visualizing data in various formats.",
-  "title": "Plotting",
-  "repository": {
-    "url": "https://github.com/StacklokLabs/plotting-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stackloklabs/plotting-mcp:v0.0.2",
-      "transport": {
-        "type": "streamable-http",
-        "url": "http://localhost:9090"
-      }
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/plotting-mcp:v0.0.2": {
           "metadata": {
-            "last_updated": "2026-02-05T04:47:23Z",
+            "last_updated": "2026-02-19T03:03:33Z",
             "stars": 7
           },
           "permissions": {
@@ -57,5 +39,23 @@
         }
       }
     }
-  }
+  },
+  "description": "Provides plotting capabilities for visualizing data in various formats.",
+  "name": "io.github.stacklok/plotting",
+  "packages": [
+    {
+      "identifier": "ghcr.io/stackloklabs/plotting-mcp:v0.0.2",
+      "registryType": "oci",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:9090"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/StacklokLabs/plotting-mcp"
+  },
+  "title": "Plotting",
+  "version": "1.0.0"
 }

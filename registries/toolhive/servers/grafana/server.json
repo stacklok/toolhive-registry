@@ -1,47 +1,12 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/grafana",
-  "description": "Grafana integration for dashboard search, datasource queries, alerting, and incident response",
-  "title": "Grafana",
-  "repository": {
-    "url": "https://github.com/grafana/mcp-grafana",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "docker.io/grafana/mcp-grafana:0.10.0",
-      "transport": {
-        "type": "sse",
-        "url": "http://localhost:8000"
-      },
-      "environmentVariables": [
-        {
-          "description": "URL of the Grafana instance to connect to",
-          "isRequired": true,
-          "name": "GRAFANA_URL"
-        },
-        {
-          "description": "Service account token with appropriate permissions",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "GRAFANA_SERVICE_ACCOUNT_TOKEN"
-        },
-        {
-          "description": "Organization ID for multi-organization Grafana instances",
-          "name": "GRAFANA_ORG_ID"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "docker.io/grafana/mcp-grafana:0.10.0": {
           "metadata": {
-            "last_updated": "2026-02-05T04:47:24Z",
-            "stars": 2232
+            "last_updated": "2026-02-19T03:03:33Z",
+            "stars": 2324
           },
           "permissions": {
             "network": {
@@ -144,5 +109,40 @@
         }
       }
     }
-  }
+  },
+  "description": "Grafana integration for dashboard search, datasource queries, alerting, and incident response",
+  "name": "io.github.stacklok/grafana",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "URL of the Grafana instance to connect to",
+          "isRequired": true,
+          "name": "GRAFANA_URL"
+        },
+        {
+          "description": "Service account token with appropriate permissions",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "GRAFANA_SERVICE_ACCOUNT_TOKEN"
+        },
+        {
+          "description": "Organization ID for multi-organization Grafana instances",
+          "name": "GRAFANA_ORG_ID"
+        }
+      ],
+      "identifier": "docker.io/grafana/mcp-grafana:0.10.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "sse",
+        "url": "http://localhost:8000"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/grafana/mcp-grafana"
+  },
+  "title": "Grafana",
+  "version": "1.0.0"
 }
