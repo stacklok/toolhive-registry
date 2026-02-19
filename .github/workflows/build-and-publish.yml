@@ -73,7 +73,7 @@ jobs:
     name: Build and Release Registry
     runs-on: ubuntu-latest
     needs: [lint, validate-and-test]
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -347,7 +347,7 @@ jobs:
     name: Open PR with Built Registry Files
     runs-on: ubuntu-latest
     needs: [build-and-release]
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
