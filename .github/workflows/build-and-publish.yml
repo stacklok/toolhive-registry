@@ -364,11 +364,12 @@ jobs:
       - name: Build registry files
         run: |
           task catalog:build
-          mkdir -p dist
           for registry_dir in build/*/; do
+            registry_name=$(basename "$registry_dir")
             [ -f "$registry_dir/registry.json" ] || continue
-            cp "$registry_dir/registry.json" dist/registry.json
-            cp "$registry_dir/official-registry.json" dist/official-registry.json
+            mkdir -p "pkg/catalog/$registry_name/data"
+            cp "$registry_dir/registry.json" "pkg/catalog/$registry_name/data/registry.json"
+            cp "$registry_dir/official-registry.json" "pkg/catalog/$registry_name/data/official-registry.json"
           done
 
       - name: Generate version
@@ -385,13 +386,13 @@ jobs:
             Automated PR to commit the built registry files for release `v${{ steps.metadata.outputs.version }}`.
 
             Files updated:
-            - `dist/registry.json` — ToolHive format
-            - `dist/official-registry.json` — Official MCP format
+            - `pkg/catalog/toolhive/data/registry.json` — ToolHive legacy format
+            - `pkg/catalog/toolhive/data/official-registry.json` — Upstream MCP format
           branch: update-dist-${{ steps.metadata.outputs.version }}
           delete-branch: true
           add-paths: |
-            dist/registry.json
-            dist/official-registry.json
+            pkg/catalog/*/data/registry.json
+            pkg/catalog/*/data/official-registry.json
 
   build-pr:
     name: Build PR Preview
