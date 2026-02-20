@@ -1,4 +1,4 @@
-name: Build and Publish Registry
+name: CI
 
 on:
   push:
@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   lint:
-    name: Lint Go Code
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -58,7 +58,7 @@ jobs:
       - name: Upload coverage reports
         uses: codecov/codecov-action@v5
         with:
-          file: ./coverage.out
+          files: ./coverage.out
           flags: unittests
           name: codecov-umbrella
         continue-on-error: true
@@ -124,7 +124,7 @@ jobs:
             pkg/catalog/*/data/official-registry.json
 
   build-pr:
-    name: Build PR Preview
+    name: Build Check
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:

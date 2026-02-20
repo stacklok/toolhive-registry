@@ -1,4 +1,4 @@
-name: Release Catalog Package
+name: Publish Release
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   release:
-    name: Tag and Release Catalog
+    name: Publish Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
