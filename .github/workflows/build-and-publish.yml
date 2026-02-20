@@ -69,284 +69,10 @@ jobs:
       - name: Validate catalog entries
         run: task catalog:validate
 
-  build-and-release:
-    name: Build and Release Registry
+  update-catalog-data:
+    name: Update Catalog Data Files
     runs-on: ubuntu-latest
     needs: [lint, validate-and-test]
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Set up Go
-        uses: actions/setup-go@v6
-        with:
-          go-version-file: 'go.mod'
-          cache: true
-
-      - name: Install Task
-        uses: arduino/setup-task@v2
-
-      - name: Build registry files
-        run: |
-          mkdir -p dist
-          task catalog:build
-          # catalog outputs to build/<registry-name>/
-          for registry_dir in build/*/; do
-            registry_name=$(basename "$registry_dir")
-            [ -f "$registry_dir/registry.json" ] || continue
-            cp "$registry_dir/registry.json" "dist/registry.json"
-            cp "$registry_dir/official-registry.json" "dist/official-registry.json"
-          done
-          CONTAINER_COUNT=$(jq '.servers | length' dist/registry.json)
-          REMOTE_COUNT=$(jq '.remote_servers | length // 0' dist/registry.json)
-          TOTAL_COUNT=$((CONTAINER_COUNT + REMOTE_COUNT))
-          echo "Registry built successfully with $TOTAL_COUNT entries ($CONTAINER_COUNT container-based, $REMOTE_COUNT remote)"
-
-      - name: Validate JSON files
-        run: |
-          echo "Validating ToolHive format..."
-          jq empty dist/registry.json
-          echo "Valid JSON"
-
-          jq -e '.last_updated' dist/registry.json > /dev/null
-          echo "Has last_updated field"
-
-          jq -e '.servers' dist/registry.json > /dev/null
-          echo "Has servers field"
-
-          jq -e 'has("remote_servers")' dist/registry.json > /dev/null && echo "Has remote_servers field" || echo "No remote_servers field"
-
-          jq -e '."$schema"' dist/registry.json > /dev/null
-          echo "Has schema field"
-
-          echo ""
-          echo "Validating Official MCP format..."
-          jq empty dist/official-registry.json
-          echo "Valid JSON"
-
-          jq -e '.version' dist/official-registry.json > /dev/null
-          echo "Has version field"
-
-          jq -e '.meta.last_updated' dist/official-registry.json > /dev/null
-          echo "Has meta.last_updated field"
-
-          jq -e '.data.servers' dist/official-registry.json > /dev/null
-          echo "Has data.servers field"
-
-          SERVER_COUNT=$(jq '.data.servers | length' dist/official-registry.json)
-          if [ "$SERVER_COUNT" -gt 0 ]; then
-            jq -e '.data.servers[0].name' dist/official-registry.json > /dev/null
-            echo "Servers have name field"
-
-            jq -e '.data.servers[0]._meta."io.modelcontextprotocol.registry/publisher-provided"' dist/official-registry.json > /dev/null
-            echo "Servers have _meta with publisher-provided extensions"
-          fi
-
-      - name: Generate metadata
-        id: metadata
-        run: |
-          VERSION=$(date +'%Y.%m.%d')
-          TIMESTAMP=$(date +'%Y%m%d-%H%M%S')
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
-
-          CONTAINER_COUNT=$(jq '.servers | length' dist/registry.json)
-          REMOTE_COUNT=$(jq '.remote_servers | length // 0' dist/registry.json)
-          TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
-
-          ACTIVE_CONTAINER=$(jq '[.servers[] | select(.status == "Active")] | length' dist/registry.json)
-          ACTIVE_REMOTE=$(jq '[(.remote_servers // {})[] | select(.status == "Active")] | length' dist/registry.json)
-          ACTIVE=$((ACTIVE_CONTAINER + ACTIVE_REMOTE))
-
-          BETA_CONTAINER=$(jq '[.servers[] | select(.status == "Beta")] | length' dist/registry.json)
-          BETA_REMOTE=$(jq '[(.remote_servers // {})[] | select(.status == "Beta")] | length' dist/registry.json)
-          BETA=$((BETA_CONTAINER + BETA_REMOTE))
-
-          DEPRECATED_CONTAINER=$(jq '[.servers[] | select(.status == "Deprecated")] | length' dist/registry.json)
-          DEPRECATED_REMOTE=$(jq '[(.remote_servers // {})[] | select(.status == "Deprecated")] | length' dist/registry.json)
-          DEPRECATED=$((DEPRECATED_CONTAINER + DEPRECATED_REMOTE))
-
-          OFFICIAL_CONTAINER=$(jq '[.servers[] | select(.tier == "Official")] | length' dist/registry.json)
-          OFFICIAL_REMOTE=$(jq '[(.remote_servers // {})[] | select(.tier == "Official")] | length' dist/registry.json)
-          OFFICIAL=$((OFFICIAL_CONTAINER + OFFICIAL_REMOTE))
-
-          PARTNER_CONTAINER=$(jq '[.servers[] | select(.tier == "Partner")] | length' dist/registry.json)
-          PARTNER_REMOTE=$(jq '[(.remote_servers // {})[] | select(.tier == "Partner")] | length' dist/registry.json)
-          PARTNER=$((PARTNER_CONTAINER + PARTNER_REMOTE))
-
-          COMMUNITY_CONTAINER=$(jq '[.servers[] | select(.tier == "Community")] | length' dist/registry.json)
-          COMMUNITY_REMOTE=$(jq '[(.remote_servers // {})[] | select(.tier == "Community")] | length' dist/registry.json)
-          COMMUNITY=$((COMMUNITY_CONTAINER + COMMUNITY_REMOTE))
-
-          echo "total=$TOTAL" >> $GITHUB_OUTPUT
-          echo "container_count=$CONTAINER_COUNT" >> $GITHUB_OUTPUT
-          echo "remote_count=$REMOTE_COUNT" >> $GITHUB_OUTPUT
-          echo "active=$ACTIVE" >> $GITHUB_OUTPUT
-          echo "beta=$BETA" >> $GITHUB_OUTPUT
-          echo "deprecated=$DEPRECATED" >> $GITHUB_OUTPUT
-          echo "official=$OFFICIAL" >> $GITHUB_OUTPUT
-          echo "partner=$PARTNER" >> $GITHUB_OUTPUT
-          echo "community=$COMMUNITY" >> $GITHUB_OUTPUT
-
-      - name: Create checksums
-        run: |
-          cd dist
-          sha256sum registry.json > registry.json.sha256
-          md5sum registry.json > registry.json.md5
-          sha256sum official-registry.json > official-registry.json.sha256
-          md5sum official-registry.json > official-registry.json.md5
-
-      - name: Create tarball
-        run: |
-          cd dist
-          tar -czf registry-${{ steps.metadata.outputs.version }}.tar.gz \
-            registry.json registry.json.sha256 registry.json.md5 \
-            official-registry.json official-registry.json.sha256 official-registry.json.md5
-          tar -tzf registry-${{ steps.metadata.outputs.version }}.tar.gz
-
-      - name: Check if release exists
-        id: check_release
-        run: |
-          if gh release view "v${{ steps.metadata.outputs.version }}" >/dev/null 2>&1; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-            echo "Release v${{ steps.metadata.outputs.version }} already exists"
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Release v${{ steps.metadata.outputs.version }} does not exist"
-          fi
-        env:
-          GH_TOKEN: ${{ github.token }}
-
-      - name: Get changes since last release
-        id: changes
-        if: steps.check_release.outputs.exists == 'false'
-        run: |
-          LAST_TAG=$(gh release list --limit 1 --json tagName -q '.[0].tagName' || echo "")
-
-          if [ -z "$LAST_TAG" ]; then
-            echo "No previous release found"
-            CHANGES="Initial release"
-          else
-            echo "Last release: $LAST_TAG"
-            CHANGES=$(git log --pretty=format:"- %s" $LAST_TAG..HEAD --grep="^feat\|^fix\|^docs\|^chore" | head -20)
-
-            if [ -z "$CHANGES" ]; then
-              CHANGES="- Minor updates and maintenance"
-            fi
-          fi
-
-          {
-            echo "changes<<EOF"
-            echo "$CHANGES"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ github.token }}
-
-      - name: Create Release
-        if: steps.check_release.outputs.exists == 'false'
-        uses: ncipollo/release-action@v1
-        with:
-          tag: v${{ steps.metadata.outputs.version }}
-          name: Registry v${{ steps.metadata.outputs.version }}
-          body: |
-            ## ToolHive Registry Snapshot
-
-            **Date**: ${{ steps.metadata.outputs.version }}
-            **Build**: ${{ steps.metadata.outputs.timestamp }}
-
-            ### Statistics
-
-            | Category | Count |
-            |----------|-------|
-            | **Total Servers** | ${{ steps.metadata.outputs.total }} |
-            | **Container-based** | ${{ steps.metadata.outputs.container_count }} |
-            | **Remote** | ${{ steps.metadata.outputs.remote_count }} |
-            | **Active** | ${{ steps.metadata.outputs.active }} |
-            | **Beta** | ${{ steps.metadata.outputs.beta }} |
-            | **Deprecated** | ${{ steps.metadata.outputs.deprecated }} |
-
-            | Tier | Count |
-            |------|-------|
-            | **Official** | ${{ steps.metadata.outputs.official }} |
-            | **Partner** | ${{ steps.metadata.outputs.partner }} |
-            | **Community** | ${{ steps.metadata.outputs.community }} |
-
-            ### Download Options
-
-            **Individual Files:**
-            - **registry.json** - ToolHive format registry file
-            - **official-registry.json** - Official MCP format registry file
-
-            **Archives:**
-            - **registry-${{ steps.metadata.outputs.version }}.tar.gz** - Complete archive with both formats and checksums
-
-            ### Direct URLs
-
-            **ToolHive Format:**
-            - Latest: `https://github.com/stacklok/toolhive-registry/releases/latest/download/registry.json`
-            - This version: `https://github.com/stacklok/toolhive-registry/releases/download/v${{ steps.metadata.outputs.version }}/registry.json`
-
-            **Official MCP Format:**
-            - Latest: `https://github.com/stacklok/toolhive-registry/releases/latest/download/official-registry.json`
-            - This version: `https://github.com/stacklok/toolhive-registry/releases/download/v${{ steps.metadata.outputs.version }}/official-registry.json`
-
-            ### Recent Changes
-
-            ${{ steps.changes.outputs.changes }}
-
-            ---
-            *This is an automated release generated from the main branch.*
-          artifacts: |
-            dist/registry.json
-            dist/registry.json.sha256
-            dist/registry.json.md5
-            dist/official-registry.json
-            dist/official-registry.json.sha256
-            dist/official-registry.json.md5
-            dist/registry-${{ steps.metadata.outputs.version }}.tar.gz
-          makeLatest: true
-          artifactErrorsFailBuild: true
-
-      - name: Update existing release
-        if: steps.check_release.outputs.exists == 'true'
-        run: |
-          echo "Updating existing release v${{ steps.metadata.outputs.version }}"
-
-          # Clean up legacy catalog-* prefixed assets from previous dual-pipeline builds
-          for asset in $(gh release view "v${{ steps.metadata.outputs.version }}" --json assets -q '.assets[].name | select(startswith("catalog-"))'); do
-            gh release delete-asset "v${{ steps.metadata.outputs.version }}" "$asset" --yes || true
-          done
-
-          gh release delete-asset "v${{ steps.metadata.outputs.version }}" registry.json --yes || true
-          gh release delete-asset "v${{ steps.metadata.outputs.version }}" registry.json.sha256 --yes || true
-          gh release delete-asset "v${{ steps.metadata.outputs.version }}" registry.json.md5 --yes || true
-          gh release delete-asset "v${{ steps.metadata.outputs.version }}" official-registry.json --yes || true
-          gh release delete-asset "v${{ steps.metadata.outputs.version }}" official-registry.json.sha256 --yes || true
-          gh release delete-asset "v${{ steps.metadata.outputs.version }}" official-registry.json.md5 --yes || true
-          gh release delete-asset "v${{ steps.metadata.outputs.version }}" "registry-${{ steps.metadata.outputs.version }}.tar.gz" --yes || true
-
-          gh release upload "v${{ steps.metadata.outputs.version }}" \
-            dist/registry.json \
-            dist/registry.json.sha256 \
-            dist/registry.json.md5 \
-            dist/official-registry.json \
-            dist/official-registry.json.sha256 \
-            dist/official-registry.json.md5 \
-            "dist/registry-${{ steps.metadata.outputs.version }}.tar.gz" \
-            --clobber
-
-          echo "Release updated successfully"
-        env:
-          GH_TOKEN: ${{ github.token }}
-
-  open-dist-pr:
-    name: Open PR with Built Registry Files
-    runs-on: ubuntu-latest
-    needs: [build-and-release]
     if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     steps:
       - name: Checkout code
@@ -376,20 +102,23 @@ jobs:
         id: metadata
         run: echo "version=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
 
-      - name: Open PR with built registry files
+      - name: Open or update PR with catalog data files
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'chore: update built registry files for v${{ steps.metadata.outputs.version }}'
-          title: 'chore: update built registry files for v${{ steps.metadata.outputs.version }}'
+          commit-message: 'chore: update catalog data files for v${{ steps.metadata.outputs.version }}'
+          title: 'chore: update catalog data files for v${{ steps.metadata.outputs.version }}'
           body: |
-            Automated PR to commit the built registry files for release `v${{ steps.metadata.outputs.version }}`.
+            Automated PR to update the embedded catalog data files for `v${{ steps.metadata.outputs.version }}`.
 
             Files updated:
             - `pkg/catalog/toolhive/data/registry.json` — ToolHive legacy format
             - `pkg/catalog/toolhive/data/official-registry.json` — Upstream MCP format
-          branch: update-dist-${{ steps.metadata.outputs.version }}
+
+            When merged, a release will be created automatically.
+          branch: update-catalog-data-${{ steps.metadata.outputs.version }}
           delete-branch: true
+          auto-merge: true
           add-paths: |
             pkg/catalog/*/data/registry.json
             pkg/catalog/*/data/official-registry.json
@@ -415,23 +144,43 @@ jobs:
         run: task catalog:build
 
       - name: Generate PR comment
+        id: comment
         run: |
           CONTAINER_COUNT=$(jq '.servers | length' build/toolhive/registry.json)
           REMOTE_COUNT=$(jq '.remote_servers | length // 0' build/toolhive/registry.json)
           TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
           SIZE=$(du -h build/toolhive/registry.json | cut -f1)
+          LAST_UPDATED=$(jq -r '.last_updated' build/toolhive/registry.json)
 
-          echo "## Registry Build Preview" > pr-comment.md
-          echo "" >> pr-comment.md
-          echo "Registry built successfully!" >> pr-comment.md
-          echo "" >> pr-comment.md
-          echo "- **Total Servers**: $TOTAL" >> pr-comment.md
-          echo "  - Container-based: $CONTAINER_COUNT" >> pr-comment.md
-          echo "  - Remote: $REMOTE_COUNT" >> pr-comment.md
-          echo "- **File Size**: $SIZE" >> pr-comment.md
-          echo "- **Last Updated**: $(jq -r '.last_updated' build/toolhive/registry.json)" >> pr-comment.md
-          echo "" >> pr-comment.md
-          echo "The registry files will be published when this PR is merged." >> pr-comment.md
+          {
+            echo "body<<EOF"
+            echo "## Registry Build Preview"
+            echo ""
+            echo "Registry built successfully!"
+            echo ""
+            echo "- **Total Servers**: $TOTAL"
+            echo "  - Container-based: $CONTAINER_COUNT"
+            echo "  - Remote: $REMOTE_COUNT"
+            echo "- **File Size**: $SIZE"
+            echo "- **Last Updated**: $LAST_UPDATED"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Find existing comment
+        id: find-comment
+        uses: peter-evans/find-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: Registry Build Preview
+
+      - name: Post or update PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.comment.outputs.body }}
+          edit-mode: replace
 
       - name: Upload PR artifact
         uses: actions/upload-artifact@v6
