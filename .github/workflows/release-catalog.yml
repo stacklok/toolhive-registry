@@ -1,0 +1,90 @@
+name: Release Catalog Package
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'pkg/catalog/*/data/**'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Tag and Release Catalog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Generate version
+        id: metadata
+        run: |
+          echo "version=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
+
+      - name: Collect registry stats
+        id: stats
+        run: |
+          for registry_dir in pkg/catalog/*/; do
+            registry_name=$(basename "$registry_dir")
+            data_file="$registry_dir/data/registry.json"
+            [ -f "$data_file" ] || continue
+
+            CONTAINER_COUNT=$(jq '.servers | length' "$data_file")
+            REMOTE_COUNT=$(jq '.remote_servers | length // 0' "$data_file")
+            TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
+            LAST_UPDATED=$(jq -r '.last_updated' "$data_file")
+
+            echo "${registry_name}_total=$TOTAL" >> $GITHUB_OUTPUT
+            echo "${registry_name}_container=$CONTAINER_COUNT" >> $GITHUB_OUTPUT
+            echo "${registry_name}_remote=$REMOTE_COUNT" >> $GITHUB_OUTPUT
+            echo "${registry_name}_last_updated=$LAST_UPDATED" >> $GITHUB_OUTPUT
+          done
+
+      - name: Create or update release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ steps.metadata.outputs.version }}
+          name: Catalog v${{ steps.metadata.outputs.version }}
+          body: |
+            ## ToolHive Catalog Release
+
+            **Date**: ${{ steps.metadata.outputs.version }}
+            **Last Updated**: ${{ steps.stats.outputs.toolhive_last_updated }}
+
+            ### Statistics
+
+            | Category | Count |
+            |----------|-------|
+            | **Total Servers** | ${{ steps.stats.outputs.toolhive_total }} |
+            | **Container-based** | ${{ steps.stats.outputs.toolhive_container }} |
+            | **Remote** | ${{ steps.stats.outputs.toolhive_remote }} |
+
+            ### Usage
+
+            ```sh
+            go get github.com/stacklok/toolhive-registry/pkg/catalog/toolhive@latest
+            ```
+
+            ```go
+            import "github.com/stacklok/toolhive-registry/pkg/catalog/toolhive"
+
+            // ToolHive legacy format
+            data := toolhive.Legacy()
+
+            // Upstream MCP format
+            data := toolhive.Upstream()
+            ```
+
+            ---
+            *This is an automated release triggered by a catalog data update.*
+          artifacts: |
+            pkg/catalog/toolhive/data/registry.json
+            pkg/catalog/toolhive/data/official-registry.json
+          allowUpdates: true
+          makeLatest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
