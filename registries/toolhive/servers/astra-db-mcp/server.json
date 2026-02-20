@@ -1,46 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/astra-db-mcp",
-  "description": "Model Context Protocol server for interacting with DataStax Astra DB",
-  "title": "DataStax Astra DB",
-  "repository": {
-    "url": "https://github.com/datastax/astra-db-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/npx/astra-db-mcp:1.2.2",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Astra DB application token for authentication",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "ASTRA_DB_APPLICATION_TOKEN"
-        },
-        {
-          "description": "Astra DB API endpoint URL",
-          "isRequired": true,
-          "name": "ASTRA_DB_API_ENDPOINT"
-        },
-        {
-          "description": "Astra DB keyspace to use (defaults to default_keyspace)",
-          "default": "default_keyspace",
-          "name": "ASTRA_DB_KEYSPACE"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/astra-db-mcp:1.2.2": {
           "metadata": {
-            "last_updated": "2026-02-05T04:47:26Z",
+            "last_updated": "2026-02-20T03:01:21Z",
             "stars": 38
           },
           "permissions": {
@@ -88,5 +53,40 @@
         }
       }
     }
-  }
+  },
+  "description": "Model Context Protocol server for interacting with DataStax Astra DB",
+  "name": "io.github.stacklok/astra-db-mcp",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Astra DB application token for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "ASTRA_DB_APPLICATION_TOKEN"
+        },
+        {
+          "description": "Astra DB API endpoint URL",
+          "isRequired": true,
+          "name": "ASTRA_DB_API_ENDPOINT"
+        },
+        {
+          "default": "default_keyspace",
+          "description": "Astra DB keyspace to use (defaults to default_keyspace)",
+          "name": "ASTRA_DB_KEYSPACE"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/astra-db-mcp:1.2.2",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/datastax/astra-db-mcp"
+  },
+  "title": "DataStax Astra DB",
+  "version": "1.0.0"
 }
