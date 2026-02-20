@@ -66,11 +66,11 @@ jobs:
             ### Usage
 
             ```sh
-            go get github.com/stacklok/toolhive-registry/pkg/catalog/toolhive@latest
+            go get github.com/stacklok/toolhive-catalog/pkg/catalog/toolhive@latest
             ```
 
             ```go
-            import "github.com/stacklok/toolhive-registry/pkg/catalog/toolhive"
+            import "github.com/stacklok/toolhive-catalog/pkg/catalog/toolhive"
 
             // ToolHive legacy format
             data := toolhive.Legacy()

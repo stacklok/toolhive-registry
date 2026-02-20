@@ -10,7 +10,7 @@ import (
 	"github.com/stacklok/toolhive/pkg/permissions"
 	"github.com/stacklok/toolhive/pkg/registry/registry"
 
-	"github.com/stacklok/toolhive-registry/internal/serverjson"
+	"github.com/stacklok/toolhive-catalog/internal/serverjson"
 )
 
 func writeTestServerJSON(t *testing.T, dir, content string) string {

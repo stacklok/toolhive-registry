@@ -12,8 +12,8 @@ import (
 	"github.com/spf13/cobra"
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
 
-	"github.com/stacklok/toolhive-registry/internal/serverjson"
-	"github.com/stacklok/toolhive-registry/internal/thvclient"
+	"github.com/stacklok/toolhive-catalog/internal/serverjson"
+	"github.com/stacklok/toolhive-catalog/internal/thvclient"
 )
 
 var (

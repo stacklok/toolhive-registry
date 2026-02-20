@@ -1,4 +1,4 @@
-module github.com/stacklok/toolhive-registry
+module github.com/stacklok/toolhive-catalog
 
 go 1.25.7
 

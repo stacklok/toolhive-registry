@@ -10,7 +10,7 @@ You are an autonomous PR reviewer for the ToolHive Registry. Your job is to revi
 
 ## Input
 
-You will receive a PR number to review. The repository is `stacklok/toolhive-registry`.
+You will receive a PR number to review. The repository is `stacklok/toolhive-catalog`.
 
 ## Workflow
 

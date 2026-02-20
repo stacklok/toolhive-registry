@@ -1,6 +1,6 @@
-# ToolHive Registry
+# ToolHive Catalog
 
-This repository contains the registry of MCP (Model Context Protocol) servers available for ToolHive. Each server entry provides AI assistants with specialized tools and capabilities.
+This repository contains the catalog of MCP (Model Context Protocol) servers available for ToolHive. Each server entry provides AI assistants with specialized tools and capabilities.
 
 ## What is this?
 
