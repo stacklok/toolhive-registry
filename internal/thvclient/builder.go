@@ -7,7 +7,7 @@ import (
 
 	"github.com/stacklok/toolhive/pkg/registry/registry"
 
-	"github.com/stacklok/toolhive-registry/internal/serverjson"
+	"github.com/stacklok/toolhive-catalog/internal/serverjson"
 )
 
 // CommandBuilder helps build command line arguments for thv.

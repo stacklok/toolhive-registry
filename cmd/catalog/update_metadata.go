@@ -12,8 +12,8 @@ import (
 	"github.com/stacklok/toolhive/pkg/registry/converters"
 	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
 
-	"github.com/stacklok/toolhive-registry/internal/metadata"
-	"github.com/stacklok/toolhive-registry/internal/serverjson"
+	"github.com/stacklok/toolhive-catalog/internal/metadata"
+	"github.com/stacklok/toolhive-catalog/internal/serverjson"
 )
 
 var (

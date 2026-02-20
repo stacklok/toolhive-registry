@@ -56,7 +56,7 @@ are a great place to start!
   message to indicate that the contributor agrees to the Developer Certificate
   of Origin. For additional details, check out the [DCO instructions](dco.md).
 - Create an issue outlining the fix or feature.
-- Fork the ToolHive repository to your own GitHub account and clone it locally.
+- Fork the ToolHive Catalog repository to your own GitHub account and clone it locally.
 - Hack on your changes.
 - Correctly format your commit messages, see
   [Commit message guidelines](#commit-message-guidelines) below.
