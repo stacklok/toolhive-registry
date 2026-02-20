@@ -415,23 +415,45 @@ jobs:
         run: task catalog:build
 
       - name: Generate PR comment
+        id: comment
         run: |
           CONTAINER_COUNT=$(jq '.servers | length' build/toolhive/registry.json)
           REMOTE_COUNT=$(jq '.remote_servers | length // 0' build/toolhive/registry.json)
           TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
           SIZE=$(du -h build/toolhive/registry.json | cut -f1)
+          LAST_UPDATED=$(jq -r '.last_updated' build/toolhive/registry.json)
 
-          echo "## Registry Build Preview" > pr-comment.md
-          echo "" >> pr-comment.md
-          echo "Registry built successfully!" >> pr-comment.md
-          echo "" >> pr-comment.md
-          echo "- **Total Servers**: $TOTAL" >> pr-comment.md
-          echo "  - Container-based: $CONTAINER_COUNT" >> pr-comment.md
-          echo "  - Remote: $REMOTE_COUNT" >> pr-comment.md
-          echo "- **File Size**: $SIZE" >> pr-comment.md
-          echo "- **Last Updated**: $(jq -r '.last_updated' build/toolhive/registry.json)" >> pr-comment.md
-          echo "" >> pr-comment.md
-          echo "The registry files will be published when this PR is merged." >> pr-comment.md
+          {
+            echo "body<<EOF"
+            echo "## Registry Build Preview"
+            echo ""
+            echo "Registry built successfully!"
+            echo ""
+            echo "- **Total Servers**: $TOTAL"
+            echo "  - Container-based: $CONTAINER_COUNT"
+            echo "  - Remote: $REMOTE_COUNT"
+            echo "- **File Size**: $SIZE"
+            echo "- **Last Updated**: $LAST_UPDATED"
+            echo ""
+            echo "The registry files will be published when this PR is merged."
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Find existing comment
+        id: find-comment
+        uses: peter-evans/find-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: Registry Build Preview
+
+      - name: Post or update PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.comment.outputs.body }}
+          edit-mode: replace
 
       - name: Upload PR artifact
         uses: actions/upload-artifact@v6
