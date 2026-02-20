@@ -11,7 +11,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	internalregistry "github.com/stacklok/toolhive-registry/internal/registry"
+	internalregistry "github.com/stacklok/toolhive-catalog/internal/registry"
 )
 
 const (

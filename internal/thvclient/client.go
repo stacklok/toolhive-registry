@@ -8,7 +8,7 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 
-	"github.com/stacklok/toolhive-registry/internal/serverjson"
+	"github.com/stacklok/toolhive-catalog/internal/serverjson"
 )
 
 // Client interacts with the ToolHive CLI (thv) to run MCP servers
