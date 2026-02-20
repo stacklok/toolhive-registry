@@ -1,80 +1,12 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/gitlab",
-  "description": "Provides integration with a GitLab instance to manage projects, issues, merge requests, and more.",
-  "title": "GitLab",
-  "repository": {
-    "url": "https://github.com/zereight/gitlab-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "iwakitakuma/gitlab-mcp:2.0.19",
-      "transport": {
-        "type": "streamable-http",
-        "url": "http://localhost:3002"
-      },
-      "environmentVariables": [
-        {
-          "description": "Your GitLab personal access token.",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "GITLAB_PERSONAL_ACCESS_TOKEN"
-        },
-        {
-          "description": "Your GitLab API URL.",
-          "default": "https://gitlab.com/api/v4",
-          "name": "GITLAB_API_URL"
-        },
-        {
-          "description": "Default project ID. If set, overwrite this value when making an API request.",
-          "name": "GITLAB_PROJECT_ID"
-        },
-        {
-          "description": "Optional comma-separated list of allowed project IDs. When set with a single value, acts as a default project.",
-          "name": "GITLAB_ALLOWED_PROJECT_IDS"
-        },
-        {
-          "description": "When set to 'true', restricts the server to only expose read-only operations.",
-          "name": "GITLAB_READ_ONLY_MODE"
-        },
-        {
-          "description": "When set to 'true', enables the wiki-related tools. By default, wiki features are disabled.",
-          "name": "USE_GITLAB_WIKI"
-        },
-        {
-          "description": "When set to 'true', enables the milestone-related tools. By default, milestone features are disabled.",
-          "name": "USE_MILESTONE"
-        },
-        {
-          "description": "When set to 'true', enables the pipeline-related tools. By default, pipeline features are disabled.",
-          "name": "USE_PIPELINE"
-        },
-        {
-          "description": "Path to an authentication cookie file for GitLab instances that require cookie-based authentication.",
-          "name": "GITLAB_AUTH_COOKIE_PATH"
-        },
-        {
-          "description": "When set to 'true', enables the Server-Sent Events transport.",
-          "name": "SSE"
-        },
-        {
-          "description": "When set to 'true', enables the Streamable HTTP transport. If both SSE and STREAMABLE_HTTP are set to 'true', Streamable HTTP is used.",
-          "default": "true",
-          "name": "STREAMABLE_HTTP"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "iwakitakuma/gitlab-mcp:2.0.19": {
           "metadata": {
-            "last_updated": "2026-02-05T04:49:18Z",
-            "stars": 986
+            "last_updated": "2026-02-20T09:56:10Z",
+            "stars": 1064
           },
           "permissions": {
             "network": {
@@ -191,5 +123,73 @@
         }
       }
     }
-  }
+  },
+  "description": "Provides integration with a GitLab instance to manage projects, issues, merge requests, and more.",
+  "name": "io.github.stacklok/gitlab",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Your GitLab personal access token.",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "GITLAB_PERSONAL_ACCESS_TOKEN"
+        },
+        {
+          "default": "https://gitlab.com/api/v4",
+          "description": "Your GitLab API URL.",
+          "name": "GITLAB_API_URL"
+        },
+        {
+          "description": "Default project ID. If set, overwrite this value when making an API request.",
+          "name": "GITLAB_PROJECT_ID"
+        },
+        {
+          "description": "Optional comma-separated list of allowed project IDs. When set with a single value, acts as a default project.",
+          "name": "GITLAB_ALLOWED_PROJECT_IDS"
+        },
+        {
+          "description": "When set to 'true', restricts the server to only expose read-only operations.",
+          "name": "GITLAB_READ_ONLY_MODE"
+        },
+        {
+          "description": "When set to 'true', enables the wiki-related tools. By default, wiki features are disabled.",
+          "name": "USE_GITLAB_WIKI"
+        },
+        {
+          "description": "When set to 'true', enables the milestone-related tools. By default, milestone features are disabled.",
+          "name": "USE_MILESTONE"
+        },
+        {
+          "description": "When set to 'true', enables the pipeline-related tools. By default, pipeline features are disabled.",
+          "name": "USE_PIPELINE"
+        },
+        {
+          "description": "Path to an authentication cookie file for GitLab instances that require cookie-based authentication.",
+          "name": "GITLAB_AUTH_COOKIE_PATH"
+        },
+        {
+          "description": "When set to 'true', enables the Server-Sent Events transport.",
+          "name": "SSE"
+        },
+        {
+          "default": "true",
+          "description": "When set to 'true', enables the Streamable HTTP transport. If both SSE and STREAMABLE_HTTP are set to 'true', Streamable HTTP is used.",
+          "name": "STREAMABLE_HTTP"
+        }
+      ],
+      "identifier": "iwakitakuma/gitlab-mcp:2.0.19",
+      "registryType": "oci",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:3002"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/zereight/gitlab-mcp"
+  },
+  "title": "GitLab",
+  "version": "1.0.0"
 }
