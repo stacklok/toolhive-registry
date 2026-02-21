@@ -10,7 +10,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/spf13/cobra"
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
+	toolhiveRegistry "github.com/stacklok/toolhive-core/registry/types"
 
 	"github.com/stacklok/toolhive-catalog/internal/serverjson"
 	"github.com/stacklok/toolhive-catalog/internal/thvclient"

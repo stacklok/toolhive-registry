@@ -7,10 +7,11 @@ import (
 	"os"
 	"time"
 
+	"github.com/google/go-containerregistry/pkg/authn"
 	"github.com/spf13/cobra"
-	"github.com/stacklok/toolhive/pkg/container/verifier"
-	"github.com/stacklok/toolhive/pkg/registry/converters"
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
+	"github.com/stacklok/toolhive-core/container/verifier"
+	"github.com/stacklok/toolhive-core/registry/converters"
+	toolhiveRegistry "github.com/stacklok/toolhive-core/registry/types"
 
 	"github.com/stacklok/toolhive-catalog/internal/metadata"
 	"github.com/stacklok/toolhive-catalog/internal/serverjson"
@@ -191,7 +192,7 @@ func verifyServerProvenance(
 		return fmt.Errorf("failed to convert for verification: %w", err)
 	}
 
-	v, err := verifier.New(imgMeta)
+	v, err := verifier.New(imgMeta, authn.DefaultKeychain)
 	if err != nil {
 		return fmt.Errorf("failed to create verifier: %w", err)
 	}
