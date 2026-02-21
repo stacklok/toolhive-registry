@@ -1,15 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/canva",
-  "description": "Canva's official remote MCP server for design creation and template management",
-  "title": "Canva",
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://mcp.canva.com/mcp"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -19,7 +9,7 @@
             "homepage": "https://www.canva.dev/docs/connect/canva-mcp-server-setup/"
           },
           "metadata": {
-            "last_updated": "2026-02-05T04:49:18Z"
+            "last_updated": "2026-02-21T02:54:32Z"
           },
           "status": "Active",
           "tags": [
@@ -58,5 +48,15 @@
         }
       }
     }
-  }
+  },
+  "description": "Canva's official remote MCP server for design creation and template management",
+  "name": "io.github.stacklok/canva",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.canva.com/mcp"
+    }
+  ],
+  "title": "Canva",
+  "version": "1.0.0"
 }
