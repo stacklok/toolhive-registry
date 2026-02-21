@@ -1,15 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/huggingface",
-  "description": "Official Hugging Face MCP server for models, datasets, and research papers",
-  "title": "Hugging Face",
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://huggingface.co/mcp"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -19,7 +9,7 @@
             "homepage": "https://huggingface.co/mcp"
           },
           "metadata": {
-            "last_updated": "2026-02-05T04:49:20Z"
+            "last_updated": "2026-02-21T15:00:39Z"
           },
           "status": "Active",
           "tags": [
@@ -49,5 +39,15 @@
         }
       }
     }
-  }
+  },
+  "description": "Official Hugging Face MCP server for models, datasets, and research papers",
+  "name": "io.github.stacklok/huggingface",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://huggingface.co/mcp"
+    }
+  ],
+  "title": "Hugging Face",
+  "version": "1.0.0"
 }
