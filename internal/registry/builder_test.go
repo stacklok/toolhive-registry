@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/stacklok/toolhive/pkg/registry/registry"
+	"github.com/stacklok/toolhive-core/registry/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -35,7 +35,7 @@ func TestBuilder_Build(t *testing.T) {
 
 	result := builder.Build()
 
-	assert.Equal(t, "https://raw.githubusercontent.com/stacklok/toolhive/main/pkg/registry/data/upstream-registry.schema.json", result.Schema)
+	assert.Equal(t, "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json", result.Schema)
 	assert.Equal(t, "1.0.0", result.Version)
 	assert.NotEmpty(t, result.Meta.LastUpdated)
 	assert.Len(t, result.Data.Servers, 2)

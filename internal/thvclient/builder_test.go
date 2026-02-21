@@ -7,8 +7,8 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/stacklok/toolhive/pkg/permissions"
-	"github.com/stacklok/toolhive/pkg/registry/registry"
+	"github.com/stacklok/toolhive-core/permissions"
+	"github.com/stacklok/toolhive-core/registry/types"
 
 	"github.com/stacklok/toolhive-catalog/internal/serverjson"
 )

@@ -5,7 +5,7 @@ package thvclient
 import (
 	"fmt"
 
-	"github.com/stacklok/toolhive/pkg/registry/registry"
+	"github.com/stacklok/toolhive-core/registry/types"
 
 	"github.com/stacklok/toolhive-catalog/internal/serverjson"
 )

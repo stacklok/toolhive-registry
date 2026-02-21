@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
+	toolhiveRegistry "github.com/stacklok/toolhive-core/registry/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -199,7 +199,7 @@ func TestLegacyBuilder_WriteJSON(t *testing.T) {
 	// Verify schema value
 	var schema string
 	require.NoError(t, json.Unmarshal(raw["$schema"], &schema))
-	assert.Equal(t, "https://raw.githubusercontent.com/stacklok/toolhive/main/pkg/registry/data/toolhive-legacy-registry.schema.json", schema)
+	assert.Equal(t, "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json", schema)
 
 	// Verify servers content
 	var servers map[string]*toolhiveRegistry.ImageMetadata

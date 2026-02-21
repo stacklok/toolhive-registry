@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/stacklok/toolhive/pkg/registry/registry"
+	"github.com/stacklok/toolhive-core/registry/types"
 )
 
 const statusActive = "Active"

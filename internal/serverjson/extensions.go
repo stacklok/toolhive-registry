@@ -9,7 +9,7 @@ import (
 	"os"
 
 	upstream "github.com/modelcontextprotocol/registry/pkg/api/v0"
-	"github.com/stacklok/toolhive/pkg/registry/registry"
+	"github.com/stacklok/toolhive-core/registry/types"
 )
 
 // ServerFile represents a loaded server.json with its file path and parsed data.

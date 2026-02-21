@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
+	toolhiveRegistry "github.com/stacklok/toolhive-core/registry/types"
 	"github.com/stacklok/toolhive/pkg/container/verifier"
 	"github.com/stacklok/toolhive/pkg/registry/converters"
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
 
 	"github.com/stacklok/toolhive-catalog/internal/metadata"
 	"github.com/stacklok/toolhive-catalog/internal/serverjson"
