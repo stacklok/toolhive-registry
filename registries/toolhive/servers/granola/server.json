@@ -1,0 +1,38 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.granola.ai/mcp": {
+          "custom_metadata": {
+            "author": "Granola",
+            "homepage": "https://granola.ai/"
+          },
+          "status": "Active",
+          "tags": [
+            "meetings",
+            "transcripts",
+            "notes"
+          ],
+          "tier": "Official",
+          "tools": [
+            "query_granola_meetings",
+            "list_meetings",
+            "get_meetings",
+            "get_meeting_transcript"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Access meeting notes and transcripts from the Granola platform",
+  "name": "io.github.stacklok/granola-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.granola.ai/mcp"
+    }
+  ],
+  "title": "Granola (Remote)",
+  "version": "1.0.0"
+}
