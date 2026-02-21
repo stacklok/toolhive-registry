@@ -7,14 +7,13 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/stacklok/toolhive/pkg/permissions"
-	toolhiveRegistryPkg "github.com/stacklok/toolhive/pkg/registry"
-	"github.com/stacklok/toolhive/pkg/registry/converters"
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry/registry"
+	"github.com/stacklok/toolhive-core/permissions"
+	"github.com/stacklok/toolhive-core/registry/converters"
+	toolhiveRegistry "github.com/stacklok/toolhive-core/registry/types"
 )
 
-const legacyRegistrySchema = "https://raw.githubusercontent.com/stacklok/toolhive/main/" +
-	"pkg/registry/data/toolhive-legacy-registry.schema.json"
+const legacyRegistrySchema = "https://raw.githubusercontent.com/stacklok/toolhive-core/main/" +
+	"registry/types/data/toolhive-legacy-registry.schema.json"
 
 // LegacyBuilder assembles a legacy toolhive Registry from loaded ServerJSON entries.
 // It converts each ServerJSON back to ImageMetadata or RemoteServerMetadata
@@ -123,7 +122,7 @@ func validateLegacyRegistry(reg *toolhiveRegistry.Registry) error {
 		return fmt.Errorf("failed to marshal registry: %w", err)
 	}
 
-	if err := toolhiveRegistryPkg.ValidateRegistrySchema(registryJSON); err != nil {
+	if err := toolhiveRegistry.ValidateRegistrySchema(registryJSON); err != nil {
 		return fmt.Errorf("registry validation failed: %w", err)
 	}
 

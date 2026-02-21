@@ -8,8 +8,7 @@ import (
 	"time"
 
 	upstream "github.com/modelcontextprotocol/registry/pkg/api/v0"
-	toolhiveRegistry "github.com/stacklok/toolhive/pkg/registry"
-	"github.com/stacklok/toolhive/pkg/registry/registry"
+	thvregistry "github.com/stacklok/toolhive-core/registry/types"
 )
 
 // Builder assembles an UpstreamRegistry from loaded ServerJSON entries.
@@ -26,7 +25,7 @@ func NewBuilder(loader *Loader) *Builder {
 
 // Build creates the UpstreamRegistry structure from loaded entries.
 // Servers are ordered by directory name for deterministic output.
-func (b *Builder) Build() *registry.UpstreamRegistry {
+func (b *Builder) Build() *thvregistry.UpstreamRegistry {
 	names := b.loader.GetSortedNames()
 
 	servers := make([]upstream.ServerJSON, 0, len(names))
@@ -34,15 +33,15 @@ func (b *Builder) Build() *registry.UpstreamRegistry {
 		servers = append(servers, b.loader.GetEntries()[name])
 	}
 
-	return &registry.UpstreamRegistry{
-		Schema:  "https://raw.githubusercontent.com/stacklok/toolhive/main/pkg/registry/data/upstream-registry.schema.json",
+	return &thvregistry.UpstreamRegistry{
+		Schema:  "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
 		Version: "1.0.0",
-		Meta: registry.UpstreamMeta{
+		Meta: thvregistry.UpstreamMeta{
 			LastUpdated: time.Now().UTC().Format(time.RFC3339),
 		},
-		Data: registry.UpstreamData{
+		Data: thvregistry.UpstreamData{
 			Servers: servers,
-			Groups:  []registry.UpstreamGroup{},
+			Groups:  []thvregistry.UpstreamGroup{},
 		},
 	}
 }
@@ -79,13 +78,13 @@ func (b *Builder) ValidateAgainstSchema() error {
 }
 
 // validateRegistry validates a registry object against the upstream registry schema.
-func validateRegistry(upstreamRegistry *registry.UpstreamRegistry) error {
+func validateRegistry(upstreamRegistry *thvregistry.UpstreamRegistry) error {
 	registryJSON, err := json.Marshal(upstreamRegistry)
 	if err != nil {
 		return fmt.Errorf("failed to marshal registry: %w", err)
 	}
 
-	if err := toolhiveRegistry.ValidateUpstreamRegistry(registryJSON); err != nil {
+	if err := thvregistry.ValidateUpstreamRegistryBytes(registryJSON); err != nil {
 		return fmt.Errorf("registry validation failed: %w", err)
 	}
 
