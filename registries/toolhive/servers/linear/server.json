@@ -1,15 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/linear",
-  "description": "Linear's official remote MCP server to manage issues, projects, and comments",
-  "title": "Linear",
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://mcp.linear.app/mcp"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -19,7 +9,7 @@
             "homepage": "https://linear.app/docs/mcp"
           },
           "metadata": {
-            "last_updated": "2026-02-05T04:49:20Z"
+            "last_updated": "2026-02-21T02:54:33Z"
           },
           "status": "Active",
           "tags": [
@@ -62,5 +52,15 @@
         }
       }
     }
-  }
+  },
+  "description": "Linear's official remote MCP server to manage issues, projects, and comments",
+  "name": "io.github.stacklok/linear",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.linear.app/mcp"
+    }
+  ],
+  "title": "Linear",
+  "version": "1.0.0"
 }

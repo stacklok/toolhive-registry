@@ -1,15 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/jam",
-  "description": "Jam's official remote MCP server for debugging with video recordings and logs",
-  "title": "Jam",
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://mcp.jam.dev/mcp"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -19,7 +9,7 @@
             "homepage": "https://jam.dev/docs/debug-a-jam/mcp"
           },
           "metadata": {
-            "last_updated": "2026-02-05T04:49:20Z"
+            "last_updated": "2026-02-21T02:54:33Z"
           },
           "status": "Active",
           "tags": [
@@ -46,5 +36,15 @@
         }
       }
     }
-  }
+  },
+  "description": "Jam's official remote MCP server for debugging with video recordings and logs",
+  "name": "io.github.stacklok/jam",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.jam.dev/mcp"
+    }
+  ],
+  "title": "Jam",
+  "version": "1.0.0"
 }
