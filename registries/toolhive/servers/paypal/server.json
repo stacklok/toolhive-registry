@@ -1,15 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/paypal",
-  "description": "PayPal's MCP server for payment processing, invoices, and business operations",
-  "title": "PayPal",
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://mcp.paypal.com/mcp"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -19,7 +9,7 @@
             "homepage": "https://www.paypal.ai/docs/tools/mcp-quickstart"
           },
           "metadata": {
-            "last_updated": "2026-02-07T02:54:31Z"
+            "last_updated": "2026-02-21T15:00:39Z"
           },
           "status": "Active",
           "tags": [
@@ -68,5 +58,15 @@
         }
       }
     }
-  }
+  },
+  "description": "PayPal's MCP server for payment processing, invoices, and business operations",
+  "name": "io.github.stacklok/paypal",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.paypal.com/mcp"
+    }
+  ],
+  "title": "PayPal",
+  "version": "1.0.0"
 }

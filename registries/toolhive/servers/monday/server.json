@@ -1,19 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/monday",
-  "description": "Monday.com's official remote MCP server for project and workflow management",
-  "title": "Monday.com",
-  "repository": {
-    "url": "https://github.com/mondaycom/mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "sse",
-      "url": "https://mcp.monday.com/sse"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -23,8 +9,8 @@
             "license": "MIT"
           },
           "metadata": {
-            "last_updated": "2026-02-05T04:49:20Z",
-            "stars": 366
+            "last_updated": "2026-02-21T15:00:39Z",
+            "stars": 375
           },
           "status": "Active",
           "tags": [
@@ -63,5 +49,19 @@
         }
       }
     }
-  }
+  },
+  "description": "Monday.com's official remote MCP server for project and workflow management",
+  "name": "io.github.stacklok/monday",
+  "remotes": [
+    {
+      "type": "sse",
+      "url": "https://mcp.monday.com/sse"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/mondaycom/mcp"
+  },
+  "title": "Monday.com",
+  "version": "1.0.0"
 }

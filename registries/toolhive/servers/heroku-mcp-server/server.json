@@ -1,42 +1,12 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/heroku-mcp-server",
-  "description": "MCP server for seamless interaction between LLMs and the Heroku Platform",
-  "title": "Heroku (Remote)",
-  "repository": {
-    "url": "https://github.com/heroku/heroku-mcp-server",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Your Heroku authorization token",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "HEROKU_API_KEY"
-        },
-        {
-          "description": "Timeout in milliseconds for command execution",
-          "default": "15000",
-          "name": "MCP_SERVER_REQUEST_TIMEOUT"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7": {
           "metadata": {
-            "last_updated": "2026-02-05T04:49:21Z",
-            "stars": 73
+            "last_updated": "2026-02-21T15:00:39Z",
+            "stars": 74
           },
           "permissions": {
             "network": {
@@ -104,5 +74,35 @@
         }
       }
     }
-  }
+  },
+  "description": "MCP server for seamless interaction between LLMs and the Heroku Platform",
+  "name": "io.github.stacklok/heroku-mcp-server",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Your Heroku authorization token",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "HEROKU_API_KEY"
+        },
+        {
+          "default": "15000",
+          "description": "Timeout in milliseconds for command execution",
+          "name": "MCP_SERVER_REQUEST_TIMEOUT"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/heroku/heroku-mcp-server"
+  },
+  "title": "Heroku (Remote)",
+  "version": "1.0.0"
 }
