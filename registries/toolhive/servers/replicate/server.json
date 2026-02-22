@@ -1,15 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/replicate",
-  "description": "Replicate's official MCP server for AI models and ML workflows",
-  "title": "Replicate",
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "sse",
-      "url": "https://mcp.replicate.com/sse"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -19,7 +9,7 @@
             "homepage": "https://replicate.com/docs/reference/mcp"
           },
           "metadata": {
-            "last_updated": "2026-02-07T02:54:31Z"
+            "last_updated": "2026-02-22T03:01:52Z"
           },
           "status": "Active",
           "tags": [
@@ -64,5 +54,15 @@
         }
       }
     }
-  }
+  },
+  "description": "Replicate's official MCP server for AI models and ML workflows",
+  "name": "io.github.stacklok/replicate",
+  "remotes": [
+    {
+      "type": "sse",
+      "url": "https://mcp.replicate.com/sse"
+    }
+  ],
+  "title": "Replicate",
+  "version": "1.0.0"
 }
