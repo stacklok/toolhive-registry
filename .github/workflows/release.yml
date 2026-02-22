@@ -23,7 +23,8 @@ jobs:
       - name: Generate version
         id: metadata
         run: |
-          echo "version=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
+          echo "version=0.$(date +'%Y%m%d').0" >> $GITHUB_OUTPUT
+          echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
 
       - name: Collect registry stats
         id: stats
@@ -48,11 +49,11 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: v${{ steps.metadata.outputs.version }}
-          name: Catalog v${{ steps.metadata.outputs.version }}
+          name: Catalog v${{ steps.metadata.outputs.date }}
           body: |
             ## ToolHive Catalog Release
 
-            **Date**: ${{ steps.metadata.outputs.version }}
+            **Date**: ${{ steps.metadata.outputs.date }}
             **Last Updated**: ${{ steps.stats.outputs.toolhive_last_updated }}
 
             ### Statistics
