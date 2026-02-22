@@ -1,15 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/sentry-remote",
-  "description": "Sentry's official remote MCP server for error monitoring and performance tracking",
-  "title": "Sentry (Remote)",
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://mcp.sentry.dev/mcp"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -19,7 +9,7 @@
             "homepage": "https://sentry.io"
           },
           "metadata": {
-            "last_updated": "2026-02-08T03:02:26Z"
+            "last_updated": "2026-02-22T03:01:53Z"
           },
           "status": "Active",
           "tags": [
@@ -54,5 +44,15 @@
         }
       }
     }
-  }
+  },
+  "description": "Sentry's official remote MCP server for error monitoring and performance tracking",
+  "name": "io.github.stacklok/sentry-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.sentry.dev/mcp"
+    }
+  ],
+  "title": "Sentry (Remote)",
+  "version": "1.0.0"
 }
