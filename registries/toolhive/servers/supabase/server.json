@@ -226,7 +226,7 @@
                 "readOnlyHint": false,
                 "title": "Deploy Edge Function"
               },
-              "description": "Deploys an Edge Function to a Supabase project. If the function already exists, this will create a new version. Example:\n\nimport \"jsr:@supabase/functions-js/edge-runtime.d.ts\";\n\nDeno.serve(async (req: Request) =\u003e {\n  const data = {\n    message: \"Hello there!\"\n  };\n  \n  return new Response(JSON.stringify(data), {\n    headers: {\n      'Content-Type': 'application/json',\n      'Connection': 'keep-alive'\n    }\n  });\n});",
+              "description": "Deploys an Edge Function to a Supabase project. If the function already exists, this will create a new version. Example:\n\nimport \"jsr:@supabase/functions-js/edge-runtime.d.ts\";\n\nDeno.serve(async (req: Request) => {\n  const data = {\n    message: \"Hello there!\"\n  };\n  \n  return new Response(JSON.stringify(data), {\n    headers: {\n      'Content-Type': 'application/json',\n      'Connection': 'keep-alive'\n    }\n  });\n});",
               "inputSchema": {
                 "properties": {
                   "entrypoint_path": {
@@ -865,7 +865,8 @@
             "reset_branch",
             "restore_project",
             "search_docs"
-          ]
+          ],
+          "overview": "## Supabase MCP Server\n\nThe supabase MCP server connects Supabase projects to AI assistants for managing tables, fetching config, and querying data. The server enables MCP-based access to Supabase platform capabilities through the Management API, database operations, Edge Functions deployment, and branch management features, authenticated via environment variables."
         }
       }
     }
@@ -894,5 +895,14 @@
     "url": "https://github.com/supabase-community/supabase-mcp"
   },
   "title": "Supabase",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/supabase/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

@@ -4750,7 +4750,7 @@
                     "type": "string"
                   },
                   "filter_properties": {
-                    "description": "A list of page property value IDs associated with the page. Use this param to limit the response to a specific page property value or values. To retrieve multiple properties, specify each page property ID. For example: `?filter_properties=iAk8\u0026filter_properties=b7dh`.",
+                    "description": "A list of page property value IDs associated with the page. Use this param to limit the response to a specific page property value or values. To retrieve multiple properties, specify each page property ID. For example: `?filter_properties=iAk8&filter_properties=b7dh`.",
                     "type": "string"
                   },
                   "page_id": {
@@ -5542,7 +5542,8 @@
             "API-retrieve-a-page-property",
             "API-update-a-block",
             "API-update-a-data-source"
-          ]
+          ],
+          "overview": "## Notion MCP Server\n\nThe notion MCP server provides integration with Notion APIs through a local Notion MCP Server. The server offers complete Notion API integration for pages, blocks, and databases; create, read, update, and delete operations across Notion workspaces; user and workspace information retrieval; and search and data source querying with template support."
         }
       }
     }
@@ -5576,5 +5577,14 @@
     "url": "https://github.com/makenotion/notion-mcp-server"
   },
   "title": "Notion",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/notion/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

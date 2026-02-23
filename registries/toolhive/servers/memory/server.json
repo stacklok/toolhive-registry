@@ -297,7 +297,8 @@
             "open_nodes",
             "read_graph",
             "search_nodes"
-          ]
+          ],
+          "overview": "## Memory MCP Server\n\nThe memory MCP server provides AI assistants with persistent, long-term memory across interactions. It allows AI workflows to maintain context and knowledge beyond individual conversations, supporting personalization and enabling continuity in assistant interactions. The system works by running as an MCP service that manages persistent storage, handling indexing and retrieval so AI clients can access historical context during reasoning tasks — enabling assistants to develop awareness of user preferences and prior decisions over extended periods."
         }
       }
     }
@@ -324,5 +325,14 @@
     "url": "https://github.com/modelcontextprotocol/servers"
   },
   "title": "Memory",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/memory/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

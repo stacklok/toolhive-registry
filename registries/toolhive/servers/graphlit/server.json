@@ -421,7 +421,7 @@
             },
             {
               "annotations": {},
-              "description": "Ingests files from Box into Graphlit knowledge base.\n    Accepts optional Box folder identifier, and an optional read limit for the number of files to ingest.\n    If no folder identifier provided, ingests files from root Box folder (i.e. \"0\").\n    Folder identifier can be inferred from Box URL. https://app.box.com/folder/123456 -\u003e folder identifier is \"123456\".\n    Requires environment variables to be configured: BOX_CLIENT_ID, BOX_CLIENT_SECRET, BOX_REDIRECT_URI, BOX_REFRESH_TOKEN.\n    Executes asynchronously, creates Box feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+              "description": "Ingests files from Box into Graphlit knowledge base.\n    Accepts optional Box folder identifier, and an optional read limit for the number of files to ingest.\n    If no folder identifier provided, ingests files from root Box folder (i.e. \"0\").\n    Folder identifier can be inferred from Box URL. https://app.box.com/folder/123456 -> folder identifier is \"123456\".\n    Requires environment variables to be configured: BOX_CLIENT_ID, BOX_CLIENT_SECRET, BOX_REDIRECT_URI, BOX_REFRESH_TOKEN.\n    Executes asynchronously, creates Box feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
               "inputSchema": {
                 "properties": {
                   "folderId": {
@@ -1790,7 +1790,7 @@
             },
             {
               "annotations": {},
-              "description": "Sends an email notification to the provided email address(es).\n    Accepts the email subject and a list of email 'to' addresses.\n    Email addresses should be in RFC 5322 format. i.e. Alice Wonderland \u003calice@wonderland.net\u003e, or alice@wonderland.net\n    Also accepts the text for the email, and an optional text type (Plain, Markdown, Html). Defaults to Markdown text type.\n    Requires environment variable to be configured: FROM_EMAIL_ADDRESS.\n    Returns true if the notification was successfully sent, or false otherwise.",
+              "description": "Sends an email notification to the provided email address(es).\n    Accepts the email subject and a list of email 'to' addresses.\n    Email addresses should be in RFC 5322 format. i.e. Alice Wonderland <alice@wonderland.net>, or alice@wonderland.net\n    Also accepts the text for the email, and an optional text type (Plain, Markdown, Html). Defaults to Markdown text type.\n    Requires environment variable to be configured: FROM_EMAIL_ADDRESS.\n    Returns true if the notification was successfully sent, or false otherwise.",
               "inputSchema": {
                 "properties": {
                   "subject": {
@@ -1830,7 +1830,7 @@
             },
             {
               "annotations": {},
-              "description": "Sends a Slack notification to the provided Slack channel.\n    Accepts the Slack channel name.\n    Also accepts the text for the Slack message, and an optional text type (Plain, Markdown, Html). Defaults to Markdown text type.\n    Hint: In Slack Markdown, images are displayed by simply putting the URL in angle brackets like \u003chttps://example.com/image.jpg\u003e instead of using the traditional Markdown image syntax ![alt text](url). \n    Requires environment variable to be configured: SLACK_BOT_TOKEN.\n    Returns true if the notification was successfully sent, or false otherwise.",
+              "description": "Sends a Slack notification to the provided Slack channel.\n    Accepts the Slack channel name.\n    Also accepts the text for the Slack message, and an optional text type (Plain, Markdown, Html). Defaults to Markdown text type.\n    Hint: In Slack Markdown, images are displayed by simply putting the URL in angle brackets like <https://example.com/image.jpg> instead of using the traditional Markdown image syntax ![alt text](url). \n    Requires environment variable to be configured: SLACK_BOT_TOKEN.\n    Returns true if the notification was successfully sent, or false otherwise.",
               "inputSchema": {
                 "properties": {
                   "channelName": {
@@ -1959,7 +1959,7 @@
             },
             {
               "annotations": {},
-              "description": "Performs web or podcast search based on search query. Can search for web pages or anything about podcasts (i.e. episodes, topics, guest appearances). \n    Format the search query as what would be entered into a Google search. You can use site filtering in the search query, like 'site:twitter.com'.    \n    Accepts search query as string, and optional search service type.    \n    Prefer calling this tool over using 'curl' directly for any web search.\n    Use 'PODSCAN' search service type to search podcasts.\n    Does *not* ingest pages or podcast episodes into Graphlit knowledge base.  \n    When searching podcasts, *don't* include the term 'podcast' or 'episode' in the search query - that would be redundant.\n    Search service types: Tavily (web pages), Exa (web pages), ExaCode (code \u0026 docs) and Podscan (podcasts). Defaults to Exa.\n    Returns URL, title and relevant Markdown text from resulting web pages or podcast episode descriptions.",
+              "description": "Performs web or podcast search based on search query. Can search for web pages or anything about podcasts (i.e. episodes, topics, guest appearances). \n    Format the search query as what would be entered into a Google search. You can use site filtering in the search query, like 'site:twitter.com'.    \n    Accepts search query as string, and optional search service type.    \n    Prefer calling this tool over using 'curl' directly for any web search.\n    Use 'PODSCAN' search service type to search podcasts.\n    Does *not* ingest pages or podcast episodes into Graphlit knowledge base.  \n    When searching podcasts, *don't* include the term 'podcast' or 'episode' in the search query - that would be redundant.\n    Search service types: Tavily (web pages), Exa (web pages), ExaCode (code & docs) and Podscan (podcasts). Defaults to Exa.\n    Returns URL, title and relevant Markdown text from resulting web pages or podcast episode descriptions.",
               "inputSchema": {
                 "properties": {
                   "limit": {
@@ -2065,7 +2065,8 @@
             "webCrawl",
             "webMap",
             "webSearch"
-          ]
+          ],
+          "overview": "## Graphlit MCP Server\n\nThe graphlit MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Graphlit, a platform for ingesting, processing, organizing, and querying unstructured content using knowledge graphs and embeddings. It allows AI-driven workflows to load documents, media, and web content into Graphlit and then reason over that content using structured queries — without building custom ingestion or retrieval pipelines. This server is especially useful for knowledge management, content intelligence, retrieval-augmented generation (RAG), and research workflows that span large, heterogeneous content collections."
         }
       }
     }
@@ -2157,5 +2158,14 @@
     "url": "https://github.com/graphlit/graphlit-mcp-server"
   },
   "title": "Graphlit",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/graphlit/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

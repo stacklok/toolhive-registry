@@ -89,7 +89,8 @@
             "execute_sql",
             "get_execution_plan",
             "get_query_plan"
-          ]
+          ],
+          "overview": "## AnalyticDB for MySQL MCP Server\n\nThe adb-mysql-mcp-server provides a standardized interface that lets AI assistants interact directly with Alibaba Cloud AnalyticDB for MySQL databases through the Model Context Protocol (MCP). It enables seamless access to database metadata and SQL operations so AI workflows can query, analyze, and manage data without needing to embed database-specific logic directly in the assistant."
         }
       }
     }
@@ -138,5 +139,14 @@
     "url": "https://github.com/aliyun/alibabacloud-adb-mysql-mcp-server"
   },
   "title": "AnalyticDB for MySQL",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/adb-mysql-mcp-server/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

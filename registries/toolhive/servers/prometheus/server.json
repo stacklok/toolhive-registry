@@ -207,7 +207,8 @@
             "get_targets",
             "health_check",
             "list_metrics"
-          ]
+          ],
+          "overview": "## Prometheus MCP Server\n\nThe Prometheus MCP server provides AI assistants with direct access to Prometheus metrics and monitoring data. It enables real-time querying of time-series metrics using PromQL, range queries for trend analysis, alert and rule inspection, and target health monitoring. The server exposes tools for metric discovery, label exploration, and exemplar queries, making it straightforward to integrate Prometheus observability data into AI-driven analysis and incident response workflows."
         }
       }
     }
@@ -265,5 +266,14 @@
     "url": "https://github.com/pab1it0/prometheus-mcp-server"
   },
   "title": "Prometheus",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/prometheus/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

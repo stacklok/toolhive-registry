@@ -35,7 +35,8 @@
           "tier": "Community",
           "tools": [
             "generate_plot"
-          ]
+          ],
+          "overview": "## Plotting MCP Server\n\nThe Plotting MCP server provides AI assistants with data visualization capabilities, enabling the generation of charts and plots from structured data. It supports multiple plotting libraries including matplotlib, seaborn, and cartopy, and can produce line plots, bar charts, scatter plots, and geographic maps. The server uses a streamable HTTP transport and is cryptographically signed for supply chain security, making it suitable for data analysis workflows that require visual output alongside textual reasoning."
         }
       }
     }
@@ -57,5 +58,14 @@
     "url": "https://github.com/StacklokLabs/plotting-mcp"
   },
   "title": "Plotting",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/plotting/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

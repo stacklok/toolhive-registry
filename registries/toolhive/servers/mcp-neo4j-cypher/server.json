@@ -127,7 +127,8 @@
             "get_neo4j_schema",
             "read_neo4j_cypher",
             "write_neo4j_cypher"
-          ]
+          ],
+          "overview": "## Neo4j Cypher MCP Server\n\nThe mcp-neo4j-cypher server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neo4j graph databases using Cypher, Neo4j's query language. It allows AI-driven workflows to query, explore, and analyze graph data — including nodes, relationships, and paths — without embedding Neo4j drivers or Cypher execution logic into the client. This server is especially useful for knowledge graphs, dependency analysis, recommendation systems, and any workflow that benefits from graph-native querying and reasoning."
         }
       }
     }
@@ -171,5 +172,14 @@
     "url": "https://github.com/neo4j-contrib/mcp-neo4j"
   },
   "title": "Neo4j Cypher",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-neo4j-cypher/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

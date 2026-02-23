@@ -142,7 +142,8 @@
             "list_papers",
             "read_paper",
             "search_papers"
-          ]
+          ],
+          "overview": "## arXiv MCP Server\n\nThe arxiv-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically access the arXiv research repository — one of the largest open archives of scientific papers — via a simple MCP interface. It lets AI workflows search for academic papers, download and read their content, and manage collected research, all without switching tools or manually scraping content."
         }
       }
     }
@@ -170,5 +171,14 @@
     "url": "https://github.com/blazickjp/arxiv-mcp-server"
   },
   "title": "arXiv",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/arxiv-mcp-server/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

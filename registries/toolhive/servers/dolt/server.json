@@ -83,7 +83,7 @@
               "inputSchema": {
                 "properties": {
                   "assertion_comparator": {
-                    "description": "Comparator: == | != | \u003c | \u003e | \u003c= | \u003e=",
+                    "description": "Comparator: == | != | < | > | <= | >=",
                     "type": "string"
                   },
                   "assertion_type": {
@@ -738,11 +738,11 @@
                 "openWorldHint": false,
                 "readOnlyHint": false
               },
-              "description": "Kill a running process by id (KILL [QUERY] \u003cid\u003e).",
+              "description": "Kill a running process by id (KILL [QUERY] <id>).",
               "inputSchema": {
                 "properties": {
                   "kill_query": {
-                    "description": "If true, uses KILL QUERY \u003cid\u003e instead of KILL \u003cid\u003e.",
+                    "description": "If true, uses KILL QUERY <id> instead of KILL <id>.",
                     "type": "boolean"
                   },
                   "process_id": {
@@ -1492,7 +1492,8 @@
             "stage_table_for_dolt_commit",
             "unstage_all_tables",
             "unstage_table"
-          ]
+          ],
+          "overview": "## Dolt MCP Server\n\nThe dolt-mcp-server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Dolt, a SQL database with built-in Git-style version control. It facilitates AI-driven workflows including querying data, inspecting schema changes, creating and managing branches, reviewing diffs, and analyzing historical data — all within a unified interface. It's particularly valuable for data analysis, auditing, experimentation, and collaborative workflows requiring tracking and understanding of data changes over time."
         }
       }
     }
@@ -1551,5 +1552,14 @@
     "url": "https://github.com/dolthub/dolt-mcp"
   },
   "title": "Dolt",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/dolt/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

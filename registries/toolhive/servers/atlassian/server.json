@@ -77,7 +77,8 @@
             "jira_get_all_projects",
             "jira_create_version",
             "jira_batch_create_versions"
-          ]
+          ],
+          "overview": "## Atlassian MCP Server\n\nThe Atlassian MCP server lets AI assistants work directly with Atlassian Cloud products from within an AI-driven workflow. It provides programmatic access to Jira, Confluence, and related Atlassian resources so users can search, create, and update content without switching tools."
         }
       }
     }
@@ -164,5 +165,14 @@
     "url": "https://github.com/sooperset/mcp-atlassian"
   },
   "title": "Atlassian",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/atlassian/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

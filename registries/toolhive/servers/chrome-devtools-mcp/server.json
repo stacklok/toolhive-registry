@@ -260,7 +260,7 @@
                     "type": "array"
                   },
                   "function": {
-                    "description": "A JavaScript function declaration to be executed by the tool in the currently selected page.\nExample without arguments: `() =\u003e {\n  return document.title\n}` or `async () =\u003e {\n  return await fetch(\"example.com\")\n}`.\nExample with arguments: `(el) =\u003e {\n  return el.innerText;\n}`\n",
+                    "description": "A JavaScript function declaration to be executed by the tool in the currently selected page.\nExample without arguments: `() => {\n  return document.title\n}` or `async () => {\n  return await fetch(\"example.com\")\n}`.\nExample with arguments: `(el) => {\n  return el.innerText;\n}`\n",
                     "type": "string"
                   }
                 },
@@ -275,7 +275,7 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Type text into a input, text area or select an option from a \u003cselect\u003e element.",
+              "description": "Type text into a input, text area or select an option from a <select> element.",
               "inputSchema": {
                 "properties": {
                   "includeSnapshot": {
@@ -913,7 +913,8 @@
             "take_snapshot",
             "upload_file",
             "wait_for"
-          ]
+          ],
+          "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development."
         }
       }
     }
@@ -934,5 +935,14 @@
     "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp"
   },
   "title": "Chrome DevTools",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/chrome-devtools-mcp/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

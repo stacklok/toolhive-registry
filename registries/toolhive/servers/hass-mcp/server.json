@@ -327,7 +327,8 @@
             "restart_ha",
             "search_entities_tool",
             "system_overview"
-          ]
+          ],
+          "overview": "## Home Assistant MCP Server\n\nThe hass-mcp server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Home Assistant (HASS), the open-source home automation platform. It enables AI-driven workflows to observe, control, and reason about smart home entities and states — turning a Home Assistant instance into a programmable, conversational environment. This server is ideal for smart home automation, contextual assistance, energy monitoring, and ambient intelligence use cases where AI needs real-time awareness of a physical environment. It provides privacy-preserving operation by running locally without requiring cloud services."
         }
       }
     }
@@ -361,5 +362,14 @@
     "url": "https://github.com/voska/hass-mcp"
   },
   "title": "Home Assistant",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/hass-mcp/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

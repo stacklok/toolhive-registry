@@ -164,7 +164,8 @@
             "list_contexts",
             "show_violations",
             "switch_context"
-          ]
+          ],
+          "overview": "## Kyverno MCP Server\n\nThe kyverno MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kyverno, the Kubernetes-native policy engine. It facilitates AI-driven workflows for inspecting policies, validating resources, analyzing policy outcomes, and reasoning about compliance. The server is especially useful for platform engineering, security, and compliance workflows where understanding policy enforcement decisions is critical. Key capabilities include policy visibility, compliance analysis, security governance insight, troubleshooting support, and platform decision support."
         }
       }
     }
@@ -191,5 +192,14 @@
     "url": "https://github.com/nirmata/kyverno-mcp"
   },
   "title": "Kyverno",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/kyverno/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

@@ -137,7 +137,8 @@
             "get_vulnerability",
             "query_vulnerabilities_batch",
             "query_vulnerability"
-          ]
+          ],
+          "overview": "## OSV MCP Server\n\nThe osv MCP server provides access to the OSV (Open Source Vulnerabilities) database for querying package and commit vulnerabilities. The server offers MCP-based access to the OSV vulnerability database through direct API queries to OSV.dev for vulnerability lookups by package name, version, or commit hash. It supports batch vulnerability queries for multiple packages simultaneously and delivers detailed vulnerability information including CVE IDs, severity scores, and affected versions across multiple programming languages and package managers."
         }
       }
     }
@@ -159,5 +160,14 @@
     "url": "https://github.com/StacklokLabs/osv-mcp"
   },
   "title": "OSV",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/osv/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

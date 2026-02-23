@@ -1077,7 +1077,8 @@
             "set_global_variable_type",
             "set_local_variable_type",
             "set_stack_frame_variable_type"
-          ]
+          ],
+          "overview": "## IDA Pro MCP Server\n\nThe ida-pro-mcp server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with IDA Pro, the industry-standard interactive disassembler and reverse-engineering platform. It enables AI-driven workflows to inspect binaries, analyze disassembly, explore functions and symbols, and reason about program structure — all from within an MCP-compatible assistant. This server proves particularly valuable for reverse engineering, malware analysis, vulnerability research, and low-level software analysis workflows where deep binary insight is required."
         }
       }
     }
@@ -1098,5 +1099,14 @@
     "url": "https://github.com/mrexodia/ida-pro-mcp"
   },
   "title": "IDA Pro",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/ida-pro-mcp/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

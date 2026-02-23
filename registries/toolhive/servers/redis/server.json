@@ -755,7 +755,7 @@
             },
             {
               "annotations": {},
-              "description": "\nScan keys in the Redis database using the SCAN command (non-blocking, production-safe).\n\n⚠️  IMPORTANT: This returns PARTIAL results from one iteration. Use scan_all_keys()\nto get ALL matching keys, or call this function multiple times with the returned cursor\nuntil cursor becomes 0.\n\nThe SCAN command iterates through the keyspace in small chunks, making it safe to use\non large databases without blocking other operations.\n\nArgs:\n    pattern: Pattern to match keys against (default is \"*\" for all keys).\n            Common patterns: \"user:*\", \"cache:*\", \"*:123\", etc.\n    count: Hint for the number of keys to return per iteration (default 100).\n           Redis may return more or fewer keys than this hint.\n    cursor: The cursor position to start scanning from (0 to start from beginning).\n            To continue scanning, use the cursor value returned from previous call.\n\nReturns:\n    A dictionary containing:\n    - 'cursor': Next cursor position (0 means scan is complete)\n    - 'keys': List of keys found in this iteration (PARTIAL RESULTS)\n    - 'total_scanned': Number of keys returned in this batch\n    - 'scan_complete': Boolean indicating if scan is finished\n    Or an error message if something goes wrong.\n\nExample usage:\n    First call: scan_keys(\"user:*\") -\u003e returns cursor=1234, keys=[...], scan_complete=False\n    Next call: scan_keys(\"user:*\", cursor=1234) -\u003e continues from where it left off\n    Final call: returns cursor=0, scan_complete=True when done\n",
+              "description": "\nScan keys in the Redis database using the SCAN command (non-blocking, production-safe).\n\n⚠️  IMPORTANT: This returns PARTIAL results from one iteration. Use scan_all_keys()\nto get ALL matching keys, or call this function multiple times with the returned cursor\nuntil cursor becomes 0.\n\nThe SCAN command iterates through the keyspace in small chunks, making it safe to use\non large databases without blocking other operations.\n\nArgs:\n    pattern: Pattern to match keys against (default is \"*\" for all keys).\n            Common patterns: \"user:*\", \"cache:*\", \"*:123\", etc.\n    count: Hint for the number of keys to return per iteration (default 100).\n           Redis may return more or fewer keys than this hint.\n    cursor: The cursor position to start scanning from (0 to start from beginning).\n            To continue scanning, use the cursor value returned from previous call.\n\nReturns:\n    A dictionary containing:\n    - 'cursor': Next cursor position (0 means scan is complete)\n    - 'keys': List of keys found in this iteration (PARTIAL RESULTS)\n    - 'total_scanned': Number of keys returned in this batch\n    - 'scan_complete': Boolean indicating if scan is finished\n    Or an error message if something goes wrong.\n\nExample usage:\n    First call: scan_keys(\"user:*\") -> returns cursor=1234, keys=[...], scan_complete=False\n    Next call: scan_keys(\"user:*\", cursor=1234) -> continues from where it left off\n    Final call: returns cursor=0, scan_complete=True when done\n",
               "inputSchema": {
                 "properties": {
                   "count": {
@@ -1238,7 +1238,8 @@
             "zadd",
             "zrange",
             "zrem"
-          ]
+          ],
+          "overview": "## Redis MCP Server\n\nThe redis MCP server enables LLMs to interact with Redis key-value databases through a set of standardized tools. The server connects to Redis databases and provides MCP tools for basic operations (CRUD operations, database management), data structures (full support for strings, hashes, lists, sets, sorted sets, JSON), vector search functionality, and streams/Pub/Sub features for messaging and time-series data handling."
         }
       }
     }
@@ -1315,5 +1316,14 @@
     "url": "https://github.com/redis/mcp-redis"
   },
   "title": "Redis",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/redis/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }
