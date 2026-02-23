@@ -8,9 +8,10 @@
             "--tools=all"
           ],
           "metadata": {
-            "last_updated": "2026-02-18T22:24:12Z",
+            "last_updated": "2026-02-23T09:26:42Z",
             "stars": 1258
           },
+          "overview": "## Stripe MCP Server\n\nThe stripe MCP server allows you to integrate with Stripe APIs through the Stripe Agent Toolkit. The server facilitates payment processing and customer management through several functional areas: payment operations, subscription handling, invoice management, and refund processing. It provides official Stripe Agent Toolkit integration with comprehensive API coverage for payment, customer, and subscription operations.",
           "permissions": {
             "network": {
               "outbound": {
@@ -756,13 +757,21 @@
             "search_stripe_documentation",
             "update_dispute",
             "update_subscription"
-          ],
-          "overview": "## Stripe MCP Server\n\nThe stripe MCP server allows you to integrate with Stripe APIs through the Stripe Agent Toolkit. The server facilitates payment processing and customer management through several functional areas: payment operations, subscription handling, invoice management, and refund processing. It provides official Stripe Agent Toolkit integration with comprehensive API coverage for payment, customer, and subscription operations."
+          ]
         }
       }
     }
   },
   "description": "Allows you to integrate with Stripe APIs through the Stripe Agent Toolkit.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/stripe/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/stripe",
   "packages": [
     {
@@ -785,14 +794,5 @@
     "url": "https://github.com/stripe/agent-toolkit"
   },
   "title": "Stripe",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/stripe/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/aws-diagram:1.0.18": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:42Z",
+            "last_updated": "2026-02-23T09:26:30Z",
             "stars": 8053
           },
+          "overview": "## AWS Diagram MCP Server\n\nThe aws-diagram MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically generate professional diagrams — such as AWS architecture diagrams, sequence flows, and class diagrams — through a prompt-driven interface. It uses the Python diagrams package DSL to turn structured diagram descriptions into visual output, making it easy to include infrastructure visuals inside AI-augmented workflows.",
           "permissions": {
             "network": {
               "outbound": {}
@@ -32,7 +33,7 @@
           "tool_definitions": [
             {
               "annotations": {},
-              "description": "Generate a diagram from Python code using the diagrams package.\n\nThis tool accepts Python code as a string that uses the diagrams package DSL\nand generates a PNG diagram without displaying it. The code is executed with\nshow=False to prevent automatic display.\n\nUSAGE INSTRUCTIONS:\nNever import. Start writing code immediately with `with Diagram(` and use the icons you found with list_icons.\n1. First use get_diagram_examples to understand the syntax and capabilities\n2. Then use list_icons to discover all available icons. These are the only icons you can work with.\n3. You MUST use icon names exactly as they are in the list_icons response, case-sensitive.\n4. Write your diagram code following python diagrams examples. Do not import any additional icons or packages, the runtime already imports everything needed.\n5. Submit your code to this tool to generate the diagram\n6. The tool returns the path to the generated PNG file\n7. For complex diagrams, consider using Clusters to organize components\n8. Diagrams should start with a user or end device on the left, with data flowing to the right.\n\nCODE REQUIREMENTS:\n- Must include a Diagram() definition with appropriate parameters\n- Can use any of the supported diagram components (AWS, K8s, etc.)\n- Can include custom styling with Edge attributes (color, style)\n- Can use Cluster to group related components\n- Can use custom icons with the Custom class\n\nCOMMON PATTERNS:\n- Basic: provider.service(\"label\")\n- Connections: service1 >> service2 >> service3\n- Grouping: with Cluster(\"name\"): [components]\n- Styling: service1 >> Edge(color=\"red\", style=\"dashed\") >> service2\n\nIMPORTANT FOR CLINE: Always send the current workspace directory when calling this tool!\nThe workspace_dir parameter should be set to the directory where the user is currently working\nso that diagrams are saved to a location accessible to the user.\n\nSupported diagram types:\n- AWS architecture diagrams\n- Sequence diagrams\n- Flow diagrams\n- Class diagrams\n- Kubernetes diagrams\n- On-premises diagrams\n- Custom diagrams with custom nodes\n\nReturns:\n    Dictionary with the path to the generated diagram and status information\n",
+              "description": "Generate a diagram from Python code using the diagrams package.\n\nThis tool accepts Python code as a string that uses the diagrams package DSL\nand generates a PNG diagram without displaying it. The code is executed with\nshow=False to prevent automatic display.\n\nUSAGE INSTRUCTIONS:\nNever import. Start writing code immediately with `with Diagram(` and use the icons you found with list_icons.\n1. First use get_diagram_examples to understand the syntax and capabilities\n2. Then use list_icons to discover all available icons. These are the only icons you can work with.\n3. You MUST use icon names exactly as they are in the list_icons response, case-sensitive.\n4. Write your diagram code following python diagrams examples. Do not import any additional icons or packages, the runtime already imports everything needed.\n5. Submit your code to this tool to generate the diagram\n6. The tool returns the path to the generated PNG file\n7. For complex diagrams, consider using Clusters to organize components\n8. Diagrams should start with a user or end device on the left, with data flowing to the right.\n\nCODE REQUIREMENTS:\n- Must include a Diagram() definition with appropriate parameters\n- Can use any of the supported diagram components (AWS, K8s, etc.)\n- Can include custom styling with Edge attributes (color, style)\n- Can use Cluster to group related components\n- Can use custom icons with the Custom class\n\nCOMMON PATTERNS:\n- Basic: provider.service(\"label\")\n- Connections: service1 \u003e\u003e service2 \u003e\u003e service3\n- Grouping: with Cluster(\"name\"): [components]\n- Styling: service1 \u003e\u003e Edge(color=\"red\", style=\"dashed\") \u003e\u003e service2\n\nIMPORTANT FOR CLINE: Always send the current workspace directory when calling this tool!\nThe workspace_dir parameter should be set to the directory where the user is currently working\nso that diagrams are saved to a location accessible to the user.\n\nSupported diagram types:\n- AWS architecture diagrams\n- Sequence diagrams\n- Flow diagrams\n- Class diagrams\n- Kubernetes diagrams\n- On-premises diagrams\n- Custom diagrams with custom nodes\n\nReturns:\n    Dictionary with the path to the generated diagram and status information\n",
               "inputSchema": {
                 "properties": {
                   "code": {
@@ -155,13 +156,21 @@
             "generate_diagram",
             "get_diagram_examples",
             "list_icons"
-          ],
-          "overview": "## AWS Diagram MCP Server\n\nThe aws-diagram MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically generate professional diagrams — such as AWS architecture diagrams, sequence flows, and class diagrams — through a prompt-driven interface. It uses the Python diagrams package DSL to turn structured diagram descriptions into visual output, making it easy to include infrastructure visuals inside AI-augmented workflows."
+          ]
         }
       }
     }
   },
   "description": "Generate AWS diagrams, sequence diagrams, flow diagrams, and class diagrams using Python code.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/aws-diagram/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/aws-diagram",
   "packages": [
     {
@@ -189,14 +198,5 @@
     "url": "https://github.com/awslabs/mcp"
   },
   "title": "AWS Diagrams",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/aws-diagram/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

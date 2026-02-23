@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.2.0": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:45Z",
+            "last_updated": "2026-02-23T09:26:34Z",
             "stars": 688
           },
+          "overview": "## ClickHouse MCP Server\n\nThe mcp-clickhouse server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with ClickHouse, the high-performance, column-oriented analytical database. It allows AI-driven workflows to query large datasets, inspect schemas, and analyze analytical workloads without requiring users to switch tools or embed ClickHouse-specific client logic. This server is especially useful for analytics, observability, log analysis, and data exploration workflows where fast, read-heavy queries and large-scale datasets are common.",
           "permissions": {
             "network": {
               "outbound": {
@@ -120,13 +121,21 @@
             "list_databases",
             "list_tables",
             "run_select_query"
-          ],
-          "overview": "## ClickHouse MCP Server\n\nThe mcp-clickhouse server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with ClickHouse, the high-performance, column-oriented analytical database. It allows AI-driven workflows to query large datasets, inspect schemas, and analyze analytical workloads without requiring users to switch tools or embed ClickHouse-specific client logic. This server is especially useful for analytics, observability, log analysis, and data exploration workflows where fast, read-heavy queries and large-scale datasets are common."
+          ]
         }
       }
     }
   },
   "description": "MCP server for ClickHouse with SQL queries, database/table listing, and optional chDB OLAP engine",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-clickhouse/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/mcp-clickhouse",
   "packages": [
     {
@@ -189,14 +198,5 @@
     "url": "https://github.com/ClickHouse/mcp-clickhouse"
   },
   "title": "ClickHouse",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-clickhouse/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

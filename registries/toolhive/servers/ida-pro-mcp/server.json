@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/ida-pro-mcp:1.4.0": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:47Z",
+            "last_updated": "2026-02-23T09:26:27Z",
             "stars": 5444
           },
+          "overview": "## IDA Pro MCP Server\n\nThe ida-pro-mcp server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with IDA Pro, the industry-standard interactive disassembler and reverse-engineering platform. It enables AI-driven workflows to inspect binaries, analyze disassembly, explore functions and symbols, and reason about program structure — all from within an MCP-compatible assistant. This server proves particularly valuable for reverse engineering, malware analysis, vulnerability research, and low-level software analysis workflows where deep binary insight is required.",
           "permissions": {
             "network": {
               "outbound": {
@@ -1077,13 +1078,21 @@
             "set_global_variable_type",
             "set_local_variable_type",
             "set_stack_frame_variable_type"
-          ],
-          "overview": "## IDA Pro MCP Server\n\nThe ida-pro-mcp server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with IDA Pro, the industry-standard interactive disassembler and reverse-engineering platform. It enables AI-driven workflows to inspect binaries, analyze disassembly, explore functions and symbols, and reason about program structure — all from within an MCP-compatible assistant. This server proves particularly valuable for reverse engineering, malware analysis, vulnerability research, and low-level software analysis workflows where deep binary insight is required."
+          ]
         }
       }
     }
   },
   "description": "MCP server for IDA Pro reverse engineering and analysis",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/ida-pro-mcp/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/ida-pro-mcp",
   "packages": [
     {
@@ -1099,14 +1108,5 @@
     "url": "https://github.com/mrexodia/ida-pro-mcp"
   },
   "title": "IDA Pro",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/ida-pro-mcp/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

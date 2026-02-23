@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/plotting-mcp:v0.0.2": {
           "metadata": {
-            "last_updated": "2026-02-19T03:03:33Z",
+            "last_updated": "2026-02-23T09:26:09Z",
             "stars": 7
           },
+          "overview": "## Plotting MCP Server\n\nThe Plotting MCP server provides AI assistants with data visualization capabilities, enabling the generation of charts and plots from structured data. It supports multiple plotting libraries including matplotlib, seaborn, and cartopy, and can produce line plots, bar charts, scatter plots, and geographic maps. The server uses a streamable HTTP transport and is cryptographically signed for supply chain security, making it suitable for data analysis workflows that require visual output alongside textual reasoning.",
           "permissions": {
             "network": {
               "outbound": {}
@@ -33,15 +34,52 @@
             "maps"
           ],
           "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "\nGenerate a plot from CSV data.\n\nArgs:\n    csv_data (str): CSV data as a string\n    plot_type (str): Type of plot to generate (line, bar, pie, worldmap).\n     If not specified, defaults to \"line\".\n    json_kwargs (str, optional): JSON string with additional parameters for the plot.\n        If not specified, the plot will be generated with default parameters.\n        Additional plotting parameters in JSON format. For line/bar plots, Seaborn is used,\n        so any parameters supported by Seaborn's plotting functions can be passed.\n        For bar/line plots, you can specify:\n            - `x` (str): Column name for x-axis\n            - `y` (str): Column name for y-axis\n            - `hue` (str): Column name for color encoding\n        For worldmap plots, coordinate data is expected with latitude/longitude columns:\n            - Latitude columns: lat, latitude, y\n            - Longitude columns: lon, lng, long, longitude, x\n            - `s` (int): marker size (default: 50)\n            - `c` (str): marker color (default: 'red')\n            - `alpha` (float): transparency (default: 0.7). Between 0 and 1.\n            - `marker` (str): marker style (default: 'o')\n\nReturns:\n    tuple[TextContent, ImageContent]: A tuple containing a success message and the\n    generated plot as an image.\n",
+              "inputSchema": {
+                "properties": {
+                  "csv_data": {
+                    "title": "Csv Data",
+                    "type": "string"
+                  },
+                  "json_kwargs": {
+                    "default": "None",
+                    "title": "Json Kwargs",
+                    "type": "string"
+                  },
+                  "plot_type": {
+                    "default": "line",
+                    "title": "Plot Type",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "csv_data"
+                ],
+                "type": "object"
+              },
+              "name": "generate_plot"
+            }
+          ],
           "tools": [
             "generate_plot"
-          ],
-          "overview": "## Plotting MCP Server\n\nThe Plotting MCP server provides AI assistants with data visualization capabilities, enabling the generation of charts and plots from structured data. It supports multiple plotting libraries including matplotlib, seaborn, and cartopy, and can produce line plots, bar charts, scatter plots, and geographic maps. The server uses a streamable HTTP transport and is cryptographically signed for supply chain security, making it suitable for data analysis workflows that require visual output alongside textual reasoning."
+          ]
         }
       }
     }
   },
   "description": "Provides plotting capabilities for visualizing data in various formats.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/plotting/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/plotting",
   "packages": [
     {
@@ -58,14 +96,5 @@
     "url": "https://github.com/StacklokLabs/plotting-mcp"
   },
   "title": "Plotting",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/plotting/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

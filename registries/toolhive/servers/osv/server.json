@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/osv-mcp/server:0.1.0": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:19Z",
+            "last_updated": "2026-02-23T09:25:54Z",
             "stars": 26
           },
+          "overview": "## OSV MCP Server\n\nThe osv MCP server provides access to the OSV (Open Source Vulnerabilities) database for querying package and commit vulnerabilities. The server offers MCP-based access to the OSV vulnerability database through direct API queries to OSV.dev for vulnerability lookups by package name, version, or commit hash. It supports batch vulnerability queries for multiple packages simultaneously and delivers detailed vulnerability information including CVE IDs, severity scores, and affected versions across multiple programming languages and package managers.",
           "permissions": {
             "network": {
               "outbound": {
@@ -137,13 +138,21 @@
             "get_vulnerability",
             "query_vulnerabilities_batch",
             "query_vulnerability"
-          ],
-          "overview": "## OSV MCP Server\n\nThe osv MCP server provides access to the OSV (Open Source Vulnerabilities) database for querying package and commit vulnerabilities. The server offers MCP-based access to the OSV vulnerability database through direct API queries to OSV.dev for vulnerability lookups by package name, version, or commit hash. It supports batch vulnerability queries for multiple packages simultaneously and delivers detailed vulnerability information including CVE IDs, severity scores, and affected versions across multiple programming languages and package managers."
+          ]
         }
       }
     }
   },
   "description": "OSV (Open Source Vulnerabilities) database access for querying package and commit vulnerabilities",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/osv/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/osv",
   "packages": [
     {
@@ -160,14 +169,5 @@
     "url": "https://github.com/StacklokLabs/osv-mcp"
   },
   "title": "OSV",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/osv/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

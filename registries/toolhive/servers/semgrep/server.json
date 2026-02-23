@@ -9,9 +9,10 @@
             "mcp"
           ],
           "metadata": {
-            "last_updated": "2026-02-18T22:23:49Z",
+            "last_updated": "2026-02-23T09:26:34Z",
             "stars": 14048
           },
+          "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
           "permissions": {
             "network": {
               "outbound": {
@@ -269,13 +270,21 @@
             "semgrep_scan",
             "semgrep_scan_supply_chain",
             "semgrep_scan_with_custom_rule"
-          ],
-          "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements."
+          ]
         }
       }
     }
   },
   "description": "Scan code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/semgrep/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/semgrep",
   "packages": [
     {
@@ -298,14 +307,5 @@
     "url": "https://github.com/semgrep/semgrep"
   },
   "title": "Semgrep",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/semgrep/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

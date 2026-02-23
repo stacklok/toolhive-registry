@@ -8,9 +8,10 @@
             "--enable-write-tools"
           ],
           "metadata": {
-            "last_updated": "2026-02-18T22:23:38Z",
+            "last_updated": "2026-02-23T09:26:26Z",
             "stars": 45
           },
+          "overview": "## PagerDuty MCP Server\n\nThe pagerduty MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with PagerDuty, the incident management and on-call platform. It allows AI-driven workflows to access incidents, services, schedules, and on-call status information, bringing real-time incident response context into AI-assisted operations. This server is especially useful for incident triage, on-call support, operational awareness, and post-incident analysis where PagerDuty serves as the primary system of record.",
           "permissions": {
             "network": {
               "outbound": {
@@ -470,7 +471,7 @@
                         "title": "Recommended Time Window"
                       },
                       "time_window": {
-                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 <= time_window <= 3600 or 86400 (i.e. 24 hours).",
+                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 \u003c= time_window \u003c= 3600 or 86400 (i.e. 24 hours).",
                         "maximum": 86400,
                         "minimum": 300,
                         "title": "Time Window",
@@ -519,7 +520,7 @@
                         "title": "Recommended Time Window"
                       },
                       "time_window": {
-                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 <= time_window <= 3600.",
+                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 \u003c= time_window \u003c= 3600.",
                         "maximum": 3600,
                         "minimum": 300,
                         "title": "Time Window",
@@ -562,7 +563,7 @@
                         "title": "Recommended Time Window"
                       },
                       "time_window": {
-                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 <= time_window <= 3600.",
+                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 \u003c= time_window \u003c= 3600.",
                         "maximum": 3600,
                         "minimum": 300,
                         "title": "Time Window",
@@ -4749,7 +4750,7 @@
                         "title": "Recommended Time Window"
                       },
                       "time_window": {
-                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 <= time_window <= 3600 or 86400 (i.e. 24 hours).",
+                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 \u003c= time_window \u003c= 3600 or 86400 (i.e. 24 hours).",
                         "maximum": 86400,
                         "minimum": 300,
                         "title": "Time Window",
@@ -4798,7 +4799,7 @@
                         "title": "Recommended Time Window"
                       },
                       "time_window": {
-                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 <= time_window <= 3600.",
+                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 \u003c= time_window \u003c= 3600.",
                         "maximum": 3600,
                         "minimum": 300,
                         "title": "Time Window",
@@ -4841,7 +4842,7 @@
                         "title": "Recommended Time Window"
                       },
                       "time_window": {
-                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 <= time_window <= 3600.",
+                        "description": "The maximum amount of time allowed between Alerts. Any Alerts arriving greater than `time_window` seconds apart will not be grouped together. This is a rolling time window up to 24 hours and is counted from the most recently grouped alert. To use the 'recommended_time_window,' set the value to 0, otherwise the value must be between 300 \u003c= time_window \u003c= 3600.",
                         "maximum": 3600,
                         "minimum": 300,
                         "title": "Time Window",
@@ -5677,13 +5678,21 @@
             "update_schedule",
             "update_service",
             "update_team"
-          ],
-          "overview": "## PagerDuty MCP Server\n\nThe pagerduty MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with PagerDuty, the incident management and on-call platform. It allows AI-driven workflows to access incidents, services, schedules, and on-call status information, bringing real-time incident response context into AI-assisted operations. This server is especially useful for incident triage, on-call support, operational awareness, and post-incident analysis where PagerDuty serves as the primary system of record."
+          ]
         }
       }
     }
   },
   "description": "Interact with PagerDuty for managing incidents, services, schedules, and event orchestrations",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/pagerduty/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/pagerduty",
   "packages": [
     {
@@ -5712,14 +5721,5 @@
     "url": "https://github.com/PagerDuty/pagerduty-mcp-server"
   },
   "title": "PagerDuty",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/pagerduty/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/github/github-mcp-server:v0.31.0": {
           "metadata": {
-            "last_updated": "2026-02-19T21:06:27Z",
+            "last_updated": "2026-02-23T09:25:56Z",
             "stars": 26386
           },
+          "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
           "permissions": {
             "network": {
               "outbound": {
@@ -28,7 +29,6 @@
             "signer_identity": "/.github/workflows/docker-publish.yml",
             "sigstore_url": "tuf-repo-cdn.sigstore.dev"
           },
-          "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
           "status": "Active",
           "tags": [
             "api",
@@ -265,7 +265,7 @@
               "annotations": {
                 "title": "Create or update file"
               },
-              "description": "Create or update a single file in a GitHub repository. \nIf updating, you should provide the SHA of the file you want to update. Use this tool to create or update a file in a GitHub repository remotely; do not use it for local file operations.\n\nIn order to obtain the SHA of original file version before updating, use the following git command:\ngit ls-tree HEAD <path to file>\n\nIf the SHA is not provided, the tool will attempt to acquire it by fetching the current file contents from the repository, which may lead to rewriting latest committed changes if the file has changed since last retrieval.\n",
+              "description": "Create or update a single file in a GitHub repository. \nIf updating, you should provide the SHA of the file you want to update. Use this tool to create or update a file in a GitHub repository remotely; do not use it for local file operations.\n\nIn order to obtain the SHA of original file version before updating, use the following git command:\ngit ls-tree HEAD \u003cpath to file\u003e\n\nIf the SHA is not provided, the tool will attempt to acquire it by fetching the current file contents from the repository, which may lead to rewriting latest committed changes if the file has changed since last retrieval.\n",
               "inputSchema": {
                 "properties": {
                   "branch": {
@@ -1618,7 +1618,7 @@
                     "type": "number"
                   },
                   "query": {
-                    "description": "Repository search query. Examples: 'machine learning in:name stars:>1000 language:python', 'topic:react', 'user:facebook'. Supports advanced search syntax for precise filtering.",
+                    "description": "Repository search query. Examples: 'machine learning in:name stars:\u003e1000 language:python', 'topic:react', 'user:facebook'. Supports advanced search syntax for precise filtering.",
                     "type": "string"
                   },
                   "sort": {
@@ -1667,7 +1667,7 @@
                     "type": "number"
                   },
                   "query": {
-                    "description": "User search query. Examples: 'john smith', 'location:seattle', 'followers:>100'. Search is automatically scoped to type:user.",
+                    "description": "User search query. Examples: 'john smith', 'location:seattle', 'followers:\u003e100'. Search is automatically scoped to type:user.",
                     "type": "string"
                   },
                   "sort": {
@@ -1884,6 +1884,15 @@
     }
   },
   "description": "Provides integration with GitHub's APIs",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/github/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/github",
   "packages": [
     {
@@ -1916,15 +1925,6 @@
       "transport": {
         "type": "stdio"
       }
-    }
-  ],
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/github/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
     }
   ],
   "repository": {

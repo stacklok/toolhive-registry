@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.4.3": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:11Z",
+            "last_updated": "2026-02-23T09:26:14Z",
             "stars": 3128
           },
+          "overview": "## Browserbase MCP Server\n\nThe browserbase MCP server is a Model Context Protocol (MCP) server that gives AI assistants full, programmable control of real web browsers running in the cloud. Powered by Browserbase, it enables AI-driven workflows to load pages, execute JavaScript, interact with dynamic UIs, and capture screenshots or HTML — making it possible to automate and reason over modern, JavaScript-heavy websites that traditional HTTP-based tools can't handle. This server is ideal for web automation, end-to-end testing, live research, and data extraction workflows that require a real browser environment.",
           "permissions": {
             "network": {
               "outbound": {
@@ -184,13 +185,21 @@
             "browserbase_stagehand_get_url",
             "browserbase_stagehand_navigate",
             "browserbase_stagehand_observe"
-          ],
-          "overview": "## Browserbase MCP Server\n\nThe browserbase MCP server is a Model Context Protocol (MCP) server that gives AI assistants full, programmable control of real web browsers running in the cloud. Powered by Browserbase, it enables AI-driven workflows to load pages, execute JavaScript, interact with dynamic UIs, and capture screenshots or HTML — making it possible to automate and reason over modern, JavaScript-heavy websites that traditional HTTP-based tools can't handle. This server is ideal for web automation, end-to-end testing, live research, and data extraction workflows that require a real browser environment."
+          ]
         }
       }
     }
   },
   "description": "MCP server for cloud browser automation with Browserbase and Stagehand",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/browserbase/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/browserbase",
   "packages": [
     {
@@ -225,14 +234,5 @@
     "url": "https://github.com/browserbase/mcp-server-browserbase"
   },
   "title": "Browserbase",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/browserbase/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

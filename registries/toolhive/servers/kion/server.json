@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "kionsoftware/kion-mcp:v0.4.0": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:44Z",
+            "last_updated": "2026-02-23T09:26:28Z",
             "stars": 7
           },
+          "overview": "## Kion MCP Server\n\nThe kion MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kion, a cloud governance and financial management platform. It allows AI-driven workflows to access cloud accounts, policies, budgets, and compliance data, providing governance visibility across accounts and resources, cost and budget context for decision-making, policy awareness for inspecting controls and enforcement, cross-cloud reasoning from a unified interface, and operational support for questions about ownership and compliance.",
           "permissions": {
             "network": {
               "outbound": {
@@ -112,7 +113,7 @@
                   },
                   "comments": {
                     "description": "Comments about the allocation.",
-                    "example": "Allocating new funds to be used for R&D.",
+                    "example": "Allocating new funds to be used for R\u0026D.",
                     "type": "string"
                   },
                   "from_ou_id": {
@@ -664,19 +665,19 @@
                     "type": "string"
                   },
                   "label": {
-                    "description": "Filters results to only return Accounts with the given `key:value` colon separated label pair.\n<ul>\n<li>Multiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).</li>\n<li>Multiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production&label=owner:jdoe).</li>\n</ul>\n\nExample\\: env:production",
+                    "description": "Filters results to only return Accounts with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production",
                     "type": "string"
                   },
                   "label_id": {
-                    "description": "Filters results to only return Accounts with the given label IDs.\n<ul>\n<li>Multiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).</li>\n<li>Multiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3&label_id=4).</li>\n</ul>\n\nExample\\: 3",
+                    "description": "Filters results to only return Accounts with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3",
                     "type": "string"
                   },
                   "label_key": {
-                    "description": "Filters results to only return Accounts with the given label key.\n<ul>\n<li>Multiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).</li>\n<li>Multiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env&label_key=owner).</li>\n</ul>\n\nExample\\: env",
+                    "description": "Filters results to only return Accounts with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env",
                     "type": "string"
                   },
                   "label_value": {
-                    "description": "Filters results to only return Accounts with the given label value.\n<ul>\n<li>Multiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).</li>\n<li>Multiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production&label_value=jdoe).</li>\n</ul>\n\nExample\\: production",
+                    "description": "Filters results to only return Accounts with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production",
                     "type": "string"
                   },
                   "name": {
@@ -1191,19 +1192,19 @@
                     "type": "string"
                   },
                   "label": {
-                    "description": "Filters results to only return OUs with the given `key:value` colon separated label pair.\n<ul>\n<li>Multiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).</li>\n<li>Multiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production&label=owner:jdoe).</li>\n</ul>\n\nExample\\: env:production",
+                    "description": "Filters results to only return OUs with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production",
                     "type": "string"
                   },
                   "label_id": {
-                    "description": "Filters results to only return OUs with the given label IDs.\n<ul>\n<li>Multiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).</li>\n<li>Multiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3&label_id=4).</li>\n</ul>\n\nExample\\: 3",
+                    "description": "Filters results to only return OUs with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3",
                     "type": "string"
                   },
                   "label_key": {
-                    "description": "Filters results to only return OUs with the given label key.\n<ul>\n<li>Multiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).</li>\n<li>Multiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env&label_key=owner).</li>\n</ul>\n\nExample\\: env",
+                    "description": "Filters results to only return OUs with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env",
                     "type": "string"
                   },
                   "label_value": {
-                    "description": "Filters results to only return OUs with the given label value.\n<ul>\n<li>Multiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).</li>\n<li>Multiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production&label_value=jdoe).</li>\n</ul>\n\nExample\\: production",
+                    "description": "Filters results to only return OUs with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production",
                     "type": "string"
                   },
                   "name": {
@@ -1284,19 +1285,19 @@
                     "type": "string"
                   },
                   "label": {
-                    "description": "Filters results to only return Projects with the given `key:value` colon separated label pair.\n<ul>\n<li>Multiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).</li>\n<li>Multiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production&label=owner:jdoe).</li>\n</ul>\n\nExample\\: env:production",
+                    "description": "Filters results to only return Projects with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production",
                     "type": "string"
                   },
                   "label_id": {
-                    "description": "Filters results to only return Projects with the given label IDs.\n<ul>\n<li>Multiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).</li>\n<li>Multiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3&label_id=4).</li>\n</ul>\n\nExample\\: 3",
+                    "description": "Filters results to only return Projects with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3",
                     "type": "string"
                   },
                   "label_key": {
-                    "description": "Filters results to only return Projects with the given label key.\n<ul>\n<li>Multiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).</li>\n<li>Multiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env&label_key=owner).</li>\n</ul>\n\nExample\\: env",
+                    "description": "Filters results to only return Projects with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env",
                     "type": "string"
                   },
                   "label_value": {
-                    "description": "Filters results to only return Projects with the given label value.\n<ul>\n<li>Multiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).</li>\n<li>Multiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production&label_value=jdoe).</li>\n</ul>\n\nExample\\: production",
+                    "description": "Filters results to only return Projects with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production",
                     "type": "string"
                   },
                   "name": {
@@ -1816,13 +1817,21 @@
             "get_user_info",
             "get_users",
             "update_budget"
-          ],
-          "overview": "## Kion MCP Server\n\nThe kion MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kion, a cloud governance and financial management platform. It allows AI-driven workflows to access cloud accounts, policies, budgets, and compliance data, providing governance visibility across accounts and resources, cost and budget context for decision-making, policy awareness for inspecting controls and enforcement, cross-cloud reasoning from a unified interface, and operational support for questions about ownership and compliance."
+          ]
         }
       }
     }
   },
   "description": "Integrate with a Kion.io instance for cloud management, FinOps, and governance",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/kion/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/kion",
   "packages": [
     {
@@ -1851,14 +1860,5 @@
     "url": "https://github.com/kionsoftware/kion-mcp"
   },
   "title": "Kion",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/kion/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }
