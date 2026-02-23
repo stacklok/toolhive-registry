@@ -1,53 +1,12 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/sonarqube",
-  "description": "Integration with SonarQube Server or Cloud for code quality and security analysis.",
-  "title": "SonarQube",
-  "repository": {
-    "url": "https://github.com/SonarSource/sonarqube-mcp-server",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "docker.io/mcp/sonarqube:latest",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "SonarQube user auth token with necessary scopes",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "SONARQUBE_TOKEN"
-        },
-        {
-          "description": "SonarQube Server base URL (required for self-hosted instances)",
-          "name": "SONARQUBE_URL"
-        },
-        {
-          "description": "SonarQube Cloud organization key (required for SonarQube Cloud)",
-          "name": "SONARQUBE_ORG"
-        },
-        {
-          "description": "Comma-separated list of toolsets to enable (e.g., analysis,issues,quality-gates - see docs)",
-          "name": "SONARQUBE_TOOLSETS"
-        },
-        {
-          "description": "Set to \"true\" to disable all write operations",
-          "name": "SONARQUBE_READ_ONLY"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "docker.io/mcp/sonarqube:latest": {
           "metadata": {
-            "last_updated": "2026-02-09T09:15:25Z",
-            "stars": 374
+            "last_updated": "2026-02-23T03:02:00Z",
+            "stars": 390
           },
           "permissions": {
             "network": {
@@ -105,5 +64,46 @@
         }
       }
     }
-  }
+  },
+  "description": "Integration with SonarQube Server or Cloud for code quality and security analysis.",
+  "name": "io.github.stacklok/sonarqube",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "SonarQube user auth token with necessary scopes",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "SONARQUBE_TOKEN"
+        },
+        {
+          "description": "SonarQube Server base URL (required for self-hosted instances)",
+          "name": "SONARQUBE_URL"
+        },
+        {
+          "description": "SonarQube Cloud organization key (required for SonarQube Cloud)",
+          "name": "SONARQUBE_ORG"
+        },
+        {
+          "description": "Comma-separated list of toolsets to enable (e.g., analysis,issues,quality-gates - see docs)",
+          "name": "SONARQUBE_TOOLSETS"
+        },
+        {
+          "description": "Set to \"true\" to disable all write operations",
+          "name": "SONARQUBE_READ_ONLY"
+        }
+      ],
+      "identifier": "docker.io/mcp/sonarqube:latest",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/SonarSource/sonarqube-mcp-server"
+  },
+  "title": "SonarQube",
+  "version": "1.0.0"
 }

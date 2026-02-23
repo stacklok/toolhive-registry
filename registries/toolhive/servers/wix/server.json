@@ -1,15 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/wix",
-  "description": "Wix's official remote MCP server for development platform and site management",
-  "title": "Wix",
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://mcp.wix.com/mcp"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -19,7 +9,7 @@
             "homepage": "https://dev.wix.com"
           },
           "metadata": {
-            "last_updated": "2026-02-13T03:02:08Z"
+            "last_updated": "2026-02-23T03:02:00Z"
           },
           "status": "Active",
           "tags": [
@@ -52,5 +42,15 @@
         }
       }
     }
-  }
+  },
+  "description": "Wix's official remote MCP server for development platform and site management",
+  "name": "io.github.stacklok/wix",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.wix.com/mcp"
+    }
+  ],
+  "title": "Wix",
+  "version": "1.0.0"
 }
