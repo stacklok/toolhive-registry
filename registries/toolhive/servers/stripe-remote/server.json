@@ -1,15 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/stripe-remote",
-  "description": "Stripe's official remote MCP server for payment processing and subscriptions",
-  "title": "Stripe (Remote)",
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://mcp.stripe.com"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -19,7 +9,7 @@
             "homepage": "https://docs.stripe.com/mcp"
           },
           "metadata": {
-            "last_updated": "2026-02-09T03:01:52Z"
+            "last_updated": "2026-02-23T03:02:00Z"
           },
           "status": "Active",
           "tags": [
@@ -63,5 +53,15 @@
         }
       }
     }
-  }
+  },
+  "description": "Stripe's official remote MCP server for payment processing and subscriptions",
+  "name": "io.github.stacklok/stripe-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.stripe.com"
+    }
+  ],
+  "title": "Stripe (Remote)",
+  "version": "1.0.0"
 }
