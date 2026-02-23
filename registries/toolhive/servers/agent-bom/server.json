@@ -1,0 +1,77 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/agent-bom",
+  "description": "AI supply chain security scanner — CVE scanning, blast radius analysis, policy enforcement, and SBOM generation for MCP servers and AI agents",
+  "title": "agent-bom",
+  "repository": {
+    "url": "https://github.com/msaad00/agent-bom",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/agentbom/agent-bom:0.28.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "NVD_API_KEY",
+          "description": "NVD API key for higher rate limits on CVSS enrichment (optional)",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/agentbom/agent-bom:0.28.1": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "security",
+            "vulnerability-scanning",
+            "sbom",
+            "supply-chain",
+            "cve",
+            "blast-radius",
+            "mcp",
+            "ai-agents"
+          ],
+          "tools": [
+            "scan",
+            "blast_radius",
+            "policy_check",
+            "registry_lookup",
+            "generate_sbom",
+            "compliance",
+            "remediate"
+          ],
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "api.osv.dev",
+                  "services.nvd.nist.gov",
+                  "api.first.org",
+                  "www.cisa.gov"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "custom_metadata": {
+            "author": "Mohamed Saad",
+            "homepage": "https://github.com/msaad00/agent-bom",
+            "license": "Apache-2.0"
+          }
+        }
+      }
+    }
+  }
+}
