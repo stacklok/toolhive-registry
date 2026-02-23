@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/chroma-mcp:0.2.6": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:44Z",
+            "last_updated": "2026-02-23T09:26:35Z",
             "stars": 483
           },
+          "overview": "## Chroma MCP Server\n\nThe chroma-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Chroma, an open-source vector database designed for embeddings and similarity search. It allows AI workflows to store, retrieve, and query vector embeddings alongside metadata, making it easy to build retrieval-augmented generation (RAG), semantic search, and memory-driven applications without custom database integration. It's particularly valuable for AI systems that need long-term memory, document retrieval, or semantic similarity capabilities as part of their reasoning loop.",
           "permissions": {
             "network": {
               "outbound": {
@@ -569,6 +570,15 @@
     }
   },
   "description": "MCP server for ChromaDB vector database operations",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/chroma-mcp/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/chroma-mcp",
   "packages": [
     {

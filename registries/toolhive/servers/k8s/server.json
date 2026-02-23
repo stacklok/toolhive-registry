@@ -42,7 +42,8 @@
             "list_resources",
             "get_resource",
             "apply_resource"
-          ]
+          ],
+          "overview": "## Kubernetes MCP Server\n\nThe k8s MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kubernetes clusters through a structured, AI-friendly interface. It allows AI-driven workflows to inspect cluster state, explore resources, and reason about workloads without switching tools or manually using kubectl or the Kubernetes dashboard. This server is ideal for platform engineering, operations, troubleshooting, and infrastructure-aware AI workflows built on Kubernetes."
         }
       }
     }
@@ -70,5 +71,14 @@
     "url": "https://github.com/StacklokLabs/mkp"
   },
   "title": "Kubernetes",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/k8s/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

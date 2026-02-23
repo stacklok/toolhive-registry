@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "docker.io/mcp/redis:latest": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:13Z",
+            "last_updated": "2026-02-23T09:26:09Z",
             "stars": 416
           },
+          "overview": "## Redis MCP Server\n\nThe redis MCP server enables LLMs to interact with Redis key-value databases through a set of standardized tools. The server connects to Redis databases and provides MCP tools for basic operations (CRUD operations, database management), data structures (full support for strings, hashes, lists, sets, sorted sets, JSON), vector search functionality, and streams/Pub/Sub features for messaging and time-series data handling.",
           "permissions": {
             "network": {
               "outbound": {
@@ -1244,6 +1245,15 @@
     }
   },
   "description": "Enables LLMs to interact with Redis key-value databases through a set of standardized tools.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/redis/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/redis",
   "packages": [
     {

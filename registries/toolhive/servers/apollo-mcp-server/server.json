@@ -29,7 +29,8 @@
           "tier": "Official",
           "tools": [
             "example_GetAstronautsCurrentlyInSpace"
-          ]
+          ],
+          "overview": "## Apollo MCP Server\n\nThe apollo-mcp-server is a Model Context Protocol (MCP) server implementation that makes your GraphQL API operations available as MCP tools for AI assistants and agents. It acts as a translation layer between AI clients and your GraphQL infrastructure, exposing query and mutation capabilities through MCP so models can fetch, explore, and orchestrate your graph operations without bespoke tooling."
         }
       }
     }
@@ -62,5 +63,14 @@
     "url": "https://github.com/apollographql/apollo-mcp-server"
   },
   "title": "Apollo GraphQL",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/apollo-mcp-server/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

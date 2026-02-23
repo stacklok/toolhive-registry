@@ -105,7 +105,8 @@
             "update_alert_rule",
             "update_annotation",
             "update_dashboard"
-          ]
+          ],
+          "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential."
         }
       }
     }
@@ -144,5 +145,14 @@
     "url": "https://github.com/grafana/mcp-grafana"
   },
   "title": "Grafana",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/grafana/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

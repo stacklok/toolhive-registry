@@ -133,7 +133,8 @@
             "get_image_info",
             "get_image_manifest",
             "list_tags"
-          ]
+          ],
+          "overview": "## OCI Registry MCP Server\n\nThe oci-registry MCP server provides secure OCI container registry querying with image introspection and manifest retrieval. The tool enables users to analyze container images through streamlined access to OCI registries, supporting image metadata inspection, tag enumeration, manifest analysis, and secure querying via HTTP transport."
         }
       }
     }
@@ -171,5 +172,14 @@
     "url": "https://github.com/StacklokLabs/ocireg-mcp"
   },
   "title": "OCI Registry",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/oci-registry/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

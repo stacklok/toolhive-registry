@@ -38,12 +38,13 @@
             "ListWixSites",
             "ManageWixSite",
             "SupportAndFeedback"
-          ]
+          ],
+          "overview": "## Wix MCP Server\n\nWix's official remote MCP server for development platform and site management. It provides programmatic access to Wix documentation, API exploration, and site management capabilities through a streamable-http transport. Key capabilities include access to comprehensive Wix documentation with search functionality, ability to read full documentation articles and method schemas, direct calls to Wix Site APIs, site listing and management features, and support and feedback functionality for Wix development."
         }
       }
     }
   },
-  "description": "Wix's official remote MCP server for development platform and site management",
+"description": "Wix's official remote MCP server for development platform and site management",
   "name": "io.github.stacklok/wix",
   "remotes": [
     {
@@ -52,5 +53,14 @@
     }
   ],
   "title": "Wix",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/wix/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

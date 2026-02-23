@@ -54,7 +54,8 @@
             "mongodb-logs",
             "rename-collection",
             "update-many"
-          ]
+          ],
+          "overview": "## MongoDB MCP Server\n\nThe mongodb MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with MongoDB databases through a structured, AI-friendly interface. It allows AI-driven workflows to inspect collections, query documents, and reason about schema-less data without switching tools or embedding MongoDB-specific drivers in the client. This server is especially useful for application development, data exploration, debugging, and analytics workflows where MongoDB is the primary data store."
         }
       }
     }
@@ -120,5 +121,14 @@
     "url": "https://github.com/mongodb-js/mongodb-mcp-server"
   },
   "title": "MongoDB",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mongodb/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

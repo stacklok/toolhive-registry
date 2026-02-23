@@ -35,7 +35,8 @@
             "hf_doc_search",
             "hf_doc_fetch",
             "gr1_flux1_schnell_infer"
-          ]
+          ],
+          "overview": "## Hugging Face MCP Server\n\nThe huggingface-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the Hugging Face ecosystem, including models, datasets, and Spaces. It allows AI-driven workflows to discover models, inspect metadata, download artifacts, and reason about available ML resources without switching tools or manually navigating the Hugging Face Hub. This server is especially useful for model exploration, experimentation, research, and workflows that integrate open-source ML assets into AI-assisted development."
         }
       }
     }
@@ -49,5 +50,14 @@
     }
   ],
   "title": "Hugging Face",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/huggingface/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

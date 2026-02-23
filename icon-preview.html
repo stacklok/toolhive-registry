@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MCP Server Icons Preview</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 24px;
+    }
+    h1 {
+      font-size: 1.4rem;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    p.subtitle {
+      color: #666;
+      margin: 0 0 24px;
+      font-size: 0.9rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 16px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      transition: box-shadow 0.15s;
+    }
+    .card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .icon-wrap {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon-wrap img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+    .icon-wrap img.error {
+      opacity: 0.2;
+      filter: grayscale(1);
+    }
+    .label {
+      font-size: 0.75rem;
+      color: #444;
+      text-align: center;
+      line-height: 1.3;
+      word-break: break-word;
+    }
+    .slug {
+      font-size: 0.65rem;
+      color: #aaa;
+      text-align: center;
+      word-break: break-all;
+    }
+    .badge-fallback {
+      font-size: 0.6rem;
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+    .badge-broken {
+      font-size: 0.6rem;
+      background: #f8d7da;
+      color: #842029;
+      border: 1px solid #f5c2c7;
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>MCP Server Icons Preview</h1>
+  <p class="subtitle">102 servers &mdash; hover for icon URL &bull; yellow badge = no branded icon found &bull; red badge = failed to load</p>
+  <div class="grid" id="grid"></div>
+
+  <script>
+    const servers = [
+      ["adb-mysql-mcp-server","AnalyticDB for MySQL","registries/toolhive/servers/adb-mysql-mcp-server/icon.svg",false],
+      ["agentql-mcp","AgentQL","registries/toolhive/servers/agentql-mcp/icon.svg",false],
+      ["apollo-mcp-server","Apollo GraphQL","registries/toolhive/servers/apollo-mcp-server/icon.svg",false],
+      ["arxiv-mcp-server","arXiv","registries/toolhive/servers/arxiv-mcp-server/icon.svg",false],
+      ["astra-db-mcp","DataStax Astra DB","registries/toolhive/servers/astra-db-mcp/icon.svg",false],
+      ["atlassian","Atlassian","registries/toolhive/servers/atlassian/icon.svg",false],
+      ["atlassian-remote","Atlassian (Remote)","registries/toolhive/servers/atlassian-remote/icon.svg",false],
+      ["aws-api","AWS API","registries/toolhive/servers/aws-api/icon.svg",false],
+      ["aws-diagram","AWS Diagrams","registries/toolhive/servers/aws-diagram/icon.svg",false],
+      ["aws-documentation","AWS Documentation","registries/toolhive/servers/aws-documentation/icon.svg",false],
+      ["aws-knowledge","AWS Knowledge","registries/toolhive/servers/aws-knowledge/icon.svg",false],
+      ["aws-pricing","AWS Pricing","registries/toolhive/servers/aws-pricing/icon.svg",false],
+      ["azure","Azure","registries/toolhive/servers/azure/icon.svg",false],
+      ["brightdata-mcp","Bright Data","registries/toolhive/servers/brightdata-mcp/icon.svg",false],
+      ["browserbase","Browserbase","registries/toolhive/servers/browserbase/icon.svg",false],
+      ["buildkite","Buildkite","registries/toolhive/servers/buildkite/icon.svg",false],
+      ["canva","Canva","registries/toolhive/servers/canva/icon.svg",false],
+      ["chroma-mcp","ChromaDB","registries/toolhive/servers/chroma-mcp/icon.svg",false],
+      ["chrome-devtools-mcp","Chrome DevTools","registries/toolhive/servers/chrome-devtools-mcp/icon.svg",false],
+      ["cloud-run","Google Cloud Run","registries/toolhive/servers/cloud-run/icon.svg",false],
+      ["context7","Context7","registries/toolhive/servers/context7/icon.svg",false],
+      ["context7-remote","Context7 (Remote)","registries/toolhive/servers/context7-remote/icon.svg",false],
+      ["crowdstrike-falcon","CrowdStrike Falcon","registries/toolhive/servers/crowdstrike-falcon/icon.svg",false],
+      ["database-toolbox","Database Toolbox","registries/toolhive/servers/database-toolbox/icon.svg",true],
+      ["dolt","Dolt","registries/toolhive/servers/dolt/icon.svg",false],
+      ["elasticsearch","Elasticsearch","registries/toolhive/servers/elasticsearch/icon.svg",false],
+      ["everything","Everything","registries/toolhive/servers/everything/icon.svg",false],
+      ["fetch","Fetch","registries/toolhive/servers/fetch/icon.svg",false],
+      ["filesystem","Filesystem","registries/toolhive/servers/filesystem/icon.svg",false],
+      ["firecrawl","Firecrawl","registries/toolhive/servers/firecrawl/icon.svg",false],
+      ["genai-toolbox","GenAI Toolbox","registries/toolhive/servers/genai-toolbox/icon.svg",false],
+      ["git","Git","registries/toolhive/servers/git/icon.svg",false],
+      ["github","GitHub","registries/toolhive/servers/github/icon.svg",false],
+      ["github-remote","GitHub (Remote)","registries/toolhive/servers/github-remote/icon.svg",false],
+      ["gitlab","GitLab","registries/toolhive/servers/gitlab/icon.svg",false],
+      ["grafana","Grafana","registries/toolhive/servers/grafana/icon.svg",false],
+      ["graphlit","Graphlit","registries/toolhive/servers/graphlit/icon.svg",false],
+      ["hass-mcp","Home Assistant","registries/toolhive/servers/hass-mcp/icon.svg",false],
+      ["heroku","Heroku","registries/toolhive/servers/heroku/icon.svg",false],
+      ["heroku-mcp-server","Heroku (Remote)","registries/toolhive/servers/heroku-mcp-server/icon.svg",false],
+      ["huggingface","Hugging Face","registries/toolhive/servers/huggingface/icon.svg",false],
+      ["ida-pro-mcp","IDA Pro","registries/toolhive/servers/ida-pro-mcp/icon.svg",false],
+      ["jam","Jam","registries/toolhive/servers/jam/icon.svg",false],
+      ["k8s","Kubernetes","registries/toolhive/servers/k8s/icon.svg",false],
+      ["kion","Kion","registries/toolhive/servers/kion/icon.svg",false],
+      ["kiwi","Kiwi.com Flights","registries/toolhive/servers/kiwi/icon.svg",false],
+      ["kyverno","Kyverno","registries/toolhive/servers/kyverno/icon.svg",false],
+      ["launchdarkly","LaunchDarkly","registries/toolhive/servers/launchdarkly/icon.svg",false],
+      ["linear","Linear","registries/toolhive/servers/linear/icon.svg",false],
+      ["magic-mcp","21st.dev Magic","registries/toolhive/servers/magic-mcp/icon.svg",false],
+      ["mcp-clickhouse","ClickHouse","registries/toolhive/servers/mcp-clickhouse/icon.svg",false],
+      ["mcp-jetbrains","JetBrains","registries/toolhive/servers/mcp-jetbrains/icon.svg",false],
+      ["mcp-neo4j-aura-manager","Neo4j Aura Manager","registries/toolhive/servers/mcp-neo4j-aura-manager/icon.svg",false],
+      ["mcp-neo4j-cypher","Neo4j Cypher","registries/toolhive/servers/mcp-neo4j-cypher/icon.svg",false],
+      ["mcp-neo4j-memory","Neo4j Memory","registries/toolhive/servers/mcp-neo4j-memory/icon.svg",false],
+      ["mcp-optimizer","MCP Optimizer","registries/toolhive/servers/mcp-optimizer/icon.svg",true],
+      ["mcp-redfish","Redfish","registries/toolhive/servers/mcp-redfish/icon.svg",true],
+      ["mcp-server-box","Box","registries/toolhive/servers/mcp-server-box/icon.svg",false],
+      ["mcp-server-circleci","CircleCI","registries/toolhive/servers/mcp-server-circleci/icon.svg",false],
+      ["mcp-server-neon","Neon","registries/toolhive/servers/mcp-server-neon/icon.svg",false],
+      ["mcp-spec","MCP Specification","registries/toolhive/servers/mcp-spec/icon.svg",false],
+      ["memory","Memory","registries/toolhive/servers/memory/icon.svg",false],
+      ["mermaid","Mermaid","registries/toolhive/servers/mermaid/icon.svg",false],
+      ["monday","Monday.com","registries/toolhive/servers/monday/icon.svg",false],
+      ["mongodb","MongoDB","registries/toolhive/servers/mongodb/icon.svg",false],
+      ["neon","Neon (Remote)","registries/toolhive/servers/neon/icon.svg",false],
+      ["netbird","NetBird","registries/toolhive/servers/netbird/icon.svg",false],
+      ["notion","Notion","registries/toolhive/servers/notion/icon.svg",false],
+      ["notion-remote","Notion (Remote)","registries/toolhive/servers/notion-remote/icon.svg",false],
+      ["oci-registry","OCI Registry","registries/toolhive/servers/oci-registry/icon.svg",false],
+      ["onchain-mcp","Onchain (Bankless)","registries/toolhive/servers/onchain-mcp/icon.svg",false],
+      ["osv","OSV","registries/toolhive/servers/osv/icon.svg",false],
+      ["pagerduty","PagerDuty","registries/toolhive/servers/pagerduty/icon.svg",false],
+      ["paypal","PayPal","registries/toolhive/servers/paypal/icon.svg",false],
+      ["perplexity-ask","Perplexity","registries/toolhive/servers/perplexity-ask/icon.svg",false],
+      ["phoenix","Arize Phoenix","registries/toolhive/servers/phoenix/icon.svg",false],
+      ["playwright","Playwright","registries/toolhive/servers/playwright/icon.svg",false],
+      ["plotting","Plotting","registries/toolhive/servers/plotting/icon.svg",false],
+      ["postgres-mcp-pro","PostgreSQL Pro","registries/toolhive/servers/postgres-mcp-pro/icon.svg",false],
+      ["prometheus","Prometheus","registries/toolhive/servers/prometheus/icon.svg",false],
+      ["redhat-linux","Red Hat Linux","registries/toolhive/servers/redhat-linux/icon.svg",false],
+      ["redis","Redis","registries/toolhive/servers/redis/icon.svg",false],
+      ["replicate","Replicate","registries/toolhive/servers/replicate/icon.svg",false],
+      ["semgrep","Semgrep","registries/toolhive/servers/semgrep/icon.svg",false],
+      ["semgrep-remote","Semgrep (Remote)","registries/toolhive/servers/semgrep-remote/icon.svg",false],
+      ["sentry","Sentry","registries/toolhive/servers/sentry/icon.svg",false],
+      ["sentry-remote","Sentry (Remote)","registries/toolhive/servers/sentry-remote/icon.svg",false],
+      ["sequentialthinking","Sequential Thinking","registries/toolhive/servers/sequentialthinking/icon.svg",false],
+      ["slack-mcp-server","Slack","registries/toolhive/servers/slack-mcp-server/icon.svg",false],
+      ["sonarqube","SonarQube","registries/toolhive/servers/sonarqube/icon.svg",false],
+      ["sqlite","SQLite","registries/toolhive/servers/sqlite/icon.svg",false],
+      ["square","Square","registries/toolhive/servers/square/icon.svg",false],
+      ["stripe","Stripe","registries/toolhive/servers/stripe/icon.svg",false],
+      ["stripe-remote","Stripe (Remote)","registries/toolhive/servers/stripe-remote/icon.svg",false],
+      ["supabase","Supabase","registries/toolhive/servers/supabase/icon.svg",false],
+      ["tavily-mcp","Tavily","registries/toolhive/servers/tavily-mcp/icon.svg",false],
+      ["terraform","Terraform","registries/toolhive/servers/terraform/icon.svg",false],
+      ["time","Time","registries/toolhive/servers/time/icon.svg",false],
+      ["toolhive-doc-mcp","ToolHive Docs","registries/toolhive/servers/toolhive-doc-mcp/icon.svg",false],
+      ["toolhive-doc-mcp-remote","ToolHive Docs (Remote)","registries/toolhive/servers/toolhive-doc-mcp-remote/icon.svg",false],
+      ["vercel","Vercel","registries/toolhive/servers/vercel/icon.svg",false],
+      ["wix","Wix","registries/toolhive/servers/wix/icon.svg",false],
+    ];
+
+    const grid = document.getElementById("grid");
+
+    servers.forEach(([slug, title, url, isFallback]) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.title = url;
+
+      const wrap = document.createElement("div");
+      wrap.className = "icon-wrap";
+
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = title;
+      img.onerror = function() {
+        this.classList.add("error");
+        this.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ccc' d='M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E";
+        const badge = document.createElement("span");
+        badge.className = "badge-broken";
+        badge.textContent = "broken";
+        card.appendChild(badge);
+      };
+      wrap.appendChild(img);
+
+      const label = document.createElement("div");
+      label.className = "label";
+      label.textContent = title;
+
+      const slugEl = document.createElement("div");
+      slugEl.className = "slug";
+      slugEl.textContent = slug;
+
+      card.appendChild(wrap);
+      card.appendChild(label);
+      card.appendChild(slugEl);
+
+      if (isFallback) {
+        const badge = document.createElement("span");
+        badge.className = "badge-fallback";
+        badge.textContent = "generic";
+        card.appendChild(badge);
+      }
+
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>

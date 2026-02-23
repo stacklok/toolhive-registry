@@ -24,7 +24,8 @@
           "tier": "Official",
           "tools": [
             "search-flight"
-          ]
+          ],
+          "overview": "## Kiwi.com Flights MCP Server\n\nThe Kiwi.com MCP server enables AI assistants to search for flights through Kiwi.com's travel platform. It connects to the Kiwi.com API to search for available flights based on origin, destination, and travel dates, returning structured results that AI agents can use to recommend itineraries, compare options, and assist with travel planning workflows. The server uses a streamable HTTP transport for efficient API communication."
         }
       }
     }
@@ -42,5 +43,14 @@
     "url": "https://github.com/alpic-ai/kiwi-mcp-server-public"
   },
   "title": "Kiwi.com Flights",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/kiwi/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

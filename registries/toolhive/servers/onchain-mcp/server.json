@@ -398,7 +398,8 @@
             "get_transaction_history_for_user",
             "get_transaction_info",
             "read_contract"
-          ]
+          ],
+          "overview": "## Onchain MCP Server\n\nThe onchain-mcp server is a Model Context Protocol (MCP) server for blockchain data interaction through the Bankless API, enabling seamless access to Ethereum and Web3 data. Key capabilities include comprehensive blockchain data access through Bankless API integration, smart contract interaction including reading contracts, ABIs, and source code, transaction and event monitoring with historical data access, and token balance queries and block information retrieval across Ethereum networks."
         }
       }
     }
@@ -427,5 +428,14 @@
     "url": "https://github.com/Bankless/onchain-mcp"
   },
   "title": "Onchain (Bankless)",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/onchain-mcp/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }
