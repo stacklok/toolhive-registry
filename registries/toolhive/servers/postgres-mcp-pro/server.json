@@ -20,6 +20,7 @@
               }
             }
           },
+          "overview": "## PostgreSQL Pro MCP Server\n\nThe PostgreSQL Pro MCP server provides configurable **read/write access and performance analysis** for PostgreSQL databases. It enables AI assistants to explore schemas, execute SQL queries, and gain deep insights into database health and performance.\n\nKey capabilities include:\n- **Schema exploration** — list schemas, objects, and detailed object metadata\n- **SQL execution** — run queries with built-in EXPLAIN analysis for performance optimization\n- **Workload monitoring** — identify top queries and analyze workload patterns\n- **Index optimization** — get index recommendations based on real query workloads\n- **Database health checks** — assess overall database health and identify issues",
           "status": "Active",
           "tags": [
             "database",
@@ -72,6 +73,15 @@
         "type": "sse",
         "url": "http://localhost:8000"
       }
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/postgres-mcp-pro/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
     }
   ],
   "repository": {

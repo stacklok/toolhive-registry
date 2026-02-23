@@ -119,7 +119,8 @@
             "list_group_iterations",
             "upload_markdown",
             "download_attachment"
-          ]
+          ],
+          "overview": "## GitLab MCP Server\n\nThe gitlab MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with GitLab projects and resources through a structured, AI-friendly interface. It allows AI-driven workflows to work with repositories, issues, merge requests, and project metadata without switching tools or manually navigating the GitLab UI. It is ideal for development, code review, CI/CD visibility, and project management workflows that rely on GitLab as the system of record."
         }
       }
     }
@@ -191,5 +192,14 @@
     "url": "https://github.com/zereight/gitlab-mcp"
   },
   "title": "GitLab",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/gitlab/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

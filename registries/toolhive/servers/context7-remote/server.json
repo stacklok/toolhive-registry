@@ -21,7 +21,8 @@
           "tools": [
             "resolve-library-id",
             "get-library-docs"
-          ]
+          ],
+          "overview": "## Context7 Remote MCP Server\n\nThe context7-remote MCP Server is a hosted Model Context Protocol (MCP) server that provides AI assistants with on-demand access to up-to-date library and framework documentation via Context7. Instead of relying on potentially stale training data, AI workflows can retrieve current, version-specific docs and examples for popular programming languages, frameworks, and tools — directly inside an MCP-compatible assistant. The service is designed to help coding and debugging workflows by enabling assistants to access current API documentation and best practices without depending on outdated model training data, thereby reducing the risk of inaccurate suggestions."
         }
       }
     }
@@ -39,5 +40,14 @@
     "url": "https://github.com/upstash/context7"
   },
   "title": "Context7 (Remote)",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/context7-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

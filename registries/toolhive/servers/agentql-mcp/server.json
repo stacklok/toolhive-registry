@@ -62,7 +62,8 @@
           ],
           "tools": [
             "extract-web-data"
-          ]
+          ],
+          "overview": "## AgentQL MCP Server\n\nThe agentql-mcp server is a Model Context Protocol (MCP) implementation that brings AgentQL's web data extraction capabilities into your AI-driven workflows. It lets AI assistants retrieve structured data from web pages by accepting a URL and a natural-language description of the data you want. This means agents can incorporate real-time, prompt-driven web insights directly into automation, research, and content tasks without custom scraping scripts."
         }
       }
     }
@@ -91,5 +92,14 @@
     "url": "https://github.com/tinyfish-io/agentql-mcp"
   },
   "title": "AgentQL",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/agentql-mcp/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

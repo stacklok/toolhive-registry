@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:46Z",
+            "last_updated": "2026-02-23T09:26:38Z",
             "stars": 360
           },
+          "overview": "## Prometheus MCP Server\n\nThe Prometheus MCP server provides AI assistants with direct access to Prometheus metrics and monitoring data. It enables real-time querying of time-series metrics using PromQL, range queries for trend analysis, alert and rule inspection, and target health monitoring. The server exposes tools for metric discovery, label exploration, and exemplar queries, making it straightforward to integrate Prometheus observability data into AI-driven analysis and incident response workflows.",
           "permissions": {
             "network": {
               "outbound": {
@@ -213,6 +214,15 @@
     }
   },
   "description": "Provides access to Prometheus metrics and queries",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/prometheus/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/prometheus",
   "packages": [
     {

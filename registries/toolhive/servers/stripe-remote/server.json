@@ -49,12 +49,13 @@
             "search_stripe_resources",
             "fetch_stripe_resources",
             "search_stripe_documentation"
-          ]
+          ],
+          "overview": "## Stripe Remote MCP Server\n\nStripe's official remote MCP server for payment processing and subscriptions. The server provides access to Stripe's payment platform through streamable-HTTP transport with comprehensive Stripe API operations organized by category — covering account, balance, customer, payment, product, and subscription tools plus documentation search and resource discovery features. It provides full payment processing API access (payments, invoices, refunds), comprehensive subscription and customer management, and Stripe documentation search and resource fetching capabilities."
         }
       }
     }
   },
-  "description": "Stripe's official remote MCP server for payment processing and subscriptions",
+"description": "Stripe's official remote MCP server for payment processing and subscriptions",
   "name": "io.github.stacklok/stripe-remote",
   "remotes": [
     {
@@ -63,5 +64,14 @@
     }
   ],
   "title": "Stripe (Remote)",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/stripe-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

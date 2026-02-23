@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/graphlit-mcp-server:1.0.20260112001": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:18Z",
+            "last_updated": "2026-02-23T09:26:12Z",
             "stars": 373
           },
+          "overview": "## Graphlit MCP Server\n\nThe graphlit MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Graphlit, a platform for ingesting, processing, organizing, and querying unstructured content using knowledge graphs and embeddings. It allows AI-driven workflows to load documents, media, and web content into Graphlit and then reason over that content using structured queries — without building custom ingestion or retrieval pipelines. This server is especially useful for knowledge management, content intelligence, retrieval-augmented generation (RAG), and research workflows that span large, heterogeneous content collections.",
           "permissions": {
             "network": {
               "outbound": {
@@ -2071,6 +2072,15 @@
     }
   },
   "description": "MCP server for Graphlit platform - ingest, search, and retrieve knowledge from multiple sources",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/graphlit/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/graphlit",
   "packages": [
     {

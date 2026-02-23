@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "docker.io/mcp/memory:latest": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:48Z",
+            "last_updated": "2026-02-23T09:26:30Z",
             "stars": 77255
           },
+          "overview": "## Memory MCP Server\n\nThe memory MCP server provides AI assistants with persistent, long-term memory across interactions. It allows AI workflows to maintain context and knowledge beyond individual conversations, supporting personalization and enabling continuity in assistant interactions. The system works by running as an MCP service that manages persistent storage, handling indexing and retrieval so AI clients can access historical context during reasoning tasks — enabling assistants to develop awareness of user preferences and prior decisions over extended periods.",
           "permissions": {
             "network": {
               "outbound": {
@@ -303,6 +304,15 @@
     }
   },
   "description": "Persistent memory for LLM applications using local knowledge graph to store user information",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/memory/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/memory",
   "packages": [
     {

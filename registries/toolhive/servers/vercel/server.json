@@ -35,12 +35,13 @@
             "get_deployment_events",
             "get_access_to_vercel_url",
             "web_fetch_vercel_url"
-          ]
+          ],
+          "overview": "## Vercel MCP Server\n\nVercel's official remote MCP server for deployment platform and project management. It provides programmatic access to Vercel's deployment infrastructure, project management, and documentation through a streamable-http transport. The server enables AI assistants to connect with Vercel's deployment platform, offering tools for searching documentation, managing teams and projects, monitoring deployments and their events, and retrieving content from Vercel-hosted URLs. Authentication is handled through OAuth."
         }
       }
     }
   },
-  "description": "Vercel's official remote MCP server for deployment platform and project management",
+"description": "Vercel's official remote MCP server for deployment platform and project management",
   "name": "io.github.stacklok/vercel",
   "remotes": [
     {
@@ -49,5 +50,14 @@
     }
   ],
   "title": "Vercel",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/vercel/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

@@ -8,9 +8,10 @@
             "--enable-write-tools"
           ],
           "metadata": {
-            "last_updated": "2026-02-18T22:23:38Z",
+            "last_updated": "2026-02-23T09:26:26Z",
             "stars": 45
           },
+          "overview": "## PagerDuty MCP Server\n\nThe pagerduty MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with PagerDuty, the incident management and on-call platform. It allows AI-driven workflows to access incidents, services, schedules, and on-call status information, bringing real-time incident response context into AI-assisted operations. This server is especially useful for incident triage, on-call support, operational awareness, and post-incident analysis where PagerDuty serves as the primary system of record.",
           "permissions": {
             "network": {
               "outbound": {
@@ -5683,6 +5684,15 @@
     }
   },
   "description": "Interact with PagerDuty for managing incidents, services, schedules, and event orchestrations",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/pagerduty/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/pagerduty",
   "packages": [
     {

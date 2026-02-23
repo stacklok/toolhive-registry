@@ -82,9 +82,19 @@
             "search_memories",
             "delete_memory",
             "list_memories"
-          ]
+          ],
+          "overview": "## Neo4j Memory MCP Server\n\nThe mcp-neo4j-memory server is a Model Context Protocol (MCP) server that provides AI assistants with persistent, graph-based memory backed by Neo4j. It allows AI-driven workflows to store, retrieve, and reason about entities, relationships, and interactions over time — turning long-term memory into a structured knowledge graph rather than a flat vector store. This server is particularly valuable for agent memory, personalization, long-running assistants, and workflows where understanding connections and historical context is important."
         }
       }
     }
-  }
+  },
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-neo4j-memory/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

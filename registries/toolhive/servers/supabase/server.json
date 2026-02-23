@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.6.3": {
           "metadata": {
-            "last_updated": "2026-02-18T22:23:10Z",
+            "last_updated": "2026-02-23T09:26:00Z",
             "stars": 2421
           },
+          "overview": "## Supabase MCP Server\n\nThe supabase MCP server connects Supabase projects to AI assistants for managing tables, fetching config, and querying data. The server enables MCP-based access to Supabase platform capabilities through the Management API, database operations, Edge Functions deployment, and branch management features, authenticated via environment variables.",
           "permissions": {
             "network": {
               "outbound": {
@@ -871,6 +872,15 @@
     }
   },
   "description": "Connect Supabase projects to AI assistants for table management, config, and data querying",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/supabase/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/supabase",
   "packages": [
     {

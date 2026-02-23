@@ -1132,7 +1132,8 @@
             "update-ai-config-targeting",
             "update-ai-config-variation",
             "update-feature-flag"
-          ]
+          ],
+          "overview": "## LaunchDarkly MCP Server\n\nThe launchdarkly MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with LaunchDarkly, the feature management and experimentation platform. It allows AI-driven workflows to inspect feature flags, environments, and targeting rules, helping teams understand feature rollout, experimentation, and risk management without leaving their current tools. This server is particularly valuable for release management, experimentation analysis, and operational decision-making scenarios where feature flag context matters."
         }
       }
     }
@@ -1161,5 +1162,14 @@
     "url": "https://github.com/launchdarkly/mcp-server"
   },
   "title": "LaunchDarkly",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/launchdarkly/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }

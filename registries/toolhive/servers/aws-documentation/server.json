@@ -39,7 +39,7 @@
           "tool_definitions": [
             {
               "annotations": {},
-              "description": "Fetch and convert an AWS documentation page to markdown format.\n\n## Usage\n\nThis tool retrieves the content of an AWS documentation page and converts it to markdown format.\nFor long documents, you can make multiple calls with different start_index values to retrieve\nthe entire content in chunks.\n\n## URL Requirements\n\n- Must be from the docs.aws.amazon.com domain\n- Must end with .html\n\n## Example URLs\n\n- https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html\n- https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html\n\n## Output Format\n\nThe output is formatted as markdown text with:\n- Preserved headings and structure\n- Code blocks for examples\n- Lists and tables converted to markdown format\n\n## Handling Long Documents\n\nIf the response indicates the document was truncated, you have several options:\n\n1. **Continue Reading**: Make another call with start_index set to the end of the previous response\n2. **Stop Early**: For very long documents (\u003e30,000 characters), if you've already found the specific information needed, you can stop reading\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to read\n    max_length: Maximum number of characters to return\n    start_index: On return output starting at this character index\n\nReturns:\n    Markdown content of the AWS documentation\n",
+              "description": "Fetch and convert an AWS documentation page to markdown format.\n\n## Usage\n\nThis tool retrieves the content of an AWS documentation page and converts it to markdown format.\nFor long documents, you can make multiple calls with different start_index values to retrieve\nthe entire content in chunks.\n\n## URL Requirements\n\n- Must be from the docs.aws.amazon.com domain\n- Must end with .html\n\n## Example URLs\n\n- https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html\n- https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html\n\n## Output Format\n\nThe output is formatted as markdown text with:\n- Preserved headings and structure\n- Code blocks for examples\n- Lists and tables converted to markdown format\n\n## Handling Long Documents\n\nIf the response indicates the document was truncated, you have several options:\n\n1. **Continue Reading**: Make another call with start_index set to the end of the previous response\n2. **Stop Early**: For very long documents (>30,000 characters), if you've already found the specific information needed, you can stop reading\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to read\n    max_length: Maximum number of characters to return\n    start_index: On return output starting at this character index\n\nReturns:\n    Markdown content of the AWS documentation\n",
               "inputSchema": {
                 "properties": {
                   "max_length": {
@@ -90,7 +90,7 @@
             },
             {
               "annotations": {},
-              "description": "Search AWS documentation using the official AWS Documentation Search API.\n\n## Usage\n\nThis tool searches across all AWS documentation for pages matching your search phrase.\nUse it to find relevant documentation when you don't have a specific URL.\n\n## Search Tips\n\n- Use specific technical terms rather than general phrases\n- Include service names to narrow results (e.g., \"S3 bucket versioning\" instead of just \"versioning\")\n- Use quotes for exact phrase matching (e.g., \"AWS Lambda function URLs\")\n- Include abbreviations and alternative terms to improve results\n- Use guide_type and product_type filters found from a SearchResponse's \"facets\" property:\n    - Filter only for broad search queries with patterns:\n        - \"What is [service]?\" -\u003e product_types: [\"Amazon Simple Storage Service\"]\n        - \"How to use \u003cservice 1\u003e with \u003cservice 2\u003e?\" -\u003e product_types: [\u003cservice 1\u003e, \u003cservice 2\u003e]\n        - \"[service] getting started\" -\u003e product_types: [\u003cservice\u003e] + guide_types: [\"User Guide, \"Developer Guide\"]\n        - \"API reference for [service]\" -\u003e product_types: [\u003cservice\u003e] + guide_types: [\"API Reference\"]\n\n## Result Interpretation\n\nEach SearchResponse includes:\n- search_results: List of documentation pages, each with:\n    - rank_order: The relevance ranking (lower is more relevant)\n    - url: The documentation page URL\n    - title: The page title\n    - context: A brief excerpt or summary (if available)\n- facets: Available filters (product_types, guide_types) for refining searches\n- query_id: Unique identifier for this search session\n\n\nArgs:\n    ctx: MCP context for logging and error handling\n    search_phrase: Search phrase to use\n    search_intent: The intent behind the search requested by the user\n    limit: Maximum number of results to return\n    product_types: Filter by AWS product/service\n    guide_types: Filter by guide type\n\nReturns:\n    List of search results with URLs, titles, query ID, context snippets, and facets for filtering\n",
+              "description": "Search AWS documentation using the official AWS Documentation Search API.\n\n## Usage\n\nThis tool searches across all AWS documentation for pages matching your search phrase.\nUse it to find relevant documentation when you don't have a specific URL.\n\n## Search Tips\n\n- Use specific technical terms rather than general phrases\n- Include service names to narrow results (e.g., \"S3 bucket versioning\" instead of just \"versioning\")\n- Use quotes for exact phrase matching (e.g., \"AWS Lambda function URLs\")\n- Include abbreviations and alternative terms to improve results\n- Use guide_type and product_type filters found from a SearchResponse's \"facets\" property:\n    - Filter only for broad search queries with patterns:\n        - \"What is [service]?\" -> product_types: [\"Amazon Simple Storage Service\"]\n        - \"How to use <service 1> with <service 2>?\" -> product_types: [<service 1>, <service 2>]\n        - \"[service] getting started\" -> product_types: [<service>] + guide_types: [\"User Guide, \"Developer Guide\"]\n        - \"API reference for [service]\" -> product_types: [<service>] + guide_types: [\"API Reference\"]\n\n## Result Interpretation\n\nEach SearchResponse includes:\n- search_results: List of documentation pages, each with:\n    - rank_order: The relevance ranking (lower is more relevant)\n    - url: The documentation page URL\n    - title: The page title\n    - context: A brief excerpt or summary (if available)\n- facets: Available filters (product_types, guide_types) for refining searches\n- query_id: Unique identifier for this search session\n\n\nArgs:\n    ctx: MCP context for logging and error handling\n    search_phrase: Search phrase to use\n    search_intent: The intent behind the search requested by the user\n    limit: Maximum number of results to return\n    product_types: Filter by AWS product/service\n    guide_types: Filter by guide type\n\nReturns:\n    List of search results with URLs, titles, query ID, context snippets, and facets for filtering\n",
               "inputSchema": {
                 "properties": {
                   "guide_types": {
@@ -157,7 +157,8 @@
             "read_documentation",
             "recommend",
             "search_documentation"
-          ]
+          ],
+          "overview": "## AWS Documentation MCP Server\n\nThe aws-documentation MCP server is a Model Context Protocol (MCP) server that provides AI assistants and agents with direct access to AWS's official documentation content through a structured MCP interface. It enables workflows that search, fetch, and recommend AWS documentation pages — returning markdown-formatted content and relevant recommendations — so models can cite accurate AWS technical details and best practices on-demand without manual lookup."
         }
       }
     }
@@ -190,5 +191,14 @@
     "url": "https://github.com/awslabs/mcp"
   },
   "title": "AWS Documentation",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/aws-documentation/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ]
 }
