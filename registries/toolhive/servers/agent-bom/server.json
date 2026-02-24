@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/agent-bom",
+  "name": "io.github.msaad00/agent-bom",
   "description": "AI supply chain security scanner — CVE scanning, blast radius analysis, policy enforcement, and SBOM generation for MCP servers and AI agents",
   "title": "agent-bom",
   "repository": {
     "url": "https://github.com/msaad00/agent-bom",
     "source": "github"
   },
-  "version": "1.0.0",
+  "version": "0.31.1",
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "docker.io/agentbom/agent-bom:0.28.1",
+      "identifier": "ghcr.io/msaad00/agent-bom:v0.31.1",
       "transport": {
         "type": "stdio"
       },
@@ -27,8 +27,8 @@
   ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
-      "io.github.stacklok": {
-        "docker.io/agentbom/agent-bom:0.28.1": {
+      "io.github.msaad00": {
+        "ghcr.io/msaad00/agent-bom:v0.31.1": {
           "tier": "Community",
           "status": "Active",
           "tags": [
@@ -43,6 +43,7 @@
           ],
           "tools": [
             "scan",
+            "check",
             "blast_radius",
             "policy_check",
             "registry_lookup",
@@ -57,7 +58,9 @@
                   "api.osv.dev",
                   "services.nvd.nist.gov",
                   "api.first.org",
-                  "www.cisa.gov"
+                  "www.cisa.gov",
+                  "registry.npmjs.org",
+                  "pypi.org"
                 ],
                 "allow_port": [
                   443
@@ -66,7 +69,7 @@
             }
           },
           "custom_metadata": {
-            "author": "Mohamed Saad",
+            "author": "W S",
             "homepage": "https://github.com/msaad00/agent-bom",
             "license": "Apache-2.0"
           }
