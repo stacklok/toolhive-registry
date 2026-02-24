@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-02-23T00:46:06Z"
+    "last_updated": "2026-02-24T00:42:15Z"
   },
   "data": {
     "servers": [
@@ -16,6 +16,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/adb-mysql-mcp-server/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -61,6 +70,7 @@
                   "last_updated": "2026-02-17T17:15:49Z",
                   "stars": 21
                 },
+                "overview": "## AnalyticDB for MySQL MCP Server\n\nThe adb-mysql-mcp-server provides a standardized interface that lets AI assistants interact directly with Alibaba Cloud AnalyticDB for MySQL databases through the Model Context Protocol (MCP). It enables seamless access to database metadata and SQL operations so AI workflows can query, analyze, and manage data without needing to embed database-specific logic directly in the assistant.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -158,6 +168,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/agentql-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -183,6 +202,7 @@
                   "last_updated": "2026-02-17T17:15:19Z",
                   "stars": 142
                 },
+                "overview": "## AgentQL MCP Server\n\nThe agentql-mcp server is a Model Context Protocol (MCP) implementation that brings AgentQL's web data extraction capabilities into your AI-driven workflows. It lets AI assistants retrieve structured data from web pages by accepting a URL and a natural-language description of the data you want. This means agents can incorporate real-time, prompt-driven web insights directly into automation, research, and content tasks without custom scraping scripts.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -253,6 +273,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/apollo-mcp-server/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -282,6 +311,7 @@
                   "last_updated": "2026-02-20T09:56:10Z",
                   "stars": 262
                 },
+                "overview": "## Apollo MCP Server\n\nThe apollo-mcp-server is a Model Context Protocol (MCP) server implementation that makes your GraphQL API operations available as MCP tools for AI assistants and agents. It acts as a translation layer between AI clients and your GraphQL infrastructure, exposing query and mutation capabilities through MCP so models can fetch, explore, and orchestrate your graph operations without bespoke tooling.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -319,6 +349,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/arxiv-mcp-server/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -344,9 +383,10 @@
                   "/arxiv-papers"
                 ],
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:43Z",
+                  "last_updated": "2026-02-23T09:26:32Z",
                   "stars": 2140
                 },
+                "overview": "## arXiv MCP Server\n\nThe arxiv-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically access the arXiv research repository — one of the largest open archives of scientific papers — via a simple MCP interface. It lets AI workflows search for academic papers, download and read their content, and manage collected research, all without switching tools or manually scraping content.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -493,6 +533,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/astra-db-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -528,6 +577,7 @@
                   "last_updated": "2026-02-20T09:56:09Z",
                   "stars": 38
                 },
+                "overview": "## Astra DB MCP Server\n\nThe astra-db-mcp server is a Model Context Protocol (MCP) implementation that enables AI assistants and agents to interact directly with DataStax Astra DB — a cloud-native database service — through a standardized, agent-friendly interface. It allows natural language workflows to query, manage, and manipulate collections and records stored in Astra DB without writing custom database integration code.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -585,6 +635,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/atlassian/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -668,6 +727,7 @@
                   "last_updated": "2026-02-18T08:06:20Z",
                   "stars": 4306
                 },
+                "overview": "## Atlassian MCP Server\n\nThe Atlassian MCP server lets AI assistants work directly with Atlassian Cloud products from within an AI-driven workflow. It provides programmatic access to Jira, Confluence, and related Atlassian resources so users can search, create, and update content without switching tools.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -749,6 +809,15 @@
         "description": "Atlassian's official remote MCP server for Jira, Confluence, and Compass with OAuth 2.1",
         "title": "Atlassian (Remote)",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/atlassian-remote/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "sse",
@@ -766,6 +835,7 @@
                 "metadata": {
                   "last_updated": "2026-02-20T09:56:10Z"
                 },
+                "overview": "## Atlassian Remote MCP Server\n\nThe atlassian-remote MCP Server is a cloud-hosted Model Context Protocol (MCP) implementation from Atlassian that lets AI assistants and agents securely access and interact with Atlassian Cloud data — including Jira, Confluence, and Compass — without manual integrations. This official Atlassian tool enables AI systems to query and modify enterprise data across multiple Atlassian products through a secure, OAuth 2.1-authenticated remote endpoint, supporting operations like issue creation, documentation updates, and cross-tool workflows while respecting existing user permissions.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -821,6 +891,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/aws-api/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -893,6 +972,7 @@
                   "last_updated": "2026-02-17T17:16:21Z",
                   "stars": 7978
                 },
+                "overview": "## AWS API MCP Server\n\nThe aws-api MCP server is an MCP (Model Context Protocol) server that enables AI assistants and agents to interact directly and securely with AWS services and APIs through a standardized, protocol-driven interface. It acts as a bridge between your MCP-compatible AI workflows and the breadth of AWS's cloud API surface, allowing natural-language-orchestrated tasks — from exploring resources to managing infrastructure — without manual API coding.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -993,6 +1073,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/aws-diagram/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -1019,9 +1108,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/aws-diagram:1.0.18": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:42Z",
+                  "last_updated": "2026-02-23T09:26:30Z",
                   "stars": 8053
                 },
+                "overview": "## AWS Diagram MCP Server\n\nThe aws-diagram MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically generate professional diagrams — such as AWS architecture diagrams, sequence flows, and class diagrams — through a prompt-driven interface. It uses the Python diagrams package DSL to turn structured diagram descriptions into visual output, making it easy to include infrastructure visuals inside AI-augmented workflows.",
                 "permissions": {
                   "network": {
                     "outbound": {}
@@ -1185,6 +1275,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/aws-documentation/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -1214,6 +1313,7 @@
                   "last_updated": "2026-02-17T17:16:02Z",
                   "stars": 8053
                 },
+                "overview": "## AWS Documentation MCP Server\n\nThe aws-documentation MCP server is a Model Context Protocol (MCP) server that provides AI assistants and agents with direct access to AWS's official documentation content through a structured MCP interface. It enables workflows that search, fetch, and recommend AWS documentation pages — returning markdown-formatted content and relevant recommendations — so models can cite accurate AWS technical details and best practices on-demand without manual lookup.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -1379,6 +1479,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/aws-knowledge/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -1397,6 +1506,7 @@
                   "last_updated": "2026-02-18T22:27:15Z",
                   "stars": 8185
                 },
+                "overview": "## AWS Knowledge MCP Server\n\nThe aws-knowledge MCP server is a Model Context Protocol server that gives AI assistants structured access to curated AWS knowledge sources, including architectural guidance, best practices, service concepts, and operational recommendations. It's designed to help AI workflows answer conceptual questions about AWS by grounding responses in authoritative knowledge rather than raw documentation alone. The server provides capabilities including architectural guidance access, concept-level reasoning support, contextual discovery, and grounded AI responses to reduce hallucinations by anchoring answers in vetted AWS knowledge sources.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -1432,6 +1542,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/aws-pricing/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -1473,9 +1592,10 @@
             "io.github.stacklok": {
               "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.0.24": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:14:25Z",
+                  "last_updated": "2026-02-23T09:26:38Z",
                   "stars": 7957
                 },
+                "overview": "## AWS Pricing MCP Server\n\nThe aws-pricing MCP server is a Model Context Protocol (MCP) server that gives AI assistants programmatic access to AWS pricing data through a structured interface. It allows AI-driven workflows to retrieve up-to-date pricing information for AWS services, instances, and usage dimensions, enabling cost estimation, comparison, and optimization tasks without manual navigation of pricing pages or spreadsheets. This server is particularly useful for cost modeling, architectural tradeoff analysis, and budget-aware automation inside AI assistants.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -2039,6 +2159,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/azure/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -2088,6 +2217,7 @@
                   "last_updated": "2026-02-16T03:01:21Z",
                   "stars": 1201
                 },
+                "overview": "## Azure MCP Server\n\nThe azure MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Microsoft Azure resources and APIs through a unified, AI-friendly interface. It allows natural-language workflows to explore, query, and manage Azure infrastructure and services without requiring custom SDK integration or manual portal usage. This server is well suited for cloud operations, infrastructure exploration, troubleshooting, and automation scenarios where Azure context needs to be embedded directly into AI-driven workflows.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -2174,6 +2304,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/brightdata-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -2218,6 +2357,7 @@
                   "last_updated": "2026-02-18T00:05:40Z",
                   "stars": 2007
                 },
+                "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -2398,6 +2538,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/browserbase/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -2431,9 +2580,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.4.3": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:11Z",
+                  "last_updated": "2026-02-23T09:26:14Z",
                   "stars": 3128
                 },
+                "overview": "## Browserbase MCP Server\n\nThe browserbase MCP server is a Model Context Protocol (MCP) server that gives AI assistants full, programmable control of real web browsers running in the cloud. Powered by Browserbase, it enables AI-driven workflows to load pages, execute JavaScript, interact with dynamic UIs, and capture screenshots or HTML — making it possible to automate and reason over modern, JavaScript-heavy websites that traditional HTTP-based tools can't handle. This server is ideal for web automation, end-to-end testing, live research, and data extraction workflows that require a real browser environment.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -2626,6 +2776,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/buildkite/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -2655,9 +2814,10 @@
                   "stdio"
                 ],
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:15Z",
+                  "last_updated": "2026-02-23T09:25:53Z",
                   "stars": 45
                 },
+                "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -3787,6 +3947,15 @@
         "description": "Canva's official remote MCP server for design creation and template management",
         "title": "Canva",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/canva/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -3804,6 +3973,7 @@
                 "metadata": {
                   "last_updated": "2026-02-21T02:54:32Z"
                 },
+                "overview": "## Canva MCP Server\n\nThe canva MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Canva's design platform through a structured, AI-friendly interface. It enables AI-driven workflows to create, edit, and manage visual designs — such as presentations, social graphics, documents, and brand assets — without leaving the conversational or automated workflow. This server is especially useful for content creation, marketing workflows, design automation, and brand-aware AI assistants.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -3853,6 +4023,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/chroma-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -3879,9 +4058,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/chroma-mcp:0.2.6": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:44Z",
+                  "last_updated": "2026-02-23T09:26:35Z",
                   "stars": 483
                 },
+                "overview": "## Chroma MCP Server\n\nThe chroma-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Chroma, an open-source vector database designed for embeddings and similarity search. It allows AI workflows to store, retrieve, and query vector embeddings alongside metadata, making it easy to build retrieval-augmented generation (RAG), semantic search, and memory-driven applications without custom database integration. It's particularly valuable for AI systems that need long-term memory, document retrieval, or semantic similarity capabilities as part of their reasoning loop.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -4453,6 +4633,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/chrome-devtools-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -4467,9 +4656,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.17.0": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:15Z",
+                  "last_updated": "2026-02-23T09:26:03Z",
                   "stars": 23258
                 },
+                "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -5391,6 +5581,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/cloud-run/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -5428,9 +5627,10 @@
             "io.github.stacklok": {
               "docker.io/mcp/cloud-run-mcp:latest": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:39Z",
+                  "last_updated": "2026-02-23T09:26:38Z",
                   "stars": 532
                 },
+                "overview": "## Cloud Run MCP Server\n\nThe cloud-run MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Google Cloud Run services through a structured, AI-friendly interface. It enables AI-driven workflows to discover services, inspect configurations, deploy revisions, and manage runtime state without switching to the Google Cloud Console or writing custom integration code. This server is well suited for cloud operations, service management, deployment inspection, and DevOps workflows centered on Cloud Run.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -5691,6 +5891,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/context7/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -5715,6 +5924,7 @@
                   "last_updated": "2026-02-17T17:16:24Z",
                   "stars": 44756
                 },
+                "overview": "## Context7 MCP Server\n\nThe context7 MCP server is a Model Context Protocol (MCP) server that provides AI assistants with direct access to up-to-date library and framework documentation from Context7, running as a local MCP service. It allows AI-driven workflows to retrieve current, authoritative docs and examples for popular programming languages, frameworks, and tools — helping models generate accurate, version-appropriate code and explanations without relying solely on training data. It is particularly valuable for local development environments, IDE-integrated assistants, and workflows where developers want documentation access to run alongside other local MCP tools.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -5809,6 +6019,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/context7-remote/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -5827,6 +6046,7 @@
                   "last_updated": "2026-02-19T03:03:33Z",
                   "stars": 46123
                 },
+                "overview": "## Context7 Remote MCP Server\n\nThe context7-remote MCP Server is a hosted Model Context Protocol (MCP) server that provides AI assistants with on-demand access to up-to-date library and framework documentation via Context7. Instead of relying on potentially stale training data, AI workflows can retrieve current, version-specific docs and examples for popular programming languages, frameworks, and tools — directly inside an MCP-compatible assistant. The service is designed to help coding and debugging workflows by enabling assistants to access current API documentation and best practices without depending on outdated model training data, thereby reducing the risk of inaccurate suggestions.",
                 "status": "Active",
                 "tags": [
                   "documentation",
@@ -5852,6 +6072,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/crowdstrike-falcon/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -5905,6 +6134,7 @@
                   "last_updated": "2026-02-18T22:27:15Z",
                   "stars": 107
                 },
+                "overview": "## CrowdStrike Falcon MCP Server\n\nThe crowdstrike-falcon-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the CrowdStrike Falcon platform through a structured, AI-friendly interface. It allows AI-driven workflows to query security telemetry, investigate threats, manage detections, and inspect endpoint posture without switching tools or manually navigating the Falcon console. This server is particularly useful for security operations (SOC), incident response, threat hunting, and security analysis workflows augmented by AI.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -5974,6 +6204,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/database-toolbox/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -5996,6 +6235,7 @@
                   "last_updated": "2026-02-16T03:01:21Z",
                   "stars": 12997
                 },
+                "overview": "## Database Toolbox MCP Server\n\nThe database-toolbox-mcp-server is a Model Context Protocol (MCP) server that provides AI assistants with a unified, database-agnostic interface for interacting with multiple relational databases. It exposes common database operations as standardized MCP tools, allowing AI-driven workflows to query data, inspect schemas, and manage connections across different database engines without bespoke integrations for each one. This server is especially useful for data analysis, reporting, debugging, and operational workflows that span multiple databases.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -6038,6 +6278,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/dolt/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -6090,9 +6339,10 @@
             "io.github.stacklok": {
               "docker.io/dolthub/dolt-mcp:0.3.4": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:08Z",
+                  "last_updated": "2026-02-23T09:25:55Z",
                   "stars": 6
                 },
+                "overview": "## Dolt MCP Server\n\nThe dolt-mcp-server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Dolt, a SQL database with built-in Git-style version control. It facilitates AI-driven workflows including querying data, inspecting schema changes, creating and managing branches, reviewing diffs, and analyzing historical data — all within a unified interface. It's particularly valuable for data analysis, auditing, experimentation, and collaborative workflows requiring tracking and understanding of data changes over time.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -7593,6 +7843,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/elasticsearch/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -7651,6 +7910,7 @@
                   "last_updated": "2026-02-18T22:27:15Z",
                   "stars": 611
                 },
+                "overview": "## Elasticsearch MCP Server\n\nThe elasticsearch-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Elasticsearch clusters through a structured, AI-friendly interface. It allows AI-driven workflows to search, index, analyze, and manage data stored in Elasticsearch without writing custom client code or switching to separate tooling. This server is well suited for search-driven applications, log analysis, observability workflows, and any AI use case that depends on fast, flexible querying over large datasets.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -7696,6 +7956,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/everything/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -7710,9 +7979,10 @@
             "io.github.stacklok": {
               "docker.io/mcp/everything:latest": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:39Z",
+                  "last_updated": "2026-02-23T09:26:32Z",
                   "stars": 78304
                 },
+                "overview": "## Everything MCP Server\n\nThe everything-mcp-server is a reference and demonstration Model Context Protocol (MCP) server that exposes a broad collection of example tools in a single implementation. The server is designed as a learning and testing resource, showcasing how MCP functions end-to-end through diverse tool types encompassing data access, computation, state management, and side effects that AI assistants can invoke during workflows. Rather than integrating with external services, this implementation serves primarily for educational purposes, client validation, debugging, and protocol testing — making it valuable for developers onboarding to MCP, understanding server architecture, and conducting regression testing.",
                 "permissions": {
                   "network": {
                     "outbound": {}
@@ -7907,6 +8177,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/fetch/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -7925,6 +8204,7 @@
                   "last_updated": "2026-02-18T00:05:37Z",
                   "stars": 20
                 },
+                "overview": "## Fetch MCP Server\n\nThe fetch-mcp-server is a lightweight Model Context Protocol (MCP) server that gives AI assistants direct access to external HTTP and HTTPS resources. It allows AI-driven workflows to retrieve web content, APIs, and remote resources on demand, making it easy to incorporate live data, documentation, or machine-readable endpoints into an assistant's reasoning loop. This server is commonly used as a foundational building block for research, data ingestion, and integration workflows where simple, reliable network access is required.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -8007,6 +8287,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/filesystem/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -8027,6 +8316,7 @@
                   "last_updated": "2026-02-18T22:27:14Z",
                   "stars": 78940
                 },
+                "overview": "## Filesystem MCP Server\n\nThe filesystem-mcp-server is a Model Context Protocol (MCP) server that gives AI assistants direct, structured access to the local filesystem. It allows AI-driven workflows to read, write, and organize files and directories as part of a larger reasoning process, making persistent storage and file-based context a first-class capability inside MCP-compatible assistants. The server enables use cases including developer workflows, data preparation, note-taking, and artifact generation where AI systems need controlled access to local files.",
                 "permissions": {
                   "network": {
                     "outbound": {}
@@ -8077,6 +8367,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/firecrawl/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -8130,6 +8429,7 @@
                   "last_updated": "2026-02-18T00:06:16Z",
                   "stars": 5334
                 },
+                "overview": "## Firecrawl MCP Server\n\nThe firecrawl-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants to crawl, scrape, and extract content from websites at scale using Firecrawl. This tool transforms entire websites — including documentation, blogs, and knowledge bases — into clean, structured, machine-readable data without requiring custom crawlers. It is particularly suited for research, content ingestion, documentation analysis, and RAG workflows needing high-quality web content.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -9074,6 +9374,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/genai-toolbox/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -9134,6 +9443,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/git/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -9151,6 +9469,7 @@
                   "last_updated": "2026-02-17T17:18:10Z",
                   "stars": 77255
                 },
+                "overview": "## Git MCP Server\n\nThe git-mcp-server is a Model Context Protocol (MCP) server that gives AI assistants direct access to Git repositories through a structured, AI-friendly interface. It enables AI-driven workflows to read repository state, inspect history, and reason about changes without switching tools or manually invoking Git commands. It is especially useful for code understanding, change analysis, release preparation, and development workflows where repository context needs to be embedded directly into an AI assistant.",
                 "permissions": {
                   "network": {
                     "outbound": {}
@@ -9454,6 +9773,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/github/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -9492,9 +9820,10 @@
             "io.github.stacklok": {
               "ghcr.io/github/github-mcp-server:v0.31.0": {
                 "metadata": {
-                  "last_updated": "2026-02-19T21:06:27Z",
+                  "last_updated": "2026-02-23T09:25:56Z",
                   "stars": 26386
                 },
+                "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -11380,6 +11709,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/github-remote/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -11408,6 +11746,7 @@
                   "token_url": "https://github.com/login/oauth/access_token",
                   "use_pkce": true
                 },
+                "overview": "## GitHub Remote MCP Server\n\nThe github-remote MCP server is a hosted Model Context Protocol (MCP) server that allows AI assistants to interact with GitHub repositories and resources without running a local MCP process. It provides secure, permission-aware access to GitHub code, issues, pull requests, and repository metadata through a remote MCP endpoint, making GitHub context easily available to cloud-based or lightweight AI clients.\n\nThis server is well suited for environments where local setup is undesirable, such as browser-based assistants, hosted IDEs, or centralized AI platforms.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -11529,6 +11868,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/gitlab/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -11597,6 +11945,7 @@
                   "last_updated": "2026-02-20T09:56:10Z",
                   "stars": 1064
                 },
+                "overview": "## GitLab MCP Server\n\nThe gitlab MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with GitLab projects and resources through a structured, AI-friendly interface. It allows AI-driven workflows to work with repositories, issues, merge requests, and project metadata without switching tools or manually navigating the GitLab UI. It is ideal for development, code review, CI/CD visibility, and project management workflows that rely on GitLab as the system of record.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -11724,6 +12073,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/grafana/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -11759,6 +12117,7 @@
                   "last_updated": "2026-02-19T03:03:33Z",
                   "stars": 2324
                 },
+                "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -11872,6 +12231,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/graphlit/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -11957,9 +12325,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/graphlit-mcp-server:1.0.20260112001": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:18Z",
+                  "last_updated": "2026-02-23T09:26:12Z",
                   "stars": 373
                 },
+                "overview": "## Graphlit MCP Server\n\nThe graphlit MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Graphlit, a platform for ingesting, processing, organizing, and querying unstructured content using knowledge graphs and embeddings. It allows AI-driven workflows to load documents, media, and web content into Graphlit and then reason over that content using structured queries — without building custom ingestion or retrieval pipelines. This server is especially useful for knowledge management, content intelligence, retrieval-augmented generation (RAG), and research workflows that span large, heterogeneous content collections.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -14033,6 +14402,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/hass-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -14060,9 +14438,10 @@
             "io.github.stacklok": {
               "docker.io/voska/hass-mcp:0.1.1": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:48Z",
+                  "last_updated": "2026-02-23T09:26:38Z",
                   "stars": 271
                 },
+                "overview": "## Home Assistant MCP Server\n\nThe hass-mcp server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Home Assistant (HASS), the open-source home automation platform. It enables AI-driven workflows to observe, control, and reason about smart home entities and states — turning a Home Assistant instance into a programmable, conversational environment. This server is ideal for smart home automation, contextual assistance, energy monitoring, and ambient intelligence use cases where AI needs real-time awareness of a physical environment. It provides privacy-preserving operation by running locally without requiring cloud services.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -14398,6 +14777,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/heroku/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -14428,6 +14816,7 @@
                   "last_updated": "2026-02-18T08:06:20Z",
                   "stars": 73
                 },
+                "overview": "## Heroku MCP Server\n\nThe heroku-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the Heroku platform through a structured, AI-friendly interface. It allows AI-driven workflows to inspect applications, manage deployments, review configuration, and reason about runtime behavior without switching tools or manually using the Heroku CLI or dashboard. Key capabilities include application lifecycle management, deployment workflows, runtime insight for dynos and process scaling, and operational visibility through logs and platform metadata.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -14506,6 +14895,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/heroku-mcp-server/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -14536,6 +14934,7 @@
                   "last_updated": "2026-02-21T15:00:39Z",
                   "stars": 74
                 },
+                "overview": "## Heroku MCP Server\n\nThe heroku-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Heroku applications and platform resources through a structured, AI-friendly interface. It facilitates AI-driven workflows for inspecting apps, managing deployments, reviewing configuration, and assessing runtime state without requiring manual use of the Heroku CLI or dashboard. The tool is particularly suited for application operations, debugging, deployment workflows, and platform management tasks within teams operating workloads on Heroku.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -14610,6 +15009,15 @@
         "description": "Official Hugging Face MCP server for models, datasets, and research papers",
         "title": "Hugging Face",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/huggingface/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -14627,6 +15035,7 @@
                 "metadata": {
                   "last_updated": "2026-02-21T15:00:39Z"
                 },
+                "overview": "## Hugging Face MCP Server\n\nThe huggingface-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the Hugging Face ecosystem, including models, datasets, and Spaces. It allows AI-driven workflows to discover models, inspect metadata, download artifacts, and reason about available ML resources without switching tools or manually navigating the Hugging Face Hub. This server is especially useful for model exploration, experimentation, research, and workflows that integrate open-source ML assets into AI-assisted development.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -14667,6 +15076,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/ida-pro-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -14681,9 +15099,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/ida-pro-mcp:1.4.0": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:47Z",
+                  "last_updated": "2026-02-23T09:26:27Z",
                   "stars": 5444
                 },
+                "overview": "## IDA Pro MCP Server\n\nThe ida-pro-mcp server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with IDA Pro, the industry-standard interactive disassembler and reverse-engineering platform. It enables AI-driven workflows to inspect binaries, analyze disassembly, explore functions and symbols, and reason about program structure — all from within an MCP-compatible assistant. This server proves particularly valuable for reverse engineering, malware analysis, vulnerability research, and low-level software analysis workflows where deep binary insight is required.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -15765,6 +16184,15 @@
         "description": "Jam's official remote MCP server for debugging with video recordings and logs",
         "title": "Jam",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/jam/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -15782,6 +16210,7 @@
                 "metadata": {
                   "last_updated": "2026-02-21T02:54:33Z"
                 },
+                "overview": "## Jam MCP Server\n\nThe jam MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Jam, a developer-focused bug reporting and debugging platform. It allows AI-driven workflows to capture, inspect, and reason about bug reports — including contextual metadata like logs, network activity, console output, and environment details — without switching tools. This server is particularly valuable for debugging, QA workflows, developer support, and incident triage where rich client-side context is critical.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -15819,6 +16248,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/k8s/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -15843,6 +16281,7 @@
                   "last_updated": "2026-02-19T03:03:34Z",
                   "stars": 56
                 },
+                "overview": "## Kubernetes MCP Server\n\nThe k8s MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kubernetes clusters through a structured, AI-friendly interface. It allows AI-driven workflows to inspect cluster state, explore resources, and reason about workloads without switching tools or manually using kubectl or the Kubernetes dashboard. This server is ideal for platform engineering, operations, troubleshooting, and infrastructure-aware AI workflows built on Kubernetes.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -15893,6 +16332,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/kion/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -15920,9 +16368,10 @@
             "io.github.stacklok": {
               "kionsoftware/kion-mcp:v0.4.0": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:44Z",
+                  "last_updated": "2026-02-23T09:26:28Z",
                   "stars": 7
                 },
+                "overview": "## Kion MCP Server\n\nThe kion MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kion, a cloud governance and financial management platform. It allows AI-driven workflows to access cloud accounts, policies, budgets, and compliance data, providing governance visibility across accounts and resources, cost and budget context for decision-making, policy awareness for inspecting controls and enforcement, cross-cloud reasoning from a unified interface, and operational support for questions about ownership and compliance.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -17747,6 +18196,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/kiwi/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -17765,6 +18223,7 @@
                   "last_updated": "2026-02-22T03:01:53Z",
                   "stars": 9
                 },
+                "overview": "## Kiwi.com Flights MCP Server\n\nThe Kiwi.com MCP server enables AI assistants to search for flights through Kiwi.com's travel platform. It connects to the Kiwi.com API to search for available flights based on origin, destination, and travel dates, returning structured results that AI agents can use to recommend itineraries, compare options, and assist with travel planning workflows. The server uses a streamable HTTP transport for efficient API communication.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -17793,6 +18252,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/kyverno/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -17813,9 +18281,10 @@
             "io.github.stacklok": {
               "ghcr.io/nirmata/kyverno-mcp:v0.2.2": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:08Z",
+                  "last_updated": "2026-02-23T09:26:02Z",
                   "stars": 15
                 },
+                "overview": "## Kyverno MCP Server\n\nThe kyverno MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kyverno, the Kubernetes-native policy engine. It facilitates AI-driven workflows for inspecting policies, validating resources, analyzing policy outcomes, and reasoning about compliance. The server is especially useful for platform engineering, security, and compliance workflows where understanding policy enforcement decisions is critical. Key capabilities include policy visibility, compliance analysis, security governance insight, troubleshooting support, and platform decision support.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -17988,6 +18457,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/launchdarkly/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -18013,6 +18491,7 @@
                   "last_updated": "2026-02-18T00:05:49Z",
                   "stars": 18
                 },
+                "overview": "## LaunchDarkly MCP Server\n\nThe launchdarkly MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with LaunchDarkly, the feature management and experimentation platform. It allows AI-driven workflows to inspect feature flags, environments, and targeting rules, helping teams understand feature rollout, experimentation, and risk management without leaving their current tools. This server is particularly valuable for release management, experimentation analysis, and operational decision-making scenarios where feature flag context matters.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -19149,6 +19628,15 @@
         "description": "Linear's official remote MCP server to manage issues, projects, and comments",
         "title": "Linear",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/linear/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -19166,6 +19654,7 @@
                 "metadata": {
                   "last_updated": "2026-02-21T02:54:33Z"
                 },
+                "overview": "## Linear MCP Server\n\nThe linear MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Linear, the issue tracking and project management platform. It allows AI-driven workflows to create, update, search, and reason about issues, projects, cycles, and teams — bringing planning and execution context directly into AI-assisted development workflows. This server is especially useful for product planning, engineering management, sprint execution, and triage workflows where Linear is the system of record.",
                 "status": "Active",
                 "tags": [
                   "issue-tracking",
@@ -19219,6 +19708,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/magic-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -19244,6 +19742,7 @@
                   "last_updated": "2026-02-18T00:05:47Z",
                   "stars": 4262
                 },
+                "overview": "## Magic MCP Server\n\nThe magic-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact with Magic, a platform for AI-assisted software development and code understanding. It allows AI-driven workflows to generate, edit, and reason about code with deeper project awareness — turning Magic's code intelligence capabilities into native tools inside MCP-compatible assistants. This server excels particularly in code generation, refactoring, large-scale codebase understanding, and developer productivity workflows augmented by AI.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -19414,6 +19913,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-clickhouse/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -19475,9 +19983,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.2.0": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:45Z",
+                  "last_updated": "2026-02-23T09:26:34Z",
                   "stars": 688
                 },
+                "overview": "## ClickHouse MCP Server\n\nThe mcp-clickhouse server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with ClickHouse, the high-performance, column-oriented analytical database. It allows AI-driven workflows to query large datasets, inspect schemas, and analyze analytical workloads without requiring users to switch tools or embed ClickHouse-specific client logic. This server is especially useful for analytics, observability, log analysis, and data exploration workflows where fast, read-heavy queries and large-scale datasets are common.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -19606,6 +20115,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-jetbrains/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -19639,6 +20157,7 @@
                   "last_updated": "2026-02-13T03:02:09Z",
                   "stars": 944
                 },
+                "overview": "## JetBrains MCP Server\n\nThe mcp-jetbrains server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with JetBrains IDEs (such as IntelliJ IDEA, PyCharm, WebStorm, and others) through a structured, AI-friendly interface. It allows AI-driven workflows to inspect project structure, navigate code, and reason about files and symbols — bringing IDE context directly into conversational and automated development workflows. This server proves particularly valuable for code navigation, refactoring assistance, project comprehension, and integrating AI capabilities within the IDE environment.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -19680,6 +20199,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-neo4j-aura-manager/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -19716,6 +20244,7 @@
                   "last_updated": "2026-02-13T03:02:10Z",
                   "stars": 898
                 },
+                "overview": "## Neo4j Aura Manager MCP Server\n\nThe mcp-neo4j-aura-manager is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neo4j Aura, Neo4j's fully managed cloud database service. The server facilitates AI-driven workflows to manage Aura database instances, including their lifecycle, configuration, and operational status. Key capabilities include database visibility, operational awareness, lifecycle management, organizational context, and AI-assisted administration.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -19771,6 +20300,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-neo4j-cypher/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -19808,9 +20346,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-cypher:0.5.2": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:44Z",
+                  "last_updated": "2026-02-23T09:26:27Z",
                   "stars": 898
                 },
+                "overview": "## Neo4j Cypher MCP Server\n\nThe mcp-neo4j-cypher server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neo4j graph databases using Cypher, Neo4j's query language. It allows AI-driven workflows to query, explore, and analyze graph data — including nodes, relationships, and paths — without embedding Neo4j drivers or Cypher execution logic into the client. This server is especially useful for knowledge graphs, dependency analysis, recommendation systems, and any workflow that benefits from graph-native querying and reasoning.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -19946,6 +20485,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-neo4j-memory/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -19981,6 +20529,7 @@
                   "last_updated": "2026-02-16T03:01:20Z",
                   "stars": 899
                 },
+                "overview": "## Neo4j Memory MCP Server\n\nThe mcp-neo4j-memory server is a Model Context Protocol (MCP) server that provides AI assistants with persistent, graph-based memory backed by Neo4j. It allows AI-driven workflows to store, retrieve, and reason about entities, relationships, and interactions over time — turning long-term memory into a structured knowledge graph rather than a flat vector store. This server is particularly valuable for agent memory, personalization, long-running assistants, and workflows where understanding connections and historical context is important.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -20036,6 +20585,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-optimizer/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -20081,9 +20639,10 @@
             "io.github.stacklok": {
               "ghcr.io/stackloklabs/mcp-optimizer:0.2.5": {
                 "metadata": {
-                  "last_updated": "2026-02-17T15:33:18Z",
+                  "last_updated": "2026-02-23T09:26:12Z",
                   "stars": 10
                 },
+                "overview": "## MCP Optimizer\n\nMCP Optimizer is an intelligent intermediary MCP server that acts as a unified gateway in front of all ToolHive-managed MCP servers. Instead of configuring your AI client with every individual MCP server, you point it at MCP Optimizer and it handles semantic tool discovery and routing automatically. It exposes a single MCP endpoint that aggregates tools from all running servers, intelligently routing each LLM request to the most appropriate tool regardless of which underlying server provides it.\n\nKey capabilities include group-based filtering to scope tool discovery to specific ToolHive groups (e.g. production vs staging environments), connection resilience with configurable exponential backoff retry logic, and support for both Docker and Kubernetes runtime modes. MCP Optimizer is particularly useful for managing large numbers of MCP tools, addressing the common problem of LLMs being overwhelmed by too many available tools.",
                 "permissions": {
                   "network": {
                     "outbound": {}
@@ -20104,6 +20663,68 @@
                   "intelligent"
                 ],
                 "tier": "Official",
+                "tool_definitions": [
+                  {
+                    "annotations": {},
+                    "description": "\nExecute a specific tool with the provided parameters.\n\nUse this function to:\n- Run a tool after identifying it with find_tool()\n- Execute operations that require specific MCP server functionality\n- Perform actions that go beyond your built-in capabilities\n\nArgs:\n    server_name: The name of the MCP server that provides the tool\n                (obtain this from find_tool() results - it's the mcp_server_name field)\n    tool_name: The name of the tool to execute\n              (obtain this from find_tool() results - it's the tool's name field)\n    parameters: Dictionary of arguments required by the tool\n               (structure must match the tool's schema from find_tool())\n\nReturns:\n    CallToolResult: The output from the tool execution, which may include:\n                   - Success/failure status\n                   - Result data or content\n                   - Error messages if execution failed\n\nImportant: Always use find_tool() first to get the correct server_name and tool_name\n          and parameter schema before calling this function.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "parameters": {
+                          "additionalProperties": true,
+                          "title": "Parameters",
+                          "type": "object"
+                        },
+                        "server_name": {
+                          "title": "Server Name",
+                          "type": "string"
+                        },
+                        "tool_name": {
+                          "title": "Tool Name",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "server_name",
+                        "tool_name",
+                        "parameters"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "call_tool"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nFind and return tools from RUNNING servers that can help accomplish the user's request.\n\nThis searches only currently running MCP servers. If no relevant tools are found,\nuse search_registry() to discover tools from servers available in the registry.\n\nUse this function when you need to:\n- Discover what tools are available for a specific task\n- Find the right tool(s) before attempting to solve a problem\n- Check if required functionality exists in the current environment\n\nArgs:\n    tool_description: Description of the task or capability needed\n               (e.g., \"web search\", \"analyze CSV file\", \"send an email\")\n    tool_keywords: Space-separated keywords of the task or capability needed.\n        These will be used for BM25 text search on available tools.\n        (e.g. \"list issues github\", \"SQL query postgres\", \"Grafana requests slow\").\n\nReturns:\n    dict: A dictionary containing:\n        - tools: List of available tools matching the query, including:\n            * Tool names and descriptions\n            * Server names (in the mcp_server_name field)\n            * Required parameters and schemas\n            * Usage examples where applicable\n        - token_metrics: Token efficiency metrics showing:\n            * baseline_tokens: Total tokens for all running server tools\n            * returned_tokens: Total tokens for returned/filtered tools\n            * tokens_saved: Number of tokens saved by filtering\n            * savings_percentage: Percentage of tokens saved (0-100)\n\nExample:\n1) User query: \"Find good restaurants in San Jose, California\"\nThis query requires web search. Call find_tool with tool_description=\"search the web\".\n\n2) User query: \"Get details of an issue in stacklok/toolhive github repository\"\nThis query requires fetching issue details from github. Call find_tool with\ntool_description=\"Get issue details from GitHub\".\n",
+                    "inputSchema": {
+                      "properties": {
+                        "tool_description": {
+                          "title": "Tool Description",
+                          "type": "string"
+                        },
+                        "tool_keywords": {
+                          "title": "Tool Keywords",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "tool_description",
+                        "tool_keywords"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "find_tool"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nList all available tools across all MCP servers.\n\nUse this function when you need to:\n- See all tools available in the current environment\n- Browse the complete catalog of available tools\n- Get an overview of all capabilities without filtering\n\nReturns:\n    list[ToolWithServer]: All available tools, including:\n                    - Tool names and descriptions\n                    - Server names (in the mcp_server_name field)\n                    - Required parameters and schemas\n                    - Usage examples where applicable\n",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_tools"
+                  }
+                ],
                 "tools": [
                   "call_tool",
                   "find_tool",
@@ -20124,6 +20745,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-redfish/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -20180,9 +20810,10 @@
             "io.github.stacklok": {
               "ghcr.io/nokia/mcp-redfish:0.3.4": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:24Z",
+                  "last_updated": "2026-02-23T09:26:00Z",
                   "stars": 4
                 },
+                "overview": "## Redfish MCP Server\n\nThe mcp-redfish server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with systems that expose the Redfish API, the industry-standard RESTful interface for out-of-band hardware management. It allows AI-driven workflows to inspect server hardware, firmware, power state, and health information without switching tools or manually navigating vendor-specific management consoles. This server is especially useful for data center operations, hardware monitoring, infrastructure troubleshooting, and AI-assisted systems management workflows.",
                 "status": "Active",
                 "tags": [
                   "infrastructure",
@@ -20239,6 +20870,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-server-box/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -20269,6 +20909,7 @@
                   "last_updated": "2026-02-17T15:33:17Z",
                   "stars": 96
                 },
+                "overview": "## Box MCP Server\n\nThe mcp-server-box is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Box, the cloud content management and file sharing platform. It allows AI-driven workflows to browse folders, retrieve files, and reason about stored content without switching tools or manually navigating the Box UI. This server is especially useful for document-centric workflows, knowledge management, compliance reviews, and AI-assisted analysis of files stored in Box.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -20344,6 +20985,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-server-circleci/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -20375,9 +21025,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.14.1": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:10Z",
+                  "last_updated": "2026-02-23T09:26:02Z",
                   "stars": 76
                 },
+                "overview": "## CircleCI MCP Server\n\nThe mcp-server-circleci is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with CircleCI, the continuous integration and delivery platform. It allows AI-driven workflows to inspect pipelines, jobs, workflows, and build results — bringing CI/CD context directly into conversational and automated AI workflows without switching tools. This server is especially useful for build monitoring, failure analysis, release workflows, and developer productivity scenarios where understanding CI state and history is critical.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -21088,6 +21739,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-server-neon/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -21113,6 +21773,7 @@
                   "last_updated": "2026-02-18T08:06:19Z",
                   "stars": 553
                 },
+                "overview": "## Neon MCP Server\n\nThe mcp-server-neon is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neon, the serverless PostgreSQL platform. It allows AI-driven workflows to inspect databases, manage branches, and reason about environments and schema state — bringing modern, branch-based database context directly into MCP-powered assistants. This server is especially useful for development, testing, preview environments, and workflows where database branching and isolation are key to rapid iteration.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -21180,6 +21841,15 @@
         "description": "Official MCP server for the Model Context Protocol specification",
         "title": "MCP Specification",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-spec/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -21197,6 +21867,7 @@
                 "metadata": {
                   "last_updated": "2026-02-21T15:00:39Z"
                 },
+                "overview": "## MCP Specification Server\n\nThe mcp-spec is a Model Context Protocol (MCP) server that provides AI assistants with direct, structured access to the MCP specification itself. It enables AI-driven workflows to reference the official protocol definition while reasoning about MCP servers, tools, transports, and behaviors. The server is particularly valuable for MCP client and server development, protocol education, validation, and tooling scenarios where assistants require authoritative, spec-accurate context.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -21225,6 +21896,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/memory/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -21245,9 +21925,10 @@
             "io.github.stacklok": {
               "docker.io/mcp/memory:latest": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:48Z",
+                  "last_updated": "2026-02-23T09:26:30Z",
                   "stars": 77255
                 },
+                "overview": "## Memory MCP Server\n\nThe memory MCP server provides AI assistants with persistent, long-term memory across interactions. It allows AI workflows to maintain context and knowledge beyond individual conversations, supporting personalization and enabling continuity in assistant interactions. The system works by running as an MCP service that manages persistent storage, handling indexing and retrieval so AI clients can access historical context during reasoning tasks — enabling assistants to develop awareness of user preferences and prior decisions over extended periods.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -21549,6 +22230,15 @@
         "description": "Enables AI assistants to create, validate, and render Mermaid diagrams seamlessly",
         "title": "Mermaid",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mermaid/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -21566,6 +22256,7 @@
                 "metadata": {
                   "last_updated": "2026-02-14T02:56:21Z"
                 },
+                "overview": "## Mermaid MCP Server\n\nThe mermaid MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to generate and work with Mermaid diagrams through a structured, AI-friendly interface. It facilitates the creation of visual representations including systems, processes, architectures, and relationships using Mermaid's text-based diagram syntax within AI environments. This server is particularly valuable for documentation, architecture design, system explanation, and workflows where visual clarity enhances understanding and communication.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -21592,6 +22283,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/monday/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "sse",
@@ -21610,6 +22310,7 @@
                   "last_updated": "2026-02-21T15:00:39Z",
                   "stars": 375
                 },
+                "overview": "## Monday.com MCP Server\n\nThe monday MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Monday.com, the work management and project tracking platform. It allows AI-driven workflows to create, update, and reason about boards, items, groups, and statuses — bringing operational and planning context directly into AI-assisted workflows. This server is especially useful for project management, team coordination, operational tracking, and workflow automation where Monday.com is the system of record.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -21659,6 +22360,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mongodb/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -21721,6 +22431,7 @@
                   "last_updated": "2026-02-18T08:06:19Z",
                   "stars": 918
                 },
+                "overview": "## MongoDB MCP Server\n\nThe mongodb MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with MongoDB databases through a structured, AI-friendly interface. It allows AI-driven workflows to inspect collections, query documents, and reason about schema-less data without switching tools or embedding MongoDB-specific drivers in the client. This server is especially useful for application development, data exploration, debugging, and analytics workflows where MongoDB is the primary data store.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -21779,6 +22490,15 @@
         "description": "Neon's official remote MCP server for serverless Postgres with branching and migrations",
         "title": "Neon (Remote)",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/neon/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -21795,6 +22515,7 @@
                 "metadata": {
                   "last_updated": "2026-02-22T03:01:52Z"
                 },
+                "overview": "## Neon Remote MCP Server\n\nNeon's official remote MCP server for serverless Postgres with branching and migrations. The server enables project and organization management for Neon Postgres databases, SQL execution with schema and transaction support, database branching for development and testing workflows, plus query tuning and performance optimization features.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -21849,6 +22570,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/netbird/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -21885,6 +22615,7 @@
                   "last_updated": "2026-02-19T03:03:34Z",
                   "stars": 42
                 },
+                "overview": "## NetBird MCP Server\n\nThe netbird MCP server enables management of a NetBird network through a structured AI-friendly interface. The server offers comprehensive NetBird network management including peer and network configuration, access control via groups and policies, posture checks for security compliance, and port allocation and nameserver management capabilities.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -21934,6 +22665,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/notion/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -21961,9 +22701,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/notion:2.1.0": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:06Z",
+                  "last_updated": "2026-02-23T09:26:03Z",
                   "stars": 3846
                 },
+                "overview": "## Notion MCP Server\n\nThe notion MCP server provides integration with Notion APIs through a local Notion MCP Server. The server offers complete Notion API integration for pages, blocks, and databases; create, read, update, and delete operations across Notion workspaces; user and workspace information retrieval; and search and data source querying with template support.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -27510,6 +28251,15 @@
         "description": "Notion's official remote MCP server for workspaces, pages, databases, and comments",
         "title": "Notion (Remote)",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/notion-remote/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -27527,6 +28277,7 @@
                 "metadata": {
                   "last_updated": "2026-02-21T02:54:33Z"
                 },
+                "overview": "## Notion Remote MCP Server\n\nNotion's official remote MCP server enables AI assistants to interact with Notion workspaces over a streamable HTTP transport using OAuth authentication. It provides comprehensive coverage of the Notion API including creating, updating, duplicating, and moving pages; creating and updating databases; searching across the workspace; managing comments; and retrieving user and team information. This server is ideal for AI workflows that need to read from or write to Notion as a knowledge base, project tracker, or documentation system.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -27571,6 +28322,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/oci-registry/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -27605,6 +28365,7 @@
                   "last_updated": "2026-02-17T17:19:50Z",
                   "stars": 11
                 },
+                "overview": "## OCI Registry MCP Server\n\nThe oci-registry MCP server provides secure OCI container registry querying with image introspection and manifest retrieval. The tool enables users to analyze container images through streamlined access to OCI registries, supporting image metadata inspection, tag enumeration, manifest analysis, and secure querying via HTTP transport.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -27746,6 +28507,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/onchain-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -27771,6 +28541,7 @@
                   "last_updated": "2026-02-18T00:05:43Z",
                   "stars": 75
                 },
+                "overview": "## Onchain MCP Server\n\nThe onchain-mcp server is a Model Context Protocol (MCP) server for blockchain data interaction through the Bankless API, enabling seamless access to Ethereum and Web3 data. Key capabilities include comprehensive blockchain data access through Bankless API integration, smart contract interaction including reading contracts, ABIs, and source code, transaction and event monitoring with historical data access, and token balance queries and block information retrieval across Ethereum networks.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -28177,6 +28948,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/osv/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -28192,9 +28972,10 @@
             "io.github.stacklok": {
               "ghcr.io/stackloklabs/osv-mcp/server:0.1.0": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:19Z",
+                  "last_updated": "2026-02-23T09:25:54Z",
                   "stars": 26
                 },
+                "overview": "## OSV MCP Server\n\nThe osv MCP server provides access to the OSV (Open Source Vulnerabilities) database for querying package and commit vulnerabilities. The server offers MCP-based access to the OSV vulnerability database through direct API queries to OSV.dev for vulnerability lookups by package name, version, or commit hash. It supports batch vulnerability queries for multiple packages simultaneously and delivers detailed vulnerability information including CVE IDs, severity scores, and affected versions across multiple programming languages and package managers.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -28340,6 +29121,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/pagerduty/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -28370,9 +29160,10 @@
                   "--enable-write-tools"
                 ],
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:38Z",
+                  "last_updated": "2026-02-23T09:26:26Z",
                   "stars": 45
                 },
+                "overview": "## PagerDuty MCP Server\n\nThe pagerduty MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with PagerDuty, the incident management and on-call platform. It allows AI-driven workflows to access incidents, services, schedules, and on-call status information, bringing real-time incident response context into AI-assisted operations. This server is especially useful for incident triage, on-call support, operational awareness, and post-incident analysis where PagerDuty serves as the primary system of record.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -34051,6 +34842,15 @@
         "description": "PayPal's MCP server for payment processing, invoices, and business operations",
         "title": "PayPal",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/paypal/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -34068,6 +34868,7 @@
                 "metadata": {
                   "last_updated": "2026-02-21T15:00:39Z"
                 },
+                "overview": "## PayPal MCP Server\n\nPayPal's official remote MCP server enables AI assistants to interact with the PayPal platform for payment processing, invoicing, and business operations. It supports the full payment lifecycle including order creation, payment capture, and refunds; invoice management with sending, reminders, and QR code generation; product catalog and subscription plan management; dispute resolution; shipment tracking; and transaction history queries. Authentication is handled via PayPal OAuth, making it suitable for AI-driven e-commerce, financial automation, and customer service workflows.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -34127,6 +34928,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/perplexity-ask/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -34152,6 +34962,7 @@
                   "last_updated": "2026-02-17T17:20:49Z",
                   "stars": 1921
                 },
+                "overview": "## Perplexity Ask MCP Server\n\nThe perplexity-ask MCP server integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks. The server provides three specialized tools: perplexity_ask for quick web search using the Sonar API, perplexity_research for comprehensive research with detailed citations, and perplexity_reason for advanced reasoning for complex problem-solving.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -34295,6 +35106,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/phoenix/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -34321,9 +35141,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.3.6": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:13Z",
+                  "last_updated": "2026-02-23T09:26:01Z",
                   "stars": 8461
                 },
+                "overview": "## Phoenix MCP Server\n\nThe phoenix MCP server is a Model Context Protocol (MCP) server for the Arize Phoenix observability platform. It provides AI assistants with programmatic access to Arize Phoenix, enabling dataset and experiment management for LLM evaluation workflows, prompt version control and tagging for LLM application development, span and trace querying for observability and debugging, and project-based organization for managing multiple Phoenix instances.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -34818,6 +35639,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/playwright/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -34832,9 +35662,10 @@
             "io.github.stacklok": {
               "mcr.microsoft.com/playwright/mcp:v0.0.68": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:19Z",
+                  "last_updated": "2026-02-23T09:26:06Z",
                   "stars": 26247
                 },
+                "overview": "## Playwright MCP Server\n\nThe playwright MCP server provides browser automation capabilities using Playwright. The server enables comprehensive browser automation supporting Chromium, Firefox, and WebKit, with full control over page interactions including clicks, typing, navigation, and screenshots. Additional capabilities include network request monitoring, console message capture for debugging, form filling, file uploads, and dialog handling for complete workflow automation.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -35543,6 +36374,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/plotting/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -35558,9 +36398,10 @@
             "io.github.stacklok": {
               "ghcr.io/stackloklabs/plotting-mcp:v0.0.2": {
                 "metadata": {
-                  "last_updated": "2026-02-19T03:03:33Z",
+                  "last_updated": "2026-02-23T09:26:09Z",
                   "stars": 7
                 },
+                "overview": "## Plotting MCP Server\n\nThe Plotting MCP server provides AI assistants with data visualization capabilities, enabling the generation of charts and plots from structured data. It supports multiple plotting libraries including matplotlib, seaborn, and cartopy, and can produce line plots, bar charts, scatter plots, and geographic maps. The server uses a streamable HTTP transport and is cryptographically signed for supply chain security, making it suitable for data analysis workflows that require visual output alongside textual reasoning.",
                 "permissions": {
                   "network": {
                     "outbound": {}
@@ -35586,6 +36427,35 @@
                   "maps"
                 ],
                 "tier": "Community",
+                "tool_definitions": [
+                  {
+                    "annotations": {},
+                    "description": "\nGenerate a plot from CSV data.\n\nArgs:\n    csv_data (str): CSV data as a string\n    plot_type (str): Type of plot to generate (line, bar, pie, worldmap).\n     If not specified, defaults to \"line\".\n    json_kwargs (str, optional): JSON string with additional parameters for the plot.\n        If not specified, the plot will be generated with default parameters.\n        Additional plotting parameters in JSON format. For line/bar plots, Seaborn is used,\n        so any parameters supported by Seaborn's plotting functions can be passed.\n        For bar/line plots, you can specify:\n            - `x` (str): Column name for x-axis\n            - `y` (str): Column name for y-axis\n            - `hue` (str): Column name for color encoding\n        For worldmap plots, coordinate data is expected with latitude/longitude columns:\n            - Latitude columns: lat, latitude, y\n            - Longitude columns: lon, lng, long, longitude, x\n            - `s` (int): marker size (default: 50)\n            - `c` (str): marker color (default: 'red')\n            - `alpha` (float): transparency (default: 0.7). Between 0 and 1.\n            - `marker` (str): marker style (default: 'o')\n\nReturns:\n    tuple[TextContent, ImageContent]: A tuple containing a success message and the\n    generated plot as an image.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "csv_data": {
+                          "title": "Csv Data",
+                          "type": "string"
+                        },
+                        "json_kwargs": {
+                          "default": "None",
+                          "title": "Json Kwargs",
+                          "type": "string"
+                        },
+                        "plot_type": {
+                          "default": "line",
+                          "title": "Plot Type",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "csv_data"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "generate_plot"
+                  }
+                ],
                 "tools": [
                   "generate_plot"
                 ]
@@ -35604,6 +36474,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/postgres-mcp-pro/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -35640,6 +36519,7 @@
                   "last_updated": "2026-02-18T22:27:15Z",
                   "stars": 2066
                 },
+                "overview": "## PostgreSQL Pro MCP Server\n\nThe PostgreSQL Pro MCP server provides configurable **read/write access and performance analysis** for PostgreSQL databases. It enables AI assistants to explore schemas, execute SQL queries, and gain deep insights into database health and performance.\n\nKey capabilities include:\n- **Schema exploration** — list schemas, objects, and detailed object metadata\n- **SQL execution** — run queries with built-in EXPLAIN analysis for performance optimization\n- **Workload monitoring** — identify top queries and analyze workload patterns\n- **Index optimization** — get index recommendations based on real query workloads\n- **Database health checks** — assess overall database health and identify issues",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -35687,6 +36567,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/prometheus/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -35738,9 +36627,10 @@
             "io.github.stacklok": {
               "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:46Z",
+                  "last_updated": "2026-02-23T09:26:38Z",
                   "stars": 360
                 },
+                "overview": "## Prometheus MCP Server\n\nThe Prometheus MCP server provides AI assistants with direct access to Prometheus metrics and monitoring data. It enables real-time querying of time-series metrics using PromQL, range queries for trend analysis, alert and rule inspection, and target health monitoring. The server exposes tools for metric discovery, label exploration, and exemplar queries, making it straightforward to integrate Prometheus observability data into AI-driven analysis and incident response workflows.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -35956,6 +36846,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/redhat-linux/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -35994,9 +36893,10 @@
             "io.github.stacklok": {
               "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.3.2": {
                 "metadata": {
-                  "last_updated": "2026-02-19T21:06:58Z",
+                  "last_updated": "2026-02-23T09:26:34Z",
                   "stars": 160
                 },
+                "overview": "## Red Hat Linux MCP Server\n\nThe redhat-linux MCP server provides read-only Linux sysadmin, diagnostics, and troubleshooting optimized for RHEL-based systems. This server delivers comprehensive Linux system diagnostics through real-time monitoring of CPU, memory, disk, and network metrics; process and service management with status and log access; network diagnostics including active connections and listening ports; and file system exploration with configurable path restrictions. All capabilities operate in read-only mode via SSH-based remote execution with secure key-based authentication, preventing system modifications.",
                 "status": "Active",
                 "tags": [
                   "linux",
@@ -36782,6 +37682,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/redis/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -36852,9 +37761,10 @@
             "io.github.stacklok": {
               "docker.io/mcp/redis:latest": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:13Z",
+                  "last_updated": "2026-02-23T09:26:09Z",
                   "stars": 416
                 },
+                "overview": "## Redis MCP Server\n\nThe redis MCP server enables LLMs to interact with Redis key-value databases through a set of standardized tools. The server connects to Redis databases and provides MCP tools for basic operations (CRUD operations, database management), data structures (full support for strings, hashes, lists, sets, sorted sets, JSON), vector search functionality, and streams/Pub/Sub features for messaging and time-series data handling.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -38097,6 +39007,15 @@
         "description": "Replicate's official MCP server for AI models and ML workflows",
         "title": "Replicate",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/replicate/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "sse",
@@ -38114,6 +39033,7 @@
                 "metadata": {
                   "last_updated": "2026-02-22T03:01:52Z"
                 },
+                "overview": "## Replicate MCP Server\n\nReplicate's official MCP server for AI models and ML workflows. The server provides access to Replicate's AI model platform through several functions: running and managing model predictions via their API, creating and managing deployments for production use, accessing thousands of pre-trained models from Replicate's library, and handling custom model training workflows.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -38169,6 +39089,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/semgrep/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -38194,9 +39123,10 @@
                   "mcp"
                 ],
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:49Z",
+                  "last_updated": "2026-02-23T09:26:34Z",
                   "stars": 14048
                 },
+                "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -38470,6 +39400,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/semgrep-remote/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -38489,6 +39428,7 @@
                   "last_updated": "2026-02-22T03:01:53Z",
                   "stars": 635
                 },
+                "overview": "## Semgrep Remote MCP Server\n\nThe semgrep-remote MCP server is the official Semgrep MCP server for code security scanning and vulnerability detection. The server enables vulnerability scanning utilizing semantic analysis across 5,000+ rules, abstract syntax tree generation and multi-language support queries, supply chain security analysis for dependencies and third-party code, and custom security rule development and validation with schema capabilities.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -38526,6 +39466,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sentry/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -38557,9 +39506,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.29.0": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:07Z",
+                  "last_updated": "2026-02-23T09:26:04Z",
                   "stars": 519
                 },
+                "overview": "## Sentry MCP Server\n\nThe sentry MCP server is a Model Context Protocol (MCP) service for human-in-the-loop coding agents and developer workflow debugging. The server enables comprehensive Sentry project and organization management, real-time error tracking with event search and issue monitoring, AI-powered issue analysis through Sentry Seer integration, and integrated documentation search for platform guidance.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -39840,6 +40790,15 @@
         "description": "Sentry's official remote MCP server for error monitoring and performance tracking",
         "title": "Sentry (Remote)",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sentry-remote/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -39857,6 +40816,7 @@
                 "metadata": {
                   "last_updated": "2026-02-22T03:01:53Z"
                 },
+                "overview": "## Sentry Remote MCP Server\n\nSentry's official remote MCP server enables AI assistants to connect to Sentry's error monitoring and performance tracking platform using OAuth authentication over a streamable HTTP transport. It supports finding organizations, teams, projects, and releases; retrieving detailed issue and trace information; searching events and issues; and running AI-powered issue analysis through Sentry Seer. The server provides the full context needed for AI-driven incident triage, root cause analysis, and performance debugging directly within an assistant workflow.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -39902,6 +40862,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sequentialthinking/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -39919,6 +40888,7 @@
                   "last_updated": "2026-02-17T17:22:01Z",
                   "stars": 78012
                 },
+                "overview": "## Sequential Thinking MCP Server\n\nThe sequentialthinking MCP server enables dynamic problem-solving with a structured, reflective approach that adapts as understanding deepens. Key capabilities include structured reflective problem-solving, dynamic adaptation during analysis, step-by-step chain-of-thought reasoning, and branching thought processes for comprehensive exploration.",
                 "permissions": {
                   "network": {
                     "outbound": {}
@@ -40016,6 +40986,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/slack-mcp-server/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -40069,6 +41048,7 @@
                   "last_updated": "2026-02-20T09:56:09Z",
                   "stars": 1378
                 },
+                "overview": "## Slack MCP Server\n\nThe slack-mcp-server is a Model Context Protocol (MCP) server for Slack with channels, DMs, message history, search, and smart pagination. The server connects assistants to Slack workspaces via SSE transport, enabling channel and direct message discovery, message retrieval with threading support, search functionality across messages, and message posting capability.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -40115,6 +41095,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sonarqube/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -40153,9 +41142,10 @@
             "io.github.stacklok": {
               "docker.io/mcp/sonarqube:latest": {
                 "metadata": {
-                  "last_updated": "2026-02-09T09:15:25Z",
-                  "stars": 374
+                  "last_updated": "2026-02-23T03:02:00Z",
+                  "stars": 390
                 },
+                "overview": "## SonarQube MCP Server\n\nThe sonarqube MCP server provides integration with SonarQube Server or Cloud for code quality and security analysis. The SonarQube MCP server establishes connections to SonarQube instances through stdio transport, utilizing token-based authentication to expose analysis capabilities including code and file analysis execution, project metrics and quality gate assessment retrieval, issue, rule, and dependency risk inspection, and system health monitoring and status endpoints.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -40224,6 +41214,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sqlite/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -40242,6 +41241,7 @@
                   "last_updated": "2026-02-18T08:06:20Z",
                   "stars": 13
                 },
+                "overview": "## SQLite MCP Server\n\nThe SQLite MCP server provides AI assistants with direct read and write access to SQLite databases. It supports executing arbitrary SQL queries and statements, listing all tables in a database, and describing table schemas. The server uses a streamable HTTP transport for efficient data transfer, making it suitable for AI-driven data exploration, reporting, and lightweight database management tasks that require structured query execution.",
                 "permissions": {
                   "network": {
                     "outbound": {}
@@ -40277,6 +41277,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/square/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "sse",
@@ -40292,9 +41301,10 @@
                   "homepage": "https://developer.squareup.com/docs/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-02-09T03:01:52Z",
+                  "last_updated": "2026-02-23T03:02:00Z",
                   "stars": 91
                 },
+                "overview": "## Square MCP Server\n\nSquare's official remote MCP server for payment processing and commerce. The server provides access to Square's commerce platform through Server-Sent Events (SSE) transport, featuring a flexible API request handling tool, type introspection capabilities for API schema discovery, and service discovery for available endpoints. It enables full Square API access for payments, commerce, and customer management operations.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -40329,6 +41339,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/stripe/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -40353,9 +41372,10 @@
                   "--tools=all"
                 ],
                 "metadata": {
-                  "last_updated": "2026-02-18T22:24:12Z",
+                  "last_updated": "2026-02-23T09:26:42Z",
                   "stars": 1258
                 },
+                "overview": "## Stripe MCP Server\n\nThe stripe MCP server allows you to integrate with Stripe APIs through the Stripe Agent Toolkit. The server facilitates payment processing and customer management through several functional areas: payment operations, subscription handling, invoice management, and refund processing. It provides official Stripe Agent Toolkit integration with comprehensive API coverage for payment, customer, and subscription operations.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -41113,6 +42133,15 @@
         "description": "Stripe's official remote MCP server for payment processing and subscriptions",
         "title": "Stripe (Remote)",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/stripe-remote/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -41128,8 +42157,9 @@
                   "homepage": "https://docs.stripe.com/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-02-09T03:01:52Z"
+                  "last_updated": "2026-02-23T03:02:00Z"
                 },
+                "overview": "## Stripe Remote MCP Server\n\nStripe's official remote MCP server for payment processing and subscriptions. The server provides access to Stripe's payment platform through streamable-HTTP transport with comprehensive Stripe API operations organized by category — covering account, balance, customer, payment, product, and subscription tools plus documentation search and resource discovery features. It provides full payment processing API access (payments, invoices, refunds), comprehensive subscription and customer management, and Stripe documentation search and resource fetching capabilities.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -41184,6 +42214,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/supabase/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -41206,9 +42245,10 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.6.3": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:10Z",
+                  "last_updated": "2026-02-23T09:26:00Z",
                   "stars": 2421
                 },
+                "overview": "## Supabase MCP Server\n\nThe supabase MCP server connects Supabase projects to AI assistants for managing tables, fetching config, and querying data. The server enables MCP-based access to Supabase platform capabilities through the Management API, database operations, Edge Functions deployment, and branch management features, authenticated via environment variables.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -42082,6 +43122,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/tavily-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -42107,6 +43156,7 @@
                   "last_updated": "2026-02-17T17:21:57Z",
                   "stars": 1119
                 },
+                "overview": "## Tavily MCP Server\n\nThe tavily-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to perform real-time web search and research using Tavily. It allows AI-driven workflows to retrieve fresh, relevant information from the web — including articles, documentation, and summaries — without relying solely on static training data or manual browsing. This server is especially useful for research, question answering, competitive analysis, and any workflow where up-to-date information is critical.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -42489,6 +43539,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/terraform/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -42530,9 +43589,10 @@
             "io.github.stacklok": {
               "docker.io/hashicorp/terraform-mcp-server:0.4.0": {
                 "metadata": {
-                  "last_updated": "2026-02-18T22:23:17Z",
+                  "last_updated": "2026-02-23T09:26:00Z",
                   "stars": 1206
                 },
+                "overview": "## Terraform MCP Server\n\nThe terraform MCP server provides Terraform registry and Cloud/Enterprise integration for providers, modules, policies, and workspaces. The server provides MCP-based access to Terraform resources through the Terraform Registry API for searching providers and modules, HCP Terraform/TFE API for workspace and policy operations, and environment variable-based authentication. It supports both public registry and private enterprise instances and includes tools for managing workspaces, variables, policies, and accessing Terraform documentation and registry resources.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -44095,6 +45155,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/time/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -44112,6 +45181,7 @@
                   "last_updated": "2026-02-17T17:34:54Z",
                   "stars": 77357
                 },
+                "overview": "## Time MCP Server\n\nThe time MCP server provides time information and IANA timezone conversions with auto system timezone detection. The server leverages Python's timezone libraries to deliver current time queries across any IANA timezone with automatic detection of the system's local timezone when none is specified, time conversion capabilities between different timezones, timezone-aware datetime strings formatted in ISO 8601 standard, and Daylight Saving Time indicators. The server exposes two primary tools: get_current_time and convert_time.",
                 "permissions": {
                   "network": {
                     "outbound": {}
@@ -44196,6 +45266,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/toolhive-doc-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "packages": [
           {
             "registryType": "oci",
@@ -44235,6 +45314,7 @@
                   "last_updated": "2026-02-16T03:01:21Z",
                   "stars": 3
                 },
+                "overview": "## ToolHive Docs MCP Server\n\nThe toolhive-doc-mcp server allows you to search ToolHive documentation for help with using and contributing to the project (local version). The system maintains a pre-built SQLite vector database containing documentation that undergoes parsing, chunking, and embedding using a local bge-small-en-v1.5 model. When queried, it performs semantic search by comparing queries against stored embeddings to return relevant documentation chunks.",
                 "status": "Active",
                 "tags": [
                   "docs",
@@ -44266,6 +45346,15 @@
           "source": "github"
         },
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/toolhive-doc-mcp-remote/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -44285,6 +45374,7 @@
                   "last_updated": "2026-02-14T02:56:20Z",
                   "stars": 3
                 },
+                "overview": "## ToolHive Docs Remote MCP Server\n\nThe toolhive-doc-mcp-remote server allows you to search ToolHive documentation for help with using and contributing to the project (hosted version). The server maintains a pre-built SQLite vector database containing documentation that has been fetched from configured sources, then parsed and chunked into manageable sections. Documentation is embedded using a local bge-small-en-v1.5 model and indexed for fast vector similarity search. When users query the documentation, the server performs semantic search by comparing queries against stored embeddings and returns the most relevant documentation chunks.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -44312,6 +45402,15 @@
         "description": "Vercel's official remote MCP server for deployment platform and project management",
         "title": "Vercel",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/vercel/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -44327,8 +45426,9 @@
                   "homepage": "https://vercel.com/docs/mcp/vercel-mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-02-09T03:01:53Z"
+                  "last_updated": "2026-02-23T03:02:00Z"
                 },
+                "overview": "## Vercel MCP Server\n\nVercel's official remote MCP server for deployment platform and project management. It provides programmatic access to Vercel's deployment infrastructure, project management, and documentation through a streamable-http transport. The server enables AI assistants to connect with Vercel's deployment platform, offering tools for searching documentation, managing teams and projects, monitoring deployments and their events, and retrieving content from Vercel-hosted URLs. Authentication is handled through OAuth.",
                 "status": "Active",
                 "tags": [
                   "remote",
@@ -44365,6 +45465,15 @@
         "description": "Wix's official remote MCP server for development platform and site management",
         "title": "Wix",
         "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/wix/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
         "remotes": [
           {
             "type": "streamable-http",
@@ -44380,8 +45489,9 @@
                   "homepage": "https://dev.wix.com"
                 },
                 "metadata": {
-                  "last_updated": "2026-02-13T03:02:08Z"
+                  "last_updated": "2026-02-23T03:02:00Z"
                 },
+                "overview": "## Wix MCP Server\n\nWix's official remote MCP server for development platform and site management. It provides programmatic access to Wix documentation, API exploration, and site management capabilities through a streamable-http transport. Key capabilities include access to comprehensive Wix documentation with search functionality, ability to read full documentation articles and method schemas, direct calls to Wix Site APIs, site listing and management features, and support and feedback functionality for Wix development.",
                 "status": "Active",
                 "tags": [
                   "remote",
