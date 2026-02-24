@@ -1,15 +1,5 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/mermaid",
-  "description": "Enables AI assistants to create, validate, and render Mermaid diagrams seamlessly",
-  "title": "Mermaid",
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://mcp.mermaidchart.com/mcp"
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
@@ -19,8 +9,9 @@
             "homepage": "https://docs.mermaidchart.com/ai/mcp-server"
           },
           "metadata": {
-            "last_updated": "2026-02-14T02:56:21Z"
+            "last_updated": "2026-02-24T03:00:24Z"
           },
+          "overview": "## Mermaid MCP Server\n\nThe mermaid MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to generate and work with Mermaid diagrams through a structured, AI-friendly interface. It facilitates the creation of visual representations including systems, processes, architectures, and relationships using Mermaid's text-based diagram syntax within AI environments. This server is particularly valuable for documentation, architecture design, system explanation, and workflows where visual clarity enhances understanding and communication.",
           "status": "Active",
           "tags": [
             "remote",
@@ -31,19 +22,28 @@
           "tier": "Official",
           "tools": [
             "validate_and_render_mermaid_diagram"
-          ],
-          "overview": "## Mermaid MCP Server\n\nThe mermaid MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to generate and work with Mermaid diagrams through a structured, AI-friendly interface. It facilitates the creation of visual representations including systems, processes, architectures, and relationships using Mermaid's text-based diagram syntax within AI environments. This server is particularly valuable for documentation, architecture design, system explanation, and workflows where visual clarity enhances understanding and communication."
+          ]
         }
       }
     }
   },
+  "description": "Enables AI assistants to create, validate, and render Mermaid diagrams seamlessly",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mermaid/icon.svg",
       "mimeType": "image/svg+xml",
       "sizes": [
         "any"
-      ]
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mermaid/icon.svg"
     }
-  ]
+  ],
+  "name": "io.github.stacklok/mermaid",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.mermaidchart.com/mcp"
+    }
+  ],
+  "title": "Mermaid",
+  "version": "1.0.0"
 }

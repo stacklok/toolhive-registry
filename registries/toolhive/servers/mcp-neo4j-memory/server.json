@@ -1,48 +1,14 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/mcp-neo4j-memory",
-  "description": "MCP server for Neo4j memory management and knowledge graph storage operations",
-  "title": "Neo4j Memory",
-  "repository": {
-    "url": "https://github.com/neo4j-contrib/mcp-neo4j",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-memory:0.4.4",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Neo4j database connection URI",
-          "isRequired": true,
-          "default": "bolt://localhost:7687",
-          "name": "NEO4J_URI"
-        },
-        {
-          "description": "Neo4j database username",
-          "default": "neo4j",
-          "name": "NEO4J_USERNAME"
-        },
-        {
-          "description": "Neo4j database password",
-          "isSecret": true,
-          "name": "NEO4J_PASSWORD"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-memory:0.4.4": {
           "metadata": {
-            "last_updated": "2026-02-16T03:01:20Z",
-            "stars": 899
+            "last_updated": "2026-02-24T03:00:24Z",
+            "stars": 907
           },
+          "overview": "## Neo4j Memory MCP Server\n\nThe mcp-neo4j-memory server is a Model Context Protocol (MCP) server that provides AI assistants with persistent, graph-based memory backed by Neo4j. It allows AI-driven workflows to store, retrieve, and reason about entities, relationships, and interactions over time — turning long-term memory into a structured knowledge graph rather than a flat vector store. This server is particularly valuable for agent memory, personalization, long-running assistants, and workflows where understanding connections and historical context is important.",
           "permissions": {
             "network": {
               "outbound": {
@@ -82,19 +48,53 @@
             "search_memories",
             "delete_memory",
             "list_memories"
-          ],
-          "overview": "## Neo4j Memory MCP Server\n\nThe mcp-neo4j-memory server is a Model Context Protocol (MCP) server that provides AI assistants with persistent, graph-based memory backed by Neo4j. It allows AI-driven workflows to store, retrieve, and reason about entities, relationships, and interactions over time — turning long-term memory into a structured knowledge graph rather than a flat vector store. This server is particularly valuable for agent memory, personalization, long-running assistants, and workflows where understanding connections and historical context is important."
+          ]
         }
       }
     }
   },
+  "description": "MCP server for Neo4j memory management and knowledge graph storage operations",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-neo4j-memory/icon.svg",
       "mimeType": "image/svg+xml",
       "sizes": [
         "any"
-      ]
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-neo4j-memory/icon.svg"
     }
-  ]
+  ],
+  "name": "io.github.stacklok/mcp-neo4j-memory",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "default": "bolt://localhost:7687",
+          "description": "Neo4j database connection URI",
+          "isRequired": true,
+          "name": "NEO4J_URI"
+        },
+        {
+          "default": "neo4j",
+          "description": "Neo4j database username",
+          "name": "NEO4J_USERNAME"
+        },
+        {
+          "description": "Neo4j database password",
+          "isSecret": true,
+          "name": "NEO4J_PASSWORD"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-memory:0.4.4",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/neo4j-contrib/mcp-neo4j"
+  },
+  "title": "Neo4j Memory",
+  "version": "1.0.0"
 }
