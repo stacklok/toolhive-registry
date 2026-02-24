@@ -1,46 +1,14 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/mcp-jetbrains",
-  "description": "A MCP proxy to redirect requests to JetBrains IDEs",
-  "title": "JetBrains",
-  "repository": {
-    "url": "https://github.com/JetBrains/mcp-jetbrains",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-jetbrains:1.8.0",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Port of IDE's built-in webserver (if running multiple IDEs)",
-          "name": "IDE_PORT"
-        },
-        {
-          "description": "Host/address of IDE's built-in webserver",
-          "default": "127.0.0.1",
-          "name": "HOST"
-        },
-        {
-          "description": "Enable logging for debugging",
-          "default": "false",
-          "name": "LOG_ENABLED"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/mcp-jetbrains:1.8.0": {
           "metadata": {
-            "last_updated": "2026-02-13T03:02:09Z",
-            "stars": 944
+            "last_updated": "2026-02-24T03:00:24Z",
+            "stars": 941
           },
+          "overview": "## JetBrains MCP Server\n\nThe mcp-jetbrains server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with JetBrains IDEs (such as IntelliJ IDEA, PyCharm, WebStorm, and others) through a structured, AI-friendly interface. It allows AI-driven workflows to inspect project structure, navigate code, and reason about files and symbols — bringing IDE context directly into conversational and automated development workflows. This server proves particularly valuable for code navigation, refactoring assistance, project comprehension, and integrating AI capabilities within the IDE environment.",
           "permissions": {
             "network": {
               "outbound": {
@@ -66,19 +34,51 @@
           "tier": "Official",
           "tools": [
             "dynamic_tools_from_ide"
-          ],
-          "overview": "## JetBrains MCP Server\n\nThe mcp-jetbrains server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with JetBrains IDEs (such as IntelliJ IDEA, PyCharm, WebStorm, and others) through a structured, AI-friendly interface. It allows AI-driven workflows to inspect project structure, navigate code, and reason about files and symbols — bringing IDE context directly into conversational and automated development workflows. This server proves particularly valuable for code navigation, refactoring assistance, project comprehension, and integrating AI capabilities within the IDE environment."
+          ]
         }
       }
     }
   },
+  "description": "A MCP proxy to redirect requests to JetBrains IDEs",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-jetbrains/icon.svg",
       "mimeType": "image/svg+xml",
       "sizes": [
         "any"
-      ]
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-jetbrains/icon.svg"
     }
-  ]
+  ],
+  "name": "io.github.stacklok/mcp-jetbrains",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Port of IDE's built-in webserver (if running multiple IDEs)",
+          "name": "IDE_PORT"
+        },
+        {
+          "default": "127.0.0.1",
+          "description": "Host/address of IDE's built-in webserver",
+          "name": "HOST"
+        },
+        {
+          "default": "false",
+          "description": "Enable logging for debugging",
+          "name": "LOG_ENABLED"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-jetbrains:1.8.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/JetBrains/mcp-jetbrains"
+  },
+  "title": "JetBrains",
+  "version": "1.0.0"
 }

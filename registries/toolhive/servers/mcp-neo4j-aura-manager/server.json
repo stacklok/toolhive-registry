@@ -1,49 +1,14 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/mcp-neo4j-aura-manager",
-  "description": "MCP server for managing Neo4j Aura cloud instances and services",
-  "title": "Neo4j Aura Manager",
-  "repository": {
-    "url": "https://github.com/neo4j-contrib/mcp-neo4j",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-aura-manager:0.4.7",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Neo4j Aura API client ID",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "AURA_CLIENT_ID"
-        },
-        {
-          "description": "Neo4j Aura API client secret",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "AURA_CLIENT_SECRET"
-        },
-        {
-          "description": "Neo4j Aura tenant ID",
-          "isSecret": true,
-          "name": "AURA_TENANT_ID"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-aura-manager:0.4.7": {
           "metadata": {
-            "last_updated": "2026-02-13T03:02:10Z",
-            "stars": 898
+            "last_updated": "2026-02-24T03:00:24Z",
+            "stars": 907
           },
+          "overview": "## Neo4j Aura Manager MCP Server\n\nThe mcp-neo4j-aura-manager is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neo4j Aura, Neo4j's fully managed cloud database service. The server facilitates AI-driven workflows to manage Aura database instances, including their lifecycle, configuration, and operational status. Key capabilities include database visibility, operational awareness, lifecycle management, organizational context, and AI-assisted administration.",
           "permissions": {
             "network": {
               "outbound": {
@@ -83,19 +48,54 @@
             "update_instance",
             "scale_instance",
             "enable_features"
-          ],
-          "overview": "## Neo4j Aura Manager MCP Server\n\nThe mcp-neo4j-aura-manager is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neo4j Aura, Neo4j's fully managed cloud database service. The server facilitates AI-driven workflows to manage Aura database instances, including their lifecycle, configuration, and operational status. Key capabilities include database visibility, operational awareness, lifecycle management, organizational context, and AI-assisted administration."
+          ]
         }
       }
     }
   },
+  "description": "MCP server for managing Neo4j Aura cloud instances and services",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-neo4j-aura-manager/icon.svg",
       "mimeType": "image/svg+xml",
       "sizes": [
         "any"
-      ]
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-neo4j-aura-manager/icon.svg"
     }
-  ]
+  ],
+  "name": "io.github.stacklok/mcp-neo4j-aura-manager",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Neo4j Aura API client ID",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "AURA_CLIENT_ID"
+        },
+        {
+          "description": "Neo4j Aura API client secret",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "AURA_CLIENT_SECRET"
+        },
+        {
+          "description": "Neo4j Aura tenant ID",
+          "isSecret": true,
+          "name": "AURA_TENANT_ID"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-aura-manager:0.4.7",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/neo4j-contrib/mcp-neo4j"
+  },
+  "title": "Neo4j Aura Manager",
+  "version": "1.0.0"
 }
