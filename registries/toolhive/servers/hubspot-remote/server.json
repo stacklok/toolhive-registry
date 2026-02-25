@@ -1,33 +1,23 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/hubspot-remote",
-  "description": "HubSpot's official remote MCP server for read-only CRM data access with OAuth",
-  "title": "HubSpot (Remote)",
-  "repository": {
-    "url": "https://developers.hubspot.com/mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://mcp.hubspot.com"
-    }
-  ],
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/hubspot-remote/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "https://mcp.hubspot.com": {
-          "tier": "Official",
+          "custom_metadata": {
+            "author": "HubSpot",
+            "homepage": "https://developers.hubspot.com/mcp",
+            "license": "Proprietary"
+          },
+          "metadata": {
+            "last_updated": "2026-02-25T03:00:50Z"
+          },
+          "oauth_config": {
+            "authorize_url": "https://mcp.hubspot.com/oauth/authorize/user",
+            "token_url": "https://mcp.hubspot.com/oauth/v3/token",
+            "use_pkce": true
+          },
+          "overview": "## HubSpot (Remote)\n\nThe HubSpot remote MCP server is HubSpot's official hosted Model Context Protocol server that provides read-only access to CRM data including contacts, companies, deals, tickets, products, invoices, quotes, orders, carts, subscriptions, and their associations. It uses OAuth 2.1 with PKCE for secure authentication, with scopes automatically determined by the tools available and user-granted permissions. Built on the CRM Search API, this server is suited for AI assistants that need to query and analyze HubSpot CRM data without local setup.",
           "status": "Active",
           "tags": [
             "remote",
@@ -38,23 +28,35 @@
             "sales",
             "marketing"
           ],
+          "tier": "Official",
           "tools": [
             "get_user_details"
-          ],
-          "overview": "## HubSpot (Remote)\n\nThe HubSpot remote MCP server is HubSpot's official hosted Model Context Protocol server that provides read-only access to CRM data including contacts, companies, deals, tickets, products, invoices, quotes, orders, carts, subscriptions, and their associations. It uses OAuth 2.1 with PKCE for secure authentication, with scopes automatically determined by the tools available and user-granted permissions. Built on the CRM Search API, this server is suited for AI assistants that need to query and analyze HubSpot CRM data without local setup.",
-          "oauth_config": {
-            "authorize_url": "https://mcp.hubspot.com/oauth/authorize/user",
-            "token_url": "https://mcp.hubspot.com/oauth/v3/token",
-            "scopes": [],
-            "use_pkce": true
-          },
-          "custom_metadata": {
-            "author": "HubSpot",
-            "homepage": "https://developers.hubspot.com/mcp",
-            "license": "Proprietary"
-          }
+          ]
         }
       }
     }
-  }
+  },
+  "description": "HubSpot's official remote MCP server for read-only CRM data access with OAuth",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/hubspot-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/hubspot-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.hubspot.com"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://developers.hubspot.com/mcp"
+  },
+  "title": "HubSpot (Remote)",
+  "version": "1.0.0"
 }

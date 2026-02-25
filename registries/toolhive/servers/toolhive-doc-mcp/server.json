@@ -1,52 +1,14 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/toolhive-doc-mcp",
-  "description": "Search ToolHive docs for help with using and contributing to the project (local version)",
-  "title": "ToolHive Docs",
-  "repository": {
-    "url": "https://github.com/StacklokLabs/toolhive-doc-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:0.0.9",
-      "transport": {
-        "type": "streamable-http",
-        "url": "http://localhost:8080"
-      },
-      "environmentVariables": [
-        {
-          "description": "Enable/disable OpenTelemetry logging",
-          "default": "false",
-          "name": "OTEL_ENABLED"
-        },
-        {
-          "description": "OpenTelemetry collector endpoint",
-          "name": "OTEL_ENDPOINT"
-        },
-        {
-          "description": "Service name for telemetry",
-          "default": "toolhive-doc-mcp",
-          "name": "OTEL_SERVICE_NAME"
-        },
-        {
-          "description": "Service version for telemetry",
-          "default": "1.0.0",
-          "name": "OTEL_SERVICE_VERSION"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/toolhive-doc-mcp:0.0.9": {
           "metadata": {
-            "last_updated": "2026-02-16T03:01:21Z",
+            "last_updated": "2026-02-25T03:00:50Z",
             "stars": 3
           },
+          "overview": "## ToolHive Docs MCP Server\n\nThe toolhive-doc-mcp server allows you to search ToolHive documentation for help with using and contributing to the project (local version). The system maintains a pre-built SQLite vector database containing documentation that undergoes parsing, chunking, and embedding using a local bge-small-en-v1.5 model. When queried, it performs semantic search by comparing queries against stored embeddings to return relevant documentation chunks.",
           "status": "Active",
           "tags": [
             "docs",
@@ -62,19 +24,57 @@
           "tools": [
             "query_docs",
             "get_chunk"
-          ],
-          "overview": "## ToolHive Docs MCP Server\n\nThe toolhive-doc-mcp server allows you to search ToolHive documentation for help with using and contributing to the project (local version). The system maintains a pre-built SQLite vector database containing documentation that undergoes parsing, chunking, and embedding using a local bge-small-en-v1.5 model. When queried, it performs semantic search by comparing queries against stored embeddings to return relevant documentation chunks."
+          ]
         }
       }
     }
   },
+  "description": "Search ToolHive docs for help with using and contributing to the project (local version)",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/toolhive-doc-mcp/icon.svg",
       "mimeType": "image/svg+xml",
       "sizes": [
         "any"
-      ]
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/toolhive-doc-mcp/icon.svg"
     }
-  ]
+  ],
+  "name": "io.github.stacklok/toolhive-doc-mcp",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "default": "false",
+          "description": "Enable/disable OpenTelemetry logging",
+          "name": "OTEL_ENABLED"
+        },
+        {
+          "description": "OpenTelemetry collector endpoint",
+          "name": "OTEL_ENDPOINT"
+        },
+        {
+          "default": "toolhive-doc-mcp",
+          "description": "Service name for telemetry",
+          "name": "OTEL_SERVICE_NAME"
+        },
+        {
+          "default": "1.0.0",
+          "description": "Service version for telemetry",
+          "name": "OTEL_SERVICE_VERSION"
+        }
+      ],
+      "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:0.0.9",
+      "registryType": "oci",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/StacklokLabs/toolhive-doc-mcp"
+  },
+  "title": "ToolHive Docs",
+  "version": "1.0.0"
 }
