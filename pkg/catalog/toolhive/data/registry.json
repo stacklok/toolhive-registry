@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-02-24T00:42:15Z",
+  "last_updated": "2026-02-25T00:47:51Z",
   "servers": {
     "adb-mysql-mcp-server": {
       "title": "AnalyticDB for MySQL",
@@ -18283,8 +18283,8 @@
         "dynamic_tools_from_ide"
       ],
       "metadata": {
-        "stars": 944,
-        "last_updated": "2026-02-13T03:02:09Z"
+        "stars": 941,
+        "last_updated": "2026-02-24T03:00:24Z"
       },
       "repository_url": "https://github.com/JetBrains/mcp-jetbrains",
       "tags": [
@@ -18346,8 +18346,8 @@
         "enable_features"
       ],
       "metadata": {
-        "stars": 898,
-        "last_updated": "2026-02-13T03:02:10Z"
+        "stars": 907,
+        "last_updated": "2026-02-24T03:00:24Z"
       },
       "repository_url": "https://github.com/neo4j-contrib/mcp-neo4j",
       "tags": [
@@ -18574,8 +18574,8 @@
         "list_memories"
       ],
       "metadata": {
-        "stars": 899,
-        "last_updated": "2026-02-16T03:01:20Z"
+        "stars": 907,
+        "last_updated": "2026-02-24T03:00:24Z"
       },
       "repository_url": "https://github.com/neo4j-contrib/mcp-neo4j",
       "tags": [
@@ -42031,6 +42031,104 @@
         "use_pkce": true
       }
     },
+    "gitlab-remote": {
+      "title": "GitLab (Remote)",
+      "description": "Official GitLab remote MCP for repositories, issues, merge requests, and more",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "get_mcp_server_version",
+        "create_issue",
+        "get_issue",
+        "create_merge_request",
+        "get_merge_request",
+        "get_merge_request_commits",
+        "get_merge_request_diffs",
+        "get_merge_request_pipelines",
+        "get_pipeline_jobs",
+        "manage_pipeline",
+        "create_workitem_note",
+        "get_workitem_notes",
+        "search",
+        "search_labels",
+        "semantic_code_search"
+      ],
+      "tags": [
+        "gitlab",
+        "version-control",
+        "repository",
+        "issues",
+        "merge-requests",
+        "projects",
+        "pipelines",
+        "workitems",
+        "code-search",
+        "remote"
+      ],
+      "overview": "## GitLab MCP Server\n\nThe official hosted GitLab MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with GitLab projects and resources through a structured, AI-friendly interface. It allows AI-driven workflows to work with repositories, issues, merge requests, and project metadata without switching tools or manually navigating the GitLab UI. It is ideal for development, code review, CI/CD visibility, and project management workflows that rely on GitLab as the system of record.",
+      "custom_metadata": {
+        "author": "GitLab",
+        "homepage": "https://gitlab.com/"
+      },
+      "url": "https://gitlab.com/api/v4/mcp"
+    },
+    "granola": {
+      "title": "Granola (Remote)",
+      "description": "Access meeting notes and transcripts from the Granola platform",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "query_granola_meetings",
+        "list_meetings",
+        "get_meetings",
+        "get_meeting_transcript"
+      ],
+      "tags": [
+        "meetings",
+        "transcripts",
+        "notes"
+      ],
+      "overview": "## Granola MCP Server\n\nThe Granola MCP server connects your Granola meeting notes and transcripts to AI assistants and agents through the Model Context Protocol standard. It gives AI tools direct access to your meeting data without manual copying and pasting, enabling AI-driven workflows that build on the context from your real conversations.\n\nWith this server, AI assistants can search and retrieve your meetings, read full transcripts, and use meeting content as grounded context for downstream tasks. This unlocks workflows like asking Claude to draft follow-up tickets from a bug discussion, updating a project board from standup notes, or generating proposals based on discovery call transcripts.\n\nIt is ideal for engineering, sales, and business development workflows where meeting notes are a primary source of record and need to flow into other tools without manual retrieval.",
+      "custom_metadata": {
+        "author": "Granola",
+        "homepage": "https://granola.ai/"
+      },
+      "url": "https://mcp.granola.ai/mcp"
+    },
+    "hubspot-remote": {
+      "title": "HubSpot (Remote)",
+      "description": "HubSpot's official remote MCP server for read-only CRM data access with OAuth",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "get_user_details"
+      ],
+      "repository_url": "https://developers.hubspot.com/mcp",
+      "tags": [
+        "remote",
+        "hubspot",
+        "crm",
+        "contacts",
+        "deals",
+        "sales",
+        "marketing"
+      ],
+      "overview": "## HubSpot (Remote)\n\nThe HubSpot remote MCP server is HubSpot's official hosted Model Context Protocol server that provides read-only access to CRM data including contacts, companies, deals, tickets, products, invoices, quotes, orders, carts, subscriptions, and their associations. It uses OAuth 2.1 with PKCE for secure authentication, with scopes automatically determined by the tools available and user-granted permissions. Built on the CRM Search API, this server is suited for AI assistants that need to query and analyze HubSpot CRM data without local setup.",
+      "custom_metadata": {
+        "author": "HubSpot",
+        "homepage": "https://developers.hubspot.com/mcp",
+        "license": "Proprietary"
+      },
+      "url": "https://mcp.hubspot.com",
+      "oauth_config": {
+        "authorize_url": "https://mcp.hubspot.com/oauth/authorize/user",
+        "token_url": "https://mcp.hubspot.com/oauth/v3/token",
+        "use_pkce": true
+      }
+    },
     "huggingface": {
       "title": "Hugging Face",
       "description": "Official Hugging Face MCP server for models, datasets, and research papers",
@@ -42224,7 +42322,7 @@
         "validate_and_render_mermaid_diagram"
       ],
       "metadata": {
-        "last_updated": "2026-02-14T02:56:21Z"
+        "last_updated": "2026-02-24T03:00:24Z"
       },
       "tags": [
         "remote",
@@ -42679,7 +42777,7 @@
       ],
       "metadata": {
         "stars": 3,
-        "last_updated": "2026-02-14T02:56:20Z"
+        "last_updated": "2026-02-24T03:00:24Z"
       },
       "repository_url": "https://github.com/StacklokLabs/toolhive-doc-mcp",
       "tags": [
