@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/mcp-server-box:0.1.2": {
           "metadata": {
-            "last_updated": "2026-02-17T15:33:17Z",
+            "last_updated": "2026-02-25T08:37:48Z",
             "stars": 96
           },
+          "overview": "## Box MCP Server\n\nThe mcp-server-box is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Box, the cloud content management and file sharing platform. It allows AI-driven workflows to browse folders, retrieve files, and reason about stored content without switching tools or manually navigating the Box UI. This server is especially useful for document-centric workflows, knowledge management, compliance reviews, and AI-assisted analysis of files stored in Box.",
           "permissions": {
             "network": {
               "outbound": {
@@ -67,13 +68,21 @@
             "box_metadata_delete_instance_on_file_tool",
             "box_metadata_update_instance_on_file_tool",
             "box_metadata_template_create_tool"
-          ],
-          "overview": "## Box MCP Server\n\nThe mcp-server-box is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Box, the cloud content management and file sharing platform. It allows AI-driven workflows to browse folders, retrieve files, and reason about stored content without switching tools or manually navigating the Box UI. This server is especially useful for document-centric workflows, knowledge management, compliance reviews, and AI-assisted analysis of files stored in Box."
+          ]
         }
       }
     }
   },
   "description": "Box API integration for file operations, AI querying, metadata management, and document generation",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-server-box/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/mcp-server-box",
   "packages": [
     {
@@ -102,14 +111,5 @@
     "url": "https://github.com/box-community/mcp-server-box"
   },
   "title": "Box",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-server-box/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }
