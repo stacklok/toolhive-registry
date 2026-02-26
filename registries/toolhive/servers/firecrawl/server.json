@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "docker.io/mcp/firecrawl:latest": {
           "metadata": {
-            "last_updated": "2026-02-18T00:06:16Z",
-            "stars": 5334
+            "last_updated": "2026-02-26T10:31:19Z",
+            "stars": 5602
           },
+          "overview": "## Firecrawl MCP Server\n\nThe firecrawl-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants to crawl, scrape, and extract content from websites at scale using Firecrawl. This tool transforms entire websites — including documentation, blogs, and knowledge bases — into clean, structured, machine-readable data without requiring custom crawlers. It is particularly suited for research, content ingestion, documentation analysis, and RAG workflows needing high-quality web content.",
           "permissions": {
             "network": {
               "outbound": {
@@ -936,13 +937,21 @@
             "firecrawl_map",
             "firecrawl_scrape",
             "firecrawl_search"
-          ],
-          "overview": "## Firecrawl MCP Server\n\nThe firecrawl-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants to crawl, scrape, and extract content from websites at scale using Firecrawl. This tool transforms entire websites — including documentation, blogs, and knowledge bases — into clean, structured, machine-readable data without requiring custom crawlers. It is particularly suited for research, content ingestion, documentation analysis, and RAG workflows needing high-quality web content."
+          ]
         }
       }
     }
   },
   "description": "Web scraping and content extraction MCP server with advanced crawling and LLM integration",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/firecrawl/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/firecrawl",
   "packages": [
     {
@@ -994,14 +1003,5 @@
     "url": "https://github.com/firecrawl/firecrawl-mcp-server"
   },
   "title": "Firecrawl",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/firecrawl/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

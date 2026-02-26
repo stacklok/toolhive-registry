@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/gofetch/server:1.0.3": {
           "metadata": {
-            "last_updated": "2026-02-18T00:05:37Z",
-            "stars": 20
+            "last_updated": "2026-02-26T10:31:18Z",
+            "stars": 21
           },
+          "overview": "## Fetch MCP Server\n\nThe fetch-mcp-server is a lightweight Model Context Protocol (MCP) server that gives AI assistants direct access to external HTTP and HTTPS resources. It allows AI-driven workflows to retrieve web content, APIs, and remote resources on demand, making it easy to incorporate live data, documentation, or machine-readable endpoints into an assistant's reasoning loop. This server is commonly used as a foundational building block for research, data ingestion, and integration workflows where simple, reliable network access is required.",
           "permissions": {
             "network": {
               "outbound": {
@@ -74,13 +75,21 @@
           ],
           "tools": [
             "fetch"
-          ],
-          "overview": "## Fetch MCP Server\n\nThe fetch-mcp-server is a lightweight Model Context Protocol (MCP) server that gives AI assistants direct access to external HTTP and HTTPS resources. It allows AI-driven workflows to retrieve web content, APIs, and remote resources on demand, making it easy to incorporate live data, documentation, or machine-readable endpoints into an assistant's reasoning loop. This server is commonly used as a foundational building block for research, data ingestion, and integration workflows where simple, reliable network access is required."
+          ]
         }
       }
     }
   },
   "description": "Allows you to fetch content from the web",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/fetch/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/fetch",
   "packages": [
     {
@@ -97,14 +106,5 @@
     "url": "https://github.com/stackloklabs/gofetch"
   },
   "title": "Fetch",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/fetch/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

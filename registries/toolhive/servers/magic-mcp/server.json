@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/magic-mcp:0.1.0": {
           "metadata": {
-            "last_updated": "2026-02-18T00:05:47Z",
-            "stars": 4262
+            "last_updated": "2026-02-26T10:31:18Z",
+            "stars": 4309
           },
+          "overview": "## Magic MCP Server\n\nThe magic-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact with Magic, a platform for AI-assisted software development and code understanding. It allows AI-driven workflows to generate, edit, and reason about code with deeper project awareness — turning Magic's code intelligence capabilities into native tools inside MCP-compatible assistants. This server excels particularly in code generation, refactoring, large-scale codebase understanding, and developer productivity workflows augmented by AI.",
           "permissions": {
             "network": {
               "outbound": {
@@ -128,7 +129,7 @@
             },
             {
               "annotations": {},
-              "description": "\nSearch and return logos in specified format (JSX, TSX, SVG).\nSupports single and multiple logo searches with category filtering.\nCan return logos in different themes (light/dark) if available.\n\nWhen to use this tool:\n1. When user types \"/logo\" command (e.g., \"/logo GitHub\")\n2. When user asks to add a company logo that's not in the local project\n\nExample queries:\n- Single company: [\"discord\"]\n- Multiple companies: [\"discord\", \"github\", \"slack\"]\n- Specific brand: [\"microsoft office\"]\n- Command style: \"/logo GitHub\" -> [\"github\"]\n- Request style: \"Add Discord logo to the project\" -> [\"discord\"]\n\nFormat options:\n- TSX: Returns TypeScript React component\n- JSX: Returns JavaScript React component\n- SVG: Returns raw SVG markup\n\nEach result includes:\n- Component name (e.g., DiscordIcon)\n- Component code\n- Import instructions\n",
+              "description": "\nSearch and return logos in specified format (JSX, TSX, SVG).\nSupports single and multiple logo searches with category filtering.\nCan return logos in different themes (light/dark) if available.\n\nWhen to use this tool:\n1. When user types \"/logo\" command (e.g., \"/logo GitHub\")\n2. When user asks to add a company logo that's not in the local project\n\nExample queries:\n- Single company: [\"discord\"]\n- Multiple companies: [\"discord\", \"github\", \"slack\"]\n- Specific brand: [\"microsoft office\"]\n- Command style: \"/logo GitHub\" -\u003e [\"github\"]\n- Request style: \"Add Discord logo to the project\" -\u003e [\"discord\"]\n\nFormat options:\n- TSX: Returns TypeScript React component\n- JSX: Returns JavaScript React component\n- SVG: Returns raw SVG markup\n\nEach result includes:\n- Component name (e.g., DiscordIcon)\n- Component code\n- Import instructions\n",
               "inputSchema": {
                 "properties": {
                   "format": {
@@ -162,13 +163,21 @@
             "21st_magic_component_inspiration",
             "21st_magic_component_refiner",
             "logo_search"
-          ],
-          "overview": "## Magic MCP Server\n\nThe magic-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact with Magic, a platform for AI-assisted software development and code understanding. It allows AI-driven workflows to generate, edit, and reason about code with deeper project awareness — turning Magic's code intelligence capabilities into native tools inside MCP-compatible assistants. This server excels particularly in code generation, refactoring, large-scale codebase understanding, and developer productivity workflows augmented by AI."
+          ]
         }
       }
     }
   },
   "description": "AI-powered UI component generator MCP server by 21st.dev",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/magic-mcp/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/magic-mcp",
   "packages": [
     {
@@ -192,14 +201,5 @@
     "url": "https://github.com/21st-dev/magic-mcp"
   },
   "title": "21st.dev Magic",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/magic-mcp/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

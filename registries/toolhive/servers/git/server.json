@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "docker.io/mcp/git:latest": {
           "metadata": {
-            "last_updated": "2026-02-17T17:18:10Z",
-            "stars": 77255
+            "last_updated": "2026-02-26T10:31:16Z",
+            "stars": 79448
           },
+          "overview": "## Git MCP Server\n\nThe git-mcp-server is a Model Context Protocol (MCP) server that gives AI assistants direct access to Git repositories through a structured, AI-friendly interface. It enables AI-driven workflows to read repository state, inspect history, and reason about changes without switching tools or manually invoking Git commands. It is especially useful for code understanding, change analysis, release preparation, and development workflows where repository context needs to be embedded directly into an AI assistant.",
           "permissions": {
             "network": {
               "outbound": {}
@@ -295,13 +296,21 @@
             "git_reset",
             "git_show",
             "git_status"
-          ],
-          "overview": "## Git MCP Server\n\nThe git-mcp-server is a Model Context Protocol (MCP) server that gives AI assistants direct access to Git repositories through a structured, AI-friendly interface. It enables AI-driven workflows to read repository state, inspect history, and reason about changes without switching tools or manually invoking Git commands. It is especially useful for code understanding, change analysis, release preparation, and development workflows where repository context needs to be embedded directly into an AI assistant."
+          ]
         }
       }
     }
   },
   "description": "Provides support for interacting with Git repositories",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/git/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/git",
   "packages": [
     {
@@ -317,14 +326,5 @@
     "url": "https://github.com/modelcontextprotocol/servers"
   },
   "title": "Git",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/git/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }
