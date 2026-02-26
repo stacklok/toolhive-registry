@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/adb-mysql-mcp-server:1.0.0": {
           "metadata": {
-            "last_updated": "2026-02-17T17:15:49Z",
-            "stars": 21
+            "last_updated": "2026-02-25T08:37:49Z",
+            "stars": 22
           },
+          "overview": "## AnalyticDB for MySQL MCP Server\n\nThe adb-mysql-mcp-server provides a standardized interface that lets AI assistants interact directly with Alibaba Cloud AnalyticDB for MySQL databases through the Model Context Protocol (MCP). It enables seamless access to database metadata and SQL operations so AI workflows can query, analyze, and manage data without needing to embed database-specific logic directly in the assistant.",
           "permissions": {
             "network": {
               "outbound": {
@@ -89,13 +90,21 @@
             "execute_sql",
             "get_execution_plan",
             "get_query_plan"
-          ],
-          "overview": "## AnalyticDB for MySQL MCP Server\n\nThe adb-mysql-mcp-server provides a standardized interface that lets AI assistants interact directly with Alibaba Cloud AnalyticDB for MySQL databases through the Model Context Protocol (MCP). It enables seamless access to database metadata and SQL operations so AI workflows can query, analyze, and manage data without needing to embed database-specific logic directly in the assistant."
+          ]
         }
       }
     }
   },
   "description": "Official MCP server for AnalyticDB for MySQL of Alibaba Cloud",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/adb-mysql-mcp-server/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/adb-mysql-mcp-server",
   "packages": [
     {
@@ -139,14 +148,5 @@
     "url": "https://github.com/aliyun/alibabacloud-adb-mysql-mcp-server"
   },
   "title": "AnalyticDB for MySQL",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/adb-mysql-mcp-server/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }
