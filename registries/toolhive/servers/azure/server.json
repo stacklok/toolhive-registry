@@ -1,62 +1,14 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/azure",
-  "description": "The Azure MCP Server, bringing the power of Azure to your agents.",
-  "title": "Azure",
-  "repository": {
-    "url": "https://github.com/Azure/azure-mcp",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "mcr.microsoft.com/azure-sdk/azure-mcp:1.0.1",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "description": "Your Azure tenant ID",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "AZURE_TENANT_ID"
-        },
-        {
-          "description": "Your Azure client ID for authentication",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "AZURE_CLIENT_ID"
-        },
-        {
-          "description": "Your Azure client secret for authentication",
-          "isRequired": true,
-          "isSecret": true,
-          "name": "AZURE_CLIENT_SECRET"
-        },
-        {
-          "description": "HTTP proxy URL for outbound requests (optional)",
-          "name": "HTTP_PROXY"
-        },
-        {
-          "description": "HTTPS proxy URL for outbound requests (optional)",
-          "name": "HTTPS_PROXY"
-        },
-        {
-          "description": "Comma-separated list of hosts to exclude from proxying (optional)",
-          "name": "NO_PROXY"
-        }
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "mcr.microsoft.com/azure-sdk/azure-mcp:1.0.1": {
           "metadata": {
-            "last_updated": "2026-02-16T03:01:21Z",
-            "stars": 1201
+            "last_updated": "2026-02-25T08:37:48Z",
+            "stars": 1204
           },
+          "overview": "## Azure MCP Server\n\nThe azure MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Microsoft Azure resources and APIs through a unified, AI-friendly interface. It allows natural-language workflows to explore, query, and manage Azure infrastructure and services without requiring custom SDK integration or manual portal usage. This server is well suited for cloud operations, infrastructure exploration, troubleshooting, and automation scenarios where Azure context needs to be embedded directly into AI-driven workflows.",
           "permissions": {
             "network": {
               "outbound": {
@@ -127,19 +79,67 @@
             "subscription",
             "virtualdesktop",
             "workbooks"
-          ],
-          "overview": "## Azure MCP Server\n\nThe azure MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Microsoft Azure resources and APIs through a unified, AI-friendly interface. It allows natural-language workflows to explore, query, and manage Azure infrastructure and services without requiring custom SDK integration or manual portal usage. This server is well suited for cloud operations, infrastructure exploration, troubleshooting, and automation scenarios where Azure context needs to be embedded directly into AI-driven workflows."
+          ]
         }
       }
     }
   },
+  "description": "The Azure MCP Server, bringing the power of Azure to your agents.",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/azure/icon.svg",
       "mimeType": "image/svg+xml",
       "sizes": [
         "any"
-      ]
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/azure/icon.svg"
     }
-  ]
+  ],
+  "name": "io.github.stacklok/azure",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Your Azure tenant ID",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "AZURE_TENANT_ID"
+        },
+        {
+          "description": "Your Azure client ID for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "AZURE_CLIENT_ID"
+        },
+        {
+          "description": "Your Azure client secret for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "AZURE_CLIENT_SECRET"
+        },
+        {
+          "description": "HTTP proxy URL for outbound requests (optional)",
+          "name": "HTTP_PROXY"
+        },
+        {
+          "description": "HTTPS proxy URL for outbound requests (optional)",
+          "name": "HTTPS_PROXY"
+        },
+        {
+          "description": "Comma-separated list of hosts to exclude from proxying (optional)",
+          "name": "NO_PROXY"
+        }
+      ],
+      "identifier": "mcr.microsoft.com/azure-sdk/azure-mcp:1.0.1",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/Azure/azure-mcp"
+  },
+  "title": "Azure",
+  "version": "1.0.0"
 }
