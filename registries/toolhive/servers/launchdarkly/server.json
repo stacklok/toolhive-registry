@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.4.2": {
           "metadata": {
-            "last_updated": "2026-02-18T00:05:49Z",
-            "stars": 18
+            "last_updated": "2026-02-26T10:31:19Z",
+            "stars": 19
           },
+          "overview": "## LaunchDarkly MCP Server\n\nThe launchdarkly MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with LaunchDarkly, the feature management and experimentation platform. It allows AI-driven workflows to inspect feature flags, environments, and targeting rules, helping teams understand feature rollout, experimentation, and risk management without leaving their current tools. This server is particularly valuable for release management, experimentation analysis, and operational decision-making scenarios where feature flag context matters.",
           "permissions": {
             "network": {
               "outbound": {
@@ -1132,13 +1133,21 @@
             "update-ai-config-targeting",
             "update-ai-config-variation",
             "update-feature-flag"
-          ],
-          "overview": "## LaunchDarkly MCP Server\n\nThe launchdarkly MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with LaunchDarkly, the feature management and experimentation platform. It allows AI-driven workflows to inspect feature flags, environments, and targeting rules, helping teams understand feature rollout, experimentation, and risk management without leaving their current tools. This server is particularly valuable for release management, experimentation analysis, and operational decision-making scenarios where feature flag context matters."
+          ]
         }
       }
     }
   },
   "description": "Official MCP server for LaunchDarkly feature flag management and AI Config orchestration",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/launchdarkly/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/launchdarkly",
   "packages": [
     {
@@ -1162,14 +1171,5 @@
     "url": "https://github.com/launchdarkly/mcp-server"
   },
   "title": "LaunchDarkly",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/launchdarkly/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }
