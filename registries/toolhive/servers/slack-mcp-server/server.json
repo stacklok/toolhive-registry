@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/korotovsky/slack-mcp-server:v1.1.28": {
           "metadata": {
-            "last_updated": "2026-02-20T09:56:09Z",
-            "stars": 1378
+            "last_updated": "2026-02-26T11:45:46Z",
+            "stars": 1396
           },
+          "overview": "## Slack MCP Server\n\nThe slack-mcp-server is a Model Context Protocol (MCP) server for Slack with channels, DMs, message history, search, and smart pagination. The server connects assistants to Slack workspaces via SSE transport, enabling channel and direct message discovery, message retrieval with threading support, search functionality across messages, and message posting capability.",
           "permissions": {
             "network": {
               "outbound": {
@@ -38,13 +39,21 @@
             "conversations_add_message",
             "conversations_search_messages",
             "channels_list"
-          ],
-          "overview": "## Slack MCP Server\n\nThe slack-mcp-server is a Model Context Protocol (MCP) server for Slack with channels, DMs, message history, search, and smart pagination. The server connects assistants to Slack workspaces via SSE transport, enabling channel and direct message discovery, message retrieval with threading support, search functionality across messages, and message posting capability."
+          ]
         }
       }
     }
   },
   "description": "MCP server for Slack with channels, DMs, message history, search, and smart pagination",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/slack-mcp-server/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/slack-mcp-server",
   "packages": [
     {
@@ -96,14 +105,5 @@
     "url": "https://github.com/korotovsky/slack-mcp-server"
   },
   "title": "Slack",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/slack-mcp-server/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

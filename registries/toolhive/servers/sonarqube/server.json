@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "docker.io/mcp/sonarqube:latest": {
           "metadata": {
-            "last_updated": "2026-02-23T03:02:00Z",
-            "stars": 390
+            "last_updated": "2026-02-26T11:45:48Z",
+            "stars": 394
           },
+          "overview": "## SonarQube MCP Server\n\nThe sonarqube MCP server provides integration with SonarQube Server or Cloud for code quality and security analysis. The SonarQube MCP server establishes connections to SonarQube instances through stdio transport, utilizing token-based authentication to expose analysis capabilities including code and file analysis execution, project metrics and quality gate assessment retrieval, issue, rule, and dependency risk inspection, and system health monitoring and status endpoints.",
           "permissions": {
             "network": {
               "outbound": {
@@ -60,13 +61,21 @@
             "search_sonar_issues_in_projects",
             "show_rule",
             "toggle_automatic_analysis"
-          ],
-          "overview": "## SonarQube MCP Server\n\nThe sonarqube MCP server provides integration with SonarQube Server or Cloud for code quality and security analysis. The SonarQube MCP server establishes connections to SonarQube instances through stdio transport, utilizing token-based authentication to expose analysis capabilities including code and file analysis execution, project metrics and quality gate assessment retrieval, issue, rule, and dependency risk inspection, and system health monitoring and status endpoints."
+          ]
         }
       }
     }
   },
-"description": "Integration with SonarQube Server or Cloud for code quality and security analysis.",
+  "description": "Integration with SonarQube Server or Cloud for code quality and security analysis.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sonarqube/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/sonarqube",
   "packages": [
     {
@@ -106,14 +115,5 @@
     "url": "https://github.com/SonarSource/sonarqube-mcp-server"
   },
   "title": "SonarQube",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sonarqube/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

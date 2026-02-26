@@ -9,9 +9,10 @@
             "license": "MIT"
           },
           "metadata": {
-            "last_updated": "2026-02-21T15:00:39Z",
+            "last_updated": "2026-02-26T11:45:47Z",
             "stars": 375
           },
+          "overview": "## Monday.com MCP Server\n\nThe monday MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Monday.com, the work management and project tracking platform. It allows AI-driven workflows to create, update, and reason about boards, items, groups, and statuses — bringing operational and planning context directly into AI-assisted workflows. This server is especially useful for project management, team coordination, operational tracking, and workflow automation where Monday.com is the system of record.",
           "status": "Active",
           "tags": [
             "remote",
@@ -45,13 +46,21 @@
             "create_doc",
             "create_dashboard",
             "all_widgets_schema"
-          ],
-          "overview": "## Monday.com MCP Server\n\nThe monday MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Monday.com, the work management and project tracking platform. It allows AI-driven workflows to create, update, and reason about boards, items, groups, and statuses — bringing operational and planning context directly into AI-assisted workflows. This server is especially useful for project management, team coordination, operational tracking, and workflow automation where Monday.com is the system of record."
+          ]
         }
       }
     }
   },
   "description": "Monday.com's official remote MCP server for project and workflow management",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/monday/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/monday",
   "remotes": [
     {
@@ -64,14 +73,5 @@
     "url": "https://github.com/mondaycom/mcp"
   },
   "title": "Monday.com",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/monday/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

@@ -10,8 +10,8 @@
             "license": "MIT"
           },
           "metadata": {
-            "last_updated": "2026-02-21T02:54:33Z",
-            "stars": 27108
+            "last_updated": "2026-02-26T11:45:47Z",
+            "stars": 27261
           },
           "oauth_config": {
             "authorize_url": "https://github.com/login/oauth/authorize",
@@ -22,6 +22,7 @@
             "token_url": "https://github.com/login/oauth/access_token",
             "use_pkce": true
           },
+          "overview": "## GitHub Remote MCP Server\n\nThe github-remote MCP server is a hosted Model Context Protocol (MCP) server that allows AI assistants to interact with GitHub repositories and resources without running a local MCP process. It provides secure, permission-aware access to GitHub code, issues, pull requests, and repository metadata through a remote MCP endpoint, making GitHub context easily available to cloud-based or lightweight AI clients.\n\nThis server is well suited for environments where local setup is undesirable, such as browser-based assistants, hosted IDEs, or centralized AI platforms.",
           "status": "Active",
           "tags": [
             "remote",
@@ -127,13 +128,21 @@
             "update_issue",
             "update_pull_request",
             "update_pull_request_branch"
-          ],
-          "overview": "## GitHub Remote MCP Server\n\nThe github-remote MCP server is a hosted Model Context Protocol (MCP) server that allows AI assistants to interact with GitHub repositories and resources without running a local MCP process. It provides secure, permission-aware access to GitHub code, issues, pull requests, and repository metadata through a remote MCP endpoint, making GitHub context easily available to cloud-based or lightweight AI clients.\n\nThis server is well suited for environments where local setup is undesirable, such as browser-based assistants, hosted IDEs, or centralized AI platforms."
+          ]
         }
       }
     }
   },
   "description": "GitHub's official MCP server for repositories, issues, PRs, actions, and security with OAuth",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/github-remote/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/github-remote",
   "remotes": [
     {
@@ -146,14 +155,5 @@
     "url": "https://github.com/github/github-mcp-server"
   },
   "title": "GitHub (Remote)",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/github-remote/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

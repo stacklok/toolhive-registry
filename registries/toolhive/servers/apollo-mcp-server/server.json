@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/apollographql/apollo-mcp-server:v1.7.0": {
           "metadata": {
-            "last_updated": "2026-02-20T09:56:10Z",
-            "stars": 262
+            "last_updated": "2026-02-26T11:45:47Z",
+            "stars": 264
           },
+          "overview": "## Apollo MCP Server\n\nThe apollo-mcp-server is a Model Context Protocol (MCP) server implementation that makes your GraphQL API operations available as MCP tools for AI assistants and agents. It acts as a translation layer between AI clients and your GraphQL infrastructure, exposing query and mutation capabilities through MCP so models can fetch, explore, and orchestrate your graph operations without bespoke tooling.",
           "permissions": {
             "network": {
               "outbound": {
@@ -29,13 +30,21 @@
           "tier": "Official",
           "tools": [
             "example_GetAstronautsCurrentlyInSpace"
-          ],
-          "overview": "## Apollo MCP Server\n\nThe apollo-mcp-server is a Model Context Protocol (MCP) server implementation that makes your GraphQL API operations available as MCP tools for AI assistants and agents. It acts as a translation layer between AI clients and your GraphQL infrastructure, exposing query and mutation capabilities through MCP so models can fetch, explore, and orchestrate your graph operations without bespoke tooling."
+          ]
         }
       }
     }
   },
   "description": "Exposes GraphQL operations as MCP tools for AI-driven API orchestration with Apollo",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/apollo-mcp-server/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/apollo-mcp-server",
   "packages": [
     {
@@ -63,14 +72,5 @@
     "url": "https://github.com/apollographql/apollo-mcp-server"
   },
   "title": "Apollo GraphQL",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/apollo-mcp-server/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

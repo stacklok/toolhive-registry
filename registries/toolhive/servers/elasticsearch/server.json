@@ -8,9 +8,10 @@
             "http"
           ],
           "metadata": {
-            "last_updated": "2026-02-18T22:27:15Z",
-            "stars": 611
+            "last_updated": "2026-02-26T11:45:44Z",
+            "stars": 614
           },
+          "overview": "## Elasticsearch MCP Server\n\nThe elasticsearch-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Elasticsearch clusters through a structured, AI-friendly interface. It allows AI-driven workflows to search, index, analyze, and manage data stored in Elasticsearch without writing custom client code or switching to separate tooling. This server is well suited for search-driven applications, log analysis, observability workflows, and any AI use case that depends on fast, flexible querying over large datasets.",
           "permissions": {
             "network": {
               "outbound": {
@@ -40,13 +41,21 @@
             "get_shards",
             "list_indices",
             "search"
-          ],
-          "overview": "## Elasticsearch MCP Server\n\nThe elasticsearch-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Elasticsearch clusters through a structured, AI-friendly interface. It allows AI-driven workflows to search, index, analyze, and manage data stored in Elasticsearch without writing custom client code or switching to separate tooling. This server is well suited for search-driven applications, log analysis, observability workflows, and any AI use case that depends on fast, flexible querying over large datasets."
+          ]
         }
       }
     }
   },
   "description": "Connect to your Elasticsearch data.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/elasticsearch/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/elasticsearch",
   "packages": [
     {
@@ -100,14 +109,5 @@
     "url": "https://github.com/elastic/mcp-server-elasticsearch"
   },
   "title": "Elasticsearch",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/elasticsearch/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

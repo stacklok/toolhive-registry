@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/astra-db-mcp:1.2.2": {
           "metadata": {
-            "last_updated": "2026-02-20T09:56:09Z",
+            "last_updated": "2026-02-26T11:45:46Z",
             "stars": 38
           },
+          "overview": "## Astra DB MCP Server\n\nThe astra-db-mcp server is a Model Context Protocol (MCP) implementation that enables AI assistants and agents to interact directly with DataStax Astra DB — a cloud-native database service — through a standardized, agent-friendly interface. It allows natural language workflows to query, manage, and manipulate collections and records stored in Astra DB without writing custom database integration code.",
           "permissions": {
             "network": {
               "outbound": {
@@ -49,13 +50,21 @@
             "OpenBrowser",
             "HelpAddToClient",
             "EstimateDocumentCount"
-          ],
-          "overview": "## Astra DB MCP Server\n\nThe astra-db-mcp server is a Model Context Protocol (MCP) implementation that enables AI assistants and agents to interact directly with DataStax Astra DB — a cloud-native database service — through a standardized, agent-friendly interface. It allows natural language workflows to query, manage, and manipulate collections and records stored in Astra DB without writing custom database integration code."
+          ]
         }
       }
     }
   },
   "description": "Model Context Protocol server for interacting with DataStax Astra DB",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/astra-db-mcp/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/astra-db-mcp",
   "packages": [
     {
@@ -89,14 +98,5 @@
     "url": "https://github.com/datastax/astra-db-mcp"
   },
   "title": "DataStax Astra DB",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/astra-db-mcp/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

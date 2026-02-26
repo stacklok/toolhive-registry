@@ -9,8 +9,9 @@
             "homepage": "https://www.canva.dev/docs/connect/canva-mcp-server-setup/"
           },
           "metadata": {
-            "last_updated": "2026-02-21T02:54:32Z"
+            "last_updated": "2026-02-26T11:45:47Z"
           },
+          "overview": "## Canva MCP Server\n\nThe canva MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Canva's design platform through a structured, AI-friendly interface. It enables AI-driven workflows to create, edit, and manage visual designs — such as presentations, social graphics, documents, and brand assets — without leaving the conversational or automated workflow. This server is especially useful for content creation, marketing workflows, design automation, and brand-aware AI assistants.",
           "status": "Active",
           "tags": [
             "remote",
@@ -44,13 +45,21 @@
             "list-comments",
             "list-replies",
             "reply-to-comment"
-          ],
-          "overview": "## Canva MCP Server\n\nThe canva MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Canva's design platform through a structured, AI-friendly interface. It enables AI-driven workflows to create, edit, and manage visual designs — such as presentations, social graphics, documents, and brand assets — without leaving the conversational or automated workflow. This server is especially useful for content creation, marketing workflows, design automation, and brand-aware AI assistants."
+          ]
         }
       }
     }
   },
   "description": "Canva's official remote MCP server for design creation and template management",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/canva/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/canva",
   "remotes": [
     {
@@ -59,14 +68,5 @@
     }
   ],
   "title": "Canva",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/canva/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }
