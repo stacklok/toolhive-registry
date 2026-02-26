@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "docker.io/mongodb/mongodb-mcp-server:1.6.0": {
           "metadata": {
-            "last_updated": "2026-02-18T08:06:19Z",
-            "stars": 918
+            "last_updated": "2026-02-26T11:45:43Z",
+            "stars": 926
           },
+          "overview": "## MongoDB MCP Server\n\nThe mongodb MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with MongoDB databases through a structured, AI-friendly interface. It allows AI-driven workflows to inspect collections, query documents, and reason about schema-less data without switching tools or embedding MongoDB-specific drivers in the client. This server is especially useful for application development, data exploration, debugging, and analytics workflows where MongoDB is the primary data store.",
           "permissions": {
             "network": {
               "outbound": {
@@ -54,13 +55,21 @@
             "mongodb-logs",
             "rename-collection",
             "update-many"
-          ],
-          "overview": "## MongoDB MCP Server\n\nThe mongodb MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with MongoDB databases through a structured, AI-friendly interface. It allows AI-driven workflows to inspect collections, query documents, and reason about schema-less data without switching tools or embedding MongoDB-specific drivers in the client. This server is especially useful for application development, data exploration, debugging, and analytics workflows where MongoDB is the primary data store."
+          ]
         }
       }
     }
   },
   "description": "Provides support for interacting with MongoDB Databases and MongoDB Atlas.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mongodb/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/mongodb",
   "packages": [
     {
@@ -121,14 +130,5 @@
     "url": "https://github.com/mongodb-js/mongodb-mcp-server"
   },
   "title": "MongoDB",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mongodb/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

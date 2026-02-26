@@ -9,8 +9,9 @@
             "homepage": "https://sentry.io"
           },
           "metadata": {
-            "last_updated": "2026-02-22T03:01:53Z"
+            "last_updated": "2026-02-26T11:45:48Z"
           },
+          "overview": "## Sentry Remote MCP Server\n\nSentry's official remote MCP server enables AI assistants to connect to Sentry's error monitoring and performance tracking platform using OAuth authentication over a streamable HTTP transport. It supports finding organizations, teams, projects, and releases; retrieving detailed issue and trace information; searching events and issues; and running AI-powered issue analysis through Sentry Seer. The server provides the full context needed for AI-driven incident triage, root cause analysis, and performance debugging directly within an assistant workflow.",
           "status": "Active",
           "tags": [
             "remote",
@@ -40,13 +41,21 @@
             "search_docs",
             "get_doc",
             "search_issues"
-          ],
-          "overview": "## Sentry Remote MCP Server\n\nSentry's official remote MCP server enables AI assistants to connect to Sentry's error monitoring and performance tracking platform using OAuth authentication over a streamable HTTP transport. It supports finding organizations, teams, projects, and releases; retrieving detailed issue and trace information; searching events and issues; and running AI-powered issue analysis through Sentry Seer. The server provides the full context needed for AI-driven incident triage, root cause analysis, and performance debugging directly within an assistant workflow."
+          ]
         }
       }
     }
   },
   "description": "Sentry's official remote MCP server for error monitoring and performance tracking",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sentry-remote/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/sentry-remote",
   "remotes": [
     {
@@ -55,14 +64,5 @@
     }
   ],
   "title": "Sentry (Remote)",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sentry-remote/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

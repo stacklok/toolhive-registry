@@ -9,9 +9,10 @@
             "homepage": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server/"
           },
           "metadata": {
-            "last_updated": "2026-02-18T22:27:15Z",
-            "stars": 8185
+            "last_updated": "2026-02-26T11:45:45Z",
+            "stars": 8259
           },
+          "overview": "## AWS Knowledge MCP Server\n\nThe aws-knowledge MCP server is a Model Context Protocol server that gives AI assistants structured access to curated AWS knowledge sources, including architectural guidance, best practices, service concepts, and operational recommendations. It's designed to help AI workflows answer conceptual questions about AWS by grounding responses in authoritative knowledge rather than raw documentation alone. The server provides capabilities including architectural guidance access, concept-level reasoning support, contextual discovery, and grounded AI responses to reduce hallucinations by anchoring answers in vetted AWS knowledge sources.",
           "status": "Active",
           "tags": [
             "remote",
@@ -31,13 +32,21 @@
             "recommend",
             "list_regions",
             "get_regional_availability"
-          ],
-          "overview": "## AWS Knowledge MCP Server\n\nThe aws-knowledge MCP server is a Model Context Protocol server that gives AI assistants structured access to curated AWS knowledge sources, including architectural guidance, best practices, service concepts, and operational recommendations. It's designed to help AI workflows answer conceptual questions about AWS by grounding responses in authoritative knowledge rather than raw documentation alone. The server provides capabilities including architectural guidance access, concept-level reasoning support, contextual discovery, and grounded AI responses to reduce hallucinations by anchoring answers in vetted AWS knowledge sources."
+          ]
         }
       }
     }
   },
   "description": "Documentation, code samples, regional availability knowledge, and other official AWS content",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/aws-knowledge/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/aws-knowledge",
   "remotes": [
     {
@@ -50,14 +59,5 @@
     "url": "https://github.com/awslabs/mcp"
   },
   "title": "AWS Knowledge Bases",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/aws-knowledge/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/sooperset/mcp-atlassian:0.15.0": {
           "metadata": {
-            "last_updated": "2026-02-18T08:06:20Z",
-            "stars": 4306
+            "last_updated": "2026-02-26T11:45:44Z",
+            "stars": 4397
           },
+          "overview": "## Atlassian MCP Server\n\nThe Atlassian MCP server lets AI assistants work directly with Atlassian Cloud products from within an AI-driven workflow. It provides programmatic access to Jira, Confluence, and related Atlassian resources so users can search, create, and update content without switching tools.",
           "permissions": {
             "network": {
               "outbound": {
@@ -77,13 +78,21 @@
             "jira_get_all_projects",
             "jira_create_version",
             "jira_batch_create_versions"
-          ],
-          "overview": "## Atlassian MCP Server\n\nThe Atlassian MCP server lets AI assistants work directly with Atlassian Cloud products from within an AI-driven workflow. It provides programmatic access to Jira, Confluence, and related Atlassian resources so users can search, create, and update content without switching tools."
+          ]
         }
       }
     }
   },
   "description": "Connect to Atlassian products like Confluence, Jira Cloud and Server/Data deployments.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/atlassian/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/atlassian",
   "packages": [
     {
@@ -165,14 +174,5 @@
     "url": "https://github.com/sooperset/mcp-atlassian"
   },
   "title": "Atlassian",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/atlassian/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

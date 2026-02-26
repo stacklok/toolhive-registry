@@ -8,8 +8,9 @@
             "author": "Neon"
           },
           "metadata": {
-            "last_updated": "2026-02-22T03:01:52Z"
+            "last_updated": "2026-02-26T11:45:47Z"
           },
+          "overview": "## Neon Remote MCP Server\n\nNeon's official remote MCP server for serverless Postgres with branching and migrations. The server enables project and organization management for Neon Postgres databases, SQL execution with schema and transaction support, database branching for development and testing workflows, plus query tuning and performance optimization features.",
           "status": "Active",
           "tags": [
             "remote",
@@ -48,13 +49,21 @@
             "prepare_query_tuning",
             "complete_query_tuning",
             "list_slow_queries"
-          ],
-          "overview": "## Neon Remote MCP Server\n\nNeon's official remote MCP server for serverless Postgres with branching and migrations. The server enables project and organization management for Neon Postgres databases, SQL execution with schema and transaction support, database branching for development and testing workflows, plus query tuning and performance optimization features."
+          ]
         }
       }
     }
   },
   "description": "Neon's official remote MCP server for serverless Postgres with branching and migrations",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/neon/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/neon",
   "remotes": [
     {
@@ -63,14 +72,5 @@
     }
   ],
   "title": "Neon (Remote)",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/neon/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

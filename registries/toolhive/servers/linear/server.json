@@ -9,8 +9,9 @@
             "homepage": "https://linear.app/docs/mcp"
           },
           "metadata": {
-            "last_updated": "2026-02-21T02:54:33Z"
+            "last_updated": "2026-02-26T11:45:47Z"
           },
+          "overview": "## Linear MCP Server\n\nThe linear MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Linear, the issue tracking and project management platform. It allows AI-driven workflows to create, update, search, and reason about issues, projects, cycles, and teams — bringing planning and execution context directly into AI-assisted development workflows. This server is especially useful for product planning, engineering management, sprint execution, and triage workflows where Linear is the system of record.",
           "status": "Active",
           "tags": [
             "issue-tracking",
@@ -48,13 +49,21 @@
             "list_users",
             "get_user",
             "search_documentation"
-          ],
-          "overview": "## Linear MCP Server\n\nThe linear MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Linear, the issue tracking and project management platform. It allows AI-driven workflows to create, update, search, and reason about issues, projects, cycles, and teams — bringing planning and execution context directly into AI-assisted development workflows. This server is especially useful for product planning, engineering management, sprint execution, and triage workflows where Linear is the system of record."
+          ]
         }
       }
     }
   },
   "description": "Linear's official remote MCP server to manage issues, projects, and comments",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/linear/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/linear",
   "remotes": [
     {
@@ -63,14 +72,5 @@
     }
   ],
   "title": "Linear",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/linear/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

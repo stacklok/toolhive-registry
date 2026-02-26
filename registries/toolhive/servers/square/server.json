@@ -9,9 +9,10 @@
             "homepage": "https://developer.squareup.com/docs/mcp"
           },
           "metadata": {
-            "last_updated": "2026-02-23T03:02:00Z",
-            "stars": 91
+            "last_updated": "2026-02-26T11:45:48Z",
+            "stars": 92
           },
+          "overview": "## Square MCP Server\n\nSquare's official remote MCP server for payment processing and commerce. The server provides access to Square's commerce platform through Server-Sent Events (SSE) transport, featuring a flexible API request handling tool, type introspection capabilities for API schema discovery, and service discovery for available endpoints. It enables full Square API access for payments, commerce, and customer management operations.",
           "status": "Active",
           "tags": [
             "remote",
@@ -30,13 +31,21 @@
             "make_api_request",
             "get_type_info",
             "get_service_info"
-          ],
-          "overview": "## Square MCP Server\n\nSquare's official remote MCP server for payment processing and commerce. The server provides access to Square's commerce platform through Server-Sent Events (SSE) transport, featuring a flexible API request handling tool, type introspection capabilities for API schema discovery, and service discovery for available endpoints. It enables full Square API access for payments, commerce, and customer management operations."
+          ]
         }
       }
     }
   },
-"description": "Square's official remote MCP server for payment processing and commerce",
+  "description": "Square's official remote MCP server for payment processing and commerce",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/square/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/square",
   "remotes": [
     {
@@ -49,14 +58,5 @@
     "url": "https://github.com/square/square-mcp-server"
   },
   "title": "Square",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/square/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }
