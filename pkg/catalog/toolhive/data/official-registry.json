@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-02-25T00:47:51Z"
+    "last_updated": "2026-02-26T00:43:03Z"
   },
   "data": {
     "servers": [
@@ -9398,8 +9398,8 @@
             "io.github.stacklok": {
               "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.27.0": {
                 "metadata": {
-                  "last_updated": "2026-02-16T03:01:21Z",
-                  "stars": 12997
+                  "last_updated": "2026-02-25T03:00:50Z",
+                  "stars": 13168
                 },
                 "permissions": {
                   "network": {
@@ -12092,6 +12092,9 @@
                   "author": "GitLab",
                   "homepage": "https://gitlab.com/"
                 },
+                "metadata": {
+                  "last_updated": "2026-02-25T03:00:50Z"
+                },
                 "overview": "## GitLab MCP Server\n\nThe official hosted GitLab MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with GitLab projects and resources through a structured, AI-friendly interface. It allows AI-driven workflows to work with repositories, issues, merge requests, and project metadata without switching tools or manually navigating the GitLab UI. It is ideal for development, code review, CI/CD visibility, and project management workflows that rely on GitLab as the system of record.",
                 "status": "Active",
                 "tags": [
@@ -12315,6 +12318,9 @@
                 "custom_metadata": {
                   "author": "Granola",
                   "homepage": "https://granola.ai/"
+                },
+                "metadata": {
+                  "last_updated": "2026-02-25T03:00:50Z"
                 },
                 "overview": "## Granola MCP Server\n\nThe Granola MCP server connects your Granola meeting notes and transcripts to AI assistants and agents through the Model Context Protocol standard. It gives AI tools direct access to your meeting data without manual copying and pasting, enabling AI-driven workflows that build on the context from your real conversations.\n\nWith this server, AI assistants can search and retrieve your meetings, read full transcripts, and use meeting content as grounded context for downstream tasks. This unlocks workflows like asking Claude to draft follow-up tickets from a bug discussion, updating a project board from standup notes, or generating proposals based on discovery call transcripts.\n\nIt is ideal for engineering, sales, and business development workflows where meeting notes are a primary source of record and need to flow into other tools without manual retrieval.",
                 "status": "Active",
@@ -15151,9 +15157,11 @@
                   "homepage": "https://developers.hubspot.com/mcp",
                   "license": "Proprietary"
                 },
+                "metadata": {
+                  "last_updated": "2026-02-25T03:00:50Z"
+                },
                 "oauth_config": {
                   "authorize_url": "https://mcp.hubspot.com/oauth/authorize/user",
-                  "scopes": [],
                   "token_url": "https://mcp.hubspot.com/oauth/v3/token",
                   "use_pkce": true
                 },
@@ -45485,7 +45493,7 @@
             "io.github.stacklok": {
               "ghcr.io/stackloklabs/toolhive-doc-mcp:0.0.9": {
                 "metadata": {
-                  "last_updated": "2026-02-16T03:01:21Z",
+                  "last_updated": "2026-02-25T03:00:50Z",
                   "stars": 3
                 },
                 "overview": "## ToolHive Docs MCP Server\n\nThe toolhive-doc-mcp server allows you to search ToolHive documentation for help with using and contributing to the project (local version). The system maintains a pre-built SQLite vector database containing documentation that undergoes parsing, chunking, and embedding using a local bge-small-en-v1.5 model. When queried, it performs semantic search by comparing queries against stored embeddings to return relevant documentation chunks.",
