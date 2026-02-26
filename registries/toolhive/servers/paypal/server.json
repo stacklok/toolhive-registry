@@ -9,8 +9,9 @@
             "homepage": "https://www.paypal.ai/docs/tools/mcp-quickstart"
           },
           "metadata": {
-            "last_updated": "2026-02-21T15:00:39Z"
+            "last_updated": "2026-02-26T11:45:47Z"
           },
+          "overview": "## PayPal MCP Server\n\nPayPal's official remote MCP server enables AI assistants to interact with the PayPal platform for payment processing, invoicing, and business operations. It supports the full payment lifecycle including order creation, payment capture, and refunds; invoice management with sending, reminders, and QR code generation; product catalog and subscription plan management; dispute resolution; shipment tracking; and transaction history queries. Authentication is handled via PayPal OAuth, making it suitable for AI-driven e-commerce, financial automation, and customer service workflows.",
           "status": "Active",
           "tags": [
             "remote",
@@ -54,13 +55,21 @@
             "search_product",
             "create_cart",
             "checkout_cart"
-          ],
-          "overview": "## PayPal MCP Server\n\nPayPal's official remote MCP server enables AI assistants to interact with the PayPal platform for payment processing, invoicing, and business operations. It supports the full payment lifecycle including order creation, payment capture, and refunds; invoice management with sending, reminders, and QR code generation; product catalog and subscription plan management; dispute resolution; shipment tracking; and transaction history queries. Authentication is handled via PayPal OAuth, making it suitable for AI-driven e-commerce, financial automation, and customer service workflows."
+          ]
         }
       }
     }
   },
   "description": "PayPal's MCP server for payment processing, invoices, and business operations",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/paypal/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/paypal",
   "remotes": [
     {
@@ -69,14 +78,5 @@
     }
   ],
   "title": "PayPal",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/paypal/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

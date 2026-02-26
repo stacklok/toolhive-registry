@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/sqlite-mcp/server:0.1.0": {
           "metadata": {
-            "last_updated": "2026-02-18T08:06:20Z",
+            "last_updated": "2026-02-26T11:45:43Z",
             "stars": 13
           },
+          "overview": "## SQLite MCP Server\n\nThe SQLite MCP server provides AI assistants with direct read and write access to SQLite databases. It supports executing arbitrary SQL queries and statements, listing all tables in a database, and describing table schemas. The server uses a streamable HTTP transport for efficient data transfer, making it suitable for AI-driven data exploration, reporting, and lightweight database management tasks that require structured query execution.",
           "permissions": {
             "network": {
               "outbound": {}
@@ -27,13 +28,21 @@
             "execute_statement",
             "list_tables",
             "describe_table"
-          ],
-          "overview": "## SQLite MCP Server\n\nThe SQLite MCP server provides AI assistants with direct read and write access to SQLite databases. It supports executing arbitrary SQL queries and statements, listing all tables in a database, and describing table schemas. The server uses a streamable HTTP transport for efficient data transfer, making it suitable for AI-driven data exploration, reporting, and lightweight database management tasks that require structured query execution."
+          ]
         }
       }
     }
   },
   "description": "Provides tools and resources for querying SQLite databases.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sqlite/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/sqlite",
   "packages": [
     {
@@ -50,14 +59,5 @@
     "url": "https://github.com/StacklokLabs/sqlite-mcp"
   },
   "title": "SQLite",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sqlite/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

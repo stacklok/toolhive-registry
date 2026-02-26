@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7": {
           "metadata": {
-            "last_updated": "2026-02-21T15:00:39Z",
+            "last_updated": "2026-02-26T11:45:47Z",
             "stars": 74
           },
+          "overview": "## Heroku MCP Server\n\nThe heroku-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Heroku applications and platform resources through a structured, AI-friendly interface. It facilitates AI-driven workflows for inspecting apps, managing deployments, reviewing configuration, and assessing runtime state without requiring manual use of the Heroku CLI or dashboard. The tool is particularly suited for application operations, debugging, deployment workflows, and platform management tasks within teams operating workloads on Heroku.",
           "permissions": {
             "network": {
               "outbound": {
@@ -70,13 +71,21 @@
             "pg_maintenance",
             "pg_backups",
             "pg_upgrade"
-          ],
-          "overview": "## Heroku MCP Server\n\nThe heroku-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Heroku applications and platform resources through a structured, AI-friendly interface. It facilitates AI-driven workflows for inspecting apps, managing deployments, reviewing configuration, and assessing runtime state without requiring manual use of the Heroku CLI or dashboard. The tool is particularly suited for application operations, debugging, deployment workflows, and platform management tasks within teams operating workloads on Heroku."
+          ]
         }
       }
     }
   },
   "description": "MCP server for seamless interaction between LLMs and the Heroku Platform",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/heroku-mcp-server/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/heroku-mcp-server",
   "packages": [
     {
@@ -105,14 +114,5 @@
     "url": "https://github.com/heroku/heroku-mcp-server"
   },
   "title": "Heroku (Remote)",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/heroku-mcp-server/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

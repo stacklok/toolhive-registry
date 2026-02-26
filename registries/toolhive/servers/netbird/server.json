@@ -11,9 +11,10 @@
             ":8001"
           ],
           "metadata": {
-            "last_updated": "2026-02-19T03:03:34Z",
+            "last_updated": "2026-02-26T11:45:46Z",
             "stars": 42
           },
+          "overview": "## NetBird MCP Server\n\nThe netbird MCP server enables management of a NetBird network through a structured AI-friendly interface. The server offers comprehensive NetBird network management including peer and network configuration, access control via groups and policies, posture checks for security compliance, and port allocation and nameserver management capabilities.",
           "permissions": {
             "network": {
               "outbound": {
@@ -47,13 +48,21 @@
             "list_netbird_posture_checks",
             "list_netbird_networks",
             "list_netbird_nameservers"
-          ],
-          "overview": "## NetBird MCP Server\n\nThe netbird MCP server enables management of a NetBird network through a structured AI-friendly interface. The server offers comprehensive NetBird network management including peer and network configuration, access control via groups and policies, posture checks for security compliance, and port allocation and nameserver management capabilities."
+          ]
         }
       }
     }
   },
   "description": "Enables management of an NetBird network.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/netbird/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/netbird",
   "packages": [
     {
@@ -82,14 +91,5 @@
     "url": "https://github.com/aantti/mcp-netbird"
   },
   "title": "NetBird",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/netbird/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

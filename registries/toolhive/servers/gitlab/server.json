@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "iwakitakuma/gitlab-mcp:2.0.19": {
           "metadata": {
-            "last_updated": "2026-02-20T09:56:10Z",
-            "stars": 1064
+            "last_updated": "2026-02-26T11:45:47Z",
+            "stars": 1087
           },
+          "overview": "## GitLab MCP Server\n\nThe gitlab MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with GitLab projects and resources through a structured, AI-friendly interface. It allows AI-driven workflows to work with repositories, issues, merge requests, and project metadata without switching tools or manually navigating the GitLab UI. It is ideal for development, code review, CI/CD visibility, and project management workflows that rely on GitLab as the system of record.",
           "permissions": {
             "network": {
               "outbound": {
@@ -119,13 +120,21 @@
             "list_group_iterations",
             "upload_markdown",
             "download_attachment"
-          ],
-          "overview": "## GitLab MCP Server\n\nThe gitlab MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with GitLab projects and resources through a structured, AI-friendly interface. It allows AI-driven workflows to work with repositories, issues, merge requests, and project metadata without switching tools or manually navigating the GitLab UI. It is ideal for development, code review, CI/CD visibility, and project management workflows that rely on GitLab as the system of record."
+          ]
         }
       }
     }
   },
   "description": "Provides integration with a GitLab instance to manage projects, issues, merge requests, and more.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/gitlab/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/gitlab",
   "packages": [
     {
@@ -192,14 +201,5 @@
     "url": "https://github.com/zereight/gitlab-mcp"
   },
   "title": "GitLab",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/gitlab/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

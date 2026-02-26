@@ -9,8 +9,9 @@
             "homepage": "https://developers.notion.com/docs/get-started-with-mcp"
           },
           "metadata": {
-            "last_updated": "2026-02-21T02:54:33Z"
+            "last_updated": "2026-02-26T11:45:47Z"
           },
+          "overview": "## Notion Remote MCP Server\n\nNotion's official remote MCP server enables AI assistants to interact with Notion workspaces over a streamable HTTP transport using OAuth authentication. It provides comprehensive coverage of the Notion API including creating, updating, duplicating, and moving pages; creating and updating databases; searching across the workspace; managing comments; and retrieving user and team information. This server is ideal for AI workflows that need to read from or write to Notion as a knowledge base, project tracker, or documentation system.",
           "status": "Active",
           "tags": [
             "remote",
@@ -39,13 +40,21 @@
             "notion-get-users",
             "notion-get-user",
             "notion-get-self"
-          ],
-          "overview": "## Notion Remote MCP Server\n\nNotion's official remote MCP server enables AI assistants to interact with Notion workspaces over a streamable HTTP transport using OAuth authentication. It provides comprehensive coverage of the Notion API including creating, updating, duplicating, and moving pages; creating and updating databases; searching across the workspace; managing comments; and retrieving user and team information. This server is ideal for AI workflows that need to read from or write to Notion as a knowledge base, project tracker, or documentation system."
+          ]
         }
       }
     }
   },
   "description": "Notion's official remote MCP server for workspaces, pages, databases, and comments",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/notion-remote/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/notion-remote",
   "remotes": [
     {
@@ -54,14 +63,5 @@
     }
   ],
   "title": "Notion (Remote)",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/notion-remote/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }
