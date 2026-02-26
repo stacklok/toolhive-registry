@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.8.4": {
           "metadata": {
-            "last_updated": "2026-02-18T00:05:40Z",
-            "stars": 2007
+            "last_updated": "2026-02-26T10:31:18Z",
+            "stars": 2061
           },
+          "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
           "permissions": {
             "network": {
               "outbound": {
@@ -172,13 +173,21 @@
             "scrape_batch",
             "search_engine",
             "search_engine_batch"
-          ],
-          "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data."
+          ]
         }
       }
     }
   },
   "description": "An MCP interface into the Bright Data toolset for web scraping and data extraction",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/brightdata-mcp/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/brightdata-mcp",
   "packages": [
     {
@@ -221,14 +230,5 @@
     "url": "https://github.com/brightdata/brightdata-mcp"
   },
   "title": "Bright Data",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/brightdata-mcp/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

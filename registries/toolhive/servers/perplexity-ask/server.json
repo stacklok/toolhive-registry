@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "docker.io/mcp/perplexity-ask:latest": {
           "metadata": {
-            "last_updated": "2026-02-17T17:20:49Z",
-            "stars": 1921
+            "last_updated": "2026-02-26T10:31:17Z",
+            "stars": 1981
           },
+          "overview": "## Perplexity Ask MCP Server\n\nThe perplexity-ask MCP server integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks. The server provides three specialized tools: perplexity_ask for quick web search using the Sonar API, perplexity_research for comprehensive research with detailed citations, and perplexity_reason for advanced reasoning for complex problem-solving.",
           "permissions": {
             "network": {
               "outbound": {
@@ -135,13 +136,21 @@
             "perplexity_ask",
             "perplexity_reason",
             "perplexity_research"
-          ],
-          "overview": "## Perplexity Ask MCP Server\n\nThe perplexity-ask MCP server integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks. The server provides three specialized tools: perplexity_ask for quick web search using the Sonar API, perplexity_research for comprehensive research with detailed citations, and perplexity_reason for advanced reasoning for complex problem-solving."
+          ]
         }
       }
     }
   },
   "description": "Integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/perplexity-ask/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/perplexity-ask",
   "packages": [
     {
@@ -165,14 +174,5 @@
     "url": "https://github.com/ppl-ai/modelcontextprotocol"
   },
   "title": "Perplexity",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/perplexity-ask/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

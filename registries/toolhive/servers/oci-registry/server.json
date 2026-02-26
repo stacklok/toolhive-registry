@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/ocireg-mcp/server:0.1.0": {
           "metadata": {
-            "last_updated": "2026-02-17T17:19:50Z",
+            "last_updated": "2026-02-26T10:31:16Z",
             "stars": 11
           },
+          "overview": "## OCI Registry MCP Server\n\nThe oci-registry MCP server provides secure OCI container registry querying with image introspection and manifest retrieval. The tool enables users to analyze container images through streamlined access to OCI registries, supporting image metadata inspection, tag enumeration, manifest analysis, and secure querying via HTTP transport.",
           "permissions": {
             "network": {
               "outbound": {
@@ -133,13 +134,21 @@
             "get_image_info",
             "get_image_manifest",
             "list_tags"
-          ],
-          "overview": "## OCI Registry MCP Server\n\nThe oci-registry MCP server provides secure OCI container registry querying with image introspection and manifest retrieval. The tool enables users to analyze container images through streamlined access to OCI registries, supporting image metadata inspection, tag enumeration, manifest analysis, and secure querying via HTTP transport."
+          ]
         }
       }
     }
   },
   "description": "Secure OCI container registry querying with image introspection and manifest retrieval",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/oci-registry/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/oci-registry",
   "packages": [
     {
@@ -172,14 +181,5 @@
     "url": "https://github.com/StacklokLabs/ocireg-mcp"
   },
   "title": "OCI Registry",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/oci-registry/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }

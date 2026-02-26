@@ -5,9 +5,10 @@
       "io.github.stacklok": {
         "docker.io/mcp/time:latest": {
           "metadata": {
-            "last_updated": "2026-02-17T17:34:54Z",
-            "stars": 77357
+            "last_updated": "2026-02-26T10:31:17Z",
+            "stars": 79448
           },
+          "overview": "## Time MCP Server\n\nThe time MCP server provides time information and IANA timezone conversions with auto system timezone detection. The server leverages Python's timezone libraries to deliver current time queries across any IANA timezone with automatic detection of the system's local timezone when none is specified, time conversion capabilities between different timezones, timezone-aware datetime strings formatted in ISO 8601 standard, and Daylight Saving Time indicators. The server exposes two primary tools: get_current_time and convert_time.",
           "permissions": {
             "network": {
               "outbound": {}
@@ -76,13 +77,21 @@
           "tools": [
             "convert_time",
             "get_current_time"
-          ],
-          "overview": "## Time MCP Server\n\nThe time MCP server provides time information and IANA timezone conversions with auto system timezone detection. The server leverages Python's timezone libraries to deliver current time queries across any IANA timezone with automatic detection of the system's local timezone when none is specified, time conversion capabilities between different timezones, timezone-aware datetime strings formatted in ISO 8601 standard, and Daylight Saving Time indicators. The server exposes two primary tools: get_current_time and convert_time."
+          ]
         }
       }
     }
   },
   "description": "Provides time information and IANA timezone conversions with auto system timezone detection.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/time/icon.svg"
+    }
+  ],
   "name": "io.github.stacklok/time",
   "packages": [
     {
@@ -98,14 +107,5 @@
     "url": "https://github.com/modelcontextprotocol/servers"
   },
   "title": "Time",
-  "version": "1.0.0",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/time/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ]
+  "version": "1.0.0"
 }
