@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-03-02T00:44:39Z"
+    "last_updated": "2026-03-03T12:33:44Z"
   },
   "data": {
     "servers": [
@@ -285,7 +285,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.7.0",
+            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.8.1",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -306,7 +306,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/apollographql/apollo-mcp-server:v1.7.0": {
+              "ghcr.io/apollographql/apollo-mcp-server:v1.8.1": {
                 "metadata": {
                   "last_updated": "2026-02-26T11:45:47Z",
                   "stars": 264
@@ -647,7 +647,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/sooperset/mcp-atlassian:0.15.0",
+            "identifier": "ghcr.io/sooperset/mcp-atlassian:0.21.0",
             "transport": {
               "type": "stdio"
             },
@@ -722,7 +722,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/sooperset/mcp-atlassian:0.15.0": {
+              "ghcr.io/sooperset/mcp-atlassian:0.21.0": {
                 "metadata": {
                   "last_updated": "2026-02-26T11:45:44Z",
                   "stars": 4397
@@ -2354,8 +2354,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.8.4": {
                 "metadata": {
-                  "last_updated": "2026-02-26T10:31:18Z",
-                  "stars": 2061
+                  "last_updated": "2026-03-02T02:58:07Z",
+                  "stars": 2138
                 },
                 "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
                 "permissions": {
@@ -6216,7 +6216,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.27.0",
+            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.28.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -6226,7 +6226,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.27.0": {
+              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.28.0": {
                 "args": [
                   "--address",
                   "0.0.0.0"
@@ -8201,7 +8201,7 @@
             "io.github.stacklok": {
               "ghcr.io/stackloklabs/gofetch/server:1.0.3": {
                 "metadata": {
-                  "last_updated": "2026-02-26T10:31:18Z",
+                  "last_updated": "2026-03-02T02:58:07Z",
                   "stars": 21
                 },
                 "overview": "## Fetch MCP Server\n\nThe fetch-mcp-server is a lightweight Model Context Protocol (MCP) server that gives AI assistants direct access to external HTTP and HTTPS resources. It allows AI-driven workflows to retrieve web content, APIs, and remote resources on demand, making it easy to incorporate live data, documentation, or machine-readable endpoints into an assistant's reasoning loop. This server is commonly used as a foundational building block for research, data ingestion, and integration workflows where simple, reliable network access is required.",
@@ -8426,8 +8426,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/firecrawl:latest": {
                 "metadata": {
-                  "last_updated": "2026-02-26T10:31:19Z",
-                  "stars": 5602
+                  "last_updated": "2026-03-02T02:58:08Z",
+                  "stars": 5632
                 },
                 "overview": "## Firecrawl MCP Server\n\nThe firecrawl-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants to crawl, scrape, and extract content from websites at scale using Firecrawl. This tool transforms entire websites — including documentation, blogs, and knowledge bases — into clean, structured, machine-readable data without requiring custom crawlers. It is particularly suited for research, content ingestion, documentation analysis, and RAG workflows needing high-quality web content.",
                 "permissions": {
@@ -9386,7 +9386,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.27.0",
+            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.28.0",
             "transport": {
               "type": "sse",
               "url": "http://localhost:5000"
@@ -9396,7 +9396,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.27.0": {
+              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.28.0": {
                 "metadata": {
                   "last_updated": "2026-02-26T11:46:00Z",
                   "stars": 13190
@@ -18670,7 +18670,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.4.2": {
                 "metadata": {
-                  "last_updated": "2026-02-26T10:31:19Z",
+                  "last_updated": "2026-03-02T02:58:08Z",
                   "stars": 19
                 },
                 "overview": "## LaunchDarkly MCP Server\n\nThe launchdarkly MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with LaunchDarkly, the feature management and experimentation platform. It allows AI-driven workflows to inspect feature flags, environments, and targeting rules, helping teams understand feature rollout, experimentation, and risk management without leaving their current tools. This server is particularly valuable for release management, experimentation analysis, and operational decision-making scenarios where feature flag context matters.",
@@ -28720,7 +28720,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/onchain-mcp:1.0.6": {
                 "metadata": {
-                  "last_updated": "2026-02-26T10:31:18Z",
+                  "last_updated": "2026-03-02T02:58:07Z",
                   "stars": 72
                 },
                 "overview": "## Onchain MCP Server\n\nThe onchain-mcp server is a Model Context Protocol (MCP) server for blockchain data interaction through the Bankless API, enabling seamless access to Ethereum and Web3 data. Key capabilities include comprehensive blockchain data access through Bankless API integration, smart contract interaction including reading contracts, ABIs, and source code, transaction and event monitoring with historical data access, and token balance queries and block information retrieval across Ethereum networks.",
@@ -41180,7 +41180,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/korotovsky/slack-mcp-server:v1.1.28",
+            "identifier": "ghcr.io/korotovsky/slack-mcp-server:v1.2.2",
             "transport": {
               "type": "sse",
               "url": "http://localhost:13080"
@@ -41225,7 +41225,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/korotovsky/slack-mcp-server:v1.1.28": {
+              "ghcr.io/korotovsky/slack-mcp-server:v1.2.2": {
                 "metadata": {
                   "last_updated": "2026-02-26T11:45:46Z",
                   "stars": 1396
