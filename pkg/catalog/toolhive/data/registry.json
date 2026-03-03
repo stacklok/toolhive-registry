@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-03-02T00:44:39Z",
+  "last_updated": "2026-03-03T12:33:44Z",
   "servers": {
     "adb-mysql-mcp-server": {
       "title": "AnalyticDB for MySQL",
@@ -222,7 +222,7 @@
         "mcp"
       ],
       "overview": "## Apollo MCP Server\n\nThe apollo-mcp-server is a Model Context Protocol (MCP) server implementation that makes your GraphQL API operations available as MCP tools for AI assistants and agents. It acts as a translation layer between AI clients and your GraphQL infrastructure, exposing query and mutation capabilities through MCP so models can fetch, explore, and orchestrate your graph operations without bespoke tooling.",
-      "image": "ghcr.io/apollographql/apollo-mcp-server:v1.7.0",
+      "image": "ghcr.io/apollographql/apollo-mcp-server:v1.8.1",
       "target_port": 5000,
       "permissions": {
         "network": {
@@ -543,7 +543,7 @@
         "data-center"
       ],
       "overview": "## Atlassian MCP Server\n\nThe Atlassian MCP server lets AI assistants work directly with Atlassian Cloud products from within an AI-driven workflow. It provides programmatic access to Jira, Confluence, and related Atlassian resources so users can search, create, and update content without switching tools.",
-      "image": "ghcr.io/sooperset/mcp-atlassian:0.15.0",
+      "image": "ghcr.io/sooperset/mcp-atlassian:0.21.0",
       "permissions": {
         "network": {
           "outbound": {
@@ -1875,8 +1875,8 @@
         "search_engine_batch"
       ],
       "metadata": {
-        "stars": 2061,
-        "last_updated": "2026-02-26T10:31:18Z"
+        "stars": 2138,
+        "last_updated": "2026-03-02T02:58:07Z"
       },
       "repository_url": "https://github.com/brightdata/brightdata-mcp",
       "tags": [
@@ -5442,7 +5442,7 @@
         "mcp-server"
       ],
       "overview": "## Database Toolbox MCP Server\n\nThe database-toolbox-mcp-server is a Model Context Protocol (MCP) server that provides AI assistants with a unified, database-agnostic interface for interacting with multiple relational databases. It exposes common database operations as standardized MCP tools, allowing AI-driven workflows to query data, inspect schemas, and manage connections across different database engines without bespoke integrations for each one. This server is especially useful for data analysis, reporting, debugging, and operational workflows that span multiple databases.",
-      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.27.0",
+      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.28.0",
       "target_port": 5000,
       "permissions": {
         "network": {
@@ -7287,7 +7287,7 @@
       ],
       "metadata": {
         "stars": 21,
-        "last_updated": "2026-02-26T10:31:18Z"
+        "last_updated": "2026-03-02T02:58:07Z"
       },
       "repository_url": "https://github.com/stackloklabs/gofetch",
       "tags": [
@@ -7421,8 +7421,8 @@
         "firecrawl_search"
       ],
       "metadata": {
-        "stars": 5602,
-        "last_updated": "2026-02-26T10:31:19Z"
+        "stars": 5632,
+        "last_updated": "2026-03-02T02:58:08Z"
       },
       "repository_url": "https://github.com/firecrawl/firecrawl-mcp-server",
       "tags": [
@@ -8419,7 +8419,7 @@
         "genai",
         "mcp-server"
       ],
-      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.27.0",
+      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.28.0",
       "target_port": 5000,
       "permissions": {
         "network": {
@@ -16804,7 +16804,7 @@
       ],
       "metadata": {
         "stars": 19,
-        "last_updated": "2026-02-26T10:31:19Z"
+        "last_updated": "2026-03-02T02:58:08Z"
       },
       "repository_url": "https://github.com/launchdarkly/mcp-server",
       "tags": [
@@ -25986,7 +25986,7 @@
       ],
       "metadata": {
         "stars": 72,
-        "last_updated": "2026-02-26T10:31:18Z"
+        "last_updated": "2026-03-02T02:58:07Z"
       },
       "repository_url": "https://github.com/Bankless/onchain-mcp",
       "tags": [
@@ -37790,7 +37790,7 @@
         "workspace"
       ],
       "overview": "## Slack MCP Server\n\nThe slack-mcp-server is a Model Context Protocol (MCP) server for Slack with channels, DMs, message history, search, and smart pagination. The server connects assistants to Slack workspaces via SSE transport, enabling channel and direct message discovery, message retrieval with threading support, search functionality across messages, and message posting capability.",
-      "image": "ghcr.io/korotovsky/slack-mcp-server:v1.1.28",
+      "image": "ghcr.io/korotovsky/slack-mcp-server:v1.2.2",
       "target_port": 13080,
       "permissions": {
         "network": {
