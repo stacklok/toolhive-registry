@@ -192,18 +192,13 @@ func verifyServerProvenance(
 		return fmt.Errorf("failed to convert for verification: %w", err)
 	}
 
-	v, err := verifier.New(imgMeta, authn.DefaultKeychain)
+	v, err := verifier.New(imgMeta.Provenance, authn.DefaultKeychain)
 	if err != nil {
 		return fmt.Errorf("failed to create verifier: %w", err)
 	}
 
-	isVerified, err := v.VerifyServer(imgMeta.Image, imgMeta)
-	if err != nil {
+	if err := v.VerifyServer(imgMeta.Image, imgMeta.Provenance); err != nil {
 		return fmt.Errorf("verification failed: %w", err)
-	}
-
-	if !isVerified {
-		return fmt.Errorf("no verified signatures found")
 	}
 
 	if verbose {
