@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.0": {
           "metadata": {
-            "last_updated": "2026-02-26T11:46:02Z",
+            "last_updated": "2026-03-03T14:55:09Z",
             "stars": 11
           },
           "overview": "## OCI Registry MCP Server\n\nThe oci-registry MCP server provides secure OCI container registry querying with image introspection and manifest retrieval. The tool enables users to analyze container images through streamlined access to OCI registries, supporting image metadata inspection, tag enumeration, manifest analysis, and secure querying via HTTP transport.",
@@ -45,7 +45,7 @@
                 "destructiveHint": true,
                 "idempotentHint": false,
                 "openWorldHint": true,
-                "readOnlyHint": false
+                "readOnlyHint": true
               },
               "description": "Get the config for an OCI image",
               "inputSchema": {
@@ -67,7 +67,7 @@
                 "destructiveHint": true,
                 "idempotentHint": false,
                 "openWorldHint": true,
-                "readOnlyHint": false
+                "readOnlyHint": true
               },
               "description": "Get information about an OCI image",
               "inputSchema": {
@@ -89,7 +89,7 @@
                 "destructiveHint": true,
                 "idempotentHint": false,
                 "openWorldHint": true,
-                "readOnlyHint": false
+                "readOnlyHint": true
               },
               "description": "Get the manifest for an OCI image",
               "inputSchema": {
@@ -111,13 +111,31 @@
                 "destructiveHint": true,
                 "idempotentHint": false,
                 "openWorldHint": true,
-                "readOnlyHint": false
+                "readOnlyHint": true
               },
-              "description": "List tags for a repository",
+              "description": "List tags for a repository with pagination support",
               "inputSchema": {
                 "properties": {
+                  "cursor": {
+                    "description": "Opaque pagination cursor from a previous list_tags response",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "description": "Maximum number of tags to return per page (default: 100, max: 1000)",
+                    "type": "number"
+                  },
                   "repository": {
                     "description": "The repository name (e.g., docker.io/library/alpine)",
+                    "type": "string"
+                  },
+                  "sort": {
+                    "description": "Sort order for tags",
+                    "enum": [
+                      "alphabetical",
+                      "alphabetical-desc",
+                      "semver",
+                      "semver-desc"
+                    ],
                     "type": "string"
                   }
                 },
