@@ -264,7 +264,7 @@ jobs:
 
       - name: Upload commit info
         if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: commit-info-${{ steps.server-info.outputs.server-name }}
           path: /tmp/commit-info/
@@ -316,7 +316,7 @@ jobs:
           ref: ${{ github.head_ref || github.ref }}
 
       - name: Download all commit info artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: /tmp/artifacts/
           pattern: commit-info-*
@@ -407,7 +407,7 @@ jobs:
           body-includes: '## MCP Server Tool List Updates (server.json)'
 
       - name: Download all commit info artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: /tmp/comment-artifacts/
           pattern: commit-info-*
