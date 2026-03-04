@@ -1,0 +1,75 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.slack.com/mcp": {
+          "custom_metadata": {
+            "author": "Slack",
+            "homepage": "https://docs.slack.dev/ai/slack-mcp-server",
+            "license": "MIT"
+          },
+          "oauth_config": {
+            "authorize_url": "https://slack.com/oauth/v2_user/authorize",
+            "scopes": [
+              "search:read.public",
+              "chat:write",
+              "channels:read",
+              "users:read",
+              "canvases:write",
+              "canvases:read"
+            ],
+            "token_url": "https://slack.com/api/oauth.v2.user.access",
+            "use_pkce": true
+          },
+          "overview": "## Slack Remote MCP Server\n\nThe slack-remote MCP server is a hosted Model Context Protocol (MCP) server that allows AI assistants to interact with Slack workspaces. It provides secure, OAuth-authenticated access to search messages and files, send messages, manage canvases, and access user profiles through a remote MCP endpoint.\n\nThis server uses confidential OAuth for authentication, requiring a registered Slack app with proper scopes for each tool type.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "slack",
+            "messaging",
+            "search",
+            "channels",
+            "canvases",
+            "collaboration"
+          ],
+          "tier": "Official",
+          "tools": [
+            "search_messages",
+            "search_files",
+            "search_users",
+            "search_channels",
+            "send_message",
+            "get_channel_history",
+            "get_thread_replies",
+            "create_canvas",
+            "update_canvas",
+            "get_canvas",
+            "list_canvases",
+            "get_user_profile",
+            "set_during_runtime"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Slack's official MCP server for messages, canvases, and user profiles with OAuth",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/slack-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/slack-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.slack.com/mcp"
+    }
+  ],
+  "title": "Slack (Remote)",
+  "version": "1.0.0"
+}
