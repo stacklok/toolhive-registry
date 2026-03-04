@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-03-03T12:33:44Z"
+    "last_updated": "2026-03-04T00:43:15Z"
   },
   "data": {
     "servers": [
@@ -7907,8 +7907,8 @@
                   "http"
                 ],
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:44Z",
-                  "stars": 614
+                  "last_updated": "2026-03-03T12:34:33Z",
+                  "stars": 615
                 },
                 "overview": "## Elasticsearch MCP Server\n\nThe elasticsearch-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Elasticsearch clusters through a structured, AI-friendly interface. It allows AI-driven workflows to search, index, analyze, and manage data stored in Elasticsearch without writing custom client code or switching to separate tooling. This server is well suited for search-driven applications, log analysis, observability workflows, and any AI use case that depends on fast, flexible querying over large datasets.",
                 "permissions": {
@@ -14933,7 +14933,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.0.7": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:43Z",
+                  "last_updated": "2026-03-03T12:34:32Z",
                   "stars": 74
                 },
                 "overview": "## Heroku MCP Server\n\nThe heroku-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the Heroku platform through a structured, AI-friendly interface. It allows AI-driven workflows to inspect applications, manage deployments, review configuration, and reason about runtime behavior without switching tools or manually using the Heroku CLI or dashboard. Key capabilities include application lifecycle management, deployment workflows, runtime insight for dynos and process scaling, and operational visibility through logs and platform metadata.",
@@ -21952,8 +21952,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/mcp-server-neon:0.6.5": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:43Z",
-                  "stars": 555
+                  "last_updated": "2026-03-03T12:34:33Z",
+                  "stars": 559
                 },
                 "overview": "## Neon MCP Server\n\nThe mcp-server-neon is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neon, the serverless PostgreSQL platform. It allows AI-driven workflows to inspect databases, manage branches, and reason about environments and schema state — bringing modern, branch-based database context directly into MCP-powered assistants. This server is especially useful for development, testing, preview environments, and workflows where database branching and isolation are key to rapid iteration.",
                 "permissions": {
@@ -22610,8 +22610,8 @@
             "io.github.stacklok": {
               "docker.io/mongodb/mongodb-mcp-server:1.7.0": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:43Z",
-                  "stars": 926
+                  "last_updated": "2026-03-03T12:34:33Z",
+                  "stars": 936
                 },
                 "overview": "## MongoDB MCP Server\n\nThe mongodb MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with MongoDB databases through a structured, AI-friendly interface. It allows AI-driven workflows to inspect collections, query documents, and reason about schema-less data without switching tools or embedding MongoDB-specific drivers in the client. This server is especially useful for application development, data exploration, debugging, and analytics workflows where MongoDB is the primary data store.",
                 "permissions": {
@@ -28516,7 +28516,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stackloklabs/ocireg-mcp/server:0.1.0",
+            "identifier": "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8080"
@@ -28542,9 +28542,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stackloklabs/ocireg-mcp/server:0.1.0": {
+              "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.0": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:46:02Z",
+                  "last_updated": "2026-03-03T14:55:09Z",
                   "stars": 11
                 },
                 "overview": "## OCI Registry MCP Server\n\nThe oci-registry MCP server provides secure OCI container registry querying with image introspection and manifest retrieval. The tool enables users to analyze container images through streamlined access to OCI registries, supporting image metadata inspection, tag enumeration, manifest analysis, and secure querying via HTTP transport.",
@@ -28584,7 +28584,7 @@
                       "destructiveHint": true,
                       "idempotentHint": false,
                       "openWorldHint": true,
-                      "readOnlyHint": false
+                      "readOnlyHint": true
                     },
                     "description": "Get the config for an OCI image",
                     "inputSchema": {
@@ -28606,7 +28606,7 @@
                       "destructiveHint": true,
                       "idempotentHint": false,
                       "openWorldHint": true,
-                      "readOnlyHint": false
+                      "readOnlyHint": true
                     },
                     "description": "Get information about an OCI image",
                     "inputSchema": {
@@ -28628,7 +28628,7 @@
                       "destructiveHint": true,
                       "idempotentHint": false,
                       "openWorldHint": true,
-                      "readOnlyHint": false
+                      "readOnlyHint": true
                     },
                     "description": "Get the manifest for an OCI image",
                     "inputSchema": {
@@ -28650,13 +28650,31 @@
                       "destructiveHint": true,
                       "idempotentHint": false,
                       "openWorldHint": true,
-                      "readOnlyHint": false
+                      "readOnlyHint": true
                     },
-                    "description": "List tags for a repository",
+                    "description": "List tags for a repository with pagination support",
                     "inputSchema": {
                       "properties": {
+                        "cursor": {
+                          "description": "Opaque pagination cursor from a previous list_tags response",
+                          "type": "string"
+                        },
+                        "limit": {
+                          "description": "Maximum number of tags to return per page (default: 100, max: 1000)",
+                          "type": "number"
+                        },
                         "repository": {
                           "description": "The repository name (e.g., docker.io/library/alpine)",
+                          "type": "string"
+                        },
+                        "sort": {
+                          "description": "Sort order for tags",
+                          "enum": [
+                            "alphabetical",
+                            "alphabetical-desc",
+                            "semver",
+                            "semver-desc"
+                          ],
                           "type": "string"
                         }
                       },
@@ -41420,7 +41438,7 @@
             "io.github.stacklok": {
               "ghcr.io/stackloklabs/sqlite-mcp/server:0.1.0": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:43Z",
+                  "last_updated": "2026-03-03T12:34:33Z",
                   "stars": 13
                 },
                 "overview": "## SQLite MCP Server\n\nThe SQLite MCP server provides AI assistants with direct read and write access to SQLite databases. It supports executing arbitrary SQL queries and statements, listing all tables in a database, and describing table schemas. The server uses a streamable HTTP transport for efficient data transfer, making it suitable for AI-driven data exploration, reporting, and lightweight database management tasks that require structured query execution.",

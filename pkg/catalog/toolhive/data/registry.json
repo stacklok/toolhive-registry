@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-03-03T12:33:44Z",
+  "last_updated": "2026-03-04T00:43:15Z",
   "servers": {
     "adb-mysql-mcp-server": {
       "title": "AnalyticDB for MySQL",
@@ -7009,8 +7009,8 @@
         "search"
       ],
       "metadata": {
-        "stars": 614,
-        "last_updated": "2026-02-26T11:45:44Z"
+        "stars": 615,
+        "last_updated": "2026-03-03T12:34:33Z"
       },
       "repository_url": "https://github.com/elastic/mcp-server-elasticsearch",
       "tags": [
@@ -13492,7 +13492,7 @@
       ],
       "metadata": {
         "stars": 74,
-        "last_updated": "2026-02-26T11:45:43Z"
+        "last_updated": "2026-03-03T12:34:32Z"
       },
       "repository_url": "https://github.com/heroku/heroku-mcp-server",
       "tags": [
@@ -19712,8 +19712,8 @@
         "provision_neon_auth"
       ],
       "metadata": {
-        "stars": 555,
-        "last_updated": "2026-02-26T11:45:43Z"
+        "stars": 559,
+        "last_updated": "2026-03-03T12:34:33Z"
       },
       "repository_url": "https://github.com/neondatabase-labs/mcp-server-neon",
       "tags": [
@@ -20097,8 +20097,8 @@
         "update-many"
       ],
       "metadata": {
-        "stars": 926,
-        "last_updated": "2026-02-26T11:45:43Z"
+        "stars": 936,
+        "last_updated": "2026-03-03T12:34:33Z"
       },
       "repository_url": "https://github.com/mongodb-js/mongodb-mcp-server",
       "tags": [
@@ -25822,7 +25822,7 @@
       ],
       "metadata": {
         "stars": 11,
-        "last_updated": "2026-02-26T11:46:02Z"
+        "last_updated": "2026-03-03T14:55:09Z"
       },
       "repository_url": "https://github.com/StacklokLabs/ocireg-mcp",
       "tags": [
@@ -25840,7 +25840,7 @@
       "tool_definitions": [
         {
           "annotations": {
-            "readOnlyHint": false,
+            "readOnlyHint": true,
             "destructiveHint": true,
             "idempotentHint": false,
             "openWorldHint": true
@@ -25862,7 +25862,7 @@
         },
         {
           "annotations": {
-            "readOnlyHint": false,
+            "readOnlyHint": true,
             "destructiveHint": true,
             "idempotentHint": false,
             "openWorldHint": true
@@ -25884,7 +25884,7 @@
         },
         {
           "annotations": {
-            "readOnlyHint": false,
+            "readOnlyHint": true,
             "destructiveHint": true,
             "idempotentHint": false,
             "openWorldHint": true
@@ -25906,16 +25906,34 @@
         },
         {
           "annotations": {
-            "readOnlyHint": false,
+            "readOnlyHint": true,
             "destructiveHint": true,
             "idempotentHint": false,
             "openWorldHint": true
           },
-          "description": "List tags for a repository",
+          "description": "List tags for a repository with pagination support",
           "inputSchema": {
             "properties": {
+              "cursor": {
+                "description": "Opaque pagination cursor from a previous list_tags response",
+                "type": "string"
+              },
+              "limit": {
+                "description": "Maximum number of tags to return per page (default: 100, max: 1000)",
+                "type": "number"
+              },
               "repository": {
                 "description": "The repository name (e.g., docker.io/library/alpine)",
+                "type": "string"
+              },
+              "sort": {
+                "description": "Sort order for tags",
+                "enum": [
+                  "alphabetical",
+                  "alphabetical-desc",
+                  "semver",
+                  "semver-desc"
+                ],
                 "type": "string"
               }
             },
@@ -25927,7 +25945,7 @@
           "name": "list_tags"
         }
       ],
-      "image": "ghcr.io/stackloklabs/ocireg-mcp/server:0.1.0",
+      "image": "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.0",
       "target_port": 8080,
       "permissions": {
         "network": {
@@ -37955,7 +37973,7 @@
       ],
       "metadata": {
         "stars": 13,
-        "last_updated": "2026-02-26T11:45:43Z"
+        "last_updated": "2026-03-03T12:34:33Z"
       },
       "repository_url": "https://github.com/StacklokLabs/sqlite-mcp",
       "tags": [
