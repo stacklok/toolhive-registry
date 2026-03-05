@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.msaad00/agent-bom",
-  "description": "AI supply chain security scanner — CVE scanning, blast radius analysis, policy enforcement, and SBOM generation for MCP servers and AI agents",
+  "description": "AI supply chain security scanner for MCP servers and AI agents. CVE scanning, blast radius analysis, CIS benchmarks, policy enforcement, SBOM generation, and compliance across 10 frameworks.",
   "title": "agent-bom",
   "repository": {
     "url": "https://github.com/msaad00/agent-bom",
     "source": "github"
   },
-  "version": "0.31.1",
+  "version": "0.54.0",
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/msaad00/agent-bom:v0.31.1",
+      "identifier": "ghcr.io/msaad00/agent-bom:v0.54.0",
       "transport": {
         "type": "stdio"
       },
@@ -28,7 +28,7 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.msaad00": {
-        "ghcr.io/msaad00/agent-bom:v0.31.1": {
+        "ghcr.io/msaad00/agent-bom:v0.54.0": {
           "tier": "Community",
           "status": "Active",
           "tags": [
@@ -39,7 +39,11 @@
             "cve",
             "blast-radius",
             "mcp",
-            "ai-agents"
+            "ai-agents",
+            "compliance",
+            "cis-benchmarks",
+            "owasp",
+            "policy-as-code"
           ],
           "tools": [
             "scan",
@@ -49,7 +53,17 @@
             "registry_lookup",
             "generate_sbom",
             "compliance",
-            "remediate"
+            "remediate",
+            "verify",
+            "where",
+            "inventory",
+            "diff",
+            "skill_trust",
+            "marketplace_check",
+            "code_scan",
+            "context_graph",
+            "analytics_query",
+            "cis_benchmark"
           ],
           "permissions": {
             "network": {
@@ -60,7 +74,10 @@
                   "api.first.org",
                   "www.cisa.gov",
                   "registry.npmjs.org",
-                  "pypi.org"
+                  "pypi.org",
+                  "crates.io",
+                  "proxy.golang.org",
+                  "search.maven.org"
                 ],
                 "allow_port": [
                   443
@@ -69,7 +86,7 @@
             }
           },
           "custom_metadata": {
-            "author": "W S",
+            "author": "Mohamed Saad",
             "homepage": "https://github.com/msaad00/agent-bom",
             "license": "Apache-2.0"
           }
