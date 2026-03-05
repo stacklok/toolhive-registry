@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-03-04T00:43:15Z"
+    "last_updated": "2026-03-05T00:44:50Z"
   },
   "data": {
     "servers": [
@@ -285,7 +285,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.8.1",
+            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.8.2",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -306,7 +306,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/apollographql/apollo-mcp-server:v1.8.1": {
+              "ghcr.io/apollographql/apollo-mcp-server:v1.8.2": {
                 "metadata": {
                   "last_updated": "2026-02-26T11:45:47Z",
                   "stars": 264
@@ -724,8 +724,8 @@
             "io.github.stacklok": {
               "ghcr.io/sooperset/mcp-atlassian:0.21.0": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:44Z",
-                  "stars": 4397
+                  "last_updated": "2026-03-04T02:55:54Z",
+                  "stars": 4468
                 },
                 "overview": "## Atlassian MCP Server\n\nThe Atlassian MCP server lets AI assistants work directly with Atlassian Cloud products from within an AI-driven workflow. It provides programmatic access to Jira, Confluence, and related Atlassian resources so users can search, create, and update content without switching tools.",
                 "permissions": {
@@ -6131,8 +6131,8 @@
                   "8000"
                 ],
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:45Z",
-                  "stars": 113
+                  "last_updated": "2026-03-04T02:55:54Z",
+                  "stars": 115
                 },
                 "overview": "## CrowdStrike Falcon MCP Server\n\nThe crowdstrike-falcon-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the CrowdStrike Falcon platform through a structured, AI-friendly interface. It allows AI-driven workflows to query security telemetry, investigate threats, manage detections, and inspect endpoint posture without switching tools or manually navigating the Falcon console. This server is particularly useful for security operations (SOC), incident response, threat hunting, and security analysis workflows augmented by AI.",
                 "permissions": {
@@ -8313,8 +8313,8 @@
                   "/projects"
                 ],
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:44Z",
-                  "stars": 79451
+                  "last_updated": "2026-03-04T02:55:54Z",
+                  "stars": 80011
                 },
                 "overview": "## Filesystem MCP Server\n\nThe filesystem-mcp-server is a Model Context Protocol (MCP) server that gives AI assistants direct, structured access to the local filesystem. It allows AI-driven workflows to read, write, and organize files and directories as part of a larger reasoning process, making persistent storage and file-based context a first-class capability inside MCP-compatible assistants. The server enables use cases including developer workflows, data preparation, note-taking, and artifact generation where AI systems need controlled access to local files.",
                 "permissions": {
@@ -12183,8 +12183,8 @@
             "io.github.stacklok": {
               "docker.io/grafana/mcp-grafana:0.11.2": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:45Z",
-                  "stars": 2410
+                  "last_updated": "2026-03-04T02:55:54Z",
+                  "stars": 2459
                 },
                 "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential.",
                 "permissions": {
@@ -36716,8 +36716,8 @@
                   "--sse-port=8000"
                 ],
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:44Z",
-                  "stars": 2194
+                  "last_updated": "2026-03-04T02:55:54Z",
+                  "stars": 2246
                 },
                 "overview": "## PostgreSQL Pro MCP Server\n\nThe PostgreSQL Pro MCP server provides configurable **read/write access and performance analysis** for PostgreSQL databases. It enables AI assistants to explore schemas, execute SQL queries, and gain deep insights into database health and performance.\n\nKey capabilities include:\n- **Schema exploration** — list schemas, objects, and detailed object metadata\n- **SQL execution** — run queries with built-in EXPLAIN analysis for performance optimization\n- **Workload monitoring** — identify top queries and analyze workload patterns\n- **Index optimization** — get index recommendations based on real query workloads\n- **Database health checks** — assess overall database health and identify issues",
                 "permissions": {
@@ -41198,7 +41198,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/korotovsky/slack-mcp-server:v1.2.2",
+            "identifier": "ghcr.io/korotovsky/slack-mcp-server:v1.2.3",
             "transport": {
               "type": "sse",
               "url": "http://localhost:13080"
@@ -41243,7 +41243,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/korotovsky/slack-mcp-server:v1.2.2": {
+              "ghcr.io/korotovsky/slack-mcp-server:v1.2.3": {
                 "metadata": {
                   "last_updated": "2026-02-26T11:45:46Z",
                   "stars": 1396
@@ -41279,6 +41279,81 @@
                   "conversations_add_message",
                   "conversations_search_messages",
                   "channels_list"
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "name": "io.github.stacklok/slack-remote",
+        "description": "Slack's official MCP server for messages, canvases, and user profiles with OAuth",
+        "title": "Slack (Remote)",
+        "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/slack-remote/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "https://mcp.slack.com/mcp"
+          }
+        ],
+        "_meta": {
+          "io.modelcontextprotocol.registry/publisher-provided": {
+            "io.github.stacklok": {
+              "https://mcp.slack.com/mcp": {
+                "custom_metadata": {
+                  "author": "Slack",
+                  "homepage": "https://docs.slack.dev/ai/slack-mcp-server",
+                  "license": "MIT"
+                },
+                "oauth_config": {
+                  "authorize_url": "https://slack.com/oauth/v2_user/authorize",
+                  "scopes": [
+                    "search:read.public",
+                    "chat:write",
+                    "channels:read",
+                    "users:read",
+                    "canvases:write",
+                    "canvases:read"
+                  ],
+                  "token_url": "https://slack.com/api/oauth.v2.user.access",
+                  "use_pkce": true
+                },
+                "overview": "## Slack Remote MCP Server\n\nThe slack-remote MCP server is a hosted Model Context Protocol (MCP) server that allows AI assistants to interact with Slack workspaces. It provides secure, OAuth-authenticated access to search messages and files, send messages, manage canvases, and access user profiles through a remote MCP endpoint.\n\nThis server uses confidential OAuth for authentication, requiring a registered Slack app with proper scopes for each tool type.",
+                "status": "Active",
+                "tags": [
+                  "remote",
+                  "slack",
+                  "messaging",
+                  "search",
+                  "channels",
+                  "canvases",
+                  "collaboration"
+                ],
+                "tier": "Official",
+                "tools": [
+                  "search_messages",
+                  "search_files",
+                  "search_users",
+                  "search_channels",
+                  "send_message",
+                  "get_channel_history",
+                  "get_thread_replies",
+                  "create_canvas",
+                  "update_canvas",
+                  "get_canvas",
+                  "list_canvases",
+                  "get_user_profile",
+                  "set_during_runtime"
                 ]
               }
             }
