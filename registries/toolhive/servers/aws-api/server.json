@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.16": {
+        "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.17": {
           "metadata": {
-            "last_updated": "2026-02-26T11:46:01Z",
+            "last_updated": "2026-03-04T22:50:04Z",
             "stars": 8259
           },
           "overview": "## AWS API MCP Server\n\nThe aws-api MCP server is an MCP (Model Context Protocol) server that enables AI assistants and agents to interact directly and securely with AWS services and APIs through a standardized, protocol-driven interface. It acts as a bridge between your MCP-compatible AI workflows and the breadth of AWS's cloud API surface, allowing natural-language-orchestrated tasks — from exploring resources to managing infrastructure — without manual API coding.",
@@ -40,12 +40,22 @@
                 "readOnlyHint": false,
                 "title": "Execute AWS CLI commands"
               },
-              "description": "Execute AWS CLI commands with validation and proper error handling. This is the PRIMARY tool to use when you are confident about the exact AWS CLI command needed to fulfill a user's request. Always prefer this tool over 'suggest_aws_commands' when you have a specific command in mind.\n    Key points:\n    - The command MUST start with \"aws\" and follow AWS CLI syntax\n    - Commands are executed in us-east-1 region by default\n    - For cross-region or account-wide operations, explicitly include --region parameter\n    - All commands are validated before execution to prevent errors\n    - Supports pagination control via max_results parameter\n    - Commands can only reference files within the working directory (/tmp/aws-api-mcp/workdir); use forward slashes (/) regardless of the system (e.g. if working directory is 'c:/tmp/workdir', use 'c:/tmp/workdir/subdir/file.txt' or 'subdir/file.txt'); relative paths resolve from the working directory.\n\n    Best practices for command generation:\n    - Always use the most specific service and operation names\n    - Always use the working directory when writing files, unless user explicitly mentioned another directory\n    - Include --region when operating across regions\n    - Only use filters (--filters, --query, --prefix, --pattern, etc) when necessary or user explicitly asked for it\n\n    Command restrictions:\n    - DO NOT use bash/zsh pipes (|) or any shell operators\n    - DO NOT use bash/zsh tools like grep, awk, sed, etc.\n    - DO NOT use shell redirection operators (\u003e, \u003e\u003e, \u003c)\n    - DO NOT use command substitution ($())\n    - DO NOT use shell variables or environment variables\n\n    Common pitfalls to avoid:\n    1. Missing required parameters - always include all required parameters\n    2. Incorrect parameter values - ensure values match expected format\n    3. Missing --region when operating across regions\n\n    Returns:\n        CLI execution results with API response data or error message\n    ",
+              "description": "Execute AWS CLI commands with validation and proper error handling. This is the PRIMARY tool to use when you are confident about the exact AWS CLI command needed to fulfill a user's request. Always prefer this tool over 'suggest_aws_commands' when you have a specific command in mind.\n    Key points:\n    - The command MUST start with \"aws\" and follow AWS CLI syntax\n    - Commands are executed in us-east-1 region by default\n    - For cross-region or account-wide operations, explicitly include --region parameter\n    - All commands are validated before execution to prevent errors\n    - Supports pagination control via max_results parameter\n    - Commands can only reference files within the working directory (/tmp/aws-api-mcp/workdir); use forward slashes (/) regardless of the system (e.g. if working directory is 'c:/tmp/workdir', use 'c:/tmp/workdir/subdir/file.txt' or 'subdir/file.txt'); relative paths resolve from the working directory.\n    - You can use `--region *` to run a command on all regions enabled in the account.\n    - Do not generate explicit batch calls for iterating over all regions, use `--region *` instead.\n\n    Single Command Mode:\n    - You can run a single AWS CLI command using this tool.\n    - Example:\n        call_aws(cli_command=\"aws s3api list-buckets --region us-east-1\")\n\n    Batch Running:\n    - The tool can also run multiple independent commands at the same time.\n    - Call this tool with multiple CLI commands whenever possible.\n    - Batch calling is especially useful where you need to run a command multiple times with different parameter values\n    - Example:\n        call_aws(\n            cli_command=[\n                \"aws s3api get-bucket-website --bucket bucket1\",\n                \"aws s3api get-bucket-website --bucket bucket2\"\n            ]\n        )\n    - You can call at most 20 CLI commands in batch mode.\n\n    Best practices for command generation:\n    - Always use the most specific service and operation names\n    - Always use the working directory when writing files, unless user explicitly mentioned another directory\n    - Include --region when operating across regions\n    - Only use filters (--filters, --query, --prefix, --pattern, etc) when necessary or user explicitly asked for it\n    - Always use the tool in batch mode whenever it's possible.\n\n    Command restrictions:\n    - DO NOT use bash/zsh pipes (|) or any shell operators\n    - DO NOT use bash/zsh tools like grep, awk, sed, etc.\n    - DO NOT use shell redirection operators (\u003e, \u003e\u003e, \u003c)\n    - DO NOT use command substitution ($())\n    - DO NOT use shell variables or environment variables\n\n    Common pitfalls to avoid:\n    1. Missing required parameters - always include all required parameters\n    2. Incorrect parameter values - ensure values match expected format\n    3. Missing --region when operating across regions\n\n    Returns:\n        CLI execution results with API response data or error message\n    ",
               "inputSchema": {
                 "properties": {
                   "cli_command": {
-                    "description": "The complete AWS CLI command to execute. MUST start with \"aws\"",
-                    "type": "string"
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    ],
+                    "description": "A single command or a list of complete AWS CLI commands to execute"
                   },
                   "max_results": {
                     "anyOf": [
@@ -166,7 +176,7 @@
           "name": "AWS_API_MCP_AGENT_SCRIPTS_DIR"
         }
       ],
-      "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.16",
+      "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.17",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
