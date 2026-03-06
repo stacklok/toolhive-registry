@@ -22,12 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version-file: 'go.mod'
           cache: true
@@ -37,15 +37,18 @@ jobs:
 
       - name: Determine count
         id: count
-        run: echo "value=${{ github.event.inputs.count || '5' }}" >> $GITHUB_OUTPUT
+        run: echo "value=$INPUT_COUNT" >> $GITHUB_OUTPUT
+        env:
+          INPUT_COUNT: ${{ github.event.inputs.count || '5' }}
 
       - name: Update oldest entries
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPDATE_COUNT: ${{ steps.count.outputs.value }}
         run: |
-          echo "Updating ${{ steps.count.outputs.value }} oldest entries..."
+          echo "Updating $UPDATE_COUNT oldest entries..."
           /tmp/catalog update-metadata \
-            --oldest "${{ steps.count.outputs.value }}" \
+            --oldest "$UPDATE_COUNT" \
             --github-token "$GITHUB_TOKEN" \
             -v
 
@@ -63,7 +66,7 @@ jobs:
 
       - name: Create Pull Request
         if: steps.check-changes.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore: update registry metadata (stars and pulls)'
