@@ -30,7 +30,7 @@ jobs:
         id: check-fork
         run: |
           # Get PR details from GitHub API
-          PR_DATA=$(gh pr view ${{ github.event.pull_request.number }} --json isCrossRepository,labels --repo ${{ github.repository }})
+          PR_DATA=$(gh pr view "$PR_NUMBER" --json isCrossRepository,labels --repo "$GH_REPOSITORY")
 
           IS_FORK=$(echo "$PR_DATA" | jq -r '.isCrossRepository')
           echo "is-fork=$IS_FORK" >> $GITHUB_OUTPUT
@@ -54,32 +54,41 @@ jobs:
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_REPOSITORY: ${{ github.repository }}
 
       - name: Check label status
         id: check-label
         if: steps.check-fork.outputs.is-fork == 'true'
         run: |
-          PR_DATA=$(gh pr view ${{ github.event.pull_request.number }} --json labels --repo ${{ github.repository }})
+          PR_DATA=$(gh pr view "$PR_NUMBER" --json labels --repo "$GH_REPOSITORY")
           HAS_LABEL=$(echo "$PR_DATA" | jq -r '.labels | map(select(.name == "safe-to-update")) | length > 0')
           echo "has-label=$HAS_LABEL" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_REPOSITORY: ${{ github.repository }}
 
       - name: Post instructions for fork PRs without label
         if: steps.check-fork.outputs.is-fork == 'true' && steps.check-fork.outputs.should-run == 'false'
-        uses: peter-evans/create-or-update-comment@v5
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            ## Security Notice: Fork PR Tool Update Workflow
+        run: |
+          gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+            --method POST \
+            --field body="$(cat <<'BODY'
+          ## Security Notice: Fork PR Tool Update Workflow
 
-            This PR is from a forked repository. For security reasons, the automatic tool list update workflow requires a maintainer to add the `safe-to-update` label before it will run.
+          This PR is from a forked repository. For security reasons, the automatic tool list update workflow requires a maintainer to add the `safe-to-update` label before it will run.
 
-            A maintainer will review this PR and add the label if appropriate. The workflow will then automatically update the tool lists.
+          A maintainer will review this PR and add the label if appropriate. The workflow will then automatically update the tool lists.
 
-            ---
+          ---
 
-            **Why is this needed?** This workflow executes code and connects to MCP servers specified in server.json files. To prevent potential security issues, we require manual verification for fork PRs.
+          **Why is this needed?** This workflow executes code and connects to MCP servers specified in server.json files. To prevent potential security issues, we require manual verification for fork PRs.
+          BODY
+          )"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
 
   detect-changes:
     name: Detect Changed Servers
@@ -94,18 +103,15 @@ jobs:
       has-changes: ${{ steps.set-matrix.outputs.has-changes }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
 
       - name: Get changed files
         id: changed-files
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
+          if [ "$EVENT_NAME" = "pull_request" ]; then
             # For PRs, get changed files between base and head
-            BASE_SHA="${{ github.event.pull_request.base.sha }}"
-            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
-
             # Get changed server.json files
             CHANGED_FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | grep -E '^registries/.*/servers/.*/server\.json$' || true)
           else
@@ -120,22 +126,36 @@ jobs:
             JSON_ARRAY=$(echo "$CHANGED_FILES" | jq -R -s -c 'split("\n") | map(select(length > 0))')
             echo "all_changed_files=$JSON_ARRAY" >> $GITHUB_OUTPUT
           fi
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+
+      - name: Validate server input
+        if: github.event_name == 'workflow_dispatch' && inputs.server != ''
+        run: |
+          if [[ ! "$INPUT_SERVER" =~ ^[a-zA-Z0-9._-]+$ ]]; then
+            echo "::error::Invalid server name: must contain only alphanumeric characters, dots, hyphens, and underscores"
+            exit 1
+          fi
+        env:
+          INPUT_SERVER: ${{ inputs.server }}
 
       - name: Set matrix for changed servers
         id: set-matrix
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.server }}" ]; then
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -n "$INPUT_SERVER" ]; then
             # Manual run with specific server
-            SERVER_FILE="registries/toolhive/servers/${{ inputs.server }}/server.json"
+            SERVER_FILE="registries/toolhive/servers/${INPUT_SERVER}/server.json"
             if [ -f "$SERVER_FILE" ]; then
               echo "matrix={\"server\":[\"$SERVER_FILE\"]}" >> $GITHUB_OUTPUT
               echo "has-changes=true" >> $GITHUB_OUTPUT
             else
-              echo "Error: Server ${{ inputs.server }} not found at $SERVER_FILE"
+              echo "Error: Server $INPUT_SERVER not found at $SERVER_FILE"
               echo "has-changes=false" >> $GITHUB_OUTPUT
               exit 1
             fi
-          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          elif [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             # Manual run without specific server - process all server.json files
             echo "Manual run without specific server - processing all server.json files"
             ALL_SERVERS=$(find registries -path '*/servers/*/server.json' | sort)
@@ -153,7 +173,7 @@ jobs:
             fi
           else
             # PR - use changed files
-            CHANGED_FILES='${{ steps.changed-files.outputs.all_changed_files }}'
+            CHANGED_FILES="$ALL_CHANGED_FILES"
 
             if [ "$CHANGED_FILES" = "[]" ]; then
               echo "No server.json files changed"
@@ -167,6 +187,10 @@ jobs:
               echo "$CHANGED_FILES" | jq -r '.[]'
             fi
           fi
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_SERVER: ${{ inputs.server }}
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
 
   update-tools:
     name: Update Tools for ${{ matrix.server }}
@@ -178,19 +202,19 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.head_ref || github.ref }}
 
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version-file: 'go.mod'
           cache: true
 
       - name: Install ToolHive
-        uses: StacklokLabs/toolhive-actions/install@v0
+        uses: StacklokLabs/toolhive-actions/install@6a095f99aa2fd6cd92cf0bb94bdf509b99820c06 # v0
         with:
           version: 'v0.2.9'
 
@@ -202,30 +226,32 @@ jobs:
       - name: Extract server name
         id: server-info
         run: |
-          SERVER_DIR=$(dirname "${{ matrix.server }}")
+          SERVER_DIR=$(dirname "$SERVER_FILE")
           SERVER_NAME=$(basename "$SERVER_DIR")
           echo "server-name=$SERVER_NAME" >> $GITHUB_OUTPUT
           echo "Processing server: $SERVER_NAME"
+        env:
+          SERVER_FILE: ${{ matrix.server }}
 
       - name: Update tool list
         id: update
         run: |
-          echo "Updating tools for ${{ steps.server-info.outputs.server-name }}..."
+          echo "Updating tools for $SERVER_NAME..."
 
           # Run the update tool
-          if /tmp/catalog update-tools "${{ matrix.server }}" -v; then
+          if /tmp/catalog update-tools "$SERVER_FILE" -v; then
             echo "update-status=success" >> $GITHUB_OUTPUT
 
             # Check if file was modified
-            if git diff --quiet "${{ matrix.server }}"; then
-              echo "No changes needed for ${{ matrix.server }}"
+            if git diff --quiet "$SERVER_FILE"; then
+              echo "No changes needed for $SERVER_FILE"
               echo "changed=false" >> $GITHUB_OUTPUT
             else
-              echo "Tools updated for ${{ matrix.server }}"
+              echo "Tools updated for $SERVER_FILE"
               echo "changed=true" >> $GITHUB_OUTPUT
 
               # Get the diff for the comment
-              DIFF=$(git diff "${{ matrix.server }}" | head -100)
+              DIFF=$(git diff "$SERVER_FILE" | head -100)
               echo "diff<<EOF" >> $GITHUB_OUTPUT
               echo "$DIFF" >> $GITHUB_OUTPUT
               echo "EOF" >> $GITHUB_OUTPUT
@@ -235,36 +261,42 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
 
             # Check if warning was added
-            if git diff "${{ matrix.server }}" | grep -q "WARNING"; then
+            if git diff "$SERVER_FILE" | grep -q "WARNING"; then
               echo "Warning comment added to server file"
               echo "warning-added=true" >> $GITHUB_OUTPUT
             else
               echo "warning-added=false" >> $GITHUB_OUTPUT
             fi
           fi
+        env:
+          SERVER_FILE: ${{ matrix.server }}
+          SERVER_NAME: ${{ steps.server-info.outputs.server-name }}
 
       - name: Prepare changes for commit
         if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
         run: |
-          SERVER_NAME="${{ steps.server-info.outputs.server-name }}"
           mkdir -p /tmp/commit-info
 
-          if [ "${{ steps.update.outputs.changed }}" = "true" ]; then
+          if [ "$UPDATE_CHANGED" = "true" ]; then
             echo "update" > "/tmp/commit-info/${SERVER_NAME}.type"
             echo "$SERVER_NAME" > "/tmp/commit-info/${SERVER_NAME}.name"
-            echo "${{ matrix.server }}" > "/tmp/commit-info/${SERVER_NAME}.server"
+            echo "$SERVER_FILE" > "/tmp/commit-info/${SERVER_NAME}.server"
           else
             echo "warning" > "/tmp/commit-info/${SERVER_NAME}.type"
             echo "$SERVER_NAME" > "/tmp/commit-info/${SERVER_NAME}.name"
-            echo "${{ matrix.server }}" > "/tmp/commit-info/${SERVER_NAME}.server"
+            echo "$SERVER_FILE" > "/tmp/commit-info/${SERVER_NAME}.server"
           fi
 
           # Copy the modified server.json to the artifact directory
-          cp "${{ matrix.server }}" "/tmp/commit-info/${SERVER_NAME}.server.json"
+          cp "$SERVER_FILE" "/tmp/commit-info/${SERVER_NAME}.server.json"
+        env:
+          SERVER_FILE: ${{ matrix.server }}
+          SERVER_NAME: ${{ steps.server-info.outputs.server-name }}
+          UPDATE_CHANGED: ${{ steps.update.outputs.changed }}
 
       - name: Upload commit info
         if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: commit-info-${{ steps.server-info.outputs.server-name }}
           path: /tmp/commit-info/
@@ -272,17 +304,15 @@ jobs:
       - name: Output diff for workflow dispatch
         if: github.event_name == 'workflow_dispatch' && (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true')
         run: |
-          SERVER_NAME="${{ steps.server-info.outputs.server-name }}"
-
           echo "## Tool List Update for $SERVER_NAME" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          if [ "${{ steps.update.outputs.changed }}" = "true" ]; then
+          if [ "$UPDATE_CHANGED" = "true" ]; then
             echo "**Status**: Successfully updated tool list" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "### Changes Made:" >> $GITHUB_STEP_SUMMARY
             echo '```diff' >> $GITHUB_STEP_SUMMARY
-            git diff "${{ matrix.server }}" >> $GITHUB_STEP_SUMMARY
+            git diff "$SERVER_FILE" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "**Note**: Changes were not committed because this is a workflow dispatch run. To apply these changes:" >> $GITHUB_STEP_SUMMARY
@@ -294,14 +324,19 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "### Warning Added:" >> $GITHUB_STEP_SUMMARY
             echo '```diff' >> $GITHUB_STEP_SUMMARY
-            git diff "${{ matrix.server }}" >> $GITHUB_STEP_SUMMARY
+            git diff "$SERVER_FILE" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
           fi
 
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Server**: $SERVER_NAME" >> $GITHUB_STEP_SUMMARY
-          echo "**Server File**: \`${{ matrix.server }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "**Triggered by**: @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Server File**: \`$SERVER_FILE\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by**: @$GH_ACTOR" >> $GITHUB_STEP_SUMMARY
+        env:
+          SERVER_FILE: ${{ matrix.server }}
+          SERVER_NAME: ${{ steps.server-info.outputs.server-name }}
+          UPDATE_CHANGED: ${{ steps.update.outputs.changed }}
+          GH_ACTOR: ${{ github.actor }}
 
   commit-all-changes:
     name: Commit All Tool Updates
@@ -310,13 +345,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.head_ref || github.ref }}
 
       - name: Download all commit info artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
         with:
           path: /tmp/artifacts/
           pattern: commit-info-*
@@ -341,7 +376,7 @@ jobs:
           git config --local user.name "GitHub Action"
 
           # Pull any remote changes first to avoid conflicts
-          git pull origin ${{ github.head_ref || github.ref_name }} --rebase
+          git pull origin "$BRANCH_REF" --rebase
 
           # Collect all the server names that were updated
           UPDATED_SERVERS=""
@@ -380,7 +415,7 @@ jobs:
             COMMIT_MSG="$COMMIT_MSG\n\nWarning added for servers:$(echo $WARNING_SERVERS | sed 's/ /\\n- /g' | sed 's/^/\\n- /')"
           fi
 
-          COMMIT_MSG="$COMMIT_MSG\n\nAutomatically updated using 'catalog update-tools' command.\n\nCo-authored-by: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+          COMMIT_MSG="$COMMIT_MSG\n\nAutomatically updated using 'catalog update-tools' command.\n\nCo-authored-by: $GH_ACTOR <${GH_ACTOR}@users.noreply.github.com>"
 
           # Check if there are actually any changes to commit
           if ! git diff --cached --quiet; then
@@ -390,6 +425,9 @@ jobs:
           else
             echo "No changes to commit (files may have been identical)"
           fi
+        env:
+          BRANCH_REF: ${{ github.head_ref || github.ref_name }}
+          GH_ACTOR: ${{ github.actor }}
 
   comment-summary:
     name: Post Summary Comment
@@ -397,25 +435,17 @@ jobs:
     if: always() && needs.detect-changes.outputs.has-changes == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Find existing comment
-        if: github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@v4
-        id: find-comment
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: '## MCP Server Tool List Updates (server.json)'
-
       - name: Download all commit info artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
         with:
           path: /tmp/comment-artifacts/
           pattern: commit-info-*
           merge-multiple: true
 
-      - name: Generate summary from artifacts
-        id: generate-summary
+      - name: Post or update summary comment
+        if: github.event_name == 'pull_request'
         run: |
+          # Build summary table from artifacts
           SUMMARY=""
 
           if [ -d "/tmp/comment-artifacts" ] && [ "$(ls -A /tmp/comment-artifacts 2>/dev/null)" ]; then
@@ -425,9 +455,11 @@ jobs:
                 TYPE=$(cat "$file")
 
                 if [ "$TYPE" = "update" ]; then
-                  SUMMARY="$SUMMARY| $SERVER_NAME | Updated | Tool list refreshed |\n"
+                  SUMMARY="${SUMMARY}| ${SERVER_NAME} | Updated | Tool list refreshed |
+          "
                 else
-                  SUMMARY="$SUMMARY| $SERVER_NAME | Warning | Could not fetch tools, added warning comment |\n"
+                  SUMMARY="${SUMMARY}| ${SERVER_NAME} | Warning | Could not fetch tools, added warning comment |
+          "
                 fi
               fi
             done
@@ -437,30 +469,35 @@ jobs:
             SUMMARY="| _No changes detected_ | | |"
           fi
 
-          echo "summary<<EOF" >> $GITHUB_OUTPUT
-          echo -e "$SUMMARY" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          COMMENT_BODY="## MCP Server Tool List Updates (server.json)
 
-      - name: Create or update comment
-        if: github.event_name == 'pull_request'
-        uses: peter-evans/create-or-update-comment@v5
-        with:
-          comment-id: ${{ steps.find-comment.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            ## MCP Server Tool List Updates (server.json)
+          The tool lists for modified MCP server entries have been automatically updated using \`catalog update-tools\`.
 
-            The tool lists for modified MCP server entries have been automatically updated using `catalog update-tools`.
+          ### Summary
 
-            ### Summary
+          | Server | Status | Details |
+          |--------|--------|---------|
+          ${SUMMARY}
+          ---
+          _This comment is automatically generated and will be updated as the workflow progresses._"
 
-            | Server | Status | Details |
-            |--------|--------|---------|
-            ${{ steps.generate-summary.outputs.summary }}
+          # Find existing comment
+          COMMENT_ID=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+            --jq '[.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("## MCP Server Tool List Updates (server.json)"))][0].id' \
+            2>/dev/null || true)
 
-            ---
-            _This comment is automatically generated and will be updated as the workflow progresses._
-          edit-mode: replace
+          if [ -n "$COMMENT_ID" ] && [ "$COMMENT_ID" != "null" ]; then
+            gh api "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}" \
+              --method PATCH \
+              --field body="$COMMENT_BODY"
+          else
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+              --method POST \
+              --field body="$COMMENT_BODY"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
 
   validate-after-update:
     name: Validate Updated Servers
@@ -469,12 +506,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           ref: ${{ github.head_ref || github.ref }}
 
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version-file: 'go.mod'
           cache: true
