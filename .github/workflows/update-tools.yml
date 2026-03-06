@@ -71,19 +71,24 @@ jobs:
 
       - name: Post instructions for fork PRs without label
         if: steps.check-fork.outputs.is-fork == 'true' && steps.check-fork.outputs.should-run == 'false'
-        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            ## Security Notice: Fork PR Tool Update Workflow
+        run: |
+          gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+            --method POST \
+            --field body="$(cat <<'BODY'
+          ## Security Notice: Fork PR Tool Update Workflow
 
-            This PR is from a forked repository. For security reasons, the automatic tool list update workflow requires a maintainer to add the `safe-to-update` label before it will run.
+          This PR is from a forked repository. For security reasons, the automatic tool list update workflow requires a maintainer to add the `safe-to-update` label before it will run.
 
-            A maintainer will review this PR and add the label if appropriate. The workflow will then automatically update the tool lists.
+          A maintainer will review this PR and add the label if appropriate. The workflow will then automatically update the tool lists.
 
-            ---
+          ---
 
-            **Why is this needed?** This workflow executes code and connects to MCP servers specified in server.json files. To prevent potential security issues, we require manual verification for fork PRs.
+          **Why is this needed?** This workflow executes code and connects to MCP servers specified in server.json files. To prevent potential security issues, we require manual verification for fork PRs.
+          BODY
+          )"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
 
   detect-changes:
     name: Detect Changed Servers
@@ -430,15 +435,6 @@ jobs:
     if: always() && needs.detect-changes.outputs.has-changes == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Find existing comment
-        if: github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4
-        id: find-comment
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: '## MCP Server Tool List Updates (server.json)'
-
       - name: Download all commit info artifacts
         uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
         with:
@@ -446,9 +442,10 @@ jobs:
           pattern: commit-info-*
           merge-multiple: true
 
-      - name: Generate summary from artifacts
-        id: generate-summary
+      - name: Post or update summary comment
+        if: github.event_name == 'pull_request'
         run: |
+          # Build summary table from artifacts
           SUMMARY=""
 
           if [ -d "/tmp/comment-artifacts" ] && [ "$(ls -A /tmp/comment-artifacts 2>/dev/null)" ]; then
@@ -458,9 +455,11 @@ jobs:
                 TYPE=$(cat "$file")
 
                 if [ "$TYPE" = "update" ]; then
-                  SUMMARY="$SUMMARY| $SERVER_NAME | Updated | Tool list refreshed |\n"
+                  SUMMARY="${SUMMARY}| ${SERVER_NAME} | Updated | Tool list refreshed |
+          "
                 else
-                  SUMMARY="$SUMMARY| $SERVER_NAME | Warning | Could not fetch tools, added warning comment |\n"
+                  SUMMARY="${SUMMARY}| ${SERVER_NAME} | Warning | Could not fetch tools, added warning comment |
+          "
                 fi
               fi
             done
@@ -470,30 +469,35 @@ jobs:
             SUMMARY="| _No changes detected_ | | |"
           fi
 
-          echo "summary<<EOF" >> $GITHUB_OUTPUT
-          echo -e "$SUMMARY" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          COMMENT_BODY="## MCP Server Tool List Updates (server.json)
 
-      - name: Create or update comment
-        if: github.event_name == 'pull_request'
-        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
-        with:
-          comment-id: ${{ steps.find-comment.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            ## MCP Server Tool List Updates (server.json)
+          The tool lists for modified MCP server entries have been automatically updated using \`catalog update-tools\`.
 
-            The tool lists for modified MCP server entries have been automatically updated using `catalog update-tools`.
+          ### Summary
 
-            ### Summary
+          | Server | Status | Details |
+          |--------|--------|---------|
+          ${SUMMARY}
+          ---
+          _This comment is automatically generated and will be updated as the workflow progresses._"
 
-            | Server | Status | Details |
-            |--------|--------|---------|
-            ${{ steps.generate-summary.outputs.summary }}
+          # Find existing comment
+          COMMENT_ID=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+            --jq '[.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("## MCP Server Tool List Updates (server.json)"))][0].id' \
+            2>/dev/null || true)
 
-            ---
-            _This comment is automatically generated and will be updated as the workflow progresses._
-          edit-mode: replace
+          if [ -n "$COMMENT_ID" ] && [ "$COMMENT_ID" != "null" ]; then
+            gh api "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}" \
+              --method PATCH \
+              --field body="$COMMENT_BODY"
+          else
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+              --method POST \
+              --field body="$COMMENT_BODY"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
 
   validate-after-update:
     name: Validate Updated Servers

@@ -66,20 +66,33 @@ jobs:
 
       - name: Create Pull Request
         if: steps.check-changes.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'chore: update registry metadata (stars and pulls)'
-          title: 'chore: update registry metadata'
-          body: |
-            ## Registry Metadata Update
+        run: |
+          BRANCH="catalog-update-metadata-${RUN_NUMBER}"
 
-            This PR updates the GitHub stars counts for the oldest registry entries
-            (server.json format).
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
 
-            Updated the **${{ steps.count.outputs.value }}** oldest entries by `last_updated` timestamp.
+          git checkout -B "$BRANCH"
+          git add -u registries/
+          git commit -m "chore: update registry metadata (stars and pulls)"
+          git push -f origin "$BRANCH"
 
-            ---
-            *This is an automated PR created by the daily metadata update workflow.*
-          branch: catalog-update-metadata-${{ github.run_number }}
-          delete-branch: true
+          gh pr create \
+            --title "chore: update registry metadata" \
+            --body "$(cat <<BODY
+          ## Registry Metadata Update
+
+          This PR updates the GitHub stars counts for the oldest registry entries
+          (server.json format).
+
+          Updated the **${UPDATE_COUNT}** oldest entries by \`last_updated\` timestamp.
+
+          ---
+          *This is an automated PR created by the daily metadata update workflow.*
+          BODY
+          )" \
+            --head "$BRANCH"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_NUMBER: ${{ github.run_number }}
+          UPDATE_COUNT: ${{ steps.count.outputs.value }}

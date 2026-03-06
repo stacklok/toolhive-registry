@@ -108,25 +108,53 @@ jobs:
         run: echo "version=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
 
       - name: Open or update PR with catalog data files
-        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'chore: update catalog data files for v${{ steps.metadata.outputs.version }}'
-          title: 'chore: update catalog data files for v${{ steps.metadata.outputs.version }}'
-          body: |
-            Automated PR to update the embedded catalog data files for `v${{ steps.metadata.outputs.version }}`.
+        run: |
+          BRANCH="update-catalog-data-${VERSION}"
 
-            Files updated:
-            - `pkg/catalog/toolhive/data/registry.json` — ToolHive legacy format
-            - `pkg/catalog/toolhive/data/official-registry.json` — Upstream MCP format
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
 
-            When merged, a release will be created automatically.
-          branch: update-catalog-data-${{ steps.metadata.outputs.version }}
-          delete-branch: true
-          auto-merge: true
-          add-paths: |
-            pkg/catalog/*/data/registry.json
-            pkg/catalog/*/data/official-registry.json
+          # Create or reset the branch
+          git checkout -B "$BRANCH"
+
+          # Stage only the catalog data files
+          git add pkg/catalog/*/data/registry.json pkg/catalog/*/data/official-registry.json
+
+          # Check if there are changes to commit
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: update catalog data files for v${VERSION}"
+          git push -f origin "$BRANCH"
+
+          # Check if PR already exists
+          EXISTING_PR=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number' 2>/dev/null || true)
+
+          if [ -n "$EXISTING_PR" ]; then
+            echo "PR #$EXISTING_PR already exists, updated branch"
+          else
+            gh pr create \
+              --title "chore: update catalog data files for v${VERSION}" \
+              --body "$(cat <<'BODY'
+          Automated PR to update the embedded catalog data files.
+
+          Files updated:
+          - `pkg/catalog/toolhive/data/registry.json` — ToolHive legacy format
+          - `pkg/catalog/toolhive/data/official-registry.json` — Upstream MCP format
+
+          When merged, a release will be created automatically.
+          BODY
+          )" \
+              --head "$BRANCH"
+
+            # Enable auto-merge
+            gh pr merge "$BRANCH" --auto --squash || true
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.metadata.outputs.version }}
 
   build-pr:
     name: Build Check
@@ -174,21 +202,26 @@ jobs:
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
-      - name: Find existing comment
-        id: find-comment
-        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: github-actions[bot]
-          body-includes: Registry Build Preview
-
       - name: Post or update PR comment
-        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
-        with:
-          comment-id: ${{ steps.find-comment.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: ${{ steps.comment.outputs.body }}
-          edit-mode: replace
+        run: |
+          # Find existing comment
+          COMMENT_ID=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+            --jq '[.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("Registry Build Preview"))][0].id' \
+            2>/dev/null || true)
+
+          if [ -n "$COMMENT_ID" ] && [ "$COMMENT_ID" != "null" ]; then
+            gh api "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}" \
+              --method PATCH \
+              --field body="$COMMENT_BODY"
+          else
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+              --method POST \
+              --field body="$COMMENT_BODY"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          COMMENT_BODY: ${{ steps.comment.outputs.body }}
 
       - name: Upload PR artifact
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
