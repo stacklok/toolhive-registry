@@ -64,35 +64,63 @@ jobs:
             git diff --stat
           fi
 
-      - name: Create Pull Request
+      - name: Open or update PR with metadata changes
         if: steps.check-changes.outputs.changed == 'true'
         run: |
-          BRANCH="catalog-update-metadata-${RUN_NUMBER}"
+          BRANCH="catalog-update-metadata"
 
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          git checkout -B "$BRANCH"
-          git add -u registries/
-          git commit -m "chore: update registry metadata (stars and pulls)"
+          # Fetch remote branch if it exists so we can build on it
+          git fetch origin "$BRANCH" 2>/dev/null || true
+
+          # If the branch already exists remotely, check it out and
+          # cherry-pick the new changes on top so we aggregate updates.
+          if git rev-parse "origin/$BRANCH" >/dev/null 2>&1; then
+            git checkout -B "$BRANCH" "origin/$BRANCH"
+            # Re-apply the working-tree changes from main
+            git checkout main -- registries/
+            git add -u registries/
+            if git diff --cached --quiet; then
+              echo "No new changes on top of existing branch"
+              exit 0
+            fi
+            git commit -m "chore: update registry metadata (stars and pulls)"
+          else
+            git checkout -B "$BRANCH"
+            git add -u registries/
+            git commit -m "chore: update registry metadata (stars and pulls)"
+          fi
+
           git push -f origin "$BRANCH"
 
-          gh pr create \
-            --title "chore: update registry metadata" \
-            --body "$(cat <<BODY
+          # Check if PR already exists
+          EXISTING_PR=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number' 2>/dev/null || true)
+
+          if [ -n "$EXISTING_PR" ]; then
+            echo "PR #$EXISTING_PR already exists, updated branch"
+          else
+            gh pr create \
+              --title "chore: update registry metadata (stars and pulls)" \
+              --body "$(cat <<'BODY'
           ## Registry Metadata Update
 
-          This PR updates the GitHub stars counts for the oldest registry entries
+          This PR updates the GitHub stars and pull counts for registry entries
           (server.json format).
 
-          Updated the **${UPDATE_COUNT}** oldest entries by \`last_updated\` timestamp.
+          Each daily run updates the oldest entries by `last_updated` timestamp
+          and aggregates the changes into this PR.
 
           ---
           *This is an automated PR created by the daily metadata update workflow.*
           BODY
           )" \
-            --head "$BRANCH"
+              --head "$BRANCH"
+
+            # Enable auto-merge
+            gh pr merge "$BRANCH" --auto --squash || true
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RUN_NUMBER: ${{ github.run_number }}
           UPDATE_COUNT: ${{ steps.count.outputs.value }}
