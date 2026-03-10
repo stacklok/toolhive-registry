@@ -20,7 +20,7 @@
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/msaad00/agent-bom:v0.68.1",
+      "identifier": "ghcr.io/msaad00/agent-bom:v0.68.2",
       "transport": {
         "type": "stdio"
       },
@@ -37,7 +37,7 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.msaad00": {
-        "ghcr.io/msaad00/agent-bom:v0.68.1": {
+        "ghcr.io/msaad00/agent-bom:v0.68.2": {
           "overview": "## agent-bom\n\nSecurity scanner for AI infrastructure. Scans MCP servers, AI agents, containers, cloud environments, and GPU compute for CVEs, credential exposure, tool poisoning, and configuration drift.\n\n### Key capabilities\n\n- **30 MCP tools** for AI assistant integration (Claude, Cursor, Windsurf)\n- CVE scanning with blast radius analysis across transitive dependencies\n- Credential leak detection in MCP tool arguments and responses\n- CIS benchmark checks for AWS, Azure, GCP, Snowflake, Databricks\n- Policy-as-code engine with 17 declarative conditions\n- Compliance mapping across 11 frameworks (OWASP LLM/MCP/Agentic, MITRE ATLAS, NIST AI RMF, EU AI Act)\n- SBOM generation (CycloneDX, SPDX)\n- Runtime proxy for MCP traffic interception and enforcement",
           "tier": "Community",
           "status": "Active",
