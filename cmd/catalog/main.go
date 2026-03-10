@@ -25,6 +25,10 @@ const (
 	// Each registry is expected to have a "servers" subdirectory containing
 	// individual server directories with server.json files.
 	serversSubdir = "servers"
+
+	// Registries may optionally have a "skills" subdirectory containing
+	// individual skill directories with skill.json files.
+	skillsSubdir = "skills"
 )
 
 var (
@@ -109,10 +113,11 @@ func main() {
 	}
 }
 
-// registryInfo holds the name and loader for a discovered registry.
+// registryInfo holds the name and loaders for a discovered registry.
 type registryInfo struct {
-	name   string
-	loader *internalregistry.Loader
+	name        string
+	loader      *internalregistry.Loader
+	skillLoader *internalregistry.SkillLoader
 }
 
 // discoverRegistries walks the registries root directory, finds subdirectories
@@ -143,13 +148,27 @@ func discoverRegistries() ([]registryInfo, error) {
 			return nil, fmt.Errorf("failed to load registry %q: %w", entry.Name(), err)
 		}
 
+		// Optionally load skills if the skills subdirectory exists
+		var skillLoader *internalregistry.SkillLoader
+		skillsPath := filepath.Join(registriesDir, entry.Name(), skillsSubdir)
+		if info, serr := os.Stat(skillsPath); serr == nil && info.IsDir() {
+			skillLoader = internalregistry.NewSkillLoader(skillsPath)
+			if err := skillLoader.LoadAll(); err != nil {
+				return nil, fmt.Errorf("failed to load skills for registry %q: %w", entry.Name(), err)
+			}
+			if verbose {
+				fmt.Printf("  loaded %d skills\n", len(skillLoader.GetEntries()))
+			}
+		}
+
 		if verbose {
 			fmt.Printf("Discovered registry %q with %d entries\n", entry.Name(), len(loader.GetEntries()))
 		}
 
 		registries = append(registries, registryInfo{
-			name:   entry.Name(),
-			loader: loader,
+			name:        entry.Name(),
+			loader:      loader,
+			skillLoader: skillLoader,
 		})
 	}
 
@@ -175,7 +194,7 @@ func runBuild(_ *cobra.Command, _ []string) error {
 		}
 
 		for _, f := range formats {
-			if err := buildFormat(reg.loader, f, regOutputDir); err != nil {
+			if err := buildFormat(reg, f, regOutputDir); err != nil {
 				return fmt.Errorf("failed to build %s format for registry %q: %w", f, reg.name, err)
 			}
 		}
@@ -195,6 +214,9 @@ func runValidate(_ *cobra.Command, _ []string) error {
 
 	for _, reg := range registries {
 		upstreamBuilder := internalregistry.NewBuilder(reg.loader)
+		if reg.skillLoader != nil {
+			upstreamBuilder.WithSkillLoader(reg.skillLoader)
+		}
 		if err := upstreamBuilder.ValidateAgainstSchema(); err != nil {
 			return fmt.Errorf("registry %q: upstream validation failed: %w", reg.name, err)
 		}
@@ -210,7 +232,12 @@ func runValidate(_ *cobra.Command, _ []string) error {
 			fmt.Printf("  %s toolhive format: valid\n", reg.name)
 		}
 
-		fmt.Printf("Registry %q: all %d entries valid (both formats)\n", reg.name, len(reg.loader.GetEntries()))
+		skillCount := 0
+		if reg.skillLoader != nil {
+			skillCount = len(reg.skillLoader.GetEntries())
+		}
+		fmt.Printf("Registry %q: all %d servers and %d skills valid (both formats)\n",
+			reg.name, len(reg.loader.GetEntries()), skillCount)
 	}
 
 	return nil
@@ -229,12 +256,12 @@ func determineFormats(f string) []string {
 	}
 }
 
-func buildFormat(loader *internalregistry.Loader, f string, outDir string) error {
+func buildFormat(reg registryInfo, f string, outDir string) error {
 	switch f {
 	case formatToolhive:
-		return buildToolhive(loader, outDir)
+		return buildToolhive(reg.loader, outDir)
 	case formatUpstream:
-		return buildUpstream(loader, outDir)
+		return buildUpstream(reg, outDir)
 	default:
 		return fmt.Errorf("unknown format: %s", f)
 	}
@@ -254,8 +281,11 @@ func buildToolhive(loader *internalregistry.Loader, outDir string) error {
 	return nil
 }
 
-func buildUpstream(loader *internalregistry.Loader, outDir string) error {
-	builder := internalregistry.NewBuilder(loader)
+func buildUpstream(reg registryInfo, outDir string) error {
+	builder := internalregistry.NewBuilder(reg.loader)
+	if reg.skillLoader != nil {
+		builder.WithSkillLoader(reg.skillLoader)
+	}
 	outPath := filepath.Join(outDir, "official-registry.json")
 
 	if err := builder.WriteJSON(outPath); err != nil {

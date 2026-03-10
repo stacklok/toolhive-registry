@@ -185,6 +185,7 @@ jobs:
           CONTAINER_COUNT=$(jq '.servers | length' build/toolhive/registry.json)
           REMOTE_COUNT=$(jq '.remote_servers | length // 0' build/toolhive/registry.json)
           TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
+          SKILL_COUNT=$(jq '.data.skills | length // 0' build/toolhive/official-registry.json)
           SIZE=$(du -h build/toolhive/registry.json | cut -f1)
           LAST_UPDATED=$(jq -r '.last_updated' build/toolhive/registry.json)
 
@@ -197,6 +198,7 @@ jobs:
             echo "- **Total Servers**: $TOTAL"
             echo "  - Container-based: $CONTAINER_COUNT"
             echo "  - Remote: $REMOTE_COUNT"
+            echo "- **Skills**: $SKILL_COUNT"
             echo "- **File Size**: $SIZE"
             echo "- **Last Updated**: $LAST_UPDATED"
             echo "EOF"

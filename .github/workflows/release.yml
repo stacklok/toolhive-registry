@@ -39,9 +39,18 @@ jobs:
             TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
             LAST_UPDATED=$(jq -r '.last_updated' "$data_file")
 
+            # Count skills from the upstream format
+            upstream_file="$registry_dir/data/official-registry.json"
+            if [ -f "$upstream_file" ]; then
+              SKILL_COUNT=$(jq '.data.skills | length // 0' "$upstream_file")
+            else
+              SKILL_COUNT=0
+            fi
+
             echo "${registry_name}_total=$TOTAL" >> $GITHUB_OUTPUT
             echo "${registry_name}_container=$CONTAINER_COUNT" >> $GITHUB_OUTPUT
             echo "${registry_name}_remote=$REMOTE_COUNT" >> $GITHUB_OUTPUT
+            echo "${registry_name}_skills=$SKILL_COUNT" >> $GITHUB_OUTPUT
             echo "${registry_name}_last_updated=$LAST_UPDATED" >> $GITHUB_OUTPUT
           done
 
@@ -63,6 +72,7 @@ jobs:
             | **Total Servers** | ${{ steps.stats.outputs.toolhive_total }} |
             | **Container-based** | ${{ steps.stats.outputs.toolhive_container }} |
             | **Remote** | ${{ steps.stats.outputs.toolhive_remote }} |
+            | **Skills** | ${{ steps.stats.outputs.toolhive_skills }} |
 
             ### Usage
 

@@ -1,0 +1,33 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "code-review",
+  "title": "Code Review Assistant",
+  "description": "Reviews pull requests by analyzing code changes, checking for common issues, and providing structured feedback with suggestions.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "allowedTools": [
+    "github/get_pull_request",
+    "github/list_pull_request_files",
+    "github/get_file_contents",
+    "github/create_pull_request_review"
+  ],
+  "repository": {
+    "url": "https://github.com/stacklok/toolhive-catalog",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "git",
+      "url": "https://github.com/stacklok/toolhive-catalog",
+      "ref": "main",
+      "subfolder": "registries/toolhive/skills/code-review"
+    }
+  ]
+}
