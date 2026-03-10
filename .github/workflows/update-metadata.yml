@@ -41,6 +41,24 @@ jobs:
         env:
           INPUT_COUNT: ${{ github.event.inputs.count || '5' }}
 
+      - name: Switch to metadata branch
+        run: |
+          BRANCH="catalog-update-metadata"
+
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Fetch remote branch if it exists so we can build on it
+          git fetch origin "$BRANCH" 2>/dev/null || true
+
+          # If the branch already exists remotely, check it out to
+          # build on top of accumulated changes from prior runs.
+          if git rev-parse "origin/$BRANCH" >/dev/null 2>&1; then
+            git checkout -B "$BRANCH" "origin/$BRANCH"
+          else
+            git checkout -B "$BRANCH"
+          fi
+
       - name: Update oldest entries
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,35 +82,13 @@ jobs:
             git diff --stat
           fi
 
-      - name: Open or update PR with metadata changes
+      - name: Commit and open or update PR
         if: steps.check-changes.outputs.changed == 'true'
         run: |
           BRANCH="catalog-update-metadata"
 
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-
-          # Fetch remote branch if it exists so we can build on it
-          git fetch origin "$BRANCH" 2>/dev/null || true
-
-          # If the branch already exists remotely, check it out and
-          # cherry-pick the new changes on top so we aggregate updates.
-          if git rev-parse "origin/$BRANCH" >/dev/null 2>&1; then
-            git checkout -B "$BRANCH" "origin/$BRANCH"
-            # Re-apply the working-tree changes from main
-            git checkout main -- registries/
-            git add -u registries/
-            if git diff --cached --quiet; then
-              echo "No new changes on top of existing branch"
-              exit 0
-            fi
-            git commit -m "chore: update registry metadata (stars and pulls)"
-          else
-            git checkout -B "$BRANCH"
-            git add -u registries/
-            git commit -m "chore: update registry metadata (stars and pulls)"
-          fi
-
+          git add -u registries/
+          git commit -m "chore: update registry metadata (stars and pulls)"
           git push -f origin "$BRANCH"
 
           # Check if PR already exists
