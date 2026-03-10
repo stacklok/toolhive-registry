@@ -1,10 +1,10 @@
 # ToolHive Catalog
 
-This repository contains the catalog of MCP (Model Context Protocol) servers available for ToolHive. Each server entry provides AI assistants with specialized tools and capabilities.
+This repository contains the catalog of MCP (Model Context Protocol) servers and skills available for ToolHive. Each server entry provides AI assistants with specialized tools and capabilities, while skills provide reusable prompts and workflows that leverage those tools.
 
 ## What is this?
 
-Think of this as a catalog of tools that AI assistants can use. Each entry in this registry represents a server that provides specific capabilities—like interacting with GitHub, querying databases, or fetching web content.
+Think of this as a catalog of tools and skills that AI assistants can use. Each server entry represents a server that provides specific capabilities—like interacting with GitHub, querying databases, or fetching web content. Each skill entry is a reusable prompt or workflow that combines server tools to accomplish a specific task—like reviewing pull requests or debugging issues.
 
 ## How to Add Your MCP Server
 
@@ -21,8 +21,13 @@ Create a new folder in `registries/toolhive/servers/` with your server's name (u
 registries/
   └── toolhive/
       └── servers/
-          └── my-awesome-server/
-              └── server.json
+      │   └── my-awesome-server/
+      │       └── server.json
+      └── skills/
+          └── my-skill/
+              ├── skill.json
+              ├── SKILL.md
+              └── icon.svg
 ```
 
 ### Step 2: Create Your server.json File
@@ -153,6 +158,88 @@ You can add more information in the `_meta` extensions block:
 }
 ```
 
+## How to Add a Skill
+
+Skills are reusable prompts and workflows that leverage MCP server tools. A skill is defined by a `SKILL.md` file (with YAML frontmatter) and a `skill.json` registry entry.
+
+### Step 1: Create a Folder
+
+Create a new folder in `registries/toolhive/skills/` with your skill's name:
+
+```bash
+mkdir -p registries/toolhive/skills/my-skill
+```
+
+### Step 2: Create the SKILL.md File
+
+This is the actual skill content. It uses YAML frontmatter for metadata and markdown for the prompt/instructions:
+
+```markdown
+---
+name: my-skill
+description: What this skill does in one sentence.
+version: "0.1.0"
+allowed-tools:
+  - server/tool_name_1
+  - server/tool_name_2
+license: Apache-2.0
+metadata:
+  author: Your Name
+---
+
+# My Skill
+
+Instructions and prompts for the AI assistant go here...
+```
+
+### Step 3: Create the skill.json File
+
+This registers the skill in the catalog:
+
+```json
+{
+  "namespace": "io.github.stacklok",
+  "name": "my-skill",
+  "title": "My Skill",
+  "description": "What this skill does in one sentence.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "allowedTools": ["server/tool_name_1", "server/tool_name_2"],
+  "repository": {
+    "url": "https://github.com/stacklok/toolhive-catalog",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "git",
+      "url": "https://github.com/stacklok/toolhive-catalog",
+      "ref": "main",
+      "subfolder": "registries/toolhive/skills/my-skill"
+    }
+  ]
+}
+```
+
+### Step 4: Add an Icon
+
+Add an `icon.svg` file to your skill directory.
+
+### Step 5: Validate
+
+```bash
+task catalog:validate
+task catalog:build
+```
+
+For a complete example, see `registries/toolhive/skills/code-review/`.
+
 ## Common Questions
 
 ### What is "transport"?
@@ -254,7 +341,8 @@ For **remote servers**:
 
 ## Need Help?
 
-- Check existing entries in `registries/toolhive/servers/` for examples
+- Check existing entries in `registries/toolhive/servers/` for server examples
+- Check existing entries in `registries/toolhive/skills/` for skill examples
 - Open an issue if you have questions
 - Join our community discussions
 

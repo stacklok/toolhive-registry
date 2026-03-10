@@ -1,6 +1,6 @@
 # toolhive-catalog
 
-Curated registry of MCP (Model Context Protocol) servers for ToolHive.
+Curated registry of MCP (Model Context Protocol) servers and skills for ToolHive.
 
 ## Skills
 
@@ -23,6 +23,11 @@ task lint               # run linters
 Each server lives at `registries/toolhive/servers/<name>/` containing:
 - `server.json` — server definition (see `docs/adding-entries-llm.md` for full schema)
 - `icon.svg` — server icon
+
+Each skill lives at `registries/toolhive/skills/<name>/` containing:
+- `skill.json` — skill definition (uses `Skill` type from toolhive-core)
+- `SKILL.md` — skill prompt with YAML frontmatter (name, description, version, allowed-tools)
+- `icon.svg` — skill icon
 
 ## Non-obvious gotchas
 
