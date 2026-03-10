@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.msaad00/agent-bom",
-  "description": "AI supply chain security scanner for MCP servers and AI agents. CVE scanning, blast radius analysis, CIS benchmarks, policy enforcement, SBOM generation, and compliance across 10 frameworks.",
+  "description": "Security scanner for AI infrastructure — CVEs, blast radius, credential exposure, runtime enforcement across MCP servers, containers, cloud, and GPU.",
   "title": "agent-bom",
   "repository": {
     "url": "https://github.com/msaad00/agent-bom",
     "source": "github"
   },
-  "version": "0.55.0",
+  "version": "0.68.1",
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/msaad00/agent-bom:v0.55.0",
+      "identifier": "ghcr.io/msaad00/agent-bom:v0.68.1",
       "transport": {
         "type": "stdio"
       },
@@ -21,6 +21,12 @@
           "description": "NVD API key for higher rate limits on CVSS enrichment (optional)",
           "isRequired": false,
           "isSecret": true
+        },
+        {
+          "name": "SNYK_TOKEN",
+          "description": "Snyk API token for vulnerability enrichment (optional)",
+          "isRequired": false,
+          "isSecret": true
         }
       ]
     }
@@ -28,7 +34,7 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.msaad00": {
-        "ghcr.io/msaad00/agent-bom:v0.55.0": {
+        "ghcr.io/msaad00/agent-bom:v0.68.1": {
           "tier": "Community",
           "status": "Active",
           "tags": [
@@ -40,10 +46,13 @@
             "blast-radius",
             "mcp",
             "ai-agents",
+            "ai-infrastructure",
             "compliance",
             "cis-benchmarks",
             "owasp",
-            "policy-as-code"
+            "policy-as-code",
+            "gpu",
+            "runtime-enforcement"
           ],
           "tools": [
             "scan",
@@ -54,16 +63,28 @@
             "generate_sbom",
             "compliance",
             "remediate",
+            "skill_trust",
             "verify",
             "where",
             "inventory",
             "diff",
-            "skill_trust",
             "marketplace_check",
             "code_scan",
             "context_graph",
             "analytics_query",
-            "cis_benchmark"
+            "cis_benchmark",
+            "fleet_scan",
+            "runtime_correlate",
+            "vector_db_scan",
+            "aisvs_benchmark",
+            "gpu_infra_scan",
+            "dataset_card_scan",
+            "training_pipeline_scan",
+            "browser_extension_scan",
+            "model_provenance_scan",
+            "prompt_scan",
+            "model_file_scan",
+            "license_compliance_scan"
           ],
           "permissions": {
             "network": {
@@ -86,7 +107,7 @@
             }
           },
           "custom_metadata": {
-            "author": "Mohamed Saad",
+            "author": "Wagdy Saad",
             "homepage": "https://github.com/msaad00/agent-bom",
             "license": "Apache-2.0"
           }
