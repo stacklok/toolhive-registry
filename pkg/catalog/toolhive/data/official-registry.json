@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-03-08T00:45:53Z"
+    "last_updated": "2026-03-10T00:41:13Z"
   },
   "data": {
     "servers": [
@@ -833,7 +833,7 @@
                   "homepage": "https://www.atlassian.com/platform/remote-mcp-server"
                 },
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:47Z"
+                  "last_updated": "2026-03-08T02:59:48Z"
                 },
                 "overview": "## Atlassian Remote MCP Server\n\nThe atlassian-remote MCP Server is a cloud-hosted Model Context Protocol (MCP) implementation from Atlassian that lets AI assistants and agents securely access and interact with Atlassian Cloud data — including Jira, Confluence, and Compass — without manual integrations. This official Atlassian tool enables AI systems to query and modify enterprise data across multiple Atlassian products through a secure, OAuth 2.1-authenticated remote endpoint, supporting operations like issue creation, documentation updates, and cross-tool workflows while respecting existing user permissions.",
                 "status": "Active",
@@ -9795,7 +9795,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/github/github-mcp-server:v0.32.0",
+            "identifier": "ghcr.io/github/github-mcp-server:v0.33.0",
             "transport": {
               "type": "stdio"
             },
@@ -9828,9 +9828,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/github/github-mcp-server:v0.32.0": {
+              "ghcr.io/github/github-mcp-server:v0.33.0": {
                 "metadata": {
-                  "last_updated": "2026-03-06T18:53:25Z",
+                  "last_updated": "2026-03-09T08:34:59Z",
                   "stars": 27261
                 },
                 "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -22500,8 +22500,8 @@
                   "license": "MIT"
                 },
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:47Z",
-                  "stars": 375
+                  "last_updated": "2026-03-08T02:59:48Z",
+                  "stars": 380
                 },
                 "overview": "## Monday.com MCP Server\n\nThe monday MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Monday.com, the work management and project tracking platform. It allows AI-driven workflows to create, update, and reason about boards, items, groups, and statuses — bringing operational and planning context directly into AI-assisted workflows. This server is especially useful for project management, team coordination, operational tracking, and workflow automation where Monday.com is the system of record.",
                 "status": "Active",
@@ -36790,7 +36790,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3",
+            "identifier": "ghcr.io/pab1it0/prometheus-mcp-server:1.6.0",
             "transport": {
               "type": "stdio"
             },
@@ -36836,9 +36836,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3": {
+              "ghcr.io/pab1it0/prometheus-mcp-server:1.6.0": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:57Z",
+                  "last_updated": "2026-03-07T21:30:58Z",
                   "stars": 376
                 },
                 "overview": "## Prometheus MCP Server\n\nThe Prometheus MCP server provides AI assistants with direct access to Prometheus metrics and monitoring data. It enables real-time querying of time-series metrics using PromQL, range queries for trend analysis, alert and rule inspection, and target health monitoring. The server exposes tools for metric discovery, label exploration, and exemplar queries, making it straightforward to integrate Prometheus observability data into AI-driven analysis and incident response workflows.",
@@ -36871,7 +36871,6 @@
                     "inputSchema": {
                       "properties": {
                         "query": {
-                          "title": "Query",
                           "type": "string"
                         },
                         "time": {
@@ -36883,8 +36882,7 @@
                               "type": "null"
                             }
                           ],
-                          "default": null,
-                          "title": "Time"
+                          "default": null
                         }
                       },
                       "required": [
@@ -36906,19 +36904,15 @@
                     "inputSchema": {
                       "properties": {
                         "end": {
-                          "title": "End",
                           "type": "string"
                         },
                         "query": {
-                          "title": "Query",
                           "type": "string"
                         },
                         "start": {
-                          "title": "Start",
                           "type": "string"
                         },
                         "step": {
-                          "title": "Step",
                           "type": "string"
                         }
                       },
@@ -36940,17 +36934,48 @@
                       "readOnlyHint": true,
                       "title": "Get Metric Metadata"
                     },
-                    "description": "Get metadata for a specific metric",
+                    "description": "Get metadata (type, help, unit) for metrics. Returns all metric metadata when no metric name is provided. Use filter_pattern to search metric names and descriptions.",
                     "inputSchema": {
                       "properties": {
+                        "filter_pattern": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null
+                        },
+                        "limit": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null
+                        },
                         "metric": {
-                          "title": "Metric",
-                          "type": "string"
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null
+                        },
+                        "offset": {
+                          "default": 0,
+                          "type": "integer"
                         }
                       },
-                      "required": [
-                        "metric"
-                      ],
+                      "required": [],
                       "type": "object"
                     },
                     "name": "get_metric_metadata"
@@ -37007,8 +37032,7 @@
                               "type": "null"
                             }
                           ],
-                          "default": null,
-                          "title": "Filter Pattern"
+                          "default": null
                         },
                         "limit": {
                           "anyOf": [
@@ -37019,13 +37043,15 @@
                               "type": "null"
                             }
                           ],
-                          "default": null,
-                          "title": "Limit"
+                          "default": null
                         },
                         "offset": {
                           "default": 0,
-                          "title": "Offset",
                           "type": "integer"
+                        },
+                        "refresh_cache": {
+                          "default": false,
+                          "type": "boolean"
                         }
                       },
                       "required": [],
@@ -39636,8 +39662,8 @@
                   "license": "MIT"
                 },
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:48Z",
-                  "stars": 636
+                  "last_updated": "2026-03-08T02:59:48Z",
+                  "stars": 638
                 },
                 "overview": "## Semgrep Remote MCP Server\n\nThe semgrep-remote MCP server is the official Semgrep MCP server for code security scanning and vulnerability detection. The server enables vulnerability scanning utilizing semantic analysis across 5,000+ rules, abstract syntax tree generation and multi-language support queries, supply chain security analysis for dependencies and third-party code, and custom security rule development and validation with schema capabilities.",
                 "status": "Active",
@@ -41025,7 +41051,7 @@
                   "homepage": "https://sentry.io"
                 },
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:48Z"
+                  "last_updated": "2026-03-08T02:59:48Z"
                 },
                 "overview": "## Sentry Remote MCP Server\n\nSentry's official remote MCP server enables AI assistants to connect to Sentry's error monitoring and performance tracking platform using OAuth authentication over a streamable HTTP transport. It supports finding organizations, teams, projects, and releases; retrieving detailed issue and trace information; searching events and issues; and running AI-powered issue analysis through Sentry Seer. The server provides the full context needed for AI-driven incident triage, root cause analysis, and performance debugging directly within an assistant workflow.",
                 "status": "Active",
@@ -45715,7 +45741,7 @@
                   "homepage": "https://vercel.com/docs/mcp/vercel-mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:48Z"
+                  "last_updated": "2026-03-08T02:59:48Z"
                 },
                 "overview": "## Vercel MCP Server\n\nVercel's official remote MCP server for deployment platform and project management. It provides programmatic access to Vercel's deployment infrastructure, project management, and documentation through a streamable-http transport. The server enables AI assistants to connect with Vercel's deployment platform, offering tools for searching documentation, managing teams and projects, monitoring deployments and their events, and retrieving content from Vercel-hosted URLs. Authentication is handled through OAuth.",
                 "status": "Active",
