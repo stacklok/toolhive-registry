@@ -3,11 +3,20 @@
   "name": "io.github.msaad00/agent-bom",
   "description": "Security scanner for AI infrastructure — CVEs, blast radius, credential exposure, runtime enforcement across MCP servers, containers, cloud, and GPU.",
   "title": "agent-bom",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/agent-bom/icon.svg"
+    }
+  ],
   "repository": {
     "url": "https://github.com/msaad00/agent-bom",
     "source": "github"
   },
-  "version": "0.68.1",
+  "version": "1.0.0",
   "packages": [
     {
       "registryType": "oci",
@@ -29,6 +38,7 @@
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.msaad00": {
         "ghcr.io/msaad00/agent-bom:v0.68.1": {
+          "overview": "## agent-bom\n\nSecurity scanner for AI infrastructure. Scans MCP servers, AI agents, containers, cloud environments, and GPU compute for CVEs, credential exposure, tool poisoning, and configuration drift.\n\n### Key capabilities\n\n- **30 MCP tools** for AI assistant integration (Claude, Cursor, Windsurf)\n- CVE scanning with blast radius analysis across transitive dependencies\n- Credential leak detection in MCP tool arguments and responses\n- CIS benchmark checks for AWS, Azure, GCP, Snowflake, Databricks\n- Policy-as-code engine with 17 declarative conditions\n- Compliance mapping across 11 frameworks (OWASP LLM/MCP/Agentic, MITRE ATLAS, NIST AI RMF, EU AI Act)\n- SBOM generation (CycloneDX, SPDX)\n- Runtime proxy for MCP traffic interception and enforcement",
           "tier": "Community",
           "status": "Active",
           "tags": [
