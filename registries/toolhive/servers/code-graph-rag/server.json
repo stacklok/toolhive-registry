@@ -1,0 +1,107 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/code-graph-rag",
+  "description": "MCP server that builds knowledge graphs from multi-language codebases using Tree-sitter AST parsing and Memgraph",
+  "title": "Code-Graph-RAG",
+  "repository": {
+    "url": "https://github.com/vitali87/code-graph-rag",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/code-graph-rag:0.0.101",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "MEMGRAPH_HOST",
+          "description": "Memgraph database host address",
+          "default": "localhost"
+        },
+        {
+          "name": "MEMGRAPH_PORT",
+          "description": "Memgraph database port",
+          "default": "7687"
+        },
+        {
+          "name": "LLM_PROVIDER",
+          "description": "LLM provider for natural language query translation (e.g., openai, anthropic, mistral)",
+          "default": "openai"
+        },
+        {
+          "name": "OPENAI_API_KEY",
+          "description": "API key for OpenAI (required when using openai provider)",
+          "isSecret": true
+        },
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "description": "API key for Anthropic (required when using anthropic provider)",
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/code-graph-rag/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/code-graph-rag:0.0.101": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "code-analysis",
+            "knowledge-graph",
+            "tree-sitter",
+            "memgraph",
+            "rag",
+            "multi-language",
+            "developer-tools",
+            "ast"
+          ],
+          "tools": [
+            "list_projects",
+            "delete_project",
+            "index_repository",
+            "query_code_graph",
+            "get_code_snippet",
+            "read_file",
+            "write_file",
+            "list_directory"
+          ],
+          "overview": "## Code-Graph-RAG\n\nCode-Graph-RAG is an MCP server that builds knowledge graphs from multi-language codebases using Tree-sitter AST parsing and Memgraph. It supports 11 programming languages (Python, TypeScript, JavaScript, Java, C, C++, C#, Go, Rust, Ruby, PHP) and enables natural language querying of code structure and relationships including function calls, imports, and inheritance hierarchies. Users can index repositories, query the code graph with natural language, retrieve code snippets by qualified name, and read or write files in the codebase.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "api.openai.com",
+                  "api.anthropic.com",
+                  "api.mistral.ai"
+                ],
+                "allow_port": [
+                  443,
+                  7687
+                ]
+              }
+            }
+          },
+          "custom_metadata": {
+            "author": "Vitali Vagyan",
+            "homepage": "https://github.com/vitali87/code-graph-rag",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
