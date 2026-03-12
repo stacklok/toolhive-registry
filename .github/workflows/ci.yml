@@ -135,17 +135,26 @@ jobs:
           if [ -n "$EXISTING_PR" ]; then
             echo "PR #$EXISTING_PR already exists, updated branch"
           else
+            # Build file list dynamically
+            FILE_LIST=""
+            for registry_dir in pkg/catalog/*/; do
+              registry_name=$(basename "$registry_dir")
+              [ -d "$registry_dir/data" ] || continue
+              FILE_LIST="${FILE_LIST}- \`pkg/catalog/${registry_name}/data/registry.json\` — ${registry_name} legacy format
+          "
+              FILE_LIST="${FILE_LIST}- \`pkg/catalog/${registry_name}/data/official-registry.json\` — ${registry_name} upstream MCP format
+          "
+            done
+
             gh pr create \
               --title "chore: update catalog data files for v${VERSION}" \
-              --body "$(cat <<'BODY'
+              --body "$(cat <<EOF
           Automated PR to update the embedded catalog data files.
 
           Files updated:
-          - `pkg/catalog/toolhive/data/registry.json` — ToolHive legacy format
-          - `pkg/catalog/toolhive/data/official-registry.json` — Upstream MCP format
-
+          ${FILE_LIST}
           When merged, a release will be created automatically.
-          BODY
+          EOF
           )" \
               --head "$BRANCH"
 
@@ -182,25 +191,35 @@ jobs:
       - name: Generate PR comment
         id: comment
         run: |
-          CONTAINER_COUNT=$(jq '.servers | length' build/toolhive/registry.json)
-          REMOTE_COUNT=$(jq '.remote_servers | length // 0' build/toolhive/registry.json)
-          TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
-          SKILL_COUNT=$(jq '.data.skills | length // 0' build/toolhive/official-registry.json)
-          SIZE=$(du -h build/toolhive/registry.json | cut -f1)
-          LAST_UPDATED=$(jq -r '.last_updated' build/toolhive/registry.json)
-
           {
             echo "body<<EOF"
             echo "## Registry Build Preview"
             echo ""
-            echo "Registry built successfully!"
+            echo "All registries built successfully!"
             echo ""
-            echo "- **Total Servers**: $TOTAL"
-            echo "  - Container-based: $CONTAINER_COUNT"
-            echo "  - Remote: $REMOTE_COUNT"
-            echo "- **Skills**: $SKILL_COUNT"
-            echo "- **File Size**: $SIZE"
-            echo "- **Last Updated**: $LAST_UPDATED"
+
+            for registry_dir in build/*/; do
+              registry_name=$(basename "$registry_dir")
+              [ -f "$registry_dir/registry.json" ] || continue
+
+              CONTAINER_COUNT=$(jq '.servers | length' "$registry_dir/registry.json")
+              REMOTE_COUNT=$(jq '.remote_servers | length // 0' "$registry_dir/registry.json")
+              TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
+              SKILL_COUNT=$(jq '.data.skills | length // 0' "$registry_dir/official-registry.json")
+              SIZE=$(du -h "$registry_dir/registry.json" | cut -f1)
+              LAST_UPDATED=$(jq -r '.last_updated' "$registry_dir/registry.json")
+
+              echo "### Registry: \`$registry_name\`"
+              echo ""
+              echo "- **Total Servers**: $TOTAL"
+              echo "  - Container-based: $CONTAINER_COUNT"
+              echo "  - Remote: $REMOTE_COUNT"
+              echo "- **Skills**: $SKILL_COUNT"
+              echo "- **File Size**: $SIZE"
+              echo "- **Last Updated**: $LAST_UPDATED"
+              echo ""
+            done
+
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
@@ -230,6 +249,6 @@ jobs:
         with:
           name: pr-registry-json
           path: |
-            build/toolhive/registry.json
-            build/toolhive/official-registry.json
+            build/*/registry.json
+            build/*/official-registry.json
           retention-days: 7
