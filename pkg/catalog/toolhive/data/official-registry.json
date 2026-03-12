@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-03-11T00:41:49Z"
+    "last_updated": "2026-03-12T00:39:04Z"
   },
   "data": {
     "servers": [
@@ -285,7 +285,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.8.2",
+            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.9.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -306,7 +306,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/apollographql/apollo-mcp-server:v1.8.2": {
+              "ghcr.io/apollographql/apollo-mcp-server:v1.9.0": {
                 "metadata": {
                   "last_updated": "2026-03-06T02:57:37Z",
                   "stars": 268
@@ -15292,8 +15292,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/ida-pro-mcp:1.4.0": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:54Z",
-                  "stars": 5814
+                  "last_updated": "2026-03-11T02:55:32Z",
+                  "stars": 6249
                 },
                 "overview": "## IDA Pro MCP Server\n\nThe ida-pro-mcp server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with IDA Pro, the industry-standard interactive disassembler and reverse-engineering platform. It enables AI-driven workflows to inspect binaries, analyze disassembly, explore functions and symbols, and reason about program structure — all from within an MCP-compatible assistant. This server proves particularly valuable for reverse engineering, malware analysis, vulnerability research, and low-level software analysis workflows where deep binary insight is required.",
                 "permissions": {
@@ -16561,7 +16561,7 @@
             "io.github.stacklok": {
               "kionsoftware/kion-mcp:v0.4.0": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:54Z",
+                  "last_updated": "2026-03-11T02:55:32Z",
                   "stars": 7
                 },
                 "overview": "## Kion MCP Server\n\nThe kion MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kion, a cloud governance and financial management platform. It allows AI-driven workflows to access cloud accounts, policies, budgets, and compliance data, providing governance visibility across accounts and resources, cost and budget context for decision-making, policy awareness for inspecting controls and enforcement, cross-cloud reasoning from a unified interface, and operational support for questions about ownership and compliance.",
@@ -20539,8 +20539,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-cypher:0.5.2": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:54Z",
-                  "stars": 910
+                  "last_updated": "2026-03-11T02:55:32Z",
+                  "stars": 913
                 },
                 "overview": "## Neo4j Cypher MCP Server\n\nThe mcp-neo4j-cypher server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neo4j graph databases using Cypher, Neo4j's query language. It allows AI-driven workflows to query, explore, and analyze graph data — including nodes, relationships, and paths — without embedding Neo4j drivers or Cypher execution logic into the client. This server is especially useful for knowledge graphs, dependency analysis, recommendation systems, and any workflow that benefits from graph-native querying and reasoning.",
                 "permissions": {
@@ -29371,8 +29371,8 @@
                   "--enable-write-tools"
                 ],
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:54Z",
-                  "stars": 51
+                  "last_updated": "2026-03-11T02:55:32Z",
+                  "stars": 54
                 },
                 "overview": "## PagerDuty MCP Server\n\nThe pagerduty MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with PagerDuty, the incident management and on-call platform. It allows AI-driven workflows to access incidents, services, schedules, and on-call status information, bringing real-time incident response context into AI-assisted operations. This server is especially useful for incident triage, on-call support, operational awareness, and post-incident analysis where PagerDuty serves as the primary system of record.",
                 "permissions": {
@@ -36609,7 +36609,7 @@
             "io.github.stacklok": {
               "ghcr.io/stackloklabs/plotting-mcp:v0.0.2": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:45:53Z",
+                  "last_updated": "2026-03-11T02:55:31Z",
                   "stars": 7
                 },
                 "overview": "## Plotting MCP Server\n\nThe Plotting MCP server provides AI assistants with data visualization capabilities, enabling the generation of charts and plots from structured data. It supports multiple plotting libraries including matplotlib, seaborn, and cartopy, and can produce line plots, bar charts, scatter plots, and geographic maps. The server uses a streamable HTTP transport and is cryptographically signed for supply chain security, making it suitable for data analysis workflows that require visual output alongside textual reasoning.",
