@@ -20,7 +20,7 @@
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/msaad00/agent-bom:v0.68.2",
+      "identifier": "ghcr.io/msaad00/agent-bom:v0.70.5",
       "transport": {
         "type": "stdio"
       },
@@ -36,9 +36,22 @@
   ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
-      "io.github.msaad00": {
-        "ghcr.io/msaad00/agent-bom:v0.68.2": {
-          "overview": "## agent-bom\n\nSecurity scanner for AI infrastructure. Scans MCP servers, AI agents, containers, cloud environments, and GPU compute for CVEs, credential exposure, tool poisoning, and configuration drift.\n\n### Key capabilities\n\n- **30 MCP tools** for AI assistant integration (Claude, Cursor, Windsurf)\n- CVE scanning with blast radius analysis across transitive dependencies\n- Credential leak detection in MCP tool arguments and responses\n- CIS benchmark checks for AWS, Azure, GCP, Snowflake, Databricks\n- Policy-as-code engine with 17 declarative conditions\n- Compliance mapping across 11 frameworks (OWASP LLM/MCP/Agentic, MITRE ATLAS, NIST AI RMF, EU AI Act)\n- SBOM generation (CycloneDX, SPDX)\n- Runtime proxy for MCP traffic interception and enforcement",
+      "io.github.stacklok": {
+        "ghcr.io/msaad00/agent-bom:v0.70.5": {
+          "overview": "## agent-bom
+
+Security scanner for AI infrastructure. Scans MCP servers, AI agents, containers, cloud environments, and GPU compute for CVEs, credential exposure, tool poisoning, and configuration drift.
+
+### Key capabilities
+
+- **31 MCP tools** for AI assistant integration (Claude, Cursor, Windsurf)
+- CVE scanning with blast radius analysis across transitive dependencies
+- Credential leak detection in MCP tool arguments and responses
+- CIS benchmark checks for AWS, Azure, GCP, Snowflake, Databricks
+- Policy-as-code engine with 17 declarative conditions
+- Compliance mapping across 11 frameworks (OWASP LLM/MCP/Agentic, MITRE ATLAS, NIST AI RMF, EU AI Act)
+- SBOM generation (CycloneDX, SPDX)
+- Runtime proxy for MCP traffic interception and enforcement",
           "tier": "Community",
           "status": "Active",
           "tags": [
@@ -88,7 +101,8 @@
             "model_provenance_scan",
             "prompt_scan",
             "model_file_scan",
-            "license_compliance_scan"
+            "license_compliance_scan",
+            "ingest_external_scan"
           ],
           "permissions": {
             "network": {
