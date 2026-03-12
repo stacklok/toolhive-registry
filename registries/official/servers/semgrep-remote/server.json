@@ -1,0 +1,66 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.semgrep.ai/mcp": {
+          "custom_metadata": {
+            "author": "Semgrep",
+            "homepage": "https://mcp.semgrep.ai",
+            "license": "MIT"
+          },
+          "metadata": {
+            "last_updated": "2026-03-08T02:59:48Z",
+            "stars": 638
+          },
+          "overview": "## Semgrep Remote MCP Server\n\nThe semgrep-remote MCP server is the official Semgrep MCP server for code security scanning and vulnerability detection. The server enables vulnerability scanning utilizing semantic analysis across 5,000+ rules, abstract syntax tree generation and multi-language support queries, supply chain security analysis for dependencies and third-party code, and custom security rule development and validation with schema capabilities.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "security",
+            "semgrep",
+            "static-analysis",
+            "vulnerability-detection",
+            "code-scanning",
+            "security-audit"
+          ],
+          "tier": "Official",
+          "tools": [
+            "semgrep_rule_schema",
+            "get_supported_languages",
+            "semgrep_findings",
+            "semgrep_scan_with_custom_rule",
+            "semgrep_scan",
+            "semgrep_scan_rpc",
+            "semgrep_scan_local",
+            "security_check",
+            "get_abstract_syntax_tree"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Official Semgrep MCP server for code security scanning and vulnerability detection",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/semgrep-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/semgrep-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.semgrep.ai/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/semgrep/mcp"
+  },
+  "title": "Semgrep (Remote)",
+  "version": "1.0.0"
+}

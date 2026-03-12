@@ -1,0 +1,134 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/mongodb/mongodb-mcp-server:1.8.0": {
+          "metadata": {
+            "last_updated": "2026-03-03T12:34:33Z",
+            "stars": 936
+          },
+          "overview": "## MongoDB MCP Server\n\nThe mongodb MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with MongoDB databases through a structured, AI-friendly interface. It allows AI-driven workflows to inspect collections, query documents, and reason about schema-less data without switching tools or embedding MongoDB-specific drivers in the client. This server is especially useful for application development, data exploration, debugging, and analytics workflows where MongoDB is the primary data store.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443,
+                  27017,
+                  27018,
+                  27019,
+                  27020
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "mongodb",
+            "mongo",
+            "atlas",
+            "database",
+            "data",
+            "query"
+          ],
+          "tier": "Official",
+          "tools": [
+            "aggregate",
+            "collection-indexes",
+            "collection-schema",
+            "collection-storage-size",
+            "connect",
+            "count",
+            "create-collection",
+            "create-index",
+            "db-stats",
+            "delete-many",
+            "drop-collection",
+            "drop-database",
+            "explain",
+            "export",
+            "find",
+            "insert-many",
+            "list-collections",
+            "list-databases",
+            "mongodb-logs",
+            "rename-collection",
+            "update-many"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Provides support for interacting with MongoDB Databases and MongoDB Atlas.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mongodb/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/mongodb",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "MongoDB connection string for direct database connections (optional, if not set, you'll need to call the connect tool before interacting with MongoDB data)",
+          "isSecret": true,
+          "name": "MDB_MCP_CONNECTION_STRING"
+        },
+        {
+          "description": "Atlas API client ID for authentication (required for running Atlas tools)",
+          "isSecret": true,
+          "name": "MDB_MCP_API_CLIENT_ID"
+        },
+        {
+          "description": "Atlas API client secret for authentication (required for running Atlas tools)",
+          "isSecret": true,
+          "name": "MDB_MCP_API_CLIENT_SECRET"
+        },
+        {
+          "description": "Atlas API base URL (default is https://cloud.mongodb.com/)",
+          "name": "MDB_MCP_API_BASE_URL"
+        },
+        {
+          "description": "MongoDB server address for direct connections (optional, used for connect tool)",
+          "name": "MDB_MCP_SERVER_ADDRESS"
+        },
+        {
+          "description": "MongoDB server port for direct connections (optional, used for connect tool)",
+          "name": "MDB_MCP_SERVER_PORT"
+        },
+        {
+          "description": "Folder to store logs (inside the container)",
+          "name": "MDB_MCP_LOG_PATH"
+        },
+        {
+          "description": "Comma-separated list of tool names, operation types, and/or categories of tools to disable",
+          "name": "MDB_MCP_DISABLED_TOOLS"
+        },
+        {
+          "description": "When set to true, only allows read and metadata operation types",
+          "name": "MDB_MCP_READ_ONLY"
+        },
+        {
+          "description": "When set to disabled, disables telemetry collection",
+          "name": "MDB_MCP_TELEMETRY"
+        }
+      ],
+      "identifier": "docker.io/mongodb/mongodb-mcp-server:1.8.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/mongodb-js/mongodb-mcp-server"
+  },
+  "title": "MongoDB",
+  "version": "1.0.0"
+}

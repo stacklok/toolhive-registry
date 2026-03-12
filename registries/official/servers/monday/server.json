@@ -1,0 +1,77 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.monday.com/sse": {
+          "custom_metadata": {
+            "author": "Monday.com",
+            "license": "MIT"
+          },
+          "metadata": {
+            "last_updated": "2026-03-08T02:59:48Z",
+            "stars": 380
+          },
+          "overview": "## Monday.com MCP Server\n\nThe monday MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Monday.com, the work management and project tracking platform. It allows AI-driven workflows to create, update, and reason about boards, items, groups, and statuses — bringing operational and planning context directly into AI-assisted workflows. This server is especially useful for project management, team coordination, operational tracking, and workflow automation where Monday.com is the system of record.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "monday",
+            "project-management",
+            "workflow",
+            "collaboration",
+            "boards",
+            "items",
+            "api-token",
+            "work-os",
+            "automation"
+          ],
+          "tier": "Official",
+          "tools": [
+            "get_board_items_by_name",
+            "create_item",
+            "create_update",
+            "get_board_activity",
+            "get_board_info",
+            "create_board",
+            "create_column",
+            "list_users_and_teams",
+            "all_monday_api",
+            "get_graphql_schema",
+            "get_column_type_info",
+            "get_type_details",
+            "read_docs",
+            "workspace_info",
+            "list_workspaces",
+            "create_doc",
+            "create_dashboard",
+            "all_widgets_schema"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Monday.com's official remote MCP server for project and workflow management",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/monday/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/monday",
+  "remotes": [
+    {
+      "type": "sse",
+      "url": "https://mcp.monday.com/sse"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/mondaycom/mcp"
+  },
+  "title": "Monday.com",
+  "version": "1.0.0"
+}

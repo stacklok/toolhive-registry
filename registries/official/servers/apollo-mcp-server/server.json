@@ -1,0 +1,76 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/apollographql/apollo-mcp-server:v1.9.0": {
+          "metadata": {
+            "last_updated": "2026-03-06T02:57:37Z",
+            "stars": 268
+          },
+          "overview": "## Apollo MCP Server\n\nThe apollo-mcp-server is a Model Context Protocol (MCP) server implementation that makes your GraphQL API operations available as MCP tools for AI assistants and agents. It acts as a translation layer between AI clients and your GraphQL infrastructure, exposing query and mutation capabilities through MCP so models can fetch, explore, and orchestrate your graph operations without bespoke tooling.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "graphql",
+            "api",
+            "orchestration",
+            "apollo",
+            "mcp"
+          ],
+          "tier": "Official",
+          "tools": [
+            "example_GetAstronautsCurrentlyInSpace"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Exposes GraphQL operations as MCP tools for AI-driven API orchestration with Apollo",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/apollo-mcp-server/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/apollo-mcp-server",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Graph ref (graph ID and variant) used to fetch persisted queries or schema (required if no config file)",
+          "name": "APOLLO_GRAPH_REF"
+        },
+        {
+          "description": "Apollo Studio API key for the graph (required if no config file)",
+          "isSecret": true,
+          "name": "APOLLO_KEY"
+        }
+      ],
+      "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.9.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:5000"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/apollographql/apollo-mcp-server"
+  },
+  "title": "Apollo GraphQL",
+  "version": "1.0.0"
+}

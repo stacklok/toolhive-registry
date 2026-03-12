@@ -1,0 +1,610 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/chroma-mcp:0.2.6": {
+          "metadata": {
+            "last_updated": "2026-02-26T11:45:57Z",
+            "stars": 498
+          },
+          "overview": "## Chroma MCP Server\n\nThe chroma-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Chroma, an open-source vector database designed for embeddings and similarity search. It allows AI workflows to store, retrieve, and query vector embeddings alongside metadata, making it easy to build retrieval-augmented generation (RAG), semantic search, and memory-driven applications without custom database integration. It's particularly valuable for AI systems that need long-term memory, document retrieval, or semantic similarity capabilities as part of their reasoning loop.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "vector-database",
+            "embeddings",
+            "ai",
+            "chromadb"
+          ],
+          "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Add documents to a Chroma collection.\n\nArgs:\n    collection_name: Name of the collection to add documents to\n    documents: List of text documents to add\n    ids: List of IDs for the documents (required)\n    metadatas: Optional list of metadata dictionaries for each document\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  },
+                  "documents": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Documents",
+                    "type": "array"
+                  },
+                  "ids": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Ids",
+                    "type": "array"
+                  },
+                  "metadatas": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "additionalProperties": true,
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Metadatas"
+                  }
+                },
+                "required": [
+                  "collection_name",
+                  "documents",
+                  "ids"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_add_documents"
+            },
+            {
+              "annotations": {},
+              "description": "Create a new Chroma collection with configurable HNSW parameters.\n\nArgs:\n    collection_name: Name of the collection to create\n    embedding_function_name: Name of the embedding function to use. Options: 'default', 'cohere', 'openai', 'jina', 'voyageai', 'ollama', 'roboflow'\n    metadata: Optional metadata dict to add to the collection\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  },
+                  "embedding_function_name": {
+                    "default": "default",
+                    "title": "Embedding Function Name",
+                    "type": "string"
+                  },
+                  "metadata": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "type": "object"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Metadata"
+                  }
+                },
+                "required": [
+                  "collection_name"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_create_collection"
+            },
+            {
+              "annotations": {},
+              "description": "Delete a Chroma collection.\n\nArgs:\n    collection_name: Name of the collection to delete\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection_name"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_delete_collection"
+            },
+            {
+              "annotations": {},
+              "description": "Delete documents from a Chroma collection.\n\nArgs:\n    collection_name: Name of the collection to delete documents from\n    ids: List of document IDs to delete\n\nReturns:\n    A confirmation message indicating the number of documents deleted.\n\nRaises:\n    ValueError: If 'ids' is empty\n    Exception: If the collection does not exist or if the delete operation fails.\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  },
+                  "ids": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Ids",
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "collection_name",
+                  "ids"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_delete_documents"
+            },
+            {
+              "annotations": {},
+              "description": "Fork a Chroma collection.\n\nArgs:\n    collection_name: Name of the collection to fork\n    new_collection_name: Name of the new collection to create\n    metadata: Optional metadata dict to add to the new collection\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  },
+                  "new_collection_name": {
+                    "title": "New Collection Name",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection_name",
+                  "new_collection_name"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_fork_collection"
+            },
+            {
+              "annotations": {},
+              "description": "Get the number of documents in a Chroma collection.\n\nArgs:\n    collection_name: Name of the collection to count\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection_name"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_get_collection_count"
+            },
+            {
+              "annotations": {},
+              "description": "Get information about a Chroma collection.\n\nArgs:\n    collection_name: Name of the collection to get info about\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection_name"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_get_collection_info"
+            },
+            {
+              "annotations": {},
+              "description": "Get documents from a Chroma collection with optional filtering.\n\nArgs:\n    collection_name: Name of the collection to get documents from\n    ids: Optional list of document IDs to retrieve\n    where: Optional metadata filters using Chroma's query operators\n           Examples:\n           - Simple equality: {\"metadata_field\": \"value\"}\n           - Comparison: {\"metadata_field\": {\"$gt\": 5}}\n           - Logical AND: {\"$and\": [{\"field1\": {\"$eq\": \"value1\"}}, {\"field2\": {\"$gt\": 5}}]}\n           - Logical OR: {\"$or\": [{\"field1\": {\"$eq\": \"value1\"}}, {\"field1\": {\"$eq\": \"value2\"}}]}\n    where_document: Optional document content filters\n           Examples:\n           - Contains: {\"$contains\": \"value\"}\n           - Not contains: {\"$not_contains\": \"value\"}\n           - Regex: {\"$regex\": \"[a-z]+\"}\n           - Not regex: {\"$not_regex\": \"[a-z]+\"}\n           - Logical AND: {\"$and\": [{\"$contains\": \"value1\"}, {\"$not_regex\": \"[a-z]+\"}]}\n           - Logical OR: {\"$or\": [{\"$regex\": \"[a-z]+\"}, {\"$not_contains\": \"value2\"}]}\n    include: List of what to include in response. By default, this will include documents, and metadatas.\n    limit: Optional maximum number of documents to return\n    offset: Optional number of documents to skip before returning results\n\nReturns:\n    Dictionary containing the matching documents, their IDs, and requested includes\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  },
+                  "ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Ids"
+                  },
+                  "include": {
+                    "default": [
+                      "documents",
+                      "metadatas"
+                    ],
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Include",
+                    "type": "array"
+                  },
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                  },
+                  "offset": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Offset"
+                  },
+                  "where": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "type": "object"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Where"
+                  },
+                  "where_document": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "type": "object"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Where Document"
+                  }
+                },
+                "required": [
+                  "collection_name"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_get_documents"
+            },
+            {
+              "annotations": {},
+              "description": "List all collection names in the Chroma database with pagination support.\n\nArgs:\n    limit: Optional maximum number of collections to return\n    offset: Optional number of collections to skip before returning results\n\nReturns:\n    List of collection names or [\"__NO_COLLECTIONS_FOUND__\"] if database is empty\n",
+              "inputSchema": {
+                "properties": {
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                  },
+                  "offset": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Offset"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "chroma_list_collections"
+            },
+            {
+              "annotations": {},
+              "description": "Modify a Chroma collection's name or metadata.\n\nArgs:\n    collection_name: Name of the collection to modify\n    new_name: Optional new name for the collection\n    new_metadata: Optional new metadata for the collection\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  },
+                  "new_metadata": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "type": "object"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "New Metadata"
+                  },
+                  "new_name": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "New Name"
+                  }
+                },
+                "required": [
+                  "collection_name"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_modify_collection"
+            },
+            {
+              "annotations": {},
+              "description": "Peek at documents in a Chroma collection.\n\nArgs:\n    collection_name: Name of the collection to peek into\n    limit: Number of documents to peek at\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 5,
+                    "title": "Limit",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "collection_name"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_peek_collection"
+            },
+            {
+              "annotations": {},
+              "description": "Query documents from a Chroma collection with advanced filtering.\n\nArgs:\n    collection_name: Name of the collection to query\n    query_texts: List of query texts to search for\n    n_results: Number of results to return per query\n    where: Optional metadata filters using Chroma's query operators\n           Examples:\n           - Simple equality: {\"metadata_field\": \"value\"}\n           - Comparison: {\"metadata_field\": {\"$gt\": 5}}\n           - Logical AND: {\"$and\": [{\"field1\": {\"$eq\": \"value1\"}}, {\"field2\": {\"$gt\": 5}}]}\n           - Logical OR: {\"$or\": [{\"field1\": {\"$eq\": \"value1\"}}, {\"field1\": {\"$eq\": \"value2\"}}]}\n    where_document: Optional document content filters\n           Examples:\n           - Contains: {\"$contains\": \"value\"}\n           - Not contains: {\"$not_contains\": \"value\"}\n           - Regex: {\"$regex\": \"[a-z]+\"}\n           - Not regex: {\"$not_regex\": \"[a-z]+\"}\n           - Logical AND: {\"$and\": [{\"$contains\": \"value1\"}, {\"$not_regex\": \"[a-z]+\"}]}\n           - Logical OR: {\"$or\": [{\"$regex\": \"[a-z]+\"}, {\"$not_contains\": \"value2\"}]}\n    include: List of what to include in response. By default, this will include documents, metadatas, and distances.\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  },
+                  "include": {
+                    "default": [
+                      "documents",
+                      "metadatas",
+                      "distances"
+                    ],
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Include",
+                    "type": "array"
+                  },
+                  "n_results": {
+                    "default": 5,
+                    "title": "N Results",
+                    "type": "integer"
+                  },
+                  "query_texts": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Query Texts",
+                    "type": "array"
+                  },
+                  "where": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "type": "object"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Where"
+                  },
+                  "where_document": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "type": "object"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Where Document"
+                  }
+                },
+                "required": [
+                  "collection_name",
+                  "query_texts"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_query_documents"
+            },
+            {
+              "annotations": {},
+              "description": "Update documents in a Chroma collection.\n\nArgs:\n    collection_name: Name of the collection to update documents in\n    ids: List of document IDs to update (required)\n    embeddings: Optional list of new embeddings for the documents.\n                Must match length of ids if provided.\n    metadatas: Optional list of new metadata dictionaries for the documents.\n               Must match length of ids if provided.\n    documents: Optional list of new text documents.\n               Must match length of ids if provided.\n\nReturns:\n    A confirmation message indicating the number of documents updated.\n\nRaises:\n    ValueError: If 'ids' is empty or if none of 'embeddings', 'metadatas',\n                or 'documents' are provided, or if the length of provided\n                update lists does not match the length of 'ids'.\n    Exception: If the collection does not exist or if the update operation fails.\n",
+              "inputSchema": {
+                "properties": {
+                  "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                  },
+                  "documents": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Documents"
+                  },
+                  "embeddings": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "items": {
+                            "type": "number"
+                          },
+                          "type": "array"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Embeddings"
+                  },
+                  "ids": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Ids",
+                    "type": "array"
+                  },
+                  "metadatas": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "additionalProperties": true,
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Metadatas"
+                  }
+                },
+                "required": [
+                  "collection_name",
+                  "ids"
+                ],
+                "type": "object"
+              },
+              "name": "chroma_update_documents"
+            }
+          ],
+          "tools": [
+            "chroma_add_documents",
+            "chroma_create_collection",
+            "chroma_delete_collection",
+            "chroma_delete_documents",
+            "chroma_fork_collection",
+            "chroma_get_collection_count",
+            "chroma_get_collection_info",
+            "chroma_get_documents",
+            "chroma_list_collections",
+            "chroma_modify_collection",
+            "chroma_peek_collection",
+            "chroma_query_documents",
+            "chroma_update_documents"
+          ]
+        }
+      }
+    }
+  },
+  "description": "MCP server for ChromaDB vector database operations",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/chroma-mcp/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/chroma-mcp",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "default": "http://localhost:8000",
+          "description": "ChromaDB server URL",
+          "name": "CHROMA_SERVER_URL"
+        },
+        {
+          "description": "API key for ChromaDB authentication",
+          "isSecret": true,
+          "name": "CHROMA_API_KEY"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/chroma-mcp:0.2.6",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/chroma-core/chroma-mcp"
+  },
+  "title": "ChromaDB",
+  "version": "1.0.0"
+}

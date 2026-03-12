@@ -1,0 +1,202 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.2.0": {
+          "metadata": {
+            "last_updated": "2026-02-26T11:45:56Z",
+            "stars": 695
+          },
+          "overview": "## ClickHouse MCP Server\n\nThe mcp-clickhouse server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with ClickHouse, the high-performance, column-oriented analytical database. It allows AI-driven workflows to query large datasets, inspect schemas, and analyze analytical workloads without requiring users to switch tools or embed ClickHouse-specific client logic. This server is especially useful for analytics, observability, log analysis, and data exploration workflows where fast, read-heavy queries and large-scale datasets are common.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "clickhouse",
+            "sql",
+            "analytics",
+            "olap"
+          ],
+          "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "List available ClickHouse databases",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_databases"
+            },
+            {
+              "annotations": {},
+              "description": "List available ClickHouse tables in a database, including schema, comment,\nrow count, and column count.\n\nArgs:\n    database: The database to list tables from\n    like: Optional LIKE pattern to filter table names\n    not_like: Optional NOT LIKE pattern to exclude table names\n    page_token: Token for pagination, obtained from a previous call\n    page_size: Number of tables to return per page (default: 50)\n    include_detailed_columns: Whether to include detailed column metadata (default: True).\n        When False, the columns array will be empty but create_table_query still contains\n        all column information. This reduces payload size for large schemas.\n\nReturns:\n    A dictionary containing:\n    - tables: List of table information (as dictionaries)\n    - next_page_token: Token for the next page, or None if no more pages\n    - total_tables: Total number of tables matching the filters",
+              "inputSchema": {
+                "properties": {
+                  "database": {
+                    "type": "string"
+                  },
+                  "include_detailed_columns": {
+                    "default": true,
+                    "type": "boolean"
+                  },
+                  "like": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "not_like": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "page_size": {
+                    "default": 50,
+                    "type": "integer"
+                  },
+                  "page_token": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  }
+                },
+                "required": [
+                  "database"
+                ],
+                "type": "object"
+              },
+              "name": "list_tables"
+            },
+            {
+              "annotations": {},
+              "description": "Run a SELECT query in a ClickHouse database",
+              "inputSchema": {
+                "properties": {
+                  "query": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "run_select_query"
+            }
+          ],
+          "tools": [
+            "list_databases",
+            "list_tables",
+            "run_select_query"
+          ]
+        }
+      }
+    }
+  },
+  "description": "MCP server for ClickHouse with SQL queries, database/table listing, and optional chDB OLAP engine",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-clickhouse/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/mcp-clickhouse",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "The hostname of your ClickHouse server",
+          "isRequired": true,
+          "name": "CLICKHOUSE_HOST"
+        },
+        {
+          "description": "The username for authentication",
+          "isRequired": true,
+          "name": "CLICKHOUSE_USER"
+        },
+        {
+          "description": "The password for authentication",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "CLICKHOUSE_PASSWORD"
+        },
+        {
+          "default": "8443",
+          "description": "The port number of your ClickHouse server",
+          "name": "CLICKHOUSE_PORT"
+        },
+        {
+          "default": "true",
+          "description": "Enable/disable HTTPS connection",
+          "name": "CLICKHOUSE_SECURE"
+        },
+        {
+          "default": "true",
+          "description": "Enable/disable SSL certificate verification",
+          "name": "CLICKHOUSE_VERIFY"
+        },
+        {
+          "description": "Default database to use",
+          "name": "CLICKHOUSE_DATABASE"
+        },
+        {
+          "default": "false",
+          "description": "Enable/disable chDB functionality",
+          "name": "CHDB_ENABLED"
+        },
+        {
+          "default": ":memory:",
+          "description": "The path to the chDB data directory",
+          "name": "CHDB_DATA_PATH"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.2.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/ClickHouse/mcp-clickhouse"
+  },
+  "title": "ClickHouse",
+  "version": "1.0.0"
+}

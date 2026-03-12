@@ -1,0 +1,66 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.wix.com/mcp": {
+          "custom_metadata": {
+            "author": "Wix",
+            "homepage": "https://dev.wix.com"
+          },
+          "metadata": {
+            "last_updated": "2026-03-10T02:55:48Z"
+          },
+          "overview": "## Wix MCP Server\n\nWix's official remote MCP server for development platform and site management. It provides programmatic access to Wix documentation, API exploration, and site management capabilities through a streamable-http transport. Key capabilities include access to comprehensive Wix documentation with search functionality, ability to read full documentation articles and method schemas, direct calls to Wix Site APIs, site listing and management features, and support and feedback functionality for Wix development.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "wix",
+            "website-builder",
+            "documentation",
+            "sdk",
+            "headless",
+            "site-management",
+            "api",
+            "development",
+            "build-apps"
+          ],
+          "tier": "Official",
+          "tools": [
+            "WixREADME",
+            "SearchWixWDSDocumentation",
+            "SearchWixRESTDocumentation",
+            "SearchWixSDKDocumentation",
+            "SearchBuildAppsDocumentation",
+            "SearchWixHeadlessDocumentation",
+            "ReadFullDocsArticle",
+            "ReadFullDocsMethodSchema",
+            "CallWixSiteAPI",
+            "ListWixSites",
+            "ManageWixSite",
+            "SupportAndFeedback"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Wix's official remote MCP server for development platform and site management",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/wix/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/wix",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.wix.com/mcp"
+    }
+  ],
+  "title": "Wix",
+  "version": "1.0.0"
+}

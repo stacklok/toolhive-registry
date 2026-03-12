@@ -1,0 +1,69 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://gitlab.com/api/v4/mcp": {
+          "custom_metadata": {
+            "author": "GitLab",
+            "homepage": "https://gitlab.com/"
+          },
+          "metadata": {
+            "last_updated": "2026-02-26T11:45:59Z"
+          },
+          "overview": "## GitLab MCP Server\n\nThe official hosted GitLab MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with GitLab projects and resources through a structured, AI-friendly interface. It allows AI-driven workflows to work with repositories, issues, merge requests, and project metadata without switching tools or manually navigating the GitLab UI. It is ideal for development, code review, CI/CD visibility, and project management workflows that rely on GitLab as the system of record.",
+          "status": "Active",
+          "tags": [
+            "gitlab",
+            "version-control",
+            "repository",
+            "issues",
+            "merge-requests",
+            "projects",
+            "pipelines",
+            "workitems",
+            "code-search",
+            "remote"
+          ],
+          "tier": "Official",
+          "tools": [
+            "get_mcp_server_version",
+            "create_issue",
+            "get_issue",
+            "create_merge_request",
+            "get_merge_request",
+            "get_merge_request_commits",
+            "get_merge_request_diffs",
+            "get_merge_request_pipelines",
+            "get_pipeline_jobs",
+            "manage_pipeline",
+            "create_workitem_note",
+            "get_workitem_notes",
+            "search",
+            "search_labels",
+            "semantic_code_search"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Official GitLab remote MCP for repositories, issues, merge requests, and more",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/gitlab/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/gitlab-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://gitlab.com/api/v4/mcp"
+    }
+  ],
+  "title": "GitLab (Remote)",
+  "version": "1.0.0"
+}

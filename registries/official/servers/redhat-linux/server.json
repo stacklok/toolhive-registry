@@ -1,0 +1,836 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.3.2": {
+          "metadata": {
+            "last_updated": "2026-02-26T11:45:56Z",
+            "stars": 178
+          },
+          "overview": "## Red Hat Linux MCP Server\n\nThe redhat-linux MCP server provides read-only Linux sysadmin, diagnostics, and troubleshooting optimized for RHEL-based systems. This server delivers comprehensive Linux system diagnostics through real-time monitoring of CPU, memory, disk, and network metrics; process and service management with status and log access; network diagnostics including active connections and listening ports; and file system exploration with configurable path restrictions. All capabilities operate in read-only mode via SSH-based remote execution with secure key-based authentication, preventing system modifications.",
+          "status": "Active",
+          "tags": [
+            "linux",
+            "diagnostics",
+            "sysadmin",
+            "rhel",
+            "monitoring",
+            "troubleshooting",
+            "networking"
+          ],
+          "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get CPU information.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_cpu_information"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get detailed disk space information including size, mount points, and utilization.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_disk_usage"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get hardware information such as CPU details, PCI devices, USB devices, and hardware information from DMI.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_hardware_information"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get systemd journal logs.",
+              "inputSchema": {
+                "$defs": {
+                  "Transport": {
+                    "description": "Valid journalctl transport types for filtering journal entries.\n\nTransports identify the source/mechanism that submitted log messages to the journal.\n\nAUDIT - Linux audit subsystem messages (security events, syscall auditing)\nDRIVER - Kernel driver messages logged via dev_printk().\nJOURNAL - Messages logged directly to the journal via sd_journal_* APIs.\nKERNEL - Kernel ring buffer messages (dmesg/printk).\nSTDOUT - stdout/stderr from services with StandardOutput/StandardError=journal.\nSYSLOG - Messages received via the syslog socket (/dev/log).",
+                    "enum": [
+                      "audit",
+                      "driver",
+                      "journal",
+                      "kernel",
+                      "stdout",
+                      "syslog"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  },
+                  "lines": {
+                    "default": 100,
+                    "description": "Number of log lines to retrieve. Default: 100",
+                    "maximum": 10000,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "priority": {
+                    "default": "",
+                    "description": "Filter by syslog priority level (0-7), name, or range",
+                    "examples": [
+                      "err",
+                      "warning",
+                      "info",
+                      "debug",
+                      "3",
+                      "err..warning"
+                    ],
+                    "type": "string"
+                  },
+                  "since": {
+                    "default": "",
+                    "description": "Filter entries since specified time (absolute or relative)",
+                    "examples": [
+                      "today",
+                      "yesterday",
+                      "-1h",
+                      "-30m",
+                      "-7d",
+                      "2025-01-15 10:00:00"
+                    ],
+                    "type": "string"
+                  },
+                  "transport": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/Transport"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Filter by journal transport (e.g., 'audit' for audit logs, 'kernel' for kernel messages, 'syslog' for syslog messages)"
+                  },
+                  "unit": {
+                    "default": "",
+                    "description": "Filter by systemd unit name or pattern",
+                    "examples": [
+                      "sshd.service",
+                      "nginx",
+                      "httpd",
+                      "systemd-*",
+                      "audit*"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_journal_logs"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get details on listening port, protocols, and services.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_listening_ports"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get detailed memory including physical and swap.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_memory_information"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get detailed information about active network connections.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_network_connections"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get detailed information about network interfaces including address and traffic statistics.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_network_interfaces"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get information about a specific process.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  },
+                  "pid": {
+                    "description": "Process ID",
+                    "examples": [
+                      1,
+                      1234,
+                      65535
+                    ],
+                    "minimum": 1,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "pid"
+                ],
+                "type": "object"
+              },
+              "name": "get_process_info"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get recent logs for a specific systemd service.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  },
+                  "lines": {
+                    "default": 50,
+                    "description": "Number of log lines to retrieve.",
+                    "maximum": 10000,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "service_name": {
+                    "description": "Name of the systemd service",
+                    "examples": [
+                      "sshd",
+                      "NetworkManager",
+                      "auditd",
+                      "rsyslog",
+                      "crond",
+                      "firewalld"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "service_name"
+                ],
+                "type": "object"
+              },
+              "name": "get_service_logs"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get detailed status of a specific systemd service.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  },
+                  "service_name": {
+                    "description": "Name of the systemd service",
+                    "examples": [
+                      "sshd",
+                      "NetworkManager",
+                      "auditd",
+                      "rsyslog",
+                      "crond",
+                      "firewalld"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "service_name"
+                ],
+                "type": "object"
+              },
+              "name": "get_service_status"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Get basic system information such as operating system, distribution, kernel version, uptime, and last boot time.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_system_information"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "List block devices on the system",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_block_devices"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "List directories under a specified path with various sorting options.",
+              "inputSchema": {
+                "$defs": {
+                  "OrderBy": {
+                    "enum": [
+                      "size",
+                      "name",
+                      "modified"
+                    ],
+                    "type": "string"
+                  },
+                  "SortBy": {
+                    "enum": [
+                      "ascending",
+                      "descending"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  },
+                  "order_by": {
+                    "$ref": "#/$defs/OrderBy",
+                    "default": "name",
+                    "description": "Sort order - 'size', 'name', or 'modified' (default: 'name')"
+                  },
+                  "path": {
+                    "description": "Absolute path to the directory to analyze",
+                    "examples": [
+                      "/var/log",
+                      "/etc",
+                      "/home",
+                      "/opt",
+                      "/tmp"
+                    ],
+                    "format": "path",
+                    "type": "string"
+                  },
+                  "sort": {
+                    "$ref": "#/$defs/SortBy",
+                    "default": "ascending",
+                    "description": "Sort direction - 'ascending' or 'descending' (default: 'ascending')"
+                  },
+                  "top_n": {
+                    "anyOf": [
+                      {
+                        "exclusiveMinimum": 0,
+                        "maximum": 1000,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Optional limit on number of directories to return (1-1000)"
+                  }
+                },
+                "required": [
+                  "path"
+                ],
+                "type": "object"
+              },
+              "name": "list_directories"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "List files under a specified path with various sorting options.",
+              "inputSchema": {
+                "$defs": {
+                  "OrderBy": {
+                    "enum": [
+                      "size",
+                      "name",
+                      "modified"
+                    ],
+                    "type": "string"
+                  },
+                  "SortBy": {
+                    "enum": [
+                      "ascending",
+                      "descending"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  },
+                  "order_by": {
+                    "$ref": "#/$defs/OrderBy",
+                    "default": "name",
+                    "description": "Sort order - 'size', 'name', or 'modified' (default: 'name')"
+                  },
+                  "path": {
+                    "description": "Absolute path to the directory to analyze",
+                    "examples": [
+                      "/var/log",
+                      "/etc",
+                      "/home",
+                      "/opt",
+                      "/tmp"
+                    ],
+                    "format": "path",
+                    "type": "string"
+                  },
+                  "sort": {
+                    "$ref": "#/$defs/SortBy",
+                    "default": "ascending",
+                    "description": "Sort direction - 'ascending' or 'descending' (default: 'ascending')"
+                  },
+                  "top_n": {
+                    "anyOf": [
+                      {
+                        "exclusiveMinimum": 0,
+                        "maximum": 1000,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Optional limit on number of files to return (1-1000, only used with size ordering)"
+                  }
+                },
+                "required": [
+                  "path"
+                ],
+                "type": "object"
+              },
+              "name": "list_files"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "List running processes",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_processes"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "List all systemd services.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_services"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Read the contents of a file using cat",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  },
+                  "path": {
+                    "description": "Absolute path to the file to read",
+                    "examples": [
+                      "/etc/hosts",
+                      "/etc/resolv.conf",
+                      "/etc/os-release",
+                      "/proc/cpuinfo"
+                    ],
+                    "format": "path",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "path"
+                ],
+                "type": "object"
+              },
+              "name": "read_file"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Read a specific log file.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Remote host to connect to via SSH"
+                  },
+                  "lines": {
+                    "default": 100,
+                    "description": "Number of lines to retrieve from the end.",
+                    "maximum": 10000,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "log_path": {
+                    "description": "Absolute path to the log file (must be in allowed list)",
+                    "examples": [
+                      "/var/log/messages",
+                      "/var/log/secure",
+                      "/var/log/audit/audit.log",
+                      "/var/log/dnf.log"
+                    ],
+                    "format": "path",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "log_path"
+                ],
+                "type": "object"
+              },
+              "name": "read_log_file"
+            }
+          ],
+          "tools": [
+            "get_cpu_information",
+            "get_disk_usage",
+            "get_hardware_information",
+            "get_journal_logs",
+            "get_listening_ports",
+            "get_memory_information",
+            "get_network_connections",
+            "get_network_interfaces",
+            "get_process_info",
+            "get_service_logs",
+            "get_service_status",
+            "get_system_information",
+            "list_block_devices",
+            "list_directories",
+            "list_files",
+            "list_processes",
+            "list_services",
+            "read_file",
+            "read_log_file"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Read-only Linux sysadmin, diagnostics, and troubleshooting optimized for RHEL-based systems",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/redhat-linux/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/redhat-linux",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Username for SSH connections",
+          "name": "LINUX_MCP_USER"
+        },
+        {
+          "description": "Passphrase for encrypted SSH key decryption",
+          "isSecret": true,
+          "name": "LINUX_MCP_KEY_PASSPHRASE"
+        },
+        {
+          "description": "Path to SSH private key for remote execution (mounted into container)",
+          "name": "LINUX_MCP_SSH_KEY_PATH"
+        },
+        {
+          "description": "Comma-separated whitelist of accessible log file paths",
+          "name": "LINUX_MCP_ALLOWED_LOG_PATHS"
+        },
+        {
+          "default": "INFO",
+          "description": "Logging level (DEBUG, INFO, WARNING, ERROR, or CRITICAL)",
+          "name": "LINUX_MCP_LOG_LEVEL"
+        }
+      ],
+      "identifier": "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.3.2",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/rhel-lightspeed/linux-mcp-server"
+  },
+  "title": "Red Hat Linux",
+  "version": "1.0.0"
+}
