@@ -24,14 +24,7 @@
       "transport": {
         "type": "stdio"
       },
-      "environmentVariables": [
-        {
-          "name": "NVD_API_KEY",
-          "description": "NVD API key for higher rate limits on CVSS enrichment (optional)",
-          "isRequired": false,
-          "isSecret": true
-        }
-      ]
+      "environmentVariables": []
     }
   ],
   "_meta": {
