@@ -228,8 +228,14 @@ jobs:
         run: |
           SERVER_DIR=$(dirname "$SERVER_FILE")
           SERVER_NAME=$(basename "$SERVER_DIR")
+          # Derive a unique key including the registry name to avoid artifact
+          # collisions when the same server exists in multiple registries
+          # (e.g. registries/official/servers/heroku and registries/toolhive/servers/heroku).
+          REGISTRY_NAME=$(echo "$SERVER_FILE" | cut -d/ -f2)
+          SERVER_KEY="${REGISTRY_NAME}-${SERVER_NAME}"
           echo "server-name=$SERVER_NAME" >> $GITHUB_OUTPUT
-          echo "Processing server: $SERVER_NAME"
+          echo "server-key=$SERVER_KEY" >> $GITHUB_OUTPUT
+          echo "Processing server: $SERVER_NAME (key: $SERVER_KEY)"
         env:
           SERVER_FILE: ${{ matrix.server }}
 
@@ -278,27 +284,28 @@ jobs:
           mkdir -p /tmp/commit-info
 
           if [ "$UPDATE_CHANGED" = "true" ]; then
-            echo "update" > "/tmp/commit-info/${SERVER_NAME}.type"
-            echo "$SERVER_NAME" > "/tmp/commit-info/${SERVER_NAME}.name"
-            echo "$SERVER_FILE" > "/tmp/commit-info/${SERVER_NAME}.server"
+            echo "update" > "/tmp/commit-info/${SERVER_KEY}.type"
+            echo "$SERVER_NAME" > "/tmp/commit-info/${SERVER_KEY}.name"
+            echo "$SERVER_FILE" > "/tmp/commit-info/${SERVER_KEY}.server"
           else
-            echo "warning" > "/tmp/commit-info/${SERVER_NAME}.type"
-            echo "$SERVER_NAME" > "/tmp/commit-info/${SERVER_NAME}.name"
-            echo "$SERVER_FILE" > "/tmp/commit-info/${SERVER_NAME}.server"
+            echo "warning" > "/tmp/commit-info/${SERVER_KEY}.type"
+            echo "$SERVER_NAME" > "/tmp/commit-info/${SERVER_KEY}.name"
+            echo "$SERVER_FILE" > "/tmp/commit-info/${SERVER_KEY}.server"
           fi
 
           # Copy the modified server.json to the artifact directory
-          cp "$SERVER_FILE" "/tmp/commit-info/${SERVER_NAME}.server.json"
+          cp "$SERVER_FILE" "/tmp/commit-info/${SERVER_KEY}.server.json"
         env:
           SERVER_FILE: ${{ matrix.server }}
           SERVER_NAME: ${{ steps.server-info.outputs.server-name }}
+          SERVER_KEY: ${{ steps.server-info.outputs.server-key }}
           UPDATE_CHANGED: ${{ steps.update.outputs.changed }}
 
       - name: Upload commit info
         if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
-          name: commit-info-${{ steps.server-info.outputs.server-name }}
+          name: commit-info-${{ steps.server-info.outputs.server-key }}
           path: /tmp/commit-info/
 
       - name: Output diff for workflow dispatch
@@ -384,7 +391,8 @@ jobs:
 
           for file in /tmp/artifacts/*.type; do
             if [ -f "$file" ]; then
-              SERVER_NAME=$(basename "$file" .type)
+              SERVER_KEY=$(basename "$file" .type)
+              SERVER_NAME=$(cat "/tmp/artifacts/${SERVER_KEY}.name")
               TYPE=$(cat "$file")
 
               if [ "$TYPE" = "update" ]; then
@@ -394,12 +402,12 @@ jobs:
               fi
 
               # Restore the modified server.json from the artifact
-              SERVER_FILE=$(cat "/tmp/artifacts/${SERVER_NAME}.server")
-              if [ -f "/tmp/artifacts/${SERVER_NAME}.server.json" ]; then
-                cp "/tmp/artifacts/${SERVER_NAME}.server.json" "$SERVER_FILE"
+              SERVER_FILE=$(cat "/tmp/artifacts/${SERVER_KEY}.server")
+              if [ -f "/tmp/artifacts/${SERVER_KEY}.server.json" ]; then
+                cp "/tmp/artifacts/${SERVER_KEY}.server.json" "$SERVER_FILE"
                 git add "$SERVER_FILE"
               else
-                echo "Warning: Modified server.json not found in artifacts for $SERVER_NAME"
+                echo "Warning: Modified server.json not found in artifacts for $SERVER_KEY"
               fi
             fi
           done
@@ -451,7 +459,8 @@ jobs:
           if [ -d "/tmp/comment-artifacts" ] && [ "$(ls -A /tmp/comment-artifacts 2>/dev/null)" ]; then
             for file in /tmp/comment-artifacts/*.type; do
               if [ -f "$file" ]; then
-                SERVER_NAME=$(basename "$file" .type)
+                SERVER_KEY=$(basename "$file" .type)
+                SERVER_NAME=$(cat "/tmp/comment-artifacts/${SERVER_KEY}.name")
                 TYPE=$(cat "$file")
 
                 if [ "$TYPE" = "update" ]; then
