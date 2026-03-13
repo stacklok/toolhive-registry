@@ -1,0 +1,205 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/nirmata/kyverno-mcp:v0.2.2": {
+          "metadata": {
+            "last_updated": "2026-03-12T23:57:02Z",
+            "stars": 17
+          },
+          "overview": "## Kyverno MCP Server\n\nThe kyverno MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kyverno, the Kubernetes-native policy engine. It facilitates AI-driven workflows for inspecting policies, validating resources, analyzing policy outcomes, and reasoning about compliance. The server is especially useful for platform engineering, security, and compliance workflows where understanding policy enforcement decisions is critical. Key capabilities include policy visibility, compliance analysis, security governance insight, troubleshooting support, and platform decision support.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "kyverno",
+            "kubernetes",
+            "policy-management",
+            "security",
+            "compliance",
+            "governance",
+            "policy-as-code",
+            "nirmata",
+            "admission-control",
+            "validation",
+            "mutation",
+            "generation",
+            "policy-violations",
+            "security-assessment",
+            "rbac",
+            "pod-security",
+            "best-practices"
+          ],
+          "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Scan the cluster resources for policy violations with provided policies or default policy sets. Use \"all\" to scan all namespaces. If no namespace is provided i.e. \"\", the policies will be applied to the default namespace.",
+              "inputSchema": {
+                "properties": {
+                  "gitBranch": {
+                    "description": "Git branch to apply policies from (default: main)",
+                    "type": "string"
+                  },
+                  "namespace": {
+                    "description": "Namespace to apply policies to (default: default)",
+                    "type": "string"
+                  },
+                  "namespace_exclude": {
+                    "description": "Namespace to exclude from applying policies to (default: kube-system, kyverno)",
+                    "type": "string"
+                  },
+                  "policySets": {
+                    "description": "Policy set key: pod-security, rbac-best-practices, kubernetes-best-practices, all (default: all).",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "apply_policies"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Get Kyverno documentation for installation and troubleshooting",
+              "inputSchema": {
+                "properties": {
+                  "topic": {
+                    "description": "Topic of documentation to get between installation and troubleshooting Kyverno environment",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "topic"
+                ],
+                "type": "object"
+              },
+              "name": "help"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "List all available Kubernetes contexts",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_contexts"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "This tool is used when Kyverno is installed in the cluster. It returns all non-passing Kyverno PolicyReport results for a workload.",
+              "inputSchema": {
+                "properties": {
+                  "namespace": {
+                    "default": "default",
+                    "description": "Namespace to query (default: default, use \"all\" for all namespaces)",
+                    "type": "string"
+                  },
+                  "namespace_exclude": {
+                    "default": "kube-system,kyverno",
+                    "description": "Comma-separated namespaces to exclude when namespace=\"all\" (default: kube-system,kyverno)",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "show_violations"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Switch to a different Kubernetes context. If no context is provided, the default context will be used.",
+              "inputSchema": {
+                "properties": {
+                  "context": {
+                    "description": "Name of the context to switch to",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "context"
+                ],
+                "type": "object"
+              },
+              "name": "switch_context"
+            }
+          ],
+          "tools": [
+            "apply_policies",
+            "help",
+            "list_contexts",
+            "show_violations",
+            "switch_context"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Kyverno policy management for Kubernetes security assessment and compliance monitoring",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/kyverno/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/kyverno",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Path to the kubeconfig file for Kubernetes API authentication (mounted into the container with --volume)",
+          "name": "KUBECONFIG"
+        }
+      ],
+      "identifier": "ghcr.io/nirmata/kyverno-mcp:v0.2.2",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/nirmata/kyverno-mcp"
+  },
+  "title": "Kyverno",
+  "version": "1.0.0"
+}

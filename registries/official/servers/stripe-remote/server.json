@@ -1,0 +1,77 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.stripe.com": {
+          "custom_metadata": {
+            "author": "Stripe",
+            "homepage": "https://docs.stripe.com/mcp"
+          },
+          "metadata": {
+            "last_updated": "2026-03-10T02:55:48Z"
+          },
+          "overview": "## Stripe Remote MCP Server\n\nStripe's official remote MCP server for payment processing and subscriptions. The server provides access to Stripe's payment platform through streamable-HTTP transport with comprehensive Stripe API operations organized by category — covering account, balance, customer, payment, product, and subscription tools plus documentation search and resource discovery features. It provides full payment processing API access (payments, invoices, refunds), comprehensive subscription and customer management, and Stripe documentation search and resource fetching capabilities.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "payments",
+            "ecommerce",
+            "financial",
+            "stripe",
+            "subscriptions",
+            "invoices",
+            "customers"
+          ],
+          "tier": "Official",
+          "tools": [
+            "get_stripe_account_info",
+            "retrieve_balance",
+            "create_coupon",
+            "list_coupons",
+            "create_customer",
+            "list_customers",
+            "list_disputes",
+            "update_dispute",
+            "create_invoice",
+            "create_invoice_item",
+            "finalise_invoice",
+            "list_invoices",
+            "create_payment_link",
+            "list_payment_intents",
+            "create_price",
+            "list_prices",
+            "create_product",
+            "list_products",
+            "create_refund",
+            "cancel_subscription",
+            "list_subscriptions",
+            "update_subscription",
+            "search_stripe_resources",
+            "fetch_stripe_resources",
+            "search_stripe_documentation"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Stripe's official remote MCP server for payment processing and subscriptions",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/stripe-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/stripe-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.stripe.com"
+    }
+  ],
+  "title": "Stripe (Remote)",
+  "version": "1.0.0"
+}

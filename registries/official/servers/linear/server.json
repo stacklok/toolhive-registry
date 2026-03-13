@@ -1,0 +1,76 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.linear.app/mcp": {
+          "custom_metadata": {
+            "author": "Linear",
+            "homepage": "https://linear.app/docs/mcp"
+          },
+          "metadata": {
+            "last_updated": "2026-03-06T02:57:37Z"
+          },
+          "overview": "## Linear MCP Server\n\nThe linear MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Linear, the issue tracking and project management platform. It allows AI-driven workflows to create, update, search, and reason about issues, projects, cycles, and teams — bringing planning and execution context directly into AI-assisted development workflows. This server is especially useful for product planning, engineering management, sprint execution, and triage workflows where Linear is the system of record.",
+          "status": "Active",
+          "tags": [
+            "issue-tracking",
+            "project-management",
+            "linear",
+            "remote",
+            "task-management",
+            "productivity",
+            "software-development",
+            "bug-tracking",
+            "team-collaboration"
+          ],
+          "tier": "Official",
+          "tools": [
+            "list_comments",
+            "create_comment",
+            "list_cycles",
+            "get_document",
+            "list_documents",
+            "get_issue",
+            "list_issues",
+            "create_issue",
+            "update_issue",
+            "list_issue_statuses",
+            "get_issue_status",
+            "list_issue_labels",
+            "create_issue_label",
+            "list_projects",
+            "get_project",
+            "create_project",
+            "update_project",
+            "list_project_labels",
+            "list_teams",
+            "get_team",
+            "list_users",
+            "get_user",
+            "search_documentation"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Linear's official remote MCP server to manage issues, projects, and comments",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/linear/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/linear",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.linear.app/mcp"
+    }
+  ],
+  "title": "Linear",
+  "version": "1.0.0"
+}

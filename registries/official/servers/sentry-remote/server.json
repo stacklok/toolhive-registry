@@ -1,0 +1,68 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.sentry.dev/mcp": {
+          "custom_metadata": {
+            "author": "Sentry",
+            "homepage": "https://sentry.io"
+          },
+          "metadata": {
+            "last_updated": "2026-03-08T02:59:48Z"
+          },
+          "overview": "## Sentry Remote MCP Server\n\nSentry's official remote MCP server enables AI assistants to connect to Sentry's error monitoring and performance tracking platform using OAuth authentication over a streamable HTTP transport. It supports finding organizations, teams, projects, and releases; retrieving detailed issue and trace information; searching events and issues; and running AI-powered issue analysis through Sentry Seer. The server provides the full context needed for AI-driven incident triage, root cause analysis, and performance debugging directly within an assistant workflow.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "sentry",
+            "error-monitoring",
+            "performance-tracking",
+            "debugging",
+            "oauth",
+            "issues",
+            "traces",
+            "projects",
+            "releases"
+          ],
+          "tier": "Official",
+          "tools": [
+            "whoami",
+            "find_organizations",
+            "find_teams",
+            "find_projects",
+            "find_releases",
+            "get_issue_details",
+            "get_trace_details",
+            "get_event_attachment",
+            "search_events",
+            "find_dsns",
+            "analyze_issue_with_seer",
+            "search_docs",
+            "get_doc",
+            "search_issues"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Sentry's official remote MCP server for error monitoring and performance tracking",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/sentry-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/sentry-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.sentry.dev/mcp"
+    }
+  ],
+  "title": "Sentry (Remote)",
+  "version": "1.0.0"
+}

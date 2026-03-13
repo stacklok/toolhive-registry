@@ -1,0 +1,158 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.io/grafana/mcp-grafana:0.11.2": {
+          "metadata": {
+            "last_updated": "2026-03-04T02:55:54Z",
+            "stars": 2459
+          },
+          "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "grafana",
+            "dashboards",
+            "visualization",
+            "monitoring",
+            "alerting",
+            "prometheus",
+            "loki",
+            "tempo",
+            "pyroscope",
+            "incidents",
+            "observability",
+            "metrics",
+            "logs",
+            "traces",
+            "sift",
+            "investigations",
+            "oncall"
+          ],
+          "tier": "Official",
+          "tools": [
+            "add_activity_to_incident",
+            "create_alert_rule",
+            "create_annotation",
+            "create_folder",
+            "create_graphite_annotation",
+            "create_incident",
+            "delete_alert_rule",
+            "fetch_pyroscope_profile",
+            "find_error_pattern_logs",
+            "find_slow_requests",
+            "generate_deeplink",
+            "get_alert_group",
+            "get_alert_rule_by_uid",
+            "get_annotation_tags",
+            "get_annotations",
+            "get_assertions",
+            "get_current_oncall_users",
+            "get_dashboard_by_uid",
+            "get_dashboard_panel_queries",
+            "get_dashboard_property",
+            "get_dashboard_summary",
+            "get_datasource_by_name",
+            "get_datasource_by_uid",
+            "get_incident",
+            "get_oncall_shift",
+            "get_panel_image",
+            "get_resource_description",
+            "get_resource_permissions",
+            "get_role_assignments",
+            "get_role_details",
+            "get_sift_analysis",
+            "get_sift_investigation",
+            "list_alert_groups",
+            "list_alert_rules",
+            "list_all_roles",
+            "list_contact_points",
+            "list_datasources",
+            "list_incidents",
+            "list_loki_label_names",
+            "list_loki_label_values",
+            "list_oncall_schedules",
+            "list_oncall_teams",
+            "list_oncall_users",
+            "list_prometheus_label_names",
+            "list_prometheus_label_values",
+            "list_prometheus_metric_metadata",
+            "list_prometheus_metric_names",
+            "list_pyroscope_label_names",
+            "list_pyroscope_label_values",
+            "list_pyroscope_profile_types",
+            "list_sift_investigations",
+            "list_team_roles",
+            "list_teams",
+            "list_user_roles",
+            "list_users_by_org",
+            "patch_annotation",
+            "query_loki_logs",
+            "query_loki_patterns",
+            "query_loki_stats",
+            "query_prometheus",
+            "search_dashboards",
+            "search_folders",
+            "update_alert_rule",
+            "update_annotation",
+            "update_dashboard"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Grafana integration for dashboard search, datasource queries, alerting, and incident response",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/grafana/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/grafana",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "URL of the Grafana instance to connect to",
+          "isRequired": true,
+          "name": "GRAFANA_URL"
+        },
+        {
+          "description": "Service account token with appropriate permissions",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "GRAFANA_SERVICE_ACCOUNT_TOKEN"
+        },
+        {
+          "description": "Organization ID for multi-organization Grafana instances",
+          "name": "GRAFANA_ORG_ID"
+        }
+      ],
+      "identifier": "docker.io/grafana/mcp-grafana:0.11.2",
+      "registryType": "oci",
+      "transport": {
+        "type": "sse",
+        "url": "http://localhost:8000"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/grafana/mcp-grafana"
+  },
+  "title": "Grafana",
+  "version": "1.0.0"
+}

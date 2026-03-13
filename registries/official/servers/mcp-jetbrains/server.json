@@ -1,0 +1,84 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/mcp-jetbrains:1.8.0": {
+          "metadata": {
+            "last_updated": "2026-02-26T11:45:59Z",
+            "stars": 943
+          },
+          "overview": "## JetBrains MCP Server\n\nThe mcp-jetbrains server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with JetBrains IDEs (such as IntelliJ IDEA, PyCharm, WebStorm, and others) through a structured, AI-friendly interface. It allows AI-driven workflows to inspect project structure, navigate code, and reason about files and symbols — bringing IDE context directly into conversational and automated development workflows. This server proves particularly valuable for code navigation, refactoring assistance, project comprehension, and integrating AI capabilities within the IDE environment.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "ide",
+            "jetbrains",
+            "proxy",
+            "development",
+            "intellij"
+          ],
+          "tier": "Official",
+          "tools": [
+            "dynamic_tools_from_ide"
+          ]
+        }
+      }
+    }
+  },
+  "description": "A MCP proxy to redirect requests to JetBrains IDEs",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-jetbrains/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/mcp-jetbrains",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Port of IDE's built-in webserver (if running multiple IDEs)",
+          "name": "IDE_PORT"
+        },
+        {
+          "default": "127.0.0.1",
+          "description": "Host/address of IDE's built-in webserver",
+          "name": "HOST"
+        },
+        {
+          "default": "false",
+          "description": "Enable logging for debugging",
+          "name": "LOG_ENABLED"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-jetbrains:1.8.0",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/JetBrains/mcp-jetbrains"
+  },
+  "title": "JetBrains",
+  "version": "1.0.0"
+}
