@@ -1,0 +1,27 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "ci-agent-hardening",
+  "title": "CI Agent Hardening",
+  "description": "Audit and harden GitHub Actions workflows against prompt injection, pull_request_target exploits (Pwn Requests), expression injection, cache poisoning, credential theft, and supply chain attacks. Use when reviewing CI/CD security, securing AI agent workflows, hardening publishing pipelines, or checking for GitHub Actions misconfigurations.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/stacklok/toolhive-catalog",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "git",
+      "url": "https://github.com/stacklok/toolhive-catalog",
+      "ref": "main",
+      "subfolder": "registries/toolhive/skills/ci-agent-hardening"
+    }
+  ]
+}

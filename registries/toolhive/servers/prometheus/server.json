@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3": {
+        "ghcr.io/pab1it0/prometheus-mcp-server:1.6.0": {
           "metadata": {
-            "last_updated": "2026-02-26T11:45:57Z",
+            "last_updated": "2026-03-07T21:30:58Z",
             "stars": 376
           },
           "overview": "## Prometheus MCP Server\n\nThe Prometheus MCP server provides AI assistants with direct access to Prometheus metrics and monitoring data. It enables real-time querying of time-series metrics using PromQL, range queries for trend analysis, alert and rule inspection, and target health monitoring. The server exposes tools for metric discovery, label exploration, and exemplar queries, making it straightforward to integrate Prometheus observability data into AI-driven analysis and incident response workflows.",
@@ -38,7 +38,6 @@
               "inputSchema": {
                 "properties": {
                   "query": {
-                    "title": "Query",
                     "type": "string"
                   },
                   "time": {
@@ -50,8 +49,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "title": "Time"
+                    "default": null
                   }
                 },
                 "required": [
@@ -73,19 +71,15 @@
               "inputSchema": {
                 "properties": {
                   "end": {
-                    "title": "End",
                     "type": "string"
                   },
                   "query": {
-                    "title": "Query",
                     "type": "string"
                   },
                   "start": {
-                    "title": "Start",
                     "type": "string"
                   },
                   "step": {
-                    "title": "Step",
                     "type": "string"
                   }
                 },
@@ -107,17 +101,48 @@
                 "readOnlyHint": true,
                 "title": "Get Metric Metadata"
               },
-              "description": "Get metadata for a specific metric",
+              "description": "Get metadata (type, help, unit) for metrics. Returns all metric metadata when no metric name is provided. Use filter_pattern to search metric names and descriptions.",
               "inputSchema": {
                 "properties": {
+                  "filter_pattern": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
                   "metric": {
-                    "title": "Metric",
-                    "type": "string"
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "offset": {
+                    "default": 0,
+                    "type": "integer"
                   }
                 },
-                "required": [
-                  "metric"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "get_metric_metadata"
@@ -174,8 +199,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "title": "Filter Pattern"
+                    "default": null
                   },
                   "limit": {
                     "anyOf": [
@@ -186,13 +210,15 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "title": "Limit"
+                    "default": null
                   },
                   "offset": {
                     "default": 0,
-                    "title": "Offset",
                     "type": "integer"
+                  },
+                  "refresh_cache": {
+                    "default": false,
+                    "type": "boolean"
                   }
                 },
                 "required": [],
@@ -263,7 +289,7 @@
           "name": "PROMETHEUS_CUSTOM_HEADERS"
         }
       ],
-      "identifier": "ghcr.io/pab1it0/prometheus-mcp-server:1.5.3",
+      "identifier": "ghcr.io/pab1it0/prometheus-mcp-server:1.6.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

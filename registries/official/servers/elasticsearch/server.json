@@ -1,0 +1,113 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "docker.elastic.co/mcp/elasticsearch:0.4.6": {
+          "args": [
+            "http"
+          ],
+          "metadata": {
+            "last_updated": "2026-03-03T12:34:33Z",
+            "stars": 615
+          },
+          "overview": "## Elasticsearch MCP Server\n\nThe elasticsearch-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Elasticsearch clusters through a structured, AI-friendly interface. It allows AI-driven workflows to search, index, analyze, and manage data stored in Elasticsearch without writing custom client code or switching to separate tooling. This server is well suited for search-driven applications, log analysis, observability workflows, and any AI use case that depends on fast, flexible querying over large datasets.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443,
+                  9200
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "elasticsearch",
+            "search",
+            "analytics",
+            "data",
+            "alerting",
+            "observability",
+            "metrics",
+            "logs"
+          ],
+          "tier": "Official",
+          "tools": [
+            "esql",
+            "get_mappings",
+            "get_shards",
+            "list_indices",
+            "search"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Connect to your Elasticsearch data.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/elasticsearch/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/elasticsearch",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Your Elasticsearch instance URL",
+          "isRequired": true,
+          "name": "ES_URL"
+        },
+        {
+          "description": "Elasticsearch API key for authentication",
+          "isSecret": true,
+          "name": "ES_API_KEY"
+        },
+        {
+          "description": "Elasticsearch username for basic authentication",
+          "name": "ES_USERNAME"
+        },
+        {
+          "description": "Elasticsearch password for basic authentication",
+          "isSecret": true,
+          "name": "ES_PASSWORD"
+        },
+        {
+          "description": "Path to custom CA certificate for Elasticsearch SSL/TLS",
+          "name": "ES_CA_CERT"
+        },
+        {
+          "description": "Set to '1' or 'true' to skip SSL certificate verification",
+          "name": "ES_SSL_SKIP_VERIFY"
+        },
+        {
+          "description": "Path prefix for Elasticsearch instance exposed at a non-root path",
+          "name": "ES_PATH_PREFIX"
+        },
+        {
+          "description": "Server assumes Elasticsearch 9.x. Set to 8 target Elasticsearch 8.x",
+          "name": "ES_VERSION"
+        }
+      ],
+      "identifier": "docker.elastic.co/mcp/elasticsearch:0.4.6",
+      "registryType": "oci",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/elastic/mcp-server-elasticsearch"
+  },
+  "title": "Elasticsearch",
+  "version": "1.0.0"
+}

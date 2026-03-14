@@ -1,0 +1,238 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.4.3": {
+          "metadata": {
+            "last_updated": "2026-03-12T23:57:11Z",
+            "stars": 3188
+          },
+          "overview": "## Browserbase MCP Server\n\nThe browserbase MCP server is a Model Context Protocol (MCP) server that gives AI assistants full, programmable control of real web browsers running in the cloud. Powered by Browserbase, it enables AI-driven workflows to load pages, execute JavaScript, interact with dynamic UIs, and capture screenshots or HTML — making it possible to automate and reason over modern, JavaScript-heavy websites that traditional HTTP-based tools can't handle. This server is ideal for web automation, end-to-end testing, live research, and data extraction workflows that require a real browser environment.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "browser",
+            "automation",
+            "web-scraping",
+            "testing",
+            "stagehand"
+          ],
+          "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Capture a full-page screenshot and return it (and save as a resource).",
+              "inputSchema": {
+                "properties": {
+                  "name": {
+                    "description": "The name of the screenshot",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "browserbase_screenshot"
+            },
+            {
+              "annotations": {},
+              "description": "Close the current Browserbase session and reset the active context.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "browserbase_session_close"
+            },
+            {
+              "annotations": {},
+              "description": "Create or reuse a Browserbase browser session and set it as active.",
+              "inputSchema": {
+                "properties": {
+                  "sessionId": {
+                    "description": "Optional session ID to use/reuse. If not provided or invalid, a new session is created.",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "browserbase_session_create"
+            },
+            {
+              "annotations": {},
+              "description": "Perform a single action on the page (e.g., click, type).",
+              "inputSchema": {
+                "properties": {
+                  "action": {
+                    "description": "The action to perform. Should be as atomic and specific as possible,\n      i.e. 'Click the sign in button' or 'Type 'hello' into the search input'.",
+                    "type": "string"
+                  },
+                  "variables": {
+                    "additionalProperties": false,
+                    "description": "Variables used in the action template. ONLY use variables if you're dealing\n      with sensitive data or dynamic content. When using variables, you MUST have the variable\n      key in the action template. ie: {\"action\": \"Fill in the password\", \"variables\": {\"password\": \"123456\"}}",
+                    "properties": {},
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "action"
+                ],
+                "type": "object"
+              },
+              "name": "browserbase_stagehand_act"
+            },
+            {
+              "annotations": {},
+              "description": "Execute a task autonomously using Gemini Computer Use agent. The agent will navigate and interact with web pages to complete the given task.",
+              "inputSchema": {
+                "properties": {
+                  "prompt": {
+                    "description": "The task prompt describing what you want the sub-agent to accomplish.\n    Be clear and specific about the goal. For example:\n    'Go to Hacker News and find the most controversial post from today, then summarize the top 3 comments'.\n    The agent will autonomously navigate and interact with web pages to complete this task.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "prompt"
+                ],
+                "type": "object"
+              },
+              "name": "browserbase_stagehand_agent"
+            },
+            {
+              "annotations": {},
+              "description": "Extract structured data or text from the current page using an instruction.",
+              "inputSchema": {
+                "properties": {
+                  "instruction": {
+                    "description": "The specific instruction for what information to extract from the current page.\n    Be as detailed and specific as possible about what you want to extract. For example:\n    'Extract all product names and prices from the listing page'.The more specific your instruction,\n    the better the extraction results will be.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "instruction"
+                ],
+                "type": "object"
+              },
+              "name": "browserbase_stagehand_extract"
+            },
+            {
+              "annotations": {},
+              "description": "Return the current page URL (full URL with query/fragment).",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "browserbase_stagehand_get_url"
+            },
+            {
+              "annotations": {},
+              "description": "Navigate to a URL in the browser. Only use this tool with URLs you're confident will work and be up to date. \n    Otherwise, use https://google.com as the starting point",
+              "inputSchema": {
+                "properties": {
+                  "url": {
+                    "description": "The URL to navigate to",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "type": "object"
+              },
+              "name": "browserbase_stagehand_navigate"
+            },
+            {
+              "annotations": {},
+              "description": "Find interactive elements on the page from an instruction; optionally return an action.",
+              "inputSchema": {
+                "properties": {
+                  "instruction": {
+                    "description": "Detailed instruction for what specific elements or components to observe on the web page.\n        This instruction must be extremely specific and descriptive. For example: 'Find the red login button\n        in the top right corner', 'Locate the search input field with placeholder text', or 'Identify all\n        clickable product cards on the page'. The more specific and detailed your instruction, the better\n        the observation results will be. Avoid generic instructions like 'find buttons' or 'see elements'.\n        Instead, describe the visual characteristics, location, text content, or functionality of the elements\n        you want to observe. This tool is designed to help you identify interactive elements that you can\n        later use with the act tool for performing actions like clicking, typing, or form submission.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "instruction"
+                ],
+                "type": "object"
+              },
+              "name": "browserbase_stagehand_observe"
+            }
+          ],
+          "tools": [
+            "browserbase_screenshot",
+            "browserbase_session_close",
+            "browserbase_session_create",
+            "browserbase_stagehand_act",
+            "browserbase_stagehand_agent",
+            "browserbase_stagehand_extract",
+            "browserbase_stagehand_get_url",
+            "browserbase_stagehand_navigate",
+            "browserbase_stagehand_observe"
+          ]
+        }
+      }
+    }
+  },
+  "description": "MCP server for cloud browser automation with Browserbase and Stagehand",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/browserbase/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/browserbase",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Browserbase API key",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "BROWSERBASE_API_KEY"
+        },
+        {
+          "description": "Browserbase project ID",
+          "isRequired": true,
+          "name": "BROWSERBASE_PROJECT_ID"
+        },
+        {
+          "description": "Google Gemini API key for Stagehand",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "GEMINI_API_KEY"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.4.3",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/browserbase/mcp-server-browserbase"
+  },
+  "title": "Browserbase",
+  "version": "1.0.0"
+}

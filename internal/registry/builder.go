@@ -11,9 +11,10 @@ import (
 	thvregistry "github.com/stacklok/toolhive-core/registry/types"
 )
 
-// Builder assembles an UpstreamRegistry from loaded ServerJSON entries.
+// Builder assembles an UpstreamRegistry from loaded ServerJSON entries and optional skills.
 type Builder struct {
-	loader *Loader
+	loader      *Loader
+	skillLoader *SkillLoader
 }
 
 // NewBuilder creates a new Builder backed by the given Loader.
@@ -23,14 +24,29 @@ func NewBuilder(loader *Loader) *Builder {
 	}
 }
 
+// WithSkillLoader sets the skill loader on the builder.
+func (b *Builder) WithSkillLoader(sl *SkillLoader) *Builder {
+	b.skillLoader = sl
+	return b
+}
+
 // Build creates the UpstreamRegistry structure from loaded entries.
-// Servers are ordered by directory name for deterministic output.
+// Servers and skills are ordered by directory name for deterministic output.
 func (b *Builder) Build() *thvregistry.UpstreamRegistry {
 	names := b.loader.GetSortedNames()
 
 	servers := make([]upstream.ServerJSON, 0, len(names))
 	for _, name := range names {
 		servers = append(servers, b.loader.GetEntries()[name])
+	}
+
+	var skills []thvregistry.Skill
+	if b.skillLoader != nil && len(b.skillLoader.GetEntries()) > 0 {
+		skillNames := b.skillLoader.GetSortedNames()
+		skills = make([]thvregistry.Skill, 0, len(skillNames))
+		for _, name := range skillNames {
+			skills = append(skills, b.skillLoader.GetEntries()[name])
+		}
 	}
 
 	return &thvregistry.UpstreamRegistry{
@@ -42,6 +58,7 @@ func (b *Builder) Build() *thvregistry.UpstreamRegistry {
 		Data: thvregistry.UpstreamData{
 			Servers: servers,
 			Groups:  []thvregistry.UpstreamGroup{},
+			Skills:  skills,
 		},
 	}
 }

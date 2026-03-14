@@ -22,12 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version-file: 'go.mod'
           cache: true
@@ -37,15 +37,36 @@ jobs:
 
       - name: Determine count
         id: count
-        run: echo "value=${{ github.event.inputs.count || '5' }}" >> $GITHUB_OUTPUT
+        run: echo "value=$INPUT_COUNT" >> $GITHUB_OUTPUT
+        env:
+          INPUT_COUNT: ${{ github.event.inputs.count || '5' }}
+
+      - name: Switch to metadata branch
+        run: |
+          BRANCH="catalog-update-metadata"
+
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Fetch remote branch if it exists so we can build on it
+          git fetch origin "$BRANCH" 2>/dev/null || true
+
+          # If the branch already exists remotely, check it out to
+          # build on top of accumulated changes from prior runs.
+          if git rev-parse "origin/$BRANCH" >/dev/null 2>&1; then
+            git checkout -B "$BRANCH" "origin/$BRANCH"
+          else
+            git checkout -B "$BRANCH"
+          fi
 
       - name: Update oldest entries
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPDATE_COUNT: ${{ steps.count.outputs.value }}
         run: |
-          echo "Updating ${{ steps.count.outputs.value }} oldest entries..."
+          echo "Updating $UPDATE_COUNT oldest entries..."
           /tmp/catalog update-metadata \
-            --oldest "${{ steps.count.outputs.value }}" \
+            --oldest "$UPDATE_COUNT" \
             --github-token "$GITHUB_TOKEN" \
             -v
 
@@ -61,22 +82,41 @@ jobs:
             git diff --stat
           fi
 
-      - name: Create Pull Request
+      - name: Commit and open or update PR
         if: steps.check-changes.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v8
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'chore: update registry metadata (stars and pulls)'
-          title: 'chore: update registry metadata'
-          body: |
-            ## Registry Metadata Update
+        run: |
+          BRANCH="catalog-update-metadata"
 
-            This PR updates the GitHub stars counts for the oldest registry entries
-            (server.json format).
+          git add -u registries/
+          git commit -m "chore: update registry metadata (stars and pulls)"
+          git push -f origin "$BRANCH"
 
-            Updated the **${{ steps.count.outputs.value }}** oldest entries by `last_updated` timestamp.
+          # Check if PR already exists
+          EXISTING_PR=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number' 2>/dev/null || true)
 
-            ---
-            *This is an automated PR created by the daily metadata update workflow.*
-          branch: catalog-update-metadata-${{ github.run_number }}
-          delete-branch: true
+          if [ -n "$EXISTING_PR" ]; then
+            echo "PR #$EXISTING_PR already exists, updated branch"
+          else
+            gh pr create \
+              --title "chore: update registry metadata (stars and pulls)" \
+              --body "$(cat <<'BODY'
+          ## Registry Metadata Update
+
+          This PR updates the GitHub stars and pull counts for registry entries
+          (server.json format).
+
+          Each daily run updates the oldest entries by `last_updated` timestamp
+          and aggregates the changes into this PR.
+
+          ---
+          *This is an automated PR created by the daily metadata update workflow.*
+          BODY
+          )" \
+              --head "$BRANCH"
+
+            # Enable auto-merge
+            gh pr merge "$BRANCH" --auto --squash || true
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPDATE_COUNT: ${{ steps.count.outputs.value }}

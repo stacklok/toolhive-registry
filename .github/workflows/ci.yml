@@ -12,26 +12,26 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version-file: 'go.mod'
           cache: true
 
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v9
+        uses: golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9
         with:
           version: latest
           args: --timeout=5m
@@ -39,12 +39,14 @@ jobs:
   validate-and-test:
     name: Validate and Test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version-file: 'go.mod'
           cache: true
@@ -56,7 +58,7 @@ jobs:
         run: go test -v -race -coverprofile=coverage.out ./...
 
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5
         with:
           files: ./coverage.out
           flags: unittests
@@ -64,7 +66,7 @@ jobs:
         continue-on-error: true
 
       - name: Install Task
-        uses: arduino/setup-task@v2
+        uses: arduino/setup-task@b91d5d2c96a56797b48ac1e0e89220bf64044611 # v2
 
       - name: Validate catalog entries
         run: task catalog:validate
@@ -72,20 +74,23 @@ jobs:
   update-catalog-data:
     name: Update Catalog Data Files
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     needs: [lint, validate-and-test]
     if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version-file: 'go.mod'
           cache: true
 
       - name: Install Task
-        uses: arduino/setup-task@v2
+        uses: arduino/setup-task@b91d5d2c96a56797b48ac1e0e89220bf64044611 # v2
 
       - name: Build registry files
         run: |
@@ -103,42 +108,82 @@ jobs:
         run: echo "version=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
 
       - name: Open or update PR with catalog data files
-        uses: peter-evans/create-pull-request@v8
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'chore: update catalog data files for v${{ steps.metadata.outputs.version }}'
-          title: 'chore: update catalog data files for v${{ steps.metadata.outputs.version }}'
-          body: |
-            Automated PR to update the embedded catalog data files for `v${{ steps.metadata.outputs.version }}`.
+        run: |
+          BRANCH="update-catalog-data-${VERSION}"
 
-            Files updated:
-            - `pkg/catalog/toolhive/data/registry.json` — ToolHive legacy format
-            - `pkg/catalog/toolhive/data/official-registry.json` — Upstream MCP format
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
 
-            When merged, a release will be created automatically.
-          branch: update-catalog-data-${{ steps.metadata.outputs.version }}
-          delete-branch: true
-          auto-merge: true
-          add-paths: |
-            pkg/catalog/*/data/registry.json
-            pkg/catalog/*/data/official-registry.json
+          # Create or reset the branch
+          git checkout -B "$BRANCH"
+
+          # Stage only the catalog data files
+          git add pkg/catalog/*/data/registry.json pkg/catalog/*/data/official-registry.json
+
+          # Check if there are changes to commit
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: update catalog data files for v${VERSION}"
+          git push -f origin "$BRANCH"
+
+          # Check if PR already exists
+          EXISTING_PR=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number' 2>/dev/null || true)
+
+          if [ -n "$EXISTING_PR" ]; then
+            echo "PR #$EXISTING_PR already exists, updated branch"
+          else
+            # Build file list dynamically
+            FILE_LIST=""
+            for registry_dir in pkg/catalog/*/; do
+              registry_name=$(basename "$registry_dir")
+              [ -d "$registry_dir/data" ] || continue
+              FILE_LIST="${FILE_LIST}- \`pkg/catalog/${registry_name}/data/registry.json\` — ${registry_name} legacy format
+          "
+              FILE_LIST="${FILE_LIST}- \`pkg/catalog/${registry_name}/data/official-registry.json\` — ${registry_name} upstream MCP format
+          "
+            done
+
+            gh pr create \
+              --title "chore: update catalog data files for v${VERSION}" \
+              --body "$(cat <<EOF
+          Automated PR to update the embedded catalog data files.
+
+          Files updated:
+          ${FILE_LIST}
+          When merged, a release will be created automatically.
+          EOF
+          )" \
+              --head "$BRANCH"
+
+            # Enable auto-merge
+            gh pr merge "$BRANCH" --auto --squash || true
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.metadata.outputs.version }}
 
   build-pr:
     name: Build Check
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version-file: 'go.mod'
           cache: true
 
       - name: Install Task
-        uses: arduino/setup-task@v2
+        uses: arduino/setup-task@b91d5d2c96a56797b48ac1e0e89220bf64044611 # v2
 
       - name: Build catalog files
         run: task catalog:build
@@ -146,47 +191,64 @@ jobs:
       - name: Generate PR comment
         id: comment
         run: |
-          CONTAINER_COUNT=$(jq '.servers | length' build/toolhive/registry.json)
-          REMOTE_COUNT=$(jq '.remote_servers | length // 0' build/toolhive/registry.json)
-          TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
-          SIZE=$(du -h build/toolhive/registry.json | cut -f1)
-          LAST_UPDATED=$(jq -r '.last_updated' build/toolhive/registry.json)
-
           {
             echo "body<<EOF"
             echo "## Registry Build Preview"
             echo ""
-            echo "Registry built successfully!"
+            echo "All registries built successfully!"
             echo ""
-            echo "- **Total Servers**: $TOTAL"
-            echo "  - Container-based: $CONTAINER_COUNT"
-            echo "  - Remote: $REMOTE_COUNT"
-            echo "- **File Size**: $SIZE"
-            echo "- **Last Updated**: $LAST_UPDATED"
+
+            for registry_dir in build/*/; do
+              registry_name=$(basename "$registry_dir")
+              [ -f "$registry_dir/registry.json" ] || continue
+
+              CONTAINER_COUNT=$(jq '.servers | length' "$registry_dir/registry.json")
+              REMOTE_COUNT=$(jq '.remote_servers | length // 0' "$registry_dir/registry.json")
+              TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
+              SKILL_COUNT=$(jq '.data.skills | length // 0' "$registry_dir/official-registry.json")
+              SIZE=$(du -h "$registry_dir/registry.json" | cut -f1)
+              LAST_UPDATED=$(jq -r '.last_updated' "$registry_dir/registry.json")
+
+              echo "### Registry: \`$registry_name\`"
+              echo ""
+              echo "- **Total Servers**: $TOTAL"
+              echo "  - Container-based: $CONTAINER_COUNT"
+              echo "  - Remote: $REMOTE_COUNT"
+              echo "- **Skills**: $SKILL_COUNT"
+              echo "- **File Size**: $SIZE"
+              echo "- **Last Updated**: $LAST_UPDATED"
+              echo ""
+            done
+
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
-      - name: Find existing comment
-        id: find-comment
-        uses: peter-evans/find-comment@v4
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: github-actions[bot]
-          body-includes: Registry Build Preview
-
       - name: Post or update PR comment
-        uses: peter-evans/create-or-update-comment@v5
-        with:
-          comment-id: ${{ steps.find-comment.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: ${{ steps.comment.outputs.body }}
-          edit-mode: replace
+        run: |
+          # Find existing comment
+          COMMENT_ID=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+            --jq '[.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("Registry Build Preview"))][0].id' \
+            2>/dev/null || true)
+
+          if [ -n "$COMMENT_ID" ] && [ "$COMMENT_ID" != "null" ]; then
+            gh api "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}" \
+              --method PATCH \
+              --field body="$COMMENT_BODY"
+          else
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+              --method POST \
+              --field body="$COMMENT_BODY"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          COMMENT_BODY: ${{ steps.comment.outputs.body }}
 
       - name: Upload PR artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: pr-registry-json
           path: |
-            build/toolhive/registry.json
-            build/toolhive/official-registry.json
+            build/*/registry.json
+            build/*/official-registry.json
           retention-days: 7

@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
 
@@ -26,65 +26,94 @@ jobs:
           echo "version=0.$(date +'%Y%m%d').0" >> $GITHUB_OUTPUT
           echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
 
-      - name: Collect registry stats
-        id: stats
+      - name: Generate release body
+        id: release_body
         run: |
+          {
+            echo "body<<EOF"
+            echo "## ToolHive Catalog Release"
+            echo ""
+            echo "**Date**: ${{ steps.metadata.outputs.date }}"
+            echo ""
+
+            for registry_dir in pkg/catalog/*/; do
+              registry_name=$(basename "$registry_dir")
+              data_file="$registry_dir/data/registry.json"
+              [ -f "$data_file" ] || continue
+
+              CONTAINER_COUNT=$(jq '.servers | length' "$data_file")
+              REMOTE_COUNT=$(jq '.remote_servers | length // 0' "$data_file")
+              TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
+              LAST_UPDATED=$(jq -r '.last_updated' "$data_file")
+
+              upstream_file="$registry_dir/data/official-registry.json"
+              if [ -f "$upstream_file" ]; then
+                SKILL_COUNT=$(jq '.data.skills | length // 0' "$upstream_file")
+              else
+                SKILL_COUNT=0
+              fi
+
+              echo "### Registry: \`$registry_name\`"
+              echo ""
+              echo "**Last Updated**: $LAST_UPDATED"
+              echo ""
+              echo "| Category | Count |"
+              echo "|----------|-------|"
+              echo "| **Total Servers** | $TOTAL |"
+              echo "| **Container-based** | $CONTAINER_COUNT |"
+              echo "| **Remote** | $REMOTE_COUNT |"
+              echo "| **Skills** | $SKILL_COUNT |"
+              echo ""
+              echo "\`\`\`sh"
+              echo "go get github.com/stacklok/toolhive-catalog/pkg/catalog/${registry_name}@latest"
+              echo "\`\`\`"
+              echo ""
+              echo "\`\`\`go"
+              echo "import \"github.com/stacklok/toolhive-catalog/pkg/catalog/${registry_name}\""
+              echo ""
+              echo "// ToolHive legacy format"
+              echo "data := ${registry_name}.Legacy()"
+              echo ""
+              echo "// Upstream MCP format"
+              echo "data := ${registry_name}.Upstream()"
+              echo "\`\`\`"
+              echo ""
+            done
+
+            echo "---"
+            echo "*This is an automated release triggered by a catalog data update.*"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Collect release artifacts
+        id: artifacts
+        run: |
+          ARTIFACT_LIST=""
           for registry_dir in pkg/catalog/*/; do
-            registry_name=$(basename "$registry_dir")
-            data_file="$registry_dir/data/registry.json"
-            [ -f "$data_file" ] || continue
-
-            CONTAINER_COUNT=$(jq '.servers | length' "$data_file")
-            REMOTE_COUNT=$(jq '.remote_servers | length // 0' "$data_file")
-            TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
-            LAST_UPDATED=$(jq -r '.last_updated' "$data_file")
-
-            echo "${registry_name}_total=$TOTAL" >> $GITHUB_OUTPUT
-            echo "${registry_name}_container=$CONTAINER_COUNT" >> $GITHUB_OUTPUT
-            echo "${registry_name}_remote=$REMOTE_COUNT" >> $GITHUB_OUTPUT
-            echo "${registry_name}_last_updated=$LAST_UPDATED" >> $GITHUB_OUTPUT
+            [ -d "$registry_dir/data" ] || continue
+            for f in "$registry_dir"/data/*.json; do
+              [ -f "$f" ] || continue
+              if [ -n "$ARTIFACT_LIST" ]; then
+                ARTIFACT_LIST="${ARTIFACT_LIST}
+          ${f}"
+              else
+                ARTIFACT_LIST="$f"
+              fi
+            done
           done
+          {
+            echo "files<<EOF"
+            echo "$ARTIFACT_LIST"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
       - name: Create or update release
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # v1
         with:
           tag: v${{ steps.metadata.outputs.version }}
           name: Catalog v${{ steps.metadata.outputs.date }}
-          body: |
-            ## ToolHive Catalog Release
-
-            **Date**: ${{ steps.metadata.outputs.date }}
-            **Last Updated**: ${{ steps.stats.outputs.toolhive_last_updated }}
-
-            ### Statistics
-
-            | Category | Count |
-            |----------|-------|
-            | **Total Servers** | ${{ steps.stats.outputs.toolhive_total }} |
-            | **Container-based** | ${{ steps.stats.outputs.toolhive_container }} |
-            | **Remote** | ${{ steps.stats.outputs.toolhive_remote }} |
-
-            ### Usage
-
-            ```sh
-            go get github.com/stacklok/toolhive-catalog/pkg/catalog/toolhive@latest
-            ```
-
-            ```go
-            import "github.com/stacklok/toolhive-catalog/pkg/catalog/toolhive"
-
-            // ToolHive legacy format
-            data := toolhive.Legacy()
-
-            // Upstream MCP format
-            data := toolhive.Upstream()
-            ```
-
-            ---
-            *This is an automated release triggered by a catalog data update.*
-          artifacts: |
-            pkg/catalog/toolhive/data/registry.json
-            pkg/catalog/toolhive/data/official-registry.json
+          body: ${{ steps.release_body.outputs.body }}
+          artifacts: ${{ steps.artifacts.outputs.files }}
           allowUpdates: true
           makeLatest: true
         env:

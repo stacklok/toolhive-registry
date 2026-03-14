@@ -3,10 +3,10 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.17.0": {
+        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.20.0": {
           "metadata": {
-            "last_updated": "2026-02-26T11:45:52Z",
-            "stars": 26762
+            "last_updated": "2026-03-12T23:50:34Z",
+            "stars": 28311
           },
           "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
           "permissions": {
@@ -131,45 +131,18 @@
                     "type": "string"
                   },
                   "cpuThrottlingRate": {
-                    "description": "Represents the CPU slowdown factor. Set the rate to 1 to disable throttling. If omitted, throttling remains unchanged.",
+                    "description": "Represents the CPU slowdown factor. Omit or set the rate to 1 to disable throttling",
                     "maximum": 20,
                     "minimum": 1,
                     "type": "number"
                   },
                   "geolocation": {
-                    "anyOf": [
-                      {
-                        "additionalProperties": false,
-                        "properties": {
-                          "latitude": {
-                            "description": "Latitude between -90 and 90.",
-                            "maximum": 90,
-                            "minimum": -90,
-                            "type": "number"
-                          },
-                          "longitude": {
-                            "description": "Longitude between -180 and 180.",
-                            "maximum": 180,
-                            "minimum": -180,
-                            "type": "number"
-                          }
-                        },
-                        "required": [
-                          "latitude",
-                          "longitude"
-                        ],
-                        "type": "object"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "description": "Geolocation to emulate. Set to null to clear the geolocation override."
+                    "description": "Geolocation (`\u003clatitude\u003ex\u003clongitude\u003e`) to emulate. Latitude between -90 and 90. Longitude between -180 and 180. Omit clear the geolocation override.",
+                    "type": "string"
                   },
                   "networkConditions": {
-                    "description": "Throttle network. Set to \"No emulation\" to disable. If omitted, conditions remain unchanged.",
+                    "description": "Throttle network. Omit to disable throttling.",
                     "enum": [
-                      "No emulation",
                       "Offline",
                       "Slow 3G",
                       "Fast 3G",
@@ -179,56 +152,12 @@
                     "type": "string"
                   },
                   "userAgent": {
-                    "description": "User agent to emulate. Set to null to clear the user agent override.",
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "description": "User agent to emulate. Set to empty string to clear the user agent override.",
+                    "type": "string"
                   },
                   "viewport": {
-                    "anyOf": [
-                      {
-                        "additionalProperties": false,
-                        "properties": {
-                          "deviceScaleFactor": {
-                            "description": "Specify device scale factor (can be thought of as dpr).",
-                            "minimum": 0,
-                            "type": "number"
-                          },
-                          "hasTouch": {
-                            "description": "Specifies if viewport supports touch events. This should be set to true for mobile devices.",
-                            "type": "boolean"
-                          },
-                          "height": {
-                            "description": "Page height in pixels.",
-                            "minimum": 0,
-                            "type": "integer"
-                          },
-                          "isLandscape": {
-                            "description": "Specifies if viewport is in landscape mode. Defaults to false.",
-                            "type": "boolean"
-                          },
-                          "isMobile": {
-                            "description": "Whether the meta viewport tag is taken into account. Defaults to false.",
-                            "type": "boolean"
-                          },
-                          "width": {
-                            "description": "Page width in pixels.",
-                            "minimum": 0,
-                            "type": "integer"
-                          }
-                        },
-                        "required": [
-                          "width",
-                          "height"
-                        ],
-                        "type": "object"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "description": "Viewport to emulate. Set to null to reset to the default viewport."
+                    "description": "Emulate device viewports '\u003cwidth\u003ex\u003cheight\u003ex\u003cdevicePixelRatio\u003e[,mobile][,touch][,landscape]'. 'touch' and 'mobile' to emulate mobile devices. 'landscape' to emulate landscape mode.",
+                    "type": "string"
                   }
                 },
                 "required": [],
@@ -246,17 +175,8 @@
                   "args": {
                     "description": "An optional list of arguments to pass to the function.",
                     "items": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "uid": {
-                          "description": "The uid of an element on the page from the page content snapshot",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "uid"
-                      ],
-                      "type": "object"
+                      "description": "The uid of an element on the page from the page content snapshot",
+                      "type": "string"
                     },
                     "type": "array"
                   },
@@ -439,6 +359,41 @@
               "annotations": {
                 "readOnlyHint": true
               },
+              "description": "Get Lighthouse score and reports for accessibility, SEO and best practices. This excludes performance. For performance audits, run performance_start_trace",
+              "inputSchema": {
+                "properties": {
+                  "device": {
+                    "default": "desktop",
+                    "description": "Device to emulate.",
+                    "enum": [
+                      "desktop",
+                      "mobile"
+                    ],
+                    "type": "string"
+                  },
+                  "mode": {
+                    "default": "navigation",
+                    "description": "\"navigation\" reloads \u0026 audits. \"snapshot\" analyzes current state.",
+                    "enum": [
+                      "navigation",
+                      "snapshot"
+                    ],
+                    "type": "string"
+                  },
+                  "outputDirPath": {
+                    "description": "Directory for reports. If omitted, uses temporary files.",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "lighthouse_audit"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
               "description": "List all console messages for the currently selected page since the last navigation.",
               "inputSchema": {
                 "properties": {
@@ -552,7 +507,7 @@
               "annotations": {
                 "readOnlyHint": true
               },
-              "description": "Get a list of pages open in the browser.",
+              "description": "Get a list of pages  open in the browser.",
               "inputSchema": {
                 "properties": {},
                 "required": [],
@@ -564,7 +519,7 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Navigates the currently selected page to a URL.",
+              "description": "Go to a URL, or back, forward, or reload. Use project URL if not specified otherwise.",
               "inputSchema": {
                 "properties": {
                   "handleBeforeUnload": {
@@ -611,12 +566,16 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Creates a new page",
+              "description": "Open a new tab and load a URL. Use project URL if not specified otherwise.",
               "inputSchema": {
                 "properties": {
                   "background": {
                     "description": "Whether to open the page in the background without bringing it to the front. Default is false (foreground).",
                     "type": "boolean"
+                  },
+                  "isolatedContext": {
+                    "description": "If specified, the page is created in an isolated browser context with the given name. Pages in the same browser context share cookies and storage. Pages in different browser contexts are fully isolated.",
+                    "type": "string"
                   },
                   "timeout": {
                     "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
@@ -662,10 +621,11 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Starts a performance trace recording on the selected page. This can be used to look for performance problems and insights to improve the performance of the page. It will also report Core Web Vital (CWV) scores for the page.",
+              "description": "Start a performance trace on the selected webpage. Use to find frontend performance issues, Core Web Vitals (LCP, INP, CLS), and improve page load speed.",
               "inputSchema": {
                 "properties": {
                   "autoStop": {
+                    "default": true,
                     "description": "Determines if the trace recording should be automatically stopped.",
                     "type": "boolean"
                   },
@@ -674,14 +634,12 @@
                     "type": "string"
                   },
                   "reload": {
+                    "default": true,
                     "description": "Determines if, once tracing has started, the current selected page should be automatically reloaded. Navigate the page to the right URL using the navigate_page tool BEFORE starting the trace if reload or autoStop is set to true.",
                     "type": "boolean"
                   }
                 },
-                "required": [
-                  "reload",
-                  "autoStop"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "performance_start_trace"
@@ -690,7 +648,7 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Stops the active performance trace recording on the selected page.",
+              "description": "Stop the active performance trace recording on the selected webpage.",
               "inputSchema": {
                 "properties": {
                   "filePath": {
@@ -775,6 +733,25 @@
             },
             {
               "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Capture a memory heapsnapshot of the currently selected page to memory leak debugging",
+              "inputSchema": {
+                "properties": {
+                  "filePath": {
+                    "description": "A path to a .heapsnapshot file to save the heapsnapshot to.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "filePath"
+                ],
+                "type": "object"
+              },
+              "name": "take_memory_snapshot"
+            },
+            {
+              "annotations": {
                 "readOnlyHint": false
               },
               "description": "Take a screenshot of the page or element.",
@@ -839,6 +816,29 @@
               "annotations": {
                 "readOnlyHint": false
               },
+              "description": "Type text using keyboard into a previously focused input",
+              "inputSchema": {
+                "properties": {
+                  "submitKey": {
+                    "description": "Optional key to press after typing. E.g., \"Enter\", \"Tab\", \"Escape\"",
+                    "type": "string"
+                  },
+                  "text": {
+                    "description": "The text to type",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "text"
+                ],
+                "type": "object"
+              },
+              "name": "type_text"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": false
+              },
               "description": "Upload a file through a provided element.",
               "inputSchema": {
                 "properties": {
@@ -871,8 +871,12 @@
               "inputSchema": {
                 "properties": {
                   "text": {
-                    "description": "Text to appear on the page",
-                    "type": "string"
+                    "description": "Non-empty list of texts. Resolves when any value appears on the page.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array"
                   },
                   "timeout": {
                     "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
@@ -899,6 +903,7 @@
             "get_network_request",
             "handle_dialog",
             "hover",
+            "lighthouse_audit",
             "list_console_messages",
             "list_network_requests",
             "list_pages",
@@ -910,8 +915,10 @@
             "press_key",
             "resize_page",
             "select_page",
+            "take_memory_snapshot",
             "take_screenshot",
             "take_snapshot",
+            "type_text",
             "upload_file",
             "wait_for"
           ]
@@ -932,7 +939,7 @@
   "name": "io.github.stacklok/chrome-devtools-mcp",
   "packages": [
     {
-      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.17.0",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.20.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

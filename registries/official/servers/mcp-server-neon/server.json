@@ -1,0 +1,106 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/mcp-server-neon:0.6.5": {
+          "metadata": {
+            "last_updated": "2026-03-03T12:34:33Z",
+            "stars": 559
+          },
+          "overview": "## Neon MCP Server\n\nThe mcp-server-neon is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neon, the serverless PostgreSQL platform. It allows AI-driven workflows to inspect databases, manage branches, and reason about environments and schema state — bringing modern, branch-based database context directly into MCP-powered assistants. This server is especially useful for development, testing, preview environments, and workflows where database branching and isolation are key to rapid iteration.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "console.neon.tech",
+                  "api.neon.tech",
+                  "neon.tech"
+                ],
+                "allow_port": [
+                  443,
+                  5432
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "database",
+            "postgresql",
+            "api",
+            "management",
+            "sql",
+            "migration",
+            "branching"
+          ],
+          "tier": "Official",
+          "tools": [
+            "list_projects",
+            "describe_project",
+            "create_project",
+            "delete_project",
+            "create_branch",
+            "delete_branch",
+            "describe_branch",
+            "list_branch_computes",
+            "list_organizations",
+            "get_connection_string",
+            "run_sql",
+            "run_sql_transaction",
+            "get_database_tables",
+            "describe_table_schema",
+            "list_slow_queries",
+            "prepare_database_migration",
+            "complete_database_migration",
+            "explain_sql_statement",
+            "prepare_query_tuning",
+            "complete_query_tuning",
+            "provision_neon_auth"
+          ]
+        }
+      }
+    }
+  },
+  "description": "MCP server for interacting with Neon Management API and databases",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-server-neon/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/mcp-server-neon",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "API key for Neon database service",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "NEON_API_KEY"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-server-neon:0.6.5",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/neondatabase-labs/mcp-server-neon"
+  },
+  "title": "Neon",
+  "version": "1.0.0"
+}

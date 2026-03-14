@@ -1,0 +1,27 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "skill-creator",
+  "title": "Skill Creator",
+  "description": "Guide for creating effective skills. Use when users want to create a new skill, update an existing skill, build a slash command, or extend agent capabilities with specialized knowledge, workflows, tool integrations, or custom commands.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/stacklok/toolhive-catalog",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "git",
+      "url": "https://github.com/stacklok/toolhive-catalog",
+      "ref": "main",
+      "subfolder": "registries/toolhive/skills/skill-creator"
+    }
+  ]
+}
