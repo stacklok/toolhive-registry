@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - 'pkg/catalog/*/data/**'
+  schedule:
+    - cron: '0 6 * * *' # daily at 6 AM UTC
   workflow_dispatch:
 
 permissions:
@@ -27,7 +29,28 @@ jobs:
           echo "version=0.$(date +'%Y%m%d').0" >> $GITHUB_OUTPUT
           echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
 
+      - name: Check for data changes since last release
+        id: check_changes
+        if: github.event_name == 'schedule'
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$LATEST_TAG" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          # Check if any catalog data files changed since the last release tag
+          CHANGES=$(git diff --name-only "$LATEST_TAG"..HEAD -- 'pkg/catalog/*/data/**')
+          if [ -z "$CHANGES" ]; then
+            echo "No catalog data changes since $LATEST_TAG, skipping release."
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Found changes since $LATEST_TAG:"
+            echo "$CHANGES"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Generate release body
+        if: steps.check_changes.outputs.has_changes != 'false'
         id: release_body
         run: |
           {
@@ -87,6 +110,7 @@ jobs:
           } >> $GITHUB_OUTPUT
 
       - name: Collect release artifacts
+        if: steps.check_changes.outputs.has_changes != 'false'
         id: artifacts
         run: |
           ARTIFACT_LIST=""
@@ -109,6 +133,7 @@ jobs:
           } >> $GITHUB_OUTPUT
 
       - name: Create or update release
+        if: steps.check_changes.outputs.has_changes != 'false'
         uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1
         with:
           tag: v${{ steps.metadata.outputs.version }}
