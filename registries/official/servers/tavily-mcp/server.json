@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.17": {
+        "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.18": {
           "metadata": {
-            "last_updated": "2026-03-13T10:06:06Z",
+            "last_updated": "2026-03-16T06:36:47Z",
             "stars": 1265
           },
           "overview": "## Tavily MCP Server\n\nThe tavily-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to perform real-time web search and research using Tavily. It allows AI-driven workflows to retrieve fresh, relevant information from the web — including articles, documentation, and summaries — without relying solely on static training data or manual browsing. This server is especially useful for research, question answering, competitive analysis, and any workflow where up-to-date information is critical.",
@@ -239,7 +239,7 @@
             },
             {
               "annotations": {},
-              "description": "Perform comprehensive research on a given topic or question. Use this tool when you need to gather information from multiple sources to answer a question or complete a task. Returns a detailed response based on the research findings.",
+              "description": "Perform comprehensive research on a given topic or question. Use this tool when you need to gather information from multiple sources to answer a question or complete a task. Returns a detailed response based on the research findings. Rate limit: 20 requests per minute.",
               "inputSchema": {
                 "properties": {
                   "input": {
@@ -271,7 +271,7 @@
                 "properties": {
                   "country": {
                     "default": "",
-                    "description": "Boost search results from a specific country. This will prioritize content from the selected country in the search results. Available only if topic is general.",
+                    "description": "Boost search results from a specific country. Must be a full country name (e.g., 'United States', 'Japan', 'Germany'). ISO country codes (e.g., 'us', 'jp') are not supported. Available only if topic is general. See https://docs.tavily.com/documentation/api-reference/search for the full list of supported countries.",
                     "type": "string"
                   },
                   "end_date": {
@@ -401,7 +401,7 @@
           "name": "TAVILY_API_KEY"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.17",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.18",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
