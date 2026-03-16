@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.8.4": {
+        "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.9.0": {
           "metadata": {
-            "last_updated": "2026-03-02T02:58:07Z",
+            "last_updated": "2026-03-16T10:49:55Z",
             "stars": 2138
           },
           "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
@@ -110,6 +110,12 @@
                     ],
                     "type": "string"
                   },
+                  "geo_location": {
+                    "description": "2-letter country code for geo-targeted results (e.g., \"us\", \"uk\")",
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "type": "string"
+                  },
                   "query": {
                     "type": "string"
                   }
@@ -144,6 +150,12 @@
                             "bing",
                             "yandex"
                           ],
+                          "type": "string"
+                        },
+                        "geo_location": {
+                          "description": "2-letter country code for geo-targeted results (e.g., \"us\", \"uk\")",
+                          "maxLength": 2,
+                          "minLength": 2,
                           "type": "string"
                         },
                         "query": {
@@ -218,7 +230,7 @@
           "name": "PRO_MODE"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.8.4",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.9.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
