@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-03-14T00:42:44Z"
+    "last_updated": "2026-03-16T06:56:16Z"
   },
   "data": {
     "servers": [
@@ -903,7 +903,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.20",
+            "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.21",
             "transport": {
               "type": "stdio"
             },
@@ -967,7 +967,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.20": {
+              "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.21": {
                 "metadata": {
                   "last_updated": "2026-03-04T22:50:04Z",
                   "stars": 8259
@@ -1281,7 +1281,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.18",
+            "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.20",
             "transport": {
               "type": "stdio"
             },
@@ -1302,9 +1302,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.18": {
+              "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.20": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:46:01Z",
+                  "last_updated": "2026-03-16T06:37:21Z",
                   "stars": 8259
                 },
                 "overview": "## AWS Documentation MCP Server\n\nThe aws-documentation MCP server is a Model Context Protocol (MCP) server that provides AI assistants and agents with direct access to AWS's official documentation content through a structured MCP interface. It enables workflows that search, fetch, and recommend AWS documentation pages — returning markdown-formatted content and relevant recommendations — so models can cite accurate AWS technical details and best practices on-demand without manual lookup.",
@@ -1372,6 +1372,33 @@
                   },
                   {
                     "annotations": {},
+                    "description": "Extract specific sections from AWS documentation pages by title.\n\nRetrieves a page, converts to markdown, and returns only matching sections.\nSection matching is case-insensitive and handles whitespace differences.\n\n## URL Requirements\n- Must end with .html\n\n## Read Sections Tips\n\n- Use exact section titles from search results 'sections' field when available\n- Section matching is case-insensitive and handles whitespace differences\n- Include multiple related sections in one call for comprehensive coverage\n\n## Example Usage\n\n```\n# If query is about S3 bucket naming rules:\n# Available sections: ['General purpose buckets naming rules', 'Example general purpose bucket names', 'Best practices', 'Creating a bucket that uses a GUID in the bucket name']\n# Read these specific sections:\nread_sections(\n    url='https://docs.aws.amazon.com/s3/latest/userguide/bucketnamingrules.html',\n    section_titles=['General purpose buckets naming rules', 'Best practices'],\n)\n\n# If query is about Python Lambda function examples:\n# Available sections: ['Example Python Lambda function code', 'Handler naming conventions', 'Using the Lambda event object', 'Accessing and using the Lambda context object'. 'Valid handler signatures for Python handlers', 'Returning a value', 'Using the AWS SDK for Python (Boto3) in your handler', 'Accessing environment variables, 'Code best practices for Python Lambda functions']\n# Read these specific sections:\nread_sections(\n    url='https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html',\n    section_titles=[\n        'Example Python Lambda function code',\n        'Code best practices for Python Lambda functions',\n    ],\n)\n```\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to read\n    section_titles: List of section titles to extract\n\nReturns:\n    Filtered markdown content containing only the requested sections\n",
+                    "inputSchema": {
+                      "properties": {
+                        "section_titles": {
+                          "description": "List of section titles to extract from the documentation",
+                          "items": {
+                            "type": "string"
+                          },
+                          "title": "Section Titles",
+                          "type": "array"
+                        },
+                        "url": {
+                          "description": "URL of the AWS documentation page to read",
+                          "title": "Url",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "url",
+                        "section_titles"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "read_sections"
+                  },
+                  {
+                    "annotations": {},
                     "description": "Get content recommendations for an AWS documentation page.\n\n## Usage\n\nThis tool provides recommendations for related AWS documentation pages based on a given URL.\nUse it to discover additional relevant content that might not appear in search results.\n\n## Recommendation Types\n\nThe recommendations include four categories:\n\n1. **Highly Rated**: Popular pages within the same AWS service\n2. **New**: Recently added pages within the same AWS service - useful for finding newly released features\n3. **Similar**: Pages covering similar topics to the current page\n4. **Journey**: Pages commonly viewed next by other users\n\n## When to Use\n\n- After reading a documentation page to find related content\n- When exploring a new AWS service to discover important pages\n- To find alternative explanations of complex concepts\n- To discover the most popular pages for a service\n- To find newly released information by using a service's welcome page URL and checking the **New** recommendations\n\n## Finding New Features\n\nTo find newly released information about a service:\n1. Find any page belong to that service, typically you can try the welcome page\n2. Call this tool with that URL\n3. Look specifically at the **New** recommendation type in the results\n\n## Result Interpretation\n\nEach recommendation includes:\n- url: The documentation page URL\n- title: The page title\n- context: A brief description (if available)\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to get recommendations for\n\nReturns:\n    List of recommended pages with URLs, titles, and context\n",
                     "inputSchema": {
                       "properties": {
@@ -1390,7 +1417,7 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Search AWS documentation using the official AWS Documentation Search API.\n\n## Usage\n\nThis tool searches across all AWS documentation for pages matching your search phrase.\nUse it to find relevant documentation when you don't have a specific URL.\n\n## Search Tips\n\n- Use specific technical terms rather than general phrases\n- Include service names to narrow results (e.g., \"S3 bucket versioning\" instead of just \"versioning\")\n- Use quotes for exact phrase matching (e.g., \"AWS Lambda function URLs\")\n- Include abbreviations and alternative terms to improve results\n- Use guide_type and product_type filters found from a SearchResponse's \"facets\" property:\n    - Filter only for broad search queries with patterns:\n        - \"What is [service]?\" -\u003e product_types: [\"Amazon Simple Storage Service\"]\n        - \"How to use \u003cservice 1\u003e with \u003cservice 2\u003e?\" -\u003e product_types: [\u003cservice 1\u003e, \u003cservice 2\u003e]\n        - \"[service] getting started\" -\u003e product_types: [\u003cservice\u003e] + guide_types: [\"User Guide, \"Developer Guide\"]\n        - \"API reference for [service]\" -\u003e product_types: [\u003cservice\u003e] + guide_types: [\"API Reference\"]\n\n## Result Interpretation\n\nEach SearchResponse includes:\n- search_results: List of documentation pages, each with:\n    - rank_order: The relevance ranking (lower is more relevant)\n    - url: The documentation page URL\n    - title: The page title\n    - context: A brief excerpt or summary (if available)\n- facets: Available filters (product_types, guide_types) for refining searches\n- query_id: Unique identifier for this search session\n\n\nArgs:\n    ctx: MCP context for logging and error handling\n    search_phrase: Search phrase to use\n    search_intent: The intent behind the search requested by the user\n    limit: Maximum number of results to return\n    product_types: Filter by AWS product/service\n    guide_types: Filter by guide type\n\nReturns:\n    List of search results with URLs, titles, query ID, context snippets, and facets for filtering\n",
+                    "description": "Search AWS documentation using the official AWS Documentation Search API.\n\n## Usage\n\nThis tool searches across all AWS documentation for pages matching your search phrase.\nUse it to find relevant documentation when you don't have a specific URL.\n\n## Search Tips\n\n- Use specific technical terms rather than general phrases\n- Include service names to narrow results (e.g., \"S3 bucket versioning\" instead of just \"versioning\")\n- Use quotes for exact phrase matching (e.g., \"AWS Lambda function URLs\")\n- Include abbreviations and alternative terms to improve results\n- Use guide_type and product_type filters found from a SearchResponse's \"facets\" property:\n    - Filter only for broad search queries with patterns:\n        - \"What is [service]?\" -\u003e product_types: [\"Amazon Simple Storage Service\"]\n        - \"How to use \u003cservice 1\u003e with \u003cservice 2\u003e?\" -\u003e product_types: [\u003cservice 1\u003e, \u003cservice 2\u003e]\n        - \"[service] getting started\" -\u003e product_types: [\u003cservice\u003e] + guide_types: [\"User Guide, \"Developer Guide\"]\n        - \"API reference for [service]\" -\u003e product_types: [\u003cservice\u003e] + guide_types: [\"API Reference\"]\n\n## Result Interpretation\n\nEach SearchResponse includes:\n- search_results: List of documentation pages, each with:\n    - rank_order: The relevance ranking (lower is more relevant)\n    - url: The documentation page URL\n    - title: The page title\n    - context: A brief excerpt or summary (if available)\n    - sections: Table of contents (when available) - these section titles can be used with the read_sections tool for targeted content extraction\n- facets: Available filters (product_types, guide_types) for refining searches\n- query_id: Unique identifier for this search session\n\n\nArgs:\n    ctx: MCP context for logging and error handling\n    search_phrase: Search phrase to use\n    search_intent: The intent behind the search requested by the user\n    limit: Maximum number of results to return\n    product_types: Filter by AWS product/service\n    guide_types: Filter by guide type\n\nReturns:\n    List of search results with URLs, titles, query ID, context snippets, and facets for filtering\n",
                     "inputSchema": {
                       "properties": {
                         "guide_types": {
@@ -1455,6 +1482,7 @@
                 ],
                 "tools": [
                   "read_documentation",
+                  "read_sections",
                   "recommend",
                   "search_documentation"
                 ]
@@ -5904,7 +5932,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/context7:2.1.1",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/context7:2.1.4",
             "transport": {
               "type": "stdio"
             },
@@ -5920,9 +5948,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/context7:2.1.1": {
+              "ghcr.io/stacklok/dockyard/npx/context7:2.1.4": {
                 "metadata": {
-                  "last_updated": "2026-02-26T11:46:02Z",
+                  "last_updated": "2026-03-15T12:47:05Z",
                   "stars": 46978
                 },
                 "overview": "## Context7 MCP Server\n\nThe context7 MCP server is a Model Context Protocol (MCP) server that provides AI assistants with direct access to up-to-date library and framework documentation from Context7, running as a local MCP service. It allows AI-driven workflows to retrieve current, authoritative docs and examples for popular programming languages, frameworks, and tools — helping models generate accurate, version-appropriate code and explanations without relying solely on training data. It is particularly valuable for local development environments, IDE-integrated assistants, and workflows where developers want documentation access to run alongside other local MCP tools.",
@@ -5956,7 +5984,7 @@
                     "annotations": {
                       "readOnlyHint": true
                     },
-                    "description": "Retrieves and queries up-to-date documentation and code examples from Context7 for any programming library or framework.\n\nYou must call 'resolve-library-id' first to obtain the exact Context7-compatible library ID required to use this tool, UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.\n\nIMPORTANT: Do not call this tool more than 3 times per question. If you cannot find what you need after 3 calls, use the best information you have.",
+                    "description": "Retrieves and queries up-to-date documentation and code examples from Context7 for any programming library or framework.\n\nYou must call 'Resolve Context7 Library ID' tool first to obtain the exact Context7-compatible library ID required to use this tool, UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.\n\nIMPORTANT: Do not call this tool more than 3 times per question. If you cannot find what you need after 3 calls, use the best information you have.",
                     "inputSchema": {
                       "properties": {
                         "libraryId": {
@@ -5964,7 +5992,7 @@
                           "type": "string"
                         },
                         "query": {
-                          "description": "The question or task you need help with. Be specific and include relevant details. Good: 'How to set up authentication with JWT in Express.js' or 'React useEffect cleanup function examples'. Bad: 'auth' or 'hooks'. IMPORTANT: Do not include any sensitive or confidential information such as API keys, passwords, credentials, or personal data in your query.",
+                          "description": "The question or task you need help with. Be specific and include relevant details. Good: 'How to set up authentication with JWT in Express.js' or 'React useEffect cleanup function examples'. Bad: 'auth' or 'hooks'. The query is sent to the Context7 API for processing. Do not include any sensitive or confidential information such as API keys, passwords, credentials, personal data, or proprietary code in your query.",
                           "type": "string"
                         }
                       },
@@ -5980,7 +6008,7 @@
                     "annotations": {
                       "readOnlyHint": true
                     },
-                    "description": "Resolves a package/product name to a Context7-compatible library ID and returns matching libraries.\n\nYou MUST call this function before 'query-docs' to obtain a valid Context7-compatible library ID UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.\n\nSelection Process:\n1. Analyze the query to understand what library/package the user is looking for\n2. Return the most relevant match based on:\n- Name similarity to the query (exact matches prioritized)\n- Description relevance to the query's intent\n- Documentation coverage (prioritize libraries with higher Code Snippet counts)\n- Source reputation (consider libraries with High or Medium reputation more authoritative)\n- Benchmark Score: Quality indicator (100 is the highest score)\n\nResponse Format:\n- Return the selected library ID in a clearly marked section\n- Provide a brief explanation for why this library was chosen\n- If multiple good matches exist, acknowledge this but proceed with the most relevant one\n- If no good matches exist, clearly state this and suggest query refinements\n\nFor ambiguous queries, request clarification before proceeding with a best-guess match.\n\nIMPORTANT: Do not call this tool more than 3 times per question. If you cannot find what you need after 3 calls, use the best result you have.",
+                    "description": "Resolves a package/product name to a Context7-compatible library ID and returns matching libraries.\n\nYou MUST call this function before 'Query Documentation' tool to obtain a valid Context7-compatible library ID UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.\n\nEach result includes:\n- Library ID: Context7-compatible identifier (format: /org/project)\n- Name: Library or package name\n- Description: Short summary\n- Code Snippets: Number of available code examples\n- Source Reputation: Authority indicator (High, Medium, Low, or Unknown)\n- Benchmark Score: Quality indicator (100 is the highest score)\n- Versions: List of versions if available. Use one of those versions if the user provides a version in their query. The format of the version is /org/project/version.\n\nFor best results, select libraries based on name match, source reputation, snippet coverage, benchmark score, and relevance to your use case.\n\nSelection Process:\n1. Analyze the query to understand what library/package the user is looking for\n2. Return the most relevant match based on:\n- Name similarity to the query (exact matches prioritized)\n- Description relevance to the query's intent\n- Documentation coverage (prioritize libraries with higher Code Snippet counts)\n- Source reputation (consider libraries with High or Medium reputation more authoritative)\n- Benchmark Score: Quality indicator (100 is the highest score)\n\nResponse Format:\n- Return the selected library ID in a clearly marked section\n- Provide a brief explanation for why this library was chosen\n- If multiple good matches exist, acknowledge this but proceed with the most relevant one\n- If no good matches exist, clearly state this and suggest query refinements\n\nFor ambiguous queries, request clarification before proceeding with a best-guess match.\n\nIMPORTANT: Do not call this tool more than 3 times per question. If you cannot find what you need after 3 calls, use the best result you have.",
                     "inputSchema": {
                       "properties": {
                         "libraryName": {
@@ -5988,7 +6016,7 @@
                           "type": "string"
                         },
                         "query": {
-                          "description": "The user's original question or task. This is used to rank library results by relevance to what the user is trying to accomplish. IMPORTANT: Do not include any sensitive or confidential information such as API keys, passwords, credentials, or personal data in your query.",
+                          "description": "The question or task you need help with. This is used to rank library results by relevance to what the user is trying to accomplish. The query is sent to the Context7 API for processing. Do not include any sensitive or confidential information such as API keys, passwords, credentials, personal data, or proprietary code in your query.",
                           "type": "string"
                         }
                       },
@@ -6217,7 +6245,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.28.0",
+            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.29.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -6227,7 +6255,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.28.0": {
+              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.29.0": {
                 "args": [
                   "--address",
                   "0.0.0.0"
@@ -9387,7 +9415,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.28.0",
+            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.29.0",
             "transport": {
               "type": "sse",
               "url": "http://localhost:5000"
@@ -9397,7 +9425,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.28.0": {
+              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.29.0": {
                 "metadata": {
                   "last_updated": "2026-02-26T11:46:00Z",
                   "stars": 13190
@@ -23267,7 +23295,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/mongodb/mongodb-mcp-server:1.8.0",
+            "identifier": "docker.io/mongodb/mongodb-mcp-server:1.8.1",
             "transport": {
               "type": "stdio"
             },
@@ -23321,7 +23349,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/mongodb/mongodb-mcp-server:1.8.0": {
+              "docker.io/mongodb/mongodb-mcp-server:1.8.1": {
                 "metadata": {
                   "last_updated": "2026-03-03T12:34:33Z",
                   "stars": 936
@@ -29229,7 +29257,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.0",
+            "identifier": "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.1",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8080"
@@ -29255,9 +29283,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.0": {
+              "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.1": {
                 "metadata": {
-                  "last_updated": "2026-03-03T14:55:09Z",
+                  "last_updated": "2026-03-13T17:38:08Z",
                   "stars": 11
                 },
                 "overview": "## OCI Registry MCP Server\n\nThe oci-registry MCP server provides secure OCI container registry querying with image introspection and manifest retrieval. The tool enables users to analyze container images through streamlined access to OCI registries, supporting image metadata inspection, tag enumeration, manifest analysis, and secure querying via HTTP transport.",
@@ -29294,7 +29322,7 @@
                 "tool_definitions": [
                   {
                     "annotations": {
-                      "destructiveHint": true,
+                      "destructiveHint": false,
                       "idempotentHint": false,
                       "openWorldHint": true,
                       "readOnlyHint": true
@@ -29316,7 +29344,7 @@
                   },
                   {
                     "annotations": {
-                      "destructiveHint": true,
+                      "destructiveHint": false,
                       "idempotentHint": false,
                       "openWorldHint": true,
                       "readOnlyHint": true
@@ -29338,7 +29366,7 @@
                   },
                   {
                     "annotations": {
-                      "destructiveHint": true,
+                      "destructiveHint": false,
                       "idempotentHint": false,
                       "openWorldHint": true,
                       "readOnlyHint": true
@@ -29360,7 +29388,7 @@
                   },
                   {
                     "annotations": {
-                      "destructiveHint": true,
+                      "destructiveHint": false,
                       "idempotentHint": false,
                       "openWorldHint": true,
                       "readOnlyHint": true
@@ -29873,7 +29901,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stackloklabs/osv-mcp/server:0.1.0",
+            "identifier": "ghcr.io/stackloklabs/osv-mcp/server:0.1.1",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8080"
@@ -29883,9 +29911,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stackloklabs/osv-mcp/server:0.1.0": {
+              "ghcr.io/stackloklabs/osv-mcp/server:0.1.1": {
                 "metadata": {
-                  "last_updated": "2026-03-10T09:35:19Z",
+                  "last_updated": "2026-03-13T17:38:15Z",
                   "stars": 26
                 },
                 "overview": "## OSV MCP Server\n\nThe osv MCP server provides access to the OSV (Open Source Vulnerabilities) database for querying package and commit vulnerabilities. The server offers MCP-based access to the OSV vulnerability database through direct API queries to OSV.dev for vulnerability lookups by package name, version, or commit hash. It supports batch vulnerability queries for multiple packages simultaneously and delivers detailed vulnerability information including CVE IDs, severity scores, and affected versions across multiple programming languages and package managers.",
@@ -29924,7 +29952,12 @@
                 "tier": "Community",
                 "tool_definitions": [
                   {
-                    "annotations": {},
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": true,
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
                     "description": "Get details for a specific vulnerability by ID",
                     "inputSchema": {
                       "properties": {
@@ -29941,7 +29974,12 @@
                     "name": "get_vulnerability"
                   },
                   {
-                    "annotations": {},
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": true,
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
                     "description": "Query for vulnerabilities affecting multiple packages or commits at once",
                     "inputSchema": {
                       "properties": {
@@ -29983,7 +30021,12 @@
                     "name": "query_vulnerabilities_batch"
                   },
                   {
-                    "annotations": {},
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": true,
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
                     "description": "Query for vulnerabilities affecting a specific package version or commit",
                     "inputSchema": {
                       "properties": {
@@ -36031,7 +36074,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.3.6",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.3.7",
             "transport": {
               "type": "stdio"
             },
@@ -36052,9 +36095,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.3.6": {
+              "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.3.7": {
                 "metadata": {
-                  "last_updated": "2026-03-10T10:14:41Z",
+                  "last_updated": "2026-03-15T12:47:05Z",
                   "stars": 8801
                 },
                 "overview": "## Phoenix MCP Server\n\nThe phoenix MCP server is a Model Context Protocol (MCP) server for the Arize Phoenix observability platform. It provides AI assistants with programmatic access to Arize Phoenix, enabling dataset and experiment management for LLM evaluation workflows, prompt version control and tagging for LLM application development, span and trace querying for observability and debugging, and project-based organization for managing multiple Phoenix instances.",
@@ -44151,7 +44194,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.17",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.18",
             "transport": {
               "type": "stdio"
             },
@@ -44168,9 +44211,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.17": {
+              "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.18": {
                 "metadata": {
-                  "last_updated": "2026-03-12T15:32:38Z",
+                  "last_updated": "2026-03-16T06:36:47Z",
                   "stars": 1265
                 },
                 "overview": "## Tavily MCP Server\n\nThe tavily-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to perform real-time web search and research using Tavily. It allows AI-driven workflows to retrieve fresh, relevant information from the web — including articles, documentation, and summaries — without relying solely on static training data or manual browsing. This server is especially useful for research, question answering, competitive analysis, and any workflow where up-to-date information is critical.",
@@ -44404,7 +44447,7 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Perform comprehensive research on a given topic or question. Use this tool when you need to gather information from multiple sources to answer a question or complete a task. Returns a detailed response based on the research findings.",
+                    "description": "Perform comprehensive research on a given topic or question. Use this tool when you need to gather information from multiple sources to answer a question or complete a task. Returns a detailed response based on the research findings. Rate limit: 20 requests per minute.",
                     "inputSchema": {
                       "properties": {
                         "input": {
@@ -44436,7 +44479,7 @@
                       "properties": {
                         "country": {
                           "default": "",
-                          "description": "Boost search results from a specific country. This will prioritize content from the selected country in the search results. Available only if topic is general.",
+                          "description": "Boost search results from a specific country. Must be a full country name (e.g., 'United States', 'Japan', 'Germany'). ISO country codes (e.g., 'us', 'jp') are not supported. Available only if topic is general. See https://docs.tavily.com/documentation/api-reference/search for the full list of supported countries.",
                           "type": "string"
                         },
                         "end_date": {
