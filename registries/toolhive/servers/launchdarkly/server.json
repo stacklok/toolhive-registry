@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.6.0": {
           "metadata": {
-            "last_updated": "2026-03-02T02:58:08Z",
+            "last_updated": "2026-03-16T12:36:36Z",
             "stars": 19
           },
           "overview": "## LaunchDarkly MCP Server\n\nThe launchdarkly MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with LaunchDarkly, the feature management and experimentation platform. It allows AI-driven workflows to inspect feature flags, environments, and targeting rules, helping teams understand feature rollout, experimentation, and risk management without leaving their current tools. This server is particularly valuable for release management, experimentation analysis, and operational decision-making scenarios where feature flag context matters.",
@@ -51,9 +51,117 @@
                       "AIConfigPost": {
                         "additionalProperties": false,
                         "properties": {
+                          "defaultVariation": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "comment": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "instructions": {
+                                "type": "string"
+                              },
+                              "judgeConfiguration": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "judges": {
+                                    "items": {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "judgeConfigKey": {
+                                          "type": "string"
+                                        },
+                                        "samplingRate": {
+                                          "type": "number"
+                                        }
+                                      },
+                                      "required": [
+                                        "judgeConfigKey",
+                                        "samplingRate"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    "type": "array"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "key": {
+                                "type": "string"
+                              },
+                              "messages": {
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "content": {
+                                      "type": "string"
+                                    },
+                                    "role": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "content",
+                                    "role"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              },
+                              "model": {
+                                "additionalProperties": false,
+                                "properties": {},
+                                "type": "object"
+                              },
+                              "modelConfigKey": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "toolKeys": {
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "tools": {
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "key": {
+                                      "type": "string"
+                                    },
+                                    "version": {
+                                      "type": "integer"
+                                    }
+                                  },
+                                  "required": [
+                                    "key",
+                                    "version"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
                           "description": {
                             "default": "",
                             "type": "string"
+                          },
+                          "evaluationMetricKey": {
+                            "type": "string"
+                          },
+                          "isInverted": {
+                            "type": "boolean"
                           },
                           "key": {
                             "type": "string"
@@ -68,7 +176,8 @@
                             "default": "completion",
                             "enum": [
                               "agent",
-                              "completion"
+                              "completion",
+                              "judge"
                             ],
                             "type": "string"
                           },
@@ -88,18 +197,11 @@
                         ],
                         "type": "object"
                       },
-                      "LD-API-Version": {
-                        "enum": [
-                          "beta"
-                        ],
-                        "type": "string"
-                      },
                       "projectKey": {
                         "type": "string"
                       }
                     },
                     "required": [
-                      "LD-API-Version",
                       "projectKey",
                       "AIConfigPost"
                     ],
@@ -133,6 +235,31 @@
                           "instructions": {
                             "type": "string"
                           },
+                          "judgeConfiguration": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "judges": {
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "judgeConfigKey": {
+                                      "type": "string"
+                                    },
+                                    "samplingRate": {
+                                      "type": "number"
+                                    }
+                                  },
+                                  "required": [
+                                    "judgeConfigKey",
+                                    "samplingRate"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "type": "object"
+                          },
                           "key": {
                             "type": "string"
                           },
@@ -165,20 +292,38 @@
                           },
                           "name": {
                             "type": "string"
+                          },
+                          "toolKeys": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "tools": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "key": {
+                                  "type": "string"
+                                },
+                                "version": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "version"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
                           }
                         },
                         "required": [
                           "key",
-                          "messages",
                           "name"
                         ],
                         "type": "object"
-                      },
-                      "LD-API-Version": {
-                        "enum": [
-                          "beta"
-                        ],
-                        "type": "string"
                       },
                       "configKey": {
                         "type": "string"
@@ -188,7 +333,6 @@
                       }
                     },
                     "required": [
-                      "LD-API-Version",
                       "projectKey",
                       "configKey",
                       "AIConfigVariationPost"
@@ -394,12 +538,6 @@
                   "request": {
                     "additionalProperties": false,
                     "properties": {
-                      "LD-API-Version": {
-                        "enum": [
-                          "beta"
-                        ],
-                        "type": "string"
-                      },
                       "configKey": {
                         "type": "string"
                       },
@@ -408,7 +546,6 @@
                       }
                     },
                     "required": [
-                      "LD-API-Version",
                       "projectKey",
                       "configKey"
                     ],
@@ -430,12 +567,6 @@
                   "request": {
                     "additionalProperties": false,
                     "properties": {
-                      "LD-API-Version": {
-                        "enum": [
-                          "beta"
-                        ],
-                        "type": "string"
-                      },
                       "configKey": {
                         "type": "string"
                       },
@@ -447,7 +578,6 @@
                       }
                     },
                     "required": [
-                      "LD-API-Version",
                       "projectKey",
                       "configKey",
                       "variationKey"
@@ -499,12 +629,6 @@
                   "request": {
                     "additionalProperties": false,
                     "properties": {
-                      "LD-API-Version": {
-                        "enum": [
-                          "beta"
-                        ],
-                        "type": "string"
-                      },
                       "configKey": {
                         "type": "string"
                       },
@@ -513,7 +637,6 @@
                       }
                     },
                     "required": [
-                      "LD-API-Version",
                       "projectKey",
                       "configKey"
                     ],
@@ -535,12 +658,6 @@
                   "request": {
                     "additionalProperties": false,
                     "properties": {
-                      "LD-API-Version": {
-                        "enum": [
-                          "beta"
-                        ],
-                        "type": "string"
-                      },
                       "configKey": {
                         "type": "string"
                       },
@@ -549,7 +666,6 @@
                       }
                     },
                     "required": [
-                      "LD-API-Version",
                       "projectKey",
                       "configKey"
                     ],
@@ -571,12 +687,6 @@
                   "request": {
                     "additionalProperties": false,
                     "properties": {
-                      "LD-API-Version": {
-                        "enum": [
-                          "beta"
-                        ],
-                        "type": "string"
-                      },
                       "configKey": {
                         "type": "string"
                       },
@@ -588,7 +698,6 @@
                       }
                     },
                     "required": [
-                      "LD-API-Version",
                       "projectKey",
                       "configKey",
                       "variationKey"
@@ -746,12 +855,6 @@
                   "request": {
                     "additionalProperties": false,
                     "properties": {
-                      "LD-API-Version": {
-                        "enum": [
-                          "beta"
-                        ],
-                        "type": "string"
-                      },
                       "filter": {
                         "type": "string"
                       },
@@ -769,7 +872,6 @@
                       }
                     },
                     "required": [
-                      "LD-API-Version",
                       "projectKey"
                     ],
                     "type": "object"
@@ -851,6 +953,12 @@
                           "description": {
                             "type": "string"
                           },
+                          "evaluationMetricKey": {
+                            "type": "string"
+                          },
+                          "isInverted": {
+                            "type": "boolean"
+                          },
                           "maintainerId": {
                             "type": "string"
                           },
@@ -869,12 +977,6 @@
                         },
                         "type": "object"
                       },
-                      "LD-API-Version": {
-                        "enum": [
-                          "beta"
-                        ],
-                        "type": "string"
-                      },
                       "configKey": {
                         "type": "string"
                       },
@@ -883,7 +985,6 @@
                       }
                     },
                     "required": [
-                      "LD-API-Version",
                       "projectKey",
                       "configKey"
                     ],
@@ -928,12 +1029,6 @@
                         ],
                         "type": "object"
                       },
-                      "LD-API-Version": {
-                        "enum": [
-                          "beta"
-                        ],
-                        "type": "string"
-                      },
                       "configKey": {
                         "type": "string"
                       },
@@ -942,7 +1037,6 @@
                       }
                     },
                     "required": [
-                      "LD-API-Version",
                       "projectKey",
                       "configKey"
                     ],
@@ -975,6 +1069,31 @@
                           },
                           "instructions": {
                             "type": "string"
+                          },
+                          "judgeConfiguration": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "judges": {
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "judgeConfigKey": {
+                                      "type": "string"
+                                    },
+                                    "samplingRate": {
+                                      "type": "number"
+                                    }
+                                  },
+                                  "required": [
+                                    "judgeConfigKey",
+                                    "samplingRate"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "type": "object"
                           },
                           "messages": {
                             "items": {
@@ -1011,15 +1130,34 @@
                           },
                           "state": {
                             "type": "string"
+                          },
+                          "toolKeys": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "tools": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "key": {
+                                  "type": "string"
+                                },
+                                "version": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "version"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
                           }
                         },
                         "type": "object"
-                      },
-                      "LD-API-Version": {
-                        "enum": [
-                          "beta"
-                        ],
-                        "type": "string"
                       },
                       "configKey": {
                         "type": "string"
@@ -1032,7 +1170,6 @@
                       }
                     },
                     "required": [
-                      "LD-API-Version",
                       "projectKey",
                       "configKey",
                       "variationKey"
@@ -1086,6 +1223,9 @@
                           "patch"
                         ],
                         "type": "object"
+                      },
+                      "dryRun": {
+                        "type": "boolean"
                       },
                       "featureFlagKey": {
                         "type": "string"
