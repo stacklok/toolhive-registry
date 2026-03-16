@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.18": {
+        "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.20": {
           "metadata": {
-            "last_updated": "2026-02-26T11:46:01Z",
+            "last_updated": "2026-03-16T06:37:21Z",
             "stars": 8259
           },
           "overview": "## AWS Documentation MCP Server\n\nThe aws-documentation MCP server is a Model Context Protocol (MCP) server that provides AI assistants and agents with direct access to AWS's official documentation content through a structured MCP interface. It enables workflows that search, fetch, and recommend AWS documentation pages — returning markdown-formatted content and relevant recommendations — so models can cite accurate AWS technical details and best practices on-demand without manual lookup.",
@@ -73,6 +73,33 @@
             },
             {
               "annotations": {},
+              "description": "Extract specific sections from AWS documentation pages by title.\n\nRetrieves a page, converts to markdown, and returns only matching sections.\nSection matching is case-insensitive and handles whitespace differences.\n\n## URL Requirements\n- Must end with .html\n\n## Read Sections Tips\n\n- Use exact section titles from search results 'sections' field when available\n- Section matching is case-insensitive and handles whitespace differences\n- Include multiple related sections in one call for comprehensive coverage\n\n## Example Usage\n\n```\n# If query is about S3 bucket naming rules:\n# Available sections: ['General purpose buckets naming rules', 'Example general purpose bucket names', 'Best practices', 'Creating a bucket that uses a GUID in the bucket name']\n# Read these specific sections:\nread_sections(\n    url='https://docs.aws.amazon.com/s3/latest/userguide/bucketnamingrules.html',\n    section_titles=['General purpose buckets naming rules', 'Best practices'],\n)\n\n# If query is about Python Lambda function examples:\n# Available sections: ['Example Python Lambda function code', 'Handler naming conventions', 'Using the Lambda event object', 'Accessing and using the Lambda context object'. 'Valid handler signatures for Python handlers', 'Returning a value', 'Using the AWS SDK for Python (Boto3) in your handler', 'Accessing environment variables, 'Code best practices for Python Lambda functions']\n# Read these specific sections:\nread_sections(\n    url='https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html',\n    section_titles=[\n        'Example Python Lambda function code',\n        'Code best practices for Python Lambda functions',\n    ],\n)\n```\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to read\n    section_titles: List of section titles to extract\n\nReturns:\n    Filtered markdown content containing only the requested sections\n",
+              "inputSchema": {
+                "properties": {
+                  "section_titles": {
+                    "description": "List of section titles to extract from the documentation",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Section Titles",
+                    "type": "array"
+                  },
+                  "url": {
+                    "description": "URL of the AWS documentation page to read",
+                    "title": "Url",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url",
+                  "section_titles"
+                ],
+                "type": "object"
+              },
+              "name": "read_sections"
+            },
+            {
+              "annotations": {},
               "description": "Get content recommendations for an AWS documentation page.\n\n## Usage\n\nThis tool provides recommendations for related AWS documentation pages based on a given URL.\nUse it to discover additional relevant content that might not appear in search results.\n\n## Recommendation Types\n\nThe recommendations include four categories:\n\n1. **Highly Rated**: Popular pages within the same AWS service\n2. **New**: Recently added pages within the same AWS service - useful for finding newly released features\n3. **Similar**: Pages covering similar topics to the current page\n4. **Journey**: Pages commonly viewed next by other users\n\n## When to Use\n\n- After reading a documentation page to find related content\n- When exploring a new AWS service to discover important pages\n- To find alternative explanations of complex concepts\n- To discover the most popular pages for a service\n- To find newly released information by using a service's welcome page URL and checking the **New** recommendations\n\n## Finding New Features\n\nTo find newly released information about a service:\n1. Find any page belong to that service, typically you can try the welcome page\n2. Call this tool with that URL\n3. Look specifically at the **New** recommendation type in the results\n\n## Result Interpretation\n\nEach recommendation includes:\n- url: The documentation page URL\n- title: The page title\n- context: A brief description (if available)\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to get recommendations for\n\nReturns:\n    List of recommended pages with URLs, titles, and context\n",
               "inputSchema": {
                 "properties": {
@@ -91,7 +118,7 @@
             },
             {
               "annotations": {},
-              "description": "Search AWS documentation using the official AWS Documentation Search API.\n\n## Usage\n\nThis tool searches across all AWS documentation for pages matching your search phrase.\nUse it to find relevant documentation when you don't have a specific URL.\n\n## Search Tips\n\n- Use specific technical terms rather than general phrases\n- Include service names to narrow results (e.g., \"S3 bucket versioning\" instead of just \"versioning\")\n- Use quotes for exact phrase matching (e.g., \"AWS Lambda function URLs\")\n- Include abbreviations and alternative terms to improve results\n- Use guide_type and product_type filters found from a SearchResponse's \"facets\" property:\n    - Filter only for broad search queries with patterns:\n        - \"What is [service]?\" -\u003e product_types: [\"Amazon Simple Storage Service\"]\n        - \"How to use \u003cservice 1\u003e with \u003cservice 2\u003e?\" -\u003e product_types: [\u003cservice 1\u003e, \u003cservice 2\u003e]\n        - \"[service] getting started\" -\u003e product_types: [\u003cservice\u003e] + guide_types: [\"User Guide, \"Developer Guide\"]\n        - \"API reference for [service]\" -\u003e product_types: [\u003cservice\u003e] + guide_types: [\"API Reference\"]\n\n## Result Interpretation\n\nEach SearchResponse includes:\n- search_results: List of documentation pages, each with:\n    - rank_order: The relevance ranking (lower is more relevant)\n    - url: The documentation page URL\n    - title: The page title\n    - context: A brief excerpt or summary (if available)\n- facets: Available filters (product_types, guide_types) for refining searches\n- query_id: Unique identifier for this search session\n\n\nArgs:\n    ctx: MCP context for logging and error handling\n    search_phrase: Search phrase to use\n    search_intent: The intent behind the search requested by the user\n    limit: Maximum number of results to return\n    product_types: Filter by AWS product/service\n    guide_types: Filter by guide type\n\nReturns:\n    List of search results with URLs, titles, query ID, context snippets, and facets for filtering\n",
+              "description": "Search AWS documentation using the official AWS Documentation Search API.\n\n## Usage\n\nThis tool searches across all AWS documentation for pages matching your search phrase.\nUse it to find relevant documentation when you don't have a specific URL.\n\n## Search Tips\n\n- Use specific technical terms rather than general phrases\n- Include service names to narrow results (e.g., \"S3 bucket versioning\" instead of just \"versioning\")\n- Use quotes for exact phrase matching (e.g., \"AWS Lambda function URLs\")\n- Include abbreviations and alternative terms to improve results\n- Use guide_type and product_type filters found from a SearchResponse's \"facets\" property:\n    - Filter only for broad search queries with patterns:\n        - \"What is [service]?\" -\u003e product_types: [\"Amazon Simple Storage Service\"]\n        - \"How to use \u003cservice 1\u003e with \u003cservice 2\u003e?\" -\u003e product_types: [\u003cservice 1\u003e, \u003cservice 2\u003e]\n        - \"[service] getting started\" -\u003e product_types: [\u003cservice\u003e] + guide_types: [\"User Guide, \"Developer Guide\"]\n        - \"API reference for [service]\" -\u003e product_types: [\u003cservice\u003e] + guide_types: [\"API Reference\"]\n\n## Result Interpretation\n\nEach SearchResponse includes:\n- search_results: List of documentation pages, each with:\n    - rank_order: The relevance ranking (lower is more relevant)\n    - url: The documentation page URL\n    - title: The page title\n    - context: A brief excerpt or summary (if available)\n    - sections: Table of contents (when available) - these section titles can be used with the read_sections tool for targeted content extraction\n- facets: Available filters (product_types, guide_types) for refining searches\n- query_id: Unique identifier for this search session\n\n\nArgs:\n    ctx: MCP context for logging and error handling\n    search_phrase: Search phrase to use\n    search_intent: The intent behind the search requested by the user\n    limit: Maximum number of results to return\n    product_types: Filter by AWS product/service\n    guide_types: Filter by guide type\n\nReturns:\n    List of search results with URLs, titles, query ID, context snippets, and facets for filtering\n",
               "inputSchema": {
                 "properties": {
                   "guide_types": {
@@ -156,6 +183,7 @@
           ],
           "tools": [
             "read_documentation",
+            "read_sections",
             "recommend",
             "search_documentation"
           ]
@@ -188,7 +216,7 @@
           "name": "FASTMCP_LOG_LEVEL"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.18",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.20",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
