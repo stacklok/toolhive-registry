@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.6.3": {
+        "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.7.0": {
           "metadata": {
-            "last_updated": "2026-03-12T23:57:10Z",
+            "last_updated": "2026-03-16T15:57:38Z",
             "stars": 2518
           },
           "overview": "## Supabase MCP Server\n\nThe supabase MCP server connects Supabase projects to AI assistants for managing tables, fetching config, and querying data. The server enables MCP-based access to Supabase platform capabilities through the Management API, database operations, Edge Functions deployment, and branch management features, authenticated via environment variables.",
@@ -165,7 +165,7 @@
                     "type": "string"
                   },
                   "region": {
-                    "description": "The region to create the project in",
+                    "description": "The region to create the project in.",
                     "enum": [
                       "us-west-1",
                       "us-east-1",
@@ -371,7 +371,7 @@
                 "readOnlyHint": true,
                 "title": "Get cost of new resources"
               },
-              "description": "Gets the cost of creating a new project or branch. Never assume organization as costs can be different for each.",
+              "description": "Gets the cost of creating a new project or branch. Never assume organization as costs can be different for each. Always repeat the cost to the user and confirm their understanding before proceeding.",
               "inputSchema": {
                 "properties": {
                   "organization_id": {
@@ -435,6 +435,7 @@
                     "type": "string"
                   },
                   "service": {
+                    "description": "The service to fetch logs for",
                     "enum": [
                       "api",
                       "branch-action",
@@ -673,7 +674,7 @@
                 "readOnlyHint": true,
                 "title": "List tables"
               },
-              "description": "Lists all tables in one or more schemas.",
+              "description": "Lists all tables in one or more schemas. By default returns a compact summary. Set verbose to true to include column details, primary keys, and foreign key constraints.",
               "inputSchema": {
                 "properties": {
                   "project_id": {
@@ -688,11 +689,17 @@
                       "type": "string"
                     },
                     "type": "array"
+                  },
+                  "verbose": {
+                    "default": false,
+                    "description": "When true, includes column details, primary keys, and foreign key constraints. Defaults to false for a compact summary.",
+                    "type": "boolean"
                   }
                 },
                 "required": [
                   "project_id",
-                  "schemas"
+                  "schemas",
+                  "verbose"
                 ],
                 "type": "object"
               },
@@ -892,7 +899,7 @@
           "name": "SUPABASE_ACCESS_TOKEN"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.6.3",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.7.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
