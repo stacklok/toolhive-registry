@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.0": {
+        "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.1": {
           "metadata": {
-            "last_updated": "2026-03-03T14:55:09Z",
+            "last_updated": "2026-03-13T17:38:08Z",
             "stars": 11
           },
           "overview": "## OCI Registry MCP Server\n\nThe oci-registry MCP server provides secure OCI container registry querying with image introspection and manifest retrieval. The tool enables users to analyze container images through streamlined access to OCI registries, supporting image metadata inspection, tag enumeration, manifest analysis, and secure querying via HTTP transport.",
@@ -42,7 +42,7 @@
           "tool_definitions": [
             {
               "annotations": {
-                "destructiveHint": true,
+                "destructiveHint": false,
                 "idempotentHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true
@@ -64,7 +64,7 @@
             },
             {
               "annotations": {
-                "destructiveHint": true,
+                "destructiveHint": false,
                 "idempotentHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true
@@ -86,7 +86,7 @@
             },
             {
               "annotations": {
-                "destructiveHint": true,
+                "destructiveHint": false,
                 "idempotentHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true
@@ -108,7 +108,7 @@
             },
             {
               "annotations": {
-                "destructiveHint": true,
+                "destructiveHint": false,
                 "idempotentHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true
@@ -186,7 +186,7 @@
           "name": "OCI_PASSWORD"
         }
       ],
-      "identifier": "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.0",
+      "identifier": "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.1",
       "registryType": "oci",
       "transport": {
         "type": "streamable-http",
