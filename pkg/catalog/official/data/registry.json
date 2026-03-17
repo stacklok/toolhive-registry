@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-03-16T06:56:16Z",
+  "last_updated": "2026-03-17T00:44:12Z",
   "servers": {
     "apollo-mcp-server": {
       "title": "Apollo GraphQL",
@@ -10447,7 +10447,7 @@
       ],
       "metadata": {
         "stars": 19,
-        "last_updated": "2026-03-02T02:58:08Z"
+        "last_updated": "2026-03-16T12:36:26Z"
       },
       "repository_url": "https://github.com/launchdarkly/mcp-server",
       "tags": [
@@ -10470,9 +10470,117 @@
                   "AIConfigPost": {
                     "additionalProperties": false,
                     "properties": {
+                      "defaultVariation": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "comment": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "instructions": {
+                            "type": "string"
+                          },
+                          "judgeConfiguration": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "judges": {
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "judgeConfigKey": {
+                                      "type": "string"
+                                    },
+                                    "samplingRate": {
+                                      "type": "number"
+                                    }
+                                  },
+                                  "required": [
+                                    "judgeConfigKey",
+                                    "samplingRate"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "messages": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "content": {
+                                  "type": "string"
+                                },
+                                "role": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "content",
+                                "role"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "model": {
+                            "additionalProperties": false,
+                            "properties": {},
+                            "type": "object"
+                          },
+                          "modelConfigKey": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "toolKeys": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "tools": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "key": {
+                                  "type": "string"
+                                },
+                                "version": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "version"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "name"
+                        ],
+                        "type": "object"
+                      },
                       "description": {
                         "default": "",
                         "type": "string"
+                      },
+                      "evaluationMetricKey": {
+                        "type": "string"
+                      },
+                      "isInverted": {
+                        "type": "boolean"
                       },
                       "key": {
                         "type": "string"
@@ -10487,7 +10595,8 @@
                         "default": "completion",
                         "enum": [
                           "agent",
-                          "completion"
+                          "completion",
+                          "judge"
                         ],
                         "type": "string"
                       },
@@ -10507,18 +10616,11 @@
                     ],
                     "type": "object"
                   },
-                  "LD-API-Version": {
-                    "enum": [
-                      "beta"
-                    ],
-                    "type": "string"
-                  },
                   "projectKey": {
                     "type": "string"
                   }
                 },
                 "required": [
-                  "LD-API-Version",
                   "projectKey",
                   "AIConfigPost"
                 ],
@@ -10552,6 +10654,31 @@
                       "instructions": {
                         "type": "string"
                       },
+                      "judgeConfiguration": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "judges": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "judgeConfigKey": {
+                                  "type": "string"
+                                },
+                                "samplingRate": {
+                                  "type": "number"
+                                }
+                              },
+                              "required": [
+                                "judgeConfigKey",
+                                "samplingRate"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object"
+                      },
                       "key": {
                         "type": "string"
                       },
@@ -10584,20 +10711,38 @@
                       },
                       "name": {
                         "type": "string"
+                      },
+                      "toolKeys": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "tools": {
+                        "items": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "key": {
+                              "type": "string"
+                            },
+                            "version": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "key",
+                            "version"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
                       }
                     },
                     "required": [
                       "key",
-                      "messages",
                       "name"
                     ],
                     "type": "object"
-                  },
-                  "LD-API-Version": {
-                    "enum": [
-                      "beta"
-                    ],
-                    "type": "string"
                   },
                   "configKey": {
                     "type": "string"
@@ -10607,7 +10752,6 @@
                   }
                 },
                 "required": [
-                  "LD-API-Version",
                   "projectKey",
                   "configKey",
                   "AIConfigVariationPost"
@@ -10813,12 +10957,6 @@
               "request": {
                 "additionalProperties": false,
                 "properties": {
-                  "LD-API-Version": {
-                    "enum": [
-                      "beta"
-                    ],
-                    "type": "string"
-                  },
                   "configKey": {
                     "type": "string"
                   },
@@ -10827,7 +10965,6 @@
                   }
                 },
                 "required": [
-                  "LD-API-Version",
                   "projectKey",
                   "configKey"
                 ],
@@ -10849,12 +10986,6 @@
               "request": {
                 "additionalProperties": false,
                 "properties": {
-                  "LD-API-Version": {
-                    "enum": [
-                      "beta"
-                    ],
-                    "type": "string"
-                  },
                   "configKey": {
                     "type": "string"
                   },
@@ -10866,7 +10997,6 @@
                   }
                 },
                 "required": [
-                  "LD-API-Version",
                   "projectKey",
                   "configKey",
                   "variationKey"
@@ -10918,12 +11048,6 @@
               "request": {
                 "additionalProperties": false,
                 "properties": {
-                  "LD-API-Version": {
-                    "enum": [
-                      "beta"
-                    ],
-                    "type": "string"
-                  },
                   "configKey": {
                     "type": "string"
                   },
@@ -10932,7 +11056,6 @@
                   }
                 },
                 "required": [
-                  "LD-API-Version",
                   "projectKey",
                   "configKey"
                 ],
@@ -10954,12 +11077,6 @@
               "request": {
                 "additionalProperties": false,
                 "properties": {
-                  "LD-API-Version": {
-                    "enum": [
-                      "beta"
-                    ],
-                    "type": "string"
-                  },
                   "configKey": {
                     "type": "string"
                   },
@@ -10968,7 +11085,6 @@
                   }
                 },
                 "required": [
-                  "LD-API-Version",
                   "projectKey",
                   "configKey"
                 ],
@@ -10990,12 +11106,6 @@
               "request": {
                 "additionalProperties": false,
                 "properties": {
-                  "LD-API-Version": {
-                    "enum": [
-                      "beta"
-                    ],
-                    "type": "string"
-                  },
                   "configKey": {
                     "type": "string"
                   },
@@ -11007,7 +11117,6 @@
                   }
                 },
                 "required": [
-                  "LD-API-Version",
                   "projectKey",
                   "configKey",
                   "variationKey"
@@ -11165,12 +11274,6 @@
               "request": {
                 "additionalProperties": false,
                 "properties": {
-                  "LD-API-Version": {
-                    "enum": [
-                      "beta"
-                    ],
-                    "type": "string"
-                  },
                   "filter": {
                     "type": "string"
                   },
@@ -11188,7 +11291,6 @@
                   }
                 },
                 "required": [
-                  "LD-API-Version",
                   "projectKey"
                 ],
                 "type": "object"
@@ -11270,6 +11372,12 @@
                       "description": {
                         "type": "string"
                       },
+                      "evaluationMetricKey": {
+                        "type": "string"
+                      },
+                      "isInverted": {
+                        "type": "boolean"
+                      },
                       "maintainerId": {
                         "type": "string"
                       },
@@ -11288,12 +11396,6 @@
                     },
                     "type": "object"
                   },
-                  "LD-API-Version": {
-                    "enum": [
-                      "beta"
-                    ],
-                    "type": "string"
-                  },
                   "configKey": {
                     "type": "string"
                   },
@@ -11302,7 +11404,6 @@
                   }
                 },
                 "required": [
-                  "LD-API-Version",
                   "projectKey",
                   "configKey"
                 ],
@@ -11347,12 +11448,6 @@
                     ],
                     "type": "object"
                   },
-                  "LD-API-Version": {
-                    "enum": [
-                      "beta"
-                    ],
-                    "type": "string"
-                  },
                   "configKey": {
                     "type": "string"
                   },
@@ -11361,7 +11456,6 @@
                   }
                 },
                 "required": [
-                  "LD-API-Version",
                   "projectKey",
                   "configKey"
                 ],
@@ -11394,6 +11488,31 @@
                       },
                       "instructions": {
                         "type": "string"
+                      },
+                      "judgeConfiguration": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "judges": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "judgeConfigKey": {
+                                  "type": "string"
+                                },
+                                "samplingRate": {
+                                  "type": "number"
+                                }
+                              },
+                              "required": [
+                                "judgeConfigKey",
+                                "samplingRate"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object"
                       },
                       "messages": {
                         "items": {
@@ -11430,15 +11549,34 @@
                       },
                       "state": {
                         "type": "string"
+                      },
+                      "toolKeys": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "tools": {
+                        "items": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "key": {
+                              "type": "string"
+                            },
+                            "version": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "key",
+                            "version"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
                       }
                     },
                     "type": "object"
-                  },
-                  "LD-API-Version": {
-                    "enum": [
-                      "beta"
-                    ],
-                    "type": "string"
                   },
                   "configKey": {
                     "type": "string"
@@ -11451,7 +11589,6 @@
                   }
                 },
                 "required": [
-                  "LD-API-Version",
                   "projectKey",
                   "configKey",
                   "variationKey"
@@ -11506,6 +11643,9 @@
                     ],
                     "type": "object"
                   },
+                  "dryRun": {
+                    "type": "boolean"
+                  },
                   "featureFlagKey": {
                     "type": "string"
                   },
@@ -11532,7 +11672,7 @@
           "name": "update-feature-flag"
         }
       ],
-      "image": "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.4.2",
+      "image": "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.6.0",
       "permissions": {
         "network": {
           "outbound": {
@@ -12831,7 +12971,7 @@
       ],
       "metadata": {
         "stars": 4008,
-        "last_updated": "2026-03-12T23:57:04Z"
+        "last_updated": "2026-03-16T12:36:39Z"
       },
       "repository_url": "https://github.com/makenotion/notion-mcp-server",
       "tags": [
@@ -12893,6 +13033,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -12910,7 +13051,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -12925,7 +13068,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -12936,7 +13081,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -12996,7 +13143,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -13161,6 +13310,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -13178,7 +13328,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -13193,7 +13345,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -13204,7 +13358,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -13264,7 +13420,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -13409,6 +13567,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -13426,7 +13585,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -13441,7 +13602,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -13452,7 +13615,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -13512,7 +13677,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -13646,6 +13813,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -13663,7 +13831,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -13678,7 +13848,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -13689,7 +13861,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -13749,7 +13923,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -13893,6 +14069,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -13910,7 +14087,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -13925,7 +14104,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -13936,7 +14117,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -13996,7 +14179,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -14124,6 +14309,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -14141,7 +14327,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -14156,7 +14344,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -14167,7 +14357,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -14227,7 +14419,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -14361,6 +14555,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -14378,7 +14573,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -14393,7 +14590,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -14404,7 +14603,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -14464,7 +14665,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -14601,6 +14804,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -14618,7 +14822,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -14633,7 +14839,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -14644,7 +14852,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -14704,7 +14914,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -14845,6 +15057,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -14862,7 +15075,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -14877,7 +15092,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -14888,7 +15105,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -14948,7 +15167,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -15087,6 +15308,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -15104,7 +15326,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -15119,7 +15343,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -15130,7 +15356,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -15190,7 +15418,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -15336,6 +15566,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -15353,7 +15584,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -15368,7 +15601,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -15379,7 +15614,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -15439,7 +15676,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -15627,6 +15866,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -15644,7 +15884,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -15659,7 +15901,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -15670,7 +15914,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -15730,7 +15976,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -15886,6 +16134,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -15903,7 +16152,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -15918,7 +16169,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -15929,7 +16182,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -15989,7 +16244,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -16165,6 +16422,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -16182,7 +16440,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -16197,7 +16457,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -16208,7 +16470,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -16268,7 +16532,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -16433,6 +16699,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -16450,7 +16717,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -16465,7 +16734,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -16476,7 +16747,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -16536,7 +16809,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -16670,6 +16945,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -16687,7 +16963,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -16702,7 +16980,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -16713,7 +16993,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -16773,7 +17055,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -16916,6 +17200,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -16933,7 +17218,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -16948,7 +17235,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -16959,7 +17248,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -17019,7 +17310,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -17153,6 +17446,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -17170,7 +17464,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -17185,7 +17481,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -17196,7 +17494,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -17256,7 +17556,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -17390,6 +17692,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -17407,7 +17710,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -17422,7 +17727,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -17433,7 +17740,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -17493,7 +17802,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -17631,6 +17942,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -17648,7 +17960,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -17663,7 +17977,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -17674,7 +17990,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -17734,7 +18052,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -17882,6 +18202,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -17899,7 +18220,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -17914,7 +18237,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -17925,7 +18250,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -17985,7 +18312,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -18130,6 +18459,7 @@
                     "type": "string"
                   },
                   "type": {
+                    "const": "database_id",
                     "type": "string"
                   }
                 },
@@ -18147,7 +18477,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "page_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -18162,7 +18494,9 @@
                         "format": "uuid",
                         "type": "string"
                       },
-                      "type": {}
+                      "type": {
+                        "const": "database_id"
+                      }
                     },
                     "required": [
                       "type",
@@ -18173,7 +18507,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -18233,7 +18569,9 @@
                   {
                     "additionalProperties": true,
                     "properties": {
-                      "type": {}
+                      "type": {
+                        "const": "workspace"
+                      }
                     },
                     "required": [
                       "type"
@@ -18332,7 +18670,7 @@
           "name": "API-update-a-data-source"
         }
       ],
-      "image": "ghcr.io/stacklok/dockyard/npx/notion:2.1.0",
+      "image": "ghcr.io/stacklok/dockyard/npx/notion:2.2.1",
       "permissions": {
         "network": {
           "outbound": {
@@ -24644,7 +24982,7 @@
       ],
       "metadata": {
         "stars": 8801,
-        "last_updated": "2026-03-15T12:47:02Z"
+        "last_updated": "2026-03-16T17:35:25Z"
       },
       "repository_url": "https://github.com/Arize-ai/phoenix",
       "tags": [
@@ -24667,18 +25005,26 @@
               },
               "examples": {
                 "items": {
-                  "additionalProperties": false,
                   "properties": {
                     "input": {
                       "additionalProperties": {},
+                      "propertyNames": {
+                        "type": "string"
+                      },
                       "type": "object"
                     },
                     "metadata": {
                       "additionalProperties": {},
+                      "propertyNames": {
+                        "type": "string"
+                      },
                       "type": "object"
                     },
                     "output": {
                       "additionalProperties": {},
+                      "propertyNames": {
+                        "type": "string"
+                      },
                       "type": "object"
                     }
                   },
@@ -24904,6 +25250,12 @@
               },
               "startTime": {
                 "type": "string"
+              },
+              "traceIds": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
               }
             },
             "required": [
@@ -25090,7 +25442,7 @@
           "name": "upsert-prompt"
         }
       ],
-      "image": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:2.3.7",
+      "image": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:3.1.3",
       "permissions": {
         "network": {
           "outbound": {
@@ -30514,7 +30866,7 @@
       ],
       "metadata": {
         "stars": 2518,
-        "last_updated": "2026-03-12T23:57:10Z"
+        "last_updated": "2026-03-16T15:57:38Z"
       },
       "repository_url": "https://github.com/supabase-community/supabase-mcp",
       "tags": [
@@ -30652,7 +31004,7 @@
                 "type": "string"
               },
               "region": {
-                "description": "The region to create the project in",
+                "description": "The region to create the project in.",
                 "enum": [
                   "us-west-1",
                   "us-east-1",
@@ -30858,7 +31210,7 @@
             "idempotentHint": true,
             "openWorldHint": false
           },
-          "description": "Gets the cost of creating a new project or branch. Never assume organization as costs can be different for each.",
+          "description": "Gets the cost of creating a new project or branch. Never assume organization as costs can be different for each. Always repeat the cost to the user and confirm their understanding before proceeding.",
           "inputSchema": {
             "properties": {
               "organization_id": {
@@ -30922,6 +31274,7 @@
                 "type": "string"
               },
               "service": {
+                "description": "The service to fetch logs for",
                 "enum": [
                   "api",
                   "branch-action",
@@ -31160,7 +31513,7 @@
             "idempotentHint": true,
             "openWorldHint": false
           },
-          "description": "Lists all tables in one or more schemas.",
+          "description": "Lists all tables in one or more schemas. By default returns a compact summary. Set verbose to true to include column details, primary keys, and foreign key constraints.",
           "inputSchema": {
             "properties": {
               "project_id": {
@@ -31175,11 +31528,17 @@
                   "type": "string"
                 },
                 "type": "array"
+              },
+              "verbose": {
+                "default": false,
+                "description": "When true, includes column details, primary keys, and foreign key constraints. Defaults to false for a compact summary.",
+                "type": "boolean"
               }
             },
             "required": [
               "project_id",
-              "schemas"
+              "schemas",
+              "verbose"
             ],
             "type": "object"
           },
@@ -31323,7 +31682,7 @@
           "name": "search_docs"
         }
       ],
-      "image": "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.6.3",
+      "image": "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.7.0",
       "permissions": {
         "network": {
           "outbound": {
