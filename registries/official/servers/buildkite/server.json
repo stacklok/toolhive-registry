@@ -8,7 +8,7 @@
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-03-12T23:56:58Z",
+            "last_updated": "2026-03-18T05:37:45Z",
             "stars": 48
           },
           "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -52,14 +52,12 @@
             },
             {
               "annotations": {
-                "readOnlyHint": false,
                 "title": "Create Build"
               },
               "description": "Trigger a new build on a Buildkite pipeline for a specific commit and branch, with optional environment variables, metadata, and author information",
               "inputSchema": {
                 "properties": {
                   "branch": {
-                    "description": "The branch to build",
                     "type": "string"
                   },
                   "commit": {
@@ -69,13 +67,12 @@
                   "environment": {
                     "description": "Environment variables to set for the build",
                     "items": {
+                      "additionalProperties": false,
                       "properties": {
                         "key": {
-                          "description": "The environment variable name",
                           "type": "string"
                         },
                         "value": {
-                          "description": "The environment variable value",
                           "type": "string"
                         }
                       },
@@ -85,27 +82,27 @@
                       ],
                       "type": "object"
                     },
-                    "type": "array"
+                    "type": [
+                      "null",
+                      "array"
+                    ]
                   },
                   "ignore_branch_filters": {
-                    "default": false,
                     "description": "Whether to ignore branch filters when triggering the build",
                     "type": "boolean"
                   },
                   "message": {
-                    "description": "The commit message for the build",
                     "type": "string"
                   },
                   "metadata": {
                     "description": "Meta-data values to set for the build",
                     "items": {
+                      "additionalProperties": false,
                       "properties": {
                         "key": {
-                          "description": "The meta-data item key",
                           "type": "string"
                         },
                         "value": {
-                          "description": "The meta-data item value",
                           "type": "string"
                         }
                       },
@@ -115,7 +112,10 @@
                       ],
                       "type": "object"
                     },
-                    "type": "array"
+                    "type": [
+                      "null",
+                      "array"
+                    ]
                   },
                   "org_slug": {
                     "type": "string"
@@ -137,7 +137,6 @@
             },
             {
               "annotations": {
-                "readOnlyHint": false,
                 "title": "Create Pipeline"
               },
               "description": "Set up a new CI/CD pipeline in Buildkite with YAML configuration, repository connection, and cluster assignment",
@@ -148,15 +147,15 @@
                     "type": "boolean"
                   },
                   "cluster_id": {
+                    "description": "The cluster ID to assign the pipeline to",
                     "type": "string"
                   },
                   "configuration": {
-                    "description": "The pipeline configuration in YAML format. Contains the build steps and pipeline settings. If not provided, a basic configuration will be used",
+                    "description": "The pipeline configuration in YAML format",
                     "type": "string"
                   },
                   "create_webhook": {
-                    "default": true,
-                    "description": "Create a GitHub webhook to trigger builds in response to pull-request and push events",
+                    "description": "Create a GitHub webhook to trigger builds on pull-request and push events",
                     "type": "boolean"
                   },
                   "default_branch": {
@@ -170,10 +169,10 @@
                     "type": "string"
                   },
                   "org_slug": {
-                    "description": "The organization slug",
                     "type": "string"
                   },
                   "repository_url": {
+                    "description": "The Git repository URL",
                     "type": "string"
                   },
                   "skip_queued_branch_builds": {
@@ -181,12 +180,14 @@
                     "type": "boolean"
                   },
                   "tags": {
-                    "description": "Tags to apply to the pipeline. These can be used for filtering and organization",
+                    "description": "Tags to apply to the pipeline for filtering and organization",
                     "items": {
-                      "description": "A tag to apply to the pipeline",
                       "type": "string"
                     },
-                    "type": "array"
+                    "type": [
+                      "null",
+                      "array"
+                    ]
                   }
                 },
                 "required": [
@@ -194,8 +195,7 @@
                   "name",
                   "repository_url",
                   "cluster_id",
-                  "configuration",
-                  "create_webhook"
+                  "configuration"
                 ],
                 "type": "object"
               },
@@ -245,15 +245,15 @@
                     "type": "string"
                   },
                   "detail_level": {
-                    "description": "Response detail level: 'summary' (essential fields), 'detailed' (medium detail), or 'full' (complete build data). Default: 'detailed'",
+                    "description": "Response detail level: 'summary'\\, 'detailed' (default)\\, or 'full'",
                     "type": "string"
                   },
                   "include_agent": {
-                    "description": "Include full agent details in job objects. When false (default), only agent.id is included to reduce response size.",
+                    "description": "Include full agent details in job objects. When false (default)\\, only agent.id is included",
                     "type": "boolean"
                   },
                   "job_state": {
-                    "description": "Filter jobs by state. Comma-separated for multiple states (e.g., \"failed,broken,canceled\"). Valid states: scheduled, running, passed, failed, canceled, skipped, broken, waiting, waiting_failed, blocked, etc.",
+                    "description": "Filter jobs by state. Comma-separated for multiple states (e.g.\\, 'failed\\,broken\\,canceled')",
                     "type": "string"
                   },
                   "org_slug": {
@@ -358,7 +358,7 @@
               "inputSchema": {
                 "properties": {
                   "include_failure_expanded": {
-                    "description": "Include the expanded failure details such as full error messages and stack traces. This can be used to explain and diganose the cause of test failures.",
+                    "description": "Include expanded failure details such as full error messages and stack traces",
                     "type": "boolean"
                   },
                   "org_slug": {
@@ -366,14 +366,11 @@
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
+                    "type": "integer"
                   },
-                  "perPage": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "type": "integer"
                   },
                   "run_id": {
                     "type": "string"
@@ -400,7 +397,7 @@
               "inputSchema": {
                 "properties": {
                   "detail_level": {
-                    "description": "Response detail level: 'summary', 'detailed', or 'full' (default)",
+                    "description": "Response detail level: 'summary'\\, 'detailed'\\, or 'full' (default)",
                     "type": "string"
                   },
                   "org_slug": {
@@ -488,14 +485,11 @@
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
+                    "type": "integer"
                   },
-                  "perPage": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "type": "integer"
                   },
                   "pipeline_slug": {
                     "type": "string"
@@ -526,14 +520,11 @@
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
+                    "type": "integer"
                   },
-                  "perPage": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "type": "integer"
                   },
                   "pipeline_slug": {
                     "type": "string"
@@ -567,14 +558,11 @@
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
+                    "type": "integer"
                   },
-                  "perPage": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "type": "integer"
                   },
                   "pipeline_slug": {
                     "type": "string"
@@ -595,7 +583,7 @@
                 "readOnlyHint": true,
                 "title": "List Builds"
               },
-              "description": "List all builds for a pipeline with their status, commit information, and metadata",
+              "description": "List builds for a pipeline or across all pipelines in an organization. When pipeline_slug is omitted, lists builds across all pipelines in the organization",
               "inputSchema": {
                 "properties": {
                   "branch": {
@@ -611,7 +599,7 @@
                     "type": "string"
                   },
                   "detail_level": {
-                    "description": "Response detail level: 'summary' (essential fields), 'detailed' (medium detail), or 'full' (complete build data). Default: 'summary'",
+                    "description": "Response detail level: 'summary' (default)\\, 'detailed'\\, or 'full'",
                     "type": "string"
                   },
                   "org_slug": {
@@ -619,23 +607,23 @@
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
-                    "type": "number"
+                    "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "type": "number"
+                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "type": "integer"
                   },
                   "pipeline_slug": {
+                    "description": "Filter builds by pipeline. When omitted\\, lists builds across all pipelines in the organization",
                     "type": "string"
                   },
                   "state": {
-                    "description": "Filter builds by state. Supports actual states (scheduled, running, passed, failed, canceled, skipped, etc.)",
+                    "description": "Filter builds by state (scheduled\\, running\\, passed\\, failed\\, canceled\\, skipped)",
                     "type": "string"
                   }
                 },
                 "required": [
-                  "org_slug",
-                  "pipeline_slug"
+                  "org_slug"
                 ],
                 "type": "object"
               },
@@ -657,14 +645,11 @@
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
+                    "type": "integer"
                   },
-                  "perPage": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -688,14 +673,11 @@
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
+                    "type": "integer"
                   },
-                  "perPage": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -714,7 +696,7 @@
               "inputSchema": {
                 "properties": {
                   "detail_level": {
-                    "description": "Response detail level: 'summary' (default), 'detailed', or 'full'",
+                    "description": "Response detail level: 'summary' (default)\\, 'detailed'\\, or 'full'",
                     "type": "string"
                   },
                   "name": {
@@ -726,14 +708,11 @@
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
+                    "type": "integer"
                   },
-                  "perPage": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "type": "integer"
                   },
                   "repository": {
                     "description": "Filter pipelines by repository URL",
@@ -760,14 +739,11 @@
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
-                    "minimum": 1,
-                    "type": "number"
+                    "type": "integer"
                   },
-                  "perPage": {
-                    "description": "Results per page for pagination (min 1, max 100)",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "number"
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "type": "integer"
                   },
                   "test_suite_slug": {
                     "type": "string"
@@ -786,28 +762,23 @@
                 "readOnlyHint": true,
                 "title": "Read Logs"
               },
-              "description": "Read log entries from the file, optionally starting from a specific row number. ⚠️ ALWAYS use 'limit' parameter to avoid excessive tokens. For recent failures, use 'tail_logs' instead. Recommended limits: investigation (100-500), exploration (use seek + small limits). The json format: {ts: timestamp_ms, c: content, rn: row_number}.",
+              "description": "Read log entries from the file, optionally starting from a specific row number. ALWAYS use 'limit' parameter to avoid excessive tokens. For recent failures, use 'tail_logs' instead. Recommended limits: investigation (100-500), exploration (use seek + small limits). The json format: {ts: timestamp_ms, c: content, rn: row_number}.",
               "inputSchema": {
                 "properties": {
                   "build_number": {
                     "type": "string"
                   },
                   "cache_ttl": {
-                    "description": "Cache TTL for non-terminal jobs (default: \"30s\")",
                     "type": "string"
                   },
                   "force_refresh": {
-                    "description": "Force refresh cached entry (default: false)",
                     "type": "boolean"
                   },
                   "job_id": {
                     "type": "string"
                   },
                   "limit": {
-                    "default": 100,
-                    "description": "Limit number of entries returned (default: 100, 0 = no limit)",
-                    "minimum": 0,
-                    "type": "number"
+                    "type": "integer"
                   },
                   "org_slug": {
                     "type": "string"
@@ -816,9 +787,7 @@
                     "type": "string"
                   },
                   "seek": {
-                    "description": "Row number to start from (0-based, default: 0)",
-                    "minimum": 0,
-                    "type": "number"
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -836,70 +805,53 @@
                 "readOnlyHint": true,
                 "title": "Search Logs"
               },
-              "description": "Search log entries using regex patterns with optional context lines. 💡 For recent failures, try 'tail_logs' first, then use search_logs with patterns like 'error|failed|exception' and limit: 10-20. The json format: {ts: timestamp_ms, c: content, rn: row_number}.",
+              "description": "Search log entries using regex patterns with optional context lines. For recent failures, try 'tail_logs' first, then use search_logs with patterns like 'error|failed|exception' and limit: 10-20. The json format: {ts: timestamp_ms, c: content, rn: row_number}.",
               "inputSchema": {
                 "properties": {
                   "after_context": {
-                    "description": "Show NUM lines after each match (default: 0)",
-                    "minimum": 0,
-                    "type": "number"
+                    "type": "integer"
                   },
                   "before_context": {
-                    "description": "Show NUM lines before each match (default: 0)",
-                    "minimum": 0,
-                    "type": "number"
+                    "type": "integer"
                   },
                   "build_number": {
                     "type": "string"
                   },
                   "cache_ttl": {
-                    "description": "Cache TTL for non-terminal jobs (default: \"30s\")",
                     "type": "string"
                   },
                   "case_sensitive": {
-                    "description": "Case-sensitive search (default: false)",
                     "type": "boolean"
                   },
                   "context": {
-                    "description": "Show NUM lines before and after each match (default: 0)",
-                    "minimum": 0,
-                    "type": "number"
+                    "type": "integer"
                   },
                   "force_refresh": {
-                    "description": "Force refresh cached entry (default: false)",
                     "type": "boolean"
                   },
                   "invert_match": {
-                    "description": "Show non-matching lines (default: false)",
                     "type": "boolean"
                   },
                   "job_id": {
                     "type": "string"
                   },
                   "limit": {
-                    "default": 100,
-                    "description": "Limit number of matches returned (default: 100, 0 = no limit)",
-                    "minimum": 0,
-                    "type": "number"
+                    "type": "integer"
                   },
                   "org_slug": {
                     "type": "string"
                   },
                   "pattern": {
-                    "description": "Regex pattern to search for",
                     "type": "string"
                   },
                   "pipeline_slug": {
                     "type": "string"
                   },
                   "reverse": {
-                    "description": "Search backwards from end/seek position (default: false)",
                     "type": "boolean"
                   },
                   "seek_start": {
-                    "description": "Start search from this row number (0-based, useful with reverse: true)",
-                    "minimum": 0,
-                    "type": "number"
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -918,18 +870,16 @@
                 "readOnlyHint": true,
                 "title": "Tail Logs"
               },
-              "description": "Show the last N entries from the log file. 🔥 RECOMMENDED for failure diagnosis - most build failures appear in the final log entries. More token-efficient than read_logs for recent issues. The json format: {ts: timestamp_ms, c: content, rn: row_number}.",
+              "description": "Show the last N entries from the log file. RECOMMENDED for failure diagnosis - most build failures appear in the final log entries. More token-efficient than read_logs for recent issues. The json format: {ts: timestamp_ms, c: content, rn: row_number}.",
               "inputSchema": {
                 "properties": {
                   "build_number": {
                     "type": "string"
                   },
                   "cache_ttl": {
-                    "description": "Cache TTL for non-terminal jobs (default: \"30s\")",
                     "type": "string"
                   },
                   "force_refresh": {
-                    "description": "Force refresh cached entry (default: false)",
                     "type": "boolean"
                   },
                   "job_id": {
@@ -942,10 +892,7 @@
                     "type": "string"
                   },
                   "tail": {
-                    "default": 10,
-                    "description": "Number of lines to show from end (default: 10)",
-                    "minimum": 1,
-                    "type": "number"
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -960,7 +907,6 @@
             },
             {
               "annotations": {
-                "readOnlyHint": false,
                 "title": "Unblock Job"
               },
               "description": "Unblock a blocked job in a Buildkite build to allow it to continue execution",
@@ -970,8 +916,10 @@
                     "type": "string"
                   },
                   "fields": {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
                     "description": "JSON object containing string values for block step fields",
-                    "properties": {},
                     "type": "object"
                   },
                   "job_id": {
@@ -996,7 +944,6 @@
             },
             {
               "annotations": {
-                "readOnlyHint": false,
                 "title": "Update Pipeline"
               },
               "description": "Modify an existing Buildkite pipeline's configuration, repository, settings, or metadata",
@@ -1010,7 +957,7 @@
                     "type": "string"
                   },
                   "configuration": {
-                    "description": "The pipeline configuration in YAML format. Contains the build steps and pipeline settings. If not provided, the existing configuration will be used",
+                    "description": "The pipeline configuration in YAML format",
                     "type": "string"
                   },
                   "default_branch": {
@@ -1030,7 +977,7 @@
                     "type": "string"
                   },
                   "repository_url": {
-                    "description": "The Git repository URL to use for the pipeline",
+                    "description": "The Git repository URL",
                     "type": "string"
                   },
                   "skip_queued_branch_builds": {
@@ -1038,17 +985,21 @@
                     "type": "boolean"
                   },
                   "tags": {
-                    "description": "Tags to apply to the pipeline. These can be used for filtering and organization",
+                    "description": "Tags to apply to the pipeline for filtering and organization",
                     "items": {
-                      "description": "A tag to apply to the pipeline",
                       "type": "string"
                     },
-                    "type": "array"
+                    "type": [
+                      "null",
+                      "array"
+                    ]
                   }
                 },
                 "required": [
                   "org_slug",
-                  "pipeline_slug"
+                  "pipeline_slug",
+                  "repository_url",
+                  "configuration"
                 ],
                 "type": "object"
               },
@@ -1066,38 +1017,6 @@
                 "type": "object"
               },
               "name": "user_token_organization"
-            },
-            {
-              "annotations": {
-                "readOnlyHint": true,
-                "title": "Wait for Build"
-              },
-              "description": "Wait for a specific build to complete",
-              "inputSchema": {
-                "properties": {
-                  "build_number": {
-                    "type": "string"
-                  },
-                  "org_slug": {
-                    "type": "string"
-                  },
-                  "pipeline_slug": {
-                    "type": "string"
-                  },
-                  "wait_timeout": {
-                    "default": 300,
-                    "description": "Timeout in seconds to wait for job completion",
-                    "type": "number"
-                  }
-                },
-                "required": [
-                  "org_slug",
-                  "pipeline_slug",
-                  "build_number"
-                ],
-                "type": "object"
-              },
-              "name": "wait_for_build"
             }
           ],
           "tools": [
@@ -1127,8 +1046,7 @@
             "tail_logs",
             "unblock_job",
             "update_pipeline",
-            "user_token_organization",
-            "wait_for_build"
+            "user_token_organization"
           ]
         }
       }
