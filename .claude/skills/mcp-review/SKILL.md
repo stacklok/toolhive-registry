@@ -1,221 +1,99 @@
 ---
 name: mcp-review
-description: Review MCP server specifications and updates for compliance, security, and quality. Use when evaluating server.json files, PRs adding/updating servers, or assessing MCP server changes.
-allowed-tools: Read, Grep, Glob, Bash, WebFetch
+description: >-
+  Review MCP server specifications and updates for compliance, security, and quality.
+  Use when evaluating server.json files, PRs adding/updating servers, or assessing MCP server changes.
+  NOT for creating new entries (use add-mcp-server instead).
+allowed-tools: Read Grep Glob Bash WebFetch
 ---
 
 # MCP Server Specification Review
 
-You are an expert reviewer for the ToolHive Registry, a curated catalog of MCP (Model Context Protocol) servers. Your role is to evaluate server.json files and MCP server submissions for compliance, security, quality, and completeness.
+You are an expert reviewer for the ToolHive Registry. Evaluate server.json files and MCP server submissions for spec compliance, security, registry inclusion criteria, and completeness.
 
-## Registry Inclusion Criteria
+For detailed field specs, see [server-json-spec.md](references/server-json-spec.md).
+For full registry inclusion criteria, see [registry-criteria.md](references/registry-criteria.md).
 
-All MCP servers in the ToolHive Registry must meet these criteria from the official guidelines:
+## Review Workflow
 
-### Open Source Standards (REQUIRED)
+### Step 1: Identify Change Scope
 
-- **Fully open source** - No exceptions; source code must be publicly available
-- **Acceptable license** - Permissive licenses only:
-  - Accepted: `Apache-2.0`, `MIT`, `BSD-2-Clause`, `BSD-3-Clause`, `ISC`, `MPL-2.0`
-  - NOT accepted: `AGPL-3.0`, `GPL-2.0`, `GPL-3.0` (copyleft restrictions prevent integration)
+Determine what you're reviewing:
 
-### Security Requirements
+- **New server submission** → Full review (spec + repository assessment + inclusion criteria)
+- **Version update** → Focused review (changed fields, both identifier and _meta key updated, changelog)
+- **Config change** → Targeted review (just the changed aspects + security implications)
 
-| Requirement | Description | How to Verify |
-|-------------|-------------|---------------|
-| **Provenance** | Software provenance verification via Sigstore or GitHub Attestations | Check for `provenance` field in `_meta` extensions |
-| **SLSA Compliance** | Supply chain security assessment | Review build workflows for SLSA compliance |
-| **Pinned Dependencies** | Dependencies and GitHub Actions must be pinned | Check lockfiles and workflow files |
-| **SBOM** | Published Software Bill of Materials | Look for SBOM in releases or repository |
+### Step 2: Validate server.json
 
-### Development Practices
+Read the server.json and check, in order:
 
-- **Automated dependency updates** - Dependabot or Renovate configured
-- **Security scanning** - CVE monitoring enabled (Dependabot alerts, Snyk, etc.)
-- **Code quality** - Linting and quality checks in CI
-- **MCP API compliance** - Full MCP API specification support
+1. **Server type** — `packages` (container) or `remotes` (remote)?
+2. **Required top-level fields** — `$schema`, `name`, `description`, `title`, `version`, `repository`, `icons`
+3. **Package/remote config** — identifier format, transport type valid for server type
+4. **Extension key match** — `_meta` key must exactly equal `packages[0].identifier` or `remotes[0].url`
+5. **Extension fields** — `tier`, `status`, `tools`, `overview` all present and valid
+6. **Icons** — `icons` array present with correct `icon.svg` URL
+7. **Overview format** — starts with `## Title\n\n` followed by 3-5 sentences
+8. **No auto-populated fields** — reject if `metadata.*` or `tool_definitions` present in new submissions
+9. **Remote-specific** — tags include `"remote"`; `oauth_config` present if OAuth required
+10. **Container-specific** — `transport.url` present when type is `streamable-http`
 
-### Quality Indicators
+Run `task catalog:validate` to catch schema-level issues.
 
-**Repository Health:**
-- Active development (recent commits)
-- Community engagement (stars, forks, contributors)
-- Issue/PR responsiveness
+### Step 3: Security Review
 
-**Code Excellence:**
-- Automated tests with coverage
-- Semantic versioning (vX.Y.Z tags)
-- Maintained changelog (CHANGELOG.md or GitHub Releases)
+**Must verify:**
 
-**Community Responsiveness:**
-- Timely issue and PR responses
-- Regular release cadence
-- Active bug resolution
+- [ ] Image tag pinned to specific version (never `latest`)
+- [ ] Secrets marked with `isSecret: true` in `environmentVariables`
+- [ ] No filesystem paths in `permissions` (users configure mounts at runtime)
+- [ ] Network permissions scoped — no `insecure_allow_all: true` unless justified (e.g., fetch servers)
+- [ ] Extension key matches identifier/URL exactly
+- [ ] Provenance block present (Sigstore or GitHub Attestations) — applies to all tiers
 
-**Documentation:**
-- Clear README with setup instructions
-- API/tool documentation
-- Deployment guidance
+### Step 4: Repository Assessment (New Submissions)
 
----
+For new servers, assess the source repository against registry inclusion criteria.
+See [registry-criteria.md](references/registry-criteria.md) for the full checklist and verification commands.
 
-## server.json Review Process
+**Critical checks** (use `gh` CLI, GitHub MCP tools, or WebFetch — whichever is available):
 
-### 1. Determine Server Type
+1. **License** — fetch the repo's license; must be permissive (see quick reference)
+2. **Dependency automation** — look for Dependabot (`.github/dependabot.yml`) OR Renovate (`renovate.json`, `.renovaterc`, `.renovaterc.json`, `.github/renovate.json`)
+3. **Security policy** — check for `SECURITY.md`
+4. **CI workflows** — list `.github/workflows/` contents; confirm CI runs and passes
+5. **Unanswered issues** — issues open 3-4 weeks without any response is a red flag
+6. **Recent activity** — check last 5 commits for recency
+7. **Releases** — list recent releases; confirm semver tags and changelog
 
-| Type | Identifier | Valid Transports |
-|------|------------|------------------|
-| **Container** | `packages` field | `stdio`, `streamable-http`, `sse` |
-| **Remote** | `remotes` field | `streamable-http`, `sse` (NOT `stdio`) |
+**Inclusion criteria summary:**
 
-### 2. Validate Top-Level Fields
+| Category | What to Check |
+|----------|---------------|
+| Open source | Public repo, permissive license (Apache-2.0, MIT, BSD-2-Clause, BSD-3-Clause) |
+| Security | Provenance, pinned deps, security scanning, sensitive info handling, no known CVEs, SECURITY.md |
+| Quality | CI present, tests exist, linting, code review practices |
+| Stability | Semver tags, low breaking change frequency, backward compat |
+| Releases | CI-based automation, regular cadence, changelog maintained |
+| Documentation | README with setup, tool docs, deployment guidance |
+| Community | Issues responded within 3-4 weeks, active development, contributor diversity, org backing |
+| MCP compliance | Protocol support, appropriate transport type |
 
-```json
-{
-  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/<server-name>",
-  "description": "Clear one-line description",
-  "title": "<server-name>",
-  "repository": { "url": "https://github.com/org/repo", "source": "github" },
-  "version": "1.0.0"
-}
-```
+### Step 5: Version Update Review (Existing Servers)
 
-### 3. Validate Package/Remote Configuration
+For updates to existing entries:
 
-**Container servers:**
-```json
-{
-  "packages": [{
-    "registryType": "oci",
-    "identifier": "ghcr.io/org/server:v1.0.0",
-    "transport": { "type": "stdio" },
-    "environmentVariables": [
-      { "name": "API_KEY", "description": "...", "isRequired": true, "isSecret": true }
-    ]
-  }]
-}
-```
+1. **What changed?** — Diff the fields
+2. **Both locations updated?** — Image tag in `packages[0].identifier` AND `_meta` extension key
+3. **Changelog** — What's new in the upstream release?
+4. **Tool changes** — Tools added or removed?
+5. **Breaking changes** — Transport, env vars, or auth changes?
+6. **Security** — New permissions, scopes, or dependencies?
 
-**Remote servers:**
-```json
-{
-  "remotes": [{
-    "type": "streamable-http",
-    "url": "https://api.example.com/mcp"
-  }]
-}
-```
+Focus review on changed aspects, not full re-review.
 
-### 4. Validate `_meta` Extensions
-
-The `_meta` block must follow this nesting:
-```json
-{
-  "_meta": {
-    "io.modelcontextprotocol.registry/publisher-provided": {
-      "io.github.stacklok": {
-        "<extension-key>": {
-          "tier": "Community",
-          "status": "Active",
-          "tags": ["..."],
-          "tools": ["..."]
-        }
-      }
-    }
-  }
-}
-```
-
-**Critical:** The `<extension-key>` must exactly match:
-- For containers: `packages[0].identifier` (e.g., `ghcr.io/org/server:v1.0.0`)
-- For remotes: `remotes[0].url` (e.g., `https://api.example.com/mcp`)
-
-### 5. Security Review
-
-**CRITICAL - Must verify:**
-
-1. **No filesystem paths** in `permissions` - Users configure mounts at runtime
-2. **Secrets marked** with `isSecret: true` in `environmentVariables`
-3. **Network scoped** - No `insecure_allow_all: true` unless justified
-4. **Specific image tags** - Never use `latest`, always pin versions
-5. **Extension key matches** - `_meta` key must match `identifier` or `url`
-
-**Supply Chain Security (in `_meta` extensions):**
-```json
-{
-  "provenance": {
-    "cert_issuer": "https://token.actions.githubusercontent.com",
-    "repository_uri": "https://github.com/org/repo",
-    "runner_environment": "github-hosted",
-    "signer_identity": "/.github/workflows/release.yml",
-    "sigstore_url": "tuf-repo-cdn.sigstore.dev"
-  }
-}
-```
-
----
-
-## Repository Assessment
-
-When reviewing a new MCP server submission, assess the source repository:
-
-### Quick Assessment Checklist
-
-```
-Repository: <url>
-
-[ ] Open Source
-    [ ] Public repository
-    [ ] Permissive license (Apache-2.0, MIT, BSD)
-    [ ] NOT copyleft (AGPL, GPL)
-
-[ ] Security
-    [ ] Signed releases or provenance attestations
-    [ ] Dependabot/Renovate enabled
-    [ ] Security policy (SECURITY.md)
-    [ ] No known CVEs in dependencies
-
-[ ] Quality
-    [ ] README with clear instructions
-    [ ] CI/CD pipeline present
-    [ ] Tests exist
-    [ ] Recent activity (commits in last 6 months)
-    [ ] Semantic versioning
-
-[ ] MCP Compliance
-    [ ] Implements MCP protocol correctly
-    [ ] Tools documented
-    [ ] Transport type appropriate
-```
-
-### Repository Health Signals
-
-**Green flags:**
-- Regular commits and releases
-- Active issue triage
-- Multiple contributors
-- Good test coverage
-- Clear documentation
-
-**Yellow flags (investigate):**
-- No recent activity (>6 months)
-- Many open issues without responses
-- Missing tests
-- Incomplete documentation
-
-**Red flags (likely reject):**
-- Copyleft license (AGPL, GPL)
-- No source code available
-- Known unpatched vulnerabilities
-- Abandoned project
-- No clear maintainer
-
----
-
-## Review Output Format
-
-Provide structured feedback:
+## Output Format
 
 ```markdown
 ## MCP Server Review
@@ -234,28 +112,33 @@ Provide structured feedback:
 | Open Source | Pass/Fail | |
 | License | Pass/Fail | <license> |
 | Security Practices | Pass/Fail | |
-| Development Quality | Pass/Fail | |
+| Code Quality | Pass/Fail | |
+| Stability | Pass/Fail | |
 | Documentation | Pass/Fail | |
+| Community | Pass/Fail | |
 
 ### Spec Compliance
 
-| Field | Status | Notes |
+| Check | Status | Notes |
 |-------|--------|-------|
-| Top-level fields | Pass/Fail | |
+| Required top-level fields | Pass/Fail | |
 | Package/Remote config | Pass/Fail | |
 | Extension key match | Pass/Fail | |
 | Transport valid | Pass/Fail | |
+| Icons present | Pass/Fail | |
+| Overview format | Pass/Fail | |
 | Tools listed | Pass/Fail | |
-| Security fields | Pass/Fail | |
+| No auto-populated fields | Pass/Fail | |
+| Tags (remote tag if applicable) | Pass/Fail | |
 
 ### Security Review
 
-- [ ] No filesystem paths in permissions
-- [ ] Secrets properly marked (isSecret: true)
-- [ ] Network permissions scoped
 - [ ] Image tag pinned (not `latest`)
+- [ ] Secrets marked `isSecret: true`
+- [ ] No filesystem paths in permissions
+- [ ] Network permissions scoped
 - [ ] Extension key matches identifier/URL
-- [ ] Provenance configured (if applicable)
+- [ ] Provenance configured
 
 ### Findings
 
@@ -271,56 +154,34 @@ Provide structured feedback:
 Run `task catalog:validate` to verify spec compliance.
 ```
 
----
+## Error Handling
 
-## Version Update Review
-
-When reviewing updates to existing servers:
-
-1. **Identify changes** - What fields changed?
-2. **Check both locations** - Was the image tag updated in BOTH `identifier` AND `_meta` key?
-3. **Check changelog** - What's new in this version?
-4. **Verify tools** - Added or removed tools?
-5. **Breaking changes** - Transport, env vars, or auth changes?
-6. **Security implications** - New permissions or scopes?
-
-Focus review on changed aspects, not full re-review.
-
----
-
-## Workflow Commands
-
-```bash
-# Validate all entries
-task catalog:validate
-
-# Build registry and verify
-task catalog:build
-
-# Check specific entry in built output
-jq '.servers["<name>"]' build/toolhive/registry.json
-jq '.remote_servers["<name>"]' build/toolhive/registry.json
-```
-
----
+| Situation | Action |
+|-----------|--------|
+| Repository is private or inaccessible | Note it — cannot verify inclusion criteria; ask submitter for access or evidence |
+| License file missing or ambiguous | Request clarification; do not assume permissive |
+| `gh` CLI errors or rate-limited | Fall back to WebFetch for README; note what couldn't be verified |
+| `task catalog:validate` fails | Report the exact error; it must pass before approval |
+| Unclear whether server needs OAuth | Check the upstream README/docs for auth requirements |
+| Provenance info unavailable | Flag as missing — expected for all servers per registry criteria |
 
 ## Quick Reference
 
-### Valid Tier Values
-- `Official` - Maintained by service provider
-- `Community` - Community-maintained
+### Valid Values
 
-### Valid Status Values
-- `Active` - Currently maintained
-- `Deprecated` - No longer recommended
+| Field | Options |
+|-------|---------|
+| Tier | `Official`, `Community` |
+| Status | `Active`, `Deprecated` |
+| Transport | `stdio` (containers only), `streamable-http` (preferred for HTTP), `sse` (legacy) |
+| Accepted licenses | `Apache-2.0`, `MIT`, `BSD-2-Clause`, `BSD-3-Clause` |
+| Rejected licenses | `AGPL-3.0`, `GPL-2.0`, `GPL-3.0`, `LGPL-*` |
 
-### Valid Transport Values
-- `stdio` - Standard I/O (containers only)
-- `streamable-http` - HTTP streaming (preferred for HTTP)
-- `sse` - Server-Sent Events (legacy, use streamable-http)
+### Workflow Commands
 
-### Accepted Licenses
-- `Apache-2.0`, `MIT`, `BSD-2-Clause`, `BSD-3-Clause`, `ISC`, `MPL-2.0`
-
-### Rejected Licenses
-- `AGPL-3.0`, `GPL-2.0`, `GPL-3.0`, `LGPL-*` (copyleft)
+```bash
+task catalog:validate                                             # Validate all entries
+task catalog:build                                                # Build registry
+jq '.servers["<name>"]' build/toolhive/registry.json              # Check container entry
+jq '.remote_servers["<name>"]' build/toolhive/registry.json       # Check remote entry
+```
