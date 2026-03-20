@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-03-19T00:47:25Z"
+    "last_updated": "2026-03-20T00:45:21Z"
   },
   "data": {
     "servers": [
@@ -285,7 +285,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.9.0",
+            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.10.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -306,7 +306,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/apollographql/apollo-mcp-server:v1.9.0": {
+              "ghcr.io/apollographql/apollo-mcp-server:v1.10.0": {
                 "metadata": {
                   "last_updated": "2026-03-06T02:57:37Z",
                   "stars": 268
@@ -2193,7 +2193,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "mcr.microsoft.com/azure-sdk/azure-mcp:1.0.3",
+            "identifier": "mcr.microsoft.com/azure-sdk/azure-mcp:1.0.4",
             "transport": {
               "type": "stdio"
             },
@@ -2234,7 +2234,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "mcr.microsoft.com/azure-sdk/azure-mcp:1.0.3": {
+              "mcr.microsoft.com/azure-sdk/azure-mcp:1.0.4": {
                 "metadata": {
                   "last_updated": "2026-03-16T03:04:18Z",
                   "stars": 1206
@@ -20732,8 +20732,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/magic-mcp:0.1.0": {
                 "metadata": {
-                  "last_updated": "2026-03-01T03:02:57Z",
-                  "stars": 4320
+                  "last_updated": "2026-03-19T03:02:50Z",
+                  "stars": 4485
                 },
                 "overview": "## Magic MCP Server\n\nThe magic-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact with Magic, a platform for AI-assisted software development and code understanding. It allows AI-driven workflows to generate, edit, and reason about code with deeper project awareness — turning Magic's code intelligence capabilities into native tools inside MCP-compatible assistants. This server excels particularly in code generation, refactoring, large-scale codebase understanding, and developer productivity workflows augmented by AI.",
                 "permissions": {
@@ -29747,8 +29747,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/onchain-mcp:1.0.6": {
                 "metadata": {
-                  "last_updated": "2026-03-02T02:58:07Z",
-                  "stars": 72
+                  "last_updated": "2026-03-19T03:02:51Z",
+                  "stars": 74
                 },
                 "overview": "## Onchain MCP Server\n\nThe onchain-mcp server is a Model Context Protocol (MCP) server for blockchain data interaction through the Bankless API, enabling seamless access to Ethereum and Web3 data. Key capabilities include comprehensive blockchain data access through Bankless API integration, smart contract interaction including reading contracts, ABIs, and source code, transaction and event monitoring with historical data access, and token balance queries and block information retrieval across Ethereum networks.",
                 "permissions": {
@@ -36183,8 +36183,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/perplexity-ask:latest": {
                 "metadata": {
-                  "last_updated": "2026-03-01T03:02:57Z",
-                  "stars": 1987
+                  "last_updated": "2026-03-19T03:02:50Z",
+                  "stars": 2029
                 },
                 "overview": "## Perplexity Ask MCP Server\n\nThe perplexity-ask MCP server integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks. The server provides three specialized tools: perplexity_ask for quick web search using the Sonar API, perplexity_research for comprehensive research with detailed citations, and perplexity_reason for advanced reasoning for complex problem-solving.",
                 "permissions": {
@@ -42149,8 +42149,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/sequentialthinking:latest": {
                 "metadata": {
-                  "last_updated": "2026-03-01T03:02:57Z",
-                  "stars": 79727
+                  "last_updated": "2026-03-19T03:02:50Z",
+                  "stars": 81457
                 },
                 "overview": "## Sequential Thinking MCP Server\n\nThe sequentialthinking MCP server enables dynamic problem-solving with a structured, reflective approach that adapts as understanding deepens. Key capabilities include structured reflective problem-solving, dynamic adaptation during analysis, step-by-step chain-of-thought reasoning, and branching thought processes for comprehensive exploration.",
                 "permissions": {
