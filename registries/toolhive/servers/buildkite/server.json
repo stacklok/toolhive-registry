@@ -8,7 +8,7 @@
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-03-23T04:57:54Z",
+            "last_updated": "2026-03-25T13:42:33Z",
             "stars": 48
           },
           "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -137,6 +137,72 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "title": "Create Cluster"
+              },
+              "description": "Create a new cluster in an organization",
+              "inputSchema": {
+                "properties": {
+                  "color": {
+                    "description": "Hex color code for the cluster (e.g. #A9CCE3)",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "Description of the cluster",
+                    "type": "string"
+                  },
+                  "emoji": {
+                    "description": "Emoji for the cluster (e.g. :toolbox:)",
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "name"
+                ],
+                "type": "object"
+              },
+              "name": "create_cluster"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "title": "Create Cluster Queue"
+              },
+              "description": "Create a new queue in a cluster",
+              "inputSchema": {
+                "properties": {
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "Description of the queue",
+                    "type": "string"
+                  },
+                  "key": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "cluster_id",
+                  "key"
+                ],
+                "type": "object"
+              },
+              "name": "create_cluster_queue"
+            },
+            {
+              "annotations": {
                 "title": "Create Pipeline"
               },
               "description": "Set up a new CI/CD pipeline in Buildkite with YAML configuration, repository connection, and cluster assignment",
@@ -216,6 +282,56 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
+                "title": "Delete Cluster"
+              },
+              "description": "Delete a cluster from an organization. This is a destructive operation that cannot be undone.",
+              "inputSchema": {
+                "properties": {
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "cluster_id"
+                ],
+                "type": "object"
+              },
+              "name": "delete_cluster"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "title": "Delete Cluster Queue"
+              },
+              "description": "Delete a queue from a cluster. This is a destructive operation that cannot be undone.",
+              "inputSchema": {
+                "properties": {
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "queue_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "cluster_id",
+                  "queue_id"
+                ],
+                "type": "object"
+              },
+              "name": "delete_cluster_queue"
+            },
+            {
+              "annotations": {
                 "readOnlyHint": true,
                 "title": "Get Artifact"
               },
@@ -238,14 +354,14 @@
                 "readOnlyHint": true,
                 "title": "Get Build"
               },
-              "description": "Get detailed information about a specific build including its jobs, timing, and execution details",
+              "description": "Get build information including job IDs, names, and states. Use job_state to filter (e.g. 'failed,broken'). Returns enough detail to identify which jobs to investigate with log and artifact tools",
               "inputSchema": {
                 "properties": {
                   "build_number": {
                     "type": "string"
                   },
                   "detail_level": {
-                    "description": "Response detail level: 'summary'\\, 'detailed' (default)\\, or 'full'",
+                    "description": "Response detail level: 'detailed' (default) or 'full'. Detailed includes job IDs/names/states; full includes complete job objects",
                     "type": "string"
                   },
                   "include_agent": {
@@ -759,6 +875,37 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
+                "title": "Pause Cluster Queue Dispatch"
+              },
+              "description": "Pause dispatch on a cluster queue, preventing new jobs from being dispatched to agents",
+              "inputSchema": {
+                "properties": {
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "note": {
+                    "description": "Reason for pausing dispatch",
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "queue_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "cluster_id",
+                  "queue_id"
+                ],
+                "type": "object"
+              },
+              "name": "pause_cluster_queue_dispatch"
+            },
+            {
+              "annotations": {
                 "readOnlyHint": true,
                 "title": "Read Logs"
               },
@@ -799,6 +946,33 @@
                 "type": "object"
               },
               "name": "read_logs"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "title": "Resume Cluster Queue Dispatch"
+              },
+              "description": "Resume dispatch on a paused cluster queue, allowing jobs to be dispatched to agents again",
+              "inputSchema": {
+                "properties": {
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "queue_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "cluster_id",
+                  "queue_id"
+                ],
+                "type": "object"
+              },
+              "name": "resume_cluster_queue_dispatch"
             },
             {
               "annotations": {
@@ -944,6 +1118,84 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "title": "Update Cluster"
+              },
+              "description": "Update an existing cluster's name, description, emoji, color, or default queue",
+              "inputSchema": {
+                "properties": {
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "color": {
+                    "description": "New hex color code for the cluster",
+                    "type": "string"
+                  },
+                  "default_queue_id": {
+                    "description": "ID of the default queue for the cluster",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "New description for the cluster",
+                    "type": "string"
+                  },
+                  "emoji": {
+                    "description": "New emoji for the cluster",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "New name for the cluster",
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "cluster_id"
+                ],
+                "type": "object"
+              },
+              "name": "update_cluster"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "title": "Update Cluster Queue"
+              },
+              "description": "Update an existing cluster queue's description or retry agent affinity",
+              "inputSchema": {
+                "properties": {
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "New description for the queue",
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "queue_id": {
+                    "type": "string"
+                  },
+                  "retry_agent_affinity": {
+                    "description": "Agent retry affinity: prefer-warmest or prefer-different",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "cluster_id",
+                  "queue_id"
+                ],
+                "type": "object"
+              },
+              "name": "update_cluster_queue"
+            },
+            {
+              "annotations": {
                 "title": "Update Pipeline"
               },
               "description": "Modify an existing Buildkite pipeline's configuration, repository, settings, or metadata",
@@ -1022,8 +1274,12 @@
           "tools": [
             "access_token",
             "create_build",
+            "create_cluster",
+            "create_cluster_queue",
             "create_pipeline",
             "current_user",
+            "delete_cluster",
+            "delete_cluster_queue",
             "get_artifact",
             "get_build",
             "get_build_test_engine_runs",
@@ -1041,10 +1297,14 @@
             "list_clusters",
             "list_pipelines",
             "list_test_runs",
+            "pause_cluster_queue_dispatch",
             "read_logs",
+            "resume_cluster_queue_dispatch",
             "search_logs",
             "tail_logs",
             "unblock_job",
+            "update_cluster",
+            "update_cluster_queue",
             "update_pipeline",
             "user_token_organization"
           ]
