@@ -8,7 +8,7 @@
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-03-25T13:42:25Z",
+            "last_updated": "2026-03-26T06:11:13Z",
             "stars": 48
           },
           "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -279,56 +279,6 @@
                 "type": "object"
               },
               "name": "current_user"
-            },
-            {
-              "annotations": {
-                "destructiveHint": true,
-                "title": "Delete Cluster"
-              },
-              "description": "Delete a cluster from an organization. This is a destructive operation that cannot be undone.",
-              "inputSchema": {
-                "properties": {
-                  "cluster_id": {
-                    "type": "string"
-                  },
-                  "org_slug": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "org_slug",
-                  "cluster_id"
-                ],
-                "type": "object"
-              },
-              "name": "delete_cluster"
-            },
-            {
-              "annotations": {
-                "destructiveHint": true,
-                "title": "Delete Cluster Queue"
-              },
-              "description": "Delete a queue from a cluster. This is a destructive operation that cannot be undone.",
-              "inputSchema": {
-                "properties": {
-                  "cluster_id": {
-                    "type": "string"
-                  },
-                  "org_slug": {
-                    "type": "string"
-                  },
-                  "queue_id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "org_slug",
-                  "cluster_id",
-                  "queue_id"
-                ],
-                "type": "object"
-              },
-              "name": "delete_cluster_queue"
             },
             {
               "annotations": {
@@ -1278,8 +1228,6 @@
             "create_cluster_queue",
             "create_pipeline",
             "current_user",
-            "delete_cluster",
-            "delete_cluster_queue",
             "get_artifact",
             "get_build",
             "get_build_test_engine_runs",
