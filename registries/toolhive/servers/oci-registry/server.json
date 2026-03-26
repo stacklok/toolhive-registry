@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/ocireg-mcp/server:0.3.0": {
           "metadata": {
-            "last_updated": "2026-03-13T17:38:08Z",
+            "last_updated": "2026-03-26T13:10:33Z",
             "stars": 11
           },
           "overview": "## OCI Registry MCP Server\n\nThe oci-registry MCP server provides secure OCI container registry querying with image introspection and manifest retrieval. The tool enables users to analyze container images through streamlined access to OCI registries, supporting image metadata inspection, tag enumeration, manifest analysis, and secure querying via HTTP transport.",
@@ -109,6 +109,77 @@
             {
               "annotations": {
                 "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Fetch the content of a specific referrer artifact. Use list_referrers first to discover artifacts and their digests. Returns content as an embedded resource with proper MIME type. For cosign attestations (DSSE envelopes), automatically decodes the base64 payload unless decode_payload is false.",
+              "inputSchema": {
+                "properties": {
+                  "content_type": {
+                    "description": "Hint about the expected content type to help label output metadata",
+                    "enum": [
+                      "sbom",
+                      "provenance",
+                      "vex",
+                      "signature"
+                    ],
+                    "type": "string"
+                  },
+                  "decode_payload": {
+                    "description": "When true (default), unwrap DSSE envelopes to return the decoded predicate. When false, return raw blob.",
+                    "type": "boolean"
+                  },
+                  "digest": {
+                    "description": "The digest of the referrer artifact from list_referrers (e.g., sha256:abc123...)",
+                    "type": "string"
+                  },
+                  "image_ref": {
+                    "description": "The parent image reference containing the repository (e.g., docker.io/library/alpine:latest)",
+                    "type": "string"
+                  },
+                  "max_bytes": {
+                    "description": "Maximum payload size in bytes. Content exceeding this is truncated. Default 512KB (524288).",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "image_ref",
+                  "digest"
+                ],
+                "type": "object"
+              },
+              "name": "get_referrer_content"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true
+              },
+              "description": "List OCI artifacts (SBOMs, signatures, provenance, VEX) attached to an image via the OCI Referrers API. Returns descriptors with artifact type, digest, size, and annotations. Use this to discover what attestations exist before fetching their content with get_referrer_content.",
+              "inputSchema": {
+                "properties": {
+                  "artifact_type": {
+                    "description": "Filter referrers by artifact type (e.g., application/vnd.cyclonedx+json)",
+                    "type": "string"
+                  },
+                  "image_ref": {
+                    "description": "The image reference (e.g., docker.io/library/alpine:latest). Tags are automatically resolved to digests.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "image_ref"
+                ],
+                "type": "object"
+              },
+              "name": "list_referrers"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true
@@ -151,6 +222,8 @@
             "get_image_config",
             "get_image_info",
             "get_image_manifest",
+            "get_referrer_content",
+            "list_referrers",
             "list_tags"
           ]
         }
