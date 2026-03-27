@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-03-26T00:49:38Z",
+  "last_updated": "2026-03-27T00:49:47Z",
   "servers": {
     "apollo-mcp-server": {
       "title": "Apollo GraphQL",
@@ -216,7 +216,7 @@
           "name": "suggest_aws_commands"
         }
       ],
-      "image": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.22",
+      "image": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.23",
       "permissions": {
         "network": {
           "outbound": {
@@ -1592,8 +1592,6 @@
         "create_cluster_queue",
         "create_pipeline",
         "current_user",
-        "delete_cluster",
-        "delete_cluster_queue",
         "get_artifact",
         "get_build",
         "get_build_test_engine_runs",
@@ -1624,7 +1622,7 @@
       ],
       "metadata": {
         "stars": 48,
-        "last_updated": "2026-03-25T13:42:25Z"
+        "last_updated": "2026-03-26T06:11:13Z"
       },
       "repository_url": "https://github.com/buildkite/buildkite-mcp-server",
       "tags": [
@@ -1881,56 +1879,6 @@
             "type": "object"
           },
           "name": "current_user"
-        },
-        {
-          "annotations": {
-            "title": "Delete Cluster",
-            "destructiveHint": true
-          },
-          "description": "Delete a cluster from an organization. This is a destructive operation that cannot be undone.",
-          "inputSchema": {
-            "properties": {
-              "cluster_id": {
-                "type": "string"
-              },
-              "org_slug": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "org_slug",
-              "cluster_id"
-            ],
-            "type": "object"
-          },
-          "name": "delete_cluster"
-        },
-        {
-          "annotations": {
-            "title": "Delete Cluster Queue",
-            "destructiveHint": true
-          },
-          "description": "Delete a queue from a cluster. This is a destructive operation that cannot be undone.",
-          "inputSchema": {
-            "properties": {
-              "cluster_id": {
-                "type": "string"
-              },
-              "org_slug": {
-                "type": "string"
-              },
-              "queue_id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "org_slug",
-              "cluster_id",
-              "queue_id"
-            ],
-            "type": "object"
-          },
-          "name": "delete_cluster_queue"
         },
         {
           "annotations": {
@@ -2873,7 +2821,7 @@
           "name": "user_token_organization"
         }
       ],
-      "image": "ghcr.io/buildkite/buildkite-mcp-server:0.12.0",
+      "image": "ghcr.io/buildkite/buildkite-mcp-server:0.13.0",
       "permissions": {
         "network": {
           "outbound": {
@@ -34421,7 +34369,7 @@
         "list_slow_queries"
       ],
       "metadata": {
-        "last_updated": "2026-03-05T14:11:18Z"
+        "last_updated": "2026-03-26T03:03:42Z"
       },
       "tags": [
         "remote",
