@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-03-27T00:49:47Z"
+    "last_updated": "2026-03-28T00:46:16Z"
   },
   "data": {
     "servers": [
@@ -51,8 +51,8 @@
             "io.github.stacklok": {
               "ghcr.io/apollographql/apollo-mcp-server:v1.11.0": {
                 "metadata": {
-                  "last_updated": "2026-03-06T02:57:37Z",
-                  "stars": 268
+                  "last_updated": "2026-03-27T03:03:46Z",
+                  "stars": 276
                 },
                 "overview": "## Apollo MCP Server\n\nThe apollo-mcp-server is a Model Context Protocol (MCP) server implementation that makes your GraphQL API operations available as MCP tools for AI assistants and agents. It acts as a translation layer between AI clients and your GraphQL infrastructure, exposing query and mutation capabilities through MCP so models can fetch, explore, and orchestrate your graph operations without bespoke tooling.",
                 "permissions": {
@@ -5520,7 +5520,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.30.0",
+            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.31.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -5530,7 +5530,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.30.0": {
+              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.31.0": {
                 "args": [
                   "--address",
                   "0.0.0.0"
@@ -11521,7 +11521,7 @@
                   "homepage": "https://huggingface.co/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-06T02:57:37Z"
+                  "last_updated": "2026-03-27T03:03:46Z"
                 },
                 "overview": "## Hugging Face MCP Server\n\nThe huggingface-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the Hugging Face ecosystem, including models, datasets, and Spaces. It allows AI-driven workflows to discover models, inspect metadata, download artifacts, and reason about available ML resources without switching tools or manually navigating the Hugging Face Hub. This server is especially useful for model exploration, experimentation, research, and workflows that integrate open-source ML assets into AI-assisted development.",
                 "status": "Active",
@@ -13104,7 +13104,7 @@
                   "homepage": "https://linear.app/docs/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-06T02:57:37Z"
+                  "last_updated": "2026-03-27T03:03:46Z"
                 },
                 "overview": "## Linear MCP Server\n\nThe linear MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Linear, the issue tracking and project management platform. It allows AI-driven workflows to create, update, search, and reason about issues, projects, cycles, and teams — bringing planning and execution context directly into AI-assisted development workflows. This server is especially useful for product planning, engineering management, sprint execution, and triage workflows where Linear is the system of record.",
                 "status": "Active",
@@ -14510,7 +14510,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/mongodb/mongodb-mcp-server:1.8.1",
+            "identifier": "docker.io/mongodb/mongodb-mcp-server:1.9.0",
             "transport": {
               "type": "stdio"
             },
@@ -14564,7 +14564,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/mongodb/mongodb-mcp-server:1.8.1": {
+              "docker.io/mongodb/mongodb-mcp-server:1.9.0": {
                 "metadata": {
                   "last_updated": "2026-03-21T02:54:11Z",
                   "stars": 968

@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-03-27T00:49:47Z",
+  "last_updated": "2026-03-28T00:46:16Z",
   "servers": {
     "apollo-mcp-server": {
       "title": "Apollo GraphQL",
@@ -13,8 +13,8 @@
         "example_GetAstronautsCurrentlyInSpace"
       ],
       "metadata": {
-        "stars": 268,
-        "last_updated": "2026-03-06T02:57:37Z"
+        "stars": 276,
+        "last_updated": "2026-03-27T03:03:46Z"
       },
       "repository_url": "https://github.com/apollographql/apollo-mcp-server",
       "tags": [
@@ -4876,7 +4876,7 @@
         "mcp-server"
       ],
       "overview": "## Database Toolbox MCP Server\n\nThe database-toolbox-mcp-server is a Model Context Protocol (MCP) server that provides AI assistants with a unified, database-agnostic interface for interacting with multiple relational databases. It exposes common database operations as standardized MCP tools, allowing AI-driven workflows to query data, inspect schemas, and manage connections across different database engines without bespoke integrations for each one. This server is especially useful for data analysis, reporting, debugging, and operational workflows that span multiple databases.",
-      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.30.0",
+      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.31.0",
       "target_port": 5000,
       "permissions": {
         "network": {
@@ -12996,7 +12996,7 @@
         "query"
       ],
       "overview": "## MongoDB MCP Server\n\nThe mongodb MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with MongoDB databases through a structured, AI-friendly interface. It allows AI-driven workflows to inspect collections, query documents, and reason about schema-less data without switching tools or embedding MongoDB-specific drivers in the client. This server is especially useful for application development, data exploration, debugging, and analytics workflows where MongoDB is the primary data store.",
-      "image": "docker.io/mongodb/mongodb-mcp-server:1.8.1",
+      "image": "docker.io/mongodb/mongodb-mcp-server:1.9.0",
       "permissions": {
         "network": {
           "outbound": {
@@ -34215,7 +34215,7 @@
         "gr1_flux1_schnell_infer"
       ],
       "metadata": {
-        "last_updated": "2026-03-06T02:57:37Z"
+        "last_updated": "2026-03-27T03:03:46Z"
       },
       "tags": [
         "remote",
@@ -34267,7 +34267,7 @@
         "search_documentation"
       ],
       "metadata": {
-        "last_updated": "2026-03-06T02:57:37Z"
+        "last_updated": "2026-03-27T03:03:46Z"
       },
       "tags": [
         "issue-tracking",

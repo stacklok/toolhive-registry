@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-03-27T00:49:47Z",
+  "last_updated": "2026-03-28T00:46:17Z",
   "servers": {
     "adb-mysql-mcp-server": {
       "title": "AnalyticDB for MySQL",
@@ -210,8 +210,8 @@
         "example_GetAstronautsCurrentlyInSpace"
       ],
       "metadata": {
-        "stars": 268,
-        "last_updated": "2026-03-06T02:57:37Z"
+        "stars": 276,
+        "last_updated": "2026-03-27T03:03:46Z"
       },
       "repository_url": "https://github.com/apollographql/apollo-mcp-server",
       "tags": [
@@ -5609,7 +5609,7 @@
         "mcp-server"
       ],
       "overview": "## Database Toolbox MCP Server\n\nThe database-toolbox-mcp-server is a Model Context Protocol (MCP) server that provides AI assistants with a unified, database-agnostic interface for interacting with multiple relational databases. It exposes common database operations as standardized MCP tools, allowing AI-driven workflows to query data, inspect schemas, and manage connections across different database engines without bespoke integrations for each one. This server is especially useful for data analysis, reporting, debugging, and operational workflows that span multiple databases.",
-      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.30.0",
+      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.31.0",
       "target_port": 5000,
       "permissions": {
         "network": {
@@ -8586,7 +8586,7 @@
         "genai",
         "mcp-server"
       ],
-      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.30.0",
+      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.31.0",
       "target_port": 5000,
       "permissions": {
         "network": {
@@ -21158,7 +21158,7 @@
         "query"
       ],
       "overview": "## MongoDB MCP Server\n\nThe mongodb MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with MongoDB databases through a structured, AI-friendly interface. It allows AI-driven workflows to inspect collections, query documents, and reason about schema-less data without switching tools or embedding MongoDB-specific drivers in the client. This server is especially useful for application development, data exploration, debugging, and analytics workflows where MongoDB is the primary data store.",
-      "image": "docker.io/mongodb/mongodb-mcp-server:1.8.1",
+      "image": "docker.io/mongodb/mongodb-mcp-server:1.9.0",
       "permissions": {
         "network": {
           "outbound": {
@@ -27064,11 +27064,13 @@
         "get_image_config",
         "get_image_info",
         "get_image_manifest",
+        "get_referrer_content",
+        "list_referrers",
         "list_tags"
       ],
       "metadata": {
         "stars": 11,
-        "last_updated": "2026-03-13T17:38:08Z"
+        "last_updated": "2026-03-26T13:10:33Z"
       },
       "repository_url": "https://github.com/StacklokLabs/ocireg-mcp",
       "tags": [
@@ -27154,6 +27156,77 @@
           "annotations": {
             "readOnlyHint": true,
             "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": true
+          },
+          "description": "Fetch the content of a specific referrer artifact. Use list_referrers first to discover artifacts and their digests. Returns content as an embedded resource with proper MIME type. For cosign attestations (DSSE envelopes), automatically decodes the base64 payload unless decode_payload is false.",
+          "inputSchema": {
+            "properties": {
+              "content_type": {
+                "description": "Hint about the expected content type to help label output metadata",
+                "enum": [
+                  "sbom",
+                  "provenance",
+                  "vex",
+                  "signature"
+                ],
+                "type": "string"
+              },
+              "decode_payload": {
+                "description": "When true (default), unwrap DSSE envelopes to return the decoded predicate. When false, return raw blob.",
+                "type": "boolean"
+              },
+              "digest": {
+                "description": "The digest of the referrer artifact from list_referrers (e.g., sha256:abc123...)",
+                "type": "string"
+              },
+              "image_ref": {
+                "description": "The parent image reference containing the repository (e.g., docker.io/library/alpine:latest)",
+                "type": "string"
+              },
+              "max_bytes": {
+                "description": "Maximum payload size in bytes. Content exceeding this is truncated. Default 512KB (524288).",
+                "type": "number"
+              }
+            },
+            "required": [
+              "image_ref",
+              "digest"
+            ],
+            "type": "object"
+          },
+          "name": "get_referrer_content"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": true
+          },
+          "description": "List OCI artifacts (SBOMs, signatures, provenance, VEX) attached to an image via the OCI Referrers API. Returns descriptors with artifact type, digest, size, and annotations. Use this to discover what attestations exist before fetching their content with get_referrer_content.",
+          "inputSchema": {
+            "properties": {
+              "artifact_type": {
+                "description": "Filter referrers by artifact type (e.g., application/vnd.cyclonedx+json)",
+                "type": "string"
+              },
+              "image_ref": {
+                "description": "The image reference (e.g., docker.io/library/alpine:latest). Tags are automatically resolved to digests.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "image_ref"
+            ],
+            "type": "object"
+          },
+          "name": "list_referrers"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
             "idempotentHint": false,
             "openWorldHint": true
           },
@@ -27191,7 +27264,7 @@
           "name": "list_tags"
         }
       ],
-      "image": "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.1",
+      "image": "ghcr.io/stackloklabs/ocireg-mcp/server:0.3.0",
       "target_port": 8080,
       "permissions": {
         "network": {
@@ -43178,7 +43251,7 @@
         "reply-to-comment"
       ],
       "metadata": {
-        "last_updated": "2026-03-06T02:57:37Z"
+        "last_updated": "2026-03-27T03:03:46Z"
       },
       "tags": [
         "remote",
