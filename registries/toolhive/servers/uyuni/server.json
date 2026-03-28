@@ -1,0 +1,114 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/uyuni-project/mcp-server-uyuni:0.5.2": {
+          "overview": "## Uyuni MCP Server\n\nThe Uyuni MCP Server bridges Large Language Models with the Uyuni infrastructure management solution from SUSE. It enables AI agents and MCP-compliant clients to interact securely with Uyuni servers, allowing natural language management of Linux infrastructure including retrieving system details, checking updates, scheduling maintenance, and managing system groups.\n\nThe server provides both read-only and write-enabled tools for comprehensive infrastructure management, with write operations gated behind an explicit opt-in flag for safety.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443,
+                  8443
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "infrastructure",
+            "linux",
+            "management",
+            "systems",
+            "updates",
+            "uyuni",
+            "suse"
+          ],
+          "tier": "Community",
+          "tools": [
+            "list_systems",
+            "get_system_details",
+            "get_system_event_history",
+            "get_system_event_details",
+            "find_systems_by_name",
+            "find_systems_by_ip",
+            "get_system_updates",
+            "check_all_systems_for_updates",
+            "list_systems_needing_update_for_cve",
+            "list_systems_needing_reboot",
+            "get_unscheduled_errata",
+            "list_activation_keys",
+            "list_all_scheduled_actions",
+            "list_system_groups",
+            "list_group_systems",
+            "schedule_pending_updates_to_system",
+            "schedule_specific_update",
+            "add_system",
+            "remove_system",
+            "schedule_system_reboot",
+            "cancel_action",
+            "create_system_group",
+            "add_systems_to_group",
+            "remove_systems_from_group"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Manage Linux infrastructure through the Uyuni systems management platform via MCP",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/uyuni/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/uyuni",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Uyuni server address and port",
+          "isRequired": true,
+          "name": "UYUNI_SERVER"
+        },
+        {
+          "description": "Username for Uyuni authentication",
+          "name": "UYUNI_USER"
+        },
+        {
+          "description": "Password for Uyuni authentication",
+          "isSecret": true,
+          "name": "UYUNI_PASS"
+        },
+        {
+          "description": "OAuth 2.0 authorization server URL",
+          "name": "UYUNI_AUTH_SERVER"
+        },
+        {
+          "description": "Enable SSL certificate verification (default: true)",
+          "name": "UYUNI_MCP_SSL_VERIFY"
+        },
+        {
+          "description": "Enable write tools for state-changing operations (default: false)",
+          "name": "UYUNI_MCP_WRITE_TOOLS_ENABLED"
+        }
+      ],
+      "identifier": "ghcr.io/uyuni-project/mcp-server-uyuni:0.5.2",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/uyuni-project/mcp-server-uyuni"
+  },
+  "title": "Uyuni",
+  "version": "1.0.0"
+}
