@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-03-27T00:49:47Z"
+    "last_updated": "2026-03-29T00:52:42Z"
   },
   "data": {
     "servers": [
@@ -51,8 +51,8 @@
             "io.github.stacklok": {
               "ghcr.io/apollographql/apollo-mcp-server:v1.11.0": {
                 "metadata": {
-                  "last_updated": "2026-03-06T02:57:37Z",
-                  "stars": 268
+                  "last_updated": "2026-03-27T03:03:46Z",
+                  "stars": 276
                 },
                 "overview": "## Apollo MCP Server\n\nThe apollo-mcp-server is a Model Context Protocol (MCP) server implementation that makes your GraphQL API operations available as MCP tools for AI assistants and agents. It acts as a translation layer between AI clients and your GraphQL infrastructure, exposing query and mutation capabilities through MCP so models can fetch, explore, and orchestrate your graph operations without bespoke tooling.",
                 "permissions": {
@@ -5520,7 +5520,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.30.0",
+            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.31.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -5530,7 +5530,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.30.0": {
+              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.31.0": {
                 "args": [
                   "--address",
                   "0.0.0.0"
@@ -11521,7 +11521,7 @@
                   "homepage": "https://huggingface.co/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-06T02:57:37Z"
+                  "last_updated": "2026-03-27T03:03:46Z"
                 },
                 "overview": "## Hugging Face MCP Server\n\nThe huggingface-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the Hugging Face ecosystem, including models, datasets, and Spaces. It allows AI-driven workflows to discover models, inspect metadata, download artifacts, and reason about available ML resources without switching tools or manually navigating the Hugging Face Hub. This server is especially useful for model exploration, experimentation, research, and workflows that integrate open-source ML assets into AI-assisted development.",
                 "status": "Active",
@@ -13104,7 +13104,7 @@
                   "homepage": "https://linear.app/docs/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-06T02:57:37Z"
+                  "last_updated": "2026-03-27T03:03:46Z"
                 },
                 "overview": "## Linear MCP Server\n\nThe linear MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Linear, the issue tracking and project management platform. It allows AI-driven workflows to create, update, search, and reason about issues, projects, cycles, and teams — bringing planning and execution context directly into AI-assisted development workflows. This server is especially useful for product planning, engineering management, sprint execution, and triage workflows where Linear is the system of record.",
                 "status": "Active",
@@ -14510,7 +14510,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/mongodb/mongodb-mcp-server:1.8.1",
+            "identifier": "docker.io/mongodb/mongodb-mcp-server:1.9.0",
             "transport": {
               "type": "stdio"
             },
@@ -14564,7 +14564,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/mongodb/mongodb-mcp-server:1.8.1": {
+              "docker.io/mongodb/mongodb-mcp-server:1.9.0": {
                 "metadata": {
                   "last_updated": "2026-03-21T02:54:11Z",
                   "stars": 968
@@ -34434,6 +34434,119 @@
                   "reset_branch",
                   "restore_project",
                   "search_docs"
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "name": "io.github.stacklok/suse-multi-linux-manager",
+        "description": "Manage Linux infrastructure through SUSE Multi-Linux Manager via MCP",
+        "title": "SUSE Multi-Linux Manager",
+        "repository": {
+          "url": "https://github.com/uyuni-project/mcp-server-uyuni",
+          "source": "github"
+        },
+        "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/suse-multi-linux-manager/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "registry.suse.com/suse/agentic/mcp/multi-linux-manager:0.5.2",
+            "transport": {
+              "type": "stdio"
+            },
+            "environmentVariables": [
+              {
+                "description": "SUSE Multi-Linux Manager server address and port",
+                "isRequired": true,
+                "name": "UYUNI_SERVER"
+              },
+              {
+                "description": "Username for authentication",
+                "name": "UYUNI_USER"
+              },
+              {
+                "description": "Password for authentication",
+                "isSecret": true,
+                "name": "UYUNI_PASS"
+              },
+              {
+                "description": "OAuth 2.0 authorization server URL",
+                "name": "UYUNI_AUTH_SERVER"
+              },
+              {
+                "description": "Enable SSL certificate verification (default: true)",
+                "name": "UYUNI_MCP_SSL_VERIFY"
+              },
+              {
+                "description": "Enable write tools for state-changing operations (default: false)",
+                "name": "UYUNI_MCP_WRITE_TOOLS_ENABLED"
+              }
+            ]
+          }
+        ],
+        "_meta": {
+          "io.modelcontextprotocol.registry/publisher-provided": {
+            "io.github.stacklok": {
+              "registry.suse.com/suse/agentic/mcp/multi-linux-manager:0.5.2": {
+                "overview": "## SUSE Multi-Linux Manager MCP Server\n\nThe SUSE Multi-Linux Manager MCP Server bridges Large Language Models with SUSE's commercial Multi-Linux Manager infrastructure management solution. It enables AI agents and MCP-compliant clients to interact securely with managed servers, allowing natural language management of Linux infrastructure including retrieving system details, checking updates, scheduling maintenance, and managing system groups.\n\nThe server provides both read-only and write-enabled tools for comprehensive infrastructure management, with write operations gated behind an explicit opt-in flag for safety. This is the commercially supported version of the Uyuni MCP server.",
+                "permissions": {
+                  "network": {
+                    "outbound": {
+                      "allow_port": [
+                        443,
+                        8443
+                      ],
+                      "insecure_allow_all": true
+                    }
+                  }
+                },
+                "status": "Active",
+                "tags": [
+                  "infrastructure",
+                  "linux",
+                  "management",
+                  "suse",
+                  "systems",
+                  "updates"
+                ],
+                "tier": "Official",
+                "tools": [
+                  "list_systems",
+                  "get_system_details",
+                  "get_system_event_history",
+                  "get_system_event_details",
+                  "find_systems_by_name",
+                  "find_systems_by_ip",
+                  "get_system_updates",
+                  "check_all_systems_for_updates",
+                  "list_systems_needing_update_for_cve",
+                  "list_systems_needing_reboot",
+                  "get_unscheduled_errata",
+                  "list_activation_keys",
+                  "list_all_scheduled_actions",
+                  "list_system_groups",
+                  "list_group_systems",
+                  "schedule_pending_updates_to_system",
+                  "schedule_specific_update",
+                  "add_system",
+                  "remove_system",
+                  "schedule_system_reboot",
+                  "cancel_action",
+                  "create_system_group",
+                  "add_systems_to_group",
+                  "remove_systems_from_group"
                 ]
               }
             }

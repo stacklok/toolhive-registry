@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-03-27T00:49:47Z",
+  "last_updated": "2026-03-29T00:52:43Z",
   "servers": {
     "adb-mysql-mcp-server": {
       "title": "AnalyticDB for MySQL",
@@ -210,8 +210,8 @@
         "example_GetAstronautsCurrentlyInSpace"
       ],
       "metadata": {
-        "stars": 268,
-        "last_updated": "2026-03-06T02:57:37Z"
+        "stars": 276,
+        "last_updated": "2026-03-27T03:03:46Z"
       },
       "repository_url": "https://github.com/apollographql/apollo-mcp-server",
       "tags": [
@@ -5609,7 +5609,7 @@
         "mcp-server"
       ],
       "overview": "## Database Toolbox MCP Server\n\nThe database-toolbox-mcp-server is a Model Context Protocol (MCP) server that provides AI assistants with a unified, database-agnostic interface for interacting with multiple relational databases. It exposes common database operations as standardized MCP tools, allowing AI-driven workflows to query data, inspect schemas, and manage connections across different database engines without bespoke integrations for each one. This server is especially useful for data analysis, reporting, debugging, and operational workflows that span multiple databases.",
-      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.30.0",
+      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.31.0",
       "target_port": 5000,
       "permissions": {
         "network": {
@@ -8586,7 +8586,7 @@
         "genai",
         "mcp-server"
       ],
-      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.30.0",
+      "image": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.31.0",
       "target_port": 5000,
       "permissions": {
         "network": {
@@ -21158,7 +21158,7 @@
         "query"
       ],
       "overview": "## MongoDB MCP Server\n\nThe mongodb MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with MongoDB databases through a structured, AI-friendly interface. It allows AI-driven workflows to inspect collections, query documents, and reason about schema-less data without switching tools or embedding MongoDB-specific drivers in the client. This server is especially useful for application development, data exploration, debugging, and analytics workflows where MongoDB is the primary data store.",
-      "image": "docker.io/mongodb/mongodb-mcp-server:1.8.1",
+      "image": "docker.io/mongodb/mongodb-mcp-server:1.9.0",
       "permissions": {
         "network": {
           "outbound": {
@@ -27064,11 +27064,13 @@
         "get_image_config",
         "get_image_info",
         "get_image_manifest",
+        "get_referrer_content",
+        "list_referrers",
         "list_tags"
       ],
       "metadata": {
         "stars": 11,
-        "last_updated": "2026-03-13T17:38:08Z"
+        "last_updated": "2026-03-26T13:10:33Z"
       },
       "repository_url": "https://github.com/StacklokLabs/ocireg-mcp",
       "tags": [
@@ -27154,6 +27156,77 @@
           "annotations": {
             "readOnlyHint": true,
             "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": true
+          },
+          "description": "Fetch the content of a specific referrer artifact. Use list_referrers first to discover artifacts and their digests. Returns content as an embedded resource with proper MIME type. For cosign attestations (DSSE envelopes), automatically decodes the base64 payload unless decode_payload is false.",
+          "inputSchema": {
+            "properties": {
+              "content_type": {
+                "description": "Hint about the expected content type to help label output metadata",
+                "enum": [
+                  "sbom",
+                  "provenance",
+                  "vex",
+                  "signature"
+                ],
+                "type": "string"
+              },
+              "decode_payload": {
+                "description": "When true (default), unwrap DSSE envelopes to return the decoded predicate. When false, return raw blob.",
+                "type": "boolean"
+              },
+              "digest": {
+                "description": "The digest of the referrer artifact from list_referrers (e.g., sha256:abc123...)",
+                "type": "string"
+              },
+              "image_ref": {
+                "description": "The parent image reference containing the repository (e.g., docker.io/library/alpine:latest)",
+                "type": "string"
+              },
+              "max_bytes": {
+                "description": "Maximum payload size in bytes. Content exceeding this is truncated. Default 512KB (524288).",
+                "type": "number"
+              }
+            },
+            "required": [
+              "image_ref",
+              "digest"
+            ],
+            "type": "object"
+          },
+          "name": "get_referrer_content"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": true
+          },
+          "description": "List OCI artifacts (SBOMs, signatures, provenance, VEX) attached to an image via the OCI Referrers API. Returns descriptors with artifact type, digest, size, and annotations. Use this to discover what attestations exist before fetching their content with get_referrer_content.",
+          "inputSchema": {
+            "properties": {
+              "artifact_type": {
+                "description": "Filter referrers by artifact type (e.g., application/vnd.cyclonedx+json)",
+                "type": "string"
+              },
+              "image_ref": {
+                "description": "The image reference (e.g., docker.io/library/alpine:latest). Tags are automatically resolved to digests.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "image_ref"
+            ],
+            "type": "object"
+          },
+          "name": "list_referrers"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
             "idempotentHint": false,
             "openWorldHint": true
           },
@@ -27191,7 +27264,7 @@
           "name": "list_tags"
         }
       ],
-      "image": "ghcr.io/stackloklabs/ocireg-mcp/server:0.2.1",
+      "image": "ghcr.io/stackloklabs/ocireg-mcp/server:0.3.0",
       "target_port": 8080,
       "permissions": {
         "network": {
@@ -40946,6 +41019,94 @@
         "cert_issuer": "https://token.actions.githubusercontent.com"
       }
     },
+    "suse-multi-linux-manager": {
+      "title": "SUSE Multi-Linux Manager",
+      "description": "Manage Linux infrastructure through SUSE Multi-Linux Manager via MCP",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "stdio",
+      "tools": [
+        "list_systems",
+        "get_system_details",
+        "get_system_event_history",
+        "get_system_event_details",
+        "find_systems_by_name",
+        "find_systems_by_ip",
+        "get_system_updates",
+        "check_all_systems_for_updates",
+        "list_systems_needing_update_for_cve",
+        "list_systems_needing_reboot",
+        "get_unscheduled_errata",
+        "list_activation_keys",
+        "list_all_scheduled_actions",
+        "list_system_groups",
+        "list_group_systems",
+        "schedule_pending_updates_to_system",
+        "schedule_specific_update",
+        "add_system",
+        "remove_system",
+        "schedule_system_reboot",
+        "cancel_action",
+        "create_system_group",
+        "add_systems_to_group",
+        "remove_systems_from_group"
+      ],
+      "repository_url": "https://github.com/uyuni-project/mcp-server-uyuni",
+      "tags": [
+        "infrastructure",
+        "linux",
+        "management",
+        "suse",
+        "systems",
+        "updates"
+      ],
+      "overview": "## SUSE Multi-Linux Manager MCP Server\n\nThe SUSE Multi-Linux Manager MCP Server bridges Large Language Models with SUSE's commercial Multi-Linux Manager infrastructure management solution. It enables AI agents and MCP-compliant clients to interact securely with managed servers, allowing natural language management of Linux infrastructure including retrieving system details, checking updates, scheduling maintenance, and managing system groups.\n\nThe server provides both read-only and write-enabled tools for comprehensive infrastructure management, with write operations gated behind an explicit opt-in flag for safety. This is the commercially supported version of the Uyuni MCP server.",
+      "image": "registry.suse.com/suse/agentic/mcp/multi-linux-manager:0.5.2",
+      "permissions": {
+        "network": {
+          "outbound": {
+            "insecure_allow_all": true,
+            "allow_port": [
+              443,
+              8443
+            ]
+          }
+        }
+      },
+      "env_vars": [
+        {
+          "name": "UYUNI_SERVER",
+          "description": "SUSE Multi-Linux Manager server address and port",
+          "required": true
+        },
+        {
+          "name": "UYUNI_USER",
+          "description": "Username for authentication",
+          "required": false
+        },
+        {
+          "name": "UYUNI_PASS",
+          "description": "Password for authentication",
+          "required": false,
+          "secret": true
+        },
+        {
+          "name": "UYUNI_AUTH_SERVER",
+          "description": "OAuth 2.0 authorization server URL",
+          "required": false
+        },
+        {
+          "name": "UYUNI_MCP_SSL_VERIFY",
+          "description": "Enable SSL certificate verification (default: true)",
+          "required": false
+        },
+        {
+          "name": "UYUNI_MCP_WRITE_TOOLS_ENABLED",
+          "description": "Enable write tools for state-changing operations (default: false)",
+          "required": false
+        }
+      ]
+    },
     "tavily-mcp": {
       "title": "Tavily",
       "description": "MCP server for advanced web search using Tavily's AI search engine",
@@ -43058,6 +43219,95 @@
           "default": "1.0.0"
         }
       ]
+    },
+    "uyuni": {
+      "title": "Uyuni",
+      "description": "Manage Linux infrastructure through the Uyuni systems management platform via MCP",
+      "tier": "Community",
+      "status": "Active",
+      "transport": "stdio",
+      "tools": [
+        "list_systems",
+        "get_system_details",
+        "get_system_event_history",
+        "get_system_event_details",
+        "find_systems_by_name",
+        "find_systems_by_ip",
+        "get_system_updates",
+        "check_all_systems_for_updates",
+        "list_systems_needing_update_for_cve",
+        "list_systems_needing_reboot",
+        "get_unscheduled_errata",
+        "list_activation_keys",
+        "list_all_scheduled_actions",
+        "list_system_groups",
+        "list_group_systems",
+        "schedule_pending_updates_to_system",
+        "schedule_specific_update",
+        "add_system",
+        "remove_system",
+        "schedule_system_reboot",
+        "cancel_action",
+        "create_system_group",
+        "add_systems_to_group",
+        "remove_systems_from_group"
+      ],
+      "repository_url": "https://github.com/uyuni-project/mcp-server-uyuni",
+      "tags": [
+        "infrastructure",
+        "linux",
+        "management",
+        "systems",
+        "updates",
+        "uyuni",
+        "suse"
+      ],
+      "overview": "## Uyuni MCP Server\n\nThe Uyuni MCP Server bridges Large Language Models with the Uyuni infrastructure management solution from SUSE. It enables AI agents and MCP-compliant clients to interact securely with Uyuni servers, allowing natural language management of Linux infrastructure including retrieving system details, checking updates, scheduling maintenance, and managing system groups.\n\nThe server provides both read-only and write-enabled tools for comprehensive infrastructure management, with write operations gated behind an explicit opt-in flag for safety.",
+      "image": "ghcr.io/uyuni-project/mcp-server-uyuni:0.5.2",
+      "permissions": {
+        "network": {
+          "outbound": {
+            "insecure_allow_all": true,
+            "allow_port": [
+              443,
+              8443
+            ]
+          }
+        }
+      },
+      "env_vars": [
+        {
+          "name": "UYUNI_SERVER",
+          "description": "Uyuni server address and port",
+          "required": true
+        },
+        {
+          "name": "UYUNI_USER",
+          "description": "Username for Uyuni authentication",
+          "required": false
+        },
+        {
+          "name": "UYUNI_PASS",
+          "description": "Password for Uyuni authentication",
+          "required": false,
+          "secret": true
+        },
+        {
+          "name": "UYUNI_AUTH_SERVER",
+          "description": "OAuth 2.0 authorization server URL",
+          "required": false
+        },
+        {
+          "name": "UYUNI_MCP_SSL_VERIFY",
+          "description": "Enable SSL certificate verification (default: true)",
+          "required": false
+        },
+        {
+          "name": "UYUNI_MCP_WRITE_TOOLS_ENABLED",
+          "description": "Enable write tools for state-changing operations (default: false)",
+          "required": false
+        }
+      ]
     }
   },
   "remote_servers": {
@@ -43178,7 +43428,7 @@
         "reply-to-comment"
       ],
       "metadata": {
-        "last_updated": "2026-03-06T02:57:37Z"
+        "last_updated": "2026-03-27T03:03:46Z"
       },
       "tags": [
         "remote",
