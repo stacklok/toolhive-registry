@@ -4,6 +4,10 @@
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "registry.suse.com/suse/agentic/mcp/multi-linux-manager:0.5.2": {
+          "metadata": {
+            "last_updated": "2026-03-29T15:55:08Z",
+            "stars": 12
+          },
           "overview": "## SUSE Multi-Linux Manager MCP Server\n\nThe SUSE Multi-Linux Manager MCP Server bridges Large Language Models with SUSE's commercial Multi-Linux Manager infrastructure management solution. It enables AI agents and MCP-compliant clients to interact securely with managed servers, allowing natural language management of Linux infrastructure including retrieving system details, checking updates, scheduling maintenance, and managing system groups.\n\nThe server provides both read-only and write-enabled tools for comprehensive infrastructure management, with write operations gated behind an explicit opt-in flag for safety. This is the commercially supported version of the Uyuni MCP server.",
           "permissions": {
             "network": {
