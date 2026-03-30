@@ -8,7 +8,7 @@ require (
 	github.com/mark3labs/mcp-go v0.46.0
 	github.com/modelcontextprotocol/registry v1.5.0
 	github.com/spf13/cobra v1.10.2
-	github.com/stacklok/toolhive-core v0.0.12
+	github.com/stacklok/toolhive-core v0.0.13
 	github.com/stretchr/testify v1.11.1
 )
 
@@ -105,8 +105,7 @@ require (
 	golang.org/x/text v0.35.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260203192932-546029d2fa20 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260128011058-8636f8732409 // indirect
-	google.golang.org/grpc v1.78.0 // indirect
+	google.golang.org/grpc v1.79.3 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gotest.tools/v3 v3.5.2 // indirect
 )
