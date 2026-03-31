@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "mcr.microsoft.com/playwright/mcp:v0.0.68": {
+        "mcr.microsoft.com/playwright/mcp:v0.0.69": {
           "metadata": {
-            "last_updated": "2026-03-12T23:57:07Z",
+            "last_updated": "2026-03-31T01:10:55Z",
             "stars": 28552
           },
           "overview": "## Playwright MCP Server\n\nThe playwright MCP server provides browser automation capabilities using Playwright. The server enables comprehensive browser automation supporting Chromium, Firefox, and WebKit, with full control over page interactions including clicks, typing, navigation, and screenshots. Additional capabilities include network request monitoring, console message capture for debugging, form filling, file uploads, and dialog handling for complete workflow automation.",
@@ -109,6 +109,10 @@
               "description": "Returns all console messages",
               "inputSchema": {
                 "properties": {
+                  "all": {
+                    "description": "Return all console messages since the beginning of the session, not just since the last navigation. Defaults to false.",
+                    "type": "boolean"
+                  },
                   "filename": {
                     "description": "Filename to save the console messages to. If not provided, messages are returned as text.",
                     "type": "string"
@@ -183,6 +187,10 @@
                     "description": "Human-readable element description used to obtain permission to interact with the element",
                     "type": "string"
                   },
+                  "filename": {
+                    "description": "Filename to save the result to. If not provided, result is returned as text.",
+                    "type": "string"
+                  },
                   "function": {
                     "description": "() =\u003e { /* code */ } or (element) =\u003e { /* code */ } when element is provided",
                     "type": "string"
@@ -243,6 +251,10 @@
                         },
                         "ref": {
                           "description": "Exact target field reference from the page snapshot",
+                          "type": "string"
+                        },
+                        "selector": {
+                          "description": "CSS or role selector for the field element, when \"ref\" is not available. Either \"selector\" or \"ref\" is required.",
                           "type": "string"
                         },
                         "type": {
@@ -336,21 +348,6 @@
                 "destructiveHint": true,
                 "openWorldHint": true,
                 "readOnlyHint": false,
-                "title": "Install the browser specified in the config"
-              },
-              "description": "Install the browser specified in the config. Call this if you get an error about the browser not being installed.",
-              "inputSchema": {
-                "properties": {},
-                "required": [],
-                "type": "object"
-              },
-              "name": "browser_install"
-            },
-            {
-              "annotations": {
-                "destructiveHint": true,
-                "openWorldHint": true,
-                "readOnlyHint": false,
                 "title": "Navigate to a URL"
               },
               "description": "Navigate to a URL",
@@ -397,14 +394,30 @@
                     "description": "Filename to save the network requests to. If not provided, requests are returned as text.",
                     "type": "string"
                   },
-                  "includeStatic": {
+                  "filter": {
+                    "description": "Only return requests whose URL matches this regexp (e.g. \"/api/.*user\").",
+                    "type": "string"
+                  },
+                  "requestBody": {
+                    "default": false,
+                    "description": "Whether to include request body. Defaults to false.",
+                    "type": "boolean"
+                  },
+                  "requestHeaders": {
+                    "default": false,
+                    "description": "Whether to include request headers. Defaults to false.",
+                    "type": "boolean"
+                  },
+                  "static": {
                     "default": false,
                     "description": "Whether to include successful static resources like images, fonts, scripts, etc. Defaults to false.",
                     "type": "boolean"
                   }
                 },
                 "required": [
-                  "includeStatic"
+                  "static",
+                  "requestBody",
+                  "requestHeaders"
                 ],
                 "type": "object"
               },
@@ -472,11 +485,13 @@
                   "code": {
                     "description": "A JavaScript function containing Playwright code to execute. It will be invoked with a single argument, page, which you can use for any page interaction. For example: `async (page) =\u003e { await page.getByRole('button', { name: 'Submit' }).click(); return await page.title(); }`",
                     "type": "string"
+                  },
+                  "filename": {
+                    "description": "Load code from the specified file. If both code and filename are provided, code will be ignored.",
+                    "type": "string"
                   }
                 },
-                "required": [
-                  "code"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "browser_run_code"
@@ -525,6 +540,10 @@
               "description": "Capture accessibility snapshot of the current page, this is better than screenshot",
               "inputSchema": {
                 "properties": {
+                  "depth": {
+                    "description": "Limit the depth of the snapshot tree",
+                    "type": "number"
+                  },
                   "filename": {
                     "description": "Save snapshot to markdown file instead of returning it in the response.",
                     "type": "string"
@@ -688,7 +707,6 @@
             "browser_fill_form",
             "browser_handle_dialog",
             "browser_hover",
-            "browser_install",
             "browser_navigate",
             "browser_navigate_back",
             "browser_network_requests",
@@ -719,7 +737,7 @@
   "name": "io.github.stacklok/playwright",
   "packages": [
     {
-      "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.68",
+      "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.69",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
