@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-03-30T00:52:19Z"
+    "last_updated": "2026-03-31T00:49:56Z"
   },
   "data": {
     "servers": [
@@ -833,7 +833,7 @@
                   "homepage": "https://www.atlassian.com/platform/remote-mcp-server"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-08T02:59:48Z"
+                  "last_updated": "2026-03-30T03:03:51Z"
                 },
                 "overview": "## Atlassian Remote MCP Server\n\nThe atlassian-remote MCP Server is a cloud-hosted Model Context Protocol (MCP) implementation from Atlassian that lets AI assistants and agents securely access and interact with Atlassian Cloud data — including Jira, Confluence, and Compass — without manual integrations. This official Atlassian tool enables AI systems to query and modify enterprise data across multiple Atlassian products through a secure, OAuth 2.1-authenticated remote endpoint, supporting operations like issue creation, documentation updates, and cross-tool workflows while respecting existing user permissions.",
                 "status": "Active",
@@ -17321,7 +17321,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stackloklabs/mkp/server:0.2.4",
+            "identifier": "ghcr.io/stackloklabs/mkp/server:0.3.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8080"
@@ -17337,7 +17337,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stackloklabs/mkp/server:0.2.4": {
+              "ghcr.io/stackloklabs/mkp/server:0.3.0": {
                 "metadata": {
                   "last_updated": "2026-03-25T03:02:08Z",
                   "stars": 57
@@ -23066,7 +23066,7 @@
                   "homepage": "https://modelcontextprotocol.io"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-07T02:51:19Z"
+                  "last_updated": "2026-03-30T03:03:51Z"
                 },
                 "overview": "## MCP Specification Server\n\nThe mcp-spec is a Model Context Protocol (MCP) server that provides AI assistants with direct, structured access to the MCP specification itself. It enables AI-driven workflows to reference the official protocol definition while reasoning about MCP servers, tools, transports, and behaviors. The server is particularly valuable for MCP client and server development, protocol education, validation, and tooling scenarios where assistants require authoritative, spec-accurate context.",
                 "status": "Active",
@@ -29674,7 +29674,7 @@
                   "homepage": "https://developers.notion.com/docs/get-started-with-mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-07T02:51:19Z"
+                  "last_updated": "2026-03-30T03:03:51Z"
                 },
                 "overview": "## Notion Remote MCP Server\n\nNotion's official remote MCP server enables AI assistants to interact with Notion workspaces over a streamable HTTP transport using OAuth authentication. It provides comprehensive coverage of the Notion API including creating, updating, duplicating, and moving pages; creating and updating databases; searching across the workspace; managing comments; and retrieving user and team information. This server is ideal for AI workflows that need to read from or write to Notion as a knowledge base, project tracker, or documentation system.",
                 "status": "Active",
@@ -38146,8 +38146,8 @@
             "io.github.stacklok": {
               "ghcr.io/pab1it0/prometheus-mcp-server:1.6.0": {
                 "metadata": {
-                  "last_updated": "2026-03-07T21:30:58Z",
-                  "stars": 376
+                  "last_updated": "2026-03-30T03:03:51Z",
+                  "stars": 400
                 },
                 "overview": "## Prometheus MCP Server\n\nThe Prometheus MCP server provides AI assistants with direct access to Prometheus metrics and monitoring data. It enables real-time querying of time-series metrics using PromQL, range queries for trend analysis, alert and rule inspection, and target health monitoring. The server exposes tools for metric discovery, label exploration, and exemplar queries, making it straightforward to integrate Prometheus observability data into AI-driven analysis and incident response workflows.",
                 "permissions": {
