@@ -3,12 +3,12 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/buildkite/buildkite-mcp-server:0.13.0": {
+        "ghcr.io/buildkite/buildkite-mcp-server:1.0.0": {
           "args": [
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-03-26T06:11:13Z",
+            "last_updated": "2026-03-31T01:10:41Z",
             "stars": 48
           },
           "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -49,6 +49,32 @@
                 "type": "object"
               },
               "name": "access_token"
+            },
+            {
+              "annotations": {
+                "title": "Cancel Build"
+              },
+              "description": "Cancel a running build on a Buildkite pipeline",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number"
+                ],
+                "type": "object"
+              },
+              "name": "cancel_build"
             },
             {
               "annotations": {
@@ -453,6 +479,37 @@
                 "type": "object"
               },
               "name": "get_failed_executions"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Job Environment Variables"
+              },
+              "description": "Get the environment variables for a specific job in a Buildkite build",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "job_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number",
+                  "job_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_job_env"
             },
             {
               "annotations": {
@@ -899,6 +956,32 @@
             },
             {
               "annotations": {
+                "title": "Rebuild Build"
+              },
+              "description": "Rebuild/retry an entire build on a Buildkite pipeline",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number"
+                ],
+                "type": "object"
+              },
+              "name": "rebuild_build"
+            },
+            {
+              "annotations": {
                 "destructiveHint": false,
                 "title": "Resume Cluster Queue Dispatch"
               },
@@ -923,6 +1006,36 @@
                 "type": "object"
               },
               "name": "resume_cluster_queue_dispatch"
+            },
+            {
+              "annotations": {
+                "title": "Retry Job"
+              },
+              "description": "Retry a specific failed or timed out job in a Buildkite build",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "job_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number",
+                  "job_id"
+                ],
+                "type": "object"
+              },
+              "name": "retry_job"
             },
             {
               "annotations": {
@@ -1223,6 +1336,7 @@
           ],
           "tools": [
             "access_token",
+            "cancel_build",
             "create_build",
             "create_cluster",
             "create_cluster_queue",
@@ -1234,6 +1348,7 @@
             "get_cluster",
             "get_cluster_queue",
             "get_failed_executions",
+            "get_job_env",
             "get_pipeline",
             "get_test",
             "get_test_run",
@@ -1247,7 +1362,9 @@
             "list_test_runs",
             "pause_cluster_queue_dispatch",
             "read_logs",
+            "rebuild_build",
             "resume_cluster_queue_dispatch",
+            "retry_job",
             "search_logs",
             "tail_logs",
             "unblock_job",
@@ -1285,7 +1402,7 @@
           "name": "JOB_LOG_TOKEN_THRESHOLD"
         }
       ],
-      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:0.13.0",
+      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.0.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
