@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-03-31T00:49:55Z",
+  "last_updated": "2026-04-01T00:54:56Z",
   "servers": {
     "apollo-mcp-server": {
       "title": "Apollo GraphQL",
@@ -1587,6 +1587,7 @@
       "transport": "stdio",
       "tools": [
         "access_token",
+        "cancel_build",
         "create_build",
         "create_cluster",
         "create_cluster_queue",
@@ -1598,6 +1599,7 @@
         "get_cluster",
         "get_cluster_queue",
         "get_failed_executions",
+        "get_job_env",
         "get_pipeline",
         "get_test",
         "get_test_run",
@@ -1611,7 +1613,9 @@
         "list_test_runs",
         "pause_cluster_queue_dispatch",
         "read_logs",
+        "rebuild_build",
         "resume_cluster_queue_dispatch",
+        "retry_job",
         "search_logs",
         "tail_logs",
         "unblock_job",
@@ -1622,7 +1626,7 @@
       ],
       "metadata": {
         "stars": 48,
-        "last_updated": "2026-03-26T06:11:13Z"
+        "last_updated": "2026-03-31T01:10:41Z"
       },
       "repository_url": "https://github.com/buildkite/buildkite-mcp-server",
       "tags": [
@@ -1649,6 +1653,32 @@
             "type": "object"
           },
           "name": "access_token"
+        },
+        {
+          "annotations": {
+            "title": "Cancel Build"
+          },
+          "description": "Cancel a running build on a Buildkite pipeline",
+          "inputSchema": {
+            "properties": {
+              "build_number": {
+                "type": "string"
+              },
+              "org_slug": {
+                "type": "string"
+              },
+              "pipeline_slug": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "org_slug",
+              "pipeline_slug",
+              "build_number"
+            ],
+            "type": "object"
+          },
+          "name": "cancel_build"
         },
         {
           "annotations": {
@@ -2053,6 +2083,37 @@
             "type": "object"
           },
           "name": "get_failed_executions"
+        },
+        {
+          "annotations": {
+            "title": "Get Job Environment Variables",
+            "readOnlyHint": true
+          },
+          "description": "Get the environment variables for a specific job in a Buildkite build",
+          "inputSchema": {
+            "properties": {
+              "build_number": {
+                "type": "string"
+              },
+              "job_id": {
+                "type": "string"
+              },
+              "org_slug": {
+                "type": "string"
+              },
+              "pipeline_slug": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "org_slug",
+              "pipeline_slug",
+              "build_number",
+              "job_id"
+            ],
+            "type": "object"
+          },
+          "name": "get_job_env"
         },
         {
           "annotations": {
@@ -2499,6 +2560,32 @@
         },
         {
           "annotations": {
+            "title": "Rebuild Build"
+          },
+          "description": "Rebuild/retry an entire build on a Buildkite pipeline",
+          "inputSchema": {
+            "properties": {
+              "build_number": {
+                "type": "string"
+              },
+              "org_slug": {
+                "type": "string"
+              },
+              "pipeline_slug": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "org_slug",
+              "pipeline_slug",
+              "build_number"
+            ],
+            "type": "object"
+          },
+          "name": "rebuild_build"
+        },
+        {
+          "annotations": {
             "title": "Resume Cluster Queue Dispatch",
             "destructiveHint": false
           },
@@ -2523,6 +2610,36 @@
             "type": "object"
           },
           "name": "resume_cluster_queue_dispatch"
+        },
+        {
+          "annotations": {
+            "title": "Retry Job"
+          },
+          "description": "Retry a specific failed or timed out job in a Buildkite build",
+          "inputSchema": {
+            "properties": {
+              "build_number": {
+                "type": "string"
+              },
+              "job_id": {
+                "type": "string"
+              },
+              "org_slug": {
+                "type": "string"
+              },
+              "pipeline_slug": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "org_slug",
+              "pipeline_slug",
+              "build_number",
+              "job_id"
+            ],
+            "type": "object"
+          },
+          "name": "retry_job"
         },
         {
           "annotations": {
@@ -2821,7 +2938,7 @@
           "name": "user_token_organization"
         }
       ],
-      "image": "ghcr.io/buildkite/buildkite-mcp-server:0.13.0",
+      "image": "ghcr.io/buildkite/buildkite-mcp-server:1.0.0",
       "permissions": {
         "network": {
           "outbound": {
@@ -25616,7 +25733,6 @@
         "browser_fill_form",
         "browser_handle_dialog",
         "browser_hover",
-        "browser_install",
         "browser_navigate",
         "browser_navigate_back",
         "browser_network_requests",
@@ -25632,7 +25748,7 @@
       ],
       "metadata": {
         "stars": 28552,
-        "last_updated": "2026-03-12T23:57:07Z"
+        "last_updated": "2026-03-31T01:10:55Z"
       },
       "repository_url": "https://github.com/microsoft/playwright-mcp",
       "tags": [
@@ -25724,6 +25840,10 @@
           "description": "Returns all console messages",
           "inputSchema": {
             "properties": {
+              "all": {
+                "description": "Return all console messages since the beginning of the session, not just since the last navigation. Defaults to false.",
+                "type": "boolean"
+              },
               "filename": {
                 "description": "Filename to save the console messages to. If not provided, messages are returned as text.",
                 "type": "string"
@@ -25798,6 +25918,10 @@
                 "description": "Human-readable element description used to obtain permission to interact with the element",
                 "type": "string"
               },
+              "filename": {
+                "description": "Filename to save the result to. If not provided, result is returned as text.",
+                "type": "string"
+              },
               "function": {
                 "description": "() =\u003e { /* code */ } or (element) =\u003e { /* code */ } when element is provided",
                 "type": "string"
@@ -25858,6 +25982,10 @@
                     },
                     "ref": {
                       "description": "Exact target field reference from the page snapshot",
+                      "type": "string"
+                    },
+                    "selector": {
+                      "description": "CSS or role selector for the field element, when \"ref\" is not available. Either \"selector\" or \"ref\" is required.",
                       "type": "string"
                     },
                     "type": {
@@ -25948,21 +26076,6 @@
         },
         {
           "annotations": {
-            "title": "Install the browser specified in the config",
-            "readOnlyHint": false,
-            "destructiveHint": true,
-            "openWorldHint": true
-          },
-          "description": "Install the browser specified in the config. Call this if you get an error about the browser not being installed.",
-          "inputSchema": {
-            "properties": {},
-            "required": [],
-            "type": "object"
-          },
-          "name": "browser_install"
-        },
-        {
-          "annotations": {
             "title": "Navigate to a URL",
             "readOnlyHint": false,
             "destructiveHint": true,
@@ -26012,14 +26125,30 @@
                 "description": "Filename to save the network requests to. If not provided, requests are returned as text.",
                 "type": "string"
               },
-              "includeStatic": {
+              "filter": {
+                "description": "Only return requests whose URL matches this regexp (e.g. \"/api/.*user\").",
+                "type": "string"
+              },
+              "requestBody": {
+                "default": false,
+                "description": "Whether to include request body. Defaults to false.",
+                "type": "boolean"
+              },
+              "requestHeaders": {
+                "default": false,
+                "description": "Whether to include request headers. Defaults to false.",
+                "type": "boolean"
+              },
+              "static": {
                 "default": false,
                 "description": "Whether to include successful static resources like images, fonts, scripts, etc. Defaults to false.",
                 "type": "boolean"
               }
             },
             "required": [
-              "includeStatic"
+              "static",
+              "requestBody",
+              "requestHeaders"
             ],
             "type": "object"
           },
@@ -26087,11 +26216,13 @@
               "code": {
                 "description": "A JavaScript function containing Playwright code to execute. It will be invoked with a single argument, page, which you can use for any page interaction. For example: `async (page) =\u003e { await page.getByRole('button', { name: 'Submit' }).click(); return await page.title(); }`",
                 "type": "string"
+              },
+              "filename": {
+                "description": "Load code from the specified file. If both code and filename are provided, code will be ignored.",
+                "type": "string"
               }
             },
-            "required": [
-              "code"
-            ],
+            "required": [],
             "type": "object"
           },
           "name": "browser_run_code"
@@ -26140,6 +26271,10 @@
           "description": "Capture accessibility snapshot of the current page, this is better than screenshot",
           "inputSchema": {
             "properties": {
+              "depth": {
+                "description": "Limit the depth of the snapshot tree",
+                "type": "number"
+              },
               "filename": {
                 "description": "Save snapshot to markdown file instead of returning it in the response.",
                 "type": "string"
@@ -26293,7 +26428,7 @@
           "name": "browser_wait_for"
         }
       ],
-      "image": "mcr.microsoft.com/playwright/mcp:v0.0.68",
+      "image": "mcr.microsoft.com/playwright/mcp:v0.0.69",
       "permissions": {
         "network": {
           "outbound": {
@@ -33945,7 +34080,7 @@
         "getJiraProjectIssueTypesMetadata"
       ],
       "metadata": {
-        "last_updated": "2026-03-08T02:59:48Z"
+        "last_updated": "2026-03-31T03:03:56Z"
       },
       "tags": [
         "remote",
@@ -34654,8 +34789,8 @@
         "get_abstract_syntax_tree"
       ],
       "metadata": {
-        "stars": 638,
-        "last_updated": "2026-03-08T02:59:48Z"
+        "stars": 644,
+        "last_updated": "2026-03-31T03:03:56Z"
       },
       "repository_url": "https://github.com/semgrep/mcp",
       "tags": [
