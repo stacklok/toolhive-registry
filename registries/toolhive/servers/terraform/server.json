@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "docker.io/hashicorp/terraform-mcp-server:0.5.0": {
           "metadata": {
-            "last_updated": "2026-03-10T09:35:19Z",
+            "last_updated": "2026-04-02T00:35:25Z",
             "stars": 1267
           },
           "overview": "## Terraform MCP Server\n\nThe terraform MCP server provides Terraform registry and Cloud/Enterprise integration for providers, modules, policies, and workspaces. The server provides MCP-based access to Terraform resources through the Terraform Registry API for searching providers and modules, HCP Terraform/TFE API for workspace and policy operations, and environment variable-based authentication. It supports both public registry and private enterprise instances and includes tools for managing workspaces, variables, policies, and accessing Terraform documentation and registry resources.",
@@ -487,6 +487,52 @@
                 "idempotentHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
+                "title": "Get detailed information about a Terraform apply"
+              },
+              "description": "Fetches detailed information about a specific Terraform apply.",
+              "inputSchema": {
+                "properties": {
+                  "apply_id": {
+                    "description": "The ID of the apply to get details for",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "apply_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_apply_details"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get logs for a Terraform apply"
+              },
+              "description": "Retrieves the logs of a specific Terraform apply.",
+              "inputSchema": {
+                "properties": {
+                  "apply_id": {
+                    "description": "The ID of the apply to get logs for",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "apply_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_apply_logs"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
                 "title": "Get Latest Module Version"
               },
               "description": "Fetches the latest version of a Terraform module from the public registry",
@@ -564,6 +610,75 @@
                 "type": "object"
               },
               "name": "get_module_details"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get detailed information about a Terraform plan"
+              },
+              "description": "Fetches detailed information about a specific Terraform plan.",
+              "inputSchema": {
+                "properties": {
+                  "plan_id": {
+                    "description": "The ID of the plan to get details for",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "plan_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_plan_details"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get JSON output for a Terraform plan"
+              },
+              "description": "Retrieves the structured JSON output of a specific Terraform plan. This includes detailed information about resource changes (create, update, delete), attribute values before and after, and plan metadata. This is more structured and easier to parse than plain logs.",
+              "inputSchema": {
+                "properties": {
+                  "plan_id": {
+                    "description": "The ID of the plan to get JSON output for",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "plan_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_plan_json_output"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get logs for a Terraform plan"
+              },
+              "description": "Retrieves the logs of a specific Terraform plan.",
+              "inputSchema": {
+                "properties": {
+                  "plan_id": {
+                    "description": "The ID of the plan to get logs for",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "plan_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_plan_logs"
             },
             {
               "annotations": {
@@ -1527,9 +1642,14 @@
             "create_workspace_variable",
             "delete_variable_in_variable_set",
             "detach_variable_set_from_workspaces",
+            "get_apply_details",
+            "get_apply_logs",
             "get_latest_module_version",
             "get_latest_provider_version",
             "get_module_details",
+            "get_plan_details",
+            "get_plan_json_output",
+            "get_plan_logs",
             "get_policy_details",
             "get_private_module_details",
             "get_private_provider_details",
