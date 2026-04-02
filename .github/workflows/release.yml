@@ -62,7 +62,7 @@ jobs:
 
             for registry_dir in pkg/catalog/*/; do
               registry_name=$(basename "$registry_dir")
-              data_file="$registry_dir/data/registry.json"
+              data_file="$registry_dir/data/registry-legacy.json"
               [ -f "$data_file" ] || continue
 
               CONTAINER_COUNT=$(jq '.servers | length' "$data_file")
@@ -70,7 +70,7 @@ jobs:
               TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
               LAST_UPDATED=$(jq -r '.last_updated' "$data_file")
 
-              upstream_file="$registry_dir/data/official-registry.json"
+              upstream_file="$registry_dir/data/registry-upstream.json"
               if [ -f "$upstream_file" ]; then
                 SKILL_COUNT=$(jq '.data.skills | length // 0' "$upstream_file")
               else
@@ -114,15 +114,20 @@ jobs:
         id: artifacts
         run: |
           ARTIFACT_LIST=""
+          STAGING_DIR="$(mktemp -d)"
           for registry_dir in pkg/catalog/*/; do
             [ -d "$registry_dir/data" ] || continue
+            registry_name="$(basename "$registry_dir")"
             for f in "$registry_dir"/data/*.json; do
               [ -f "$f" ] || continue
+              base="$(basename "$f")"
+              dest="${STAGING_DIR}/${registry_name}-${base}"
+              cp "$f" "$dest"
               if [ -n "$ARTIFACT_LIST" ]; then
                 ARTIFACT_LIST="${ARTIFACT_LIST}
-          ${f}"
+          ${dest}"
               else
-                ARTIFACT_LIST="$f"
+                ARTIFACT_LIST="$dest"
               fi
             done
           done

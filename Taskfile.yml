@@ -43,8 +43,8 @@ tasks:
     sources:
       - registries/**/server.json
     generates:
-      - "{{.BUILD_DIR}}/*/registry.json"
-      - "{{.BUILD_DIR}}/*/official-registry.json"
+      - "{{.BUILD_DIR}}/*/registry-legacy.json"
+      - "{{.BUILD_DIR}}/*/registry-upstream.json"
 
   catalog:validate:
     desc: Validate all server.json entries

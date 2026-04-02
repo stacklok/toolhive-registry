@@ -97,10 +97,10 @@ jobs:
           task catalog:build
           for registry_dir in build/*/; do
             registry_name=$(basename "$registry_dir")
-            [ -f "$registry_dir/registry.json" ] || continue
+            [ -f "$registry_dir/registry-legacy.json" ] || continue
             mkdir -p "pkg/catalog/$registry_name/data"
-            cp "$registry_dir/registry.json" "pkg/catalog/$registry_name/data/registry.json"
-            cp "$registry_dir/official-registry.json" "pkg/catalog/$registry_name/data/official-registry.json"
+            cp "$registry_dir/registry-legacy.json" "pkg/catalog/$registry_name/data/registry-legacy.json"
+            cp "$registry_dir/registry-upstream.json" "pkg/catalog/$registry_name/data/registry-upstream.json"
           done
 
       - name: Generate version
@@ -118,7 +118,7 @@ jobs:
           git checkout -B "$BRANCH"
 
           # Stage only the catalog data files
-          git add pkg/catalog/*/data/registry.json pkg/catalog/*/data/official-registry.json
+          git add pkg/catalog/*/data/registry-legacy.json pkg/catalog/*/data/registry-upstream.json
 
           # Check if there are changes to commit
           if git diff --cached --quiet; then
@@ -140,9 +140,9 @@ jobs:
             for registry_dir in pkg/catalog/*/; do
               registry_name=$(basename "$registry_dir")
               [ -d "$registry_dir/data" ] || continue
-              FILE_LIST="${FILE_LIST}- \`pkg/catalog/${registry_name}/data/registry.json\` — ${registry_name} legacy format
+              FILE_LIST="${FILE_LIST}- \`pkg/catalog/${registry_name}/data/registry-legacy.json\` — ${registry_name} legacy format
           "
-              FILE_LIST="${FILE_LIST}- \`pkg/catalog/${registry_name}/data/official-registry.json\` — ${registry_name} upstream MCP format
+              FILE_LIST="${FILE_LIST}- \`pkg/catalog/${registry_name}/data/registry-upstream.json\` — ${registry_name} upstream MCP format
           "
             done
 
@@ -200,14 +200,14 @@ jobs:
 
             for registry_dir in build/*/; do
               registry_name=$(basename "$registry_dir")
-              [ -f "$registry_dir/registry.json" ] || continue
+              [ -f "$registry_dir/registry-legacy.json" ] || continue
 
-              CONTAINER_COUNT=$(jq '.servers | length' "$registry_dir/registry.json")
-              REMOTE_COUNT=$(jq '.remote_servers | length // 0' "$registry_dir/registry.json")
+              CONTAINER_COUNT=$(jq '.servers | length' "$registry_dir/registry-legacy.json")
+              REMOTE_COUNT=$(jq '.remote_servers | length // 0' "$registry_dir/registry-legacy.json")
               TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
-              SKILL_COUNT=$(jq '.data.skills | length // 0' "$registry_dir/official-registry.json")
-              SIZE=$(du -h "$registry_dir/registry.json" | cut -f1)
-              LAST_UPDATED=$(jq -r '.last_updated' "$registry_dir/registry.json")
+              SKILL_COUNT=$(jq '.data.skills | length // 0' "$registry_dir/registry-upstream.json")
+              SIZE=$(du -h "$registry_dir/registry-legacy.json" | cut -f1)
+              LAST_UPDATED=$(jq -r '.last_updated' "$registry_dir/registry-legacy.json")
 
               echo "### Registry: \`$registry_name\`"
               echo ""
@@ -249,6 +249,6 @@ jobs:
         with:
           name: pr-registry-json
           path: |
-            build/*/registry.json
-            build/*/official-registry.json
+            build/*/registry-legacy.json
+            build/*/registry-upstream.json
           retention-days: 7

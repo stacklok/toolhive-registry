@@ -160,7 +160,7 @@ task catalog:build
 Verify the skill appears in the output:
 
 ```bash
-jq '.data.skills[] | select(.name == "<skill-name>")' build/toolhive/official-registry.json
+jq '.data.skills[] | select(.name == "<skill-name>")' build/toolhive/registry-upstream.json
 ```
 
 ---
@@ -230,7 +230,7 @@ Before submitting:
 - [ ] `name` in `skill.json` matches `name` in `SKILL.md` frontmatter
 - [ ] Validation: `task catalog:validate` passes
 - [ ] Build: `task catalog:build` completes successfully
-- [ ] Skill appears in `build/toolhive/official-registry.json` under `data.skills`
+- [ ] Skill appears in `build/toolhive/registry-upstream.json` under `data.skills`
 
 ---
 

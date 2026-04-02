@@ -63,8 +63,8 @@ For each registry found, it produces output in the build directory:
 
   build/
     toolhive/
-      registry.json
-      official-registry.json`,
+      registry-legacy.json
+      registry-upstream.json`,
 }
 
 var buildCmd = &cobra.Command{
@@ -269,7 +269,7 @@ func buildFormat(reg registryInfo, f string, outDir string) error {
 
 func buildToolhive(loader *internalregistry.Loader, outDir string) error {
 	builder := internalregistry.NewLegacyBuilder(loader)
-	outPath := filepath.Join(outDir, "registry.json")
+	outPath := filepath.Join(outDir, "registry-legacy.json")
 
 	if err := builder.WriteJSON(outPath); err != nil {
 		return fmt.Errorf("failed to write toolhive registry: %w", err)
@@ -286,7 +286,7 @@ func buildUpstream(reg registryInfo, outDir string) error {
 	if reg.skillLoader != nil {
 		builder.WithSkillLoader(reg.skillLoader)
 	}
-	outPath := filepath.Join(outDir, "official-registry.json")
+	outPath := filepath.Join(outDir, "registry-upstream.json")
 
 	if err := builder.WriteJSON(outPath); err != nil {
 		return fmt.Errorf("failed to write upstream registry: %w", err)
