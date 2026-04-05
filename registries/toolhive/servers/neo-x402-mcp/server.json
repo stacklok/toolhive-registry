@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.atakanelik34/neo-x402-mcp",
   "title": "Neo x402 MCP",
-  "version": "1.0.0",
-  "description": "AI-powered web intelligence toolkit with pay-per-use monetization. Search, scrape, analyze PDFs, track crypto, and review code via x402 protocol.",
+  "version": "1.1.0",
+  "description": "AI-powered web intelligence toolkit with 8 tools: search, scrape, screenshot, SEO analysis, PDF/docs conversion, crypto tracking, and code review via x402 pay-per-use.",
   "repository": {
     "url": "https://github.com/atakanelik34/neo-x402-api-server",
     "source": "github"
@@ -27,6 +27,9 @@
         "tags": [
           "web-search",
           "scraping",
+          "screenshot",
+          "seo-analysis",
+          "document-conversion",
           "pdf-analysis",
           "crypto",
           "code-review",
@@ -38,7 +41,10 @@
           "scrape",
           "pdf_analyze",
           "crypto_price",
-          "code_review"
+          "code_review",
+          "screenshot",
+          "seo_analyze",
+          "convert_document"
         ]
       }
     }
