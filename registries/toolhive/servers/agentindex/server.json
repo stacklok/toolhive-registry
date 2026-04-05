@@ -1,0 +1,24 @@
+{
+  "name": "agentindex",
+  "description": "Global AI Agent Registry — Check, register, and verify 25,000+ AI agents with RSA-2048 cryptographic passports. Autonomy levels 0-5, security scanning with A-F ratings.",
+  "repository": {
+    "url": "https://github.com/agentindexworld/agentindex-mcp-server",
+    "source": "github"
+  },
+  "version_detail": {
+    "version": "1.0.0"
+  },
+  "remotes": [
+    {
+      "transport_type": "streamable-http",
+      "url": "https://agentindex.world/mcp"
+    }
+  ],
+  "tools": [
+    {"name": "check_agent", "description": "Verify if an AI agent is registered and trusted"},
+    {"name": "register_agent", "description": "Register a new agent and get a cryptographic passport"},
+    {"name": "find_agent", "description": "Find agents to collaborate with by skill"},
+    {"name": "verify_passport", "description": "Verify a cryptographic passport"},
+    {"name": "get_reputation", "description": "Get full reputation and security report"}
+  ]
+}
