@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-04-01T00:54:56Z"
+    "last_updated": "2026-04-05T00:53:49Z"
   },
   "data": {
     "servers": [
@@ -903,7 +903,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.24",
+            "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.26",
             "transport": {
               "type": "stdio"
             },
@@ -967,7 +967,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.24": {
+              "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.26": {
                 "metadata": {
                   "last_updated": "2026-03-24T02:59:29Z",
                   "stars": 8542
@@ -10104,8 +10104,8 @@
             "io.github.stacklok": {
               "ghcr.io/github/github-mcp-server:v0.33.0": {
                 "metadata": {
-                  "last_updated": "2026-03-09T08:34:59Z",
-                  "stars": 27261
+                  "last_updated": "2026-04-01T03:03:50Z",
+                  "stars": 28440
                 },
                 "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
                 "permissions": {
@@ -12439,7 +12439,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/grafana/mcp-grafana:0.11.3",
+            "identifier": "docker.io/grafana/mcp-grafana:0.11.4",
             "transport": {
               "type": "sse",
               "url": "http://localhost:8000"
@@ -12466,7 +12466,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/grafana/mcp-grafana:0.11.3": {
+              "docker.io/grafana/mcp-grafana:0.11.4": {
                 "metadata": {
                   "last_updated": "2026-03-22T03:02:38Z",
                   "stars": 2616
@@ -22128,8 +22128,8 @@
             "io.github.stacklok": {
               "ghcr.io/nokia/mcp-redfish:0.3.5": {
                 "metadata": {
-                  "last_updated": "2026-03-09T13:19:12Z",
-                  "stars": 5
+                  "last_updated": "2026-04-01T03:03:50Z",
+                  "stars": 6
                 },
                 "overview": "## Redfish MCP Server\n\nThe mcp-redfish server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with systems that expose the Redfish API, the industry-standard RESTful interface for out-of-band hardware management. It allows AI-driven workflows to inspect server hardware, firmware, power state, and health information without switching tools or manually navigating vendor-specific management consoles. This server is especially useful for data center operations, hardware monitoring, infrastructure troubleshooting, and AI-assisted systems management workflows.",
                 "status": "Active",
@@ -30567,7 +30567,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stackloklabs/osv-mcp/server:0.1.1",
+            "identifier": "ghcr.io/stackloklabs/osv-mcp/server:0.1.3",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8080"
@@ -30577,9 +30577,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stackloklabs/osv-mcp/server:0.1.1": {
+              "ghcr.io/stackloklabs/osv-mcp/server:0.1.3": {
                 "metadata": {
-                  "last_updated": "2026-03-13T17:38:15Z",
+                  "last_updated": "2026-04-01T22:15:33Z",
                   "stars": 26
                 },
                 "overview": "## OSV MCP Server\n\nThe osv MCP server provides access to the OSV (Open Source Vulnerabilities) database for querying package and commit vulnerabilities. The server offers MCP-based access to the OSV vulnerability database through direct API queries to OSV.dev for vulnerability lookups by package name, version, or commit hash. It supports batch vulnerability queries for multiple packages simultaneously and delivers detailed vulnerability information including CVE IDs, severity scores, and affected versions across multiple programming languages and package managers.",
@@ -37287,7 +37287,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.69",
+            "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.70",
             "transport": {
               "type": "stdio"
             }
@@ -37296,9 +37296,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "mcr.microsoft.com/playwright/mcp:v0.0.69": {
+              "mcr.microsoft.com/playwright/mcp:v0.0.70": {
                 "metadata": {
-                  "last_updated": "2026-03-31T01:10:42Z",
+                  "last_updated": "2026-04-01T02:01:56Z",
                   "stars": 28552
                 },
                 "overview": "## Playwright MCP Server\n\nThe playwright MCP server provides browser automation capabilities using Playwright. The server enables comprehensive browser automation supporting Chromium, Firefox, and WebKit, with full control over page interactions including clicks, typing, navigation, and screenshots. Additional capabilities include network request monitoring, console message capture for debugging, form filling, file uploads, and dialog handling for complete workflow automation.",
@@ -42494,7 +42494,7 @@
                   "homepage": "https://sentry.io"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-08T02:59:48Z"
+                  "last_updated": "2026-04-01T03:03:50Z"
                 },
                 "overview": "## Sentry Remote MCP Server\n\nSentry's official remote MCP server enables AI assistants to connect to Sentry's error monitoring and performance tracking platform using OAuth authentication over a streamable HTTP transport. It supports finding organizations, teams, projects, and releases; retrieving detailed issue and trace information; searching events and issues; and running AI-powered issue analysis through Sentry Seer. The server provides the full context needed for AI-driven incident triage, root cause analysis, and performance debugging directly within an assistant workflow.",
                 "status": "Active",
@@ -42900,8 +42900,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/sonarqube:latest": {
                 "metadata": {
-                  "last_updated": "2026-03-10T02:55:48Z",
-                  "stars": 415
+                  "last_updated": "2026-04-02T03:03:25Z",
+                  "stars": 453
                 },
                 "overview": "## SonarQube MCP Server\n\nThe sonarqube MCP server provides integration with SonarQube Server or Cloud for code quality and security analysis. The SonarQube MCP server establishes connections to SonarQube instances through stdio transport, utilizing token-based authentication to expose analysis capabilities including code and file analysis execution, project metrics and quality gate assessment retrieval, issue, rule, and dependency risk inspection, and system health monitoring and status endpoints.",
                 "permissions": {
@@ -43059,8 +43059,8 @@
                   "homepage": "https://developer.squareup.com/docs/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-10T02:55:48Z",
-                  "stars": 94
+                  "last_updated": "2026-04-02T03:03:26Z",
+                  "stars": 95
                 },
                 "overview": "## Square MCP Server\n\nSquare's official remote MCP server for payment processing and commerce. The server provides access to Square's commerce platform through Server-Sent Events (SSE) transport, featuring a flexible API request handling tool, type introspection capabilities for API schema discovery, and service discovery for available endpoints. It enables full Square API access for payments, commerce, and customer management operations.",
                 "status": "Active",
@@ -45433,7 +45433,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/hashicorp/terraform-mcp-server:0.4.0",
+            "identifier": "docker.io/hashicorp/terraform-mcp-server:0.5.0",
             "transport": {
               "type": "stdio"
             },
@@ -45469,9 +45469,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/hashicorp/terraform-mcp-server:0.4.0": {
+              "docker.io/hashicorp/terraform-mcp-server:0.5.0": {
                 "metadata": {
-                  "last_updated": "2026-03-10T09:35:19Z",
+                  "last_updated": "2026-04-02T00:35:25Z",
                   "stars": 1267
                 },
                 "overview": "## Terraform MCP Server\n\nThe terraform MCP server provides Terraform registry and Cloud/Enterprise integration for providers, modules, policies, and workspaces. The server provides MCP-based access to Terraform resources through the Terraform Registry API for searching providers and modules, HCP Terraform/TFE API for workspace and policy operations, and environment variable-based authentication. It supports both public registry and private enterprise instances and includes tools for managing workspaces, variables, policies, and accessing Terraform documentation and registry resources.",
@@ -45953,6 +45953,52 @@
                       "idempotentHint": false,
                       "openWorldHint": true,
                       "readOnlyHint": true,
+                      "title": "Get detailed information about a Terraform apply"
+                    },
+                    "description": "Fetches detailed information about a specific Terraform apply.",
+                    "inputSchema": {
+                      "properties": {
+                        "apply_id": {
+                          "description": "The ID of the apply to get details for",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "apply_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_apply_details"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Get logs for a Terraform apply"
+                    },
+                    "description": "Retrieves the logs of a specific Terraform apply.",
+                    "inputSchema": {
+                      "properties": {
+                        "apply_id": {
+                          "description": "The ID of the apply to get logs for",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "apply_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_apply_logs"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
                       "title": "Get Latest Module Version"
                     },
                     "description": "Fetches the latest version of a Terraform module from the public registry",
@@ -46030,6 +46076,75 @@
                       "type": "object"
                     },
                     "name": "get_module_details"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Get detailed information about a Terraform plan"
+                    },
+                    "description": "Fetches detailed information about a specific Terraform plan.",
+                    "inputSchema": {
+                      "properties": {
+                        "plan_id": {
+                          "description": "The ID of the plan to get details for",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "plan_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_plan_details"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Get JSON output for a Terraform plan"
+                    },
+                    "description": "Retrieves the structured JSON output of a specific Terraform plan. This includes detailed information about resource changes (create, update, delete), attribute values before and after, and plan metadata. This is more structured and easier to parse than plain logs.",
+                    "inputSchema": {
+                      "properties": {
+                        "plan_id": {
+                          "description": "The ID of the plan to get JSON output for",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "plan_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_plan_json_output"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Get logs for a Terraform plan"
+                    },
+                    "description": "Retrieves the logs of a specific Terraform plan.",
+                    "inputSchema": {
+                      "properties": {
+                        "plan_id": {
+                          "description": "The ID of the plan to get logs for",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "plan_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_plan_logs"
                   },
                   {
                     "annotations": {
@@ -46993,9 +47108,14 @@
                   "create_workspace_variable",
                   "delete_variable_in_variable_set",
                   "detach_variable_set_from_workspaces",
+                  "get_apply_details",
+                  "get_apply_logs",
                   "get_latest_module_version",
                   "get_latest_provider_version",
                   "get_module_details",
+                  "get_plan_details",
+                  "get_plan_json_output",
+                  "get_plan_logs",
                   "get_policy_details",
                   "get_private_module_details",
                   "get_private_provider_details",
@@ -47489,7 +47609,7 @@
                   "homepage": "https://dev.wix.com"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-10T02:55:48Z"
+                  "last_updated": "2026-04-02T03:03:25Z"
                 },
                 "overview": "## Wix MCP Server\n\nWix's official remote MCP server for development platform and site management. It provides programmatic access to Wix documentation, API exploration, and site management capabilities through a streamable-http transport. Key capabilities include access to comprehensive Wix documentation with search functionality, ability to read full documentation articles and method schemas, direct calls to Wix Site APIs, site listing and management features, and support and feedback functionality for Wix development.",
                 "status": "Active",
