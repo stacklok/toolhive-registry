@@ -53,7 +53,7 @@ func TestBuilder_WriteJSON(t *testing.T) {
 	builder := NewBuilder(loader)
 
 	outDir := t.TempDir()
-	outPath := filepath.Join(outDir, "output", "official-registry.json")
+	outPath := filepath.Join(outDir, "output", "registry-upstream.json")
 
 	err := builder.WriteJSON(outPath)
 	require.NoError(t, err)

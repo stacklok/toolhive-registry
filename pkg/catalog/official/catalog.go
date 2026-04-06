@@ -7,16 +7,16 @@
 // repository, so the embedded content reflects the last daily build.
 //
 // Two formats are available via [Legacy] and [Upstream]:
-//   - Legacy: ToolHive's own registry format (registry.json)
-//   - Upstream: The upstream MCP official registry format (official-registry.json)
+//   - Legacy: ToolHive's own registry format (registry-legacy.json)
+//   - Upstream: The upstream MCP official registry format (registry-upstream.json)
 package official
 
 import _ "embed"
 
-//go:embed data/registry.json
+//go:embed data/registry-legacy.json
 var legacyRegistry []byte
 
-//go:embed data/official-registry.json
+//go:embed data/registry-upstream.json
 var upstreamRegistry []byte
 
 // Legacy returns the registry in ToolHive's legacy format.

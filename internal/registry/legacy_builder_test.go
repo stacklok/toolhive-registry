@@ -180,7 +180,7 @@ func TestLegacyBuilder_WriteJSON(t *testing.T) {
 	builder := NewLegacyBuilder(loader)
 
 	outDir := t.TempDir()
-	outPath := filepath.Join(outDir, "output", "registry.json")
+	outPath := filepath.Join(outDir, "output", "registry-legacy.json")
 
 	err := builder.WriteJSON(outPath)
 	require.NoError(t, err)
