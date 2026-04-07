@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-04-03T00:49:40Z"
+    "last_updated": "2026-04-07T00:50:44Z"
   },
   "data": {
     "servers": [
@@ -285,7 +285,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.11.0",
+            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.12.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -306,7 +306,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/apollographql/apollo-mcp-server:v1.11.0": {
+              "ghcr.io/apollographql/apollo-mcp-server:v1.12.0": {
                 "metadata": {
                   "last_updated": "2026-03-27T03:03:46Z",
                   "stars": 276
@@ -1118,8 +1118,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/aws-diagram:1.0.23": {
                 "metadata": {
-                  "last_updated": "2026-03-12T15:33:14Z",
-                  "stars": 8422
+                  "last_updated": "2026-04-06T03:04:18Z",
+                  "stars": 8687
                 },
                 "overview": "## AWS Diagram MCP Server\n\nThe aws-diagram MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically generate professional diagrams — such as AWS architecture diagrams, sequence flows, and class diagrams — through a prompt-driven interface. It uses the Python diagrams package DSL to turn structured diagram descriptions into visual output, making it easy to include infrastructure visuals inside AI-augmented workflows.",
                 "permissions": {
@@ -2614,8 +2614,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/browserbase-mcp-server:2.4.3": {
                 "metadata": {
-                  "last_updated": "2026-03-12T02:58:58Z",
-                  "stars": 3188
+                  "last_updated": "2026-04-05T03:03:17Z",
+                  "stars": 3224
                 },
                 "overview": "## Browserbase MCP Server\n\nThe browserbase MCP server is a Model Context Protocol (MCP) server that gives AI assistants full, programmable control of real web browsers running in the cloud. Powered by Browserbase, it enables AI-driven workflows to load pages, execute JavaScript, interact with dynamic UIs, and capture screenshots or HTML — making it possible to automate and reason over modern, JavaScript-heavy websites that traditional HTTP-based tools can't handle. This server is ideal for web automation, end-to-end testing, live research, and data extraction workflows that require a real browser environment.",
                 "permissions": {
@@ -4933,8 +4933,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.20.0": {
                 "metadata": {
-                  "last_updated": "2026-03-12T23:50:34Z",
-                  "stars": 28311
+                  "last_updated": "2026-04-06T03:04:18Z",
+                  "stars": 33303
                 },
                 "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
                 "permissions": {
@@ -8263,8 +8263,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/everything:latest": {
                 "metadata": {
-                  "last_updated": "2026-03-12T02:58:59Z",
-                  "stars": 80855
+                  "last_updated": "2026-04-06T03:04:17Z",
+                  "stars": 83039
                 },
                 "overview": "## Everything MCP Server\n\nThe everything-mcp-server is a reference and demonstration Model Context Protocol (MCP) server that exposes a broad collection of example tools in a single implementation. The server is designed as a learning and testing resource, showcasing how MCP functions end-to-end through diverse tool types encompassing data access, computation, state management, and side effects that AI assistants can invoke during workflows. Rather than integrating with external services, this implementation serves primarily for educational purposes, client validation, debugging, and protocol testing — making it valuable for developers onboarding to MCP, understanding server architecture, and conducting regression testing.",
                 "permissions": {
@@ -12730,8 +12730,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/graphlit-mcp-server:1.0.20260112001": {
                 "metadata": {
-                  "last_updated": "2026-03-10T10:15:28Z",
-                  "stars": 372
+                  "last_updated": "2026-04-04T03:00:39Z",
+                  "stars": 374
                 },
                 "overview": "## Graphlit MCP Server\n\nThe graphlit MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Graphlit, a platform for ingesting, processing, organizing, and querying unstructured content using knowledge graphs and embeddings. It allows AI-driven workflows to load documents, media, and web content into Graphlit and then reason over that content using structured queries — without building custom ingestion or retrieval pipelines. This server is especially useful for knowledge management, content intelligence, retrieval-augmented generation (RAG), and research workflows that span large, heterogeneous content collections.",
                 "permissions": {
@@ -16277,8 +16277,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/ida-pro-mcp:1.4.0": {
                 "metadata": {
-                  "last_updated": "2026-03-11T02:55:32Z",
-                  "stars": 6249
+                  "last_updated": "2026-04-05T03:03:17Z",
+                  "stars": 7114
                 },
                 "overview": "## IDA Pro MCP Server\n\nThe ida-pro-mcp server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with IDA Pro, the industry-standard interactive disassembler and reverse-engineering platform. It enables AI-driven workflows to inspect binaries, analyze disassembly, explore functions and symbols, and reason about program structure — all from within an MCP-compatible assistant. This server proves particularly valuable for reverse engineering, malware analysis, vulnerability research, and low-level software analysis workflows where deep binary insight is required.",
                 "permissions": {
@@ -17546,7 +17546,7 @@
             "io.github.stacklok": {
               "kionsoftware/kion-mcp:v0.4.0": {
                 "metadata": {
-                  "last_updated": "2026-03-11T02:55:32Z",
+                  "last_updated": "2026-04-04T03:00:40Z",
                   "stars": 7
                 },
                 "overview": "## Kion MCP Server\n\nThe kion MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kion, a cloud governance and financial management platform. It allows AI-driven workflows to access cloud accounts, policies, budgets, and compliance data, providing governance visibility across accounts and resources, cost and budget context for decision-making, policy awareness for inspecting controls and enforcement, cross-cloud reasoning from a unified interface, and operational support for questions about ownership and compliance.",
@@ -19398,7 +19398,7 @@
                   "homepage": "https://kiwi.com"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-10T02:55:49Z",
+                  "last_updated": "2026-04-03T03:03:27Z",
                   "stars": 9
                 },
                 "overview": "## Kiwi.com Flights MCP Server\n\nThe Kiwi.com MCP server enables AI assistants to search for flights through Kiwi.com's travel platform. It connects to the Kiwi.com API to search for available flights based on origin, destination, and travel dates, returning structured results that AI agents can use to recommend itineraries, compare options, and assist with travel planning workflows. The server uses a streamable HTTP transport for efficient API communication.",
@@ -19459,8 +19459,8 @@
             "io.github.stacklok": {
               "ghcr.io/nirmata/kyverno-mcp:v0.2.2": {
                 "metadata": {
-                  "last_updated": "2026-03-10T10:14:41Z",
-                  "stars": 17
+                  "last_updated": "2026-04-03T03:03:27Z",
+                  "stars": 19
                 },
                 "overview": "## Kyverno MCP Server\n\nThe kyverno MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kyverno, the Kubernetes-native policy engine. It facilitates AI-driven workflows for inspecting policies, validating resources, analyzing policy outcomes, and reasoning about compliance. The server is especially useful for platform engineering, security, and compliance workflows where understanding policy enforcement decisions is critical. Key capabilities include policy visibility, compliance analysis, security governance insight, troubleshooting support, and platform decision support.",
                 "permissions": {
@@ -21664,8 +21664,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-cypher:0.5.3": {
                 "metadata": {
-                  "last_updated": "2026-03-12T20:41:35Z",
-                  "stars": 913
+                  "last_updated": "2026-04-06T03:04:18Z",
+                  "stars": 931
                 },
                 "overview": "## Neo4j Cypher MCP Server\n\nThe mcp-neo4j-cypher server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neo4j graph databases using Cypher, Neo4j's query language. It allows AI-driven workflows to query, explore, and analyze graph data — including nodes, relationships, and paths — without embedding Neo4j drivers or Cypher execution logic into the client. This server is especially useful for knowledge graphs, dependency analysis, recommendation systems, and any workflow that benefits from graph-native querying and reasoning.",
                 "permissions": {
@@ -22343,8 +22343,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.14.2": {
                 "metadata": {
-                  "last_updated": "2026-03-12T20:41:01Z",
-                  "stars": 80
+                  "last_updated": "2026-04-06T03:04:18Z",
+                  "stars": 82
                 },
                 "overview": "## CircleCI MCP Server\n\nThe mcp-server-circleci is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with CircleCI, the continuous integration and delivery platform. It allows AI-driven workflows to inspect pipelines, jobs, workflows, and build results — bringing CI/CD context directly into conversational and automated AI workflows without switching tools. This server is especially useful for build monitoring, failure analysis, release workflows, and developer productivity scenarios where understanding CI state and history is critical.",
                 "permissions": {
@@ -23243,8 +23243,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/memory:latest": {
                 "metadata": {
-                  "last_updated": "2026-03-12T02:58:59Z",
-                  "stars": 80855
+                  "last_updated": "2026-04-05T03:03:18Z",
+                  "stars": 82976
                 },
                 "overview": "## Memory MCP Server\n\nThe memory MCP server provides AI assistants with persistent, long-term memory across interactions. It allows AI workflows to maintain context and knowledge beyond individual conversations, supporting personalization and enabling continuity in assistant interactions. The system works by running as an MCP service that manages persistent storage, handling indexing and retrieval so AI clients can access historical context during reasoning tasks — enabling assistants to develop awareness of user preferences and prior decisions over extended periods.",
                 "permissions": {
@@ -30782,8 +30782,8 @@
                   "--enable-write-tools"
                 ],
                 "metadata": {
-                  "last_updated": "2026-03-11T02:55:32Z",
-                  "stars": 54
+                  "last_updated": "2026-04-05T03:03:17Z",
+                  "stars": 58
                 },
                 "overview": "## PagerDuty MCP Server\n\nThe pagerduty MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with PagerDuty, the incident management and on-call platform. It allows AI-driven workflows to access incidents, services, schedules, and on-call status information, bringing real-time incident response context into AI-assisted operations. This server is especially useful for incident triage, on-call support, operational awareness, and post-incident analysis where PagerDuty serves as the primary system of record.",
                 "permissions": {
@@ -38052,7 +38052,7 @@
             "io.github.stacklok": {
               "ghcr.io/stackloklabs/plotting-mcp:v0.0.2": {
                 "metadata": {
-                  "last_updated": "2026-03-11T02:55:31Z",
+                  "last_updated": "2026-04-04T03:00:40Z",
                   "stars": 7
                 },
                 "overview": "## Plotting MCP Server\n\nThe Plotting MCP server provides AI assistants with data visualization capabilities, enabling the generation of charts and plots from structured data. It supports multiple plotting libraries including matplotlib, seaborn, and cartopy, and can produce line plots, bar charts, scatter plots, and geographic maps. The server uses a streamable HTTP transport and is cryptographically signed for supply chain security, making it suitable for data analysis workflows that require visual output alongside textual reasoning.",
@@ -39441,8 +39441,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/redis:latest": {
                 "metadata": {
-                  "last_updated": "2026-03-10T10:15:28Z",
-                  "stars": 448
+                  "last_updated": "2026-04-04T03:00:40Z",
+                  "stars": 471
                 },
                 "overview": "## Redis MCP Server\n\nThe redis MCP server enables LLMs to interact with Redis key-value databases through a set of standardized tools. The server connects to Redis databases and provides MCP tools for basic operations (CRUD operations, database management), data structures (full support for strings, hashes, lists, sets, sorted sets, JSON), vector search functionality, and streams/Pub/Sub features for messaging and time-series data handling.",
                 "permissions": {
@@ -40803,8 +40803,8 @@
                   "mcp"
                 ],
                 "metadata": {
-                  "last_updated": "2026-03-12T02:58:59Z",
-                  "stars": 14406
+                  "last_updated": "2026-04-05T03:03:17Z",
+                  "stars": 14672
                 },
                 "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
                 "permissions": {
@@ -41186,8 +41186,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.29.0": {
                 "metadata": {
-                  "last_updated": "2026-03-10T10:14:42Z",
-                  "stars": 590
+                  "last_updated": "2026-04-04T03:00:39Z",
+                  "stars": 619
                 },
                 "overview": "## Sentry MCP Server\n\nThe sentry MCP server is a Model Context Protocol (MCP) service for human-in-the-loop coding agents and developer workflow debugging. The server enables comprehensive Sentry project and organization management, real-time error tracking with event search and issue monitoring, AI-powered issue analysis through Sentry Seer integration, and integrated documentation search for platform guidance.",
                 "permissions": {
@@ -43915,7 +43915,7 @@
                   "homepage": "https://docs.stripe.com/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-10T02:55:48Z"
+                  "last_updated": "2026-04-03T03:03:27Z"
                 },
                 "overview": "## Stripe Remote MCP Server\n\nStripe's official remote MCP server for payment processing and subscriptions. The server provides access to Stripe's payment platform through streamable-HTTP transport with comprehensive Stripe API operations organized by category — covering account, balance, customer, payment, product, and subscription tools plus documentation search and resource discovery features. It provides full payment processing API access (payments, invoices, refunds), comprehensive subscription and customer management, and Stripe documentation search and resource fetching capabilities.",
                 "status": "Active",
