@@ -1,0 +1,57 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mapstools.googleapis.com/mcp": {
+          "custom_metadata": {
+            "author": "Google",
+            "homepage": "https://developers.google.com/maps/ai/grounding-lite",
+            "license": "Proprietary"
+          },
+          "overview": "## Google Maps Grounding Lite (Remote)\n\nThe Google Maps Grounding Lite remote MCP server is Google's official managed Model Context Protocol server providing access to Google Maps Platform geospatial data. It offers three tools for place search with summaries and Google Maps links, weather lookups with current conditions and forecasts, and route computation with distance and duration data. Authentication requires a Google Maps API key passed via the X-Goog-Api-Key header. The server is currently experimental and available at no charge during the pre-GA preview period.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "google",
+            "maps",
+            "geospatial",
+            "places",
+            "weather",
+            "routes",
+            "directions"
+          ],
+          "tier": "Official",
+          "tools": [
+            "search_places",
+            "lookup_weather",
+            "compute_routes"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Official Google Maps MCP server for places, weather, and route data",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/google-maps-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/google-maps-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mapstools.googleapis.com/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/google/mcp"
+  },
+  "title": "Google Maps Grounding Lite (Remote)",
+  "version": "1.0.0"
+}
