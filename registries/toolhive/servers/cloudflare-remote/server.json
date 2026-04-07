@@ -1,0 +1,56 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.cloudflare.com/mcp": {
+          "custom_metadata": {
+            "author": "Cloudflare",
+            "homepage": "https://developers.cloudflare.com/agents/model-context-protocol/mcp-servers-for-cloudflare/",
+            "license": "Apache-2.0"
+          },
+          "overview": "## Cloudflare API (Remote)\n\nThe Cloudflare API remote MCP server is Cloudflare's official managed Model Context Protocol server providing token-efficient access to the entire Cloudflare API. Powered by Code Mode, it exposes over 2,500 API endpoints across Workers, KV, R2, D1, Pages, DNS, Firewall, Load Balancers, Stream, Images, AI Gateway, Vectorize, Access, Zero Trust, and more through just two tools in approximately 1,000 tokens. It supports OAuth and API token authentication via Streamable HTTP transport.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "cloudflare",
+            "dns",
+            "cdn",
+            "workers",
+            "security",
+            "infrastructure",
+            "api"
+          ],
+          "tier": "Official",
+          "tools": [
+            "search",
+            "execute"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Official Cloudflare MCP server for the entire Cloudflare API via Code Mode",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/cloudflare-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/cloudflare-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.cloudflare.com/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/cloudflare/mcp"
+  },
+  "title": "Cloudflare API (Remote)",
+  "version": "1.0.0"
+}
