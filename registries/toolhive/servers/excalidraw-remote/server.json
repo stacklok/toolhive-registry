@@ -1,0 +1,42 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/excalidraw-remote",
+  "description": "Streams hand-drawn Excalidraw diagrams with animated drawing, camera panning, and fullscreen editing",
+  "title": "Excalidraw (Remote)",
+  "repository": {
+    "url": "https://github.com/excalidraw/excalidraw-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.excalidraw.com/mcp"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/excalidraw-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.excalidraw.com/mcp": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": ["remote", "diagrams", "visualization", "excalidraw", "whiteboard", "drawing", "mcp-app"],
+          "tools": ["read_me", "create_view", "export_to_excalidraw", "save_checkpoint", "read_checkpoint"],
+          "overview": "## Excalidraw (Remote)\n\nThe Excalidraw remote MCP App server streams hand-drawn Excalidraw diagrams directly into the chat with smooth viewport camera control and interactive fullscreen editing. AI assistants can draw architecture diagrams, sketches, and illustrations using Excalidraw's hand-drawn aesthetic, with support for checkpointing and restoring diagram state. Finished diagrams can be exported and shared via excalidraw.com.",
+          "custom_metadata": {
+            "author": "Excalidraw",
+            "homepage": "https://excalidraw.com",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
