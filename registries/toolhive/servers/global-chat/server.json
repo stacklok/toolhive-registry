@@ -1,0 +1,72 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/global-chat",
+  "description": "Cross-protocol AI agent discovery for MCP, A2A, and agents.txt \u2014 search agents, validate agents.txt files, and register new agents",
+  "title": "Global Chat",
+  "repository": {
+    "url": "https://github.com/pumanitro/global-chat",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/global-chat-mcp-server:0.1.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "GLOBAL_CHAT_BASE_URL",
+          "description": "Base URL for the Global Chat API (defaults to https://global-chat.io)",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/global-chat-mcp-server:0.1.1": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "ai-agents",
+            "agent-discovery",
+            "mcp",
+            "agents-txt",
+            "a2a",
+            "directory",
+            "search",
+            "validation"
+          ],
+          "tools": [
+            "validate_agents_txt",
+            "list_agents",
+            "search_agents",
+            "register_agent"
+          ],
+          "overview": "## Global Chat MCP Server\n\nThe Global Chat MCP server provides AI assistants with tools for cross-protocol agent discovery. It connects to the global-chat.io directory, which aggregates AI agents across MCP, A2A, and agents.txt protocols. Assistants can search a directory of agents across multiple registries, validate agents.txt files against the specification, list registered agents by type, and register new agents. The server is useful for agent-to-agent discovery workflows where finding and connecting to other AI agents is needed.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "global-chat.io"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "custom_metadata": {
+            "author": "Global Chat",
+            "homepage": "https://global-chat.io",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
