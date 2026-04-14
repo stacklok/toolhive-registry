@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/github/github-mcp-server:v0.34.0": {
           "metadata": {
-            "last_updated": "2026-04-01T03:03:50Z",
+            "last_updated": "2026-04-14T18:01:13Z",
             "stars": 28440
           },
           "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -915,6 +915,10 @@
                     "minimum": 1,
                     "type": "number"
                   },
+                  "path": {
+                    "description": "Only commits containing this file path will be returned",
+                    "type": "string"
+                  },
                   "perPage": {
                     "description": "Results per page for pagination (min 1, max 100)",
                     "maximum": 100,
@@ -927,6 +931,14 @@
                   },
                   "sha": {
                     "description": "Commit SHA, branch or tag name to list commits of. If not provided, uses the default branch of the repository. If a commit SHA is provided, will list commits up to that SHA.",
+                    "type": "string"
+                  },
+                  "since": {
+                    "description": "Only commits after this date will be returned (ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ or YYYY-MM-DD)",
+                    "type": "string"
+                  },
+                  "until": {
+                    "description": "Only commits before this date will be returned (ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ or YYYY-MM-DD)",
                     "type": "string"
                   }
                 },
@@ -1278,7 +1290,7 @@
               "annotations": {
                 "title": "Write operations (create, submit, delete) on pull request reviews."
               },
-              "description": "Create and/or submit, delete review of a pull request.\n\nAvailable methods:\n- create: Create a new review of a pull request. If \"event\" parameter is provided, the review is submitted. If \"event\" is omitted, a pending review is created.\n- submit_pending: Submit an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request. The \"body\" and \"event\" parameters are used when submitting the review.\n- delete_pending: Delete an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request.\n",
+              "description": "Create and/or submit, delete review of a pull request.\n\nAvailable methods:\n- create: Create a new review of a pull request. If \"event\" parameter is provided, the review is submitted. If \"event\" is omitted, a pending review is created.\n- submit_pending: Submit an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request. The \"body\" and \"event\" parameters are used when submitting the review.\n- delete_pending: Delete an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request.\n- resolve_thread: Resolve a review thread. Requires only \"threadId\" parameter with the thread's node ID (e.g., PRRT_kwDOxxx). The owner, repo, and pullNumber parameters are not used for this method. Resolving an already-resolved thread is a no-op.\n- unresolve_thread: Unresolve a previously resolved review thread. Requires only \"threadId\" parameter. The owner, repo, and pullNumber parameters are not used for this method. Unresolving an already-unresolved thread is a no-op.\n",
               "inputSchema": {
                 "properties": {
                   "body": {
@@ -1303,7 +1315,9 @@
                     "enum": [
                       "create",
                       "submit_pending",
-                      "delete_pending"
+                      "delete_pending",
+                      "resolve_thread",
+                      "unresolve_thread"
                     ],
                     "type": "string"
                   },
@@ -1317,6 +1331,10 @@
                   },
                   "repo": {
                     "description": "Repository name",
+                    "type": "string"
+                  },
+                  "threadId": {
+                    "description": "The node ID of the review thread (e.g., PRRT_kwDOxxx). Required for resolve_thread and unresolve_thread methods. Get thread IDs from pull_request_read with method get_review_comments.",
                     "type": "string"
                   }
                 },
@@ -1344,6 +1362,7 @@
                   "files": {
                     "description": "Array of file objects to push, each object with path (string) and content (string)",
                     "items": {
+                      "additionalProperties": false,
                       "properties": {
                         "content": {
                           "description": "file content",
