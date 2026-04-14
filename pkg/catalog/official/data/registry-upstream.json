@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-04-13T00:55:25Z"
+    "last_updated": "2026-04-14T00:55:37Z"
   },
   "data": {
     "servers": [
@@ -284,7 +284,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.27",
+            "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.29",
             "transport": {
               "type": "stdio"
             },
@@ -348,7 +348,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.27": {
+              "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.29": {
                 "metadata": {
                   "last_updated": "2026-03-23T03:03:36Z",
                   "stars": 8539
@@ -499,8 +499,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/aws-diagram:1.0.23": {
                 "metadata": {
-                  "last_updated": "2026-03-13T10:07:21Z",
-                  "stars": 8422
+                  "last_updated": "2026-04-12T03:04:10Z",
+                  "stars": 8743
                 },
                 "overview": "## AWS Diagram MCP Server\n\nThe aws-diagram MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically generate professional diagrams — such as AWS architecture diagrams, sequence flows, and class diagrams — through a prompt-driven interface. It uses the Python diagrams package DSL to turn structured diagram descriptions into visual output, making it easy to include infrastructure visuals inside AI-augmented workflows.",
                 "permissions": {
@@ -1576,7 +1576,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "mcr.microsoft.com/azure-sdk/azure-mcp:1.0.4",
+            "identifier": "mcr.microsoft.com/azure-sdk/azure-mcp:2.0.0",
             "transport": {
               "type": "stdio"
             },
@@ -1617,9 +1617,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "mcr.microsoft.com/azure-sdk/azure-mcp:1.0.4": {
+              "mcr.microsoft.com/azure-sdk/azure-mcp:2.0.0": {
                 "metadata": {
-                  "last_updated": "2026-03-17T02:59:09Z",
+                  "last_updated": "2026-04-13T09:48:22Z",
                   "stars": 1206
                 },
                 "overview": "## Azure MCP Server\n\nThe azure MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Microsoft Azure resources and APIs through a unified, AI-friendly interface. It allows natural-language workflows to explore, query, and manage Azure infrastructure and services without requiring custom SDK integration or manual portal usage. This server is well suited for cloud operations, infrastructure exploration, troubleshooting, and automation scenarios where Azure context needs to be embedded directly into AI-driven workflows.",
@@ -1655,43 +1655,2192 @@
                   "storage"
                 ],
                 "tier": "Official",
+                "tool_definitions": [
+                  {
+                    "annotations": {
+                      "title": "Azure Container Registry Services"
+                    },
+                    "description": "Azure Container Registry operations - Commands for managing Azure Container Registry resources. Includes operations for listing container registries and managing registry configurations.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "acr"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Advisor Recommendations"
+                    },
+                    "description": "Azure Advisor operations - Manage and query Azure Advisor recommendations across subscriptions. Use when you need subscription-scoped visibility into Advisor recommendations. Requires Azure subscription context.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "advisor"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Manage Azure Kubernetes Service"
+                    },
+                    "description": "Azure Kubernetes Service operations - Manage and query Azure Kubernetes Service (AKS) resources across subscriptions. Use when you need subscription-scoped visibility into AKS cluster and node pool metadata—including Azure resource IDs, networking endpoints, identity configuration, and provisioning state—for governance or automation. Requires Azure subscription context. Not for kubectl execution, pod lifecycle changes, or in-cluster application deployments—use Kubernetes-native tooling for those tasks.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "aks"
+                  },
+                  {
+                    "annotations": {
+                      "title": "App Configuration Management"
+                    },
+                    "description": "App Configuration operations - Commands for managing Azure App Configuration stores and key-value settings. Includes operations for listing configuration stores, managing key-value pairs, setting labels, locking/unlocking settings, and retrieving configuration data.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "appconfig"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure AppLens Diagnostics"
+                    },
+                    "description": "AppLens diagnostic operations – Primary tool for diagnosing and troubleshooting Azure resource issues. Uses conversational AI-powered diagnostics to detect problems, identify root causes, and recommend remediation steps. This tool should be the first choice when users report errors, performance issues, availability problems, or unexpected Azure resource behavior.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "applens"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Application Insights"
+                    },
+                    "description": "Application Insights operations - Commands for listing and managing Application Insights components. \nThese commands do not support querying metrics or logs. Use Azure Monitor querying tools for that purpose.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "applicationinsights"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure App Service"
+                    },
+                    "description": "App Service operations - Commands for managing Azure App Service resources including web apps, databases, and configurations.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "appservice"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Developer CLI"
+                    },
+                    "description": "Azure Developer CLI (azd) includes a suite of tools to help build, modernize, and manage applications on Azure. It simplifies the process of developing cloud applications by providing commands for project initialization, resource provisioning, deployment, and monitoring. Use this tool to streamline your Azure development workflow and manage your cloud resources efficiently.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "azd"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Landing Zone Generation and Guidance"
+                    },
+                    "description": "Azure Platform Landing Zone operations - Provides best-practice guidance and Terraform-ready generation for Azure Platform Landing Zones. Supports policy and governance changes, naming standards, network topology (hub/spoke/vWAN), identity and subscription design, firewall patterns, and starter module customization aligned to Microsoft's Cloud Adoption Framework. Can generate a complete platform landing zone with configurable parameters (regions, connectivity, security, subscriptions). Use this tool any time a user mentions the words \"Platform Landing Zone\" or needs guidance on modifying or generating Azure Platform Landing Zones.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "azuremigrate"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Terraform Best Practices"
+                    },
+                    "description": "Returns Terraform best practices for Azure. Call this before generating Terraform code for Azure Providers. \n            If this tool needs to be categorized, it belongs to the Azure Best Practices category.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "azureterraformbestpractices"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Bicep Schema"
+                    },
+                    "description": "Bicep schema operations - Commands for working with Azure Bicep Infrastructure as Code (IaC) generation and schema management. Includes operations for retrieving Bicep schemas, templates, and resource definitions to support infrastructure deployment automation.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "bicepschema"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Cloud Architecture"
+                    },
+                    "description": "Cloud Architecture operations - Commands for generating Azure architecture designs and recommendations based on requirements.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "cloudarchitect"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Communication Services"
+                    },
+                    "description": "Communication services operations - Commands for managing Azure Communication Services - supports sending SMSThis tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "communication"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Manage Azure Compute Resources"
+                    },
+                    "description": "Compute operations - Commands for managing and monitoring Azure Virtual Machines (VMs), Virtual Machine Scale Sets (VMSS), and Managed Disks.\nThis tool provides comprehensive access to VM lifecycle management, instance monitoring, size discovery, and scale set operations.\nUse this tool when you need to list, query, create, or monitor VMs and VMSS instances across subscriptions and resource groups.\nDefaults to Standard_DS1_v2 VM size and Ubuntu 24.04 LTS image for VM creation when not specified.\nThis tool is a hierarchical MCP command router where sub-commands are routed to MCP servers that require specific fields\ninside the \"parameters\" object. To invoke a command, set \"command\" and wrap its arguments in \"parameters\".\nSet \"learn=true\" to discover available sub-commands for different Azure Compute operations.\nNote that this tool requires appropriate Azure RBAC permissions and will only access compute resources accessible to the authenticated user.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "compute"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Confidential Ledger"
+                    },
+                    "description": "Azure Confidential Ledger operations - Commands for appending and querying tamper-proof ledger entries backed by TEEs and blockchain-style integrity guarantees. Use these commands to write immutable audit records.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "confidentialledger"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Container Apps Management"
+                    },
+                    "description": "Azure Container Apps operations - Commands for managing Azure Container Apps resources. Includes operations for listing container apps and managing container app configurations.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "containerapps"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Cosmos DB"
+                    },
+                    "description": "Cosmos DB operations - Commands for managing and querying Azure Cosmos DB resources. Includes operations for accounts, databases, containers, and document queries.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "cosmos"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Datadog Integration"
+                    },
+                    "description": "Datadog operations - Commands for managing and monitoring Azure resources through Datadog integration. Includes operations for listing Datadog monitors and retrieving information about monitored Azure resources and their health status.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "datadog"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Deployment"
+                    },
+                    "description": "Deploy operations – Commands for deploying applications to Azure. Provides sub-commands to generate deployment plans, offer infrastructure-as-code (Bicep/Terraform) guidance, fetch application logs, generate CI/CD pipeline guidance, and produce Azure architecture diagrams based on application topology.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "deploy"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Manage Azure Device Registry"
+                    },
+                    "description": "Device Registry operations - Commands to manage Azure Device Registry resources.\nAzure Device Registry (ADR) is a unified registry projecting assets and devices as Azure resources.\nSupports listing namespaces and managing device registry resources in your Azure subscription.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "deviceregistry"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Microsoft Documentation Search"
+                    },
+                    "description": "Search official Microsoft/Azure documentation to find the most relevant and trustworthy content for a user's query. This tool returns up to 10 high-quality content chunks (each max 500 tokens), extracted from Microsoft Learn and other official sources. Each result includes the article title, URL, and a self-contained content excerpt optimized for fast retrieval and reasoning. Always use this tool to quickly ground your answers in accurate, first-party Microsoft/Azure knowledge.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "documentation"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Event Grid"
+                    },
+                    "description": "Event Grid operations - Commands for managing and accessing Event Grid topics, domains, and event subscriptions.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "eventgrid"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Event Hubs"
+                    },
+                    "description": "Azure Event Hubs operations - Commands for managing Azure Event Hubs namespaces and event hubs. Includes CRUD operations Event Hubs service resources.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "eventhubs"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": true,
+                      "openWorldHint": false,
+                      "readOnlyHint": true,
+                      "title": "Azure Quick Review CLI Command"
+                    },
+                    "description": "Runs Azure Quick Review CLI (azqr) commands to generate compliance and security reports for Azure resources, identifying non-compliant configurations or areas for improvement. Requires a subscription id and optionally a resource group name. Returns the generated report file path. Note: azqr is different from Azure CLI (az).",
+                    "inputSchema": {
+                      "properties": {
+                        "auth-method": {
+                          "description": "Authentication method to use. Options: 'credential' (Azure CLI/managed identity), 'key' (access key), or 'connectionString'.",
+                          "enum": [
+                            "Credential",
+                            "Key",
+                            "ConnectionString"
+                          ],
+                          "type": "string"
+                        },
+                        "resource-group": {
+                          "description": "The name of the Azure resource group. This is a logical container for Azure resources.",
+                          "type": "string"
+                        },
+                        "retry-delay": {
+                          "description": "Initial delay in seconds between retry attempts. For exponential backoff, this value is used as the base.",
+                          "type": "number"
+                        },
+                        "retry-max-delay": {
+                          "description": "Maximum delay in seconds between retries, regardless of the retry strategy.",
+                          "type": "number"
+                        },
+                        "retry-max-retries": {
+                          "description": "Maximum number of retry attempts for failed operations before giving up.",
+                          "type": "integer"
+                        },
+                        "retry-mode": {
+                          "description": "Retry strategy to use. 'fixed' uses consistent delays, 'exponential' increases delay between attempts.",
+                          "enum": [
+                            "Fixed",
+                            "Exponential"
+                          ],
+                          "type": "string"
+                        },
+                        "retry-network-timeout": {
+                          "description": "Network operation timeout in seconds. Operations taking longer than this will be cancelled.",
+                          "type": "number"
+                        },
+                        "subscription": {
+                          "description": "Specifies the Azure subscription to use. Accepts either a subscription ID (GUID) or display name. If not specified, the AZURE_SUBSCRIPTION_ID environment variable will be used instead.",
+                          "type": "string"
+                        },
+                        "tenant": {
+                          "description": "The Microsoft Entra ID tenant ID or name. This can be either the GUID identifier or the display name of your Entra ID tenant.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "extension_azqr"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": true,
+                      "openWorldHint": false,
+                      "readOnlyHint": true,
+                      "title": "Generate CLI Command"
+                    },
+                    "description": "Generate Azure CLI (az) commands used to accomplish a goal described by the user. This tool incorporates CLI knowledge beyond what you know. Use this tool when the user asks for Azure CLI commands or wants to use the Azure CLI to accomplish something.",
+                    "inputSchema": {
+                      "properties": {
+                        "auth-method": {
+                          "description": "Authentication method to use. Options: 'credential' (Azure CLI/managed identity), 'key' (access key), or 'connectionString'.",
+                          "enum": [
+                            "Credential",
+                            "Key",
+                            "ConnectionString"
+                          ],
+                          "type": "string"
+                        },
+                        "cli-type": {
+                          "description": "The type of CLI tool to use. Supported values are 'az' for Azure CLI.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The user intent of the task to be solved by using the CLI tool. This user intent will be used to generate the appropriate CLI command to accomplish the desirable goal.",
+                          "type": "string"
+                        },
+                        "retry-delay": {
+                          "description": "Initial delay in seconds between retry attempts. For exponential backoff, this value is used as the base.",
+                          "type": "number"
+                        },
+                        "retry-max-delay": {
+                          "description": "Maximum delay in seconds between retries, regardless of the retry strategy.",
+                          "type": "number"
+                        },
+                        "retry-max-retries": {
+                          "description": "Maximum number of retry attempts for failed operations before giving up.",
+                          "type": "integer"
+                        },
+                        "retry-mode": {
+                          "description": "Retry strategy to use. 'fixed' uses consistent delays, 'exponential' increases delay between attempts.",
+                          "enum": [
+                            "Fixed",
+                            "Exponential"
+                          ],
+                          "type": "string"
+                        },
+                        "retry-network-timeout": {
+                          "description": "Network operation timeout in seconds. Operations taking longer than this will be cancelled.",
+                          "type": "number"
+                        },
+                        "tenant": {
+                          "description": "The Microsoft Entra ID tenant ID or name. This can be either the GUID identifier or the display name of your Entra ID tenant.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "intent",
+                        "cli-type"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "extension_cli_generate"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": true,
+                      "openWorldHint": false,
+                      "readOnlyHint": true,
+                      "title": "Get CLI installation instructions"
+                    },
+                    "description": "Provide installation instructions for Azure CLI (az), Azure Developer CLI (azd), and Azure Functions Core Tools CLI (func). This tool incorporates CLI knowledge beyond what you know. Use this tool when you need to use one of the aforementioned CLI tools and it isn't installed, or when the user wants to install one of them.",
+                    "inputSchema": {
+                      "properties": {
+                        "auth-method": {
+                          "description": "Authentication method to use. Options: 'credential' (Azure CLI/managed identity), 'key' (access key), or 'connectionString'.",
+                          "enum": [
+                            "Credential",
+                            "Key",
+                            "ConnectionString"
+                          ],
+                          "type": "string"
+                        },
+                        "cli-type": {
+                          "description": "The type of CLI tool to use. Supported values are 'az' for Azure CLI, 'azd' for Azure Developer CLI, and 'func' for Azure Functions Core Tools CLI.",
+                          "type": "string"
+                        },
+                        "retry-delay": {
+                          "description": "Initial delay in seconds between retry attempts. For exponential backoff, this value is used as the base.",
+                          "type": "number"
+                        },
+                        "retry-max-delay": {
+                          "description": "Maximum delay in seconds between retries, regardless of the retry strategy.",
+                          "type": "number"
+                        },
+                        "retry-max-retries": {
+                          "description": "Maximum number of retry attempts for failed operations before giving up.",
+                          "type": "integer"
+                        },
+                        "retry-mode": {
+                          "description": "Retry strategy to use. 'fixed' uses consistent delays, 'exponential' increases delay between attempts.",
+                          "enum": [
+                            "Fixed",
+                            "Exponential"
+                          ],
+                          "type": "string"
+                        },
+                        "retry-network-timeout": {
+                          "description": "Network operation timeout in seconds. Operations taking longer than this will be cancelled.",
+                          "type": "number"
+                        },
+                        "tenant": {
+                          "description": "The Microsoft Entra ID tenant ID or name. This can be either the GUID identifier or the display name of your Entra ID tenant.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "cli-type"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "extension_cli_install"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure File Shares"
+                    },
+                    "description": "File Shares operations - Commands for managing Azure File Shares.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "fileshares"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Microsoft Foundry MCP"
+                    },
+                    "description": "MCP server with tools to read, create, modify resources such as Models, Agents and Evaluation workflows in Microsoft Foundry platform.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "foundry"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Microsoft Foundry Extensions"
+                    },
+                    "description": "Foundry Extensions service operations - Commands for interacting with Microsoft Foundry OpenAI, knowledge indexes, threads, agents, and resources.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "foundryextensions"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Functions"
+                    },
+                    "description": "Function App operations - Commands for managing and accessing Azure Function App resources.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "functionapp"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Functions"
+                    },
+                    "description": "Azure Functions code generation commands. Use these tools to generate functions code, explore supported languages and runtime versions, and get composable function templates for Azure Functions development.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "functions"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Best Practices"
+                    },
+                    "description": "Azure best practices - Commands return a list of best practices for code generation, operations and deployment \n            when working with Azure services. \n            It should be called for any code generation, deployment or \n            operations involving Azure, Azure Functions, Azure Kubernetes Service (AKS), Azure Container \n            Apps (ACA), Bicep, Terraform, Azure Cache, Redis, CosmosDB, Entra, Azure Active Directory, \n            Azure App Services, or any other Azure technology or programming language. \n            This command set also includes the command to get AI application best practices, which provides specialized guidance\n            for building AI applications, offering recommendations for agents, chatbots, workflows, and other \n            AI-powered features leveraging Microsoft Foundry. \n            When the request involves AI in any capacity, including systems where AI is used as a component,\n            use AI application best practices instead of the general best practices.\n            Call this tool first before creating any plans, todos or code.\n            Make sure to use your azure-prepare, azure-validate, and azure-deploy skills for deployment to azure if they are available.\n            Only call this function when you are confident the user is discussing Azure (including Microsoft Foundry). If this tool needs to be categorized, \n            it belongs to the Get Azure Best Practices category.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_azure_bestpractices"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Managed Grafana"
+                    },
+                    "description": "Grafana workspace operations - Commands for managing and accessing Azure Managed Grafana resources and monitoring dashboards. Includes operations for listing Grafana workspaces and managing data visualization and monitoring capabilities.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "grafana"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": true,
+                      "openWorldHint": false,
+                      "readOnlyHint": true,
+                      "title": "List Resource Groups"
+                    },
+                    "description": "List all resource groups in a subscription. This command retrieves all resource groups available\nin the specified subscription. Results include resource group names and IDs,\nreturned as a JSON array.",
+                    "inputSchema": {
+                      "properties": {
+                        "auth-method": {
+                          "description": "Authentication method to use. Options: 'credential' (Azure CLI/managed identity), 'key' (access key), or 'connectionString'.",
+                          "enum": [
+                            "Credential",
+                            "Key",
+                            "ConnectionString"
+                          ],
+                          "type": "string"
+                        },
+                        "retry-delay": {
+                          "description": "Initial delay in seconds between retry attempts. For exponential backoff, this value is used as the base.",
+                          "type": "number"
+                        },
+                        "retry-max-delay": {
+                          "description": "Maximum delay in seconds between retries, regardless of the retry strategy.",
+                          "type": "number"
+                        },
+                        "retry-max-retries": {
+                          "description": "Maximum number of retry attempts for failed operations before giving up.",
+                          "type": "integer"
+                        },
+                        "retry-mode": {
+                          "description": "Retry strategy to use. 'fixed' uses consistent delays, 'exponential' increases delay between attempts.",
+                          "enum": [
+                            "Fixed",
+                            "Exponential"
+                          ],
+                          "type": "string"
+                        },
+                        "retry-network-timeout": {
+                          "description": "Network operation timeout in seconds. Operations taking longer than this will be cancelled.",
+                          "type": "number"
+                        },
+                        "subscription": {
+                          "description": "Specifies the Azure subscription to use. Accepts either a subscription ID (GUID) or display name. If not specified, the AZURE_SUBSCRIPTION_ID environment variable will be used instead.",
+                          "type": "string"
+                        },
+                        "tenant": {
+                          "description": "The Microsoft Entra ID tenant ID or name. This can be either the GUID identifier or the display name of your Entra ID tenant.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "group_list"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": true,
+                      "openWorldHint": false,
+                      "readOnlyHint": true,
+                      "title": "List Resources in Resource Group"
+                    },
+                    "description": "List all resources in a resource group. This command retrieves all resources available\nin the specified resource-group within the given\nsubscription. Results include resource names, IDs, types,\nand locations. The command returns a JSON object with a `resources` array containing these entries.",
+                    "inputSchema": {
+                      "properties": {
+                        "auth-method": {
+                          "description": "Authentication method to use. Options: 'credential' (Azure CLI/managed identity), 'key' (access key), or 'connectionString'.",
+                          "enum": [
+                            "Credential",
+                            "Key",
+                            "ConnectionString"
+                          ],
+                          "type": "string"
+                        },
+                        "resource-group": {
+                          "description": "The name of the Azure resource group. This is a logical container for Azure resources.",
+                          "type": "string"
+                        },
+                        "retry-delay": {
+                          "description": "Initial delay in seconds between retry attempts. For exponential backoff, this value is used as the base.",
+                          "type": "number"
+                        },
+                        "retry-max-delay": {
+                          "description": "Maximum delay in seconds between retries, regardless of the retry strategy.",
+                          "type": "number"
+                        },
+                        "retry-max-retries": {
+                          "description": "Maximum number of retry attempts for failed operations before giving up.",
+                          "type": "integer"
+                        },
+                        "retry-mode": {
+                          "description": "Retry strategy to use. 'fixed' uses consistent delays, 'exponential' increases delay between attempts.",
+                          "enum": [
+                            "Fixed",
+                            "Exponential"
+                          ],
+                          "type": "string"
+                        },
+                        "retry-network-timeout": {
+                          "description": "Network operation timeout in seconds. Operations taking longer than this will be cancelled.",
+                          "type": "number"
+                        },
+                        "subscription": {
+                          "description": "Specifies the Azure subscription to use. Accepts either a subscription ID (GUID) or display name. If not specified, the AZURE_SUBSCRIPTION_ID environment variable will be used instead.",
+                          "type": "string"
+                        },
+                        "tenant": {
+                          "description": "The Microsoft Entra ID tenant ID or name. This can be either the GUID identifier or the display name of your Entra ID tenant.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "resource-group"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "group_resource_list"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Key Vault"
+                    },
+                    "description": "Key Vault operations - Commands for managing and accessing Azure Key Vault resources.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "keyvault"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Data Explorer"
+                    },
+                    "description": "Kusto operations - Commands for managing and querying Azure Data Explorer (Kusto) resources. Includes operations for listing clusters and databases, executing KQL queries, retrieving table schemas, and working with Kusto data analytics workloads.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "kusto"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Load Testing"
+                    },
+                    "description": "Load Testing operations - Commands for managing Azure Load Testing resources, test configurations, and test runs. Includes operations for creating and managing load test resources, configuring test scripts, executing performance tests, and monitoring test results.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "loadtesting"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Managed Lustre"
+                    },
+                    "description": "Azure Managed Lustre operations - Commands for creating, updating, listing and inspecting Azure Managed Lustre file systems (AMLFS) used for high-performance computing workloads. The tool focuses on managing all the aspects related to Azure Managed Lustre file system instances.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "managedlustre"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Marketplace"
+                    },
+                    "description": "Marketplace operations - Commands for managing and accessing Azure Marketplace products and offers.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "marketplace"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Monitor"
+                    },
+                    "description": "Azure Monitor operations - Commands for querying and analyzing Azure Monitor logs and metrics.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "monitor"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Database for MySQL"
+                    },
+                    "description": "MySQL operations - Commands for managing Azure Database for MySQL Flexible Server resources. Includes operations for listing servers and databases, executing SQL queries, managing table schemas, and configuring server parameters.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "mysql"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Policy Management"
+                    },
+                    "description": "Manage Azure Policy assignments and definitions using Azure CLI. Retrieve policy assignments, view enforcement modes, and analyze policy compliance across subscriptions.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "policy"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Database for PostgreSQL"
+                    },
+                    "description": "PostgreSQL operations - Commands for managing Azure Database for PostgreSQL Flexible Server resources. Includes operations for listing servers and databases, executing SQL queries, managing table schemas, and configuring server parameters.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "postgres"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Retail Pricing"
+                    },
+                    "description": "Azure Retail Pricing operations - Get Azure retail pricing for SKUs, services, regions and compare pricing across different options. For Bicep/ARM template cost estimation, read the template file, extract resource SKUs, then call 'pricing get' for each resource to build a cost estimate.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pricing"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Quota Management"
+                    },
+                    "description": "Quota commands for getting the available regions of specific Azure resource types or checking Azure resource quota and usageThis tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "quota"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Redis"
+                    },
+                    "description": "Redis operations - Commands for managing Azure Redis resources. Includes operations for listing Redis resources, databases, and data access policies, in both the Azure Managed Redis and legacy Azure Cache for Redis services, as well as for creating Azure Managed Redis resources.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "redis"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Resource Health"
+                    },
+                    "description": "Resource Health operations – Commands to monitor and diagnose Azure resource health, including availability status and service health events for troubleshooting and monitoring purposes.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "resourcehealth"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Role-Based Access Control"
+                    },
+                    "description": "Authorization operations - Commands for managing Azure Role-Based Access Control (RBAC) resources. Includes operations for listing role assignments, managing permissions, and working with Azure security and access management at various scopes.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "role"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure AI Search"
+                    },
+                    "description": "Search operations – Commands to manage and query Azure AI Search services, indexes, and\nknowledge sources. Supports enterprise search, document search, and knowledge mining. Not\nintended for database queries or Azure Monitor logs. This is a hierarchical MCP command\nrouter using the command field and parameters; set learn=true to discover available\nsub-commands.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "search"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Service Bus"
+                    },
+                    "description": "Service Bus operations – Commands to manage Azure Service Bus queues, topics, and subscriptions for reliable asynchronous messaging and enterprise integration. Supports point-to-point and publish-subscribe patterns, dead-letter handling, and decoupled architectures. Not intended for real-time communication, direct API calls, or database operations. Uses a hierarchical MCP command model with command, parameters, and learn=true.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "servicebus"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Manage Azure Service Fabric"
+                    },
+                    "description": "Azure Service Fabric operations - Manage and query Azure Service Fabric managed cluster resources across subscriptions. Use when you need visibility into managed cluster nodes, including node status, node types, IP addresses, and fault/upgrade domains.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "servicefabric"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure SignalR Service"
+                    },
+                    "description": "Azure SignalR operations - Commands for managing Azure SignalR Service resources. Includes operations for listing SignalR services.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "signalr"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure AI Speech"
+                    },
+                    "description": "Speech operations – Commands to work with Azure AI Services Speech, including speech-to-text (STT) recognition,\ntext-to-speech (TTS) synthesis, audio processing, and language detection. Uses a hierarchical MCP command model\nwith command and parameters; set learn=true to discover sub-commands. Supports multiple audio formats, languages,\nand output options.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "speech"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure SQL Database"
+                    },
+                    "description": "Azure SQL operations - Commands for managing Azure SQL databases, servers, and elastic pools. Includes operations for listing databases, configuring server settings, managing firewall rules, Entra ID administrators, and elastic pool resources.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "sql"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Manage Azure Storage Account"
+                    },
+                    "description": "Storage operations - Commands for creating, listing, getting, and managing Azure Storage accounts,\nblob containers, blobs, and tables. Use this tool to create storage accounts, list and get storage\naccount details (SKU, location, HNS, HTTPS-only settings), create and list blob containers, list\nand get blob properties, upload files to blob storage, and list tables. Covers Azure Blob Storage,\nAzure Table Storage, and storage account management. Do not use for Azure Cosmos DB containers,\nAzure Container Registry, or Azure Managed Lustre file systems.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "storage"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Manage Azure Storage Sync Services"
+                    },
+                    "description": "Azure Storage Sync Operations - Commands to manage Azure File Sync resources, including Storage Sync services, sync groups, cloud and server\nendpoints, and registered servers. Use this tool to deploy and maintain hybrid cloud file synchronization.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "storagesync"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": true,
+                      "openWorldHint": false,
+                      "readOnlyHint": true,
+                      "title": "List Azure Subscriptions"
+                    },
+                    "description": "List all Azure subscriptions for the current account. Returns subscriptionId, displayName, state, tenantId, and isDefault for each subscription. The isDefault field indicates the user's default subscription as resolved from the Azure CLI profile (configured via 'az account set') or, if not set there, from the AZURE_SUBSCRIPTION_ID environment variable. When the user has not specified a subscription, prefer the subscription where isDefault is true. If no default can be determined from either source and multiple subscriptions exist, ask the user which subscription to use.",
+                    "inputSchema": {
+                      "properties": {
+                        "auth-method": {
+                          "description": "Authentication method to use. Options: 'credential' (Azure CLI/managed identity), 'key' (access key), or 'connectionString'.",
+                          "enum": [
+                            "Credential",
+                            "Key",
+                            "ConnectionString"
+                          ],
+                          "type": "string"
+                        },
+                        "retry-delay": {
+                          "description": "Initial delay in seconds between retry attempts. For exponential backoff, this value is used as the base.",
+                          "type": "number"
+                        },
+                        "retry-max-delay": {
+                          "description": "Maximum delay in seconds between retries, regardless of the retry strategy.",
+                          "type": "number"
+                        },
+                        "retry-max-retries": {
+                          "description": "Maximum number of retry attempts for failed operations before giving up.",
+                          "type": "integer"
+                        },
+                        "retry-mode": {
+                          "description": "Retry strategy to use. 'fixed' uses consistent delays, 'exponential' increases delay between attempts.",
+                          "enum": [
+                            "Fixed",
+                            "Exponential"
+                          ],
+                          "type": "string"
+                        },
+                        "retry-network-timeout": {
+                          "description": "Network operation timeout in seconds. Operations taking longer than this will be cancelled.",
+                          "type": "number"
+                        },
+                        "tenant": {
+                          "description": "The Microsoft Entra ID tenant ID or name. This can be either the GUID identifier or the display name of your Entra ID tenant.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "subscription_list"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Virtual Desktop"
+                    },
+                    "description": "Azure Virtual Desktop operations - Commands for managing and accessing Azure Virtual Desktop resources. Includes operations for hostpools, session hosts, and user sessions.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "virtualdesktop"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Well-Architected Framework"
+                    },
+                    "description": "Azure Well-Architected Framework operations - Commands for accessing guidance, best practices, and recommendations based on the Azure Well-Architected Framework pillars (reliability, security, cost optimization, operational excellence, and performance efficiency).This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "wellarchitectedframework"
+                  },
+                  {
+                    "annotations": {
+                      "title": "Azure Workbooks"
+                    },
+                    "description": "Workbooks operations - Commands for managing Azure Workbooks resources and interactive data visualization dashboards. Includes operations for listing, creating, updating, and deleting workbooks, as well as managing workbook configurations and content.This tool is a hierarchical MCP command router.\nSub commands are routed to MCP servers that require specific fields inside the \"parameters\" object.\nTo invoke a command, set \"command\" and wrap its args in \"parameters\".\nSet \"learn=true\" to discover available sub commands.",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "The command to execute against the specified tool.",
+                          "type": "string"
+                        },
+                        "intent": {
+                          "description": "The intent of the azure operation to perform.",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "default": false,
+                          "description": "To learn about the tool and its supported child tools and parameters.",
+                          "type": "boolean"
+                        },
+                        "parameters": {
+                          "description": "The parameters to pass to the tool command.",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "intent"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "workbooks"
+                  }
+                ],
                 "tools": [
                   "acr",
+                  "advisor",
                   "aks",
                   "appconfig",
-                  "azuremanagedlustre",
+                  "applens",
+                  "applicationinsights",
+                  "appservice",
+                  "azd",
+                  "azuremigrate",
                   "azureterraformbestpractices",
                   "bicepschema",
                   "cloudarchitect",
+                  "communication",
+                  "compute",
+                  "confidentialledger",
+                  "containerapps",
                   "cosmos",
                   "datadog",
                   "deploy",
+                  "deviceregistry",
                   "documentation",
-                  "extension_az",
-                  "extension_azd",
+                  "eventgrid",
+                  "eventhubs",
                   "extension_azqr",
+                  "extension_cli_generate",
+                  "extension_cli_install",
+                  "fileshares",
                   "foundry",
+                  "foundryextensions",
                   "functionapp",
-                  "get_bestpractices",
+                  "functions",
+                  "get_azure_bestpractices",
                   "grafana",
-                  "group",
+                  "group_list",
+                  "group_resource_list",
                   "keyvault",
                   "kusto",
                   "loadtesting",
+                  "managedlustre",
                   "marketplace",
                   "monitor",
                   "mysql",
+                  "policy",
                   "postgres",
+                  "pricing",
                   "quota",
                   "redis",
                   "resourcehealth",
                   "role",
                   "search",
                   "servicebus",
+                  "servicefabric",
+                  "signalr",
+                  "speech",
                   "sql",
                   "storage",
-                  "subscription",
+                  "storagesync",
+                  "subscription_list",
                   "virtualdesktop",
+                  "wellarchitectedframework",
                   "workbooks"
                 ]
               }
@@ -3472,8 +5621,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/chroma-mcp:0.2.6": {
                 "metadata": {
-                  "last_updated": "2026-03-12T23:57:39Z",
-                  "stars": 498
+                  "last_updated": "2026-04-09T03:03:29Z",
+                  "stars": 532
                 },
                 "overview": "## Chroma MCP Server\n\nThe chroma-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Chroma, an open-source vector database designed for embeddings and similarity search. It allows AI workflows to store, retrieve, and query vector embeddings alongside metadata, making it easy to build retrieval-augmented generation (RAG), semantic search, and memory-driven applications without custom database integration. It's particularly valuable for AI systems that need long-term memory, document retrieval, or semantic similarity capabilities as part of their reasoning loop.",
                 "permissions": {
@@ -4070,8 +6219,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.20.0": {
                 "metadata": {
-                  "last_updated": "2026-03-14T01:40:01Z",
-                  "stars": 28311
+                  "last_updated": "2026-04-12T03:04:11Z",
+                  "stars": 34184
                 },
                 "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
                 "permissions": {
@@ -5048,8 +7197,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/cloud-run-mcp:latest": {
                 "metadata": {
-                  "last_updated": "2026-03-12T23:57:46Z",
-                  "stars": 542
+                  "last_updated": "2026-04-10T03:04:30Z",
+                  "stars": 589
                 },
                 "overview": "## Cloud Run MCP Server\n\nThe cloud-run MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Google Cloud Run services through a structured, AI-friendly interface. It enables AI-driven workflows to discover services, inspect configurations, deploy revisions, and manage runtime state without switching to the Google Cloud Console or writing custom integration code. This server is well suited for cloud operations, service management, deployment inspection, and DevOps workflows centered on Cloud Run.",
                 "permissions": {
@@ -5637,7 +7786,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.31.0",
+            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.0.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -5647,7 +7796,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.31.0": {
+              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.0.0": {
                 "args": [
                   "--address",
                   "0.0.0.0"
@@ -5871,8 +8020,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/firecrawl:latest": {
                 "metadata": {
-                  "last_updated": "2026-03-12T23:57:36Z",
-                  "stars": 5632
+                  "last_updated": "2026-04-09T03:03:29Z",
+                  "stars": 5985
                 },
                 "overview": "## Firecrawl MCP Server\n\nThe firecrawl-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants to crawl, scrape, and extract content from websites at scale using Firecrawl. This tool transforms entire websites — including documentation, blogs, and knowledge bases — into clean, structured, machine-readable data without requiring custom crawlers. It is particularly suited for research, content ingestion, documentation analysis, and RAG workflows needing high-quality web content.",
                 "permissions": {
@@ -9096,7 +11245,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/grafana/mcp-grafana:0.11.4",
+            "identifier": "docker.io/grafana/mcp-grafana:0.11.6",
             "transport": {
               "type": "sse",
               "url": "http://localhost:8000"
@@ -9123,7 +11272,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/grafana/mcp-grafana:0.11.4": {
+              "docker.io/grafana/mcp-grafana:0.11.6": {
                 "metadata": {
                   "last_updated": "2026-03-23T03:03:35Z",
                   "stars": 2618
@@ -11581,7 +13730,7 @@
                   "license": "Proprietary"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-15T03:03:15Z"
+                  "last_updated": "2026-04-13T03:04:50Z"
                 },
                 "oauth_config": {
                   "authorize_url": "https://mcp.hubspot.com/oauth/authorize/user",
@@ -13347,8 +15496,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.2.0": {
                 "metadata": {
-                  "last_updated": "2026-03-12T23:57:49Z",
-                  "stars": 695
+                  "last_updated": "2026-04-10T03:04:30Z",
+                  "stars": 748
                 },
                 "overview": "## ClickHouse MCP Server\n\nThe mcp-clickhouse server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with ClickHouse, the high-performance, column-oriented analytical database. It allows AI-driven workflows to query large datasets, inspect schemas, and analyze analytical workloads without requiring users to switch tools or embed ClickHouse-specific client logic. This server is especially useful for analytics, observability, log analysis, and data exploration workflows where fast, read-heavy queries and large-scale datasets are common.",
                 "permissions": {
@@ -13718,8 +15867,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.14.2": {
                 "metadata": {
-                  "last_updated": "2026-03-13T09:44:27Z",
-                  "stars": 80
+                  "last_updated": "2026-04-11T03:02:36Z",
+                  "stars": 82
                 },
                 "overview": "## CircleCI MCP Server\n\nThe mcp-server-circleci is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with CircleCI, the continuous integration and delivery platform. It allows AI-driven workflows to inspect pipelines, jobs, workflows, and build results — bringing CI/CD context directly into conversational and automated AI workflows without switching tools. This server is especially useful for build monitoring, failure analysis, release workflows, and developer productivity scenarios where understanding CI state and history is critical.",
                 "permissions": {
@@ -28546,8 +30695,8 @@
             "io.github.stacklok": {
               "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.3.2": {
                 "metadata": {
-                  "last_updated": "2026-03-12T23:57:36Z",
-                  "stars": 178
+                  "last_updated": "2026-04-09T03:03:29Z",
+                  "stars": 202
                 },
                 "overview": "## Red Hat Linux MCP Server\n\nThe redhat-linux MCP server provides read-only Linux sysadmin, diagnostics, and troubleshooting optimized for RHEL-based systems. This server delivers comprehensive Linux system diagnostics through real-time monitoring of CPU, memory, disk, and network metrics; process and service management with status and log access; network diagnostics including active connections and listening ports; and file system exploration with configurable path restrictions. All capabilities operate in read-only mode via SSH-based remote execution with secure key-based authentication, preventing system modifications.",
                 "status": "Active",
@@ -30776,8 +32925,8 @@
                   "mcp"
                 ],
                 "metadata": {
-                  "last_updated": "2026-03-12T23:57:43Z",
-                  "stars": 14406
+                  "last_updated": "2026-04-10T03:04:30Z",
+                  "stars": 14745
                 },
                 "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
                 "permissions": {
@@ -32828,8 +34977,8 @@
                   "--tools=all"
                 ],
                 "metadata": {
-                  "last_updated": "2026-03-12T23:57:41Z",
-                  "stars": 1307
+                  "last_updated": "2026-04-10T03:04:30Z",
+                  "stars": 1449
                 },
                 "overview": "## Stripe MCP Server\n\nThe stripe MCP server allows you to integrate with Stripe APIs through the Stripe Agent Toolkit. The server facilitates payment processing and customer management through several functional areas: payment operations, subscription handling, invoice management, and refund processing. It provides official Stripe Agent Toolkit integration with comprehensive API coverage for payment, customer, and subscription operations.",
                 "permissions": {
