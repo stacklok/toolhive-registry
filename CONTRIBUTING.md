@@ -68,8 +68,10 @@ are a great place to start!
 - Once approved, all of your commits will be squashed into a single commit with
   your PR title.
 
-When adding a new MCP server to the registry, please review the
-[Registry Inclusion Criteria](docs/registry-criteria.md) before submitting.
+When adding a new entry to the registry, please review the
+[Registry Inclusion Criteria](docs/registry-criteria.md) before submitting,
+including the [MCP server criteria](docs/server-criteria.md) or the
+[skill criteria](docs/skill-criteria.md) as appropriate.
 
 ### Contributing to docs
 

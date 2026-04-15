@@ -1,6 +1,8 @@
-# ToolHive Registry Inclusion Criteria
+# ToolHive Registry Inclusion Criteria (Shared)
 
 Source: [docs/registry-criteria.md](../../../../docs/registry-criteria.md)
+
+For MCP server-specific criteria, see [server-criteria.md](server-criteria.md).
 
 ## Table of Contents
 
