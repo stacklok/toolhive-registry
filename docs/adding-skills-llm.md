@@ -2,17 +2,19 @@
 
 ## Context
 
-You are helping to add a skill entry to the ToolHive registry. A skill is a reusable prompt or workflow that leverages MCP server tools. Each skill consists of a `SKILL.md` file (the actual prompt with YAML frontmatter), a `skill.json` registry entry, and an `icon.svg`.
+You are helping to add a skill entry to the ToolHive registry. A skill is a reusable prompt or workflow that leverages MCP server tools. Each skill directory contains registry metadata (`skill.json`, `icon.svg`) and a `skill/` subfolder with the installable content (`SKILL.md` and any bundled resources). This separation ensures only skill content is installed — not registry metadata.
 
 ## Quick Reference
 
 ### Skill Components
 
-| File         | Purpose                                          | Required |
-| ------------ | ------------------------------------------------ | -------- |
-| `skill.json` | Registry metadata (namespace, name, packages)    | Yes      |
-| `SKILL.md`   | Skill prompt with YAML frontmatter               | Yes      |
-| `icon.svg`   | Visual icon for the skill                        | Yes      |
+| File              | Purpose                                          | Required |
+| ----------------- | ------------------------------------------------ | -------- |
+| `skill.json`      | Registry metadata (namespace, name, packages)    | Yes      |
+| `icon.svg`        | Visual icon for the skill                        | Yes      |
+| `skill/SKILL.md`  | Skill prompt with YAML frontmatter               | Yes      |
+
+> **Directory layout:** `skill.json` and `icon.svg` live at the skill root. `SKILL.md` and any bundled resources (scripts/, references/, assets/) live inside a `skill/` subfolder. The `packages[].subfolder` in skill.json points to this `skill/` directory so only skill content is installed.
 
 ### SKILL.md Frontmatter Fields
 
@@ -53,7 +55,7 @@ You are helping to add a skill entry to the ToolHive registry. A skill is a reus
 ### 2. Create the Directory
 
 ```bash
-mkdir -p registries/toolhive/skills/<skill-name>
+mkdir -p registries/toolhive/skills/<skill-name>/skill
 ```
 
 ### 3. Identify Required Tools
@@ -66,7 +68,7 @@ Determine which MCP server tools the skill needs. Use the format `server/tool_na
 
 ### 4. Create the SKILL.md File
 
-The SKILL.md has two parts: YAML frontmatter and markdown content.
+Create this inside the `skill/` subfolder. The SKILL.md has two parts: YAML frontmatter and markdown content.
 
 ```markdown
 ---
@@ -112,6 +114,8 @@ You are an expert at [domain]. When asked to [task], follow this process:
 
 ### 5. Create the skill.json File
 
+Create this in the skill's root directory (next to `icon.svg`, not inside `skill/`). Note that `subfolder` points to the `skill/` subdirectory:
+
 ```json
 {
   "namespace": "io.github.stacklok",
@@ -140,7 +144,7 @@ You are an expert at [domain]. When asked to [task], follow this process:
       "registryType": "git",
       "url": "https://github.com/stacklok/toolhive-catalog",
       "ref": "main",
-      "subfolder": "registries/toolhive/skills/<skill-name>"
+      "subfolder": "registries/toolhive/skills/<skill-name>/skill"
     }
   ]
 }
@@ -148,7 +152,7 @@ You are an expert at [domain]. When asked to [task], follow this process:
 
 ### 6. Add an Icon
 
-Create an `icon.svg` file in the skill directory. Keep it simple, recognizable at small sizes, and relevant to the skill's purpose.
+Create an `icon.svg` file in the skill's root directory (next to `skill.json`, not inside `skill/`). Keep it simple, recognizable at small sizes, and relevant to the skill's purpose.
 
 ### 7. Validate
 
@@ -176,7 +180,7 @@ Skills support two distribution methods in the `packages` array:
   "registryType": "git",
   "url": "https://github.com/stacklok/toolhive-catalog",
   "ref": "main",
-  "subfolder": "registries/toolhive/skills/my-skill"
+  "subfolder": "registries/toolhive/skills/my-skill/skill"
 }
 ```
 
@@ -209,7 +213,7 @@ See `registries/toolhive/skills/code-review/` for a complete working example tha
 | --------------- | -------------------------------------------------- |
 | Skill name      | Lowercase letters, numbers, hyphens only           |
 | `name` match    | `skill.json` name must match `SKILL.md` frontmatter name |
-| Required files  | `skill.json`, `SKILL.md`, `icon.svg` must all exist |
+| Required files  | `skill.json`, `icon.svg`, and `skill/SKILL.md` must all exist |
 | SKILL.md format | Must start with YAML frontmatter (`---` delimiters) |
 | Frontmatter     | `name` field is required in frontmatter            |
 | JSON syntax     | Valid JSON, 2-space indentation                    |
@@ -222,10 +226,10 @@ See `registries/toolhive/skills/code-review/` for a complete working example tha
 Before submitting:
 
 - [ ] Skill name: lowercase, numbers, hyphens only
-- [ ] Directory: `registries/toolhive/skills/<skill-name>/` exists
-- [ ] `skill.json`: valid JSON with `namespace`, `name`, `description`, `version`, `packages`
-- [ ] `SKILL.md`: starts with `---` YAML frontmatter, `name` field present
-- [ ] `icon.svg`: file present in skill directory
+- [ ] Directory: `registries/toolhive/skills/<skill-name>/skill/` exists
+- [ ] `skill.json`: valid JSON with `namespace`, `name`, `description`, `version`, `packages`; `subfolder` ends with `/skill`
+- [ ] `skill/SKILL.md`: starts with `---` YAML frontmatter, `name` field present
+- [ ] `icon.svg`: file present in skill root directory (next to `skill.json`)
 - [ ] `allowedTools`: lists the actual tools the skill uses
 - [ ] `name` in `skill.json` matches `name` in `SKILL.md` frontmatter
 - [ ] Validation: `task catalog:validate` passes

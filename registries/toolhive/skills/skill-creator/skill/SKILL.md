@@ -67,19 +67,22 @@ See [assets/subagent-template.md](assets/subagent-template.md) for types, prompt
 
 ### Anatomy of a Skill
 
-Every skill consists of a required SKILL.md file and optional bundled resources:
+Every skill directory contains registry metadata at the root and installable content in a `skill/` subfolder. This separation ensures that only skill content (SKILL.md and bundled resources) is installed — not registry files like `skill.json` and `icon.svg`:
 
 ```
 skill-name/
-├── SKILL.md (required)
-│   ├── YAML frontmatter metadata (required)
-│   │   ├── name: (required)
-│   │   └── description: (required)
-│   └── Markdown instructions (required)
-└── Bundled Resources (optional)
-    ├── scripts/          - Executable code (Python/Bash/etc.)
-    ├── references/       - Documentation intended to be loaded into context as needed
-    └── assets/           - Files used in output (templates, icons, fonts, etc.)
+├── skill.json            - Registry metadata (not installed)
+├── icon.svg              - Registry icon (not installed)
+└── skill/                - Installable content (referenced by subfolder in skill.json)
+    ├── SKILL.md (required)
+    │   ├── YAML frontmatter metadata (required)
+    │   │   ├── name: (required)
+    │   │   └── description: (required)
+    │   └── Markdown instructions (required)
+    └── Bundled Resources (optional)
+        ├── scripts/          - Executable code (Python/Bash/etc.)
+        ├── references/       - Documentation intended to be loaded into context as needed
+        └── assets/           - Files used in output (templates, icons, fonts, etc.)
 ```
 
 #### SKILL.md (required)
@@ -176,11 +179,12 @@ Extract text with pdfplumber:
 
 ```
 bigquery-skill/
-├── SKILL.md (overview and navigation)
-└── reference/
-    ├── finance.md (revenue, billing metrics)
-    ├── sales.md (opportunities, pipeline)
-    └── product.md (API usage, features)
+└── skill/
+    ├── SKILL.md (overview and navigation)
+    └── reference/
+        ├── finance.md (revenue, billing metrics)
+        ├── sales.md (opportunities, pipeline)
+        └── product.md (API usage, features)
 ```
 
 **Important guidelines:**

@@ -6,7 +6,10 @@ A simple skill consists of just a SKILL.md file with frontmatter and instruction
 
 ```
 skill-name/
-└── SKILL.md
+├── skill.json
+├── icon.svg
+└── skill/
+    └── SKILL.md
 ```
 
 ## Template
