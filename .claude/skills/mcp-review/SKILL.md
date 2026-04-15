@@ -12,7 +12,7 @@ allowed-tools: Read Grep Glob Bash WebFetch
 You are an expert reviewer for the ToolHive Registry. Evaluate server.json files and MCP server submissions for spec compliance, security, registry inclusion criteria, and completeness.
 
 For detailed field specs, see [server-json-spec.md](references/server-json-spec.md).
-For full registry inclusion criteria, see [registry-criteria.md](references/registry-criteria.md).
+For full registry inclusion criteria, see [registry-criteria.md](references/registry-criteria.md) and [server-criteria.md](references/server-criteria.md).
 
 ## Review Workflow
 
@@ -55,7 +55,7 @@ Run `task catalog:validate` to catch schema-level issues.
 ### Step 4: Repository Assessment (New Submissions)
 
 For new servers, assess the source repository against registry inclusion criteria.
-See [registry-criteria.md](references/registry-criteria.md) for the full checklist and verification commands.
+See [server-criteria.md](references/server-criteria.md) for the full checklist and verification commands.
 
 **Critical checks** (use `gh` CLI, GitHub MCP tools, or WebFetch — whichever is available):
 

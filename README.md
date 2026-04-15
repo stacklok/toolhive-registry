@@ -318,7 +318,9 @@ We evaluate submissions based on several criteria to ensure quality and usefulne
 - Follow security best practices
 - Be actively maintained with recent updates
 
-For detailed evaluation criteria, see the [Registry Inclusion Criteria](docs/registry-criteria.md).
+For detailed evaluation criteria, see the [Registry Inclusion Criteria](docs/registry-criteria.md),
+including [MCP server criteria](docs/server-criteria.md) and
+[skill criteria](docs/skill-criteria.md).
 
 ### Before Submitting, Please Ensure
 
