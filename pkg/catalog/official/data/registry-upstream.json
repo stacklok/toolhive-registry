@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-04-14T00:55:37Z"
+    "last_updated": "2026-04-15T00:56:00Z"
   },
   "data": {
     "servers": [
@@ -284,7 +284,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.29",
+            "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.30",
             "transport": {
               "type": "stdio"
             },
@@ -348,7 +348,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.29": {
+              "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.30": {
                 "metadata": {
                   "last_updated": "2026-03-23T03:03:36Z",
                   "stars": 8539
@@ -7491,8 +7491,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/context7:2.1.4": {
                 "metadata": {
-                  "last_updated": "2026-03-15T12:47:00Z",
-                  "stars": 46978
+                  "last_updated": "2026-04-14T03:03:54Z",
+                  "stars": 52568
                 },
                 "overview": "## Context7 MCP Server\n\nThe context7 MCP server is a Model Context Protocol (MCP) server that provides AI assistants with direct access to up-to-date library and framework documentation from Context7, running as a local MCP service. It allows AI-driven workflows to retrieve current, authoritative docs and examples for popular programming languages, frameworks, and tools — helping models generate accurate, version-appropriate code and explanations without relying solely on training data. It is particularly valuable for local development environments, IDE-integrated assistants, and workflows where developers want documentation access to run alongside other local MCP tools.",
                 "permissions": {
@@ -7786,7 +7786,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.0.0",
+            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.1.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -7796,7 +7796,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.0.0": {
+              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.1.0": {
                 "args": [
                   "--address",
                   "0.0.0.0"
@@ -9080,7 +9080,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/github/github-mcp-server:v0.33.0",
+            "identifier": "ghcr.io/github/github-mcp-server:v0.34.0",
             "transport": {
               "type": "stdio"
             },
@@ -9113,9 +9113,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/github/github-mcp-server:v0.33.0": {
+              "ghcr.io/github/github-mcp-server:v0.34.0": {
                 "metadata": {
-                  "last_updated": "2026-04-07T03:03:37Z",
+                  "last_updated": "2026-04-14T18:01:02Z",
                   "stars": 28599
                 },
                 "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -10025,6 +10025,10 @@
                           "minimum": 1,
                           "type": "number"
                         },
+                        "path": {
+                          "description": "Only commits containing this file path will be returned",
+                          "type": "string"
+                        },
                         "perPage": {
                           "description": "Results per page for pagination (min 1, max 100)",
                           "maximum": 100,
@@ -10037,6 +10041,14 @@
                         },
                         "sha": {
                           "description": "Commit SHA, branch or tag name to list commits of. If not provided, uses the default branch of the repository. If a commit SHA is provided, will list commits up to that SHA.",
+                          "type": "string"
+                        },
+                        "since": {
+                          "description": "Only commits after this date will be returned (ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ or YYYY-MM-DD)",
+                          "type": "string"
+                        },
+                        "until": {
+                          "description": "Only commits before this date will be returned (ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ or YYYY-MM-DD)",
                           "type": "string"
                         }
                       },
@@ -10388,7 +10400,7 @@
                     "annotations": {
                       "title": "Write operations (create, submit, delete) on pull request reviews."
                     },
-                    "description": "Create and/or submit, delete review of a pull request.\n\nAvailable methods:\n- create: Create a new review of a pull request. If \"event\" parameter is provided, the review is submitted. If \"event\" is omitted, a pending review is created.\n- submit_pending: Submit an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request. The \"body\" and \"event\" parameters are used when submitting the review.\n- delete_pending: Delete an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request.\n",
+                    "description": "Create and/or submit, delete review of a pull request.\n\nAvailable methods:\n- create: Create a new review of a pull request. If \"event\" parameter is provided, the review is submitted. If \"event\" is omitted, a pending review is created.\n- submit_pending: Submit an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request. The \"body\" and \"event\" parameters are used when submitting the review.\n- delete_pending: Delete an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request.\n- resolve_thread: Resolve a review thread. Requires only \"threadId\" parameter with the thread's node ID (e.g., PRRT_kwDOxxx). The owner, repo, and pullNumber parameters are not used for this method. Resolving an already-resolved thread is a no-op.\n- unresolve_thread: Unresolve a previously resolved review thread. Requires only \"threadId\" parameter. The owner, repo, and pullNumber parameters are not used for this method. Unresolving an already-unresolved thread is a no-op.\n",
                     "inputSchema": {
                       "properties": {
                         "body": {
@@ -10413,7 +10425,9 @@
                           "enum": [
                             "create",
                             "submit_pending",
-                            "delete_pending"
+                            "delete_pending",
+                            "resolve_thread",
+                            "unresolve_thread"
                           ],
                           "type": "string"
                         },
@@ -10427,6 +10441,10 @@
                         },
                         "repo": {
                           "description": "Repository name",
+                          "type": "string"
+                        },
+                        "threadId": {
+                          "description": "The node ID of the review thread (e.g., PRRT_kwDOxxx). Required for resolve_thread and unresolve_thread methods. Get thread IDs from pull_request_read with method get_review_comments.",
                           "type": "string"
                         }
                       },
@@ -10454,6 +10472,7 @@
                         "files": {
                           "description": "Array of file objects to push, each object with path (string) and content (string)",
                           "items": {
+                            "additionalProperties": false,
                             "properties": {
                               "content": {
                                 "description": "file content",
@@ -11184,7 +11203,7 @@
                   "homepage": "https://gitlab.com/"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-15T03:03:15Z"
+                  "last_updated": "2026-04-14T03:03:53Z"
                 },
                 "overview": "## GitLab MCP Server\n\nThe official hosted GitLab MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with GitLab projects and resources through a structured, AI-friendly interface. It allows AI-driven workflows to work with repositories, issues, merge requests, and project metadata without switching tools or manually navigating the GitLab UI. It is ideal for development, code review, CI/CD visibility, and project management workflows that rely on GitLab as the system of record.",
                 "status": "Active",
@@ -15667,8 +15686,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/mcp-jetbrains:1.8.0": {
                 "metadata": {
-                  "last_updated": "2026-03-15T03:03:16Z",
-                  "stars": 944
+                  "last_updated": "2026-04-14T03:03:54Z",
+                  "stars": 947
                 },
                 "overview": "## JetBrains MCP Server\n\nThe mcp-jetbrains server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with JetBrains IDEs (such as IntelliJ IDEA, PyCharm, WebStorm, and others) through a structured, AI-friendly interface. It allows AI-driven workflows to inspect project structure, navigate code, and reason about files and symbols — bringing IDE context directly into conversational and automated development workflows. This server proves particularly valuable for code navigation, refactoring assistance, project comprehension, and integrating AI capabilities within the IDE environment.",
                 "permissions": {
@@ -30660,7 +30679,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.3.2",
+            "identifier": "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.4.1",
             "transport": {
               "type": "stdio"
             },
@@ -30693,9 +30712,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.3.2": {
+              "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.4.1": {
                 "metadata": {
-                  "last_updated": "2026-04-09T03:03:29Z",
+                  "last_updated": "2026-04-13T21:10:27Z",
                   "stars": 202
                 },
                 "overview": "## Red Hat Linux MCP Server\n\nThe redhat-linux MCP server provides read-only Linux sysadmin, diagnostics, and troubleshooting optimized for RHEL-based systems. This server delivers comprehensive Linux system diagnostics through real-time monitoring of CPU, memory, disk, and network metrics; process and service management with status and log access; network diagnostics including active connections and listening ports; and file system exploration with configurable path restrictions. All capabilities operate in read-only mode via SSH-based remote execution with secure key-based authentication, preventing system modifications.",
@@ -31368,7 +31387,7 @@
                     "annotations": {
                       "readOnlyHint": true
                     },
-                    "description": "Read the contents of a file using cat",
+                    "description": "Read the contents of a text file up to a safe size limit.",
                     "inputSchema": {
                       "properties": {
                         "host": {
