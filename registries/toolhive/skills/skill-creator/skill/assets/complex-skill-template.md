@@ -13,10 +13,13 @@ A complex skill includes SKILL.md plus bundled resources (scripts, references, a
 
 ```
 skill-name/
-├── SKILL.md
-├── scripts/           # Executable code for deterministic tasks
-├── references/        # Documentation loaded into context as needed
-└── assets/            # Templates and files used in output
+├── skill.json         # Registry metadata (not installed)
+├── icon.svg           # Registry icon (not installed)
+└── skill/             # Installable content
+    ├── SKILL.md
+    ├── scripts/       # Executable code for deterministic tasks
+    ├── references/    # Documentation loaded into context as needed
+    └── assets/        # Templates and files used in output
 ```
 
 ## Choosing Resource Types
@@ -69,11 +72,14 @@ Most common workflow in minimal steps.
 
 ```
 data-pipeline/
-├── SKILL.md
-├── assets/
-│   └── etl-template.py
-└── references/
-    └── sources.md
+├── skill.json
+├── icon.svg
+└── skill/
+    ├── SKILL.md
+    ├── assets/
+    │   └── etl-template.py
+    └── references/
+        └── sources.md
 ```
 
 ### SKILL.md

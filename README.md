@@ -26,8 +26,9 @@ registries/
       └── skills/
           └── my-skill/
               ├── skill.json
-              ├── SKILL.md
-              └── icon.svg
+              ├── icon.svg
+              └── skill/          # installable content (referenced by subfolder in skill.json)
+                  └── SKILL.md
 ```
 
 ### Step 2: Create Your server.json File
@@ -162,17 +163,17 @@ You can add more information in the `_meta` extensions block:
 
 Skills are reusable prompts and workflows that leverage MCP server tools. A skill is defined by a `SKILL.md` file (with YAML frontmatter) and a `skill.json` registry entry.
 
-### Step 1: Create a Folder
+### Step 1: Create the Directory Structure
 
-Create a new folder in `registries/toolhive/skills/` with your skill's name:
+Create a new folder in `registries/toolhive/skills/` with your skill's name. Skill content (SKILL.md and any bundled resources) lives in a `skill/` subfolder, separate from registry metadata (skill.json, icon.svg):
 
 ```bash
-mkdir -p registries/toolhive/skills/my-skill
+mkdir -p registries/toolhive/skills/my-skill/skill
 ```
 
 ### Step 2: Create the SKILL.md File
 
-This is the actual skill content. It uses YAML frontmatter for metadata and markdown for the prompt/instructions:
+Create this inside the `skill/` subfolder. It uses YAML frontmatter for metadata and markdown for the prompt/instructions:
 
 ```markdown
 ---
@@ -194,7 +195,7 @@ Instructions and prompts for the AI assistant go here...
 
 ### Step 3: Create the skill.json File
 
-This registers the skill in the catalog:
+Create this in the skill's root directory (next to `icon.svg`, not inside `skill/`). This registers the skill in the catalog. Note that the `subfolder` points to the `skill/` subdirectory so that only skill content is installed — not registry metadata like `skill.json` and `icon.svg`:
 
 ```json
 {
@@ -221,7 +222,7 @@ This registers the skill in the catalog:
       "registryType": "git",
       "url": "https://github.com/stacklok/toolhive-catalog",
       "ref": "main",
-      "subfolder": "registries/toolhive/skills/my-skill"
+      "subfolder": "registries/toolhive/skills/my-skill/skill"
     }
   ]
 }

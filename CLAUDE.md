@@ -26,8 +26,9 @@ Each server lives at `registries/toolhive/servers/<name>/` containing:
 
 Each skill lives at `registries/toolhive/skills/<name>/` containing:
 - `skill.json` — skill definition (uses `Skill` type from toolhive-core)
-- `SKILL.md` — skill prompt with YAML frontmatter (name, description, version, allowed-tools)
 - `icon.svg` — skill icon
+- `skill/` — subfolder with installable content (SKILL.md, scripts/, references/, assets/)
+  - The `packages[].subfolder` in skill.json points here so only skill content is installed, not registry metadata
 
 ## Non-obvious gotchas
 
