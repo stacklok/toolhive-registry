@@ -52,7 +52,7 @@ are a great place to start!
 
 ### Pull request process
 
-- -All commits must include a Signed-off-by trailer at the end of each commit
+- All commits must include a Signed-off-by trailer at the end of each commit
   message to indicate that the contributor agrees to the Developer Certificate
   of Origin. For additional details, check out the [DCO instructions](dco.md).
 - Create an issue outlining the fix or feature.
@@ -67,6 +67,9 @@ are a great place to start!
   merging.
 - Once approved, all of your commits will be squashed into a single commit with
   your PR title.
+
+When adding a new MCP server to the registry, please review the
+[Registry Inclusion Criteria](docs/registry-criteria.md) before submitting.
 
 ### Contributing to docs
 

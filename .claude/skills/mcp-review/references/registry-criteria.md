@@ -1,6 +1,6 @@
 # ToolHive Registry Inclusion Criteria
 
-Source: https://docs.stacklok.com/toolhive/concepts/registry-criteria
+Source: [docs/registry-criteria.md](../../../../docs/registry-criteria.md)
 
 ## Table of Contents
 

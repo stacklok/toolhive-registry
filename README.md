@@ -318,7 +318,7 @@ We evaluate submissions based on several criteria to ensure quality and usefulne
 - Follow security best practices
 - Be actively maintained with recent updates
 
-For detailed evaluation criteria, see the [Registry Criteria documentation](https://docs.stacklok.com/toolhive/concepts/registry-criteria).
+For detailed evaluation criteria, see the [Registry Inclusion Criteria](docs/registry-criteria.md).
 
 ### Before Submitting, Please Ensure
 
