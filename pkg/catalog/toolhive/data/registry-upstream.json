@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-04-15T00:56:01Z"
+    "last_updated": "2026-04-16T00:57:13Z"
   },
   "data": {
     "servers": [
@@ -1304,8 +1304,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.20": {
                 "metadata": {
-                  "last_updated": "2026-03-16T06:37:21Z",
-                  "stars": 8259
+                  "last_updated": "2026-04-15T20:27:17Z",
+                  "stars": 8776
                 },
                 "overview": "## AWS Documentation MCP Server\n\nThe aws-documentation MCP server is a Model Context Protocol (MCP) server that provides AI assistants and agents with direct access to AWS's official documentation content through a structured MCP interface. It enables workflows that search, fetch, and recommend AWS documentation pages — returning markdown-formatted content and relevant recommendations — so models can cite accurate AWS technical details and best practices on-demand without manual lookup.",
                 "permissions": {
@@ -2193,7 +2193,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "mcr.microsoft.com/azure-sdk/azure-mcp:2.0.0",
+            "identifier": "mcr.microsoft.com/azure-sdk/azure-mcp:2.0.1",
             "transport": {
               "type": "stdio"
             },
@@ -2234,9 +2234,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "mcr.microsoft.com/azure-sdk/azure-mcp:2.0.0": {
+              "mcr.microsoft.com/azure-sdk/azure-mcp:2.0.1": {
                 "metadata": {
-                  "last_updated": "2026-04-13T09:48:21Z",
+                  "last_updated": "2026-04-14T21:53:57Z",
                   "stars": 1206
                 },
                 "overview": "## Azure MCP Server\n\nThe azure MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Microsoft Azure resources and APIs through a unified, AI-friendly interface. It allows natural-language workflows to explore, query, and manage Azure infrastructure and services without requiring custom SDK integration or manual portal usage. This server is well suited for cloud operations, infrastructure exploration, troubleshooting, and automation scenarios where Azure context needs to be embedded directly into AI-driven workflows.",
@@ -4525,8 +4525,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.9.0": {
                 "metadata": {
-                  "last_updated": "2026-03-16T10:49:55Z",
-                  "stars": 2138
+                  "last_updated": "2026-04-15T20:27:18Z",
+                  "stars": 2299
                 },
                 "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
                 "permissions": {
@@ -14815,7 +14815,7 @@
                   "homepage": "https://gitlab.com/"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-16T03:04:17Z"
+                  "last_updated": "2026-04-15T03:03:57Z"
                 },
                 "overview": "## GitLab MCP Server\n\nThe official hosted GitLab MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with GitLab projects and resources through a structured, AI-friendly interface. It allows AI-driven workflows to work with repositories, issues, merge requests, and project metadata without switching tools or manually navigating the GitLab UI. It is ideal for development, code review, CI/CD visibility, and project management workflows that rely on GitLab as the system of record.",
                 "status": "Active",
@@ -15103,7 +15103,7 @@
                   "homepage": "https://granola.ai/"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-16T03:04:17Z"
+                  "last_updated": "2026-04-15T03:03:57Z"
                 },
                 "overview": "## Granola MCP Server\n\nThe Granola MCP server connects your Granola meeting notes and transcripts to AI assistants and agents through the Model Context Protocol standard. It gives AI tools direct access to your meeting data without manual copying and pasting, enabling AI-driven workflows that build on the context from your real conversations.\n\nWith this server, AI assistants can search and retrieve your meetings, read full transcripts, and use meeting content as grounded context for downstream tasks. This unlocks workflows like asking Claude to draft follow-up tickets from a bug discussion, updating a project board from standup notes, or generating proposals based on discovery call transcripts.\n\nIt is ideal for engineering, sales, and business development workflows where meeting notes are a primary source of record and need to flow into other tools without manual retrieval.",
                 "status": "Active",
@@ -18652,7 +18652,7 @@
                   "license": "Proprietary"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-16T03:04:17Z"
+                  "last_updated": "2026-04-15T03:03:57Z"
                 },
                 "oauth_config": {
                   "authorize_url": "https://mcp.hubspot.com/oauth/authorize/user",
@@ -24342,8 +24342,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-memory:0.4.5": {
                 "metadata": {
-                  "last_updated": "2026-03-16T03:04:17Z",
-                  "stars": 918
+                  "last_updated": "2026-04-15T03:03:57Z",
+                  "stars": 936
                 },
                 "overview": "## Neo4j Memory MCP Server\n\nThe mcp-neo4j-memory server is a Model Context Protocol (MCP) server that provides AI assistants with persistent, graph-based memory backed by Neo4j. It allows AI-driven workflows to store, retrieve, and reason about entities, relationships, and interactions over time — turning long-term memory into a structured knowledge graph rather than a flat vector store. This server is particularly valuable for agent memory, personalization, long-running assistants, and workflows where understanding connections and historical context is important.",
                 "permissions": {
@@ -47533,8 +47533,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.18": {
                 "metadata": {
-                  "last_updated": "2026-03-16T06:36:47Z",
-                  "stars": 1265
+                  "last_updated": "2026-04-15T20:27:17Z",
+                  "stars": 1763
                 },
                 "overview": "## Tavily MCP Server\n\nThe tavily-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to perform real-time web search and research using Tavily. It allows AI-driven workflows to retrieve fresh, relevant information from the web — including articles, documentation, and summaries — without relying solely on static training data or manual browsing. This server is especially useful for research, question answering, competitive analysis, and any workflow where up-to-date information is critical.",
                 "permissions": {
