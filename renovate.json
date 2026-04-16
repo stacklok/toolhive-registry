@@ -36,6 +36,13 @@
       "automerge": true
     },
     {
+      "description": "Use regex versioning for date-suffixed image tags (semver+YYYYMMDD)",
+      "matchPackageNames": [
+        "ghcr.io/stackloklabs/toolhive-doc-mcp"
+      ],
+      "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>\\d+)$"
+    },
+    {
       "description": "MCP Registry dependency updates",
       "matchPackageNames": [
         "github.com/modelcontextprotocol/registry"
