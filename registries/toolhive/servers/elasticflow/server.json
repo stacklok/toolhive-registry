@@ -12,7 +12,7 @@
           "metadata": {
             "last_updated": "2026-04-15T00:00:00Z"
           },
-          "overview": "## Elasticflow MCP Server\n\nElasticflow is an AI-native workspace for business — a single place where AI agents and the team work together on structured data, documents, files, and live dashboards.\n\nThis remote MCP server exposes 46 tools across 5 surfaces (workspaces, tables, documents, files, interfaces) so any MCP client can read business data, produce durable artifacts, and publish results that the whole organization sees — not lose them in a chat thread.\n\n**Key capabilities**\n\n- **Durable artifacts, not chat messages.** Every table row, document, and dashboard an agent creates is a first-class object the team can open, edit, and share.\n- **Closed-loop operations.** Agents read live data, take action, produce artifacts, and the org sees results in the same workspace.\n- **Permissioned by design.** Fine-grained OAuth 2.1 scopes (read/write per resource type) let you delegate narrowly and safely.\n- **Modular install.** Use the full `/mcp` endpoint (46 tools) or scoped sub-servers (`/data`, `/content`, `/platform`) to stay under your client's tool limit.\n- **Enterprise-ready.** SOC 2 Type II, GDPR, AES-256 at rest, TLS 1.3, 99.9% uptime SLA.\n\n**Typical use cases**\n\n- Sales — maintain a live pipeline, enrich leads, generate weekly summaries, publish client portals\n- Legal — track contracts, monitor renewals, search NDAs for specific clauses\n- Marketing — run a campaign tracker, calculate CPL/CAC, auto-generate monthly reports\n- Finance — reconcile invoices, flag budget overruns, generate scheduled P&L summaries\n- HR — parse resumes into a candidate table, track hiring stages\n- Operations — manage inventory, suppliers, orders; publish fulfillment dashboards\n\nAuthentication is OAuth 2.1 with PKCE — no API keys or tokens to configure. Sign up at https://www.elasticflow.app.",
+          "overview": "One workspace where your AI agents and your team work together.\n\nConnect your AI assistant to Elasticflow and let it manage tables, write documents, upload files, and publish live dashboards — all within your team's shared workspace. Everything your agents produce is instantly available to the whole organization, not buried in a chat thread.\n\n**What you can do:**\n\n- Build and query structured data — sales pipelines, contract trackers, campaign analytics, inventory logs\n- Create rich documents — reports, proposals, legal summaries, meeting notes\n- Upload and organize files — contracts, NDAs, presentations, compliance docs\n- Publish live dashboards and client portals — no code required\n- Share results across your team — every action is visible, every output is reusable",
           "status": "Active",
           "tags": [
             "remote",
@@ -79,7 +79,7 @@
       }
     }
   },
-  "description": "AI-native workspace for business — tables, documents, files, and live dashboards via remote Streamable HTTP with OAuth 2.1",
+  "description": "AI-native team workspace — tables, documents, workflow automation, live dashboards & analytics",
   "icons": [
     {
       "mimeType": "image/svg+xml",
