@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "yara-rule-authoring",
+  "title": "YARA Rule Authoring",
+  "description": "Author high-quality YARA-X detection rules for malware identification — covers naming conventions, string selection, performance optimization, migration from legacy YARA, and false-positive reduction. Packaged from the upstream trailofbits/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "CC-BY-SA-4.0",
+  "repository": {
+    "url": "https://github.com/trailofbits/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/yara-rule-authoring:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/trailofbits/skills",
+      "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+      "subfolder": "plugins/yara-authoring/skills/yara-rule-authoring"
+    }
+  ]
+}

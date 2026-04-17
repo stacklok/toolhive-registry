@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "property-based-testing",
+  "title": "Property-Based Testing",
+  "description": "Property-based testing guidance across multiple languages and smart contracts — use when writing tests, designing features with serialization/validation/parsing, or when stronger coverage than example-based tests is needed. Packaged from the upstream trailofbits/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "CC-BY-SA-4.0",
+  "repository": {
+    "url": "https://github.com/trailofbits/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/property-based-testing:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/trailofbits/skills",
+      "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+      "subfolder": "plugins/property-based-testing/skills/property-based-testing"
+    }
+  ]
+}

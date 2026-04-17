@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "codeql",
+  "title": "CodeQL",
+  "description": "Scan a codebase for security vulnerabilities using CodeQL's interprocedural data flow and taint tracking — supports security-and-quality suites or high-precision findings, plus SARIF output handling. Packaged from the upstream trailofbits/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "CC-BY-SA-4.0",
+  "repository": {
+    "url": "https://github.com/trailofbits/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/codeql:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/trailofbits/skills",
+      "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+      "subfolder": "plugins/static-analysis/skills/codeql"
+    }
+  ]
+}
