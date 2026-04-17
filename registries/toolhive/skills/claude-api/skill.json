@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "claude-api",
+  "title": "Claude API Skill",
+  "description": "Build apps with the Claude API or Anthropic SDK — covers tool use, streaming, batches, and agent SDK patterns. Packaged from the upstream anthropics/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/anthropics/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/claude-api:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/anthropics/skills",
+      "ref": "2c7ec5e78b8e5d43ea02e90bb8826f6b9f147b0c",
+      "subfolder": "skills/claude-api"
+    }
+  ]
+}
