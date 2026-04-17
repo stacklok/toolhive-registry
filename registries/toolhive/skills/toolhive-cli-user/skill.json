@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "toolhive-cli-user",
+  "title": "ToolHive CLI User Guide",
+  "description": "Guide for using ToolHive CLI (thv) to run and manage MCP servers and skills. Covers server lifecycle, registry browsing, secrets management, client registration, groups, container builds, exports, permissions, network isolation, authentication, and skill management.",
+  "version": "0.3.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/stacklok/toolhive",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/toolhive/skills/toolhive-cli-user:v0.21.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/stacklok/toolhive",
+      "ref": "v0.21.0",
+      "subfolder": "skills/toolhive-cli-user"
+    }
+  ]
+}
