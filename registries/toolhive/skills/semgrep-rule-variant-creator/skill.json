@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "semgrep-rule-variant-creator",
+  "title": "Semgrep Rule Variant Creator",
+  "description": "Port existing Semgrep rules to new target languages with test-driven validation — produces independent rule and test directories for each target language. Packaged from the upstream trailofbits/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "CC-BY-SA-4.0",
+  "repository": {
+    "url": "https://github.com/trailofbits/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/semgrep-rule-variant-creator:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/trailofbits/skills",
+      "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+      "subfolder": "plugins/semgrep-rule-variant-creator/skills/semgrep-rule-variant-creator"
+    }
+  ]
+}

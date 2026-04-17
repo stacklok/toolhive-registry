@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "constant-time-analysis",
+  "title": "Constant-Time Analysis",
+  "description": "Detect timing side-channels in cryptographic code — covers C, C++, Go, Rust, Swift, Java, Kotlin, C#, PHP, JS/TS, Python, and Ruby; flags division on secrets and secret-dependent branches. Packaged from the upstream trailofbits/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "CC-BY-SA-4.0",
+  "repository": {
+    "url": "https://github.com/trailofbits/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/constant-time-analysis:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/trailofbits/skills",
+      "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+      "subfolder": "plugins/constant-time-analysis/skills/constant-time-analysis"
+    }
+  ]
+}

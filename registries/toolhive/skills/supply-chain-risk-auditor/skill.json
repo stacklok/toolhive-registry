@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "supply-chain-risk-auditor",
+  "title": "Supply Chain Risk Auditor",
+  "description": "Audit a project's dependencies for supply-chain attack surface — flags libraries at heightened risk of exploitation or takeover based on health, maintainership, and activity signals. Packaged from the upstream trailofbits/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "CC-BY-SA-4.0",
+  "repository": {
+    "url": "https://github.com/trailofbits/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/supply-chain-risk-auditor:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/trailofbits/skills",
+      "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+      "subfolder": "plugins/supply-chain-risk-auditor/skills/supply-chain-risk-auditor"
+    }
+  ]
+}

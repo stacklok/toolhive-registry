@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "fp-check",
+  "title": "False Positive Check",
+  "description": "Systematically verify suspected security bugs to eliminate false positives — produces TRUE POSITIVE or FALSE POSITIVE verdicts with documented evidence per bug, with mandatory gate reviews. Packaged from the upstream trailofbits/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "CC-BY-SA-4.0",
+  "repository": {
+    "url": "https://github.com/trailofbits/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/fp-check:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/trailofbits/skills",
+      "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+      "subfolder": "plugins/fp-check/skills/fp-check"
+    }
+  ]
+}
