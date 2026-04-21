@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "gemini-live-api-dev",
+  "title": "Gemini Live API Development Skill",
+  "description": "Build real-time, bidirectional streaming applications with the Gemini Live API — WebSocket audio/video/text streaming, voice activity detection, native audio, function calling, session management, and ephemeral tokens for client-side auth. Packaged from the upstream google-gemini/gemini-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/google-gemini/gemini-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/gemini-live-api-dev:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/google-gemini/gemini-skills",
+      "ref": "5b655a47ac6d03a2d96d6e64ca051b6a7fe62296",
+      "subfolder": "skills/gemini-live-api-dev"
+    }
+  ]
+}
