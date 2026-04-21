@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "agents-sdk",
+  "title": "Cloudflare Agents SDK Skill",
+  "description": "Build AI agents on Cloudflare Workers with the Agents SDK — Agent class, persistent state, callable RPC, Workflows, durable execution, queues, retries, MCP client/server, chat agents, WebSockets, scheduling, observability, and React client hooks. Packaged from the upstream cloudflare/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/cloudflare/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/agents-sdk:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/cloudflare/skills",
+      "ref": "0397d7d88fa6ac7517a88389622eb0799e86ded2",
+      "subfolder": "skills/agents-sdk"
+    }
+  ]
+}

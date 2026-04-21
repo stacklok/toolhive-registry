@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "web-perf",
+  "title": "Web Performance Audit Skill",
+  "description": "Web performance audit via Chrome DevTools MCP — measures Core Web Vitals (LCP, INP, CLS) and supplementary metrics, identifies render-blocking resources and request chains, detects caching gaps and accessibility issues. Packaged from the upstream cloudflare/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/cloudflare/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/web-perf:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/cloudflare/skills",
+      "ref": "0397d7d88fa6ac7517a88389622eb0799e86ded2",
+      "subfolder": "skills/web-perf"
+    }
+  ]
+}
