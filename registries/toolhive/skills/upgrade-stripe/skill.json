@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "upgrade-stripe",
+  "title": "Upgrade Stripe Skill",
+  "description": "Upgrade Stripe API versions and SDKs — server-side SDK version management, Stripe.js versioning, mobile SDK migration, API Changelog review, and staged adoption via the Stripe-Version header. Packaged from the upstream stripe/agent-toolkit repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/stripe/agent-toolkit",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/upgrade-stripe:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/stripe/agent-toolkit",
+      "ref": "dd6deb03137908d0102ffde97e60c90cf79bf929",
+      "subfolder": "skills/upgrade-stripe"
+    }
+  ]
+}
