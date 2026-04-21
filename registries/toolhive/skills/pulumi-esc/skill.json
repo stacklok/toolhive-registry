@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "pulumi-esc",
+  "title": "Pulumi ESC (Environments, Secrets, Configurations) Skill",
+  "description": "Pulumi ESC (Environments, Secrets, Configurations) — centralize and share config/secrets across stacks, integrate with CI/CD, resolve at runtime from cloud providers or static sources. Packaged from the upstream pulumi/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/pulumi/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/pulumi-esc:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/pulumi/agent-skills",
+      "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+      "subfolder": "authoring/skills/pulumi-esc"
+    }
+  ]
+}

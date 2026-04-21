@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "pulumi-component",
+  "title": "Pulumi Component Authoring Skill",
+  "description": "Build reusable Pulumi Components — author multi-language components via ComponentResource, package for Pulumi Registry, handle inputs/outputs, schema, and versioning. Packaged from the upstream pulumi/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/pulumi/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/pulumi-component:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/pulumi/agent-skills",
+      "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+      "subfolder": "authoring/skills/pulumi-component"
+    }
+  ]
+}
