@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "vertex-ai-api-dev",
+  "title": "Vertex AI API Development Skill",
+  "description": "Use the Gemini API on Google Cloud Vertex AI with the unified Gen AI SDK — Live API, function calling, structured output, context caching, embeddings, and batch prediction for enterprise workloads. Packaged from the upstream google-gemini/gemini-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/google-gemini/gemini-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/vertex-ai-api-dev:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/google-gemini/gemini-skills",
+      "ref": "5b655a47ac6d03a2d96d6e64ca051b6a7fe62296",
+      "subfolder": "skills/vertex-ai-api-dev"
+    }
+  ]
+}

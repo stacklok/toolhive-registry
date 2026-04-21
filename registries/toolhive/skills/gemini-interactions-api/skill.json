@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "gemini-interactions-api",
+  "title": "Gemini Interactions API Skill",
+  "description": "Call the Gemini Interactions API for text, chat, multimodal understanding, image generation, streaming, background research, function calling, and structured output — the recommended way to use Gemini models and agents. Packaged from the upstream google-gemini/gemini-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/google-gemini/gemini-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/gemini-interactions-api:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/google-gemini/gemini-skills",
+      "ref": "5b655a47ac6d03a2d96d6e64ca051b6a7fe62296",
+      "subfolder": "skills/gemini-interactions-api"
+    }
+  ]
+}
