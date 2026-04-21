@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "socket-dep-cleanup",
+  "title": "Socket Dep Cleanup Skill",
+  "description": "Evaluate and remove a single unused dependency — searches the entire codebase for direct imports, indirect references (types packages, plugins, CLI scripts, peer deps, bundler plugins), reports findings, removes with build/test verification. Packaged from the upstream SocketDev/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/SocketDev/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/socket-dep-cleanup:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/SocketDev/skills",
+      "ref": "25879b0c8d69cffff9ed895cfb57c12b669f76b2",
+      "subfolder": "skills/socket-fix/socket-dep-cleanup"
+    }
+  ]
+}
