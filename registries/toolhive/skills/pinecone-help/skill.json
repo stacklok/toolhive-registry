@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "pinecone-help",
+  "title": "Pinecone Help Skill",
+  "description": "Overview of available Pinecone skills and getting-started essentials — what a user needs (account, API key, optional CLI/MCP/uv) and which skill to use for each Pinecone task. Packaged from the upstream pinecone-io/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/pinecone-io/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/pinecone-help:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/pinecone-io/skills",
+      "ref": "787cd274ffeae942c9dcd693eadb86bafcacca19",
+      "subfolder": "skills/pinecone-help"
+    }
+  ]
+}

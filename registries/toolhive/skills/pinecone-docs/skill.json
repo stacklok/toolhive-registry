@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "pinecone-docs",
+  "title": "Pinecone Docs Skill",
+  "description": "Curated Pinecone documentation reference — organized links by topic (getting started, indexes, upsert, search, production) and data format references for vectors and records. Packaged from the upstream pinecone-io/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/pinecone-io/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/pinecone-docs:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/pinecone-io/skills",
+      "ref": "787cd274ffeae942c9dcd693eadb86bafcacca19",
+      "subfolder": "skills/pinecone-docs"
+    }
+  ]
+}

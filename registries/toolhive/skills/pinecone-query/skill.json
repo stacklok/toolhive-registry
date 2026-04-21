@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "pinecone-query",
+  "title": "Pinecone Query Skill",
+  "description": "Query Pinecone integrated indexes using natural-language text via the Pinecone MCP — search-records with filtering and reranking; interactive argument resolution via list-indexes and describe-index when the user omits required fields. Packaged from the upstream pinecone-io/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/pinecone-io/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/pinecone-query:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/pinecone-io/skills",
+      "ref": "787cd274ffeae942c9dcd693eadb86bafcacca19",
+      "subfolder": "skills/pinecone-query"
+    }
+  ]
+}
