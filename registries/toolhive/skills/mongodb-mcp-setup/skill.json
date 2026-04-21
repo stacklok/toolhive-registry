@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "mongodb-mcp-setup",
+  "title": "MongoDB MCP Setup Skill",
+  "description": "Set up the MongoDB MCP server — install, authenticate, configure tools and scopes; guided integration with Claude Code, Cursor, and other MCP-compatible agents. Packaged from the upstream mongodb/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/mongodb/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-mcp-setup:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mongodb/agent-skills",
+      "ref": "eba6ae3f673baecb38d8ecd9df3ea4ce1f254443",
+      "subfolder": "skills/mongodb-mcp-setup"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "mongodb-query-optimizer",
+  "title": "MongoDB Query Optimizer Skill",
+  "description": "Analyze and optimize MongoDB queries and aggregation pipelines — explain plans, index design, stage ordering, covered queries, and performance anti-patterns. Packaged from the upstream mongodb/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/mongodb/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-query-optimizer:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mongodb/agent-skills",
+      "ref": "eba6ae3f673baecb38d8ecd9df3ea4ce1f254443",
+      "subfolder": "skills/mongodb-query-optimizer"
+    }
+  ]
+}
