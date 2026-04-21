@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "huggingface-community-evals",
+  "title": "Hugging Face Community Evals Skill",
+  "description": "Run model evaluations against Hugging Face Hub models on local hardware with inspect-ai or lighteval — backend selection across vLLM, Transformers, and accelerate; smoke tests, task selection, and fallback strategy. Packaged from the upstream huggingface/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/huggingface/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-community-evals:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/huggingface/skills",
+      "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+      "subfolder": "skills/huggingface-community-evals"
+    }
+  ]
+}

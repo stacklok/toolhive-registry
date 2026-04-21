@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "huggingface-gradio",
+  "title": "Hugging Face Gradio Skill",
+  "description": "Build Gradio web UIs and demos in Python — Interface, Blocks, ChatInterface, event listeners, layouts, custom HTML components, gradio CLI (info, predict) for programmatic Space interactions. Packaged from the upstream huggingface/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/huggingface/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-gradio:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/huggingface/skills",
+      "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+      "subfolder": "skills/huggingface-gradio"
+    }
+  ]
+}

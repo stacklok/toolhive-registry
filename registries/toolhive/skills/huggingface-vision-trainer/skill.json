@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "huggingface-vision-trainer",
+  "title": "Hugging Face Vision Trainer Skill",
+  "description": "Train and fine-tune vision models on Hugging Face Jobs — object detection (D-FINE, RT-DETR v2, DETR), image classification (timm, MobileNet, ViT, DINOv3), SAM/SAM2 segmentation; COCO-format prep, Albumentations, mAP/accuracy metrics, DiceCE loss, Trackio monitoring. Packaged from the upstream huggingface/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/huggingface/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-vision-trainer:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/huggingface/skills",
+      "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+      "subfolder": "skills/huggingface-vision-trainer"
+    }
+  ]
+}

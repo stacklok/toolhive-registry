@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "hf-cli",
+  "title": "Hugging Face CLI Skill",
+  "description": "Hugging Face Hub CLI (`hf`) — downloads, uploads, auth, cache, buckets, repos, discussions/PRs, models/datasets/spaces, papers, collections, jobs, inference endpoints, webhooks, extensions; replaces the deprecated huggingface-cli. Packaged from the upstream huggingface/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/huggingface/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/hf-cli:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/huggingface/skills",
+      "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+      "subfolder": "skills/hf-cli"
+    }
+  ]
+}
