@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "socket-setup",
+  "title": "Socket Setup Skill",
+  "description": "Set up Socket end-to-end — prompts for account tier, installs CLI/sfw/socket-patch, authenticates, configures firewall and patch modes across GitHub, GitLab, Bitbucket, and Dockerfiles. Packaged from the upstream SocketDev/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/SocketDev/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/socket-setup:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/SocketDev/skills",
+      "ref": "25879b0c8d69cffff9ed895cfb57c12b669f76b2",
+      "subfolder": "skills/socket-setup"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "socket-inspect",
+  "title": "Socket Inspect Skill",
+  "description": "Research a package before depending on it — pulls Socket scores, alerts, malware verdicts, CVEs, dependency tree, maintainer trust; evaluates alternatives and surfaces Socket patches. Packaged from the upstream SocketDev/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/SocketDev/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/socket-inspect:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/SocketDev/skills",
+      "ref": "25879b0c8d69cffff9ed895cfb57c12b669f76b2",
+      "subfolder": "skills/socket-inspect"
+    }
+  ]
+}

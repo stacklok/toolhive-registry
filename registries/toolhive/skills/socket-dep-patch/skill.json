@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "socket-dep-patch",
+  "title": "Socket Dep Patch Skill",
+  "description": "Apply Socket's binary-level security patches with socket-patch apply — fixes vulnerabilities in-place without version changes, then verifies automated patching is configured so patches persist across installs. Packaged from the upstream SocketDev/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/SocketDev/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/socket-dep-patch:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/SocketDev/skills",
+      "ref": "25879b0c8d69cffff9ed895cfb57c12b669f76b2",
+      "subfolder": "skills/socket-fix/socket-dep-patch"
+    }
+  ]
+}
