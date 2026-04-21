@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "clickhouse-architecture-advisor",
+  "title": "ClickHouse Architecture Advisor Skill",
+  "description": "Advise on ClickHouse architecture — deployment topology (self-hosted vs Cloud), replication/sharding, storage tiers, materialized views, table engines (MergeTree family), and capacity planning. Packaged from the upstream ClickHouse/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/ClickHouse/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/clickhouse-architecture-advisor:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/ClickHouse/agent-skills",
+      "ref": "d28416142e5634ce288602cd0c8f3457e68177ff",
+      "subfolder": "skills/clickhouse-architecture-advisor"
+    }
+  ]
+}
