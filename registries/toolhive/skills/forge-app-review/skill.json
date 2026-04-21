@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "forge-app-review",
+  "title": "Atlassian Forge App Review Skill",
+  "description": "Review Atlassian Forge apps for quality, security, and marketplace readiness — manifest and permission audit, resolver security, UI patterns, error handling, and Marketplace submission checklist. Packaged from the upstream atlassian/forge-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/atlassian/forge-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/forge-app-review:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/atlassian/forge-skills",
+      "ref": "0d60ac5436dcb63af0869e110728f40e61274924",
+      "subfolder": "skills/forge-app-review"
+    }
+  ]
+}
