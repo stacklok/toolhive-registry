@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "developing-genkit-dart",
+  "title": "Developing with Genkit (Dart)",
+  "description": "Build AI features with Firebase Genkit in Dart/Flutter — Genkit core concepts (flows, models, tools, indexing, prompts), plugin setup, and common AI workflows (RAG, agents) for Dart apps. Packaged from the upstream firebase/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/firebase/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/developing-genkit-dart:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/firebase/agent-skills",
+      "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+      "subfolder": "skills/developing-genkit-dart"
+    }
+  ]
+}
