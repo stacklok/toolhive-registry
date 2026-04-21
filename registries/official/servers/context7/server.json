@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/context7:2.1.4": {
+        "ghcr.io/stacklok/dockyard/npx/context7:2.1.8": {
           "metadata": {
-            "last_updated": "2026-04-14T03:03:54Z",
+            "last_updated": "2026-04-21T16:40:19Z",
             "stars": 52568
           },
           "overview": "## Context7 MCP Server\n\nThe context7 MCP server is a Model Context Protocol (MCP) server that provides AI assistants with direct access to up-to-date library and framework documentation from Context7, running as a local MCP service. It allows AI-driven workflows to retrieve current, authoritative docs and examples for popular programming languages, frameworks, and tools — helping models generate accurate, version-appropriate code and explanations without relying solely on training data. It is particularly valuable for local development environments, IDE-integrated assistants, and workflows where developers want documentation access to run alongside other local MCP tools.",
@@ -67,7 +67,7 @@
               "inputSchema": {
                 "properties": {
                   "libraryName": {
-                    "description": "Library name to search for and retrieve a Context7-compatible library ID.",
+                    "description": "Library name to search for and retrieve a Context7-compatible library ID. Use the official library name with proper punctuation — e.g., 'Next.js' instead of 'nextjs', 'Customer.io' instead of 'customerio', 'Three.js' instead of 'threejs'.",
                     "type": "string"
                   },
                   "query": {
@@ -112,7 +112,7 @@
           "name": "CONTEXT7_API_KEY"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/context7:2.1.4",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/context7:2.1.8",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
