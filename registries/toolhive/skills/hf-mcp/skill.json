@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "hf-mcp",
+  "title": "Hugging Face MCP Skill",
+  "description": "Use the Hugging Face Hub via MCP server tools — search models, datasets, Spaces, papers; get repo details, fetch docs, run compute jobs, use Gradio Spaces as AI tools (e.g., image generation, speech transcription). Packaged from the upstream huggingface/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/huggingface/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/hf-mcp:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/huggingface/skills",
+      "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+      "subfolder": "hf-mcp/skills/hf-mcp"
+    }
+  ]
+}

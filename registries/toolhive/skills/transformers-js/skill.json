@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "transformers-js",
+  "title": "Transformers.js Skill",
+  "description": "Run ML models in JavaScript/TypeScript via Transformers.js — NLP, computer vision, audio, and multimodal tasks in browsers and Node.js/Bun/Deno with WebGPU/WASM; pipeline API, tokenizers, quantization (fp32/fp16/q8/q4), memory management. Packaged from the upstream huggingface/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/huggingface/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/transformers-js:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/huggingface/skills",
+      "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+      "subfolder": "skills/transformers-js"
+    }
+  ]
+}
