@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "stripe-projects",
+  "title": "Stripe Projects Skill",
+  "description": "Set up a new app or local repo with Stripe Projects — CLI-driven software-stack provisioning (stripe projects init) for bootstrapping Stripe integrations from a coding agent. Packaged from the upstream stripe/agent-toolkit repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/stripe/agent-toolkit",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/stripe-projects:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/stripe/agent-toolkit",
+      "ref": "dd6deb03137908d0102ffde97e60c90cf79bf929",
+      "subfolder": "skills/stripe-projects"
+    }
+  ]
+}
