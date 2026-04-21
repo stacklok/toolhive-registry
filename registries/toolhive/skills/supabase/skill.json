@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "supabase",
+  "title": "Supabase Skill",
+  "description": "Use for any Supabase task — Database, Auth, Edge Functions, Realtime, Storage, Vectors, Cron, Queues; supabase-js and @supabase/ssr SSR integrations; RLS-by-default security checklist, schema changes, migrations, Postgres extensions, CLI, MCP server troubleshooting. Packaged from the upstream supabase/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/supabase/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/supabase:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/supabase/agent-skills",
+      "ref": "3e7fd16bf8cab06d3c24dc775a331e6effcba29a",
+      "subfolder": "skills/supabase"
+    }
+  ]
+}
