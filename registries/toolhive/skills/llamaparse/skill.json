@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "llamaparse",
+  "title": "LlamaIndex LlamaParse Skill",
+  "description": "Parse complex documents with LlamaParse — PDFs, tables, images, and multimodal content via LlamaIndex's managed parsing service; API usage, parse modes, and structured-output schemas. Packaged from the upstream run-llama/llamaparse-agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/run-llama/llamaparse-agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/llamaparse:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/run-llama/llamaparse-agent-skills",
+      "ref": "1f10f60a9eba0dbb490724c8104b0a865365f136",
+      "subfolder": "skills/llamaparse"
+    }
+  ]
+}

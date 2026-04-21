@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "liteparse",
+  "title": "LlamaIndex LiteParse Skill",
+  "description": "Use LlamaIndex's lightweight liteparse document parser — extract text and structure from PDFs and other documents without the full LlamaParse cloud dependency. Packaged from the upstream run-llama/llamaparse-agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/run-llama/llamaparse-agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/liteparse:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/run-llama/llamaparse-agent-skills",
+      "ref": "1f10f60a9eba0dbb490724c8104b0a865365f136",
+      "subfolder": "skills/liteparse"
+    }
+  ]
+}
