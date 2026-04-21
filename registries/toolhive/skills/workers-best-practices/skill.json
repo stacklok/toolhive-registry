@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "workers-best-practices",
+  "title": "Cloudflare Workers Best Practices Skill",
+  "description": "Review and author Cloudflare Workers code against production best practices — streaming, floating promises, global state, secrets, bindings, observability, cryptographic randomness, type safety, wrangler config. Packaged from the upstream cloudflare/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/cloudflare/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/workers-best-practices:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/cloudflare/skills",
+      "ref": "0397d7d88fa6ac7517a88389622eb0799e86ded2",
+      "subfolder": "skills/workers-best-practices"
+    }
+  ]
+}
