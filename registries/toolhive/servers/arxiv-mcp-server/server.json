@@ -9,7 +9,7 @@
             "/arxiv-papers"
           ],
           "metadata": {
-            "last_updated": "2026-04-11T03:02:35Z",
+            "last_updated": "2026-04-21T09:00:24Z",
             "stars": 2509
           },
           "overview": "## arXiv MCP Server\n\nThe arxiv-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically access the arXiv research repository — one of the largest open archives of scientific papers — via a simple MCP interface. It lets AI workflows search for academic papers, download and read their content, and manage collected research, all without switching tools or manually scraping content.",
@@ -46,16 +46,46 @@
           "tool_definitions": [
             {
               "annotations": {},
-              "description": "Download a paper and create a resource for it",
+              "description": "Check all saved topic watches for newly published papers since the last check. Omitting the topic parameter runs ALL saved watches and returns new papers for each. Passing a topic string checks only that specific watch. Updates each watch's last_checked timestamp after running, so subsequent calls only return newer papers. Use watch_topic to register topics before calling this. Returns a summary with new paper counts and full paper metadata per topic.",
               "inputSchema": {
                 "properties": {
-                  "check_status": {
-                    "default": false,
-                    "description": "If true, only check conversion status without downloading",
-                    "type": "boolean"
-                  },
+                  "topic": {
+                    "description": "Optional: check only this specific watched topic (must match the topic string used in watch_topic exactly). Omit to check all saved watches.",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "check_alerts"
+            },
+            {
+              "annotations": {},
+              "description": "Return papers citing an arXiv paper and papers that it references using Semantic Scholar's citation graph.",
+              "inputSchema": {
+                "properties": {
                   "paper_id": {
-                    "description": "The arXiv ID of the paper to download",
+                    "description": "arXiv ID (for example: 2401.12345).",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "paper_id"
+                ],
+                "type": "object"
+              },
+              "name": "citation_graph"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Download a paper from arXiv and return its full text content. Tries the HTML version first for clean extraction; falls back to PDF conversion if HTML is unavailable. Returns the paper content directly so you can read it immediately.",
+              "inputSchema": {
+                "properties": {
+                  "paper_id": {
+                    "description": "The arXiv ID of the paper to download (e.g. '2103.12345')",
                     "type": "string"
                   }
                 },
@@ -67,8 +97,30 @@
               "name": "download_paper"
             },
             {
-              "annotations": {},
-              "description": "List all existing papers available as resources",
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Fetch the abstract and metadata of an arXiv paper by ID, WITHOUT downloading the full paper. Use this before download_paper to assess relevance and save tokens. Returns: title, authors, abstract, categories, published date, and PDF URL. Workflow tip: search_papers -\u003e get_abstract (check relevance) -\u003e download_paper (if needed) -\u003e read_paper.",
+              "inputSchema": {
+                "properties": {
+                  "paper_id": {
+                    "description": "The arXiv paper ID (e.g. '2401.12345' or '2404.19756')",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "paper_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_abstract"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "List all papers that have been downloaded and stored locally via download_paper. Returns arXiv IDs only — use read_paper to access content. Returns an empty list if no papers have been downloaded yet. Workflow: search_papers -\u003e download_paper -\u003e list_papers -\u003e read_paper.",
               "inputSchema": {
                 "properties": {},
                 "required": [],
@@ -77,8 +129,10 @@
               "name": "list_papers"
             },
             {
-              "annotations": {},
-              "description": "Read the full content of a stored paper in markdown format",
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Read the full text content of a paper that was previously downloaded via download_paper. Returns the paper in markdown format. Will fail with a clear error if the paper has not been downloaded yet — call download_paper first. Workflow: search_papers -\u003e download_paper -\u003e read_paper.",
               "inputSchema": {
                 "properties": {
                   "paper_id": {
@@ -95,7 +149,26 @@
             },
             {
               "annotations": {},
-              "description": "Search for papers on arXiv with advanced filtering and query optimization.\n\nQUERY CONSTRUCTION GUIDELINES:\n- Use QUOTED PHRASES for exact matches: \"multi-agent systems\", \"neural networks\", \"machine learning\"\n- Combine related concepts with OR: \"AI agents\" OR \"software agents\" OR \"intelligent agents\"  \n- Use field-specific searches for precision:\n  - ti:\"exact title phrase\" - search in titles only\n  - au:\"author name\" - search by author\n  - abs:\"keyword\" - search in abstracts only\n- Use ANDNOT to exclude unwanted results: \"machine learning\" ANDNOT \"survey\"\n- For best results, use 2-4 core concepts rather than long keyword lists\n\nADVANCED SEARCH PATTERNS:\n- Field + phrase: ti:\"transformer architecture\" for papers with exact title phrase\n- Multiple fields: au:\"Smith\" AND ti:\"quantum\" for author Smith's quantum papers  \n- Exclusions: \"deep learning\" ANDNOT (\"survey\" OR \"review\") to exclude survey papers\n- Broad + narrow: \"artificial intelligence\" AND (robotics OR \"computer vision\")\n\nCATEGORY FILTERING (highly recommended for relevance):\n- cs.AI: Artificial Intelligence\n- cs.MA: Multi-Agent Systems  \n- cs.LG: Machine Learning\n- cs.CL: Computation and Language (NLP)\n- cs.CV: Computer Vision\n- cs.RO: Robotics\n- cs.HC: Human-Computer Interaction\n- cs.CR: Cryptography and Security\n- cs.DB: Databases\n\nEXAMPLES OF EFFECTIVE QUERIES:\n- ti:\"reinforcement learning\" with categories: [\"cs.LG\", \"cs.AI\"] - for RL papers by title\n- au:\"Hinton\" AND \"deep learning\" with categories: [\"cs.LG\"] - for Hinton's deep learning work\n- \"multi-agent\" ANDNOT \"survey\" with categories: [\"cs.MA\"] - exclude survey papers\n- abs:\"transformer\" AND ti:\"attention\" with categories: [\"cs.CL\"] - attention papers with transformer abstracts\n\nDATE FILTERING: Use YYYY-MM-DD format for historical research:\n- date_to: \"2015-12-31\" - for foundational/classic work (pre-2016)\n- date_from: \"2020-01-01\" - for recent developments (post-2020)\n- Both together for specific time periods\n\nRESULT QUALITY: Results sorted by RELEVANCE (most relevant papers first), not just newest papers.\nThis ensures you get the most pertinent results regardless of publication date.\n\nTIPS FOR FOUNDATIONAL RESEARCH:\n- Use date_to: \"2010-12-31\" to find classic papers on BDI, SOAR, ACT-R\n- Combine with field searches: ti:\"BDI\" AND abs:\"belief desire intention\"  \n- Try author searches: au:\"Rao\" AND \"BDI\" for Anand Rao's foundational BDI work",
+              "description": "Rebuild the local semantic index for downloaded papers.",
+              "inputSchema": {
+                "properties": {
+                  "clear_existing": {
+                    "default": true,
+                    "description": "If true, clear the existing index before rebuilding.",
+                    "type": "boolean"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "reindex"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Search for papers on arXiv with advanced filtering and query optimization.\n\nQUERY CONSTRUCTION GUIDELINES:\n- Use QUOTED PHRASES for exact matches: \"multi-agent systems\", \"neural networks\", \"machine learning\"\n- Combine related concepts with OR: \"AI agents\" OR \"software agents\" OR \"intelligent agents\"  \n- Use field-specific searches for precision:\n  - ti:\"exact title phrase\" - search in titles only\n  - au:\"author name\" - search by author\n  - abs:\"keyword\" - search in abstracts only\n- Use ANDNOT to exclude unwanted results: \"machine learning\" ANDNOT \"survey\"\n- For best results, use 2-4 core concepts rather than long keyword lists\n\nADVANCED SEARCH PATTERNS:\n- Field + phrase: ti:\"transformer architecture\" for papers with exact title phrase\n- Multiple fields: au:\"Smith\" AND ti:\"quantum\" for author Smith's quantum papers  \n- Exclusions: \"deep learning\" ANDNOT (\"survey\" OR \"review\") to exclude survey papers\n- Broad + narrow: \"artificial intelligence\" AND (robotics OR \"computer vision\")\n\nCATEGORY FILTERING (highly recommended for relevance):\nComputer Science:\n- cs.AI: Artificial Intelligence\n- cs.LG: Machine Learning\n- cs.CL: Computation and Language (NLP)\n- cs.CV: Computer Vision\n- cs.MA: Multi-Agent Systems\n- cs.RO: Robotics\n- cs.NE: Neural and Evolutionary Computing\n- cs.IR: Information Retrieval\n- cs.HC: Human-Computer Interaction\n- cs.CR: Cryptography and Security\n- cs.DB: Databases\nStatistics \u0026 Math:\n- stat.ML: Machine Learning (Statistics)\n- stat.AP: Applications\n- math.OC: Optimization and Control\n- math.ST: Statistics Theory\nPhysics \u0026 Other:\n- quant-ph: Quantum Physics\n- eess.SP: Signal Processing\n- eess.AS: Audio and Speech Processing\n- physics.data-an: Data Analysis and Statistics\n\nEXAMPLES OF EFFECTIVE QUERIES:\n- ti:\"reinforcement learning\" with categories: [\"cs.LG\", \"cs.AI\"] - for RL papers by title\n- au:\"Hinton\" AND \"deep learning\" with categories: [\"cs.LG\"] - for Hinton's deep learning work\n- \"multi-agent\" ANDNOT \"survey\" with categories: [\"cs.MA\"] - exclude survey papers\n- abs:\"transformer\" AND ti:\"attention\" with categories: [\"cs.CL\"] - attention papers with transformer abstracts\n\nDATE FILTERING: Use YYYY-MM-DD format for historical research:\n- date_to: \"2015-12-31\" - for foundational/classic work (pre-2016)\n- date_from: \"2020-01-01\" - for recent developments (post-2020)\n- Both together for specific time periods\n\nRESULT QUALITY: Default sort is RELEVANCE (most pertinent results first). Use sort_by: \"date\" to get newest papers first.\nChoose relevance for focused topic searches; choose date for monitoring recent developments.\n\nRATE LIMITING: arXiv enforces a 3-second minimum between requests. This server handles that automatically.\nIf you see a rate limit error, wait 60 seconds before retrying — do not call the tool repeatedly in a loop.\n\nTIPS FOR FOUNDATIONAL RESEARCH:\n- Use date_to: \"2010-12-31\" to find classic papers on BDI, SOAR, ACT-R\n- Combine with field searches: ti:\"BDI\" AND abs:\"belief desire intention\"  \n- Try author searches: au:\"Rao\" AND \"BDI\" for Anand Rao's foundational BDI work",
               "inputSchema": {
                 "properties": {
                   "categories": {
@@ -136,13 +209,72 @@
                 "type": "object"
               },
               "name": "search_papers"
+            },
+            {
+              "annotations": {},
+              "description": "Semantic similarity search over papers you have already downloaded locally via download_paper. Supports free-text queries (e.g. 'attention mechanisms for long sequences') or finding papers similar to a given paper_id. IMPORTANT: only searches your local downloaded collection — will return empty results if no papers have been downloaded yet. Use search_papers to find papers on arXiv, then download_paper to add them to the local index before using this tool. Requires pro dependencies: uv pip install -e \".[pro]\"",
+              "inputSchema": {
+                "properties": {
+                  "max_results": {
+                    "default": 10,
+                    "description": "Maximum number of results to return (default: 10).",
+                    "type": "integer"
+                  },
+                  "paper_id": {
+                    "description": "Find papers semantically similar to this arXiv paper ID.",
+                    "type": "string"
+                  },
+                  "query": {
+                    "description": "Free-text semantic query.",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "semantic_search"
+            },
+            {
+              "annotations": {},
+              "description": "Save or update a persistent research topic watch. When checked via check_alerts, returns only papers published since the last check — acting as a standing alert for new work on a topic. The topic string uses the same query syntax as search_papers (quoted phrases, field specifiers, boolean operators). Examples: '\"diffusion models\" AND ti:\"video generation\"', 'au:\"LeCun\" AND cs.LG'. Calling watch_topic with the same topic string updates the existing watch rather than creating a duplicate. Pair with check_alerts to poll for new papers.",
+              "inputSchema": {
+                "properties": {
+                  "categories": {
+                    "description": "Optional arXiv category filter (e.g. ['cs.LG', 'cs.AI']). Narrows results to specific fields.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "max_results": {
+                    "default": 10,
+                    "description": "Maximum papers to return per alert check (default: 10).",
+                    "type": "integer"
+                  },
+                  "topic": {
+                    "description": "Query string to monitor. Uses arXiv search syntax — quoted phrases for exact matches, field specifiers (ti:, au:, abs:), and boolean operators (AND, OR, ANDNOT). Example: '\"reinforcement learning\" AND \"robotics\"'.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "topic"
+                ],
+                "type": "object"
+              },
+              "name": "watch_topic"
             }
           ],
           "tools": [
+            "check_alerts",
+            "citation_graph",
             "download_paper",
+            "get_abstract",
             "list_papers",
             "read_paper",
-            "search_papers"
+            "reindex",
+            "search_papers",
+            "semantic_search",
+            "watch_topic"
           ]
         }
       }
