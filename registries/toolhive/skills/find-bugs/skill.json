@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "find-bugs",
+  "title": "Sentry Find Bugs Skill",
+  "description": "Find bugs, security vulnerabilities, and quality issues on the current branch — diff-scoped review with security checklist covering injection, XSS, auth, IDOR, race conditions, and business-logic edge cases. Packaged from the upstream getsentry/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/getsentry/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/find-bugs:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/getsentry/skills",
+      "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+      "subfolder": "skills/find-bugs"
+    }
+  ]
+}

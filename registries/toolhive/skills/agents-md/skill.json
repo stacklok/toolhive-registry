@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "agents-md",
+  "title": "Sentry AGENTS.md Authoring Skill",
+  "description": "Create and maintain minimal, high-signal AGENTS.md / CLAUDE.md agent docs — under 60 lines target, detects package manager and file-scoped commands, avoids filler and duplicated linter rules. Packaged from the upstream getsentry/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/getsentry/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/agents-md:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/getsentry/skills",
+      "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+      "subfolder": "skills/agents-md"
+    }
+  ]
+}
