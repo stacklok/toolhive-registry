@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "clickhousectl-local-dev",
+  "title": "clickhousectl Local Dev Skill",
+  "description": "Run and develop against ClickHouse locally with clickhousectl — Docker-based local server, quick setup, schema/data bootstrap, and connection patterns for local-first development. Packaged from the upstream ClickHouse/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/ClickHouse/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/clickhousectl-local-dev:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/ClickHouse/agent-skills",
+      "ref": "d28416142e5634ce288602cd0c8f3457e68177ff",
+      "subfolder": "skills/clickhousectl-local-dev"
+    }
+  ]
+}
