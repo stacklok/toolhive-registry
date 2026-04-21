@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "developing-genkit-js",
+  "title": "Developing with Genkit (JavaScript/TypeScript)",
+  "description": "Build AI features with Firebase Genkit in JavaScript/TypeScript — flows, models, tools, plugins, observability, and deployment patterns for Node.js and Next.js apps. Packaged from the upstream firebase/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/firebase/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/developing-genkit-js:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/firebase/agent-skills",
+      "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+      "subfolder": "skills/developing-genkit-js"
+    }
+  ]
+}

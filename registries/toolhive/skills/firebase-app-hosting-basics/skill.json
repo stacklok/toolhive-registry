@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "firebase-app-hosting-basics",
+  "title": "Firebase App Hosting Basics",
+  "description": "Deploy full-stack web apps with Firebase App Hosting — Next.js and Angular framework support, GitHub integration, rollouts, backends, and environment configuration. Packaged from the upstream firebase/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/firebase/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-app-hosting-basics:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/firebase/agent-skills",
+      "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+      "subfolder": "skills/firebase-app-hosting-basics"
+    }
+  ]
+}
