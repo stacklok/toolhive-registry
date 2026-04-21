@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "dd-pup",
+  "title": "Datadog pup CLI Skill",
+  "description": "Primary `pup` CLI for Datadog agent workflows — authentication, PATH setup, command reference across monitors, logs, APM, metrics, and docs. Packaged from the upstream datadog-labs/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/datadog-labs/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/dd-pup:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/datadog-labs/agent-skills",
+      "ref": "a04611e9d3c402859f7d973be451c16cd5982ca5",
+      "subfolder": "dd-pup"
+    }
+  ]
+}
