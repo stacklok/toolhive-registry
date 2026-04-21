@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "weaviate-cookbooks",
+  "title": "Weaviate Cookbooks Skill",
+  "description": "Architectural patterns and blueprints for Weaviate-powered AI apps — Query Agent Chatbot, Data Explorer, Multimodal PDF RAG, basic/advanced RAG, basic agent and agentic RAG, optional frontend; async client guidance. Packaged from the upstream weaviate/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "url": "https://github.com/weaviate/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/weaviate-cookbooks:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/weaviate/agent-skills",
+      "ref": "2f62f9fb7784ce57cb182ad6e575310f280a6b63",
+      "subfolder": "skills/weaviate-cookbooks"
+    }
+  ]
+}
