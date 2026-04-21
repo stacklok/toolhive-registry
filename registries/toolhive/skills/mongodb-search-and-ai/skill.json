@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "mongodb-search-and-ai",
+  "title": "MongoDB Search and AI Skill",
+  "description": "Build Atlas Search and vector-search AI workloads on MongoDB — full-text search, vector indexes, hybrid search, RAG patterns, embedding providers, and query tuning. Packaged from the upstream mongodb/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/mongodb/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-search-and-ai:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mongodb/agent-skills",
+      "ref": "eba6ae3f673baecb38d8ecd9df3ea4ce1f254443",
+      "subfolder": "skills/mongodb-search-and-ai"
+    }
+  ]
+}

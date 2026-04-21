@@ -1,0 +1,38 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "mongodb-natural-language-querying",
+  "title": "MongoDB Natural Language Querying Skill",
+  "description": "Translate natural-language requests into MongoDB queries and aggregations — schema-aware query generation, aggregation pipeline stages, and index-aware plan hints. Packaged from the upstream mongodb/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "allowedTools": [
+    "mongodb/collection-indexes",
+    "mongodb/collection-schema",
+    "mongodb/find",
+    "mongodb/list-collections",
+    "mongodb/list-databases"
+  ],
+  "repository": {
+    "url": "https://github.com/mongodb/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-natural-language-querying:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mongodb/agent-skills",
+      "ref": "eba6ae3f673baecb38d8ecd9df3ea4ce1f254443",
+      "subfolder": "skills/mongodb-natural-language-querying"
+    }
+  ]
+}
