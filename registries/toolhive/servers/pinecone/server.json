@@ -1,0 +1,90 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/pinecone-mcp:0.2.1": {
+          "custom_metadata": {
+            "author": "Pinecone",
+            "homepage": "https://docs.pinecone.io/guides/operations/mcp-server"
+          },
+          "overview": "## Pinecone MCP Server\n\nThe Pinecone MCP server enables AI assistants and agents to interact with Pinecone — the managed vector database — for semantic search, retrieval-augmented generation, and document Q&A workflows. It exposes tools to list and describe indexes, provision new integrated-embedding indexes, upsert records with automatic embedding, perform text-based semantic search with filtering and reranking, run cross-index cascading searches with deduplication, and query the official Pinecone documentation. The server supports integrated indexes (Pinecone-hosted embedding models); for standard indexes with external embeddings, use the Pinecone CLI instead.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  ".pinecone.io"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "vector-database",
+            "pinecone",
+            "semantic-search",
+            "rag",
+            "embeddings",
+            "ai"
+          ],
+          "tier": "Official",
+          "tools": [
+            "search-docs",
+            "list-indexes",
+            "describe-index",
+            "describe-index-stats",
+            "create-index-for-model",
+            "upsert-records",
+            "search-records",
+            "cascading-search",
+            "rerank-documents"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Model Context Protocol server for Pinecone vector database and documentation search",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/pinecone/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/pinecone",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Pinecone API key for authentication. Without it, only the search-docs tool is available; with a valid key the server exposes all nine index and search tools.",
+          "isRequired": false,
+          "isSecret": true,
+          "name": "PINECONE_API_KEY"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/pinecone-mcp:0.2.1",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/pinecone-io/pinecone-mcp"
+  },
+  "title": "Pinecone",
+  "version": "1.0.0"
+}
