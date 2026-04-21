@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "pinecone-quickstart",
+  "title": "Pinecone Quickstart Skill",
+  "description": "Interactive Pinecone quickstart — two paths: Database (create integrated index, upsert sample data, semantic search via Pinecone MCP + Python) or Assistant (document Q&A via Pinecone Assistant). Packaged from the upstream pinecone-io/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/pinecone-io/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/pinecone-quickstart:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/pinecone-io/skills",
+      "ref": "787cd274ffeae942c9dcd693eadb86bafcacca19",
+      "subfolder": "skills/pinecone-quickstart"
+    }
+  ]
+}
