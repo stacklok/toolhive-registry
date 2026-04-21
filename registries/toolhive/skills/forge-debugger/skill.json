@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "forge-debugger",
+  "title": "Atlassian Forge Debugger Skill",
+  "description": "Debug Atlassian Forge apps — inspect logs, tunnel to local dev, trace resolver errors, reproduce webhook/trigger failures, verify manifest and permission scopes. Packaged from the upstream atlassian/forge-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/atlassian/forge-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/forge-debugger:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/atlassian/forge-skills",
+      "ref": "0d60ac5436dcb63af0869e110728f40e61274924",
+      "subfolder": "skills/forge-debugger"
+    }
+  ]
+}
