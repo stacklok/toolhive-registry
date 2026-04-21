@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "create-branch",
+  "title": "Sentry Create Branch Skill",
+  "description": "Create a git branch following Sentry naming conventions — <prefix>/<type>/<short-description> with automatic prefix resolution from GitHub user, diff-derived description, and default-branch detection. Packaged from the upstream getsentry/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/getsentry/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/create-branch:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/getsentry/skills",
+      "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+      "subfolder": "skills/create-branch"
+    }
+  ]
+}

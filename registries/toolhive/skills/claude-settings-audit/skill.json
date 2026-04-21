@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "claude-settings-audit",
+  "title": "Sentry Claude Settings Audit Skill",
+  "description": "Analyze a repository and generate recommended Claude Code settings.json permissions for read-only commands — detects tech stack, package managers, build tools, monorepo structure, and framework-specific doc domains. Packaged from the upstream getsentry/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/getsentry/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/claude-settings-audit:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/getsentry/skills",
+      "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+      "subfolder": "skills/claude-settings-audit"
+    }
+  ]
+}

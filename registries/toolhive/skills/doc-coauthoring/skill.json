@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "doc-coauthoring",
+  "title": "Sentry Doc Co-Authoring Skill",
+  "description": "Guide users through a three-stage doc co-authoring workflow — context gathering, section-by-section refinement and structure, and reader testing with a fresh agent to catch blind spots. Packaged from the upstream getsentry/skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/getsentry/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/doc-coauthoring:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/getsentry/skills",
+      "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+      "subfolder": "skills/doc-coauthoring"
+    }
+  ]
+}
