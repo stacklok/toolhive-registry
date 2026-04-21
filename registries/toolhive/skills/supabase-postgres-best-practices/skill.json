@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "supabase-postgres-best-practices",
+  "title": "Supabase Postgres Best Practices Skill",
+  "description": "Postgres performance optimization and best practices from Supabase — rules across query performance, connection management, security/RLS, schema design, concurrency/locking, data access patterns, monitoring, and advanced features. Packaged from the upstream supabase/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/supabase/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/supabase-postgres-best-practices:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/supabase/agent-skills",
+      "ref": "3e7fd16bf8cab06d3c24dc775a331e6effcba29a",
+      "subfolder": "skills/supabase-postgres-best-practices"
+    }
+  ]
+}
