@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "pulumi-automation-api",
+  "title": "Pulumi Automation API Skill",
+  "description": "Drive Pulumi programmatically with the Automation API — embed up/destroy/preview operations, manage stacks from code (TypeScript, Python, Go, .NET), event streaming, and workspace configuration. Packaged from the upstream pulumi/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/pulumi/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/pulumi-automation-api:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/pulumi/agent-skills",
+      "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+      "subfolder": "authoring/skills/pulumi-automation-api"
+    }
+  ]
+}

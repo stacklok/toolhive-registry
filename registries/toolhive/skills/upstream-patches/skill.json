@@ -1,0 +1,31 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "upstream-patches",
+  "title": "Pulumi Upstream Patches Skill",
+  "description": "Manage upstream patches for bridged Pulumi providers — apply, refresh, and rebase patches against upstream Terraform providers; common workflows for provider maintainers. Packaged from the upstream pulumi/agent-skills repository.",
+  "version": "0.1.0",
+  "status": "active",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/pulumi/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/upstream-patches:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/pulumi/agent-skills",
+      "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+      "subfolder": "authoring/skills/upstream-patches"
+    }
+  ]
+}
