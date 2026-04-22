@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.20.0": {
+        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.22.0": {
           "metadata": {
-            "last_updated": "2026-04-06T03:04:18Z",
+            "last_updated": "2026-04-22T05:26:20Z",
             "stars": 33303
           },
           "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
@@ -137,7 +137,7 @@
                     "type": "number"
                   },
                   "geolocation": {
-                    "description": "Geolocation (`\u003clatitude\u003ex\u003clongitude\u003e`) to emulate. Latitude between -90 and 90. Longitude between -180 and 180. Omit clear the geolocation override.",
+                    "description": "Geolocation (`\u003clatitude\u003ex\u003clongitude\u003e`) to emulate. Latitude between -90 and 90. Longitude between -180 and 180. Omit to clear the geolocation override.",
                     "type": "string"
                   },
                   "networkConditions": {
@@ -180,6 +180,10 @@
                     },
                     "type": "array"
                   },
+                  "dialogAction": {
+                    "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+                    "type": "string"
+                  },
                   "function": {
                     "description": "A JavaScript function declaration to be executed by the tool in the currently selected page.\nExample without arguments: `() =\u003e {\n  return document.title\n}` or `async () =\u003e {\n  return await fetch(\"example.com\")\n}`.\nExample with arguments: `(el) =\u003e {\n  return el.innerText;\n}`\n",
                     "type": "string"
@@ -196,7 +200,7 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Type text into a input, text area or select an option from a \u003cselect\u003e element.",
+              "description": "Type text into an input, text area or select an option from a \u003cselect\u003e element.",
               "inputSchema": {
                 "properties": {
                   "includeSnapshot": {
@@ -292,11 +296,11 @@
                     "type": "number"
                   },
                   "requestFilePath": {
-                    "description": "The absolute or relative path to save the request body to. If omitted, the body is returned inline.",
+                    "description": "The absolute or relative path to a .network-request file to save the request body to. If omitted, the body is returned inline.",
                     "type": "string"
                   },
                   "responseFilePath": {
-                    "description": "The absolute or relative path to save the response body to. If omitted, the body is returned inline.",
+                    "description": "The absolute or relative path to a .network-response file to save the response body to. If omitted, the body is returned inline.",
                     "type": "string"
                   }
                 },
@@ -357,7 +361,7 @@
             },
             {
               "annotations": {
-                "readOnlyHint": true
+                "readOnlyHint": false
               },
               "description": "Get Lighthouse score and reports for accessibility, SEO and best practices. This excludes performance. For performance audits, run performance_start_trace",
               "inputSchema": {
@@ -408,7 +412,7 @@
                     "type": "integer"
                   },
                   "pageSize": {
-                    "description": "Maximum number of messages to return. When omitted, returns all requests.",
+                    "description": "Maximum number of messages to return. When omitted, returns all messages.",
                     "exclusiveMinimum": 0,
                     "type": "integer"
                   },
@@ -507,7 +511,7 @@
               "annotations": {
                 "readOnlyHint": true
               },
-              "description": "Get a list of pages  open in the browser.",
+              "description": "Get a list of pages open in the browser.",
               "inputSchema": {
                 "properties": {},
                 "required": [],
@@ -733,9 +737,9 @@
             },
             {
               "annotations": {
-                "readOnlyHint": true
+                "readOnlyHint": false
               },
-              "description": "Capture a memory heapsnapshot of the currently selected page to memory leak debugging",
+              "description": "Capture a heap snapshot of the currently selected page. Use to analyze the memory distribution of JavaScript objects and debug memory leaks.",
               "inputSchema": {
                 "properties": {
                   "filePath": {
@@ -782,7 +786,7 @@
                     "type": "number"
                   },
                   "uid": {
-                    "description": "The uid of an element on the page from the page content snapshot. If omitted takes a pages screenshot.",
+                    "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
                     "type": "string"
                   }
                 },
@@ -939,7 +943,7 @@
   "name": "io.github.stacklok/chrome-devtools-mcp",
   "packages": [
     {
-      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.20.0",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.22.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
