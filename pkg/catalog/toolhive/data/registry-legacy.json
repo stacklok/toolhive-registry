@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-04-21T00:56:23Z",
+  "last_updated": "2026-04-22T00:53:22Z",
   "servers": {
     "adb-mysql-mcp-server": {
       "title": "AnalyticDB for MySQL",
@@ -15,8 +15,8 @@
         "get_query_plan"
       ],
       "metadata": {
-        "stars": 27,
-        "last_updated": "2026-03-18T03:02:42Z"
+        "stars": 31,
+        "last_updated": "2026-04-18T03:03:09Z"
       },
       "repository_url": "https://github.com/aliyun/alibabacloud-adb-mysql-mcp-server",
       "tags": [
@@ -135,8 +135,8 @@
         "extract-web-data"
       ],
       "metadata": {
-        "stars": 150,
-        "last_updated": "2026-03-17T02:59:10Z"
+        "stars": 161,
+        "last_updated": "2026-04-18T03:03:08Z"
       },
       "repository_url": "https://github.com/tinyfish-io/agentql-mcp",
       "tags": [
@@ -255,14 +255,20 @@
       "status": "Active",
       "transport": "stdio",
       "tools": [
+        "check_alerts",
+        "citation_graph",
         "download_paper",
+        "get_abstract",
         "list_papers",
         "read_paper",
-        "search_papers"
+        "reindex",
+        "search_papers",
+        "semantic_search",
+        "watch_topic"
       ],
       "metadata": {
         "stars": 2509,
-        "last_updated": "2026-04-11T03:02:35Z"
+        "last_updated": "2026-04-21T09:54:15Z"
       },
       "repository_url": "https://github.com/blazickjp/arxiv-mcp-server",
       "tags": [
@@ -276,16 +282,46 @@
       "tool_definitions": [
         {
           "annotations": {},
-          "description": "Download a paper and create a resource for it",
+          "description": "Check all saved topic watches for newly published papers since the last check. Omitting the topic parameter runs ALL saved watches and returns new papers for each. Passing a topic string checks only that specific watch. Updates each watch's last_checked timestamp after running, so subsequent calls only return newer papers. Use watch_topic to register topics before calling this. Returns a summary with new paper counts and full paper metadata per topic.",
           "inputSchema": {
             "properties": {
-              "check_status": {
-                "default": false,
-                "description": "If true, only check conversion status without downloading",
-                "type": "boolean"
-              },
+              "topic": {
+                "description": "Optional: check only this specific watched topic (must match the topic string used in watch_topic exactly). Omit to check all saved watches.",
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "check_alerts"
+        },
+        {
+          "annotations": {},
+          "description": "Return papers citing an arXiv paper and papers that it references using Semantic Scholar's citation graph.",
+          "inputSchema": {
+            "properties": {
               "paper_id": {
-                "description": "The arXiv ID of the paper to download",
+                "description": "arXiv ID (for example: 2401.12345).",
+                "type": "string"
+              }
+            },
+            "required": [
+              "paper_id"
+            ],
+            "type": "object"
+          },
+          "name": "citation_graph"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "openWorldHint": true
+          },
+          "description": "Download a paper from arXiv and return its full text content. Tries the HTML version first for clean extraction; falls back to PDF conversion if HTML is unavailable. Returns the paper content directly so you can read it immediately.",
+          "inputSchema": {
+            "properties": {
+              "paper_id": {
+                "description": "The arXiv ID of the paper to download (e.g. '2103.12345')",
                 "type": "string"
               }
             },
@@ -297,8 +333,30 @@
           "name": "download_paper"
         },
         {
-          "annotations": {},
-          "description": "List all existing papers available as resources",
+          "annotations": {
+            "readOnlyHint": true,
+            "openWorldHint": true
+          },
+          "description": "Fetch the abstract and metadata of an arXiv paper by ID, WITHOUT downloading the full paper. Use this before download_paper to assess relevance and save tokens. Returns: title, authors, abstract, categories, published date, and PDF URL. Workflow tip: search_papers -\u003e get_abstract (check relevance) -\u003e download_paper (if needed) -\u003e read_paper.",
+          "inputSchema": {
+            "properties": {
+              "paper_id": {
+                "description": "The arXiv paper ID (e.g. '2401.12345' or '2404.19756')",
+                "type": "string"
+              }
+            },
+            "required": [
+              "paper_id"
+            ],
+            "type": "object"
+          },
+          "name": "get_abstract"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true
+          },
+          "description": "List all papers that have been downloaded and stored locally via download_paper. Returns arXiv IDs only — use read_paper to access content. Returns an empty list if no papers have been downloaded yet. Workflow: search_papers -\u003e download_paper -\u003e list_papers -\u003e read_paper.",
           "inputSchema": {
             "properties": {},
             "required": [],
@@ -307,8 +365,10 @@
           "name": "list_papers"
         },
         {
-          "annotations": {},
-          "description": "Read the full content of a stored paper in markdown format",
+          "annotations": {
+            "readOnlyHint": true
+          },
+          "description": "Read the full text content of a paper that was previously downloaded via download_paper. Returns the paper in markdown format. Will fail with a clear error if the paper has not been downloaded yet — call download_paper first. Workflow: search_papers -\u003e download_paper -\u003e read_paper.",
           "inputSchema": {
             "properties": {
               "paper_id": {
@@ -325,7 +385,26 @@
         },
         {
           "annotations": {},
-          "description": "Search for papers on arXiv with advanced filtering and query optimization.\n\nQUERY CONSTRUCTION GUIDELINES:\n- Use QUOTED PHRASES for exact matches: \"multi-agent systems\", \"neural networks\", \"machine learning\"\n- Combine related concepts with OR: \"AI agents\" OR \"software agents\" OR \"intelligent agents\"  \n- Use field-specific searches for precision:\n  - ti:\"exact title phrase\" - search in titles only\n  - au:\"author name\" - search by author\n  - abs:\"keyword\" - search in abstracts only\n- Use ANDNOT to exclude unwanted results: \"machine learning\" ANDNOT \"survey\"\n- For best results, use 2-4 core concepts rather than long keyword lists\n\nADVANCED SEARCH PATTERNS:\n- Field + phrase: ti:\"transformer architecture\" for papers with exact title phrase\n- Multiple fields: au:\"Smith\" AND ti:\"quantum\" for author Smith's quantum papers  \n- Exclusions: \"deep learning\" ANDNOT (\"survey\" OR \"review\") to exclude survey papers\n- Broad + narrow: \"artificial intelligence\" AND (robotics OR \"computer vision\")\n\nCATEGORY FILTERING (highly recommended for relevance):\n- cs.AI: Artificial Intelligence\n- cs.MA: Multi-Agent Systems  \n- cs.LG: Machine Learning\n- cs.CL: Computation and Language (NLP)\n- cs.CV: Computer Vision\n- cs.RO: Robotics\n- cs.HC: Human-Computer Interaction\n- cs.CR: Cryptography and Security\n- cs.DB: Databases\n\nEXAMPLES OF EFFECTIVE QUERIES:\n- ti:\"reinforcement learning\" with categories: [\"cs.LG\", \"cs.AI\"] - for RL papers by title\n- au:\"Hinton\" AND \"deep learning\" with categories: [\"cs.LG\"] - for Hinton's deep learning work\n- \"multi-agent\" ANDNOT \"survey\" with categories: [\"cs.MA\"] - exclude survey papers\n- abs:\"transformer\" AND ti:\"attention\" with categories: [\"cs.CL\"] - attention papers with transformer abstracts\n\nDATE FILTERING: Use YYYY-MM-DD format for historical research:\n- date_to: \"2015-12-31\" - for foundational/classic work (pre-2016)\n- date_from: \"2020-01-01\" - for recent developments (post-2020)\n- Both together for specific time periods\n\nRESULT QUALITY: Results sorted by RELEVANCE (most relevant papers first), not just newest papers.\nThis ensures you get the most pertinent results regardless of publication date.\n\nTIPS FOR FOUNDATIONAL RESEARCH:\n- Use date_to: \"2010-12-31\" to find classic papers on BDI, SOAR, ACT-R\n- Combine with field searches: ti:\"BDI\" AND abs:\"belief desire intention\"  \n- Try author searches: au:\"Rao\" AND \"BDI\" for Anand Rao's foundational BDI work",
+          "description": "Rebuild the local semantic index for downloaded papers.",
+          "inputSchema": {
+            "properties": {
+              "clear_existing": {
+                "default": true,
+                "description": "If true, clear the existing index before rebuilding.",
+                "type": "boolean"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "reindex"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "openWorldHint": true
+          },
+          "description": "Search for papers on arXiv with advanced filtering and query optimization.\n\nQUERY CONSTRUCTION GUIDELINES:\n- Use QUOTED PHRASES for exact matches: \"multi-agent systems\", \"neural networks\", \"machine learning\"\n- Combine related concepts with OR: \"AI agents\" OR \"software agents\" OR \"intelligent agents\"  \n- Use field-specific searches for precision:\n  - ti:\"exact title phrase\" - search in titles only\n  - au:\"author name\" - search by author\n  - abs:\"keyword\" - search in abstracts only\n- Use ANDNOT to exclude unwanted results: \"machine learning\" ANDNOT \"survey\"\n- For best results, use 2-4 core concepts rather than long keyword lists\n\nADVANCED SEARCH PATTERNS:\n- Field + phrase: ti:\"transformer architecture\" for papers with exact title phrase\n- Multiple fields: au:\"Smith\" AND ti:\"quantum\" for author Smith's quantum papers  \n- Exclusions: \"deep learning\" ANDNOT (\"survey\" OR \"review\") to exclude survey papers\n- Broad + narrow: \"artificial intelligence\" AND (robotics OR \"computer vision\")\n\nCATEGORY FILTERING (highly recommended for relevance):\nComputer Science:\n- cs.AI: Artificial Intelligence\n- cs.LG: Machine Learning\n- cs.CL: Computation and Language (NLP)\n- cs.CV: Computer Vision\n- cs.MA: Multi-Agent Systems\n- cs.RO: Robotics\n- cs.NE: Neural and Evolutionary Computing\n- cs.IR: Information Retrieval\n- cs.HC: Human-Computer Interaction\n- cs.CR: Cryptography and Security\n- cs.DB: Databases\nStatistics \u0026 Math:\n- stat.ML: Machine Learning (Statistics)\n- stat.AP: Applications\n- math.OC: Optimization and Control\n- math.ST: Statistics Theory\nPhysics \u0026 Other:\n- quant-ph: Quantum Physics\n- eess.SP: Signal Processing\n- eess.AS: Audio and Speech Processing\n- physics.data-an: Data Analysis and Statistics\n\nEXAMPLES OF EFFECTIVE QUERIES:\n- ti:\"reinforcement learning\" with categories: [\"cs.LG\", \"cs.AI\"] - for RL papers by title\n- au:\"Hinton\" AND \"deep learning\" with categories: [\"cs.LG\"] - for Hinton's deep learning work\n- \"multi-agent\" ANDNOT \"survey\" with categories: [\"cs.MA\"] - exclude survey papers\n- abs:\"transformer\" AND ti:\"attention\" with categories: [\"cs.CL\"] - attention papers with transformer abstracts\n\nDATE FILTERING: Use YYYY-MM-DD format for historical research:\n- date_to: \"2015-12-31\" - for foundational/classic work (pre-2016)\n- date_from: \"2020-01-01\" - for recent developments (post-2020)\n- Both together for specific time periods\n\nRESULT QUALITY: Default sort is RELEVANCE (most pertinent results first). Use sort_by: \"date\" to get newest papers first.\nChoose relevance for focused topic searches; choose date for monitoring recent developments.\n\nRATE LIMITING: arXiv enforces a 3-second minimum between requests. This server handles that automatically.\nIf you see a rate limit error, wait 60 seconds before retrying — do not call the tool repeatedly in a loop.\n\nTIPS FOR FOUNDATIONAL RESEARCH:\n- Use date_to: \"2010-12-31\" to find classic papers on BDI, SOAR, ACT-R\n- Combine with field searches: ti:\"BDI\" AND abs:\"belief desire intention\"  \n- Try author searches: au:\"Rao\" AND \"BDI\" for Anand Rao's foundational BDI work",
           "inputSchema": {
             "properties": {
               "categories": {
@@ -366,9 +445,62 @@
             "type": "object"
           },
           "name": "search_papers"
+        },
+        {
+          "annotations": {},
+          "description": "Semantic similarity search over papers you have already downloaded locally via download_paper. Supports free-text queries (e.g. 'attention mechanisms for long sequences') or finding papers similar to a given paper_id. IMPORTANT: only searches your local downloaded collection — will return empty results if no papers have been downloaded yet. Use search_papers to find papers on arXiv, then download_paper to add them to the local index before using this tool. Requires pro dependencies: uv pip install -e \".[pro]\"",
+          "inputSchema": {
+            "properties": {
+              "max_results": {
+                "default": 10,
+                "description": "Maximum number of results to return (default: 10).",
+                "type": "integer"
+              },
+              "paper_id": {
+                "description": "Find papers semantically similar to this arXiv paper ID.",
+                "type": "string"
+              },
+              "query": {
+                "description": "Free-text semantic query.",
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "semantic_search"
+        },
+        {
+          "annotations": {},
+          "description": "Save or update a persistent research topic watch. When checked via check_alerts, returns only papers published since the last check — acting as a standing alert for new work on a topic. The topic string uses the same query syntax as search_papers (quoted phrases, field specifiers, boolean operators). Examples: '\"diffusion models\" AND ti:\"video generation\"', 'au:\"LeCun\" AND cs.LG'. Calling watch_topic with the same topic string updates the existing watch rather than creating a duplicate. Pair with check_alerts to poll for new papers.",
+          "inputSchema": {
+            "properties": {
+              "categories": {
+                "description": "Optional arXiv category filter (e.g. ['cs.LG', 'cs.AI']). Narrows results to specific fields.",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "max_results": {
+                "default": 10,
+                "description": "Maximum papers to return per alert check (default: 10).",
+                "type": "integer"
+              },
+              "topic": {
+                "description": "Query string to monitor. Uses arXiv search syntax — quoted phrases for exact matches, field specifiers (ti:, au:, abs:), and boolean operators (AND, OR, ANDNOT). Example: '\"reinforcement learning\" AND \"robotics\"'.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "topic"
+            ],
+            "type": "object"
+          },
+          "name": "watch_topic"
         }
       ],
-      "image": "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.3.2",
+      "image": "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.4.11",
       "permissions": {
         "network": {
           "outbound": {
@@ -731,7 +863,7 @@
           "name": "suggest_aws_commands"
         }
       ],
-      "image": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.30",
+      "image": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.31",
       "permissions": {
         "network": {
           "outbound": {
@@ -1193,7 +1325,7 @@
       ],
       "metadata": {
         "stars": 8594,
-        "last_updated": "2026-03-28T03:01:14Z"
+        "last_updated": "2026-04-21T10:29:07Z"
       },
       "repository_url": "https://github.com/awslabs/mcp",
       "tags": [
@@ -1490,12 +1622,14 @@
                 "properties": {
                   "Field": {
                     "description": "The field to filter on (e.g., 'instanceType', 'location')",
+                    "minLength": 1,
                     "title": "Field",
                     "type": "string"
                   },
                   "Type": {
                     "default": "EQUALS",
                     "description": "The type of filter match",
+                    "minLength": 1,
                     "title": "Type",
                     "type": "string"
                   },
@@ -1716,7 +1850,7 @@
           "name": "get_pricing_service_codes"
         }
       ],
-      "image": "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.0.27",
+      "image": "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.0.28",
       "permissions": {
         "network": {
           "outbound": {
@@ -7654,7 +7788,7 @@
       ],
       "metadata": {
         "stars": 52568,
-        "last_updated": "2026-04-14T03:03:54Z"
+        "last_updated": "2026-04-21T16:40:18Z"
       },
       "repository_url": "https://github.com/upstash/context7",
       "tags": [
@@ -7695,7 +7829,7 @@
           "inputSchema": {
             "properties": {
               "libraryName": {
-                "description": "Library name to search for and retrieve a Context7-compatible library ID.",
+                "description": "Library name to search for and retrieve a Context7-compatible library ID. Use the official library name with proper punctuation — e.g., 'Next.js' instead of 'nextjs', 'Customer.io' instead of 'customerio', 'Three.js' instead of 'threejs'.",
                 "type": "string"
               },
               "query": {
@@ -7712,7 +7846,7 @@
           "name": "resolve-library-id"
         }
       ],
-      "image": "ghcr.io/stacklok/dockyard/npx/context7:2.1.4",
+      "image": "ghcr.io/stacklok/dockyard/npx/context7:2.1.8",
       "permissions": {
         "network": {
           "outbound": {
@@ -7855,8 +7989,8 @@
         "set_during_runtime"
       ],
       "metadata": {
-        "stars": 13441,
-        "last_updated": "2026-03-18T03:02:41Z"
+        "stars": 14662,
+        "last_updated": "2026-04-18T03:03:09Z"
       },
       "repository_url": "https://github.com/googleapis/genai-toolbox",
       "tags": [
@@ -9767,7 +9901,7 @@
       ],
       "metadata": {
         "stars": 23,
-        "last_updated": "2026-03-20T02:58:11Z"
+        "last_updated": "2026-04-20T03:04:28Z"
       },
       "repository_url": "https://github.com/stackloklabs/gofetch",
       "tags": [
@@ -9893,16 +10027,24 @@
       "status": "Active",
       "transport": "stdio",
       "tools": [
+        "firecrawl_agent",
+        "firecrawl_agent_status",
+        "firecrawl_browser_create",
+        "firecrawl_browser_delete",
+        "firecrawl_browser_execute",
+        "firecrawl_browser_list",
         "firecrawl_check_crawl_status",
         "firecrawl_crawl",
         "firecrawl_extract",
+        "firecrawl_interact",
+        "firecrawl_interact_stop",
         "firecrawl_map",
         "firecrawl_scrape",
         "firecrawl_search"
       ],
       "metadata": {
-        "stars": 5809,
-        "last_updated": "2026-03-20T02:58:12Z"
+        "stars": 6109,
+        "last_updated": "2026-04-21T09:51:24Z"
       },
       "repository_url": "https://github.com/firecrawl/firecrawl-mcp-server",
       "tags": [
@@ -9919,6 +10061,159 @@
       ],
       "overview": "## Firecrawl MCP Server\n\nThe firecrawl-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants to crawl, scrape, and extract content from websites at scale using Firecrawl. This tool transforms entire websites — including documentation, blogs, and knowledge bases — into clean, structured, machine-readable data without requiring custom crawlers. It is particularly suited for research, content ingestion, documentation analysis, and RAG workflows needing high-quality web content.",
       "tool_definitions": [
+        {
+          "annotations": {},
+          "description": "\nAutonomous web research agent. This is a separate AI agent layer that independently browses the internet, searches for information, navigates through pages, and extracts structured data based on your query. You describe what you need, and the agent figures out where to find it.\n\n**How it works:** The agent performs web searches, follows links, reads pages, and gathers data autonomously. This runs **asynchronously** - it returns a job ID immediately, and you poll `firecrawl_agent_status` to check when complete and retrieve results.\n\n**IMPORTANT - Async workflow with patient polling:**\n1. Call `firecrawl_agent` with your prompt/schema → returns job ID immediately\n2. Poll `firecrawl_agent_status` with the job ID to check progress\n3. **Keep polling for at least 2-3 minutes** - agent research typically takes 1-5 minutes for complex queries\n4. Poll every 15-30 seconds until status is \"completed\" or \"failed\"\n5. Do NOT give up after just a few polling attempts - the agent needs time to research\n\n**Expected wait times:**\n- Simple queries with provided URLs: 30 seconds - 1 minute\n- Complex research across multiple sites: 2-5 minutes\n- Deep research tasks: 5+ minutes\n\n**Best for:** Complex research tasks where you don't know the exact URLs; multi-source data gathering; finding information scattered across the web; extracting data from JavaScript-heavy SPAs that fail with regular scrape.\n**Not recommended for:**\n- Single-page extraction when you have a URL (use firecrawl_scrape, faster and cheaper)\n- Web search (use firecrawl_search first)\n- Interactive page tasks like clicking, filling forms, login, or navigating JS-heavy SPAs (use firecrawl_scrape + firecrawl_interact)\n- Extracting specific data from a known page (use firecrawl_scrape with JSON format)\n\n**Arguments:**\n- prompt: Natural language description of the data you want (required, max 10,000 characters)\n- urls: Optional array of URLs to focus the agent on specific pages\n- schema: Optional JSON schema for structured output\n\n**Prompt Example:** \"Find the founders of Firecrawl and their backgrounds\"\n**Usage Example (start agent, then poll patiently for results):**\n```json\n{\n  \"name\": \"firecrawl_agent\",\n  \"arguments\": {\n    \"prompt\": \"Find the top 5 AI startups founded in 2024 and their funding amounts\",\n    \"schema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"startups\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"name\": { \"type\": \"string\" },\n              \"funding\": { \"type\": \"string\" },\n              \"founded\": { \"type\": \"string\" }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n```\nThen poll with `firecrawl_agent_status` every 15-30 seconds for at least 2-3 minutes.\n\n**Usage Example (with URLs - agent focuses on specific pages):**\n```json\n{\n  \"name\": \"firecrawl_agent\",\n  \"arguments\": {\n    \"urls\": [\"https://docs.firecrawl.dev\", \"https://firecrawl.dev/pricing\"],\n    \"prompt\": \"Compare the features and pricing information from these pages\"\n  }\n}\n```\n**Returns:** Job ID for status checking. Use `firecrawl_agent_status` to poll for results.\n",
+          "inputSchema": {
+            "properties": {
+              "prompt": {
+                "maxLength": 10000,
+                "minLength": 1,
+                "type": "string"
+              },
+              "schema": {
+                "additionalProperties": {},
+                "propertyNames": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              "urls": {
+                "items": {
+                  "format": "uri",
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "prompt"
+            ],
+            "type": "object"
+          },
+          "name": "firecrawl_agent"
+        },
+        {
+          "annotations": {},
+          "description": "\nCheck the status of an agent job and retrieve results when complete. Use this to poll for results after starting an agent with `firecrawl_agent`.\n\n**IMPORTANT - Be patient with polling:**\n- Poll every 15-30 seconds\n- **Keep polling for at least 2-3 minutes** before considering the request failed\n- Complex research can take 5+ minutes - do not give up early\n- Only stop polling when status is \"completed\" or \"failed\"\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_agent_status\",\n  \"arguments\": {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\"\n  }\n}\n```\n**Possible statuses:**\n- processing: Agent is still researching - keep polling, do not give up\n- completed: Research finished - response includes the extracted data\n- failed: An error occurred (only stop polling on this status)\n\n**Returns:** Status, progress, and results (if completed) of the agent job.\n",
+          "inputSchema": {
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "firecrawl_agent_status"
+        },
+        {
+          "annotations": {},
+          "description": "\n**DEPRECATED — prefer firecrawl_scrape + firecrawl_interact instead.** Interact lets you scrape a page and then click, fill forms, and navigate without managing sessions manually.\n\nCreate a browser session for code execution via CDP (Chrome DevTools Protocol).\n\n**Arguments:**\n- ttl: Total session lifetime in seconds (30-3600, optional)\n- activityTtl: Idle timeout in seconds (10-3600, optional)\n- streamWebView: Whether to enable live view streaming (optional)\n- profile: Save and reuse browser state (cookies, localStorage) across sessions (optional)\n  - name: Profile name (sessions with the same name share state)\n  - saveChanges: Whether to save changes back to the profile (default: true)\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_browser_create\",\n  \"arguments\": {\n    \"profile\": { \"name\": \"my-profile\", \"saveChanges\": true }\n  }\n}\n```\n**Returns:** Session ID, CDP URL, and live view URL.\n",
+          "inputSchema": {
+            "properties": {
+              "activityTtl": {
+                "maximum": 3600,
+                "minimum": 10,
+                "type": "number"
+              },
+              "profile": {
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "maxLength": 128,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "saveChanges": {
+                    "default": true,
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name",
+                  "saveChanges"
+                ],
+                "type": "object"
+              },
+              "streamWebView": {
+                "type": "boolean"
+              },
+              "ttl": {
+                "maximum": 3600,
+                "minimum": 30,
+                "type": "number"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "firecrawl_browser_create"
+        },
+        {
+          "annotations": {},
+          "description": "\n**DEPRECATED — prefer firecrawl_scrape + firecrawl_interact instead.**\n\nDestroy a browser session.\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_browser_delete\",\n  \"arguments\": {\n    \"sessionId\": \"session-id-here\"\n  }\n}\n```\n**Returns:** Success confirmation.\n",
+          "inputSchema": {
+            "properties": {
+              "sessionId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "sessionId"
+            ],
+            "type": "object"
+          },
+          "name": "firecrawl_browser_delete"
+        },
+        {
+          "annotations": {},
+          "description": "\n**DEPRECATED — prefer firecrawl_scrape + firecrawl_interact instead.** Interact lets you scrape a page and then click, fill forms, and navigate without managing sessions manually.\n\nExecute code in a browser session. Supports agent-browser commands (bash), Python, or JavaScript.\n**Requires:** An active browser session (create one with firecrawl_browser_create first).\n\n**Arguments:**\n- sessionId: The browser session ID (required)\n- code: The code to execute (required)\n- language: \"bash\", \"python\", or \"node\" (optional, defaults to \"bash\")\n\n**Recommended: Use bash with agent-browser commands** (pre-installed in every sandbox):\n```json\n{\n  \"name\": \"firecrawl_browser_execute\",\n  \"arguments\": {\n    \"sessionId\": \"session-id-here\",\n    \"code\": \"agent-browser open https://example.com\",\n    \"language\": \"bash\"\n  }\n}\n```\n\n**Common agent-browser commands:**\n- `agent-browser open \u003curl\u003e` — Navigate to URL\n- `agent-browser snapshot` — Get accessibility tree with clickable refs (for AI)\n- `agent-browser snapshot -i -c` — Interactive elements only, compact\n- `agent-browser click @e5` — Click element by ref from snapshot\n- `agent-browser type @e3 \"text\"` — Type into element\n- `agent-browser fill @e3 \"text\"` — Clear and fill element\n- `agent-browser get text @e1` — Get text content\n- `agent-browser get title` — Get page title\n- `agent-browser get url` — Get current URL\n- `agent-browser screenshot [path]` — Take screenshot\n- `agent-browser scroll down` — Scroll page\n- `agent-browser wait 2000` — Wait 2 seconds\n- `agent-browser --help` — Full command reference\n\n**For Playwright scripting, use Python** (has proper async/await support):\n```json\n{\n  \"name\": \"firecrawl_browser_execute\",\n  \"arguments\": {\n    \"sessionId\": \"session-id-here\",\n    \"code\": \"await page.goto('https://example.com')\\ntitle = await page.title()\\nprint(title)\",\n    \"language\": \"python\"\n  }\n}\n```\n\n**Note:** Prefer bash (agent-browser) or Python.\n**Returns:** Execution result including stdout, stderr, and exit code.\n",
+          "inputSchema": {
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "language": {
+                "enum": [
+                  "bash",
+                  "python",
+                  "node"
+                ],
+                "type": "string"
+              },
+              "sessionId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "sessionId",
+              "code"
+            ],
+            "type": "object"
+          },
+          "name": "firecrawl_browser_execute"
+        },
+        {
+          "annotations": {},
+          "description": "\n**DEPRECATED — prefer firecrawl_scrape + firecrawl_interact instead.**\n\nList browser sessions, optionally filtered by status.\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_browser_list\",\n  \"arguments\": {\n    \"status\": \"active\"\n  }\n}\n```\n**Returns:** Array of browser sessions.\n",
+          "inputSchema": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "active",
+                  "destroyed"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "firecrawl_browser_list"
+        },
         {
           "annotations": {},
           "description": "\nCheck the status of a crawl job.\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_check_crawl_status\",\n  \"arguments\": {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\"\n  }\n}\n```\n**Returns:** Status and progress of the crawl job, including results if available.\n",
@@ -10044,79 +10339,19 @@
                   },
                   "formats": {
                     "items": {
-                      "anyOf": [
-                        {
-                          "enum": [
-                            "markdown",
-                            "html",
-                            "rawHtml",
-                            "screenshot",
-                            "links",
-                            "summary",
-                            "changeTracking",
-                            "branding"
-                          ],
-                          "type": "string"
-                        },
-                        {
-                          "additionalProperties": false,
-                          "properties": {
-                            "prompt": {
-                              "type": "string"
-                            },
-                            "schema": {
-                              "additionalProperties": {},
-                              "propertyNames": {
-                                "type": "string"
-                              },
-                              "type": "object"
-                            },
-                            "type": {
-                              "const": "json",
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "type"
-                          ],
-                          "type": "object"
-                        },
-                        {
-                          "additionalProperties": false,
-                          "properties": {
-                            "fullPage": {
-                              "type": "boolean"
-                            },
-                            "quality": {
-                              "type": "number"
-                            },
-                            "type": {
-                              "const": "screenshot",
-                              "type": "string"
-                            },
-                            "viewport": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "height": {
-                                  "type": "number"
-                                },
-                                "width": {
-                                  "type": "number"
-                                }
-                              },
-                              "required": [
-                                "width",
-                                "height"
-                              ],
-                              "type": "object"
-                            }
-                          },
-                          "required": [
-                            "type"
-                          ],
-                          "type": "object"
-                        }
-                      ]
+                      "enum": [
+                        "markdown",
+                        "html",
+                        "rawHtml",
+                        "screenshot",
+                        "links",
+                        "summary",
+                        "changeTracking",
+                        "branding",
+                        "json",
+                        "query"
+                      ],
+                      "type": "string"
                     },
                     "type": "array"
                   },
@@ -10125,6 +10360,22 @@
                       "type": "string"
                     },
                     "type": "array"
+                  },
+                  "jsonOptions": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "prompt": {
+                        "type": "string"
+                      },
+                      "schema": {
+                        "additionalProperties": {},
+                        "propertyNames": {
+                          "type": "string"
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
                   },
                   "location": {
                     "additionalProperties": false,
@@ -10152,39 +10403,91 @@
                   },
                   "parsers": {
                     "items": {
-                      "anyOf": [
-                        {
-                          "enum": [
-                            "pdf"
-                          ],
-                          "type": "string"
-                        },
-                        {
-                          "additionalProperties": false,
-                          "properties": {
-                            "maxPages": {
-                              "maximum": 10000,
-                              "minimum": 1,
-                              "type": "integer"
-                            },
-                            "type": {
-                              "enum": [
-                                "pdf"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "type"
-                          ],
-                          "type": "object"
-                        }
-                      ]
+                      "enum": [
+                        "pdf"
+                      ],
+                      "type": "string"
                     },
                     "type": "array"
                   },
+                  "pdfOptions": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "maxPages": {
+                        "maximum": 10000,
+                        "minimum": 1,
+                        "type": "integer"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "profile": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "saveChanges": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "type": "object"
+                  },
+                  "proxy": {
+                    "enum": [
+                      "basic",
+                      "stealth",
+                      "enhanced",
+                      "auto"
+                    ],
+                    "type": "string"
+                  },
+                  "queryOptions": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "prompt": {
+                        "maxLength": 10000,
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "prompt"
+                    ],
+                    "type": "object"
+                  },
                   "removeBase64Images": {
                     "type": "boolean"
+                  },
+                  "screenshotOptions": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "fullPage": {
+                        "type": "boolean"
+                      },
+                      "quality": {
+                        "type": "number"
+                      },
+                      "viewport": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "height": {
+                            "type": "number"
+                          },
+                          "width": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "width",
+                          "height"
+                        ],
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
                   },
                   "skipTlsVerification": {
                     "type": "boolean"
@@ -10194,6 +10497,9 @@
                   },
                   "waitFor": {
                     "type": "number"
+                  },
+                  "zeroDataRetention": {
+                    "type": "boolean"
                   }
                 },
                 "type": "object"
@@ -10210,32 +10516,16 @@
                 "type": "string"
               },
               "webhook": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "additionalProperties": false,
-                    "properties": {
-                      "headers": {
-                        "additionalProperties": {
-                          "type": "string"
-                        },
-                        "propertyNames": {
-                          "type": "string"
-                        },
-                        "type": "object"
-                      },
-                      "url": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "url"
-                    ],
-                    "type": "object"
-                  }
-                ]
+                "type": "string"
+              },
+              "webhookHeaders": {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "propertyNames": {
+                  "type": "string"
+                },
+                "type": "object"
               }
             },
             "required": [
@@ -10285,7 +10575,58 @@
         },
         {
           "annotations": {},
-          "description": "\nMap a website to discover all indexed URLs on the site.\n\n**Best for:** Discovering URLs on a website before deciding what to scrape; finding specific sections of a website.\n**Not recommended for:** When you already know which specific URL you need (use scrape or batch_scrape); when you need the content of the pages (use scrape after mapping).\n**Common mistakes:** Using crawl to discover URLs instead of map.\n**Prompt Example:** \"List all URLs on example.com.\"\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_map\",\n  \"arguments\": {\n    \"url\": \"https://example.com\"\n  }\n}\n```\n**Returns:** Array of URLs found on the site.\n",
+          "description": "\nInteract with a previously scraped page in a live browser session. Scrape a page first with firecrawl_scrape, then use the returned scrapeId to click buttons, fill forms, extract dynamic content, or navigate deeper.\n\n**Best for:** Multi-step workflows on a single page — searching a site, clicking through results, filling forms, extracting data that requires interaction.\n**Requires:** A scrapeId from a previous firecrawl_scrape call (found in the metadata of the scrape response).\n\n**Arguments:**\n- scrapeId: The scrape job ID from a previous scrape (required)\n- prompt: Natural language instruction describing the action to take (use this OR code)\n- code: Code to execute in the browser session (use this OR prompt)\n- language: \"bash\", \"python\", or \"node\" (optional, defaults to \"node\", only used with code)\n- timeout: Execution timeout in seconds, 1-300 (optional, defaults to 30)\n\n**Usage Example (prompt):**\n```json\n{\n  \"name\": \"firecrawl_interact\",\n  \"arguments\": {\n    \"scrapeId\": \"scrape-id-from-previous-scrape\",\n    \"prompt\": \"Click on the first product and tell me its price\"\n  }\n}\n```\n\n**Usage Example (code):**\n```json\n{\n  \"name\": \"firecrawl_interact\",\n  \"arguments\": {\n    \"scrapeId\": \"scrape-id-from-previous-scrape\",\n    \"code\": \"agent-browser click @e5\",\n    \"language\": \"bash\"\n  }\n}\n```\n**Returns:** Execution result including output, stdout, stderr, exit code, and live view URLs.\n",
+          "inputSchema": {
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "language": {
+                "enum": [
+                  "bash",
+                  "python",
+                  "node"
+                ],
+                "type": "string"
+              },
+              "prompt": {
+                "type": "string"
+              },
+              "scrapeId": {
+                "type": "string"
+              },
+              "timeout": {
+                "maximum": 300,
+                "minimum": 1,
+                "type": "number"
+              }
+            },
+            "required": [
+              "scrapeId"
+            ],
+            "type": "object"
+          },
+          "name": "firecrawl_interact"
+        },
+        {
+          "annotations": {},
+          "description": "\nStop an interact session for a scraped page. Call this when you are done interacting to free resources.\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_interact_stop\",\n  \"arguments\": {\n    \"scrapeId\": \"scrape-id-here\"\n  }\n}\n```\n**Returns:** Success confirmation.\n",
+          "inputSchema": {
+            "properties": {
+              "scrapeId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "scrapeId"
+            ],
+            "type": "object"
+          },
+          "name": "firecrawl_interact_stop"
+        },
+        {
+          "annotations": {},
+          "description": "\nMap a website to discover all indexed URLs on the site.\n\n**Best for:** Discovering URLs on a website before deciding what to scrape; finding specific sections or pages within a large site; locating the correct page when scrape returns empty or incomplete results.\n**Not recommended for:** When you already know which specific URL you need (use scrape); when you need the content of the pages (use scrape after mapping).\n**Common mistakes:** Using crawl to discover URLs instead of map; jumping straight to firecrawl_agent when scrape fails instead of using map first to find the right page.\n\n**IMPORTANT - Use map before agent:** If `firecrawl_scrape` returns empty, minimal, or irrelevant content, use `firecrawl_map` with the `search` parameter to find the specific page URL containing your target content. This is faster and cheaper than using `firecrawl_agent`. Only use the agent as a last resort after map+scrape fails.\n\n**Prompt Example:** \"Find the webhook documentation page on this API docs site.\"\n**Usage Example (discover all URLs):**\n```json\n{\n  \"name\": \"firecrawl_map\",\n  \"arguments\": {\n    \"url\": \"https://example.com\"\n  }\n}\n```\n**Usage Example (search for specific content - RECOMMENDED when scrape fails):**\n```json\n{\n  \"name\": \"firecrawl_map\",\n  \"arguments\": {\n    \"url\": \"https://docs.example.com/api\",\n    \"search\": \"webhook events\"\n  }\n}\n```\n**Returns:** Array of URLs found on the site, filtered by search query if provided.\n",
           "inputSchema": {
             "properties": {
               "ignoreQueryParameters": {
@@ -10322,7 +10663,7 @@
         },
         {
           "annotations": {},
-          "description": "\nScrape content from a single URL with advanced options. \nThis is the most powerful, fastest and most reliable scraper tool, if available you should always default to using this tool for any web scraping needs.\n\n**Best for:** Single page content extraction, when you know exactly which page contains the information.\n**Not recommended for:** Multiple pages (use batch_scrape), unknown page (use search), structured data (use extract).\n**Common mistakes:** Using scrape for a list of URLs (use batch_scrape instead). If batch scrape doesnt work, just use scrape and call it multiple times.\n**Other Features:** Use 'branding' format to extract brand identity (colors, fonts, typography, spacing, UI components) for design analysis or style replication.\n**Prompt Example:** \"Get the content of the page at https://example.com.\"\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_scrape\",\n  \"arguments\": {\n    \"url\": \"https://example.com\",\n    \"formats\": [\"markdown\"],\n    \"maxAge\": 172800000\n  }\n}\n```\n**Performance:** Add maxAge parameter for 500% faster scrapes using cached data.\n**Returns:** Markdown, HTML, or other formats as specified.\n\n",
+          "description": "\nScrape content from a single URL with advanced options.\nThis is the most powerful, fastest and most reliable scraper tool, if available you should always default to using this tool for any web scraping needs.\n\n**Best for:** Single page content extraction, when you know exactly which page contains the information.\n**Not recommended for:** Multiple pages (call scrape multiple times or use crawl), unknown page location (use search).\n**Common mistakes:** Using markdown format when extracting specific data points (use JSON instead).\n**Other Features:** Use 'branding' format to extract brand identity (colors, fonts, typography, spacing, UI components) for design analysis or style replication.\n\n**CRITICAL - Format Selection (you MUST follow this):**\nWhen the user asks for SPECIFIC data points, you MUST use JSON format with a schema. Only use markdown when the user needs the ENTIRE page content.\n\n**Use JSON format when user asks for:**\n- Parameters, fields, or specifications (e.g., \"get the header parameters\", \"what are the required fields\")\n- Prices, numbers, or structured data (e.g., \"extract the pricing\", \"get the product details\")\n- API details, endpoints, or technical specs (e.g., \"find the authentication endpoint\")\n- Lists of items or properties (e.g., \"list the features\", \"get all the options\")\n- Any specific piece of information from a page\n\n**Use markdown format ONLY when:**\n- User wants to read/summarize an entire article or blog post\n- User needs to see all content on a page without specific extraction\n- User explicitly asks for the full page content\n\n**Handling JavaScript-rendered pages (SPAs):**\nIf JSON extraction returns empty, minimal, or just navigation content, the page is likely JavaScript-rendered or the content is on a different URL. Try these steps IN ORDER:\n1. **Add waitFor parameter:** Set `waitFor: 5000` to `waitFor: 10000` to allow JavaScript to render before extraction\n2. **Try a different URL:** If the URL has a hash fragment (#section), try the base URL or look for a direct page URL\n3. **Use firecrawl_map to find the correct page:** Large documentation sites or SPAs often spread content across multiple URLs. Use `firecrawl_map` with a `search` parameter to discover the specific page containing your target content, then scrape that URL directly.\n   Example: If scraping \"https://docs.example.com/reference\" fails to find webhook parameters, use `firecrawl_map` with `{\"url\": \"https://docs.example.com/reference\", \"search\": \"webhook\"}` to find URLs like \"/reference/webhook-events\", then scrape that specific page.\n4. **Use firecrawl_agent:** As a last resort for heavily dynamic pages where map+scrape still fails, use the agent which can autonomously navigate and research\n\n**Usage Example (JSON format - REQUIRED for specific data extraction):**\n```json\n{\n  \"name\": \"firecrawl_scrape\",\n  \"arguments\": {\n    \"url\": \"https://example.com/api-docs\",\n    \"formats\": [\"json\"],\n    \"jsonOptions\": {\n      \"prompt\": \"Extract the header parameters for the authentication endpoint\",\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"parameters\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"name\": { \"type\": \"string\" },\n                \"type\": { \"type\": \"string\" },\n                \"required\": { \"type\": \"boolean\" },\n                \"description\": { \"type\": \"string\" }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n```\n\n**Prefer markdown format by default.** You can read and reason over the full page content directly — no need for an intermediate query step. Use markdown for questions about page content, factual lookups, and any task where you need to understand the page.\n\n**Use JSON format when user needs:**\n- Structured data with specific fields (extract all products with name, price, description)\n- Data in a specific schema for downstream processing\n\n**Use query format only when:**\n- The page is extremely long and you need a single targeted answer without processing the full content\n- You want a quick factual answer and don't need to retain the page content\n\n**Usage Example (markdown format - default for most tasks):**\n```json\n{\n  \"name\": \"firecrawl_scrape\",\n  \"arguments\": {\n    \"url\": \"https://example.com/article\",\n    \"formats\": [\"markdown\"],\n    \"onlyMainContent\": true\n  }\n}\n```\n**Usage Example (branding format - extract brand identity):**\n```json\n{\n  \"name\": \"firecrawl_scrape\",\n  \"arguments\": {\n    \"url\": \"https://example.com\",\n    \"formats\": [\"branding\"]\n  }\n}\n```\n**Branding format:** Extracts comprehensive brand identity (colors, fonts, typography, spacing, logo, UI components) for design analysis or style replication.\n**Performance:** Add maxAge parameter for 500% faster scrapes using cached data.\n**Returns:** JSON structured data, markdown, branding profile, or other formats as specified.\n\n",
           "inputSchema": {
             "properties": {
               "actions": {
@@ -10384,79 +10725,19 @@
               },
               "formats": {
                 "items": {
-                  "anyOf": [
-                    {
-                      "enum": [
-                        "markdown",
-                        "html",
-                        "rawHtml",
-                        "screenshot",
-                        "links",
-                        "summary",
-                        "changeTracking",
-                        "branding"
-                      ],
-                      "type": "string"
-                    },
-                    {
-                      "additionalProperties": false,
-                      "properties": {
-                        "prompt": {
-                          "type": "string"
-                        },
-                        "schema": {
-                          "additionalProperties": {},
-                          "propertyNames": {
-                            "type": "string"
-                          },
-                          "type": "object"
-                        },
-                        "type": {
-                          "const": "json",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "type"
-                      ],
-                      "type": "object"
-                    },
-                    {
-                      "additionalProperties": false,
-                      "properties": {
-                        "fullPage": {
-                          "type": "boolean"
-                        },
-                        "quality": {
-                          "type": "number"
-                        },
-                        "type": {
-                          "const": "screenshot",
-                          "type": "string"
-                        },
-                        "viewport": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "height": {
-                              "type": "number"
-                            },
-                            "width": {
-                              "type": "number"
-                            }
-                          },
-                          "required": [
-                            "width",
-                            "height"
-                          ],
-                          "type": "object"
-                        }
-                      },
-                      "required": [
-                        "type"
-                      ],
-                      "type": "object"
-                    }
-                  ]
+                  "enum": [
+                    "markdown",
+                    "html",
+                    "rawHtml",
+                    "screenshot",
+                    "links",
+                    "summary",
+                    "changeTracking",
+                    "branding",
+                    "json",
+                    "query"
+                  ],
+                  "type": "string"
                 },
                 "type": "array"
               },
@@ -10465,6 +10746,22 @@
                   "type": "string"
                 },
                 "type": "array"
+              },
+              "jsonOptions": {
+                "additionalProperties": false,
+                "properties": {
+                  "prompt": {
+                    "type": "string"
+                  },
+                  "schema": {
+                    "additionalProperties": {},
+                    "propertyNames": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  }
+                },
+                "type": "object"
               },
               "location": {
                 "additionalProperties": false,
@@ -10492,39 +10789,91 @@
               },
               "parsers": {
                 "items": {
-                  "anyOf": [
-                    {
-                      "enum": [
-                        "pdf"
-                      ],
-                      "type": "string"
-                    },
-                    {
-                      "additionalProperties": false,
-                      "properties": {
-                        "maxPages": {
-                          "maximum": 10000,
-                          "minimum": 1,
-                          "type": "integer"
-                        },
-                        "type": {
-                          "enum": [
-                            "pdf"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "type"
-                      ],
-                      "type": "object"
-                    }
-                  ]
+                  "enum": [
+                    "pdf"
+                  ],
+                  "type": "string"
                 },
                 "type": "array"
               },
+              "pdfOptions": {
+                "additionalProperties": false,
+                "properties": {
+                  "maxPages": {
+                    "maximum": 10000,
+                    "minimum": 1,
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              },
+              "profile": {
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "saveChanges": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "type": "object"
+              },
+              "proxy": {
+                "enum": [
+                  "basic",
+                  "stealth",
+                  "enhanced",
+                  "auto"
+                ],
+                "type": "string"
+              },
+              "queryOptions": {
+                "additionalProperties": false,
+                "properties": {
+                  "prompt": {
+                    "maxLength": 10000,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "prompt"
+                ],
+                "type": "object"
+              },
               "removeBase64Images": {
                 "type": "boolean"
+              },
+              "screenshotOptions": {
+                "additionalProperties": false,
+                "properties": {
+                  "fullPage": {
+                    "type": "boolean"
+                  },
+                  "quality": {
+                    "type": "number"
+                  },
+                  "viewport": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "height": {
+                        "type": "number"
+                      },
+                      "width": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "width",
+                      "height"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "type": "object"
               },
               "skipTlsVerification": {
                 "type": "boolean"
@@ -10538,6 +10887,9 @@
               },
               "waitFor": {
                 "type": "number"
+              },
+              "zeroDataRetention": {
+                "type": "boolean"
               }
             },
             "required": [
@@ -10549,9 +10901,20 @@
         },
         {
           "annotations": {},
-          "description": "\nSearch the web and optionally extract content from search results. This is the most powerful web search tool available, and if available you should always default to using this tool for any web search needs.\n\nThe query also supports search operators, that you can use if needed to refine the search:\n| Operator | Functionality | Examples |\n---|-|-|\n| `\"\"` | Non-fuzzy matches a string of text | `\"Firecrawl\"`\n| `-` | Excludes certain keywords or negates other operators | `-bad`, `-site:firecrawl.dev`\n| `site:` | Only returns results from a specified website | `site:firecrawl.dev`\n| `inurl:` | Only returns results that include a word in the URL | `inurl:firecrawl`\n| `allinurl:` | Only returns results that include multiple words in the URL | `allinurl:git firecrawl`\n| `intitle:` | Only returns results that include a word in the title of the page | `intitle:Firecrawl`\n| `allintitle:` | Only returns results that include multiple words in the title of the page | `allintitle:firecrawl playground`\n| `related:` | Only returns results that are related to a specific domain | `related:firecrawl.dev`\n| `imagesize:` | Only returns images with exact dimensions | `imagesize:1920x1080`\n| `larger:` | Only returns images larger than specified dimensions | `larger:1920x1080`\n\n**Best for:** Finding specific information across multiple websites, when you don't know which website has the information; when you need the most relevant content for a query.\n**Not recommended for:** When you need to search the filesystem. When you already know which website to scrape (use scrape); when you need comprehensive coverage of a single website (use map or crawl.\n**Common mistakes:** Using crawl or map for open-ended questions (use search instead).\n**Prompt Example:** \"Find the latest research papers on AI published in 2023.\"\n**Sources:** web, images, news, default to web unless needed images or news.\n**Scrape Options:** Only use scrapeOptions when you think it is absolutely necessary. When you do so default to a lower limit to avoid timeouts, 5 or lower.\n**Optimal Workflow:** Search first using firecrawl_search without formats, then after fetching the results, use the scrape tool to get the content of the relevantpage(s) that you want to scrape\n\n**Usage Example without formats (Preferred):**\n```json\n{\n  \"name\": \"firecrawl_search\",\n  \"arguments\": {\n    \"query\": \"top AI companies\",\n    \"limit\": 5,\n    \"sources\": [\n      \"web\"\n    ]\n  }\n}\n```\n**Usage Example with formats:**\n```json\n{\n  \"name\": \"firecrawl_search\",\n  \"arguments\": {\n    \"query\": \"latest AI research papers 2023\",\n    \"limit\": 5,\n    \"lang\": \"en\",\n    \"country\": \"us\",\n    \"sources\": [\n      \"web\",\n      \"images\",\n      \"news\"\n    ],\n    \"scrapeOptions\": {\n      \"formats\": [\"markdown\"],\n      \"onlyMainContent\": true\n    }\n  }\n}\n```\n**Returns:** Array of search results (with optional scraped content).\n",
+          "description": "\nSearch the web and optionally extract content from search results. This is the most powerful web search tool available, and if available you should always default to using this tool for any web search needs.\n\nThe query also supports search operators, that you can use if needed to refine the search:\n| Operator | Functionality | Examples |\n---|-|-|\n| `\"\"` | Non-fuzzy matches a string of text | `\"Firecrawl\"`\n| `-` | Excludes certain keywords or negates other operators | `-bad`, `-site:firecrawl.dev`\n| `site:` | Only returns results from a specified website | `site:firecrawl.dev`\n| `inurl:` | Only returns results that include a word in the URL | `inurl:firecrawl`\n| `allinurl:` | Only returns results that include multiple words in the URL | `allinurl:git firecrawl`\n| `intitle:` | Only returns results that include a word in the title of the page | `intitle:Firecrawl`\n| `allintitle:` | Only returns results that include multiple words in the title of the page | `allintitle:firecrawl playground`\n| `related:` | Only returns results that are related to a specific domain | `related:firecrawl.dev`\n| `imagesize:` | Only returns images with exact dimensions | `imagesize:1920x1080`\n| `larger:` | Only returns images larger than specified dimensions | `larger:1920x1080`\n\n**Best for:** Finding specific information across multiple websites, when you don't know which website has the information; when you need the most relevant content for a query.\n**Not recommended for:** When you need to search the filesystem. When you already know which website to scrape (use scrape); when you need comprehensive coverage of a single website (use map or crawl.\n**Common mistakes:** Using crawl or map for open-ended questions (use search instead).\n**Prompt Example:** \"Find the latest research papers on AI published in 2023.\"\n**Sources:** web, images, news, default to web unless needed images or news.\n**Scrape Options:** Only use scrapeOptions when you think it is absolutely necessary. When you do so default to a lower limit to avoid timeouts, 5 or lower.\n**Optimal Workflow:** Search first using firecrawl_search without formats, then after fetching the results, use the scrape tool to get the content of the relevantpage(s) that you want to scrape\n\n**Usage Example without formats (Preferred):**\n```json\n{\n  \"name\": \"firecrawl_search\",\n  \"arguments\": {\n    \"query\": \"top AI companies\",\n    \"limit\": 5,\n    \"sources\": [\n      { \"type\": \"web\" }\n    ]\n  }\n}\n```\n**Usage Example with formats:**\n```json\n{\n  \"name\": \"firecrawl_search\",\n  \"arguments\": {\n    \"query\": \"latest AI research papers 2023\",\n    \"limit\": 5,\n    \"lang\": \"en\",\n    \"country\": \"us\",\n    \"sources\": [\n      { \"type\": \"web\" },\n      { \"type\": \"images\" },\n      { \"type\": \"news\" }\n    ],\n    \"scrapeOptions\": {\n      \"formats\": [\"markdown\"],\n      \"onlyMainContent\": true\n    }\n  }\n}\n```\n**Returns:** Array of search results (with optional scraped content).\n",
           "inputSchema": {
             "properties": {
+              "enterprise": {
+                "items": {
+                  "enum": [
+                    "default",
+                    "anon",
+                    "zdr"
+                  ],
+                  "type": "string"
+                },
+                "type": "array"
+              },
               "filter": {
                 "type": "string"
               },
@@ -10627,79 +10990,19 @@
                   },
                   "formats": {
                     "items": {
-                      "anyOf": [
-                        {
-                          "enum": [
-                            "markdown",
-                            "html",
-                            "rawHtml",
-                            "screenshot",
-                            "links",
-                            "summary",
-                            "changeTracking",
-                            "branding"
-                          ],
-                          "type": "string"
-                        },
-                        {
-                          "additionalProperties": false,
-                          "properties": {
-                            "prompt": {
-                              "type": "string"
-                            },
-                            "schema": {
-                              "additionalProperties": {},
-                              "propertyNames": {
-                                "type": "string"
-                              },
-                              "type": "object"
-                            },
-                            "type": {
-                              "const": "json",
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "type"
-                          ],
-                          "type": "object"
-                        },
-                        {
-                          "additionalProperties": false,
-                          "properties": {
-                            "fullPage": {
-                              "type": "boolean"
-                            },
-                            "quality": {
-                              "type": "number"
-                            },
-                            "type": {
-                              "const": "screenshot",
-                              "type": "string"
-                            },
-                            "viewport": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "height": {
-                                  "type": "number"
-                                },
-                                "width": {
-                                  "type": "number"
-                                }
-                              },
-                              "required": [
-                                "width",
-                                "height"
-                              ],
-                              "type": "object"
-                            }
-                          },
-                          "required": [
-                            "type"
-                          ],
-                          "type": "object"
-                        }
-                      ]
+                      "enum": [
+                        "markdown",
+                        "html",
+                        "rawHtml",
+                        "screenshot",
+                        "links",
+                        "summary",
+                        "changeTracking",
+                        "branding",
+                        "json",
+                        "query"
+                      ],
+                      "type": "string"
                     },
                     "type": "array"
                   },
@@ -10708,6 +11011,22 @@
                       "type": "string"
                     },
                     "type": "array"
+                  },
+                  "jsonOptions": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "prompt": {
+                        "type": "string"
+                      },
+                      "schema": {
+                        "additionalProperties": {},
+                        "propertyNames": {
+                          "type": "string"
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
                   },
                   "location": {
                     "additionalProperties": false,
@@ -10735,39 +11054,91 @@
                   },
                   "parsers": {
                     "items": {
-                      "anyOf": [
-                        {
-                          "enum": [
-                            "pdf"
-                          ],
-                          "type": "string"
-                        },
-                        {
-                          "additionalProperties": false,
-                          "properties": {
-                            "maxPages": {
-                              "maximum": 10000,
-                              "minimum": 1,
-                              "type": "integer"
-                            },
-                            "type": {
-                              "enum": [
-                                "pdf"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "type"
-                          ],
-                          "type": "object"
-                        }
-                      ]
+                      "enum": [
+                        "pdf"
+                      ],
+                      "type": "string"
                     },
                     "type": "array"
                   },
+                  "pdfOptions": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "maxPages": {
+                        "maximum": 10000,
+                        "minimum": 1,
+                        "type": "integer"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "profile": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "saveChanges": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "type": "object"
+                  },
+                  "proxy": {
+                    "enum": [
+                      "basic",
+                      "stealth",
+                      "enhanced",
+                      "auto"
+                    ],
+                    "type": "string"
+                  },
+                  "queryOptions": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "prompt": {
+                        "maxLength": 10000,
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "prompt"
+                    ],
+                    "type": "object"
+                  },
                   "removeBase64Images": {
                     "type": "boolean"
+                  },
+                  "screenshotOptions": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "fullPage": {
+                        "type": "boolean"
+                      },
+                      "quality": {
+                        "type": "number"
+                      },
+                      "viewport": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "height": {
+                            "type": "number"
+                          },
+                          "width": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "width",
+                          "height"
+                        ],
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
                   },
                   "skipTlsVerification": {
                     "type": "boolean"
@@ -10777,6 +11148,9 @@
                   },
                   "waitFor": {
                     "type": "number"
+                  },
+                  "zeroDataRetention": {
+                    "type": "boolean"
                   }
                 },
                 "type": "object"
@@ -10930,8 +11304,8 @@
         "git_status"
       ],
       "metadata": {
-        "stars": 81358,
-        "last_updated": "2026-03-18T03:02:42Z"
+        "stars": 84011,
+        "last_updated": "2026-04-18T03:03:09Z"
       },
       "repository_url": "https://github.com/modelcontextprotocol/servers",
       "tags": [
@@ -11260,7 +11634,7 @@
       ],
       "metadata": {
         "stars": 28440,
-        "last_updated": "2026-04-16T18:18:18Z"
+        "last_updated": "2026-04-21T16:40:06Z"
       },
       "repository_url": "https://github.com/github/github-mcp-server",
       "tags": [
@@ -13089,7 +13463,7 @@
           "name": "update_pull_request_branch"
         }
       ],
-      "image": "ghcr.io/github/github-mcp-server:v1.0.0",
+      "image": "ghcr.io/github/github-mcp-server:v1.0.1",
       "permissions": {
         "network": {
           "outbound": {
@@ -21313,8 +21687,8 @@
         "logo_search"
       ],
       "metadata": {
-        "stars": 4485,
-        "last_updated": "2026-03-19T03:02:50Z"
+        "stars": 4748,
+        "last_updated": "2026-04-19T03:04:11Z"
       },
       "repository_url": "https://github.com/21st-dev/magic-mcp",
       "tags": [
@@ -23092,8 +23466,8 @@
         "provision_neon_auth"
       ],
       "metadata": {
-        "stars": 565,
-        "last_updated": "2026-03-21T02:54:11Z"
+        "stars": 587,
+        "last_updated": "2026-04-21T03:03:49Z"
       },
       "repository_url": "https://github.com/neondatabase-labs/mcp-server-neon",
       "tags": [
@@ -23477,8 +23851,8 @@
         "update-many"
       ],
       "metadata": {
-        "stars": 966,
-        "last_updated": "2026-03-20T02:58:12Z"
+        "stars": 1004,
+        "last_updated": "2026-04-20T03:04:29Z"
       },
       "repository_url": "https://github.com/mongodb-js/mongodb-mcp-server",
       "tags": [
@@ -29654,8 +30028,8 @@
         "read_contract"
       ],
       "metadata": {
-        "stars": 74,
-        "last_updated": "2026-03-19T03:02:51Z"
+        "stars": 78,
+        "last_updated": "2026-04-20T03:04:28Z"
       },
       "repository_url": "https://github.com/Bankless/onchain-mcp",
       "tags": [
@@ -35912,8 +36286,8 @@
         "perplexity_research"
       ],
       "metadata": {
-        "stars": 2029,
-        "last_updated": "2026-03-19T03:02:50Z"
+        "stars": 2092,
+        "last_updated": "2026-04-19T03:04:11Z"
       },
       "repository_url": "https://github.com/ppl-ai/modelcontextprotocol",
       "tags": [
@@ -41480,8 +41854,8 @@
         "sequentialthinking"
       ],
       "metadata": {
-        "stars": 81457,
-        "last_updated": "2026-03-19T03:02:50Z"
+        "stars": 84056,
+        "last_updated": "2026-04-19T03:04:11Z"
       },
       "repository_url": "https://github.com/modelcontextprotocol/servers",
       "tags": [
@@ -45630,8 +46004,8 @@
         "get_current_time"
       ],
       "metadata": {
-        "stars": 81358,
-        "last_updated": "2026-03-18T03:02:42Z"
+        "stars": 84011,
+        "last_updated": "2026-04-18T03:03:09Z"
       },
       "repository_url": "https://github.com/modelcontextprotocol/servers",
       "tags": [
