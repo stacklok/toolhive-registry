@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:3.1.3": {
+        "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:4.0.6": {
           "metadata": {
-            "last_updated": "2026-04-17T03:04:13Z",
+            "last_updated": "2026-04-22T07:21:00Z",
             "stars": 9311
           },
           "overview": "## Phoenix MCP Server\n\nThe phoenix MCP server is a Model Context Protocol (MCP) server for the Arize Phoenix observability platform. It provides AI assistants with programmatic access to Arize Phoenix, enabling dataset and experiment management for LLM evaluation workflows, prompt version control and tagging for LLM application development, span and trace querying for observability and debugging, and project-based organization for managing multiple Phoenix instances.",
@@ -36,10 +36,10 @@
           "tool_definitions": [
             {
               "annotations": {},
-              "description": "Add examples to an existing dataset.\n\nThis tool adds one or more examples to an existing dataset. Each example includes an input,\noutput, and metadata. The metadata will automatically include information indicating that\nthese examples were synthetically generated via MCP. When calling this tool, check existing\nexamples using the \"get-dataset-examples\" tool to ensure that you are not adding duplicate\nexamples and following existing patterns for how data should be structured.\n\nExample usage:\n  Look at the analyze \"my-dataset\" and augment them with new examples to cover relevant edge cases\n\nExpected return:\n  Confirmation of successful addition of examples to the dataset.\n  Example: {\n    \"dataset_name\": \"my-dataset\",\n    \"message\": \"Successfully added examples to dataset\"\n  }",
+              "description": "Add examples to an existing dataset.\n\nThis tool adds one or more examples to an existing dataset. Each example includes an input,\noutput, and metadata. The metadata will automatically include information indicating that\nthese examples were synthetically generated via MCP. When calling this tool, check existing\nexamples using the \"get-dataset-examples\" tool to ensure that you are not adding duplicate\nexamples and following existing patterns for how data should be structured.\n\nExample usage:\n  Look at the analyze \"my-dataset\" and augment them with new examples to cover relevant edge cases\n\nExpected return:\n  Confirmation of successful addition of examples to the dataset.",
               "inputSchema": {
                 "properties": {
-                  "datasetName": {
+                  "dataset_name": {
                     "type": "string"
                   },
                   "examples": {
@@ -77,7 +77,7 @@
                   }
                 },
                 "required": [
-                  "datasetName",
+                  "dataset_name",
                   "examples"
                 ],
                 "type": "object"
@@ -86,7 +86,7 @@
             },
             {
               "annotations": {},
-              "description": "Add a tag to a specific prompt version. The operation returns no content on success (204 status code).\n\nExample usage: \n  Tag prompt version 'promptversionid1234' with the name 'production'\n\nExpected return: \n  Confirmation message of successful tag addition",
+              "description": "Add a tag to a specific prompt version. The operation returns no content on success (204 status code).\n\nExample usage:\n  Tag prompt version 'promptversionid1234' with the name 'production'\n\nExpected return:\n  Confirmation message of successful tag addition",
               "inputSchema": {
                 "properties": {
                   "description": {
@@ -109,39 +109,73 @@
             },
             {
               "annotations": {},
-              "description": "Get examples from a dataset.\n\nDataset examples are an array of objects that each include an input, \n(expected) output, and optional metadata. These examples are typically used to represent \ninput to an application or model (e.g. prompt template variables, a code file, or image) \nand used to test or benchmark changes.\n\nExample usage:\n  Show me all examples from dataset RGF0YXNldDox\n\nExpected return:\n  Object containing dataset ID, version ID, and array of examples.\n  Example: {\n    \"dataset_id\": \"datasetid1234\",\n    \"version_id\": \"datasetversionid1234\",\n    \"examples\": [\n      {\n        \"id\": \"exampleid1234\",\n        \"input\": {\n          \"text\": \"Sample input text\"\n        },\n        \"output\": {\n          \"text\": \"Expected output text\"\n        },\n        \"metadata\": {},\n        \"updated_at\": \"YYYY-MM-DDTHH:mm:ssZ\"\n      }\n    ]\n  }",
+              "description": "Get dataset metadata by name or ID.\n\nExample usage:\n  Show me the dataset \"my-dataset\"\n\nExpected return:\n  A dataset object with metadata and version information.",
               "inputSchema": {
                 "properties": {
-                  "datasetId": {
+                  "dataset_id": {
+                    "type": "string"
+                  },
+                  "dataset_name": {
                     "type": "string"
                   }
                 },
-                "required": [
-                  "datasetId"
-                ],
+                "required": [],
+                "type": "object"
+              },
+              "name": "get-dataset"
+            },
+            {
+              "annotations": {},
+              "description": "Get examples from a dataset.\n\nDataset examples are an array of objects that each include an input,\n(expected) output, and optional metadata. These examples are typically used to represent\ninput to an application or model (e.g. prompt template variables, a code file, or image)\nand used to test or benchmark changes.\n\nExample usage:\n  Show me all examples from dataset RGF0YXNldDox\n\nExpected return:\n  Object containing dataset ID, version ID, and array of examples.",
+              "inputSchema": {
+                "properties": {
+                  "dataset_id": {
+                    "type": "string"
+                  },
+                  "dataset_name": {
+                    "type": "string"
+                  },
+                  "splits": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "version_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [],
                 "type": "object"
               },
               "name": "get-dataset-examples"
             },
             {
               "annotations": {},
-              "description": "List experiments run on a dataset.\n\nExample usage:\n  Show me all experiments run on dataset RGF0YXNldDox\n\nExpected return:\n  Array of experiment objects with metadata.\n  Example: [\n    {\n      \"id\": \"experimentid1234\",\n      \"dataset_id\": \"datasetid1234\",\n      \"dataset_version_id\": \"datasetversionid1234\",\n      \"repetitions\": 1,\n      \"metadata\": {},\n      \"project_name\": \"Experiment-abc123\",\n      \"created_at\": \"YYYY-MM-DDTHH:mm:ssZ\",\n      \"updated_at\": \"YYYY-MM-DDTHH:mm:ssZ\"\n    }\n  ]",
+              "description": "List experiments run on a dataset.\n\nExample usage:\n  Show me all experiments run on dataset RGF0YXNldDox\n\nExpected return:\n  Array of experiment objects with metadata.",
               "inputSchema": {
                 "properties": {
-                  "datasetId": {
+                  "dataset_id": {
                     "type": "string"
+                  },
+                  "dataset_name": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 100,
+                    "maximum": 500,
+                    "minimum": 1,
+                    "type": "number"
                   }
                 },
-                "required": [
-                  "datasetId"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "get-dataset-experiments"
             },
             {
               "annotations": {},
-              "description": "Get an experiment by its ID.\n\nThe tool returns experiment metadata in the first content block and a JSON object with the \nexperiment data in the second. The experiment data contains both the results of each \nexperiment run and the annotations made by an evaluator to score or label the results, \nfor example, comparing the output of an experiment run to the expected output from the \ndataset example.\n\nExample usage:\n  Show me the experiment results for experiment RXhwZXJpbWVudDo4\n\nExpected return:\n  Object containing experiment metadata and results.\n  Example: {\n    \"metadata\": {\n      \"id\": \"experimentid1234\",\n      \"dataset_id\": \"datasetid1234\",\n      \"dataset_version_id\": \"datasetversionid1234\",\n      \"repetitions\": 1,\n      \"metadata\": {},\n      \"project_name\": \"Experiment-abc123\",\n      \"created_at\": \"YYYY-MM-DDTHH:mm:ssZ\",\n      \"updated_at\": \"YYYY-MM-DDTHH:mm:ssZ\"\n    },\n    \"experimentResult\": [\n      {\n        \"example_id\": \"exampleid1234\",\n        \"repetition_number\": 0,\n        \"input\": \"Sample input text\",\n        \"reference_output\": \"Expected output text\",\n        \"output\": \"Actual output text\",\n        \"error\": null,\n        \"latency_ms\": 1000,\n        \"start_time\": \"2025-03-20T12:00:00Z\",\n        \"end_time\": \"2025-03-20T12:00:01Z\",\n        \"trace_id\": \"trace-123\",\n        \"prompt_token_count\": 10,\n        \"completion_token_count\": 20,\n        \"annotations\": [\n          {\n            \"name\": \"quality\",\n            \"annotator_kind\": \"HUMAN\",\n            \"label\": \"good\",\n            \"score\": 0.9,\n            \"explanation\": \"Output matches expected format\",\n            \"trace_id\": \"trace-456\",\n            \"error\": null,\n            \"metadata\": {},\n            \"start_time\": \"YYYY-MM-DDTHH:mm:ssZ\",\n            \"end_time\": \"YYYY-MM-DDTHH:mm:ssZ\"\n          }\n        ]\n      }\n    ]\n  }",
+              "description": "Get an experiment by its ID.\n\nThe tool returns experiment metadata in the first content block and a JSON object with the\nexperiment data in the second. The experiment data contains both the results of each\nexperiment run and the annotations made by an evaluator to score or label the results,\nfor example, comparing the output of an experiment run to the expected output from the\ndataset example.\n\nExample usage:\n  Show me the experiment results for experiment RXhwZXJpbWVudDo4\n\nExpected return:\n  Object containing experiment metadata and results.",
               "inputSchema": {
                 "properties": {
                   "experiment_id": {
@@ -157,7 +191,7 @@
             },
             {
               "annotations": {},
-              "description": "Get the latest version of a prompt. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage: \n  Get the latest version of a prompt named 'article-summarizer'\n\nExpected return: \n  Prompt version object with template and configuration. \n  Example: {\n    \"description\": \"Initial version\",\n    \"model_provider\": \"OPENAI\",\n    \"model_name\": \"gpt-3.5-turbo\",\n    \"template\": {\n      \"type\": \"chat\",\n      \"messages\": [\n        {\n          \"role\": \"system\",\n          \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n        },\n        {\n          \"role\": \"user\",\n          \"content\": \"Please summarize the following {{topic}} article:\n\n{{article}}\"\n        }\n      ]\n    },\n    \"template_type\": \"CHAT\",\n    \"template_format\": \"MUSTACHE\",\n    \"invocation_parameters\": {\n      \"type\": \"openai\",\n      \"openai\": {}\n    },\n    \"id\": \"promptversionid1234\"\n  }",
+              "description": "Get the latest version of a prompt. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage:\n  Get the latest version of a prompt named 'article-summarizer'\n\nExpected return:\n  Prompt version object with template and configuration.\n  Example: {\n    \"description\": \"Initial version\",\n    \"model_provider\": \"OPENAI\",\n    \"model_name\": \"gpt-3.5-turbo\",\n    \"template\": {\n      \"type\": \"chat\",\n      \"messages\": [\n        {\n          \"role\": \"system\",\n          \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n        },\n        {\n          \"role\": \"user\",\n          \"content\": \"Please summarize the following {{topic}} article:\\n\\n{{article}}\"\n        }\n      ]\n    },\n    \"template_type\": \"CHAT\",\n    \"template_format\": \"MUSTACHE\",\n    \"invocation_parameters\": {\n      \"type\": \"openai\",\n      \"openai\": {}\n    },\n    \"id\": \"promptversionid1234\"\n  }",
               "inputSchema": {
                 "properties": {
                   "prompt_identifier": {
@@ -173,7 +207,45 @@
             },
             {
               "annotations": {},
-              "description": "Get a prompt's latest version by its identifier (name or ID). Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage: \n  Get the latest version of a prompt with name 'article-summarizer'\n\nExpected return: \n  Prompt version object with template and configuration. \n    Example: {\n      \"description\": \"Initial version\",\n      \"model_provider\": \"OPENAI\",\n      \"model_name\": \"gpt-3.5-turbo\",\n      \"template\": {\n        \"type\": \"chat\",\n        \"messages\": [\n          {\n            \"role\": \"system\",\n            \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n          },\n          {\n            \"role\": \"user\",\n            \"content\": \"Please summarize the following {{topic}} article:\n\n{{article}}\"\n          }\n        ]\n      },\n      \"template_type\": \"CHAT\",\n      \"template_format\": \"MUSTACHE\",\n      \"invocation_parameters\": {\n        \"type\": \"openai\",\n        \"openai\": {}\n      },\n      \"id\": \"promptversionid1234\"\n    }",
+              "description": "Get a project by name or ID.\n\nExample usage:\n  Show me the project \"default\"\n\nExpected return:\n  A single project object with metadata.",
+              "inputSchema": {
+                "properties": {
+                  "project_identifier": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "project_identifier"
+                ],
+                "type": "object"
+              },
+              "name": "get-project"
+            },
+            {
+              "annotations": {},
+              "description": "Get a prompt using a single MCP-native interface.\n\nProvide a prompt identifier to fetch the latest version, or add a tag or versionId to select a specific version.\n\nExample usage:\n  Get prompt \"article-summarizer\"\n  Get prompt \"article-summarizer\" with tag \"production\"\n  Get prompt \"article-summarizer\" using version \"promptversionid1234\"\n\nExpected return:\n  Prompt version object with template and configuration.",
+              "inputSchema": {
+                "properties": {
+                  "prompt_identifier": {
+                    "type": "string"
+                  },
+                  "tag": {
+                    "type": "string"
+                  },
+                  "version_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "prompt_identifier"
+                ],
+                "type": "object"
+              },
+              "name": "get-prompt"
+            },
+            {
+              "annotations": {},
+              "description": "Get a prompt's latest version by its identifier (name or ID). Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage:\n  Get the latest version of a prompt with name 'article-summarizer'\n\nExpected return:\n  Prompt version object with template and configuration.",
               "inputSchema": {
                 "properties": {
                   "prompt_identifier": {
@@ -189,7 +261,7 @@
             },
             {
               "annotations": {},
-              "description": "Get a specific version of a prompt using its version ID. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage: \n  Get a specific prompt version with ID 'promptversionid1234'\n\nExpected return: \n  Prompt version object with template and configuration. \n  Example: {\n    \"description\": \"Initial version\",\n    \"model_provider\": \"OPENAI\",\n    \"model_name\": \"gpt-3.5-turbo\",\n    \"template\": {\n      \"type\": \"chat\",\n      \"messages\": [\n        {\n          \"role\": \"system\",\n          \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n        },\n        {\n          \"role\": \"user\",\n          \"content\": \"Please summarize the following {{topic}} article:\n\n{{article}}\"\n        }\n      ]\n    },\n    \"template_type\": \"CHAT\",\n    \"template_format\": \"MUSTACHE\",\n    \"invocation_parameters\": {\n      \"type\": \"openai\",\n      \"openai\": {}\n    },\n    \"id\": \"promptversionid1234\"\n  }",
+              "description": "Get a specific version of a prompt using its version ID. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage:\n  Get a specific prompt version with ID 'promptversionid1234'\n\nExpected return:\n  Prompt version object with template and configuration.",
               "inputSchema": {
                 "properties": {
                   "prompt_version_id": {
@@ -205,7 +277,7 @@
             },
             {
               "annotations": {},
-              "description": "Get a prompt version by its tag name. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage: \n  Get the 'production' tagged version of prompt 'article-summarizer'\n\nExpected return: \n  Prompt version object with template and configuration. \n  Example: {\n      \"description\": \"Initial version\",\n      \"model_provider\": \"OPENAI\",\n      \"model_name\": \"gpt-3.5-turbo\",\n      \"template\": {\n        \"type\": \"chat\",\n        \"messages\": [\n          {\n            \"role\": \"system\",\n            \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n          },\n          {\n            \"role\": \"user\",\n            \"content\": \"Please summarize the following {{topic}} article:\n\n{{article}}\"\n          }\n        ]\n      },\n      \"template_type\": \"CHAT\",\n      \"template_format\": \"MUSTACHE\",\n      \"invocation_parameters\": {\n        \"type\": \"openai\",\n        \"openai\": {}\n      },\n      \"id\": \"promptversionid1234\"\n    }",
+              "description": "Get a prompt version by its tag name. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage:\n  Get the 'production' tagged version of prompt 'article-summarizer'\n\nExpected return:\n  Prompt version object with template and configuration.",
               "inputSchema": {
                 "properties": {
                   "prompt_identifier": {
@@ -225,19 +297,39 @@
             },
             {
               "annotations": {},
+              "description": "Get a single session by GlobalID or user-provided session_id.\n\nExample usage:\n  Show me session \"chat-123\"\n\nExpected return:\n  A session object and, optionally, its annotations.",
+              "inputSchema": {
+                "properties": {
+                  "include_annotations": {
+                    "default": false,
+                    "type": "boolean"
+                  },
+                  "session_identifier": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "session_identifier"
+                ],
+                "type": "object"
+              },
+              "name": "get-session"
+            },
+            {
+              "annotations": {},
               "description": "Get span annotations for a list of span IDs.\n\nSpan annotations provide additional metadata, scores, or labels for spans. They can be created\nby humans, LLMs, or code and help in analyzing and categorizing spans.\n\nExample usage:\n  Get annotations for spans [\"span1\", \"span2\"] from project \"my-project\"\n  Get quality score annotations for span \"span1\" from project \"my-project\"\n\nExpected return:\n  Object containing annotations array and optional next cursor for pagination.\n  Example: {\n    \"annotations\": [\n      {\n        \"id\": \"annotation123\",\n        \"span_id\": \"span1\",\n        \"name\": \"quality_score\",\n        \"result\": {\n          \"label\": \"good\",\n          \"score\": 0.95,\n          \"explanation\": null\n        },\n        \"annotator_kind\": \"LLM\",\n        \"metadata\": {\n          \"model\": \"gpt-4\"\n        }\n      }\n    ],\n    \"nextCursor\": \"cursor_for_pagination\"\n  }",
               "inputSchema": {
                 "properties": {
                   "cursor": {
                     "type": "string"
                   },
-                  "excludeAnnotationNames": {
+                  "exclude_annotation_names": {
                     "items": {
                       "type": "string"
                     },
                     "type": "array"
                   },
-                  "includeAnnotationNames": {
+                  "include_annotation_names": {
                     "items": {
                       "type": "string"
                     },
@@ -249,10 +341,10 @@
                     "minimum": 1,
                     "type": "number"
                   },
-                  "projectName": {
+                  "project_identifier": {
                     "type": "string"
                   },
-                  "spanIds": {
+                  "span_ids": {
                     "items": {
                       "type": "string"
                     },
@@ -260,8 +352,7 @@
                   }
                 },
                 "required": [
-                  "projectName",
-                  "spanIds"
+                  "span_ids"
                 ],
                 "type": "object"
               },
@@ -275,8 +366,12 @@
                   "cursor": {
                     "type": "string"
                   },
-                  "endTime": {
+                  "end_time": {
                     "type": "string"
+                  },
+                  "include_annotations": {
+                    "default": false,
+                    "type": "boolean"
                   },
                   "limit": {
                     "default": 100,
@@ -284,34 +379,105 @@
                     "minimum": 1,
                     "type": "number"
                   },
-                  "projectName": {
+                  "names": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "parent_id": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "project_identifier": {
                     "type": "string"
                   },
-                  "startTime": {
+                  "span_kinds": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "start_time": {
                     "type": "string"
                   },
-                  "traceIds": {
+                  "status_codes": {
+                    "items": {
+                      "enum": [
+                        "OK",
+                        "ERROR",
+                        "UNSET"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "trace_ids": {
                     "items": {
                       "type": "string"
                     },
                     "type": "array"
                   }
                 },
-                "required": [
-                  "projectName"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "get-spans"
             },
             {
               "annotations": {},
-              "description": "Get a list of all datasets.\n\nDatasets are collections of 'dataset examples' that each example includes an input, \n(expected) output, and optional metadata. They are primarily used as inputs for experiments.\n\nExample usage:\n  Show me all available datasets\n\nExpected return:\n  Array of dataset objects with metadata.\n  Example: [\n    {\n      \"id\": \"RGF0YXNldDox\",\n      \"name\": \"my-dataset\",\n      \"description\": \"A dataset for testing\",\n      \"metadata\": {},\n      \"created_at\": \"2024-03-20T12:00:00Z\",\n      \"updated_at\": \"2024-03-20T12:00:00Z\"\n    }\n  ]",
+              "description": "Get a single trace by its exact trace ID within a project.\n\nExample usage:\n  Show me trace \"abc123def456\" from project \"default\"\n\nExpected return:\n  A trace object with all spans that belong to the trace.",
+              "inputSchema": {
+                "properties": {
+                  "include_annotations": {
+                    "default": false,
+                    "type": "boolean"
+                  },
+                  "project_identifier": {
+                    "type": "string"
+                  },
+                  "trace_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "trace_id"
+                ],
+                "type": "object"
+              },
+              "name": "get-trace"
+            },
+            {
+              "annotations": {},
+              "description": "List Phoenix annotation configs.\n\nAnnotation configs define the available human or automated labels, scores, and freeform annotation types.\n\nExample usage:\n  Show me all annotation configs\n\nExpected return:\n  Array of annotation config objects.",
               "inputSchema": {
                 "properties": {
                   "limit": {
                     "default": 100,
-                    "maximum": 100,
+                    "maximum": 500,
+                    "minimum": 1,
+                    "type": "number"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list-annotation-configs"
+            },
+            {
+              "annotations": {},
+              "description": "Get a list of all datasets.\n\nDatasets are collections of 'dataset examples' that each example includes an input,\n(expected) output, and optional metadata. They are primarily used as inputs for experiments.\n\nExample usage:\n  Show me all available datasets\n\nExpected return:\n  Array of dataset objects with metadata.\n  Example: [\n    {\n      \"id\": \"RGF0YXNldDox\",\n      \"name\": \"my-dataset\",\n      \"description\": \"A dataset for testing\",\n      \"metadata\": {},\n      \"created_at\": \"2024-03-20T12:00:00Z\",\n      \"updated_at\": \"2024-03-20T12:00:00Z\"\n    }\n  ]",
+              "inputSchema": {
+                "properties": {
+                  "limit": {
+                    "default": 100,
+                    "maximum": 500,
                     "minimum": 1,
                     "type": "number"
                   }
@@ -323,35 +489,42 @@
             },
             {
               "annotations": {},
-              "description": "Get a list of all the experiments run on a given dataset.\n\nExperiments are collections of experiment runs, each experiment run corresponds to a single \ndataset example. The dataset example is passed to an implied `task` which in turn \nproduces an output.\n\nExample usage:\n  Show me all the experiments I've run on dataset RGF0YXNldDox\n\nExpected return:\n  Array of experiment objects with metadata. \n  Example: [\n    {\n      \"id\": \"experimentid1234\",\n      \"dataset_id\": \"datasetid1234\",\n      \"dataset_version_id\": \"datasetversionid1234\",\n      \"repetitions\": 1,\n      \"metadata\": {},\n      \"project_name\": \"Experiment-abc123\",\n      \"created_at\": \"YYYY-MM-DDTHH:mm:ssZ\",\n      \"updated_at\": \"YYYY-MM-DDTHH:mm:ssZ\"\n    }\n  ]",
+              "description": "Get a list of all the experiments run on a given dataset.\n\nExperiments are collections of experiment runs, each experiment run corresponds to a single\ndataset example. The dataset example is passed to an implied `task` which in turn\nproduces an output.\n\nExample usage:\n  Show me all the experiments I've run on dataset RGF0YXNldDox\n\nExpected return:\n  Array of experiment objects with metadata.\n  Example: [\n    {\n      \"id\": \"experimentid1234\",\n      \"dataset_id\": \"datasetid1234\",\n      \"dataset_version_id\": \"datasetversionid1234\",\n      \"repetitions\": 1,\n      \"metadata\": {},\n      \"project_name\": \"Experiment-abc123\",\n      \"created_at\": \"YYYY-MM-DDTHH:mm:ssZ\",\n      \"updated_at\": \"YYYY-MM-DDTHH:mm:ssZ\"\n    }\n  ]",
               "inputSchema": {
                 "properties": {
                   "dataset_id": {
                     "type": "string"
+                  },
+                  "dataset_name": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 100,
+                    "maximum": 500,
+                    "minimum": 1,
+                    "type": "number"
                   }
                 },
-                "required": [
-                  "dataset_id"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list-experiments-for-dataset"
             },
             {
               "annotations": {},
-              "description": "Get a list of all projects.\n\nProjects are containers for organizing traces, spans, and other observability data. \nEach project has a unique name and can contain traces from different applications or experiments.\n\nExample usage:\n  Show me all available projects\n\nExpected return:\n  Array of project objects with metadata.\n  Example: [\n    {\n      \"id\": \"UHJvamVjdDox\",\n      \"name\": \"default\",\n      \"description\": \"Default project for traces\"\n    },\n    {\n      \"id\": \"UHJvamVjdDoy\", \n      \"name\": \"my-experiment\",\n      \"description\": \"Project for my ML experiment\"\n    }\n  ]",
+              "description": "Get a list of all projects.\n\nProjects are containers for organizing traces, spans, and other observability data.\nEach project has a unique name and can contain traces from different applications or experiments.\n\nExample usage:\n  Show me all available projects\n\nExpected return:\n  Array of project objects with metadata.\n  Example: [\n    {\n      \"id\": \"UHJvamVjdDox\",\n      \"name\": \"default\",\n      \"description\": \"Default project for traces\"\n    },\n    {\n      \"id\": \"UHJvamVjdDoy\",\n      \"name\": \"my-experiment\",\n      \"description\": \"Project for my ML experiment\"\n    }\n  ]",
               "inputSchema": {
                 "properties": {
                   "cursor": {
                     "type": "string"
                   },
-                  "includeExperimentProjects": {
+                  "include_experiment_projects": {
                     "default": false,
                     "type": "boolean"
                   },
                   "limit": {
                     "default": 100,
-                    "maximum": 100,
+                    "maximum": 500,
                     "minimum": 1,
                     "type": "number"
                   }
@@ -363,7 +536,7 @@
             },
             {
               "annotations": {},
-              "description": "Get a list of all tags for a specific prompt version. Returns tag objects with pagination support.\n\nExample usage: \n  List all tags associated with prompt version 'promptversionid1234'\n\nExpected return: \n  Array of tag objects with names and IDs. \n  Example: [\n    {\n      \"name\": \"staging\",\n      \"description\": \"The version deployed to staging\",\n      \"id\": \"promptversionid1234\"\n    },\n    {\n      \"name\": \"development\",\n      \"description\": \"The version deployed for development\",\n      \"id\": \"promptversionid1234\"\n    }\n  ]",
+              "description": "Get a list of all tags for a specific prompt version. Returns tag objects with pagination support.\n\nExample usage:\n  List all tags associated with prompt version 'promptversionid1234'\n\nExpected return:\n  Array of tag objects with names and IDs.",
               "inputSchema": {
                 "properties": {
                   "limit": {
@@ -385,7 +558,7 @@
             },
             {
               "annotations": {},
-              "description": "Get a list of all versions for a specific prompt. Returns versions with pagination support.\n\nExample usage: \n  List all versions of a prompt named 'article-summarizer'\n\nExpected return: \n  Array of prompt version objects with IDs and configuration. \n  Example: [\n    {\n      \"description\": \"Initial version\",\n      \"model_provider\": \"OPENAI\",\n      \"model_name\": \"gpt-3.5-turbo\",\n      \"template\": {\n        \"type\": \"chat\",\n        \"messages\": [\n          {\n            \"role\": \"system\",\n            \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n          },\n          {\n            \"role\": \"user\",\n            \"content\": \"Please summarize the following {{topic}} article:\n\n{{article}}\"\n          }\n        ]\n      },\n      \"template_type\": \"CHAT\",\n      \"template_format\": \"MUSTACHE\",\n      \"invocation_parameters\": {\n        \"type\": \"openai\",\n        \"openai\": {}\n      },\n      \"id\": \"promptversionid1234\"\n    }\n  ]",
+              "description": "Get a list of all versions for a specific prompt. Returns versions with pagination support.\n\nExample usage:\n  List all versions of a prompt named 'article-summarizer'\n\nExpected return:\n  Array of prompt version objects with IDs and configuration.",
               "inputSchema": {
                 "properties": {
                   "limit": {
@@ -407,7 +580,7 @@
             },
             {
               "annotations": {},
-              "description": "Get a list of all the prompts.\n\nPrompts (templates, prompt templates) are versioned templates for input messages to an LLM.\nEach prompt includes both the input messages, but also the model and invocation parameters\nto use when generating outputs.\n\nReturns a list of prompt objects with their IDs, names, and descriptions.\n\nExample usage: \n  List all available prompts\n\nExpected return: \n  Array of prompt objects with metadata. \n  Example:  [{\n      \"name\": \"article-summarizer\",\n      \"description\": \"Summarizes an article into concise bullet points\",\n      \"source_prompt_id\": null,\n      \"id\": \"promptid1234\"\n  }]",
+              "description": "Get a list of all the prompts.\n\nPrompts (templates, prompt templates) are versioned templates for input messages to an LLM.\nEach prompt includes both the input messages, but also the model and invocation parameters\nto use when generating outputs.\n\nReturns a list of prompt objects with their IDs, names, and descriptions.\n\nExample usage:\n  List all available prompts\n\nExpected return:\n  Array of prompt objects with metadata.\n  Example:  [{\n      \"name\": \"article-summarizer\",\n      \"description\": \"Summarizes an article into concise bullet points\",\n      \"source_prompt_id\": null,\n      \"id\": \"promptid1234\"\n  }]",
               "inputSchema": {
                 "properties": {
                   "limit": {
@@ -421,6 +594,65 @@
                 "type": "object"
               },
               "name": "list-prompts"
+            },
+            {
+              "annotations": {},
+              "description": "List sessions for a project.\n\nSessions represent conversation flows grouped across traces.\n\nExample usage:\n  Show me the last 10 sessions for project \"default\"\n\nExpected return:\n  Array of session objects ordered by the requested sort order.",
+              "inputSchema": {
+                "properties": {
+                  "limit": {
+                    "default": 10,
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "order": {
+                    "default": "desc",
+                    "enum": [
+                      "asc",
+                      "desc"
+                    ],
+                    "type": "string"
+                  },
+                  "project_identifier": {
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list-sessions"
+            },
+            {
+              "annotations": {},
+              "description": "List traces for a project.\n\nThis tool groups project spans into traces and returns the newest traces first.\n\nExample usage:\n  Show me the last 10 traces for project \"default\"\n  Show me recent traces from the last 30 minutes for project \"checkout\"\n\nExpected return:\n  Array of trace objects with grouped spans and summary timing information.",
+              "inputSchema": {
+                "properties": {
+                  "include_annotations": {
+                    "default": false,
+                    "type": "boolean"
+                  },
+                  "last_n_minutes": {
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "limit": {
+                    "default": 10,
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "project_identifier": {
+                    "type": "string"
+                  },
+                  "since": {
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list-traces"
             },
             {
               "annotations": {},
@@ -441,7 +673,7 @@
             },
             {
               "annotations": {},
-              "description": "Create or update a prompt with its template and configuration. Creates a new prompt and its initial version with specified model settings.\n\nExample usage: \n  Create a new prompt named 'email_generator' with a template for generating emails\n\nExpected return: \n  A confirmation message of successful prompt creation",
+              "description": "Create or update a prompt with its template and configuration. Creates a new prompt and its initial version with specified model settings.\n\nExample usage:\n  Create a new prompt named 'email_generator' with a template for generating emails\n\nExpected return:\n  A confirmation message of successful prompt creation",
               "inputSchema": {
                 "properties": {
                   "description": {
@@ -484,21 +716,29 @@
           "tools": [
             "add-dataset-examples",
             "add-prompt-version-tag",
+            "get-dataset",
             "get-dataset-examples",
             "get-dataset-experiments",
             "get-experiment-by-id",
             "get-latest-prompt",
+            "get-project",
+            "get-prompt",
             "get-prompt-by-identifier",
             "get-prompt-version",
             "get-prompt-version-by-tag",
+            "get-session",
             "get-span-annotations",
             "get-spans",
+            "get-trace",
+            "list-annotation-configs",
             "list-datasets",
             "list-experiments-for-dataset",
             "list-projects",
             "list-prompt-version-tags",
             "list-prompt-versions",
             "list-prompts",
+            "list-sessions",
+            "list-traces",
             "phoenix-support",
             "upsert-prompt"
           ]
@@ -531,7 +771,7 @@
           "name": "PHOENIX_BASE_URL"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:3.1.3",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:4.0.6",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
