@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-04-21T00:56:22Z"
+    "last_updated": "2026-04-22T00:53:22Z"
   },
   "data": {
     "servers": [
@@ -284,7 +284,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.30",
+            "identifier": "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.31",
             "transport": {
               "type": "stdio"
             },
@@ -348,7 +348,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.30": {
+              "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.31": {
                 "metadata": {
                   "last_updated": "2026-03-23T03:03:36Z",
                   "stars": 8539
@@ -957,7 +957,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.0.27",
+            "identifier": "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.0.28",
             "transport": {
               "type": "stdio"
             },
@@ -993,9 +993,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.0.27": {
+              "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.0.28": {
                 "metadata": {
-                  "last_updated": "2026-03-25T01:09:34Z",
+                  "last_updated": "2026-04-21T10:29:09Z",
                   "stars": 8259
                 },
                 "overview": "## AWS Pricing MCP Server\n\nThe aws-pricing MCP server is a Model Context Protocol (MCP) server that gives AI assistants programmatic access to AWS pricing data through a structured interface. It allows AI-driven workflows to retrieve up-to-date pricing information for AWS services, instances, and usage dimensions, enabling cost estimation, comparison, and optimization tasks without manual navigation of pricing pages or spreadsheets. This server is particularly useful for cost modeling, architectural tradeoff analysis, and budget-aware automation inside AI assistants.",
@@ -7473,7 +7473,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/context7:2.1.4",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/context7:2.1.8",
             "transport": {
               "type": "stdio"
             },
@@ -7489,9 +7489,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/context7:2.1.4": {
+              "ghcr.io/stacklok/dockyard/npx/context7:2.1.8": {
                 "metadata": {
-                  "last_updated": "2026-04-14T03:03:54Z",
+                  "last_updated": "2026-04-21T16:40:19Z",
                   "stars": 52568
                 },
                 "overview": "## Context7 MCP Server\n\nThe context7 MCP server is a Model Context Protocol (MCP) server that provides AI assistants with direct access to up-to-date library and framework documentation from Context7, running as a local MCP service. It allows AI-driven workflows to retrieve current, authoritative docs and examples for popular programming languages, frameworks, and tools — helping models generate accurate, version-appropriate code and explanations without relying solely on training data. It is particularly valuable for local development environments, IDE-integrated assistants, and workflows where developers want documentation access to run alongside other local MCP tools.",
@@ -7553,7 +7553,7 @@
                     "inputSchema": {
                       "properties": {
                         "libraryName": {
-                          "description": "Library name to search for and retrieve a Context7-compatible library ID.",
+                          "description": "Library name to search for and retrieve a Context7-compatible library ID. Use the official library name with proper punctuation — e.g., 'Next.js' instead of 'nextjs', 'Customer.io' instead of 'customerio', 'Three.js' instead of 'threejs'.",
                           "type": "string"
                         },
                         "query": {
@@ -7802,8 +7802,8 @@
                   "0.0.0.0"
                 ],
                 "metadata": {
-                  "last_updated": "2026-03-18T03:02:42Z",
-                  "stars": 13441
+                  "last_updated": "2026-04-19T03:04:11Z",
+                  "stars": 14680
                 },
                 "overview": "## Database Toolbox MCP Server\n\nThe database-toolbox-mcp-server is a Model Context Protocol (MCP) server that provides AI assistants with a unified, database-agnostic interface for interacting with multiple relational databases. It exposes common database operations as standardized MCP tools, allowing AI-driven workflows to query data, inspect schemas, and manage connections across different database engines without bespoke integrations for each one. This server is especially useful for data analysis, reporting, debugging, and operational workflows that span multiple databases.",
                 "permissions": {
@@ -7912,8 +7912,8 @@
                   "http"
                 ],
                 "metadata": {
-                  "last_updated": "2026-03-21T02:54:11Z",
-                  "stars": 630
+                  "last_updated": "2026-04-21T03:03:49Z",
+                  "stars": 646
                 },
                 "overview": "## Elasticsearch MCP Server\n\nThe elasticsearch-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Elasticsearch clusters through a structured, AI-friendly interface. It allows AI-driven workflows to search, index, analyze, and manage data stored in Elasticsearch without writing custom client code or switching to separate tooling. This server is well suited for search-driven applications, log analysis, observability workflows, and any AI use case that depends on fast, flexible querying over large datasets.",
                 "permissions": {
@@ -9080,7 +9080,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/github/github-mcp-server:v1.0.0",
+            "identifier": "ghcr.io/github/github-mcp-server:v1.0.1",
             "transport": {
               "type": "stdio"
             },
@@ -9113,9 +9113,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/github/github-mcp-server:v1.0.0": {
+              "ghcr.io/github/github-mcp-server:v1.0.1": {
                 "metadata": {
-                  "last_updated": "2026-04-16T18:18:21Z",
+                  "last_updated": "2026-04-21T16:39:58Z",
                   "stars": 28599
                 },
                 "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -13642,8 +13642,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.2.0": {
                 "metadata": {
-                  "last_updated": "2026-03-20T02:58:12Z",
-                  "stars": 75
+                  "last_updated": "2026-04-21T09:50:53Z",
+                  "stars": 77
                 },
                 "overview": "## Heroku MCP Server\n\nThe heroku-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the Heroku platform through a structured, AI-friendly interface. It allows AI-driven workflows to inspect applications, manage deployments, review configuration, and reason about runtime behavior without switching tools or manually using the Heroku CLI or dashboard. Key capabilities include application lifecycle management, deployment workflows, runtime insight for dynos and process scaling, and operational visibility through logs and platform metadata.",
                 "permissions": {
@@ -13675,39 +13675,868 @@
                   "devops"
                 ],
                 "tier": "Official",
+                "tool_definitions": [
+                  {
+                    "annotations": {},
+                    "description": "Create add-on: specify service, plan, custom names",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target app for add-on. Must have write access. Region/space affects availability",
+                          "type": "string"
+                        },
+                        "as": {
+                          "description": "Custom attachment name. Used for config vars prefix. Must be unique in app",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Global add-on identifier. Must be unique across all Heroku add-ons",
+                          "type": "string"
+                        },
+                        "serviceAndPlan": {
+                          "description": "Format: service_slug:plan_slug (e.g., heroku-postgresql:essential-0)",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app",
+                        "serviceAndPlan"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "create_addon"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Create app: custom name, region (US/EU), team, private space",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "App name. Auto-generated if omitted",
+                          "type": "string"
+                        },
+                        "region": {
+                          "description": "Region: us/eu. Default: us. Excludes space param",
+                          "enum": [
+                            "us",
+                            "eu"
+                          ],
+                          "type": "string"
+                        },
+                        "space": {
+                          "description": "Private space name. Inherits region. Excludes region param",
+                          "type": "string"
+                        },
+                        "team": {
+                          "description": "Team name for ownership",
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "create_app"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nRun code/commands in Heroku one-off dyno with network and filesystem access.\n\nRequirements:\n- Show command output\n- Use app_info for buildpack detection\n- Support shell setup commands\n- Use stdout/stderr\n\nFeatures:\n- Network/filesystem access\n- Environment variables\n- File operations\n- Temp directory handling\n\nUsage:\n1. Use Heroku runtime\n2. Proper syntax/imports\n3. Organized code structure\n4. Package management:\n   - Define dependencies\n   - Minimize external deps\n   - Prefer native modules\n\nExample package.json:\n```json\n{\n  \"type\": \"module\",\n  \"dependencies\": {\n    \"axios\": \"^1.6.0\"\n  }\n}\n```\n",
+                    "inputSchema": {
+                      "properties": {
+                        "command": {
+                          "description": "Command to run in dyno.",
+                          "type": "string"
+                        },
+                        "env": {
+                          "additionalProperties": {},
+                          "description": "Dyno environment variables.",
+                          "type": "object"
+                        },
+                        "name": {
+                          "description": "Target Heroku app name.",
+                          "maxLength": 30,
+                          "minLength": 5,
+                          "type": "string"
+                        },
+                        "size": {
+                          "default": "standard-1x",
+                          "description": "Dyno size.",
+                          "type": "string"
+                        },
+                        "sources": {
+                          "description": "Source files to include in dyno.",
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "contents": {
+                                "description": "File contents.",
+                                "type": "string"
+                              },
+                              "relativePath": {
+                                "description": "Virtual path for tarball entry.",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "relativePath",
+                              "contents"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "timeToLive": {
+                          "default": 3600,
+                          "description": "Dyno lifetime in seconds.",
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "command"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "deploy_one_off_dyno"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Use for all deployments. Deploys new/existing apps, with or without teams/spaces, and env vars to Heroku. Ask for app name if missing. Requires valid app.json via appJson param.",
+                    "inputSchema": {
+                      "properties": {
+                        "appJson": {
+                          "description": "App.json config for deployment. Must follow schema: {\"default\":{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"title\":\"Heroku app.json Schema\",\"description\":\"app.json is a manifest format for describing web apps. It declares environment variables, add-ons, and other information required to run an app on Heroku. Used for dynamic configurations or converted projects\",\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\",\"pattern\":\"^[a-zA-Z-_\\\\.]+\",\"maxLength\":300},\"description\":{\"type\":\"string\"},\"keywords\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"website\":{\"$ref\":\"#/definitions/uriString\"},\"repository\":{\"$ref\":\"#/definitions/uriString\"},\"logo\":{\"$ref\":\"#/definitions/uriString\"},\"success_url\":{\"type\":\"string\"},\"scripts\":{\"$ref\":\"#/definitions/scripts\"},\"env\":{\"$ref\":\"#/definitions/env\"},\"formation\":{\"$ref\":\"#/definitions/formation\"},\"addons\":{\"$ref\":\"#/definitions/addons\"},\"buildpacks\":{\"$ref\":\"#/definitions/buildpacks\"},\"environments\":{\"$ref\":\"#/definitions/environments\"},\"stack\":{\"$ref\":\"#/definitions/stack\"},\"image\":{\"type\":\"string\"}},\"additionalProperties\":false,\"definitions\":{\"uriString\":{\"type\":\"string\",\"format\":\"uri\"},\"scripts\":{\"type\":\"object\",\"properties\":{\"postdeploy\":{\"type\":\"string\"},\"pr-predestroy\":{\"type\":\"string\"}},\"additionalProperties\":false},\"env\":{\"type\":\"object\",\"patternProperties\":{\"^[A-Z][A-Z0-9_]*$\":{\"type\":\"object\",\"properties\":{\"description\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"required\":{\"type\":\"boolean\"},\"generator\":{\"type\":\"string\",\"enum\":[\"secret\"]}},\"additionalProperties\":false}}},\"dynoSize\":{\"type\":\"string\",\"enum\":[\"free\",\"eco\",\"hobby\",\"basic\",\"standard-1x\",\"standard-2x\",\"performance-m\",\"performance-l\",\"private-s\",\"private-m\",\"private-l\",\"shield-s\",\"shield-m\",\"shield-l\"]},\"formation\":{\"type\":\"object\",\"patternProperties\":{\"^[a-zA-Z0-9_-]+$\":{\"type\":\"object\",\"properties\":{\"quantity\":{\"type\":\"integer\",\"minimum\":0},\"size\":{\"$ref\":\"#/definitions/dynoSize\"}},\"required\":[\"quantity\"],\"additionalProperties\":false}}},\"addons\":{\"type\":\"array\",\"items\":{\"oneOf\":[{\"type\":\"string\"},{\"type\":\"object\",\"properties\":{\"plan\":{\"type\":\"string\"},\"as\":{\"type\":\"string\"},\"options\":{\"type\":\"object\"}},\"required\":[\"plan\"],\"additionalProperties\":false}]}},\"buildpacks\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"url\":{\"type\":\"string\"}},\"required\":[\"url\"],\"additionalProperties\":false}},\"environmentConfig\":{\"type\":\"object\",\"properties\":{\"env\":{\"type\":\"object\"},\"formation\":{\"type\":\"object\"},\"addons\":{\"type\":\"array\"},\"buildpacks\":{\"type\":\"array\"}}},\"environments\":{\"type\":\"object\",\"properties\":{\"test\":{\"allOf\":[{\"$ref\":\"#/definitions/environmentConfig\"},{\"type\":\"object\",\"properties\":{\"scripts\":{\"type\":\"object\",\"properties\":{\"test\":{\"type\":\"string\"}},\"additionalProperties\":false}}}]},\"review\":{\"$ref\":\"#/definitions/environmentConfig\"},\"production\":{\"$ref\":\"#/definitions/environmentConfig\"}},\"additionalProperties\":false},\"stack\":{\"type\":\"string\",\"enum\":[\"heroku-18\",\"heroku-20\",\"heroku-22\",\"heroku-24\"]}}}}",
+                          "type": "string"
+                        },
+                        "env": {
+                          "additionalProperties": {},
+                          "description": "Environment variables overriding app.json values",
+                          "type": "object"
+                        },
+                        "internalRouting": {
+                          "description": "Enable internal routing in private spaces.",
+                          "type": "boolean"
+                        },
+                        "name": {
+                          "description": "App name for deployment. Creates new app if not exists.",
+                          "maxLength": 30,
+                          "minLength": 5,
+                          "type": "string"
+                        },
+                        "rootUri": {
+                          "description": "Workspace root directory path.",
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "spaceId": {
+                          "description": "Private space ID for space deployments.",
+                          "type": "string"
+                        },
+                        "tarballUri": {
+                          "description": "URL of deployment tarball. Creates from rootUri if not provided.",
+                          "type": "string"
+                        },
+                        "teamId": {
+                          "description": "Team ID for team deployments.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "rootUri",
+                        "appJson"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "deploy_to_heroku"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Get add-on details: plan, state, billing",
+                    "inputSchema": {
+                      "properties": {
+                        "addon": {
+                          "description": "Add-on identifier: UUID, name (postgresql-curved-12345), or attachment name (DATABASE)",
+                          "type": "string"
+                        },
+                        "app": {
+                          "description": "App context for add-on lookup. Required for attachment names. Uses Git remote default",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "addon"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_addon_info"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Get app details: config, dynos, addons, access, domains",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target app name. Requires access permissions",
+                          "type": "string"
+                        },
+                        "json": {
+                          "description": "JSON output with full metadata. Default: text format",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_app_info"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "App logs: monitor/debug/filter by dyno/process/source",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Heroku app name. Requires: permissions, Cedar-gen",
+                          "type": "string"
+                        },
+                        "dynoName": {
+                          "description": "Format: web.1/worker.2. Excludes processType",
+                          "type": "string"
+                        },
+                        "processType": {
+                          "description": "web|worker. All instances. Excludes dynoName",
+                          "type": "string"
+                        },
+                        "source": {
+                          "description": "app=application, heroku=platform. Default: all",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_app_logs"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List service plans: features, pricing, availability",
+                    "inputSchema": {
+                      "properties": {
+                        "json": {
+                          "description": "JSON output with pricing, features, space compatibility. Default: text format",
+                          "type": "boolean"
+                        },
+                        "service": {
+                          "description": "Service slug (e.g., heroku-postgresql). Get from list_addon_services",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "service"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "list_addon_plans"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List available add-on services and features",
+                    "inputSchema": {
+                      "properties": {
+                        "json": {
+                          "description": "JSON output with sharing options and app generation support. Default: basic text",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_addon_services"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List add-ons: all apps or specific app, detailed metadata",
+                    "inputSchema": {
+                      "properties": {
+                        "all": {
+                          "description": "List all add-ons across accessible apps. Overrides app param, shows full status",
+                          "type": "boolean"
+                        },
+                        "app": {
+                          "description": "Filter by app name. Shows add-ons and attachments. Uses Git remote default if omitted",
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_addons"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List Heroku apps: owned, collaborator access, team/space filtering",
+                    "inputSchema": {
+                      "properties": {
+                        "all": {
+                          "description": "Show owned apps and collaborator access. Default: owned only",
+                          "type": "boolean"
+                        },
+                        "personal": {
+                          "description": "List personal account apps only, ignoring default team",
+                          "type": "boolean"
+                        },
+                        "space": {
+                          "description": "Filter by private space name. Excludes team param",
+                          "type": "string"
+                        },
+                        "team": {
+                          "description": "Filter by team name. Excludes space param",
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_apps"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Lists Heroku Private Spaces with CIDR blocks, regions, compliance and capacity details. JSON output supported.",
+                    "inputSchema": {
+                      "properties": {
+                        "json": {
+                          "description": "JSON output for detailed space metadata, text output if false/omitted",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_private_spaces"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Lists accessible Heroku Teams. Use for: viewing teams, checking membership, getting team metadata, and verifying access. JSON output available.",
+                    "inputSchema": {
+                      "properties": {
+                        "json": {
+                          "description": "Output format control - true for detailed JSON with team metadata, false/omitted for simplified text",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_teams"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Disable maintenance mode and restore normal app operations",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target Heroku app name",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "maintenance_off"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Enable maintenance mode and redirect traffic for a Heroku app",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target Heroku app name",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "maintenance_on"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Manage backups: schedules, status, verification, recovery",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target app name",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pg_backups"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Manage access: credentials, permissions, security, monitoring",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target app name",
+                          "type": "string"
+                        },
+                        "database": {
+                          "description": "Database identifier. Format: APP_NAME::DB for other apps. Default: DATABASE_URL",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pg_credentials"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "View database status: config, metrics, resources, health",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target app name",
+                          "type": "string"
+                        },
+                        "database": {
+                          "description": "Database identifier. Format: APP_NAME::DB for other apps. Default: all databases",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pg_info"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Stop processes: stuck queries, blocking transactions, runaway operations",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target app name",
+                          "type": "string"
+                        },
+                        "database": {
+                          "description": "Database identifier. Format: APP_NAME::DB for other apps. Default: DATABASE_URL",
+                          "type": "string"
+                        },
+                        "force": {
+                          "description": "Force immediate termination",
+                          "type": "boolean"
+                        },
+                        "pid": {
+                          "description": "Process ID to terminate",
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "app",
+                        "pid"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pg_kill"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Analyze locks: blocked queries, deadlocks, concurrency",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target app name",
+                          "type": "string"
+                        },
+                        "database": {
+                          "description": "Database identifier. Format: APP_NAME::DB for other apps. Default: DATABASE_URL",
+                          "type": "string"
+                        },
+                        "truncate": {
+                          "description": "Truncate queries to 40 chars",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pg_locks"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Track maintenance: windows, schedules, progress, planning",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target app name",
+                          "type": "string"
+                        },
+                        "database": {
+                          "description": "Database identifier. Format: APP_NAME::DB for other apps. Default: DATABASE_URL",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pg_maintenance"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Find resource-heavy queries: performance, patterns, optimization",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target app name",
+                          "type": "string"
+                        },
+                        "database": {
+                          "description": "Database identifier. Format: APP_NAME::DB for other apps. Default: DATABASE_URL",
+                          "type": "string"
+                        },
+                        "num": {
+                          "description": "Number of queries to show. Default: 10",
+                          "type": "number"
+                        },
+                        "reset": {
+                          "description": "Reset pg_stat_statements stats",
+                          "type": "boolean"
+                        },
+                        "truncate": {
+                          "description": "Truncate queries to 40 chars",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pg_outliers"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Monitor active queries: progress, resources, performance",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target app name",
+                          "type": "string"
+                        },
+                        "database": {
+                          "description": "Database identifier. Format: APP_NAME::DB for other apps. Default: DATABASE_URL",
+                          "type": "string"
+                        },
+                        "verbose": {
+                          "description": "Show query plan and memory usage",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pg_ps"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Execute SQL queries: analyze, debug, modify schema, manage data",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "app to run command against",
+                          "type": "string"
+                        },
+                        "command": {
+                          "description": "SQL command. Single line. Ignored if file provided",
+                          "type": "string"
+                        },
+                        "credential": {
+                          "description": "credential to use",
+                          "type": "string"
+                        },
+                        "database": {
+                          "description": "Database identifier: config var, name, ID, alias. Format: APP_NAME::DB for other apps. Default: DATABASE_URL",
+                          "type": "string"
+                        },
+                        "file": {
+                          "description": "SQL file path. Ignored if command provided",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pg_psql"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Upgrade PostgreSQL: version migration, compatibility, safety",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Target app name",
+                          "type": "string"
+                        },
+                        "confirm": {
+                          "description": "Confirmation for destructive operation",
+                          "type": "string"
+                        },
+                        "database": {
+                          "description": "Database identifier. Format: APP_NAME::DB for other apps. Default: DATABASE_URL",
+                          "type": "string"
+                        },
+                        "version": {
+                          "description": "PostgreSQL version target",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pg_upgrade"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Creates new Heroku deployment pipeline with configurable stages, apps, and team settings",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "App to add to pipeline",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Pipeline name",
+                          "type": "string"
+                        },
+                        "stage": {
+                          "description": "Initial pipeline stage",
+                          "enum": [
+                            "development",
+                            "staging",
+                            "production"
+                          ],
+                          "type": "string"
+                        },
+                        "team": {
+                          "description": "Team owning the pipeline",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "stage"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pipelines_create"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Displays detailed pipeline configuration, stages, and connected applications",
+                    "inputSchema": {
+                      "properties": {
+                        "json": {
+                          "description": "Enable JSON output",
+                          "type": "boolean"
+                        },
+                        "pipeline": {
+                          "description": "Target pipeline name",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "pipeline"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pipelines_info"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Lists accessible Heroku pipelines with ownership and configuration details",
+                    "inputSchema": {
+                      "properties": {
+                        "json": {
+                          "description": "Enable JSON output",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "pipelines_list"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Promotes apps between pipeline stages with configurable target applications",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Source app for promotion",
+                          "type": "string"
+                        },
+                        "to": {
+                          "description": "Target apps for promotion (comma-separated)",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "pipelines_promote"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List and monitor Heroku app dynos. View running dynos, check status/health, monitor process states, verify configurations.",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "App name to list processes for",
+                          "type": "string"
+                        },
+                        "json": {
+                          "description": "Output process info in JSON format",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "ps_list"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Restart Heroku app processes. Restart specific dynos, process types, or all dynos. Reset dyno states selectively.",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "App name to restart processes for",
+                          "type": "string"
+                        },
+                        "dyno-name": {
+                          "description": "Specific dyno to restart (e.g., web.1). Omit both options to restart all",
+                          "type": "string"
+                        },
+                        "process-type": {
+                          "description": "Dyno type to restart (e.g., web). Omit both options to restart all",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "ps_restart"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Scale Heroku app dynos. Adjust quantities, change sizes, view formation details, manage resources.",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "App name to scale",
+                          "type": "string"
+                        },
+                        "dyno": {
+                          "description": "Dyno type and quantity (e.g., web=3:Standard-2X, worker+1). Omit to show current formation",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "ps_scale"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Rename app: validate and update app name",
+                    "inputSchema": {
+                      "properties": {
+                        "app": {
+                          "description": "Current app name. Requires access",
+                          "type": "string"
+                        },
+                        "newName": {
+                          "description": "New unique app name",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "app",
+                        "newName"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "rename_app"
+                  }
+                ],
                 "tools": [
-                  "list_apps",
-                  "get_app_info",
-                  "create_app",
-                  "rename_app",
-                  "transfer_app",
-                  "deploy_to_heroku",
-                  "deploy_one_off_dyno",
-                  "ps_list",
-                  "ps_scale",
-                  "ps_restart",
-                  "list_addons",
-                  "get_addon_info",
                   "create_addon",
-                  "maintenance_on",
-                  "maintenance_off",
+                  "create_app",
+                  "deploy_one_off_dyno",
+                  "deploy_to_heroku",
+                  "get_addon_info",
+                  "get_app_info",
                   "get_app_logs",
-                  "pipelines_create",
-                  "pipelines_promote",
-                  "pipelines_list",
-                  "pipelines_info",
-                  "list_teams",
+                  "list_addon_plans",
+                  "list_addon_services",
+                  "list_addons",
+                  "list_apps",
                   "list_private_spaces",
-                  "pg_psql",
-                  "pg_info",
-                  "pg_ps",
-                  "pg_locks",
-                  "pg_outliers",
-                  "pg_credentials",
-                  "pg_kill",
-                  "pg_maintenance",
+                  "list_teams",
+                  "maintenance_off",
+                  "maintenance_on",
                   "pg_backups",
-                  "pg_upgrade"
+                  "pg_credentials",
+                  "pg_info",
+                  "pg_kill",
+                  "pg_locks",
+                  "pg_maintenance",
+                  "pg_outliers",
+                  "pg_ps",
+                  "pg_psql",
+                  "pg_upgrade",
+                  "pipelines_create",
+                  "pipelines_info",
+                  "pipelines_list",
+                  "pipelines_promote",
+                  "ps_list",
+                  "ps_restart",
+                  "ps_scale",
+                  "rename_app"
                 ]
               }
             }
@@ -16631,8 +17460,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/mcp-server-neon:0.6.5": {
                 "metadata": {
-                  "last_updated": "2026-03-21T02:54:11Z",
-                  "stars": 565
+                  "last_updated": "2026-04-21T03:03:50Z",
+                  "stars": 587
                 },
                 "overview": "## Neon MCP Server\n\nThe mcp-server-neon is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neon, the serverless PostgreSQL platform. It allows AI-driven workflows to inspect databases, manage branches, and reason about environments and schema state — bringing modern, branch-based database context directly into MCP-powered assistants. This server is especially useful for development, testing, preview environments, and workflows where database branching and isolation are key to rapid iteration.",
                 "permissions": {
@@ -16851,8 +17680,8 @@
             "io.github.stacklok": {
               "docker.io/mongodb/mongodb-mcp-server:1.10.0": {
                 "metadata": {
-                  "last_updated": "2026-03-21T02:54:11Z",
-                  "stars": 968
+                  "last_updated": "2026-04-21T03:03:49Z",
+                  "stars": 1004
                 },
                 "overview": "## MongoDB MCP Server\n\nThe mongodb MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with MongoDB databases through a structured, AI-friendly interface. It allows AI-driven workflows to inspect collections, query documents, and reason about schema-less data without switching tools or embedding MongoDB-specific drivers in the client. This server is especially useful for application development, data exploration, debugging, and analytics workflows where MongoDB is the primary data store.",
                 "permissions": {
@@ -22879,8 +23708,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/onchain-mcp:1.0.6": {
                 "metadata": {
-                  "last_updated": "2026-03-20T02:58:12Z",
-                  "stars": 74
+                  "last_updated": "2026-04-20T03:04:29Z",
+                  "stars": 78
                 },
                 "overview": "## Onchain MCP Server\n\nThe onchain-mcp server is a Model Context Protocol (MCP) server for blockchain data interaction through the Bankless API, enabling seamless access to Ethereum and Web3 data. Key capabilities include comprehensive blockchain data access through Bankless API integration, smart contract interaction including reading contracts, ABIs, and source code, transaction and event monitoring with historical data access, and token balance queries and block information retrieval across Ethereum networks.",
                 "permissions": {
@@ -29127,8 +29956,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/perplexity-ask:latest": {
                 "metadata": {
-                  "last_updated": "2026-03-19T03:02:51Z",
-                  "stars": 2029
+                  "last_updated": "2026-04-19T03:04:12Z",
+                  "stars": 2092
                 },
                 "overview": "## Perplexity Ask MCP Server\n\nThe perplexity-ask MCP server integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks. The server provides three specialized tools: perplexity_ask for quick web search using the Sonar API, perplexity_research for comprehensive research with detailed citations, and perplexity_reason for advanced reasoning for complex problem-solving.",
                 "permissions": {
