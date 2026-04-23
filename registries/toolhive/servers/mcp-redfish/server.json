@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/nokia/mcp-redfish:0.3.7": {
           "metadata": {
-            "last_updated": "2026-04-17T18:53:57Z",
+            "last_updated": "2026-04-23T14:50:59Z",
             "stars": 6
           },
           "overview": "## Redfish MCP Server\n\nThe mcp-redfish server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with systems that expose the Redfish API, the industry-standard RESTful interface for out-of-band hardware management. It allows AI-driven workflows to inspect server hardware, firmware, power state, and health information without switching tools or manually navigating vendor-specific management consoles. This server is especially useful for data center operations, hardware monitoring, infrastructure troubleshooting, and AI-assisted systems management workflows.",
@@ -21,10 +21,11 @@
           "tool_definitions": [
             {
               "annotations": {},
-              "description": "Given a Redfish resource URL (e.g., 'https://\u003cserver address\u003e/redfish/v1'), fetches and returns its data as JSON.\nTo construct a valid Redfish resource URL as input, use the following url schema 'https://\u003cserver address\u003e/redfish/v1/\u003cresource path\u003e'.\n\nArgs:\n    url (str): The Redfish URL to access the resource.\n\nReturns:\n    dict: A JSON document containing:\n        - \"headers\": Response headers including Allow, Content-Type, Content-Encoding (optional), ETag, and Link\n        - \"data\": The actual resource data in JSON format\n    Returns an error message if the URL is invalid.",
+              "description": "Given a Redfish resource URL (e.g., 'https://\u003cserver address\u003e/redfish/v1'), fetches and returns its data as JSON.\nTo construct a valid Redfish resource URL as input, use the following url schema 'https://\u003cserver address\u003e/redfish/v1/\u003cresource path\u003e'.",
               "inputSchema": {
                 "properties": {
                   "url": {
+                    "description": "The Redfish URL to access the resource.",
                     "type": "string"
                   }
                 },
