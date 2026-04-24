@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-04-22T00:53:22Z"
+    "last_updated": "2026-04-24T00:58:05Z"
   },
   "data": {
     "servers": [
@@ -662,7 +662,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.20",
+            "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.21",
             "transport": {
               "type": "stdio"
             },
@@ -683,7 +683,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.20": {
+              "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.21": {
                 "metadata": {
                   "last_updated": "2026-04-15T20:27:17Z",
                   "stars": 8776
@@ -6208,7 +6208,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.20.0",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.22.0",
             "transport": {
               "type": "stdio"
             }
@@ -6217,9 +6217,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.20.0": {
+              "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.22.0": {
                 "metadata": {
-                  "last_updated": "2026-04-12T03:04:11Z",
+                  "last_updated": "2026-04-22T05:26:25Z",
                   "stars": 34184
                 },
                 "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
@@ -6351,7 +6351,7 @@
                           "type": "number"
                         },
                         "geolocation": {
-                          "description": "Geolocation (`\u003clatitude\u003ex\u003clongitude\u003e`) to emulate. Latitude between -90 and 90. Longitude between -180 and 180. Omit clear the geolocation override.",
+                          "description": "Geolocation (`\u003clatitude\u003ex\u003clongitude\u003e`) to emulate. Latitude between -90 and 90. Longitude between -180 and 180. Omit to clear the geolocation override.",
                           "type": "string"
                         },
                         "networkConditions": {
@@ -6394,6 +6394,10 @@
                           },
                           "type": "array"
                         },
+                        "dialogAction": {
+                          "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+                          "type": "string"
+                        },
                         "function": {
                           "description": "A JavaScript function declaration to be executed by the tool in the currently selected page.\nExample without arguments: `() =\u003e {\n  return document.title\n}` or `async () =\u003e {\n  return await fetch(\"example.com\")\n}`.\nExample with arguments: `(el) =\u003e {\n  return el.innerText;\n}`\n",
                           "type": "string"
@@ -6410,7 +6414,7 @@
                     "annotations": {
                       "readOnlyHint": false
                     },
-                    "description": "Type text into a input, text area or select an option from a \u003cselect\u003e element.",
+                    "description": "Type text into an input, text area or select an option from a \u003cselect\u003e element.",
                     "inputSchema": {
                       "properties": {
                         "includeSnapshot": {
@@ -6506,11 +6510,11 @@
                           "type": "number"
                         },
                         "requestFilePath": {
-                          "description": "The absolute or relative path to save the request body to. If omitted, the body is returned inline.",
+                          "description": "The absolute or relative path to a .network-request file to save the request body to. If omitted, the body is returned inline.",
                           "type": "string"
                         },
                         "responseFilePath": {
-                          "description": "The absolute or relative path to save the response body to. If omitted, the body is returned inline.",
+                          "description": "The absolute or relative path to a .network-response file to save the response body to. If omitted, the body is returned inline.",
                           "type": "string"
                         }
                       },
@@ -6571,7 +6575,7 @@
                   },
                   {
                     "annotations": {
-                      "readOnlyHint": true
+                      "readOnlyHint": false
                     },
                     "description": "Get Lighthouse score and reports for accessibility, SEO and best practices. This excludes performance. For performance audits, run performance_start_trace",
                     "inputSchema": {
@@ -6622,7 +6626,7 @@
                           "type": "integer"
                         },
                         "pageSize": {
-                          "description": "Maximum number of messages to return. When omitted, returns all requests.",
+                          "description": "Maximum number of messages to return. When omitted, returns all messages.",
                           "exclusiveMinimum": 0,
                           "type": "integer"
                         },
@@ -6721,7 +6725,7 @@
                     "annotations": {
                       "readOnlyHint": true
                     },
-                    "description": "Get a list of pages  open in the browser.",
+                    "description": "Get a list of pages open in the browser.",
                     "inputSchema": {
                       "properties": {},
                       "required": [],
@@ -6947,9 +6951,9 @@
                   },
                   {
                     "annotations": {
-                      "readOnlyHint": true
+                      "readOnlyHint": false
                     },
-                    "description": "Capture a memory heapsnapshot of the currently selected page to memory leak debugging",
+                    "description": "Capture a heap snapshot of the currently selected page. Use to analyze the memory distribution of JavaScript objects and debug memory leaks.",
                     "inputSchema": {
                       "properties": {
                         "filePath": {
@@ -6996,7 +7000,7 @@
                           "type": "number"
                         },
                         "uid": {
-                          "description": "The uid of an element on the page from the page content snapshot. If omitted takes a pages screenshot.",
+                          "description": "The uid of an element on the page from the page content snapshot. If omitted, takes a page screenshot.",
                           "type": "string"
                         }
                       },
@@ -13618,7 +13622,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.2.0",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.2.1",
             "transport": {
               "type": "stdio"
             },
@@ -13640,9 +13644,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.2.0": {
+              "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.2.1": {
                 "metadata": {
-                  "last_updated": "2026-04-21T09:50:53Z",
+                  "last_updated": "2026-04-21T23:55:31Z",
                   "stars": 77
                 },
                 "overview": "## Heroku MCP Server\n\nThe heroku-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the Heroku platform through a structured, AI-friendly interface. It allows AI-driven workflows to inspect applications, manage deployments, review configuration, and reason about runtime behavior without switching tools or manually using the Heroku CLI or dashboard. Key capabilities include application lifecycle management, deployment workflows, runtime insight for dynos and process scaling, and operational visibility through logs and platform metadata.",
@@ -14895,7 +14899,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.6.0",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.6.1",
             "transport": {
               "type": "stdio"
             },
@@ -14912,7 +14916,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.6.0": {
+              "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.6.1": {
                 "metadata": {
                   "last_updated": "2026-04-15T20:27:18Z",
                   "stars": 20
@@ -16687,7 +16691,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.14.2",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.15.1",
             "transport": {
               "type": "stdio"
             },
@@ -16713,9 +16717,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.14.2": {
+              "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.15.1": {
                 "metadata": {
-                  "last_updated": "2026-04-11T03:02:36Z",
+                  "last_updated": "2026-04-22T07:20:01Z",
                   "stars": 82
                 },
                 "overview": "## CircleCI MCP Server\n\nThe mcp-server-circleci is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with CircleCI, the continuous integration and delivery platform. It allows AI-driven workflows to inspect pipelines, jobs, workflows, and build results — bringing CI/CD context directly into conversational and automated AI workflows without switching tools. This server is especially useful for build monitoring, failure analysis, release workflows, and developer productivity scenarios where understanding CI state and history is critical.",
@@ -16949,8 +16953,18 @@
                           "additionalProperties": false,
                           "properties": {
                             "csvFilePath": {
-                              "description": "The path to the usage data CSV file to analyze.",
-                              "type": "string"
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "type": "array"
+                                }
+                              ],
+                              "description": "Path to a usage data CSV file, or an array of paths to multiple part files to analyze together."
                             },
                             "threshold": {
                               "default": 40,
@@ -17087,6 +17101,43 @@
                       "type": "object"
                     },
                     "name": "get_latest_pipeline_status"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\n    This tool retrieves the list of artifacts produced by a CircleCI job.\n\n    Common use cases:\n    - List all artifacts generated by a specific job\n    - Find download URLs for build artifacts (binaries, reports, logs, etc.)\n    - Check what artifacts were produced by a pipeline run\n\n    Input options (EXACTLY ONE of these THREE options must be used):\n\n    Option 1 - Project Slug and branch (BOTH required):\n    - projectSlug: The project slug obtained from listFollowedProjects tool (e.g., \"gh/organization/project\")\n    - branch: The name of the branch (required when using projectSlug)\n\n    Option 2 - Direct URL (provide ONE of these):\n    - projectURL: The URL of the CircleCI job in any of these formats:\n      * Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/789\n      * Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n      * Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n\n    Option 3 - Project Detection (ALL of these must be provided together):\n    - workspaceRoot: The absolute path to the workspace root\n    - gitRemoteURL: The URL of the git remote repository\n    - branch: The name of the current branch\n\n    Additional Requirements:\n    - Never call this tool with incomplete parameters\n    - If using Option 1, make sure to extract the projectSlug exactly as provided by listFollowedProjects and include the branch parameter\n    - If using Option 2, the URL MUST be provided by the user - do not attempt to construct or guess URLs\n    - If using Option 3, ALL THREE parameters (workspaceRoot, gitRemoteURL, branch) must be provided\n    - If none of the options can be fully satisfied, ask the user for the missing information before making the tool call\n    ",
+                    "inputSchema": {
+                      "properties": {
+                        "params": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "branch": {
+                              "description": "The name of the branch currently checked out in local workspace. This should match local git branch. For example: \"feature/my-branch\", \"bugfix/123\", \"main\", \"master\" etc.",
+                              "type": "string"
+                            },
+                            "gitRemoteURL": {
+                              "description": "The URL of the remote git repository. This should be the URL of the repository that you cloned to your local workspace. For example: \"https://github.com/user/my-project.git\"",
+                              "type": "string"
+                            },
+                            "projectSlug": {
+                              "description": "The project slug from listFollowedProjects tool (e.g., \"gh/organization/project\"). When using this option, branch must also be provided.",
+                              "type": "string"
+                            },
+                            "projectURL": {
+                              "description": "The URL of the CircleCI project. Can be any of these formats:\n- Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/789\n- Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n- Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123",
+                              "type": "string"
+                            },
+                            "workspaceRoot": {
+                              "description": "The absolute path to the root directory of your project workspace. This should be the top-level folder containing your source code, configuration files, and dependencies. For example: \"/home/user/my-project\" or \"C:\\Users\\user\\my-project\"",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_artifacts"
                   },
                   {
                     "annotations": {},
@@ -17406,6 +17457,7 @@
                   "get_build_failure_logs",
                   "get_job_test_results",
                   "get_latest_pipeline_status",
+                  "list_artifacts",
                   "list_component_versions",
                   "list_followed_projects",
                   "recommend_prompt_template_tests",
@@ -30115,7 +30167,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:3.1.3",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:4.0.6",
             "transport": {
               "type": "stdio"
             },
@@ -30136,9 +30188,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:3.1.3": {
+              "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:4.0.6": {
                 "metadata": {
-                  "last_updated": "2026-04-17T03:04:13Z",
+                  "last_updated": "2026-04-22T07:20:53Z",
                   "stars": 9311
                 },
                 "overview": "## Phoenix MCP Server\n\nThe phoenix MCP server is a Model Context Protocol (MCP) server for the Arize Phoenix observability platform. It provides AI assistants with programmatic access to Arize Phoenix, enabling dataset and experiment management for LLM evaluation workflows, prompt version control and tagging for LLM application development, span and trace querying for observability and debugging, and project-based organization for managing multiple Phoenix instances.",
@@ -30169,10 +30221,10 @@
                 "tool_definitions": [
                   {
                     "annotations": {},
-                    "description": "Add examples to an existing dataset.\n\nThis tool adds one or more examples to an existing dataset. Each example includes an input,\noutput, and metadata. The metadata will automatically include information indicating that\nthese examples were synthetically generated via MCP. When calling this tool, check existing\nexamples using the \"get-dataset-examples\" tool to ensure that you are not adding duplicate\nexamples and following existing patterns for how data should be structured.\n\nExample usage:\n  Look at the analyze \"my-dataset\" and augment them with new examples to cover relevant edge cases\n\nExpected return:\n  Confirmation of successful addition of examples to the dataset.\n  Example: {\n    \"dataset_name\": \"my-dataset\",\n    \"message\": \"Successfully added examples to dataset\"\n  }",
+                    "description": "Add examples to an existing dataset.\n\nThis tool adds one or more examples to an existing dataset. Each example includes an input,\noutput, and metadata. The metadata will automatically include information indicating that\nthese examples were synthetically generated via MCP. When calling this tool, check existing\nexamples using the \"get-dataset-examples\" tool to ensure that you are not adding duplicate\nexamples and following existing patterns for how data should be structured.\n\nExample usage:\n  Look at the analyze \"my-dataset\" and augment them with new examples to cover relevant edge cases\n\nExpected return:\n  Confirmation of successful addition of examples to the dataset.",
                     "inputSchema": {
                       "properties": {
-                        "datasetName": {
+                        "dataset_name": {
                           "type": "string"
                         },
                         "examples": {
@@ -30210,7 +30262,7 @@
                         }
                       },
                       "required": [
-                        "datasetName",
+                        "dataset_name",
                         "examples"
                       ],
                       "type": "object"
@@ -30219,7 +30271,7 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Add a tag to a specific prompt version. The operation returns no content on success (204 status code).\n\nExample usage: \n  Tag prompt version 'promptversionid1234' with the name 'production'\n\nExpected return: \n  Confirmation message of successful tag addition",
+                    "description": "Add a tag to a specific prompt version. The operation returns no content on success (204 status code).\n\nExample usage:\n  Tag prompt version 'promptversionid1234' with the name 'production'\n\nExpected return:\n  Confirmation message of successful tag addition",
                     "inputSchema": {
                       "properties": {
                         "description": {
@@ -30242,39 +30294,73 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Get examples from a dataset.\n\nDataset examples are an array of objects that each include an input, \n(expected) output, and optional metadata. These examples are typically used to represent \ninput to an application or model (e.g. prompt template variables, a code file, or image) \nand used to test or benchmark changes.\n\nExample usage:\n  Show me all examples from dataset RGF0YXNldDox\n\nExpected return:\n  Object containing dataset ID, version ID, and array of examples.\n  Example: {\n    \"dataset_id\": \"datasetid1234\",\n    \"version_id\": \"datasetversionid1234\",\n    \"examples\": [\n      {\n        \"id\": \"exampleid1234\",\n        \"input\": {\n          \"text\": \"Sample input text\"\n        },\n        \"output\": {\n          \"text\": \"Expected output text\"\n        },\n        \"metadata\": {},\n        \"updated_at\": \"YYYY-MM-DDTHH:mm:ssZ\"\n      }\n    ]\n  }",
+                    "description": "Get dataset metadata by name or ID.\n\nExample usage:\n  Show me the dataset \"my-dataset\"\n\nExpected return:\n  A dataset object with metadata and version information.",
                     "inputSchema": {
                       "properties": {
-                        "datasetId": {
+                        "dataset_id": {
+                          "type": "string"
+                        },
+                        "dataset_name": {
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "datasetId"
-                      ],
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "get-dataset"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Get examples from a dataset.\n\nDataset examples are an array of objects that each include an input,\n(expected) output, and optional metadata. These examples are typically used to represent\ninput to an application or model (e.g. prompt template variables, a code file, or image)\nand used to test or benchmark changes.\n\nExample usage:\n  Show me all examples from dataset RGF0YXNldDox\n\nExpected return:\n  Object containing dataset ID, version ID, and array of examples.",
+                    "inputSchema": {
+                      "properties": {
+                        "dataset_id": {
+                          "type": "string"
+                        },
+                        "dataset_name": {
+                          "type": "string"
+                        },
+                        "splits": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "version_id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
                       "type": "object"
                     },
                     "name": "get-dataset-examples"
                   },
                   {
                     "annotations": {},
-                    "description": "List experiments run on a dataset.\n\nExample usage:\n  Show me all experiments run on dataset RGF0YXNldDox\n\nExpected return:\n  Array of experiment objects with metadata.\n  Example: [\n    {\n      \"id\": \"experimentid1234\",\n      \"dataset_id\": \"datasetid1234\",\n      \"dataset_version_id\": \"datasetversionid1234\",\n      \"repetitions\": 1,\n      \"metadata\": {},\n      \"project_name\": \"Experiment-abc123\",\n      \"created_at\": \"YYYY-MM-DDTHH:mm:ssZ\",\n      \"updated_at\": \"YYYY-MM-DDTHH:mm:ssZ\"\n    }\n  ]",
+                    "description": "List experiments run on a dataset.\n\nExample usage:\n  Show me all experiments run on dataset RGF0YXNldDox\n\nExpected return:\n  Array of experiment objects with metadata.",
                     "inputSchema": {
                       "properties": {
-                        "datasetId": {
+                        "dataset_id": {
                           "type": "string"
+                        },
+                        "dataset_name": {
+                          "type": "string"
+                        },
+                        "limit": {
+                          "default": 100,
+                          "maximum": 500,
+                          "minimum": 1,
+                          "type": "number"
                         }
                       },
-                      "required": [
-                        "datasetId"
-                      ],
+                      "required": [],
                       "type": "object"
                     },
                     "name": "get-dataset-experiments"
                   },
                   {
                     "annotations": {},
-                    "description": "Get an experiment by its ID.\n\nThe tool returns experiment metadata in the first content block and a JSON object with the \nexperiment data in the second. The experiment data contains both the results of each \nexperiment run and the annotations made by an evaluator to score or label the results, \nfor example, comparing the output of an experiment run to the expected output from the \ndataset example.\n\nExample usage:\n  Show me the experiment results for experiment RXhwZXJpbWVudDo4\n\nExpected return:\n  Object containing experiment metadata and results.\n  Example: {\n    \"metadata\": {\n      \"id\": \"experimentid1234\",\n      \"dataset_id\": \"datasetid1234\",\n      \"dataset_version_id\": \"datasetversionid1234\",\n      \"repetitions\": 1,\n      \"metadata\": {},\n      \"project_name\": \"Experiment-abc123\",\n      \"created_at\": \"YYYY-MM-DDTHH:mm:ssZ\",\n      \"updated_at\": \"YYYY-MM-DDTHH:mm:ssZ\"\n    },\n    \"experimentResult\": [\n      {\n        \"example_id\": \"exampleid1234\",\n        \"repetition_number\": 0,\n        \"input\": \"Sample input text\",\n        \"reference_output\": \"Expected output text\",\n        \"output\": \"Actual output text\",\n        \"error\": null,\n        \"latency_ms\": 1000,\n        \"start_time\": \"2025-03-20T12:00:00Z\",\n        \"end_time\": \"2025-03-20T12:00:01Z\",\n        \"trace_id\": \"trace-123\",\n        \"prompt_token_count\": 10,\n        \"completion_token_count\": 20,\n        \"annotations\": [\n          {\n            \"name\": \"quality\",\n            \"annotator_kind\": \"HUMAN\",\n            \"label\": \"good\",\n            \"score\": 0.9,\n            \"explanation\": \"Output matches expected format\",\n            \"trace_id\": \"trace-456\",\n            \"error\": null,\n            \"metadata\": {},\n            \"start_time\": \"YYYY-MM-DDTHH:mm:ssZ\",\n            \"end_time\": \"YYYY-MM-DDTHH:mm:ssZ\"\n          }\n        ]\n      }\n    ]\n  }",
+                    "description": "Get an experiment by its ID.\n\nThe tool returns experiment metadata in the first content block and a JSON object with the\nexperiment data in the second. The experiment data contains both the results of each\nexperiment run and the annotations made by an evaluator to score or label the results,\nfor example, comparing the output of an experiment run to the expected output from the\ndataset example.\n\nExample usage:\n  Show me the experiment results for experiment RXhwZXJpbWVudDo4\n\nExpected return:\n  Object containing experiment metadata and results.",
                     "inputSchema": {
                       "properties": {
                         "experiment_id": {
@@ -30290,7 +30376,7 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Get the latest version of a prompt. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage: \n  Get the latest version of a prompt named 'article-summarizer'\n\nExpected return: \n  Prompt version object with template and configuration. \n  Example: {\n    \"description\": \"Initial version\",\n    \"model_provider\": \"OPENAI\",\n    \"model_name\": \"gpt-3.5-turbo\",\n    \"template\": {\n      \"type\": \"chat\",\n      \"messages\": [\n        {\n          \"role\": \"system\",\n          \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n        },\n        {\n          \"role\": \"user\",\n          \"content\": \"Please summarize the following {{topic}} article:\n\n{{article}}\"\n        }\n      ]\n    },\n    \"template_type\": \"CHAT\",\n    \"template_format\": \"MUSTACHE\",\n    \"invocation_parameters\": {\n      \"type\": \"openai\",\n      \"openai\": {}\n    },\n    \"id\": \"promptversionid1234\"\n  }",
+                    "description": "Get the latest version of a prompt. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage:\n  Get the latest version of a prompt named 'article-summarizer'\n\nExpected return:\n  Prompt version object with template and configuration.\n  Example: {\n    \"description\": \"Initial version\",\n    \"model_provider\": \"OPENAI\",\n    \"model_name\": \"gpt-3.5-turbo\",\n    \"template\": {\n      \"type\": \"chat\",\n      \"messages\": [\n        {\n          \"role\": \"system\",\n          \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n        },\n        {\n          \"role\": \"user\",\n          \"content\": \"Please summarize the following {{topic}} article:\\n\\n{{article}}\"\n        }\n      ]\n    },\n    \"template_type\": \"CHAT\",\n    \"template_format\": \"MUSTACHE\",\n    \"invocation_parameters\": {\n      \"type\": \"openai\",\n      \"openai\": {}\n    },\n    \"id\": \"promptversionid1234\"\n  }",
                     "inputSchema": {
                       "properties": {
                         "prompt_identifier": {
@@ -30306,7 +30392,45 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Get a prompt's latest version by its identifier (name or ID). Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage: \n  Get the latest version of a prompt with name 'article-summarizer'\n\nExpected return: \n  Prompt version object with template and configuration. \n    Example: {\n      \"description\": \"Initial version\",\n      \"model_provider\": \"OPENAI\",\n      \"model_name\": \"gpt-3.5-turbo\",\n      \"template\": {\n        \"type\": \"chat\",\n        \"messages\": [\n          {\n            \"role\": \"system\",\n            \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n          },\n          {\n            \"role\": \"user\",\n            \"content\": \"Please summarize the following {{topic}} article:\n\n{{article}}\"\n          }\n        ]\n      },\n      \"template_type\": \"CHAT\",\n      \"template_format\": \"MUSTACHE\",\n      \"invocation_parameters\": {\n        \"type\": \"openai\",\n        \"openai\": {}\n      },\n      \"id\": \"promptversionid1234\"\n    }",
+                    "description": "Get a project by name or ID.\n\nExample usage:\n  Show me the project \"default\"\n\nExpected return:\n  A single project object with metadata.",
+                    "inputSchema": {
+                      "properties": {
+                        "project_identifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "project_identifier"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get-project"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Get a prompt using a single MCP-native interface.\n\nProvide a prompt identifier to fetch the latest version, or add a tag or versionId to select a specific version.\n\nExample usage:\n  Get prompt \"article-summarizer\"\n  Get prompt \"article-summarizer\" with tag \"production\"\n  Get prompt \"article-summarizer\" using version \"promptversionid1234\"\n\nExpected return:\n  Prompt version object with template and configuration.",
+                    "inputSchema": {
+                      "properties": {
+                        "prompt_identifier": {
+                          "type": "string"
+                        },
+                        "tag": {
+                          "type": "string"
+                        },
+                        "version_id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "prompt_identifier"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get-prompt"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Get a prompt's latest version by its identifier (name or ID). Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage:\n  Get the latest version of a prompt with name 'article-summarizer'\n\nExpected return:\n  Prompt version object with template and configuration.",
                     "inputSchema": {
                       "properties": {
                         "prompt_identifier": {
@@ -30322,7 +30446,7 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Get a specific version of a prompt using its version ID. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage: \n  Get a specific prompt version with ID 'promptversionid1234'\n\nExpected return: \n  Prompt version object with template and configuration. \n  Example: {\n    \"description\": \"Initial version\",\n    \"model_provider\": \"OPENAI\",\n    \"model_name\": \"gpt-3.5-turbo\",\n    \"template\": {\n      \"type\": \"chat\",\n      \"messages\": [\n        {\n          \"role\": \"system\",\n          \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n        },\n        {\n          \"role\": \"user\",\n          \"content\": \"Please summarize the following {{topic}} article:\n\n{{article}}\"\n        }\n      ]\n    },\n    \"template_type\": \"CHAT\",\n    \"template_format\": \"MUSTACHE\",\n    \"invocation_parameters\": {\n      \"type\": \"openai\",\n      \"openai\": {}\n    },\n    \"id\": \"promptversionid1234\"\n  }",
+                    "description": "Get a specific version of a prompt using its version ID. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage:\n  Get a specific prompt version with ID 'promptversionid1234'\n\nExpected return:\n  Prompt version object with template and configuration.",
                     "inputSchema": {
                       "properties": {
                         "prompt_version_id": {
@@ -30338,7 +30462,7 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Get a prompt version by its tag name. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage: \n  Get the 'production' tagged version of prompt 'article-summarizer'\n\nExpected return: \n  Prompt version object with template and configuration. \n  Example: {\n      \"description\": \"Initial version\",\n      \"model_provider\": \"OPENAI\",\n      \"model_name\": \"gpt-3.5-turbo\",\n      \"template\": {\n        \"type\": \"chat\",\n        \"messages\": [\n          {\n            \"role\": \"system\",\n            \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n          },\n          {\n            \"role\": \"user\",\n            \"content\": \"Please summarize the following {{topic}} article:\n\n{{article}}\"\n          }\n        ]\n      },\n      \"template_type\": \"CHAT\",\n      \"template_format\": \"MUSTACHE\",\n      \"invocation_parameters\": {\n        \"type\": \"openai\",\n        \"openai\": {}\n      },\n      \"id\": \"promptversionid1234\"\n    }",
+                    "description": "Get a prompt version by its tag name. Returns the prompt version with its template, model configuration, and invocation parameters.\n\nExample usage:\n  Get the 'production' tagged version of prompt 'article-summarizer'\n\nExpected return:\n  Prompt version object with template and configuration.",
                     "inputSchema": {
                       "properties": {
                         "prompt_identifier": {
@@ -30358,19 +30482,39 @@
                   },
                   {
                     "annotations": {},
+                    "description": "Get a single session by GlobalID or user-provided session_id.\n\nExample usage:\n  Show me session \"chat-123\"\n\nExpected return:\n  A session object and, optionally, its annotations.",
+                    "inputSchema": {
+                      "properties": {
+                        "include_annotations": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "session_identifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "session_identifier"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get-session"
+                  },
+                  {
+                    "annotations": {},
                     "description": "Get span annotations for a list of span IDs.\n\nSpan annotations provide additional metadata, scores, or labels for spans. They can be created\nby humans, LLMs, or code and help in analyzing and categorizing spans.\n\nExample usage:\n  Get annotations for spans [\"span1\", \"span2\"] from project \"my-project\"\n  Get quality score annotations for span \"span1\" from project \"my-project\"\n\nExpected return:\n  Object containing annotations array and optional next cursor for pagination.\n  Example: {\n    \"annotations\": [\n      {\n        \"id\": \"annotation123\",\n        \"span_id\": \"span1\",\n        \"name\": \"quality_score\",\n        \"result\": {\n          \"label\": \"good\",\n          \"score\": 0.95,\n          \"explanation\": null\n        },\n        \"annotator_kind\": \"LLM\",\n        \"metadata\": {\n          \"model\": \"gpt-4\"\n        }\n      }\n    ],\n    \"nextCursor\": \"cursor_for_pagination\"\n  }",
                     "inputSchema": {
                       "properties": {
                         "cursor": {
                           "type": "string"
                         },
-                        "excludeAnnotationNames": {
+                        "exclude_annotation_names": {
                           "items": {
                             "type": "string"
                           },
                           "type": "array"
                         },
-                        "includeAnnotationNames": {
+                        "include_annotation_names": {
                           "items": {
                             "type": "string"
                           },
@@ -30382,10 +30526,10 @@
                           "minimum": 1,
                           "type": "number"
                         },
-                        "projectName": {
+                        "project_identifier": {
                           "type": "string"
                         },
-                        "spanIds": {
+                        "span_ids": {
                           "items": {
                             "type": "string"
                           },
@@ -30393,8 +30537,7 @@
                         }
                       },
                       "required": [
-                        "projectName",
-                        "spanIds"
+                        "span_ids"
                       ],
                       "type": "object"
                     },
@@ -30408,8 +30551,12 @@
                         "cursor": {
                           "type": "string"
                         },
-                        "endTime": {
+                        "end_time": {
                           "type": "string"
+                        },
+                        "include_annotations": {
+                          "default": false,
+                          "type": "boolean"
                         },
                         "limit": {
                           "default": 100,
@@ -30417,34 +30564,105 @@
                           "minimum": 1,
                           "type": "number"
                         },
-                        "projectName": {
+                        "names": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "parent_id": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "project_identifier": {
                           "type": "string"
                         },
-                        "startTime": {
+                        "span_kinds": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "start_time": {
                           "type": "string"
                         },
-                        "traceIds": {
+                        "status_codes": {
+                          "items": {
+                            "enum": [
+                              "OK",
+                              "ERROR",
+                              "UNSET"
+                            ],
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "trace_ids": {
                           "items": {
                             "type": "string"
                           },
                           "type": "array"
                         }
                       },
-                      "required": [
-                        "projectName"
-                      ],
+                      "required": [],
                       "type": "object"
                     },
                     "name": "get-spans"
                   },
                   {
                     "annotations": {},
-                    "description": "Get a list of all datasets.\n\nDatasets are collections of 'dataset examples' that each example includes an input, \n(expected) output, and optional metadata. They are primarily used as inputs for experiments.\n\nExample usage:\n  Show me all available datasets\n\nExpected return:\n  Array of dataset objects with metadata.\n  Example: [\n    {\n      \"id\": \"RGF0YXNldDox\",\n      \"name\": \"my-dataset\",\n      \"description\": \"A dataset for testing\",\n      \"metadata\": {},\n      \"created_at\": \"2024-03-20T12:00:00Z\",\n      \"updated_at\": \"2024-03-20T12:00:00Z\"\n    }\n  ]",
+                    "description": "Get a single trace by its exact trace ID within a project.\n\nExample usage:\n  Show me trace \"abc123def456\" from project \"default\"\n\nExpected return:\n  A trace object with all spans that belong to the trace.",
+                    "inputSchema": {
+                      "properties": {
+                        "include_annotations": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "project_identifier": {
+                          "type": "string"
+                        },
+                        "trace_id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "trace_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get-trace"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List Phoenix annotation configs.\n\nAnnotation configs define the available human or automated labels, scores, and freeform annotation types.\n\nExample usage:\n  Show me all annotation configs\n\nExpected return:\n  Array of annotation config objects.",
                     "inputSchema": {
                       "properties": {
                         "limit": {
                           "default": 100,
-                          "maximum": 100,
+                          "maximum": 500,
+                          "minimum": 1,
+                          "type": "number"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list-annotation-configs"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Get a list of all datasets.\n\nDatasets are collections of 'dataset examples' that each example includes an input,\n(expected) output, and optional metadata. They are primarily used as inputs for experiments.\n\nExample usage:\n  Show me all available datasets\n\nExpected return:\n  Array of dataset objects with metadata.\n  Example: [\n    {\n      \"id\": \"RGF0YXNldDox\",\n      \"name\": \"my-dataset\",\n      \"description\": \"A dataset for testing\",\n      \"metadata\": {},\n      \"created_at\": \"2024-03-20T12:00:00Z\",\n      \"updated_at\": \"2024-03-20T12:00:00Z\"\n    }\n  ]",
+                    "inputSchema": {
+                      "properties": {
+                        "limit": {
+                          "default": 100,
+                          "maximum": 500,
                           "minimum": 1,
                           "type": "number"
                         }
@@ -30456,35 +30674,42 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Get a list of all the experiments run on a given dataset.\n\nExperiments are collections of experiment runs, each experiment run corresponds to a single \ndataset example. The dataset example is passed to an implied `task` which in turn \nproduces an output.\n\nExample usage:\n  Show me all the experiments I've run on dataset RGF0YXNldDox\n\nExpected return:\n  Array of experiment objects with metadata. \n  Example: [\n    {\n      \"id\": \"experimentid1234\",\n      \"dataset_id\": \"datasetid1234\",\n      \"dataset_version_id\": \"datasetversionid1234\",\n      \"repetitions\": 1,\n      \"metadata\": {},\n      \"project_name\": \"Experiment-abc123\",\n      \"created_at\": \"YYYY-MM-DDTHH:mm:ssZ\",\n      \"updated_at\": \"YYYY-MM-DDTHH:mm:ssZ\"\n    }\n  ]",
+                    "description": "Get a list of all the experiments run on a given dataset.\n\nExperiments are collections of experiment runs, each experiment run corresponds to a single\ndataset example. The dataset example is passed to an implied `task` which in turn\nproduces an output.\n\nExample usage:\n  Show me all the experiments I've run on dataset RGF0YXNldDox\n\nExpected return:\n  Array of experiment objects with metadata.\n  Example: [\n    {\n      \"id\": \"experimentid1234\",\n      \"dataset_id\": \"datasetid1234\",\n      \"dataset_version_id\": \"datasetversionid1234\",\n      \"repetitions\": 1,\n      \"metadata\": {},\n      \"project_name\": \"Experiment-abc123\",\n      \"created_at\": \"YYYY-MM-DDTHH:mm:ssZ\",\n      \"updated_at\": \"YYYY-MM-DDTHH:mm:ssZ\"\n    }\n  ]",
                     "inputSchema": {
                       "properties": {
                         "dataset_id": {
                           "type": "string"
+                        },
+                        "dataset_name": {
+                          "type": "string"
+                        },
+                        "limit": {
+                          "default": 100,
+                          "maximum": 500,
+                          "minimum": 1,
+                          "type": "number"
                         }
                       },
-                      "required": [
-                        "dataset_id"
-                      ],
+                      "required": [],
                       "type": "object"
                     },
                     "name": "list-experiments-for-dataset"
                   },
                   {
                     "annotations": {},
-                    "description": "Get a list of all projects.\n\nProjects are containers for organizing traces, spans, and other observability data. \nEach project has a unique name and can contain traces from different applications or experiments.\n\nExample usage:\n  Show me all available projects\n\nExpected return:\n  Array of project objects with metadata.\n  Example: [\n    {\n      \"id\": \"UHJvamVjdDox\",\n      \"name\": \"default\",\n      \"description\": \"Default project for traces\"\n    },\n    {\n      \"id\": \"UHJvamVjdDoy\", \n      \"name\": \"my-experiment\",\n      \"description\": \"Project for my ML experiment\"\n    }\n  ]",
+                    "description": "Get a list of all projects.\n\nProjects are containers for organizing traces, spans, and other observability data.\nEach project has a unique name and can contain traces from different applications or experiments.\n\nExample usage:\n  Show me all available projects\n\nExpected return:\n  Array of project objects with metadata.\n  Example: [\n    {\n      \"id\": \"UHJvamVjdDox\",\n      \"name\": \"default\",\n      \"description\": \"Default project for traces\"\n    },\n    {\n      \"id\": \"UHJvamVjdDoy\",\n      \"name\": \"my-experiment\",\n      \"description\": \"Project for my ML experiment\"\n    }\n  ]",
                     "inputSchema": {
                       "properties": {
                         "cursor": {
                           "type": "string"
                         },
-                        "includeExperimentProjects": {
+                        "include_experiment_projects": {
                           "default": false,
                           "type": "boolean"
                         },
                         "limit": {
                           "default": 100,
-                          "maximum": 100,
+                          "maximum": 500,
                           "minimum": 1,
                           "type": "number"
                         }
@@ -30496,7 +30721,7 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Get a list of all tags for a specific prompt version. Returns tag objects with pagination support.\n\nExample usage: \n  List all tags associated with prompt version 'promptversionid1234'\n\nExpected return: \n  Array of tag objects with names and IDs. \n  Example: [\n    {\n      \"name\": \"staging\",\n      \"description\": \"The version deployed to staging\",\n      \"id\": \"promptversionid1234\"\n    },\n    {\n      \"name\": \"development\",\n      \"description\": \"The version deployed for development\",\n      \"id\": \"promptversionid1234\"\n    }\n  ]",
+                    "description": "Get a list of all tags for a specific prompt version. Returns tag objects with pagination support.\n\nExample usage:\n  List all tags associated with prompt version 'promptversionid1234'\n\nExpected return:\n  Array of tag objects with names and IDs.",
                     "inputSchema": {
                       "properties": {
                         "limit": {
@@ -30518,7 +30743,7 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Get a list of all versions for a specific prompt. Returns versions with pagination support.\n\nExample usage: \n  List all versions of a prompt named 'article-summarizer'\n\nExpected return: \n  Array of prompt version objects with IDs and configuration. \n  Example: [\n    {\n      \"description\": \"Initial version\",\n      \"model_provider\": \"OPENAI\",\n      \"model_name\": \"gpt-3.5-turbo\",\n      \"template\": {\n        \"type\": \"chat\",\n        \"messages\": [\n          {\n            \"role\": \"system\",\n            \"content\": \"You are an expert summarizer. Create clear, concise bullet points highlighting the key information.\"\n          },\n          {\n            \"role\": \"user\",\n            \"content\": \"Please summarize the following {{topic}} article:\n\n{{article}}\"\n          }\n        ]\n      },\n      \"template_type\": \"CHAT\",\n      \"template_format\": \"MUSTACHE\",\n      \"invocation_parameters\": {\n        \"type\": \"openai\",\n        \"openai\": {}\n      },\n      \"id\": \"promptversionid1234\"\n    }\n  ]",
+                    "description": "Get a list of all versions for a specific prompt. Returns versions with pagination support.\n\nExample usage:\n  List all versions of a prompt named 'article-summarizer'\n\nExpected return:\n  Array of prompt version objects with IDs and configuration.",
                     "inputSchema": {
                       "properties": {
                         "limit": {
@@ -30540,7 +30765,7 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Get a list of all the prompts.\n\nPrompts (templates, prompt templates) are versioned templates for input messages to an LLM.\nEach prompt includes both the input messages, but also the model and invocation parameters\nto use when generating outputs.\n\nReturns a list of prompt objects with their IDs, names, and descriptions.\n\nExample usage: \n  List all available prompts\n\nExpected return: \n  Array of prompt objects with metadata. \n  Example:  [{\n      \"name\": \"article-summarizer\",\n      \"description\": \"Summarizes an article into concise bullet points\",\n      \"source_prompt_id\": null,\n      \"id\": \"promptid1234\"\n  }]",
+                    "description": "Get a list of all the prompts.\n\nPrompts (templates, prompt templates) are versioned templates for input messages to an LLM.\nEach prompt includes both the input messages, but also the model and invocation parameters\nto use when generating outputs.\n\nReturns a list of prompt objects with their IDs, names, and descriptions.\n\nExample usage:\n  List all available prompts\n\nExpected return:\n  Array of prompt objects with metadata.\n  Example:  [{\n      \"name\": \"article-summarizer\",\n      \"description\": \"Summarizes an article into concise bullet points\",\n      \"source_prompt_id\": null,\n      \"id\": \"promptid1234\"\n  }]",
                     "inputSchema": {
                       "properties": {
                         "limit": {
@@ -30554,6 +30779,65 @@
                       "type": "object"
                     },
                     "name": "list-prompts"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List sessions for a project.\n\nSessions represent conversation flows grouped across traces.\n\nExample usage:\n  Show me the last 10 sessions for project \"default\"\n\nExpected return:\n  Array of session objects ordered by the requested sort order.",
+                    "inputSchema": {
+                      "properties": {
+                        "limit": {
+                          "default": 10,
+                          "maximum": 100,
+                          "minimum": 1,
+                          "type": "number"
+                        },
+                        "order": {
+                          "default": "desc",
+                          "enum": [
+                            "asc",
+                            "desc"
+                          ],
+                          "type": "string"
+                        },
+                        "project_identifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list-sessions"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List traces for a project.\n\nThis tool groups project spans into traces and returns the newest traces first.\n\nExample usage:\n  Show me the last 10 traces for project \"default\"\n  Show me recent traces from the last 30 minutes for project \"checkout\"\n\nExpected return:\n  Array of trace objects with grouped spans and summary timing information.",
+                    "inputSchema": {
+                      "properties": {
+                        "include_annotations": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "last_n_minutes": {
+                          "minimum": 1,
+                          "type": "number"
+                        },
+                        "limit": {
+                          "default": 10,
+                          "maximum": 100,
+                          "minimum": 1,
+                          "type": "number"
+                        },
+                        "project_identifier": {
+                          "type": "string"
+                        },
+                        "since": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list-traces"
                   },
                   {
                     "annotations": {},
@@ -30574,7 +30858,7 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Create or update a prompt with its template and configuration. Creates a new prompt and its initial version with specified model settings.\n\nExample usage: \n  Create a new prompt named 'email_generator' with a template for generating emails\n\nExpected return: \n  A confirmation message of successful prompt creation",
+                    "description": "Create or update a prompt with its template and configuration. Creates a new prompt and its initial version with specified model settings.\n\nExample usage:\n  Create a new prompt named 'email_generator' with a template for generating emails\n\nExpected return:\n  A confirmation message of successful prompt creation",
                     "inputSchema": {
                       "properties": {
                         "description": {
@@ -30617,21 +30901,29 @@
                 "tools": [
                   "add-dataset-examples",
                   "add-prompt-version-tag",
+                  "get-dataset",
                   "get-dataset-examples",
                   "get-dataset-experiments",
                   "get-experiment-by-id",
                   "get-latest-prompt",
+                  "get-project",
+                  "get-prompt",
                   "get-prompt-by-identifier",
                   "get-prompt-version",
                   "get-prompt-version-by-tag",
+                  "get-session",
                   "get-span-annotations",
                   "get-spans",
+                  "get-trace",
+                  "list-annotation-configs",
                   "list-datasets",
                   "list-experiments-for-dataset",
                   "list-projects",
                   "list-prompt-version-tags",
                   "list-prompt-versions",
                   "list-prompts",
+                  "list-sessions",
+                  "list-traces",
                   "phoenix-support",
                   "upsert-prompt"
                 ]
@@ -30682,6 +30974,10 @@
                 "custom_metadata": {
                   "author": "Pinecone",
                   "homepage": "https://docs.pinecone.io/guides/operations/mcp-server"
+                },
+                "metadata": {
+                  "last_updated": "2026-04-22T03:04:16Z",
+                  "stars": 64
                 },
                 "overview": "## Pinecone MCP Server\n\nThe Pinecone MCP server enables AI assistants and agents to interact with Pinecone — the managed vector database — for semantic search, retrieval-augmented generation, and document Q\u0026A workflows. It exposes tools to list and describe indexes, provision new integrated-embedding indexes, upsert records with automatic embedding, perform text-based semantic search with filtering and reranking, run cross-index cascading searches with deduplication, and query the official Pinecone documentation. The server supports integrated indexes (Pinecone-hosted embedding models); for standard indexes with external embeddings, use the Pinecone CLI instead.",
                 "permissions": {
@@ -34238,7 +34534,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.29.0",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.32.0",
             "transport": {
               "type": "stdio"
             },
@@ -34264,9 +34560,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.29.0": {
+              "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.32.0": {
                 "metadata": {
-                  "last_updated": "2026-04-07T03:03:36Z",
+                  "last_updated": "2026-04-22T07:20:03Z",
                   "stars": 623
                 },
                 "overview": "## Sentry MCP Server\n\nThe sentry MCP server is a Model Context Protocol (MCP) service for human-in-the-loop coding agents and developer workflow debugging. The server enables comprehensive Sentry project and organization management, real-time error tracking with event search and issue monitoring, AI-powered issue analysis through Sentry Seer integration, and integrated documentation search for platform guidance.",
@@ -34306,7 +34602,7 @@
                       "openWorldHint": true,
                       "readOnlyHint": false
                     },
-                    "description": "Use Seer to analyze production errors and get detailed root cause analysis with specific code fixes.\n\nUse this tool when you need:\n- Detailed AI-powered root cause analysis\n- Specific code fixes and implementation guidance\n- Step-by-step troubleshooting for complex issues\n- Understanding why an error is happening in production\n\nWhat this tool provides:\n- Root cause analysis with code-level explanations\n- Specific file locations and line numbers where errors occur\n- Concrete code fixes you can apply\n- Step-by-step implementation guidance\n\nThis tool automatically:\n1. Checks if analysis already exists (instant results)\n2. Starts new AI analysis if needed (~2-5 minutes)\n3. Returns complete fix recommendations\n\n\u003cexamples\u003e\n### User: \"What's causing this error? https://my-org.sentry.io/issues/PROJECT-1Z43\"\n\n```\nanalyze_issue_with_seer(issueUrl='https://my-org.sentry.io/issues/PROJECT-1Z43')\n```\n\n### User: \"Can you help me understand why this is failing in production?\"\n\n```\nanalyze_issue_with_seer(organizationSlug='my-organization', issueId='ERROR-456')\n```\n\u003c/examples\u003e\n\n\u003chints\u003e\n- Use this tool when you need deeper analysis beyond basic issue details\n- If the user provides an issueUrl, extract it and use that parameter alone\n- The analysis includes actual code snippets and fixes, not just error descriptions\n- Results are cached - subsequent calls return instantly\n\u003c/hints\u003e",
+                    "description": "Use Seer to analyze production errors and get detailed root cause analysis with specific code fixes.\n\nUse this tool when:\n- The user explicitly asks for root cause analysis, Seer analysis, or help fixing/debugging an issue\n- You are unable to accurately determine the root cause from the issue details alone\n\nDo NOT call this tool as an automatic follow-up to get_sentry_resource.\n\nWhat this tool provides:\n- Root cause analysis with code-level explanations\n- Specific file locations and line numbers where errors occur\n- Concrete code fixes you can apply\n- Step-by-step implementation guidance\n\nThis tool automatically:\n1. Checks if analysis already exists (instant results)\n2. Starts new AI analysis if needed (~2-5 minutes)\n3. Returns complete fix recommendations\n\n\u003cexamples\u003e\n### User: \"Run Seer on this issue\"\n\n```\nanalyze_issue_with_seer(issueUrl='https://my-org.sentry.io/issues/PROJECT-1Z43')\n```\n\n### User: \"Analyze this issue and suggest a fix\"\n\n```\nanalyze_issue_with_seer(organizationSlug='my-organization', issueId='ERROR-456')\n```\n\u003c/examples\u003e\n\n\u003chints\u003e\n- Only use when the user explicitly requests analysis or you cannot determine the root cause from issue details alone\n- If the user provides an issueUrl, extract it and use that parameter alone\n- The analysis includes actual code snippets and fixes, not just error descriptions\n- Results are cached - subsequent calls return instantly\n\u003c/hints\u003e",
                     "inputSchema": {
                       "properties": {
                         "instruction": {
@@ -34660,7 +34956,7 @@
                       "openWorldHint": true,
                       "readOnlyHint": true
                     },
-                    "description": "Find teams in an organization in Sentry.\n\nUse this tool when you need to:\n- View teams in a Sentry organization\n- Find a team's slug to aid other tool requests\n- Search for specific teams by name or slug\n\nReturns up to 25 results. If you hit this limit, use the query parameter to narrow down results.",
+                    "description": "Find teams in an organization in Sentry.\n\nUse this tool when you need to:\n- View teams in a Sentry organization\n- Find a team's slug and numeric ID to aid other tool requests\n- Search for specific teams by name or slug\n\nReturns up to 25 results. If you hit this limit, use the query parameter to narrow down results.",
                     "inputSchema": {
                       "properties": {
                         "organizationSlug": {
@@ -34782,50 +35078,6 @@
                       "openWorldHint": true,
                       "readOnlyHint": true
                     },
-                    "description": "Get detailed information about a specific Sentry issue by ID.\n\nUSE THIS TOOL WHEN USERS:\n- Provide a specific issue ID (e.g., 'CLOUDFLARE-MCP-41', 'PROJECT-123')\n- Ask to 'explain [ISSUE-ID]', 'tell me about [ISSUE-ID]'\n- Want details/stacktrace/analysis for a known issue\n- Provide a Sentry issue URL\n\nDO NOT USE for:\n- General searching or listing issues (use search_issues)\n- Root cause analysis (use analyze_issue_with_seer)\n\nTRIGGER PATTERNS:\n- 'Explain ISSUE-123' → use get_issue_details\n- 'Tell me about PROJECT-456' → use get_issue_details\n- 'What happened in [issue URL]' → use get_issue_details\n\n\u003cexamples\u003e\n### With Sentry URL (recommended - simplest approach)\n```\nget_issue_details(issueUrl='https://sentry.sentry.io/issues/6916805731/?project=4509062593708032\u0026query=is%3Aunresolved')\n```\n\n### With issue ID and organization\n```\nget_issue_details(organizationSlug='my-organization', issueId='CLOUDFLARE-MCP-41')\n```\n\n### With event ID and organization\n```\nget_issue_details(organizationSlug='my-organization', eventId='c49541c747cb4d8aa3efb70ca5aba243')\n```\n\u003c/examples\u003e\n\n\u003chints\u003e\n- **IMPORTANT**: If user provides a Sentry URL, pass the ENTIRE URL to issueUrl parameter unchanged\n- When using issueUrl, all other parameters are automatically extracted - don't provide them separately\n- If using issueId (not URL), then organizationSlug is required\n\u003c/hints\u003e",
-                    "inputSchema": {
-                      "properties": {
-                        "eventId": {
-                          "description": "The ID of the event.",
-                          "type": "string"
-                        },
-                        "issueId": {
-                          "description": "The Issue ID. e.g. `PROJECT-1Z43`",
-                          "type": "string"
-                        },
-                        "issueUrl": {
-                          "description": "The URL of the issue. e.g. https://my-organization.sentry.io/issues/PROJECT-1Z43",
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "organizationSlug": {
-                          "description": "The organization's slug. You can find a existing list of organizations you have access to using the `find_organizations()` tool.",
-                          "type": "string"
-                        },
-                        "regionUrl": {
-                          "anyOf": [
-                            {
-                              "description": "The region URL for the organization you're querying, if known. For Sentry's Cloud Service (sentry.io), this is typically the region-specific URL like 'https://us.sentry.io'. For self-hosted Sentry installations, this parameter is usually not needed and should be omitted. You can find the correct regionUrl from the organization details using the `find_organizations()` tool.",
-                              "type": "string"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "default": null,
-                          "description": "The region URL for the organization you're querying, if known. For Sentry's Cloud Service (sentry.io), this is typically the region-specific URL like 'https://us.sentry.io'. For self-hosted Sentry installations, this parameter is usually not needed and should be omitted. You can find the correct regionUrl from the organization details using the `find_organizations()` tool."
-                        }
-                      },
-                      "required": [],
-                      "type": "object"
-                    },
-                    "name": "get_issue_details"
-                  },
-                  {
-                    "annotations": {
-                      "openWorldHint": true,
-                      "readOnlyHint": true
-                    },
                     "description": "Get tag value distribution for a specific Sentry issue.\n\nUse this tool when you need to:\n- Understand how an issue is distributed across different tag values\n- Get aggregate counts of unique tag values (e.g., 'how many unique URLs are affected')\n- Analyze which browsers, environments, or URLs are most impacted by an issue\n- View the tag distributions page data programmatically\n\nCommon tag keys:\n- `url`: Request URLs affected by the issue\n- `browser`: Browser types and versions\n- `browser.name`: Browser names only\n- `os`: Operating systems\n- `environment`: Deployment environments (production, staging, etc.)\n- `release`: Software releases\n- `device`: Device types\n- `user`: Affected users\n\n\u003cexamples\u003e\n### Get URL distribution for an issue\n```\nget_issue_tag_values(organizationSlug='my-organization', issueId='PROJECT-123', tagKey='url')\n```\n\n### Get browser distribution using issue URL\n```\nget_issue_tag_values(issueUrl='https://sentry.io/issues/PROJECT-123/', tagKey='browser')\n```\n\n### Get environment distribution\n```\nget_issue_tag_values(organizationSlug='my-organization', issueId='PROJECT-123', tagKey='environment')\n```\n\u003c/examples\u003e\n\n\u003chints\u003e\n- If user provides a Sentry URL, pass the ENTIRE URL to issueUrl parameter unchanged\n- Common tag keys: url, browser, browser.name, os, environment, release, device, user\n- Tag keys are case-sensitive\n\u003c/hints\u003e",
                     "inputSchema": {
                       "properties": {
@@ -34873,32 +35125,24 @@
                       "openWorldHint": false,
                       "readOnlyHint": true
                     },
-                    "description": "Analyze CPU profiling data to identify performance bottlenecks and detect regressions.\n\nUSE THIS TOOL WHEN:\n- User asks why a specific endpoint/transaction is slow\n- User wants to understand where CPU time is spent\n- User asks about performance bottlenecks\n- User wants to compare performance between time periods\n- User shares a Sentry profile URL\n\nRETURNS:\n- Hot paths (call stacks consuming the most CPU time)\n- Performance percentiles (p75, p95, p99) for each function\n- User code vs library code breakdown\n- Actionable recommendations for optimization\n- Regression analysis when comparing periods\n\n\u003cexamples\u003e\n### Analyze from URL (with transaction name)\n```\nget_profile(\n  profileUrl='https://my-org.sentry.io/explore/profiling/profile/backend/flamegraph/?profilerId=abc123',\n  transactionName='/api/users'\n)\n```\n\n### Analyze by transaction name\n```\nget_profile(\n  organizationSlug='my-org',\n  transactionName='/api/users',\n  projectSlugOrId='backend'\n)\n```\n\n### Compare performance between periods\n```\nget_profile(\n  organizationSlug='my-org',\n  transactionName='/api/users',\n  projectSlugOrId='backend',\n  statsPeriod='7d',\n  compareAgainstPeriod='14d'\n)\n```\n\u003c/examples\u003e\n\n\u003chints\u003e\n- Use `focusOnUserCode: true` (default) to filter out library code\n- High p99 relative to p75 indicates inconsistent performance\n- Use compareAgainstPeriod to detect regressions over time\n- Transaction names are case-sensitive\n\u003c/hints\u003e",
+                    "description": "Retrieve raw profile chunk data to inspect individual function calls, threads, and stack traces.\n\nUSE THIS TOOL WHEN:\n- User wants to inspect raw profiling samples for a specific profiler session\n- User needs to see individual thread activity and stack traces\n- User wants detailed frame-level data (function names, file locations, call counts)\n\nRETURNS:\n- Profile chunk metadata (platform, release, environment)\n- Per-thread sample counts and names\n- Top frames by occurrence with file locations\n- User code vs library code breakdown\n\nNOTE: This tool requires a `profilerId` which identifies a specific profiling session.\nUse `get_profile` for aggregated flamegraph analysis by transaction name.\n\n\u003cexamples\u003e\n### Inspect a profiler session\n```\nget_profile_details(\n  organizationSlug='my-org',\n  projectSlugOrId='backend',\n  profilerId='041bde57b9844e36b8b7e5734efae5f7',\n  start='2024-01-01T00:00:00',\n  end='2024-01-01T01:00:00'\n)\n```\n\u003c/examples\u003e\n\n\u003chints\u003e\n- Use `focusOnUserCode: true` (default) to filter out library/system frames\n- The profilerId can be found in Sentry profile URLs or event data\n\u003c/hints\u003e",
                     "inputSchema": {
                       "properties": {
-                        "compareAgainstPeriod": {
-                          "description": "Compare against this baseline period (e.g., '14d', '30d'). Enables regression detection.",
+                        "end": {
+                          "description": "End time for the profile chunk query (ISO 8601 format, e.g., '2024-01-01T01:00:00')",
                           "type": "string"
                         },
                         "focusOnUserCode": {
                           "default": true,
-                          "description": "Show only user code (is_application: true). Set to false to include library code.",
+                          "description": "Show only user code (in_app: true). Set to false to include library code.",
                           "type": "boolean"
-                        },
-                        "maxHotPaths": {
-                          "default": 10,
-                          "description": "Number of hot paths to display (1-20, default: 10)",
-                          "maximum": 20,
-                          "minimum": 1,
-                          "type": "integer"
                         },
                         "organizationSlug": {
                           "description": "The organization's slug. You can find a existing list of organizations you have access to using the `find_organizations()` tool.",
                           "type": "string"
                         },
-                        "profileUrl": {
-                          "description": "Sentry profile URL. If provided, organization and project are extracted from URL. transactionName is still required.",
-                          "format": "uri",
+                        "profilerId": {
+                          "description": "Profiler session ID (UUID from Sentry profile data)",
                           "type": "string"
                         },
                         "projectSlugOrId": {
@@ -34921,27 +35165,28 @@
                           "default": null,
                           "description": "The region URL for the organization you're querying, if known. For Sentry's Cloud Service (sentry.io), this is typically the region-specific URL like 'https://us.sentry.io'. For self-hosted Sentry installations, this parameter is usually not needed and should be omitted. You can find the correct regionUrl from the organization details using the `find_organizations()` tool."
                         },
-                        "statsPeriod": {
-                          "default": "7d",
-                          "description": "Time period: '1h', '24h', '7d', '14d', '30d' (default: '7d')",
-                          "type": "string"
-                        },
-                        "transactionName": {
-                          "description": "Transaction name (e.g., '/api/users', 'POST /graphql')",
+                        "start": {
+                          "description": "Start time for the profile chunk query (ISO 8601 format, e.g., '2024-01-01T00:00:00')",
                           "type": "string"
                         }
                       },
-                      "required": [],
+                      "required": [
+                        "organizationSlug",
+                        "projectSlugOrId",
+                        "profilerId",
+                        "start",
+                        "end"
+                      ],
                       "type": "object"
                     },
-                    "name": "get_profile"
+                    "name": "get_profile_details"
                   },
                   {
                     "annotations": {
                       "openWorldHint": true,
                       "readOnlyHint": true
                     },
-                    "description": "Get detailed information about a specific Sentry trace by ID.\n\nUSE THIS TOOL WHEN USERS:\n- Provide a specific trace ID (e.g., 'a4d1aae7216b47ff8117cf4e09ce9d0a')\n- Ask to 'show me trace [TRACE-ID]', 'explain trace [TRACE-ID]'\n- Want high-level overview and link to view trace details in Sentry\n- Need trace statistics and span breakdown\n\nDO NOT USE for:\n- General searching for traces (use search_events with trace queries)\n- Individual span details (this shows trace overview)\n\nTRIGGER PATTERNS:\n- 'Show me trace abc123' → use get_trace_details\n- 'Explain trace a4d1aae7216b47ff8117cf4e09ce9d0a' → use get_trace_details\n- 'What is trace [trace-id]' → use get_trace_details\n\n\u003cexamples\u003e\n### Get trace overview\n```\nget_trace_details(organizationSlug='my-organization', traceId='a4d1aae7216b47ff8117cf4e09ce9d0a')\n```\n\u003c/examples\u003e\n\n\u003chints\u003e\n- Trace IDs are 32-character hexadecimal strings\n\u003c/hints\u003e",
+                    "description": "Get high-level information about a specific Sentry replay by URL or replay ID.\n\nUSE THIS TOOL WHEN USERS:\n- Share a replay URL\n- Ask what happened in a specific replay\n- Want a concise replay summary plus the next issue or trace lookups to run\n\n\u003cexamples\u003e\n### With replay URL\n```\nget_replay_details(replayUrl='https://my-organization.sentry.io/replays/7e07485f-12f9-416b-8b14-26260799b51f/')\n```\n\n### With organization and replay ID\n```\nget_replay_details(organizationSlug='my-organization', replayId='7e07485f-12f9-416b-8b14-26260799b51f')\n```\n\u003c/examples\u003e",
                     "inputSchema": {
                       "properties": {
                         "organizationSlug": {
@@ -34958,22 +35203,60 @@
                               "type": "null"
                             }
                           ],
-                          "default": null,
                           "description": "The region URL for the organization you're querying, if known. For Sentry's Cloud Service (sentry.io), this is typically the region-specific URL like 'https://us.sentry.io'. For self-hosted Sentry installations, this parameter is usually not needed and should be omitted. You can find the correct regionUrl from the organization details using the `find_organizations()` tool."
                         },
-                        "traceId": {
-                          "description": "The trace ID. e.g. `a4d1aae7216b47ff8117cf4e09ce9d0a`",
-                          "pattern": "^[0-9a-fA-F]{32}$",
+                        "replayId": {
+                          "description": "The replay ID. e.g. `7e07485f-12f9-416b-8b14-26260799b51f`",
+                          "type": "string"
+                        },
+                        "replayUrl": {
+                          "description": "The URL of the replay. e.g. https://my-organization.sentry.io/replays/7e07485f-12f9-416b-8b14-26260799b51f/",
+                          "format": "uri",
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "organizationSlug",
-                        "traceId"
-                      ],
+                      "required": [],
                       "type": "object"
                     },
-                    "name": "get_trace_details"
+                    "name": "get_replay_details"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
+                    "description": "Fetch a Sentry resource by URL or by type and ID.\n\n\u003cexamples\u003e\n### From a Sentry URL\nget_sentry_resource(url='https://sentry.io/issues/PROJECT-123/')\n\n### Breadcrumbs from a Sentry URL\nget_sentry_resource(url='https://sentry.io/issues/PROJECT-123/', resourceType='breadcrumbs')\n\n### By type and ID\nget_sentry_resource(resourceType='issue', organizationSlug='my-org', resourceId='PROJECT-123')\n\u003c/examples\u003e",
+                    "inputSchema": {
+                      "properties": {
+                        "organizationSlug": {
+                          "description": "The organization's slug. You can find a existing list of organizations you have access to using the `find_organizations()` tool.",
+                          "type": "string"
+                        },
+                        "resourceId": {
+                          "description": "Resource identifier: issue shortId (e.g., 'PROJECT-123'), event ID, or trace ID. Required when not using a URL.",
+                          "type": "string"
+                        },
+                        "resourceType": {
+                          "description": "Resource type. With a URL, overrides the auto-detected type (e.g., 'breadcrumbs' on an issue URL).",
+                          "enum": [
+                            "issue",
+                            "event",
+                            "trace",
+                            "breadcrumbs",
+                            "replay"
+                          ],
+                          "type": "string"
+                        },
+                        "url": {
+                          "description": "Sentry URL. The resource type is auto-detected from the URL pattern.",
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "get_sentry_resource"
                   },
                   {
                     "annotations": {
@@ -35214,7 +35497,7 @@
                       "openWorldHint": true,
                       "readOnlyHint": true
                     },
-                    "description": "Search and filter events within a specific issue using natural language queries.\n\nUse this to filter events by time, environment, release, user, trace ID, or other tags. The tool automatically constrains results to the specified issue.\n\nFor cross-issue searches use search_issues, for single event details use get_issue_details.\n\n\u003cexamples\u003e\nsearch_issue_events(issueId='MCP-41', organizationSlug='my-org', naturalLanguageQuery='from last hour')\nsearch_issue_events(issueUrl='https://sentry.io/.../issues/123/', naturalLanguageQuery='production with release v1.0')\n\u003c/examples\u003e",
+                    "description": "Search and filter events within a specific issue using natural language queries.\n\nUse this to filter events by time, environment, release, user, trace ID, or other tags. The tool automatically constrains results to the specified issue.\n\nFor cross-issue searches use search_issues. For single issue or event details use get_sentry_resource.\n\n\u003cexamples\u003e\nsearch_issue_events(issueId='MCP-41', organizationSlug='my-org', naturalLanguageQuery='from last hour')\nsearch_issue_events(issueUrl='https://sentry.io/.../issues/123/', naturalLanguageQuery='production with release v1.0')\n\u003c/examples\u003e",
                     "inputSchema": {
                       "properties": {
                         "includeExplanation": {
@@ -35295,7 +35578,7 @@
                       "openWorldHint": true,
                       "readOnlyHint": true
                     },
-                    "description": "Search for grouped issues/problems in Sentry - returns a LIST of issues, NOT counts or aggregations.\n\nUses AI to translate natural language queries into Sentry issue search syntax.\nReturns grouped issues with metadata like title, status, and user count.\n\nUSE THIS TOOL WHEN USERS WANT:\n- A LIST of issues: 'show me issues', 'what problems do we have'\n- Filtered issue lists: 'unresolved issues', 'critical bugs'\n- Issues by impact: 'errors affecting more than 100 users'\n- Issues by assignment: 'issues assigned to me'\n- User feedback: 'show me user feedback', 'feedback from last week'\n\nDO NOT USE FOR COUNTS/AGGREGATIONS:\n- 'how many errors' → use search_events\n- 'count of issues' → use search_events\n- 'total number of errors today' → use search_events\n- 'sum/average/statistics' → use search_events\n\nALSO DO NOT USE FOR:\n- Individual error events with timestamps → use search_events\n- Details about a specific issue ID → use get_issue_details\n\nREMEMBER: This tool returns a LIST of issues, not counts or statistics!\n\n\u003cexamples\u003e\nsearch_issues(organizationSlug='my-org', naturalLanguageQuery='critical bugs from last week')\nsearch_issues(organizationSlug='my-org', naturalLanguageQuery='unhandled errors affecting 100+ users')\nsearch_issues(organizationSlug='my-org', naturalLanguageQuery='issues assigned to me')\nsearch_issues(organizationSlug='my-org', naturalLanguageQuery='user feedback from production')\n\u003c/examples\u003e\n\n\u003chints\u003e\n- If the user passes a parameter in the form of name/otherName, it's likely in the format of \u003corganizationSlug\u003e/\u003cprojectSlugOrId\u003e.\n- Parse org/project notation directly without calling find_organizations or find_projects.\n- The projectSlugOrId parameter accepts both project slugs (e.g., 'my-project') and numeric IDs (e.g., '123456').\n\u003c/hints\u003e",
+                    "description": "Search for grouped issues/problems in Sentry - returns a LIST of issues, NOT counts or aggregations.\n\nUses AI to translate natural language queries into Sentry issue search syntax.\nReturns grouped issues with metadata like title, status, and user count.\n\nUSE THIS TOOL WHEN USERS WANT:\n- A LIST of issues: 'show me issues', 'what problems do we have'\n- Filtered issue lists: 'unresolved issues', 'critical bugs'\n- Issues by impact: 'errors affecting more than 100 users'\n- Issues by assignment: 'issues assigned to me'\n- User feedback: 'show me user feedback', 'feedback from last week'\n\nDO NOT USE FOR COUNTS/AGGREGATIONS:\n- 'how many errors' → use search_events\n- 'count of issues' → use search_events\n- 'total number of errors today' → use search_events\n- 'sum/average/statistics' → use search_events\n\nALSO DO NOT USE FOR:\n- Individual error events with timestamps → use search_events\n- Details about a specific issue ID or Sentry issue URL → use get_sentry_resource\n\nREMEMBER: This tool returns a LIST of issues, not counts or statistics!\n\n\u003cexamples\u003e\nsearch_issues(organizationSlug='my-org', naturalLanguageQuery='critical bugs from last week')\nsearch_issues(organizationSlug='my-org', naturalLanguageQuery='unhandled errors affecting 100+ users')\nsearch_issues(organizationSlug='my-org', naturalLanguageQuery='issues assigned to me')\nsearch_issues(organizationSlug='my-org', naturalLanguageQuery='user feedback from production')\n\u003c/examples\u003e\n\n\u003chints\u003e\n- If the user passes a parameter in the form of name/otherName, it's likely in the format of \u003corganizationSlug\u003e/\u003cprojectSlugOrId\u003e.\n- Parse org/project notation directly without calling find_organizations or find_projects.\n- The projectSlugOrId parameter accepts both project slugs (e.g., 'my-project') and numeric IDs (e.g., '123456').\n\u003c/hints\u003e",
                     "inputSchema": {
                       "properties": {
                         "includeExplanation": {
@@ -35360,11 +35643,11 @@
                       "openWorldHint": true,
                       "readOnlyHint": false
                     },
-                    "description": "Update an issue's status or assignment in Sentry. This allows you to resolve, ignore, or reassign issues.\n\nUse this tool when you need to:\n- Resolve an issue that has been fixed\n- Assign an issue to a team member or team for investigation\n- Mark an issue as ignored to reduce noise\n- Reopen a resolved issue by setting status to 'unresolved'\n\n\u003cexamples\u003e\n### Resolve an issue\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', status='resolved')\n```\n\n### Assign an issue to a user (use whoami to get your user ID)\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', assignedTo='user:123456')\n```\n\n### Assign an issue to a team\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', assignedTo='team:789')\n```\n\n### Mark an issue as ignored\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', status='ignored')\n```\n\n\u003c/examples\u003e\n\n\u003chints\u003e\n- If the user provides the `issueUrl`, you can ignore the other required parameters and extract them from the URL.\n- At least one of `status` or `assignedTo` must be provided to update the issue.\n- assignedTo format: Use 'user:ID' for users (e.g., 'user:123456') or 'team:ID' for teams (e.g., 'team:789')\n- To find your user ID, first use the whoami tool which returns your numeric user ID\n- Valid status values are: 'resolved', 'resolvedInNextRelease', 'unresolved', 'ignored'.\n\u003c/hints\u003e",
+                    "description": "Update an issue's status or assignment in Sentry. This allows you to resolve, ignore, or reassign issues.\n\nUse this tool when you need to:\n- Resolve an issue that has been fixed\n- Assign an issue to a team member or team for investigation\n- Mark an issue as ignored to reduce noise\n- Reopen a resolved issue by setting status to 'unresolved'\n\n\u003cexamples\u003e\n### Resolve an issue\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', status='resolved')\n```\n\n### Assign an issue to a user (use whoami to get your user ID)\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', assignedTo='user:123456')\n```\n\n### Assign an issue to a team (by ID or slug)\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', assignedTo='team:789')\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', assignedTo='team:my-team-slug')\n```\n\n### Mark an issue as ignored\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', status='ignored')\n```\n\n\u003c/examples\u003e\n\n\u003chints\u003e\n- If the user provides the `issueUrl`, you can ignore the other required parameters and extract them from the URL.\n- At least one of `status` or `assignedTo` must be provided to update the issue.\n- assignedTo format: Use 'user:ID' for users (e.g., 'user:123456') or 'team:ID_OR_SLUG' for teams (e.g., 'team:789' or 'team:my-team-slug')\n- To find your user ID, first use the whoami tool which returns your numeric user ID\n- Valid status values are: 'resolved', 'resolvedInNextRelease', 'unresolved', 'ignored'.\n\u003c/hints\u003e",
                     "inputSchema": {
                       "properties": {
                         "assignedTo": {
-                          "description": "The assignee in format 'user:ID' or 'team:ID' where ID is numeric. Example: 'user:123456' or 'team:789'. Use the whoami tool to find your user ID.",
+                          "description": "The assignee in format 'user:ID' or 'team:ID_OR_SLUG' where ID is numeric. Example: 'user:123456', 'team:789', or 'team:my-team-slug'. Use the whoami tool to find your user ID.",
                           "type": "string"
                         },
                         "issueId": {
@@ -35527,10 +35810,10 @@
                   "find_teams",
                   "get_doc",
                   "get_event_attachment",
-                  "get_issue_details",
                   "get_issue_tag_values",
-                  "get_profile",
-                  "get_trace_details",
+                  "get_profile_details",
+                  "get_replay_details",
+                  "get_sentry_resource",
                   "search_docs",
                   "search_events",
                   "search_issue_events",
