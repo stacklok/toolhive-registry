@@ -1,0 +1,56 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.kiwi.com": {
+          "custom_metadata": {
+            "author": "Kiwi.com",
+            "homepage": "https://kiwi.com"
+          },
+          "metadata": {
+            "last_updated": "2026-04-03T03:03:27Z",
+            "stars": 9
+          },
+          "overview": "## Kiwi.com Flights MCP Server\n\nThe Kiwi.com MCP server enables AI assistants to search for flights through Kiwi.com's travel platform. It connects to the Kiwi.com API to search for available flights based on origin, destination, and travel dates, returning structured results that AI agents can use to recommend itineraries, compare options, and assist with travel planning workflows. The server uses a streamable HTTP transport for efficient API communication.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "travel",
+            "flights",
+            "booking",
+            "search",
+            "kiwi"
+          ],
+          "tier": "Official",
+          "tools": [
+            "search-flight"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Kiwi.com Flight Search MCP server to search and book flights",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/kiwi/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/kiwi",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.kiwi.com"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/alpic-ai/kiwi-mcp-server-public"
+  },
+  "title": "Kiwi.com Flights",
+  "version": "1.0.0"
+}

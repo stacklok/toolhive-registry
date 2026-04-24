@@ -1,0 +1,51 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://modelcontextprotocol.io/mcp": {
+          "custom_metadata": {
+            "author": "Model Context Protocol",
+            "homepage": "https://modelcontextprotocol.io"
+          },
+          "metadata": {
+            "last_updated": "2026-03-30T03:03:51Z"
+          },
+          "overview": "## MCP Specification Server\n\nThe mcp-spec is a Model Context Protocol (MCP) server that provides AI assistants with direct, structured access to the MCP specification itself. It enables AI-driven workflows to reference the official protocol definition while reasoning about MCP servers, tools, transports, and behaviors. The server is particularly valuable for MCP client and server development, protocol education, validation, and tooling scenarios where assistants require authoritative, spec-accurate context.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "mcp",
+            "specification",
+            "protocol",
+            "documentation",
+            "official"
+          ],
+          "tier": "Official",
+          "tools": [
+            "SearchModelContextProtocol"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Official MCP server for the Model Context Protocol specification",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-spec/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/mcp-spec",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://modelcontextprotocol.io/mcp"
+    }
+  ],
+  "title": "MCP Specification",
+  "version": "1.0.0"
+}

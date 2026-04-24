@@ -1,0 +1,51 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.granola.ai/mcp": {
+          "custom_metadata": {
+            "author": "Granola",
+            "homepage": "https://granola.ai/"
+          },
+          "metadata": {
+            "last_updated": "2026-04-15T03:03:57Z"
+          },
+          "overview": "## Granola MCP Server\n\nThe Granola MCP server connects your Granola meeting notes and transcripts to AI assistants and agents through the Model Context Protocol standard. It gives AI tools direct access to your meeting data without manual copying and pasting, enabling AI-driven workflows that build on the context from your real conversations.\n\nWith this server, AI assistants can search and retrieve your meetings, read full transcripts, and use meeting content as grounded context for downstream tasks. This unlocks workflows like asking Claude to draft follow-up tickets from a bug discussion, updating a project board from standup notes, or generating proposals based on discovery call transcripts.\n\nIt is ideal for engineering, sales, and business development workflows where meeting notes are a primary source of record and need to flow into other tools without manual retrieval.",
+          "status": "Active",
+          "tags": [
+            "meetings",
+            "transcripts",
+            "notes"
+          ],
+          "tier": "Official",
+          "tools": [
+            "query_granola_meetings",
+            "list_meetings",
+            "get_meetings",
+            "get_meeting_transcript"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Access meeting notes and transcripts from the Granola platform",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/gitlab/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/granola-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.granola.ai/mcp"
+    }
+  ],
+  "title": "Granola (Remote)",
+  "version": "1.0.0"
+}
