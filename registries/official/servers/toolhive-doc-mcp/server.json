@@ -1,0 +1,138 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.13-20260420": {
+          "metadata": {
+            "last_updated": "2026-04-16T10:07:59Z",
+            "stars": 3
+          },
+          "overview": "## ToolHive Docs MCP Server\n\nThe toolhive-doc-mcp server allows you to search ToolHive documentation for help with using and contributing to the project (local version). The system maintains a pre-built SQLite vector database containing documentation that undergoes parsing, chunking, and embedding using a local bge-small-en-v1.5 model. When queried, it performs semantic search by comparing queries against stored embeddings to return relevant documentation chunks.",
+          "status": "Active",
+          "tags": [
+            "docs",
+            "documentation",
+            "help",
+            "knowledge-base",
+            "search",
+            "stacklok",
+            "support",
+            "toolhive"
+          ],
+          "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Retrieve full details of a specific documentation chunk by its ID",
+              "inputSchema": {
+                "properties": {
+                  "chunk_id": {
+                    "description": "UUID of the documentation chunk",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "chunk_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_chunk"
+            },
+            {
+              "annotations": {},
+              "description": "Search Stacklok documentation and return relevant snippets with relevance scores",
+              "inputSchema": {
+                "properties": {
+                  "limit": {
+                    "default": 5,
+                    "description": "Maximum number of results to return (1-50, default: 5)",
+                    "type": "integer"
+                  },
+                  "min_score": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Minimum relevance score (0.0-1.0)"
+                  },
+                  "query": {
+                    "description": "Search query (natural language question or keywords)",
+                    "type": "string"
+                  },
+                  "query_type": {
+                    "default": "semantic",
+                    "description": "Type of search (semantic, keyword, hybrid, default: semantic)",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "query_docs"
+            }
+          ],
+          "tools": [
+            "get_chunk",
+            "query_docs"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Search ToolHive docs for help with using and contributing to the project (local version)",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/toolhive-doc-mcp/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/toolhive-doc-mcp",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "default": "false",
+          "description": "Enable/disable OpenTelemetry logging",
+          "name": "OTEL_ENABLED"
+        },
+        {
+          "description": "OpenTelemetry collector endpoint",
+          "name": "OTEL_ENDPOINT"
+        },
+        {
+          "default": "toolhive-doc-mcp",
+          "description": "Service name for telemetry",
+          "name": "OTEL_SERVICE_NAME"
+        },
+        {
+          "default": "1.0.0",
+          "description": "Service version for telemetry",
+          "name": "OTEL_SERVICE_VERSION"
+        }
+      ],
+      "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.13-20260420",
+      "registryType": "oci",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/StacklokLabs/toolhive-doc-mcp"
+  },
+  "title": "ToolHive Docs",
+  "version": "1.0.0"
+}

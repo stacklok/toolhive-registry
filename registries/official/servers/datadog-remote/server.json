@@ -1,0 +1,70 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp": {
+          "custom_metadata": {
+            "author": "Datadog",
+            "homepage": "https://docs.datadoghq.com/bits_ai/mcp_server/",
+            "license": "Proprietary"
+          },
+          "metadata": {
+            "last_updated": "2026-04-08T03:03:50Z",
+            "stars": 30
+          },
+          "overview": "## Datadog (Remote)\n\nThe Datadog remote MCP server is Datadog's official managed Model Context Protocol server that connects AI agents to Datadog's observability platform. It provides structured access to logs, metrics, traces, dashboards, monitors, incidents, hosts, services, events, and notebooks through toolsets that can be selectively enabled. The server uses Streamable HTTP transport with API key and application key authentication, and supports regional endpoints for different Datadog sites.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "datadog",
+            "observability",
+            "monitoring",
+            "logs",
+            "metrics",
+            "traces",
+            "incidents",
+            "dashboards",
+            "apm"
+          ],
+          "tier": "Official",
+          "tools": [
+            "get_logs",
+            "list_spans",
+            "get_trace",
+            "list_metrics",
+            "get_metrics",
+            "get_monitors",
+            "list_hosts",
+            "list_incidents",
+            "get_incident",
+            "list_dashboards"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Official Datadog MCP server for observability data access including logs, metrics, and traces",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/datadog-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/datadog-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/datadog-labs/mcp-server"
+  },
+  "title": "Datadog (Remote)",
+  "version": "1.0.0"
+}

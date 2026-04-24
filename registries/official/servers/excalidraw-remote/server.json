@@ -1,0 +1,62 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.excalidraw.com/mcp": {
+          "custom_metadata": {
+            "author": "Excalidraw",
+            "homepage": "https://excalidraw.com",
+            "license": "MIT"
+          },
+          "metadata": {
+            "last_updated": "2026-04-09T03:03:28Z",
+            "stars": 3807
+          },
+          "overview": "## Excalidraw (Remote)\n\nThe Excalidraw remote MCP App server streams hand-drawn Excalidraw diagrams directly into the chat with smooth viewport camera control and interactive fullscreen editing. AI assistants can draw architecture diagrams, sketches, and illustrations using Excalidraw's hand-drawn aesthetic, with support for checkpointing and restoring diagram state. Finished diagrams can be exported and shared via excalidraw.com.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "diagrams",
+            "visualization",
+            "excalidraw",
+            "whiteboard",
+            "drawing",
+            "mcp-app"
+          ],
+          "tier": "Official",
+          "tools": [
+            "read_me",
+            "create_view",
+            "export_to_excalidraw",
+            "save_checkpoint",
+            "read_checkpoint"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Streams hand-drawn Excalidraw diagrams with animated drawing, camera panning, and fullscreen editing",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/excalidraw-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/excalidraw-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.excalidraw.com/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/excalidraw/excalidraw-mcp"
+  },
+  "title": "Excalidraw (Remote)",
+  "version": "1.0.0"
+}
