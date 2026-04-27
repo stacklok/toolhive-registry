@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "mcr.microsoft.com/playwright/mcp:v0.0.70": {
           "metadata": {
-            "last_updated": "2026-04-01T02:01:56Z",
+            "last_updated": "2026-04-27T16:41:23Z",
             "stars": 28552
           },
           "overview": "## Playwright MCP Server\n\nThe playwright MCP server provides browser automation capabilities using Playwright. The server enables comprehensive browser automation supporting Chromium, Firefox, and WebKit, with full control over page interactions including clicks, typing, navigation, and screenshots. Additional capabilities include network request monitoring, console message capture for debugging, form filling, file uploads, and dialog handling for complete workflow automation.",
@@ -737,6 +737,180 @@
   "name": "io.github.stacklok/playwright",
   "packages": [
     {
+      "environmentVariables": [
+        {
+          "description": "Comma-separated list of hosts this server is allowed to serve from. Defaults to the host the server is bound to. Pass '*' to disable the host check.",
+          "name": "PLAYWRIGHT_MCP_ALLOWED_HOSTS"
+        },
+        {
+          "description": "Semicolon-separated list of trusted origins to allow the browser to request. Default is to allow all.",
+          "name": "PLAYWRIGHT_MCP_ALLOWED_ORIGINS"
+        },
+        {
+          "description": "Allow access to files outside of the workspace roots, including unrestricted access to file:// URLs.",
+          "name": "PLAYWRIGHT_MCP_ALLOW_UNRESTRICTED_FILE_ACCESS"
+        },
+        {
+          "description": "Semicolon-separated list of origins to block the browser from requesting. Evaluated before the allowlist.",
+          "name": "PLAYWRIGHT_MCP_BLOCKED_ORIGINS"
+        },
+        {
+          "description": "Block service workers.",
+          "name": "PLAYWRIGHT_MCP_BLOCK_SERVICE_WORKERS"
+        },
+        {
+          "description": "Browser or chrome channel to use. Possible values: chrome, firefox, webkit, msedge.",
+          "name": "PLAYWRIGHT_MCP_BROWSER"
+        },
+        {
+          "description": "Comma-separated list of additional capabilities to enable. Possible values: vision, pdf, devtools.",
+          "name": "PLAYWRIGHT_MCP_CAPS"
+        },
+        {
+          "description": "CDP endpoint to connect to.",
+          "name": "PLAYWRIGHT_MCP_CDP_ENDPOINT"
+        },
+        {
+          "description": "CDP headers to send with the connect request. Multiple can be specified.",
+          "name": "PLAYWRIGHT_MCP_CDP_HEADER"
+        },
+        {
+          "description": "Timeout in milliseconds for connecting to the CDP endpoint. Defaults to 30000.",
+          "name": "PLAYWRIGHT_MCP_CDP_TIMEOUT"
+        },
+        {
+          "description": "Language to use for code generation. Possible values: typescript, none. Defaults to typescript.",
+          "name": "PLAYWRIGHT_MCP_CODEGEN"
+        },
+        {
+          "description": "Path to the configuration file.",
+          "name": "PLAYWRIGHT_MCP_CONFIG"
+        },
+        {
+          "description": "Level of console messages to return: error, warning, info, debug. Each level includes messages of more severe levels.",
+          "name": "PLAYWRIGHT_MCP_CONSOLE_LEVEL"
+        },
+        {
+          "description": "Device to emulate, for example 'iPhone 15'.",
+          "name": "PLAYWRIGHT_MCP_DEVICE"
+        },
+        {
+          "description": "Bound browser endpoint to connect to.",
+          "name": "PLAYWRIGHT_MCP_ENDPOINT"
+        },
+        {
+          "description": "Path to the browser executable.",
+          "name": "PLAYWRIGHT_MCP_EXECUTABLE_PATH"
+        },
+        {
+          "description": "Connect to a running browser instance (Edge/Chrome only). Requires the Playwright Extension to be installed.",
+          "name": "PLAYWRIGHT_MCP_EXTENSION"
+        },
+        {
+          "description": "List of permissions to grant to the browser context, for example 'geolocation', 'clipboard-read', 'clipboard-write'.",
+          "name": "PLAYWRIGHT_MCP_GRANT_PERMISSIONS"
+        },
+        {
+          "description": "Run browser in headless mode. Headed by default.",
+          "name": "PLAYWRIGHT_MCP_HEADLESS"
+        },
+        {
+          "description": "Host to bind the server to. Use 0.0.0.0 to bind to all interfaces. Defaults to localhost.",
+          "name": "PLAYWRIGHT_MCP_HOST"
+        },
+        {
+          "description": "Ignore HTTPS errors.",
+          "name": "PLAYWRIGHT_MCP_IGNORE_HTTPS_ERRORS"
+        },
+        {
+          "description": "Whether to send image responses to the client. Possible values: allow, omit. Defaults to allow.",
+          "name": "PLAYWRIGHT_MCP_IMAGE_RESPONSES"
+        },
+        {
+          "description": "Path to a TypeScript file to evaluate on the Playwright page object.",
+          "name": "PLAYWRIGHT_MCP_INIT_PAGE"
+        },
+        {
+          "description": "Path to a JavaScript file to add as an initialization script. Evaluated on every page before any of the page's scripts. Can be specified multiple times.",
+          "name": "PLAYWRIGHT_MCP_INIT_SCRIPT"
+        },
+        {
+          "description": "Keep the browser profile in memory; do not save it to disk.",
+          "name": "PLAYWRIGHT_MCP_ISOLATED"
+        },
+        {
+          "description": "Disable the sandbox for all process types that are normally sandboxed.",
+          "name": "PLAYWRIGHT_MCP_NO_SANDBOX"
+        },
+        {
+          "description": "Path to the directory for output files.",
+          "name": "PLAYWRIGHT_MCP_OUTPUT_DIR"
+        },
+        {
+          "description": "Whether to save snapshots, console messages, and network logs to a file or to standard output. Possible values: file, stdout. Defaults to stdout.",
+          "name": "PLAYWRIGHT_MCP_OUTPUT_MODE"
+        },
+        {
+          "description": "Port to listen on for SSE transport.",
+          "name": "PLAYWRIGHT_MCP_PORT"
+        },
+        {
+          "description": "Comma-separated domains to bypass the proxy, for example '.com,chromium.org,.domain.com'.",
+          "name": "PLAYWRIGHT_MCP_PROXY_BYPASS"
+        },
+        {
+          "description": "Proxy server, for example 'http://myproxy:3128' or 'socks5://myproxy:8080'.",
+          "name": "PLAYWRIGHT_MCP_PROXY_SERVER"
+        },
+        {
+          "description": "Enable the sandbox for all process types that are normally not sandboxed.",
+          "name": "PLAYWRIGHT_MCP_SANDBOX"
+        },
+        {
+          "description": "Whether to save the Playwright MCP session into the output directory.",
+          "name": "PLAYWRIGHT_MCP_SAVE_SESSION"
+        },
+        {
+          "description": "Path to a file containing secrets in the dotenv format.",
+          "name": "PLAYWRIGHT_MCP_SECRETS"
+        },
+        {
+          "description": "Reuse the same browser context between all connected HTTP clients.",
+          "name": "PLAYWRIGHT_MCP_SHARED_BROWSER_CONTEXT"
+        },
+        {
+          "description": "Mode to use when taking snapshots for responses. Possible values: full, none. Defaults to full.",
+          "name": "PLAYWRIGHT_MCP_SNAPSHOT_MODE"
+        },
+        {
+          "description": "Path to the storage state file for isolated sessions.",
+          "name": "PLAYWRIGHT_MCP_STORAGE_STATE"
+        },
+        {
+          "description": "Attribute to use for test ids. Defaults to data-testid.",
+          "name": "PLAYWRIGHT_MCP_TEST_ID_ATTRIBUTE"
+        },
+        {
+          "description": "Action timeout in milliseconds. Defaults to 5000.",
+          "name": "PLAYWRIGHT_MCP_TIMEOUT_ACTION"
+        },
+        {
+          "description": "Navigation timeout in milliseconds. Defaults to 60000.",
+          "name": "PLAYWRIGHT_MCP_TIMEOUT_NAVIGATION"
+        },
+        {
+          "description": "User agent string.",
+          "name": "PLAYWRIGHT_MCP_USER_AGENT"
+        },
+        {
+          "description": "Path to the user data directory. If not specified, a temporary directory will be created.",
+          "name": "PLAYWRIGHT_MCP_USER_DATA_DIR"
+        },
+        {
+          "description": "Browser viewport size in pixels, for example '1280x720'.",
+          "name": "PLAYWRIGHT_MCP_VIEWPORT_SIZE"
+        }
+      ],
       "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.70",
       "registryType": "oci",
       "transport": {
