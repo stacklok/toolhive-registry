@@ -6,7 +6,7 @@ require (
 	github.com/google/go-cmp v0.7.0
 	github.com/google/go-containerregistry v0.21.5
 	github.com/mark3labs/mcp-go v0.49.0
-	github.com/modelcontextprotocol/registry v1.6.0
+	github.com/modelcontextprotocol/registry v1.7.0
 	github.com/spf13/cobra v1.10.2
 	github.com/stacklok/toolhive-core v0.0.16
 	github.com/stretchr/testify v1.11.1
