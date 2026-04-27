@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-04-23T00:57:18Z"
+    "last_updated": "2026-04-25T00:52:29Z"
   },
   "data": {
     "servers": [
@@ -285,7 +285,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.12.0",
+            "identifier": "ghcr.io/apollographql/apollo-mcp-server:v1.13.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -306,7 +306,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/apollographql/apollo-mcp-server:v1.12.0": {
+              "ghcr.io/apollographql/apollo-mcp-server:v1.13.0": {
                 "metadata": {
                   "last_updated": "2026-03-27T03:03:46Z",
                   "stars": 276
@@ -856,8 +856,8 @@
             "io.github.stacklok": {
               "ghcr.io/sooperset/mcp-atlassian:0.21.1": {
                 "metadata": {
-                  "last_updated": "2026-03-22T03:02:39Z",
-                  "stars": 4684
+                  "last_updated": "2026-04-23T03:03:47Z",
+                  "stars": 5002
                 },
                 "overview": "## Atlassian MCP Server\n\nThe Atlassian MCP server lets AI assistants work directly with Atlassian Cloud products from within an AI-driven workflow. It provides programmatic access to Jira, Confluence, and related Atlassian resources so users can search, create, and update content without switching tools.",
                 "permissions": {
@@ -1101,8 +1101,8 @@
             "io.github.stacklok": {
               "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.31": {
                 "metadata": {
-                  "last_updated": "2026-03-24T02:59:29Z",
-                  "stars": 8542
+                  "last_updated": "2026-04-24T09:55:11Z",
+                  "stars": 8859
                 },
                 "overview": "## AWS API MCP Server\n\nThe aws-api MCP server is an MCP (Model Context Protocol) server that enables AI assistants and agents to interact directly and securely with AWS services and APIs through a standardized, protocol-driven interface. It acts as a bridge between your MCP-compatible AI workflows and the breadth of AWS's cloud API surface, allowing natural-language-orchestrated tasks — from exploring resources to managing infrastructure — without manual API coding.",
                 "permissions": {
@@ -1657,8 +1657,8 @@
                   "homepage": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server/"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-24T02:59:29Z",
-                  "stars": 8542
+                  "last_updated": "2026-04-24T09:55:11Z",
+                  "stars": 8859
                 },
                 "overview": "## AWS Knowledge MCP Server\n\nThe aws-knowledge MCP server is a Model Context Protocol server that gives AI assistants structured access to curated AWS knowledge sources, including architectural guidance, best practices, service concepts, and operational recommendations. It's designed to help AI workflows answer conceptual questions about AWS by grounding responses in authoritative knowledge rather than raw documentation alone. The server provides capabilities including architectural guidance access, concept-level reasoning support, contextual discovery, and grounded AI responses to reduce hallucinations by anchoring answers in vetted AWS knowledge sources.",
                 "status": "Active",
@@ -10608,8 +10608,8 @@
                   "http"
                 ],
                 "metadata": {
-                  "last_updated": "2026-03-22T03:02:38Z",
-                  "stars": 630
+                  "last_updated": "2026-04-23T03:03:47Z",
+                  "stars": 647
                 },
                 "overview": "## Elasticsearch MCP Server\n\nThe elasticsearch-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Elasticsearch clusters through a structured, AI-friendly interface. It allows AI-driven workflows to search, index, analyze, and manage data stored in Elasticsearch without writing custom client code or switching to separate tooling. This server is well suited for search-driven applications, log analysis, observability workflows, and any AI use case that depends on fast, flexible querying over large datasets.",
                 "permissions": {
@@ -11153,8 +11153,8 @@
                   "/projects"
                 ],
                 "metadata": {
-                  "last_updated": "2026-03-23T03:03:35Z",
-                  "stars": 81813
+                  "last_updated": "2026-04-23T03:03:47Z",
+                  "stars": 84329
                 },
                 "overview": "## Filesystem MCP Server\n\nThe filesystem-mcp-server is a Model Context Protocol (MCP) server that gives AI assistants direct, structured access to the local filesystem. It allows AI-driven workflows to read, write, and organize files and directories as part of a larger reasoning process, making persistent storage and file-based context a first-class capability inside MCP-compatible assistants. The server enables use cases including developer workflows, data preparation, note-taking, and artifact generation where AI systems need controlled access to local files.",
                 "permissions": {
@@ -12446,75 +12446,6 @@
       },
       {
         "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-        "name": "io.github.stacklok/genai-toolbox",
-        "description": "Will be removed soon. Please use database-toolbox instead.",
-        "title": "GenAI Toolbox (Deprecated)",
-        "repository": {
-          "url": "https://github.com/googleapis/genai-toolbox",
-          "source": "github"
-        },
-        "version": "1.0.0",
-        "icons": [
-          {
-            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/genai-toolbox/icon.svg",
-            "mimeType": "image/svg+xml",
-            "sizes": [
-              "any"
-            ]
-          }
-        ],
-        "packages": [
-          {
-            "registryType": "oci",
-            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.1.0",
-            "transport": {
-              "type": "sse",
-              "url": "http://localhost:5000"
-            }
-          }
-        ],
-        "_meta": {
-          "io.modelcontextprotocol.registry/publisher-provided": {
-            "io.github.stacklok": {
-              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.1.0": {
-                "metadata": {
-                  "last_updated": "2026-04-17T03:04:14Z",
-                  "stars": 14628
-                },
-                "permissions": {
-                  "network": {
-                    "outbound": {
-                      "insecure_allow_all": true
-                    }
-                  }
-                },
-                "status": "Deprecated",
-                "tags": [
-                  "database",
-                  "sql",
-                  "postgresql",
-                  "mysql",
-                  "sqlite",
-                  "mongodb",
-                  "redis",
-                  "connection-pooling",
-                  "authentication",
-                  "observability",
-                  "toolbox",
-                  "genai",
-                  "mcp-server"
-                ],
-                "tier": "Official",
-                "tools": [
-                  "set_during_runtime"
-                ]
-              }
-            }
-          }
-        }
-      },
-      {
-        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
         "name": "io.github.stacklok/git",
         "description": "Provides support for interacting with Git repositories",
         "title": "Git",
@@ -12865,7 +12796,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/github/github-mcp-server:v1.0.1",
+            "identifier": "ghcr.io/github/github-mcp-server:v1.0.3",
             "transport": {
               "type": "stdio"
             },
@@ -12898,9 +12829,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/github/github-mcp-server:v1.0.1": {
+              "ghcr.io/github/github-mcp-server:v1.0.3": {
                 "metadata": {
-                  "last_updated": "2026-04-21T16:40:06Z",
+                  "last_updated": "2026-04-24T13:29:36Z",
                   "stars": 28440
                 },
                 "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -15315,7 +15246,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/grafana/mcp-grafana:0.11.6",
+            "identifier": "docker.io/grafana/mcp-grafana:0.12.0",
             "transport": {
               "type": "sse",
               "url": "http://localhost:8000"
@@ -15342,10 +15273,10 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/grafana/mcp-grafana:0.11.6": {
+              "docker.io/grafana/mcp-grafana:0.12.0": {
                 "metadata": {
-                  "last_updated": "2026-03-22T03:02:38Z",
-                  "stars": 2616
+                  "last_updated": "2026-04-23T03:03:46Z",
+                  "stars": 2892
                 },
                 "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential.",
                 "permissions": {
@@ -24951,7 +24882,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/nokia/mcp-redfish:0.3.6",
+            "identifier": "ghcr.io/nokia/mcp-redfish:0.3.7",
             "transport": {
               "type": "stdio"
             },
@@ -25002,9 +24933,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/nokia/mcp-redfish:0.3.6": {
+              "ghcr.io/nokia/mcp-redfish:0.3.7": {
                 "metadata": {
-                  "last_updated": "2026-04-17T18:53:57Z",
+                  "last_updated": "2026-04-23T14:50:59Z",
                   "stars": 6
                 },
                 "overview": "## Redfish MCP Server\n\nThe mcp-redfish server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with systems that expose the Redfish API, the industry-standard RESTful interface for out-of-band hardware management. It allows AI-driven workflows to inspect server hardware, firmware, power state, and health information without switching tools or manually navigating vendor-specific management consoles. This server is especially useful for data center operations, hardware monitoring, infrastructure troubleshooting, and AI-assisted systems management workflows.",
@@ -25020,10 +24951,11 @@
                 "tool_definitions": [
                   {
                     "annotations": {},
-                    "description": "Given a Redfish resource URL (e.g., 'https://\u003cserver address\u003e/redfish/v1'), fetches and returns its data as JSON.\nTo construct a valid Redfish resource URL as input, use the following url schema 'https://\u003cserver address\u003e/redfish/v1/\u003cresource path\u003e'.\n\nArgs:\n    url (str): The Redfish URL to access the resource.\n\nReturns:\n    dict: A JSON document containing:\n        - \"headers\": Response headers including Allow, Content-Type, Content-Encoding (optional), ETag, and Link\n        - \"data\": The actual resource data in JSON format\n    Returns an error message if the URL is invalid.",
+                    "description": "Given a Redfish resource URL (e.g., 'https://\u003cserver address\u003e/redfish/v1'), fetches and returns its data as JSON.\nTo construct a valid Redfish resource URL as input, use the following url schema 'https://\u003cserver address\u003e/redfish/v1/\u003cresource path\u003e'.",
                     "inputSchema": {
                       "properties": {
                         "url": {
+                          "description": "The Redfish URL to access the resource.",
                           "type": "string"
                         }
                       },
@@ -46040,7 +45972,7 @@
                   "license": "MIT"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-24T02:59:29Z"
+                  "last_updated": "2026-04-24T03:04:35Z"
                 },
                 "oauth_config": {
                   "authorize_url": "https://slack.com/oauth/v2_user/authorize",

@@ -1,8 +1,205 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-04-23T00:57:17Z",
+  "last_updated": "2026-04-25T00:52:28Z",
   "servers": {
+    "adb-mysql-mcp-server": {
+      "title": "AnalyticDB for MySQL",
+      "description": "Official MCP server for AnalyticDB for MySQL of Alibaba Cloud",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "stdio",
+      "tools": [
+        "execute_sql",
+        "get_execution_plan",
+        "get_query_plan"
+      ],
+      "metadata": {
+        "stars": 31,
+        "last_updated": "2026-04-18T03:03:09Z"
+      },
+      "repository_url": "https://github.com/aliyun/alibabacloud-adb-mysql-mcp-server",
+      "tags": [
+        "database",
+        "mysql",
+        "analytics",
+        "sql",
+        "alibaba-cloud",
+        "data-warehouse"
+      ],
+      "overview": "## AnalyticDB for MySQL MCP Server\n\nThe adb-mysql-mcp-server provides a standardized interface that lets AI assistants interact directly with Alibaba Cloud AnalyticDB for MySQL databases through the Model Context Protocol (MCP). It enables seamless access to database metadata and SQL operations so AI workflows can query, analyze, and manage data without needing to embed database-specific logic directly in the assistant.",
+      "tool_definitions": [
+        {
+          "annotations": {},
+          "description": "Execute a SQL query in the Adb MySQL Cluster",
+          "inputSchema": {
+            "properties": {
+              "query": {
+                "description": "The SQL query to execute",
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ],
+            "type": "object"
+          },
+          "name": "execute_sql"
+        },
+        {
+          "annotations": {},
+          "description": "Get the actual execution plan with runtime statistics for a SQL query",
+          "inputSchema": {
+            "properties": {
+              "query": {
+                "description": "The SQL query to analyze",
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ],
+            "type": "object"
+          },
+          "name": "get_execution_plan"
+        },
+        {
+          "annotations": {},
+          "description": "Get the query plan for a SQL query",
+          "inputSchema": {
+            "properties": {
+              "query": {
+                "description": "The SQL query to analyze",
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ],
+            "type": "object"
+          },
+          "name": "get_query_plan"
+        }
+      ],
+      "image": "ghcr.io/stacklok/dockyard/uvx/adb-mysql-mcp-server:1.0.0",
+      "permissions": {
+        "network": {
+          "outbound": {
+            "insecure_allow_all": true
+          }
+        }
+      },
+      "env_vars": [
+        {
+          "name": "ADB_MYSQL_HOST",
+          "description": "AnalyticDB for MySQL host address",
+          "required": true
+        },
+        {
+          "name": "ADB_MYSQL_PORT",
+          "description": "AnalyticDB for MySQL port number",
+          "required": true
+        },
+        {
+          "name": "ADB_MYSQL_USER",
+          "description": "Database user for authentication",
+          "required": true
+        },
+        {
+          "name": "ADB_MYSQL_PASSWORD",
+          "description": "Database password for authentication",
+          "required": true,
+          "secret": true
+        },
+        {
+          "name": "ADB_MYSQL_DATABASE",
+          "description": "Database name to connect to",
+          "required": true
+        }
+      ],
+      "provenance": {
+        "sigstore_url": "tuf-repo-cdn.sigstore.dev",
+        "repository_uri": "https://github.com/stacklok/dockyard",
+        "signer_identity": "/.github/workflows/build-containers.yml",
+        "runner_environment": "github-hosted",
+        "cert_issuer": "https://token.actions.githubusercontent.com"
+      }
+    },
+    "agentql-mcp": {
+      "title": "AgentQL",
+      "description": "Model Context Protocol server that integrates AgentQL data extraction capabilities",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "stdio",
+      "tools": [
+        "extract-web-data"
+      ],
+      "metadata": {
+        "stars": 161,
+        "last_updated": "2026-04-18T03:03:08Z"
+      },
+      "repository_url": "https://github.com/tinyfish-io/agentql-mcp",
+      "tags": [
+        "web-scraping",
+        "data-extraction",
+        "ai",
+        "automation",
+        "web"
+      ],
+      "overview": "## AgentQL MCP Server\n\nThe agentql-mcp server is a Model Context Protocol (MCP) implementation that brings AgentQL's web data extraction capabilities into your AI-driven workflows. It lets AI assistants retrieve structured data from web pages by accepting a URL and a natural-language description of the data you want. This means agents can incorporate real-time, prompt-driven web insights directly into automation, research, and content tasks without custom scraping scripts.",
+      "tool_definitions": [
+        {
+          "annotations": {},
+          "description": "Extracts structured data as JSON from a web page given a URL using a Natural Language description of the data.",
+          "inputSchema": {
+            "properties": {
+              "prompt": {
+                "description": "Natural Language description of the data to extract from the page",
+                "type": "string"
+              },
+              "url": {
+                "description": "The URL of the public webpage to extract data from",
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "prompt"
+            ],
+            "type": "object"
+          },
+          "name": "extract-web-data"
+        }
+      ],
+      "image": "ghcr.io/stacklok/dockyard/npx/agentql-mcp:1.0.1",
+      "permissions": {
+        "network": {
+          "outbound": {
+            "allow_host": [
+              "api.agentql.com"
+            ],
+            "allow_port": [
+              443
+            ]
+          }
+        }
+      },
+      "env_vars": [
+        {
+          "name": "AGENTQL_API_KEY",
+          "description": "API key for AgentQL service",
+          "required": true,
+          "secret": true
+        }
+      ],
+      "provenance": {
+        "sigstore_url": "tuf-repo-cdn.sigstore.dev",
+        "repository_uri": "https://github.com/stacklok/dockyard",
+        "signer_identity": "/.github/workflows/build-containers.yml",
+        "runner_environment": "github-hosted",
+        "cert_issuer": "https://token.actions.githubusercontent.com"
+      }
+    },
     "apollo-mcp-server": {
       "title": "Apollo GraphQL",
       "description": "Exposes GraphQL operations as MCP tools for AI-driven API orchestration with Apollo",
@@ -25,7 +222,7 @@
         "mcp"
       ],
       "overview": "## Apollo MCP Server\n\nThe apollo-mcp-server is a Model Context Protocol (MCP) server implementation that makes your GraphQL API operations available as MCP tools for AI assistants and agents. It acts as a translation layer between AI clients and your GraphQL infrastructure, exposing query and mutation capabilities through MCP so models can fetch, explore, and orchestrate your graph operations without bespoke tooling.",
-      "image": "ghcr.io/apollographql/apollo-mcp-server:v1.12.0",
+      "image": "ghcr.io/apollographql/apollo-mcp-server:v1.13.0",
       "target_port": 5000,
       "permissions": {
         "network": {
@@ -77,7 +274,7 @@
       ],
       "metadata": {
         "stars": 39,
-        "last_updated": "2026-03-25T03:02:07Z"
+        "last_updated": "2026-04-24T09:55:12Z"
       },
       "repository_url": "https://github.com/datastax/astra-db-mcp",
       "tags": [
@@ -135,8 +332,8 @@
         "suggest_aws_commands"
       ],
       "metadata": {
-        "stars": 8539,
-        "last_updated": "2026-03-23T03:03:36Z"
+        "stars": 8858,
+        "last_updated": "2026-04-24T03:04:35Z"
       },
       "repository_url": "https://github.com/awslabs/mcp",
       "tags": [
@@ -7040,8 +7237,8 @@
         "idp_investigate_entity"
       ],
       "metadata": {
-        "stars": 123,
-        "last_updated": "2026-03-23T03:03:35Z"
+        "stars": 144,
+        "last_updated": "2026-04-24T03:04:34Z"
       },
       "repository_url": "https://github.com/crowdstrike/falcon-mcp",
       "tags": [
@@ -7160,6 +7357,1545 @@
         "0.0.0.0"
       ]
     },
+    "dolt": {
+      "title": "Dolt",
+      "description": "Git-like version control for SQL databases with branching, merging, and data versioning",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "add_dolt_remote",
+        "add_dolt_test",
+        "alter_table",
+        "clone_database",
+        "create_database",
+        "create_dolt_branch",
+        "create_dolt_branch_from_head",
+        "create_dolt_commit",
+        "create_table",
+        "delete_dolt_branch",
+        "describe_table",
+        "dolt_fetch_all_branches",
+        "dolt_fetch_branch",
+        "dolt_pull_branch",
+        "dolt_push_branch",
+        "dolt_reset_hard",
+        "dolt_reset_soft",
+        "drop_database",
+        "drop_table",
+        "exec",
+        "get_dolt_merge_status",
+        "kill_process",
+        "list_databases",
+        "list_dolt_branches",
+        "list_dolt_commits",
+        "list_dolt_diff_changes_by_table_name",
+        "list_dolt_diff_changes_in_date_range",
+        "list_dolt_diff_changes_in_working_set",
+        "list_dolt_remotes",
+        "merge_dolt_branch",
+        "merge_dolt_branch_no_fast_forward",
+        "move_dolt_branch",
+        "query",
+        "remove_dolt_remote",
+        "remove_dolt_test",
+        "run_dolt_tests",
+        "select_active_branch",
+        "select_version",
+        "show_create_table",
+        "show_processlist",
+        "show_tables",
+        "stage_all_tables_for_dolt_commit",
+        "stage_table_for_dolt_commit",
+        "unstage_all_tables",
+        "unstage_table"
+      ],
+      "metadata": {
+        "stars": 8,
+        "last_updated": "2026-04-24T15:18:31Z"
+      },
+      "repository_url": "https://github.com/dolthub/dolt-mcp",
+      "tags": [
+        "database",
+        "version-control",
+        "sql",
+        "mysql",
+        "git",
+        "collaboration",
+        "data-science",
+        "branching",
+        "merging",
+        "reproducibility"
+      ],
+      "overview": "## Dolt MCP Server\n\nThe dolt-mcp-server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Dolt, a SQL database with built-in Git-style version control. It facilitates AI-driven workflows including querying data, inspecting schema changes, creating and managing branches, reviewing diffs, and analyzing historical data — all within a unified interface. It's particularly valuable for data analysis, auditing, experimentation, and collaborative workflows requiring tracking and understanding of data changes over time.",
+      "tool_definitions": [
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Adds a remote to the Dolt server.",
+          "inputSchema": {
+            "properties": {
+              "remote_name": {
+                "description": "The name of the remote to add.",
+                "type": "string"
+              },
+              "remote_url": {
+                "description": "The URL of the remote to add.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "remote_name",
+              "remote_url"
+            ],
+            "type": "object"
+          },
+          "name": "add_dolt_remote"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Adds or updates a row in the dolt_tests table.",
+          "inputSchema": {
+            "properties": {
+              "assertion_comparator": {
+                "description": "Comparator: == | != | \u003c | \u003e | \u003c= | \u003e=",
+                "type": "string"
+              },
+              "assertion_type": {
+                "description": "Assertion type: expected_rows | expected_columns | expected_single_value",
+                "type": "string"
+              },
+              "assertion_value": {
+                "description": "Optional assertion value; set empty for NULL",
+                "type": "string"
+              },
+              "query": {
+                "description": "Read-only SQL to validate",
+                "type": "string"
+              },
+              "test_group": {
+                "description": "Optional test_group for grouping tests",
+                "type": "string"
+              },
+              "test_name": {
+                "description": "Unique test_name identifier",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "test_name",
+              "query",
+              "assertion_type",
+              "assertion_comparator"
+            ],
+            "type": "object"
+          },
+          "name": "add_dolt_test"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": false,
+            "openWorldHint": false
+          },
+          "description": "Alters a table.",
+          "inputSchema": {
+            "properties": {
+              "query": {
+                "description": "The ALTER TABLE statement to run.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "query"
+            ],
+            "type": "object"
+          },
+          "name": "alter_table"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": true
+          },
+          "description": "Clones a database from the specified remote URL.",
+          "inputSchema": {
+            "properties": {
+              "name": {
+                "description": "The local name of the cloned database.",
+                "type": "string"
+              },
+              "remote_url": {
+                "description": "The url of the remote database to clone.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "remote_url"
+            ],
+            "type": "object"
+          },
+          "name": "clone_database"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Creates a database in the Dolt server.",
+          "inputSchema": {
+            "properties": {
+              "database": {
+                "description": "The name of the database to create.",
+                "type": "string"
+              },
+              "if_not_exists": {
+                "description": "If true will only create the specified database if it does not exist in the Dolt server.",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "database"
+            ],
+            "type": "object"
+          },
+          "name": "create_database"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": false,
+            "openWorldHint": false
+          },
+          "description": "Creates a new branch from the specified original branch.",
+          "inputSchema": {
+            "properties": {
+              "force": {
+                "description": "If true, will force the creation of the new branch even if it already exists.",
+                "type": "boolean"
+              },
+              "new_branch": {
+                "description": "The name of the new branch.",
+                "type": "string"
+              },
+              "original_branch": {
+                "description": "The name of the branch to copy.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "original_branch",
+              "new_branch"
+            ],
+            "type": "object"
+          },
+          "name": "create_dolt_branch"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": false,
+            "openWorldHint": false
+          },
+          "description": "Creates a new branch from current HEAD.",
+          "inputSchema": {
+            "properties": {
+              "force": {
+                "description": "If true, will force the creation of the new branch even if it already exists.",
+                "type": "boolean"
+              },
+              "new_branch": {
+                "description": "The name of the new branch.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "new_branch"
+            ],
+            "type": "object"
+          },
+          "name": "create_dolt_branch_from_head"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Creates a Dolt commit with the specified message.",
+          "inputSchema": {
+            "properties": {
+              "message": {
+                "description": "The message to use in the Dolt commit.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "message"
+            ],
+            "type": "object"
+          },
+          "name": "create_dolt_commit"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": false,
+            "openWorldHint": false
+          },
+          "description": "Creates a table.",
+          "inputSchema": {
+            "properties": {
+              "query": {
+                "description": "The CREATE TABLE statement to run.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "query"
+            ],
+            "type": "object"
+          },
+          "name": "create_table"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": true,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Deletes a branch.",
+          "inputSchema": {
+            "properties": {
+              "branch": {
+                "description": "The name of the branch to delete.",
+                "type": "string"
+              },
+              "force": {
+                "description": "If true, will force the deletion of the specified branch even if it has uncommitted changes.",
+                "type": "boolean"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "branch"
+            ],
+            "type": "object"
+          },
+          "name": "delete_dolt_branch"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Describes a table in the current database.",
+          "inputSchema": {
+            "properties": {
+              "table": {
+                "description": "The name of the table to describe.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "table"
+            ],
+            "type": "object"
+          },
+          "name": "describe_table"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": true
+          },
+          "description": "Fetches all branches from the remote.",
+          "inputSchema": {
+            "properties": {
+              "remote_name": {
+                "description": "The name of the remote to fetch all branches from.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "remote_name"
+            ],
+            "type": "object"
+          },
+          "name": "dolt_fetch_all_branches"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": true
+          },
+          "description": "Fetches the specified branch from the remote.",
+          "inputSchema": {
+            "properties": {
+              "branch": {
+                "description": "The name of the remote branch to fetch.",
+                "type": "string"
+              },
+              "remote_name": {
+                "description": "The name of the remote to fetch the branch from.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "remote_name",
+              "branch"
+            ],
+            "type": "object"
+          },
+          "name": "dolt_fetch_branch"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": false,
+            "openWorldHint": true
+          },
+          "description": "Pulls the specified branch from the remote.",
+          "inputSchema": {
+            "properties": {
+              "branch": {
+                "description": "The name of the remote branch to pull.",
+                "type": "string"
+              },
+              "force": {
+                "description": "If true, the specified branch is force pulled.",
+                "type": "boolean"
+              },
+              "remote_name": {
+                "description": "The name of the remote to pull the branch from.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "remote_name",
+              "branch"
+            ],
+            "type": "object"
+          },
+          "name": "dolt_pull_branch"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": false,
+            "openWorldHint": true
+          },
+          "description": "Pushes the specified branch to the remote.",
+          "inputSchema": {
+            "properties": {
+              "branch": {
+                "description": "The name of the local branch to push.",
+                "type": "string"
+              },
+              "force": {
+                "description": "If true, the specified branch is force pushed.",
+                "type": "boolean"
+              },
+              "remote_name": {
+                "description": "The name of the remote to push the branch to.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "remote_name",
+              "branch"
+            ],
+            "type": "object"
+          },
+          "name": "dolt_push_branch"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": true,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Hard resets the working set to the specified revision.",
+          "inputSchema": {
+            "properties": {
+              "revision": {
+                "description": "The revision to reset to (working set, table name, branch, commit sha, or '.' for all tables).",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "revision"
+            ],
+            "type": "object"
+          },
+          "name": "dolt_reset_hard"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Soft resets the working set to the specified revision.",
+          "inputSchema": {
+            "properties": {
+              "revision": {
+                "description": "The revision to reset to (working set, table name, branch, commit sha, or '.' for all tables).",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "revision"
+            ],
+            "type": "object"
+          },
+          "name": "dolt_reset_soft"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": true,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Drops a database in the Dolt server.",
+          "inputSchema": {
+            "properties": {
+              "database": {
+                "description": "The name of the database to drop.",
+                "type": "string"
+              },
+              "if_exists": {
+                "description": "If true will only drop the specified database if it exists in the Dolt server.",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "database"
+            ],
+            "type": "object"
+          },
+          "name": "drop_database"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": true,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Drops the specified table.",
+          "inputSchema": {
+            "properties": {
+              "if_exists": {
+                "description": "If true will only drop the specified table if it exists.",
+                "type": "boolean"
+              },
+              "table": {
+                "description": "The name of the table to drop.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "table"
+            ],
+            "type": "object"
+          },
+          "name": "drop_table"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": true,
+            "idempotentHint": false,
+            "openWorldHint": false
+          },
+          "description": "Executes a WRITE query.",
+          "inputSchema": {
+            "properties": {
+              "query": {
+                "description": "The query to run.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "query"
+            ],
+            "type": "object"
+          },
+          "name": "exec"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Get the current merge status of the checked out branch.",
+          "inputSchema": {
+            "properties": {
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch"
+            ],
+            "type": "object"
+          },
+          "name": "get_dolt_merge_status"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": true,
+            "idempotentHint": false,
+            "openWorldHint": false
+          },
+          "description": "Kill a running process by id (KILL [QUERY] \u003cid\u003e).",
+          "inputSchema": {
+            "properties": {
+              "kill_query": {
+                "description": "If true, uses KILL QUERY \u003cid\u003e instead of KILL \u003cid\u003e.",
+                "type": "boolean"
+              },
+              "process_id": {
+                "description": "The process id to kill (from SHOW PROCESSLIST). Must be a positive integer.",
+                "type": "number"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "process_id"
+            ],
+            "type": "object"
+          },
+          "name": "kill_process"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Lists all databases in the Dolt server.",
+          "inputSchema": {
+            "properties": {},
+            "required": [],
+            "type": "object"
+          },
+          "name": "list_databases"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Lists all Dolt branches.",
+          "inputSchema": {
+            "properties": {
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database"
+            ],
+            "type": "object"
+          },
+          "name": "list_dolt_branches"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Lists all Dolt commits on the current branch, newest to oldest.",
+          "inputSchema": {
+            "properties": {
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch"
+            ],
+            "type": "object"
+          },
+          "name": "list_dolt_commits"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Lists dolt_diff changes for the specified table between two Dolt commits.",
+          "inputSchema": {
+            "properties": {
+              "from_commit": {
+                "description": "The 'from' commit of the Dolt diff.",
+                "type": "string"
+              },
+              "hash_of_from_commit": {
+                "description": "The 'from' commit of the Dolt diff.",
+                "type": "string"
+              },
+              "hash_of_to_commit": {
+                "description": "The 'from' commit of the Dolt diff.",
+                "type": "string"
+              },
+              "table": {
+                "description": "The name of the table.",
+                "type": "string"
+              },
+              "to_commit": {
+                "description": "The 'from' commit of the Dolt diff.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "table"
+            ],
+            "type": "object"
+          },
+          "name": "list_dolt_diff_changes_by_table_name"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Creates a new branch from the specified original branch.",
+          "inputSchema": {
+            "properties": {
+              "end": {
+                "description": "The end date of the range in the format 'YYYY-MM-DD'.",
+                "type": "string"
+              },
+              "start": {
+                "description": "The start date of the range in the format 'YYYY-MM-DD'.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "start",
+              "end"
+            ],
+            "type": "object"
+          },
+          "name": "list_dolt_diff_changes_in_date_range"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Lists all dolt_diff changes in the current working set.",
+          "inputSchema": {
+            "properties": {
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch"
+            ],
+            "type": "object"
+          },
+          "name": "list_dolt_diff_changes_in_working_set"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Lists the Dolt server's remotes.",
+          "inputSchema": {
+            "properties": {
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database"
+            ],
+            "type": "object"
+          },
+          "name": "list_dolt_remotes"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": true,
+            "idempotentHint": false,
+            "openWorldHint": false
+          },
+          "description": "Merges the specified branch into the currently checked out branch.",
+          "inputSchema": {
+            "properties": {
+              "branch": {
+                "description": "The name of the branch to merge into the currently checked out branch.",
+                "type": "string"
+              },
+              "message": {
+                "description": "The message for the Dolt commit resulting from a successful merge.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "branch"
+            ],
+            "type": "object"
+          },
+          "name": "merge_dolt_branch"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": true,
+            "idempotentHint": false,
+            "openWorldHint": false
+          },
+          "description": "Performs a non fast-foward merge of the specified branch into the currently checked out branch.",
+          "inputSchema": {
+            "properties": {
+              "branch": {
+                "description": "The name of the branch to merge into the currently checked out branch.",
+                "type": "string"
+              },
+              "message": {
+                "description": "The message for the Dolt commit resulting from a successful merge.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "branch"
+            ],
+            "type": "object"
+          },
+          "name": "merge_dolt_branch_no_fast_forward"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": false,
+            "openWorldHint": false
+          },
+          "description": "Moves/renames a branch from the specified original branch to the provided new name.",
+          "inputSchema": {
+            "properties": {
+              "force": {
+                "description": "If true, will force the original branch to be moved to its new name even if a branch of that name already exists.",
+                "type": "boolean"
+              },
+              "new_name": {
+                "description": "The new name of the branch.",
+                "type": "string"
+              },
+              "old_name": {
+                "description": "The name of the branch to move/rename.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "old_name",
+              "new_name"
+            ],
+            "type": "object"
+          },
+          "name": "move_dolt_branch"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Executes a READ query.",
+          "inputSchema": {
+            "properties": {
+              "query": {
+                "description": "The query to run.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_branch",
+              "working_database",
+              "query"
+            ],
+            "type": "object"
+          },
+          "name": "query"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Removes a remote from the Dolt server.",
+          "inputSchema": {
+            "properties": {
+              "remote_name": {
+                "description": "The name of the remote to remove.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "remote_name"
+            ],
+            "type": "object"
+          },
+          "name": "remove_dolt_remote"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": true,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Removes a row from the dolt_tests table.",
+          "inputSchema": {
+            "properties": {
+              "test_name": {
+                "description": "Unique test_name identifier",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "test_name"
+            ],
+            "type": "object"
+          },
+          "name": "remove_dolt_test"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Runs dolt_tests via SELECT * FROM dolt_test_run(). Optionally filter by test name or group.",
+          "inputSchema": {
+            "properties": {
+              "target": {
+                "description": "Optional filter: '*' for all, a specific test_name, or a test_group. If omitted, runs all tests.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_branch",
+              "working_database"
+            ],
+            "type": "object"
+          },
+          "name": "run_dolt_tests"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Displays the currently checked out branch.",
+          "inputSchema": {
+            "properties": {
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch"
+            ],
+            "type": "object"
+          },
+          "name": "select_active_branch"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Displays the version of the Dolt server.",
+          "inputSchema": {
+            "properties": {},
+            "required": [],
+            "type": "object"
+          },
+          "name": "select_version"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Shows the schema of the specified table.",
+          "inputSchema": {
+            "properties": {
+              "table": {
+                "description": "The name of the table.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_branch",
+              "working_database",
+              "table"
+            ],
+            "type": "object"
+          },
+          "name": "show_create_table"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Show the server process list (SHOW [FULL] PROCESSLIST).",
+          "inputSchema": {
+            "properties": {
+              "full": {
+                "description": "If true, uses SHOW FULL PROCESSLIST.",
+                "type": "boolean"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_branch",
+              "working_database"
+            ],
+            "type": "object"
+          },
+          "name": "show_processlist"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Show tables in the current database.",
+          "inputSchema": {
+            "properties": {
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_branch",
+              "working_database"
+            ],
+            "type": "object"
+          },
+          "name": "show_tables"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Stages a table for a Dolt commit.",
+          "inputSchema": {
+            "properties": {
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch"
+            ],
+            "type": "object"
+          },
+          "name": "stage_all_tables_for_dolt_commit"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Stages a table for a Dolt commit.",
+          "inputSchema": {
+            "properties": {
+              "table": {
+                "description": "The name of the table to stage.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "table"
+            ],
+            "type": "object"
+          },
+          "name": "stage_table_for_dolt_commit"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Removes all staged tables from the staging area.",
+          "inputSchema": {
+            "properties": {
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch"
+            ],
+            "type": "object"
+          },
+          "name": "unstage_all_tables"
+        },
+        {
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "description": "Removes a staged table from the staging area.",
+          "inputSchema": {
+            "properties": {
+              "table": {
+                "description": "The name of the table to remove from the staging area.",
+                "type": "string"
+              },
+              "working_branch": {
+                "description": "The name of the working branch to checkout prior to making the tool call.",
+                "type": "string"
+              },
+              "working_database": {
+                "description": "The name of the database to use prior to making the tool call.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "working_database",
+              "working_branch",
+              "table"
+            ],
+            "type": "object"
+          },
+          "name": "unstage_table"
+        }
+      ],
+      "image": "docker.io/dolthub/dolt-mcp:0.3.6",
+      "target_port": 8080,
+      "permissions": {
+        "network": {
+          "outbound": {
+            "allow_host": [
+              "localhost",
+              "dolthub.com",
+              ".dolthub.com"
+            ],
+            "allow_port": [
+              3306,
+              443,
+              80,
+              8080
+            ]
+          }
+        }
+      },
+      "env_vars": [
+        {
+          "name": "DOLT_HOST",
+          "description": "Hostname of the Dolt SQL server",
+          "required": true
+        },
+        {
+          "name": "DOLT_PORT",
+          "description": "Dolt server port",
+          "required": false,
+          "default": "3306"
+        },
+        {
+          "name": "DOLT_USER",
+          "description": "Username for Dolt server authentication",
+          "required": true
+        },
+        {
+          "name": "DOLT_PASSWORD",
+          "description": "Password for Dolt server authentication",
+          "required": false,
+          "secret": true
+        },
+        {
+          "name": "DOLT_DATABASE",
+          "description": "Name of the database to connect to",
+          "required": true
+        },
+        {
+          "name": "MCP_MODE",
+          "description": "Server mode (stdio or http)",
+          "required": false,
+          "default": "http"
+        },
+        {
+          "name": "MCP_PORT",
+          "description": "HTTP server port (HTTP mode only)",
+          "required": false,
+          "default": "8080"
+        }
+      ]
+    },
     "elasticsearch": {
       "title": "Elasticsearch",
       "description": "Connect to your Elasticsearch data.",
@@ -7249,6 +8985,53 @@
       "args": [
         "http"
       ]
+    },
+    "excalidraw": {
+      "title": "Excalidraw",
+      "description": "Streams hand-drawn Excalidraw diagrams with animated drawing, camera panning, and fullscreen editing",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "stdio",
+      "tools": [
+        "read_me",
+        "create_view",
+        "export_to_excalidraw",
+        "save_checkpoint",
+        "read_checkpoint"
+      ],
+      "metadata": {
+        "stars": 3807,
+        "last_updated": "2026-04-09T03:03:29Z"
+      },
+      "repository_url": "https://github.com/excalidraw/excalidraw-mcp",
+      "tags": [
+        "diagrams",
+        "visualization",
+        "excalidraw",
+        "whiteboard",
+        "drawing",
+        "mcp-app"
+      ],
+      "overview": "## Excalidraw\n\nThe Excalidraw MCP App server streams hand-drawn Excalidraw diagrams directly into the chat with smooth viewport camera control and interactive fullscreen editing. AI assistants can draw architecture diagrams, sketches, and illustrations using Excalidraw's hand-drawn aesthetic, with support for checkpointing and restoring diagram state. Finished diagrams can be exported and shared via excalidraw.com.",
+      "custom_metadata": {
+        "author": "Excalidraw",
+        "homepage": "https://excalidraw.com",
+        "license": "MIT"
+      },
+      "image": "ghcr.io/stacklok/dockyard/npx/excalidraw-server:0.3.2",
+      "permissions": {
+        "network": {
+          "outbound": {
+            "allow_host": [
+              "json.excalidraw.com",
+              ".excalidraw.com"
+            ],
+            "allow_port": [
+              443
+            ]
+          }
+        }
+      }
     },
     "firecrawl": {
       "title": "Firecrawl",
@@ -8385,7 +10168,7 @@
       ],
       "metadata": {
         "stars": 28599,
-        "last_updated": "2026-04-21T16:39:58Z"
+        "last_updated": "2026-04-24T13:29:41Z"
       },
       "repository_url": "https://github.com/github/github-mcp-server",
       "tags": [
@@ -10214,7 +11997,7 @@
           "name": "update_pull_request_branch"
         }
       ],
-      "image": "ghcr.io/github/github-mcp-server:v1.0.1",
+      "image": "ghcr.io/github/github-mcp-server:v1.0.3",
       "permissions": {
         "network": {
           "outbound": {
@@ -10338,8 +12121,8 @@
         "update_dashboard"
       ],
       "metadata": {
-        "stars": 2618,
-        "last_updated": "2026-03-23T03:03:35Z"
+        "stars": 2900,
+        "last_updated": "2026-04-24T03:04:34Z"
       },
       "repository_url": "https://github.com/grafana/mcp-grafana",
       "tags": [
@@ -10362,7 +12145,7 @@
         "oncall"
       ],
       "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential.",
-      "image": "docker.io/grafana/mcp-grafana:0.11.6",
+      "image": "docker.io/grafana/mcp-grafana:0.12.0",
       "target_port": 8000,
       "permissions": {
         "network": {
@@ -13487,6 +15270,1840 @@
         "runner_environment": "github-hosted",
         "cert_issuer": "https://token.actions.githubusercontent.com"
       }
+    },
+    "kion": {
+      "title": "Kion",
+      "description": "Integrate with a Kion.io instance for cloud management, FinOps, and governance",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "stdio",
+      "tools": [
+        "add_project_spend_plan_entries",
+        "allocate_funds",
+        "create_budget",
+        "create_funding_source",
+        "create_ou",
+        "create_project_with_budget",
+        "create_project_with_spend_plan",
+        "get_accounts",
+        "get_cloud_access_role_details",
+        "get_cloud_access_roles_on_entity",
+        "get_cloud_provider_services",
+        "get_cloud_providers",
+        "get_compliance_check",
+        "get_compliance_checks_paginated",
+        "get_compliance_findings",
+        "get_compliance_ous",
+        "get_compliance_program",
+        "get_compliance_standard",
+        "get_compliance_standard_project",
+        "get_compliance_standards_paginated",
+        "get_entity_by_id",
+        "get_label_key_id",
+        "get_labels",
+        "get_ou_budget",
+        "get_ou_funding_sources",
+        "get_ous",
+        "get_permission_scheme",
+        "get_project_budget",
+        "get_project_spend_plan_with_totals",
+        "get_projects",
+        "get_spend_report",
+        "get_suppressed_compliance_findings",
+        "get_tag_keys",
+        "get_tag_values",
+        "get_user_cloud_access_roles",
+        "get_user_groups",
+        "get_user_info",
+        "get_users",
+        "update_budget"
+      ],
+      "metadata": {
+        "stars": 7,
+        "last_updated": "2026-04-24T15:19:14Z"
+      },
+      "repository_url": "https://github.com/kionsoftware/kion-mcp",
+      "tags": [
+        "kion",
+        "cloud-management",
+        "finops",
+        "cloudops",
+        "compliance",
+        "governance",
+        "cloud-costs"
+      ],
+      "overview": "## Kion MCP Server\n\nThe kion MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kion, a cloud governance and financial management platform. It allows AI-driven workflows to access cloud accounts, policies, budgets, and compliance data, providing governance visibility across accounts and resources, cost and budget context for decision-making, policy awareness for inspecting controls and enforcement, cross-cloud reasoning from a unified interface, and operational support for questions about ownership and compliance.",
+      "tool_definitions": [
+        {
+          "annotations": {},
+          "description": "Adds one or more entries to an existing project spend plan.\n\n\n**Path Parameters:**\n\n- **id**: Project ID.",
+          "inputSchema": {
+            "$defs": {
+              "SpendPlanV4Put": {
+                "properties": {
+                  "amount": {
+                    "description": "Amount of funding from the funding source.",
+                    "example": "1000",
+                    "type": "string"
+                  },
+                  "end_datecode": {
+                    "description": "The month this funding source stops being usable (YYYY-MM).",
+                    "example": "2019-12",
+                    "type": "string"
+                  },
+                  "funding_source_id": {
+                    "description": "ID of the funding source the money is coming from.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "start_datecode": {
+                    "description": "The month this funding source starts being usable (YYYY-MM).",
+                    "example": "2019-01",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "end_datecode",
+                  "funding_source_id",
+                  "start_datecode"
+                ],
+                "title": "SpendPlanV4Put defines spend plan PUT record.",
+                "type": "object",
+                "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+              }
+            },
+            "properties": {
+              "id": {
+                "description": "Project ID.",
+                "format": "uint64",
+                "type": "integer"
+              },
+              "reprocess": {
+                "description": "Flag used to force payment reprocessing.",
+                "type": "boolean"
+              },
+              "skipValidation": {
+                "description": "Flag used to skip spend plan validation",
+                "type": "boolean"
+              },
+              "spend-plan": {
+                "items": {
+                  "$ref": "#/$defs/SpendPlanV4Put"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "add_project_spend_plan_entries"
+        },
+        {
+          "annotations": {},
+          "description": "Creates an allocation of funds from a funding source from one OU in the application to another.\n\nYou can use this tool to allocate funding source funds from a parent ou to a child ou. THIS IS AN IMPORTANT FINANCIAL OPERATION! ALWAYS ask the user for explicit permission before using this tool.",
+          "inputSchema": {
+            "properties": {
+              "allocate_all_available_funds": {
+                "description": "Whether all available funds should be allocated to the OU. If this is true, then amount will be ignored.",
+                "example": false,
+                "type": "boolean"
+              },
+              "amount": {
+                "description": "Amount of money being allocated from one OU to another.",
+                "example": "1000",
+                "type": "string"
+              },
+              "comments": {
+                "description": "Comments about the allocation.",
+                "example": "Allocating new funds to be used for R\u0026D.",
+                "type": "string"
+              },
+              "from_ou_id": {
+                "description": "The ID of the OU the money will be coming from.",
+                "example": 1,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "funding_source_id": {
+                "description": "The ID of the funding source where the money originally came from.",
+                "example": 1,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "to_ou_id": {
+                "description": "The ID of the OU the money will be going to.",
+                "example": 2,
+                "format": "uint64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "from_ou_id",
+              "funding_source_id",
+              "to_ou_id"
+            ],
+            "type": "object"
+          },
+          "name": "allocate_funds"
+        },
+        {
+          "annotations": {},
+          "description": "Creates a budget in the application.\n\n\n\nFUNDING REQUIREMENT: Must link funding sources with sufficient funds for the entire time period. Check GET /v3/ou/{id}/funding-source for availability. The system is in allocation mode meaning that the parent ou will need to have appropriate funds allocated to it. Check 'available' and 'allocated_in' fields to check the ou's allocation. If insufficient, ask the user if you can allocate funds from the top level ou's funding sources or if you can create a new funding source.",
+          "inputSchema": {
+            "$defs": {
+              "BudgetDataCreate": {
+                "properties": {
+                  "amount": {
+                    "description": "Amount of the budget entry in dollars.",
+                    "example": "1000",
+                    "type": "string"
+                  },
+                  "datecode": {
+                    "description": "Year and month for the budget data entry.",
+                    "example": "2022-01",
+                    "type": "string"
+                  },
+                  "funding_source_id": {
+                    "description": "ID of funding source for the budget entry. This is optional.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "priority": {
+                    "description": "Priority order of the budget entry. This is required if funding_source_id is specified.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "datecode"
+                ],
+                "title": "BudgetDataCreate is used to create a new budget entry.",
+                "type": "object",
+                "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+              }
+            },
+            "properties": {
+              "amount": {
+                "description": "Total amount for the budget. This is required if data is not specified.\nBudget entries are created between start_datecode and end_datecode (exclusive)\nwith the amount evenly distributed across the months.",
+                "example": 1000,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "data": {
+                "description": "Month to month budget amounts. If not specified, these values are generated based on\namount, start_datecode, end_datecode, and funding_source_ids.",
+                "items": {
+                  "$ref": "#/$defs/BudgetDataCreate"
+                },
+                "type": "array"
+              },
+              "end_datecode": {
+                "description": "Year and month the budget ends. This is an exclusive date.",
+                "example": "2022-01",
+                "type": "string"
+              },
+              "funding_source_ids": {
+                "description": "Optional funding source IDs to use when data is not specified.\nThis value is ignored is data is specified.\nIf specified, the amount is distributed evenly across months and funding sources.\nFunding sources will be processed in order from first to last.",
+                "example": [
+                  1,
+                  2
+                ],
+                "items": {
+                  "format": "uint64",
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "ou_id": {
+                "description": "ID of OU this budget is attached to. Required for OU thresholds.",
+                "example": 1,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "project_id": {
+                "description": "ID of project this budget is attached to. Required for project budgets.",
+                "example": 1,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "start_datecode": {
+                "description": "Year and month the budget starts.",
+                "example": "2022-01",
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "create_budget"
+        },
+        {
+          "annotations": {},
+          "description": "Creates a funding source in the application.\n\nFunding sources can only be created on top level ous. DO NOT!!! create a funding source without explicit user permission on the details. ALWAYS!! ask the user for permission before using this tool.",
+          "inputSchema": {
+            "properties": {
+              "amount": {
+                "description": "Amount of the funding source.",
+                "example": "1000000",
+                "type": "string"
+              },
+              "description": {
+                "description": "Description for the funding source in the application.",
+                "example": "Internal research and development funding for the 2019 financial year.",
+                "type": "string"
+              },
+              "end_datecode": {
+                "description": "The month this funding source stops being usable - this is exclusive of the date returned (YYYY-MM).",
+                "example": "2019-12",
+                "type": "string"
+              },
+              "name": {
+                "description": "Name of the funding source in the application.",
+                "example": "2019 IRAD funding",
+                "type": "string"
+              },
+              "ou_id": {
+                "description": "ID of the top level OU that will receive the funding from this funding source.",
+                "example": 1,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "owner_user_group_ids": {
+                "description": "List of groups IDs who will own the funding source. Is required if no owner user IDs are listed.",
+                "example": [
+                  1,
+                  2
+                ],
+                "items": {
+                  "format": "uint64",
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "owner_user_ids": {
+                "description": "List of user IDs who will own the funding source. Is required if no owner group IDs are listed.",
+                "example": [
+                  1,
+                  2
+                ],
+                "items": {
+                  "format": "uint64",
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "permission_scheme_id": {
+                "description": "ID of the permission scheme applied to the funding source.",
+                "example": 4,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "start_datecode": {
+                "description": "The month this funding source starts being usable (YYYY-MM).",
+                "example": "2019-01",
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "end_datecode",
+              "name",
+              "permission_scheme_id",
+              "start_datecode"
+            ],
+            "type": "object"
+          },
+          "name": "create_funding_source"
+        },
+        {
+          "annotations": {},
+          "description": "Creates an OU in the application.\n\nOUs need to have an owner, have an owner user id or user group id ready before calling this tool.",
+          "inputSchema": {
+            "properties": {
+              "description": {
+                "description": "Description for the OU in the application.",
+                "example": "Internal research and development of cloud applications.",
+                "type": "string"
+              },
+              "name": {
+                "description": "Name of the OU in the application.",
+                "example": "Research and Development",
+                "type": "string"
+              },
+              "owner_user_group_ids": {
+                "description": "List of groups IDs who will own the ou. Is required if no owner user IDs are listed.",
+                "example": [
+                  1,
+                  2
+                ],
+                "items": {
+                  "format": "uint64",
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "owner_user_ids": {
+                "description": "List of user IDs who will own the ou. Is required if no owner group IDs are listed.",
+                "example": [
+                  1,
+                  2
+                ],
+                "items": {
+                  "format": "uint64",
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "parent_ou_id": {
+                "description": "ID of the OU containing this OU. A parent OU ID of 0 will create a top-level OU.",
+                "example": 1,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "permission_scheme_id": {
+                "description": "ID of the permission scheme applied to the ou.",
+                "example": 2,
+                "format": "uint64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "name",
+              "parent_ou_id",
+              "permission_scheme_id"
+            ],
+            "type": "object"
+          },
+          "name": "create_ou"
+        },
+        {
+          "annotations": {},
+          "description": "Creates a project in the application when financial system settings are configured to use Budgets, whether or not budgets are configured to be enforced.\n\n\n\nFUNDING REQUIREMENT: Budget/spend plan required for project creation.",
+          "inputSchema": {
+            "$defs": {
+              "BudgetCreate": {
+                "properties": {
+                  "amount": {
+                    "description": "Total amount for the budget. This is required if data is not specified.\nBudget entries are created between start_datecode and end_datecode (exclusive)\nwith the amount evenly distributed across the months.",
+                    "example": 1000,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "data": {
+                    "description": "Month to month budget amounts. If not specified, these values are generated based on\namount, start_datecode, end_datecode, and funding_source_ids.",
+                    "items": {
+                      "$ref": "#/$defs/BudgetDataCreate"
+                    },
+                    "type": "array"
+                  },
+                  "end_datecode": {
+                    "description": "Year and month the budget ends. This is an exclusive date.",
+                    "example": "2022-01",
+                    "type": "string"
+                  },
+                  "funding_source_ids": {
+                    "description": "Optional funding source IDs to use when data is not specified.\nThis value is ignored is data is specified.\nIf specified, the amount is distributed evenly across months and funding sources.\nFunding sources will be processed in order from first to last.",
+                    "example": [
+                      1,
+                      2
+                    ],
+                    "items": {
+                      "format": "uint64",
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "ou_id": {
+                    "description": "ID of OU this budget is attached to. Required for OU thresholds.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "project_id": {
+                    "description": "ID of project this budget is attached to. Required for project budgets.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "start_datecode": {
+                    "description": "Year and month the budget starts.",
+                    "example": "2022-01",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "end_datecode",
+                  "start_datecode"
+                ],
+                "title": "BudgetCreate is used to create a new project budget or OU threshold.",
+                "type": "object",
+                "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+              },
+              "BudgetDataCreate": {
+                "properties": {
+                  "amount": {
+                    "description": "Amount of the budget entry in dollars.",
+                    "example": "1000",
+                    "type": "string"
+                  },
+                  "datecode": {
+                    "description": "Year and month for the budget data entry.",
+                    "example": "2022-01",
+                    "type": "string"
+                  },
+                  "funding_source_id": {
+                    "description": "ID of funding source for the budget entry. This is optional.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "priority": {
+                    "description": "Priority order of the budget entry. This is required if funding_source_id is specified.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "datecode"
+                ],
+                "title": "BudgetDataCreate is used to create a new budget entry.",
+                "type": "object",
+                "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+              }
+            },
+            "properties": {
+              "auto_pay": {
+                "description": "True means the application can use the spend plan to process payments from\nthe account. Should be true unless using a custom module.",
+                "example": true,
+                "type": "boolean"
+              },
+              "budget": {
+                "items": {
+                  "$ref": "#/$defs/BudgetCreate"
+                },
+                "type": "array"
+              },
+              "default_aws_region": {
+                "description": "Default AWS region that the project will use for assuming into accounts.",
+                "example": "us-east-1",
+                "type": "string"
+              },
+              "description": {
+                "description": "Description for the project in the application.",
+                "example": "Project being used to test cloud migration.",
+                "type": "string"
+              },
+              "name": {
+                "description": "Name of the Project in the application.",
+                "example": "Tech Project 1",
+                "type": "string"
+              },
+              "ou_id": {
+                "description": "ID of the OU containing the project.",
+                "example": 1,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "owner_user_group_ids": {
+                "description": "List of groups IDs who will own the project. Is required if no owner user IDs are listed.",
+                "example": [
+                  1,
+                  2
+                ],
+                "items": {
+                  "format": "uint64",
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "owner_user_ids": {
+                "description": "List of user IDs who will own the project. Is required if no owner group IDs are listed.",
+                "example": [
+                  1,
+                  2
+                ],
+                "items": {
+                  "format": "uint64",
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "permission_scheme_id": {
+                "description": "ID of the permission scheme applied to the project.",
+                "example": 3,
+                "format": "uint64",
+                "type": "integer"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "create_project_with_budget"
+        },
+        {
+          "annotations": {},
+          "description": "Creates a project in the application when financial system settings are configured to use Spend Plans.\n\n\n\nFUNDING REQUIREMENT: Budget/spend plan required for project creation.",
+          "inputSchema": {
+            "$defs": {
+              "ProjectFundingCreate": {
+                "properties": {
+                  "amount": {
+                    "description": "Amount of funding from the funding source.",
+                    "example": "1000",
+                    "type": "string"
+                  },
+                  "end_datecode": {
+                    "description": "The month this funding source stops being usable - this is exclusive of the date returned (YYYY-MM).",
+                    "example": "2019-12",
+                    "type": "string"
+                  },
+                  "funding_order": {
+                    "description": "The priority of this funding for the project. Funding with order 1 will be drawn from first, then 2, 3, etc.",
+                    "example": 1,
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "funding_source_id": {
+                    "description": "ID of the funding source the money is coming from.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "start_datecode": {
+                    "description": "The month this funding source starts being usable (YYYY-MM).",
+                    "example": "2019-01",
+                    "type": "string"
+                  }
+                },
+                "title": "ProjectFundingCreate defines a funding source for a project.",
+                "type": "object",
+                "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+              }
+            },
+            "properties": {
+              "auto_pay": {
+                "description": "True means the application can use the spend plan to process payments from\nthe account. Should be true unless using a custom module.",
+                "example": true,
+                "type": "boolean"
+              },
+              "default_aws_region": {
+                "description": "Default AWS region that the project will use for assuming into accounts.",
+                "example": "us-east-1",
+                "type": "string"
+              },
+              "description": {
+                "description": "Description for the project in the application.",
+                "example": "Project being used to test cloud migration.",
+                "type": "string"
+              },
+              "name": {
+                "description": "Name of the Project in the application.",
+                "example": "Tech Project 1",
+                "type": "string"
+              },
+              "ou_id": {
+                "description": "ID of the OU containing the project.",
+                "example": 1,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "owner_user_group_ids": {
+                "description": "List of groups IDs who will own the project. Is required if no owner user IDs are listed.",
+                "example": [
+                  1,
+                  2
+                ],
+                "items": {
+                  "format": "uint64",
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "owner_user_ids": {
+                "description": "List of user IDs who will own the project. Is required if no owner group IDs are listed.",
+                "example": [
+                  1,
+                  2
+                ],
+                "items": {
+                  "format": "uint64",
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "permission_scheme_id": {
+                "description": "ID of the permission scheme applied to the project.",
+                "example": 3,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "project_funding": {
+                "items": {
+                  "$ref": "#/$defs/ProjectFundingCreate"
+                },
+                "type": "array"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "create_project_with_spend_plan"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a list of accounts from the application.",
+          "inputSchema": {
+            "properties": {
+              "account_type": {
+                "description": "Filters results to only return Accounts that match the given account type ID.",
+                "type": "string"
+              },
+              "alias": {
+                "description": "Filters results to only return Accounts that match the given account alias exactly.",
+                "type": "string"
+              },
+              "label": {
+                "description": "Filters results to only return Accounts with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production",
+                "type": "string"
+              },
+              "label_id": {
+                "description": "Filters results to only return Accounts with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3",
+                "type": "string"
+              },
+              "label_key": {
+                "description": "Filters results to only return Accounts with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env",
+                "type": "string"
+              },
+              "label_value": {
+                "description": "Filters results to only return Accounts with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production",
+                "type": "string"
+              },
+              "name": {
+                "description": "Specifies a name pattern to look up.",
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_accounts"
+        },
+        {
+          "annotations": {},
+          "description": "Get detailed cloud access role information by ID (the specific CAR id, you'll need to know this before calling this tool) and role type (project or ou). This includes embedded IAM policies, Azure roles, GCP roles, accounts, and user/group mappings.\n        ",
+          "inputSchema": {
+            "properties": {
+              "role_id": {
+                "description": "The ID of the cloud access role to get details for",
+                "type": "integer"
+              },
+              "role_type": {
+                "description": "Type of cloud access role. Must be 'project' or 'ou'",
+                "enum": [
+                  "project",
+                  "ou"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "role_type",
+              "role_id"
+            ],
+            "type": "object"
+          },
+          "name": "get_cloud_access_role_details"
+        },
+        {
+          "annotations": {},
+          "description": "Get cloud access roles on an entity by ID and entity type (project or ou). This will include both local and inherited CARs.\nNOTE: CARs are how Kion manages user permissions in the cloud. Get this to then get IAMs, SCPs, and other policies.",
+          "inputSchema": {
+            "properties": {
+              "entity_id": {
+                "description": "The ID of the entity to get cloud access roles for",
+                "type": "integer"
+              },
+              "entity_type": {
+                "description": "Type of entity to get cloud access roles for. Must be 'project' or 'ou'",
+                "enum": [
+                  "project",
+                  "ou"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "entity_type",
+              "entity_id"
+            ],
+            "type": "object"
+          },
+          "name": "get_cloud_access_roles_on_entity"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a list of cloud provider services from the application.",
+          "inputSchema": {
+            "properties": {},
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_cloud_provider_services"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a list of cloud providers and their enabled status.\n\nCall this before using cloud provider IDs in the spend report tool.",
+          "inputSchema": {
+            "properties": {
+              "only_enabled": {
+                "description": "Cloud provider filter by enabled. \"true\" only returns enabled providers. Default \"false\" will return all providers.",
+                "type": "boolean"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_cloud_providers"
+        },
+        {
+          "annotations": {},
+          "description": "Finds a Compliance Check by ID in the application.\n\n\n**Path Parameters:**\n\n- **id**: Compliance Check ID.",
+          "inputSchema": {
+            "properties": {
+              "id": {
+                "description": "Compliance Check ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "get_compliance_check"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a paginated result of all Compliance Checks in the application.",
+          "inputSchema": {
+            "properties": {
+              "account_id": {
+                "description": "Account ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "count": {
+                "default": 10,
+                "description": "Number of results to return. Required if page is specified.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "detailed": {
+                "description": "Detailed whether to show more details about the compliance check.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "non_compliant": {
+                "description": "Filters checks based on whether they are noncompliant.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "ou_id": {
+                "description": "OU ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "page": {
+                "default": 1,
+                "description": "Page number of results. Optional",
+                "format": "int64",
+                "type": "integer"
+              },
+              "project_id": {
+                "description": "Project ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "query": {
+                "description": "Query string for check names. Optional",
+                "type": "string"
+              },
+              "standard_id": {
+                "description": "Standard ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_compliance_checks_paginated"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a paginated list of compliance findings matching the requested parameters.\n\nThere are 5 compliance levels: 1 informational, 2 low, 3 medium, 4 high, and 5 critical. When calling this tool ALWAYS specify a count and page parameter, responses can be very large so using pagination is critical. It's also highly recommended to control the response with filters as much as possible. The `finding_type ` parameter MUST be either `active` or `archived`",
+          "inputSchema": {
+            "properties": {
+              "check_id": {
+                "description": "Check ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "count": {
+                "description": "Number of results to return. Required if page is specified.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "finding_type": {
+                "description": "Finding Type.",
+                "type": "string"
+              },
+              "page": {
+                "description": "Page number of results. Optional",
+                "format": "int64",
+                "type": "integer"
+              },
+              "project_id": {
+                "description": "Project ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "severity_type_id": {
+                "description": "Severity Type ID.\n1 - Informational.\n2 - Low.\n3 - Medium.\n4 - High.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "standard_id": {
+                "description": "Standard ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "finding_type"
+            ],
+            "type": "object"
+          },
+          "name": "get_compliance_findings"
+        },
+        {
+          "annotations": {},
+          "description": "Finds OUs based on their compliance records.",
+          "inputSchema": {
+            "properties": {
+              "check_id": {
+                "description": "Filter the OUs by the associated compliance check ID",
+                "format": "uint64",
+                "type": "integer"
+              },
+              "detailed": {
+                "default": true,
+                "description": "Whether to full details of compliance counts for OUs",
+                "type": "boolean"
+              },
+              "non_compliant": {
+                "default": false,
+                "description": "Whether to return non_compliant or compliant OUs.",
+                "type": "boolean"
+              },
+              "standard_id": {
+                "description": "Filter the OUs by the associated compliance standard ID",
+                "format": "uint64",
+                "type": "integer"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_compliance_ous"
+        },
+        {
+          "annotations": {},
+          "description": "Finds an Compliance Program by ID in the application.\n\n\n**Path Parameters:**\n\n- **id**: compliance program ID.",
+          "inputSchema": {
+            "properties": {
+              "id": {
+                "description": "compliance program ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "get_compliance_program"
+        },
+        {
+          "annotations": {},
+          "description": "Finds an Compliance Standard by ID in the application.\n\n\n**Path Parameters:**\n\n- **id**: Compliance Standard ID.",
+          "inputSchema": {
+            "properties": {
+              "id": {
+                "description": "Compliance Standard ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "get_compliance_standard"
+        },
+        {
+          "annotations": {},
+          "description": "Finds projects based on their compliance standards.",
+          "inputSchema": {
+            "properties": {
+              "check_id": {
+                "description": "Filter the projects by the associated compliance check ID",
+                "format": "uint64",
+                "type": "integer"
+              },
+              "detailed": {
+                "default": true,
+                "description": "Whether to full details of project",
+                "type": "boolean"
+              },
+              "non_compliant": {
+                "default": false,
+                "description": "Whether to return non_compliant or compliant projects.",
+                "type": "boolean"
+              },
+              "ou_id": {
+                "description": "Filter the projects by an OU ancestor. The compliance and findings counts will also be filtered based on this OU.",
+                "format": "uint64",
+                "type": "integer"
+              },
+              "standard_id": {
+                "description": "Filter the projects by the associated compliance standard ID",
+                "format": "uint64",
+                "type": "integer"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_compliance_standard_project"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a paginated list of Compliance Standards from the application.",
+          "inputSchema": {
+            "properties": {
+              "account_id": {
+                "description": "Account ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "check_id": {
+                "description": "Check ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "cloud_rule_id": {
+                "description": "Cloud Rule ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "count": {
+                "description": "Number of results to return. Required if page is specified.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "detailed": {
+                "description": "Whether to display more information about the compliance standard",
+                "format": "int64",
+                "type": "integer"
+              },
+              "non_compliant": {
+                "description": "Filters checks based on whether they are noncompliant.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "ou_id": {
+                "description": "OU ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "page": {
+                "description": "Page number of results. Optional",
+                "format": "int64",
+                "type": "integer"
+              },
+              "project_id": {
+                "description": "Project ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "query": {
+                "description": "Query string for check names. Optional",
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_compliance_standards_paginated"
+        },
+        {
+          "annotations": {},
+          "description": "Get entity details by ID and type.\n\nThis tool retrieves details for OUs, projects, or accounts\nby their ID. It replaces the individual GET operations for each entity type.",
+          "inputSchema": {
+            "properties": {
+              "entity_id": {
+                "description": "The ID of the entity to retrieve",
+                "type": "integer"
+              },
+              "entity_type": {
+                "description": "Type of entity to retrieve. Must be one of 'account', 'ou', or 'project'",
+                "enum": [
+                  "account",
+                  "ou",
+                  "project"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "entity_type",
+              "entity_id"
+            ],
+            "type": "object"
+          },
+          "name": "get_entity_by_id"
+        },
+        {
+          "annotations": {},
+          "description": "Get a label's key ID by label ID. This is used to get the key ID needed for tag filtering operations.",
+          "inputSchema": {
+            "properties": {
+              "label_id": {
+                "description": "The label ID to get the key ID for",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "label_id"
+            ],
+            "type": "object"
+          },
+          "name": "get_label_key_id"
+        },
+        {
+          "annotations": {},
+          "description": "You may opttionally filter results with the key, value and search parameters.",
+          "inputSchema": {
+            "properties": {
+              "count": {
+                "default": 100,
+                "description": "Number of results to return. Required if page is specified.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "key": {
+                "description": "Return labels with the given key (exact match).",
+                "type": "string"
+              },
+              "page": {
+                "default": 1,
+                "description": "Page number of results.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "search": {
+                "description": "Search for matching application label (fuzzy match).  Accepts a single search keyword that searches against label keys or values, or a key:value pair of keywords that searches against labels keys and values respectively.\n\nExample\\: env:production",
+                "type": "string"
+              },
+              "sortMethod": {
+                "default": "key",
+                "description": "Options are: key, value.",
+                "type": "string"
+              },
+              "sortOrder": {
+                "default": "ASC",
+                "description": "Options are: ASC, DESC.",
+                "type": "string"
+              },
+              "value": {
+                "description": "Return labels with the given value (exact match).",
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_labels"
+        },
+        {
+          "annotations": {},
+          "description": "Returns all thresholds for an OU.\n\n\n**Path Parameters:**\n\n- **id**: OU ID.",
+          "inputSchema": {
+            "properties": {
+              "id": {
+                "description": "OU ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "get_ou_budget"
+        },
+        {
+          "annotations": {},
+          "description": "Finds the funding sources in an OU.\n\n\n**Path Parameters:**\n\n- **id**: OU ID.",
+          "inputSchema": {
+            "properties": {
+              "id": {
+                "description": "OU ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "get_ou_funding_sources"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a list of OUs from the application.",
+          "inputSchema": {
+            "properties": {
+              "ancestor_ou_id": {
+                "description": "Filters results to OUs to all descendants of an OU. This includes the provided OU.\n\nExample\\: 3",
+                "type": "string"
+              },
+              "includeArchived": {
+                "default": "false",
+                "description": "Specifies if archived OUs are included in the list. Options are: true, false.",
+                "type": "string"
+              },
+              "label": {
+                "description": "Filters results to only return OUs with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production",
+                "type": "string"
+              },
+              "label_id": {
+                "description": "Filters results to only return OUs with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3",
+                "type": "string"
+              },
+              "label_key": {
+                "description": "Filters results to only return OUs with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env",
+                "type": "string"
+              },
+              "label_value": {
+                "description": "Filters results to only return OUs with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production",
+                "type": "string"
+              },
+              "name": {
+                "description": "Specifies a name pattern to look up.",
+                "type": "string"
+              },
+              "parent_ou_id": {
+                "description": "Filters results to OUs that are direct descendants of a parent OU. This includes the provided OU.\n\nExample\\: 3",
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_ous"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a list of permission schemes by type from the application.\n\n\n**Path Parameters:**\n\n- **type**: Type of scheme. Options are: global, ou, project, or funding_source.\n\nNOTE: This tool is only useful for getting a permission scheme ID for endpoints that need it",
+          "inputSchema": {
+            "properties": {
+              "type": {
+                "description": "Type of scheme. Options are: global, ou, project, or funding_source.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          "name": "get_permission_scheme"
+        },
+        {
+          "annotations": {},
+          "description": "Returns all budgets for a project.\n\n\n**Path Parameters:**\n\n- **id**: Project ID.",
+          "inputSchema": {
+            "properties": {
+              "id": {
+                "description": "Project ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "get_project_budget"
+        },
+        {
+          "annotations": {},
+          "description": "Finds the spend plan for a project by ID in the application, with total planned and total spend attached for all funding sources.\n\n\n**Path Parameters:**\n\n- **id**: Project ID.",
+          "inputSchema": {
+            "properties": {
+              "id": {
+                "description": "Project ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "get_project_spend_plan_with_totals"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a list of projects from the application.",
+          "inputSchema": {
+            "properties": {
+              "includeArchived": {
+                "default": "false",
+                "description": "Specifies if archived Projects are included in the list. Options are: true, false.",
+                "type": "string"
+              },
+              "label": {
+                "description": "Filters results to only return Projects with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production",
+                "type": "string"
+              },
+              "label_id": {
+                "description": "Filters results to only return Projects with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3",
+                "type": "string"
+              },
+              "label_key": {
+                "description": "Filters results to only return Projects with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env",
+                "type": "string"
+              },
+              "label_value": {
+                "description": "Filters results to only return Projects with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production",
+                "type": "string"
+              },
+              "name": {
+                "description": "Specifies a name pattern to look up.",
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_projects"
+        },
+        {
+          "annotations": {},
+          "description": "Get a spend report for the specified date range and filters. This can be dimensioned on many different things like Kion org structures, cloud provider info, and more.\nNote that OUs are the primary organizational method in Kion and will likely be your primary filter unless asked for a specific other filter case.\nNOTE: If more than 20 dimensions are returned, only the top 19 dimensions by spend will be shown individually, with all remaining dimensions aggregated into an \"other\" category (e.g., \"other services\", \"other accounts\", etc.).\nNOTE: This tool is in beta. If there is a non-authentication error with the request or a server error handling the response (or the returns are empty unexpectedly like if 0 spend is unexpected) that means the MCP server is outdated. If you get either of these errors direct the user to update their MCP server, they most likely installed it with either pypi and just need to use pip to update their 'kion-mcp-server' package or via dxt and need to redownload and install the latest dxt. After they complete the update they will need to restart the MCP server most likely by restarting the client you are running in. Direct and help the user through this process.\nAlways try to use this tool to get the exact number you are passing to the user, only do analysis to derive other numbers if you have access to analysis or code execution tools which you can then use to ensure exact results.\nWhen filtering on something you'll almost certainly NEED an ID for it, look at other tools you can call to get any IDs BEFORE calling this tool. CAREFULLY review your filter options and ensure you're using the correct one with the correct IDs.\nIMPORTANT!: UNLESS you are in daily mode (time_granularity_id=2) you MUST ensure the start date is the first of a month and the end date is the first of the excluded end month, otherwise you will get an error. In monthly or by default dates MUST have 01 as their day, e.g., 2023-01-01 to 2023-02-01. DO NOT pass a day other than 01 like 2025-07-31 UNLESS you are in daily mode.",
+          "inputSchema": {
+            "properties": {
+              "account_exclusive": {
+                "default": false,
+                "description": "If true, exclude the specified account IDs; if false, include only the specified account IDs",
+                "type": "boolean"
+              },
+              "account_ids": {
+                "default": [],
+                "description": "List of account IDs to filter by",
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "app_label_ids_dimension": {
+                "default": [],
+                "description": "REQUIRED when dimension is 'label', type int. List of label IDs to show as dimensions. Empty list shows shows all values as dimensions, specific IDs show only those values.",
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "app_label_key_id_dimension": {
+                "default": null,
+                "description": "REQUIRED when dimension is 'label', type int. The key ID for the label dimension. Use get_label_key_id tool to get this value.",
+                "type": "integer"
+              },
+              "billing_source_exclusive": {
+                "default": false,
+                "description": "If true, exclude the specified billing source IDs; if false, include only the specified billing source IDs",
+                "type": "boolean"
+              },
+              "billing_source_ids": {
+                "default": [],
+                "description": "List of billing source IDs to filter by",
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "cloud_provider_exclusive": {
+                "default": false,
+                "description": "If true, exclude the specified cloud provider IDs; if false, include only the specified cloud provider IDs",
+                "type": "boolean"
+              },
+              "cloud_provider_ids": {
+                "default": [],
+                "description": "List of cloud provider IDs to filter by)",
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "cloud_provider_tag_key_id_dimension": {
+                "default": null,
+                "description": "REQUIRED when dimension is 'cloudProviderTag'. The tag key ID for the tag dimension. Use tag key tools to get this value.",
+                "type": "integer"
+              },
+              "cloud_provider_tag_value_ids_dimension": {
+                "default": [],
+                "description": "REQUIRED when dimension is 'cloudProviderTag'. List of tag value IDs to show as dimensions. Empty list shows all values as dimensions and a dimension for everything without that key tag, specific IDs show only those values, include 0 with other IDs to also show resources without this tag key.",
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "deduct_credits": {
+                "default": true,
+                "description": "Whether to to deduct credits from spend or split them out into a separate field",
+                "type": "boolean"
+              },
+              "deduct_refunds": {
+                "default": true,
+                "description": "Whether to to deduct refunds from spend or split them out into a separate field",
+                "type": "boolean"
+              },
+              "dimension": {
+                "default": "none",
+                "description": "What groupings of spend are returned, like spend by Kion project or spend by cloud provider. If using this filter valid dimensions include: none, ou, project, account, cloudProvider, billingSource, cloudProviderTag, fundingSource, label, region, service, resource",
+                "type": "string"
+              },
+              "end_date": {
+                "description": "End date for the report in YYYY-MM-DD format. End date is EXCLUSIVE.",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "type": "string"
+              },
+              "exclude_app_label_ids": {
+                "additionalProperties": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                },
+                "default": {},
+                "description": "Filter to exclude the passed Kion app labels. The map key is the str of the key ID, the list of ints are that key's value IDs (passing an empty list applies filter to all values of key). Use the label key tool to get the key ID.",
+                "type": "object"
+              },
+              "exclude_cloud_provider_tag_ids": {
+                "additionalProperties": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                },
+                "default": {},
+                "description": "Filter to exclude the passed cloud provider tags. The map key is the str of the key ID, the list of ints are that key's value IDs (passing an empty list applies filter to all values of key). Use tag key and value tools to get these IDs.",
+                "type": "object"
+              },
+              "funding_source_exclusive": {
+                "default": false,
+                "description": "If true, exclude the specified funding source IDs; if false, include only the specified funding source IDs",
+                "type": "boolean"
+              },
+              "funding_source_ids": {
+                "default": [],
+                "description": "List of funding source IDs to filter by",
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "include_app_label_ids": {
+                "additionalProperties": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                },
+                "default": {},
+                "description": "Filter including only the passed Kion app labels. The map key is the str of the key ID, the list of ints are that key's value IDs (passing an empty list applies filter to all values of key). Use the label key tool to get the key ID.",
+                "type": "object"
+              },
+              "include_cloud_provider_tag_ids": {
+                "additionalProperties": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                },
+                "default": {},
+                "description": "Filter including only the passed cloud provider tags. The map key is the str of the key ID, the list of ints are that key's value IDs (passing an empty list applies filter to all values of key). Use tag key and value tools to get these IDs.",
+                "type": "object"
+              },
+              "include_descendants": {
+                "default": true,
+                "description": "Whether to include descendant OUs in the filter (only applies to OU filters)",
+                "type": "boolean"
+              },
+              "include_timeslice_breakdown": {
+                "default": false,
+                "description": "Whether to include detailed breakdown by time intervals or just totals",
+                "type": "boolean"
+              },
+              "ou_exclusive": {
+                "default": false,
+                "description": "If true, exclude the specified OU IDs; if false, include only the specified OU IDs",
+                "type": "boolean"
+              },
+              "ou_ids": {
+                "default": [],
+                "description": "List of OU (kion organizational unit) IDs to filter by",
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "project_exclusive": {
+                "default": false,
+                "description": "If true, exclude the specified project IDs; if false, include only the specified project IDs",
+                "type": "boolean"
+              },
+              "project_ids": {
+                "default": [],
+                "description": "List of project (mostly account specific in kion) IDs to filter by",
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "service_exclusive": {
+                "default": false,
+                "description": "If true, exclude the specified service IDs; if false, include only the specified service IDs",
+                "type": "boolean"
+              },
+              "service_ids": {
+                "default": [],
+                "description": "List of service IDs to filter by. You can get these IDs using the CSP Service get tool.",
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "spend_type": {
+                "default": "billed",
+                "description": "How spend is calculated, amortized and attributed which shows spend spread across the time-period it occurred attributed to the correct accounts (`attributed`), `billed` what's invoiced from the provider (default value), amortized spend spread across the time it occurs but not attributed and shown at the billing source level (`unattributed`), or `list` the public list price",
+                "type": "string"
+              },
+              "start_date": {
+                "description": "Start date for the report in YYYY-MM-DD format. Start date is INCLUSIVE.",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "type": "string"
+              },
+              "time_granularity_id": {
+                "default": 1,
+                "description": "Whether the report is split into monthly (1) or daily (2) time frames. `1`and `2` are the only valid options.",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "start_date",
+              "end_date"
+            ],
+            "type": "object"
+          },
+          "name": "get_spend_report"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a paginated list of suppressed compliance findings matching the requested parameters.",
+          "inputSchema": {
+            "properties": {
+              "check_id": {
+                "description": "Check ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "count": {
+                "description": "Number of results to return. Required if page is specified.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "page": {
+                "description": "Page number of results. Optional",
+                "format": "int64",
+                "type": "integer"
+              },
+              "project_id": {
+                "description": "Project ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "severity_type_id": {
+                "description": "Severity Type ID.\n1 - Informational.\n2 - Low.\n3 - Medium.\n4 - High.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "standard_id": {
+                "description": "Standard ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_suppressed_compliance_findings"
+        },
+        {
+          "annotations": {},
+          "description": "Returns all tag keys in the application.",
+          "inputSchema": {
+            "properties": {},
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_tag_keys"
+        },
+        {
+          "annotations": {},
+          "description": "Returns all values for a tag key in the application.\n\n\n**Path Parameters:**\n\n- **id**: Tag Key ID.",
+          "inputSchema": {
+            "properties": {
+              "id": {
+                "description": "Tag Key ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "get_tag_values"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a list of all cloud access roles that are available to a user.\n\n\n**Path Parameters:**\n\n- **id**: User ID.",
+          "inputSchema": {
+            "properties": {
+              "account_alias": {
+                "description": "Filters results to only CARs on accounts that match the given account alias exactly.",
+                "type": "string"
+              },
+              "id": {
+                "description": "User ID.",
+                "format": "int64",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "get_user_cloud_access_roles"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a list of user groups in the application.",
+          "inputSchema": {
+            "properties": {
+              "name": {
+                "description": "Query for searching by name. Optional",
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_user_groups"
+        },
+        {
+          "annotations": {},
+          "description": "Get user information by type and ID. Use 'me' for current user ID, 'user' for specific user details, or 'user_group' for user group information. user and user group will return what users are in a group or what groups a user is in.\n        ",
+          "inputSchema": {
+            "properties": {
+              "user_id": {
+                "default": 0,
+                "description": "The ID of the user or user group (required for 'user' and 'user_group' types)",
+                "type": "integer"
+              },
+              "user_type": {
+                "description": "Type of user info to retrieve. 'me' for current user, 'user' for specific user, 'user_group' for user group",
+                "enum": [
+                  "me",
+                  "user",
+                  "user_group"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "user_type"
+            ],
+            "type": "object"
+          },
+          "name": "get_user_info"
+        },
+        {
+          "annotations": {},
+          "description": "Returns a list of users from the application.",
+          "inputSchema": {
+            "properties": {
+              "include-deleted": {
+                "default": false,
+                "description": "Whether or not to include deleted users",
+                "type": "boolean"
+              },
+              "state": {
+                "default": "all",
+                "description": "Options are: all, enabled, disabled",
+                "type": "string"
+              },
+              "username": {
+                "description": "An optional username to filter the results by",
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "name": "get_users"
+        },
+        {
+          "annotations": {},
+          "description": "Updates a budget by ID in the application.\n\n\n**Path Parameters:**\n\n- **id**: Budget ID.",
+          "inputSchema": {
+            "$defs": {
+              "BudgetDataCreate": {
+                "properties": {
+                  "amount": {
+                    "description": "Amount of the budget entry in dollars.",
+                    "example": "1000",
+                    "type": "string"
+                  },
+                  "datecode": {
+                    "description": "Year and month for the budget data entry.",
+                    "example": "2022-01",
+                    "type": "string"
+                  },
+                  "funding_source_id": {
+                    "description": "ID of funding source for the budget entry. This is optional.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  },
+                  "priority": {
+                    "description": "Priority order of the budget entry. This is required if funding_source_id is specified.",
+                    "example": 1,
+                    "format": "uint64",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "datecode"
+                ],
+                "title": "BudgetDataCreate is used to create a new budget entry.",
+                "type": "object",
+                "x-go-package": "cloudtamer.io/app/webapi/public/api/v3/model"
+              }
+            },
+            "properties": {
+              "amount": {
+                "description": "Total amount for the budget. This is required if data is not specified.",
+                "example": 1000,
+                "format": "uint64",
+                "type": "integer"
+              },
+              "data": {
+                "description": "Month to month budget amounts. If not specified, these values are generated based on\namount, start_datecode, end_datecode, and funding_source_ids.",
+                "items": {
+                  "$ref": "#/$defs/BudgetDataCreate"
+                },
+                "type": "array"
+              },
+              "end_datecode": {
+                "description": "Year and month the budget ends. This is an exclusive date.",
+                "example": "2022-01",
+                "type": "string"
+              },
+              "funding_source_ids": {
+                "description": "Optional funding source IDs to use when data is not specified.\nThis value is ignored is data is specified.",
+                "example": [
+                  1,
+                  2
+                ],
+                "items": {
+                  "format": "uint64",
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              "id": {
+                "description": "Budget ID.",
+                "format": "int64",
+                "type": "integer"
+              },
+              "start_datecode": {
+                "description": "Year and month the budget starts.",
+                "example": "2022-01",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          },
+          "name": "update_budget"
+        }
+      ],
+      "image": "kionsoftware/kion-mcp:v0.4.0",
+      "permissions": {
+        "network": {
+          "outbound": {
+            "insecure_allow_all": true
+          }
+        }
+      },
+      "env_vars": [
+        {
+          "name": "KION_BEARER_TOKEN",
+          "description": "App API key for authentication to your Kion instance",
+          "required": true,
+          "secret": true
+        },
+        {
+          "name": "KION_SERVER_URL",
+          "description": "URL of your Kion instance",
+          "required": true
+        }
+      ]
     },
     "kyverno": {
       "title": "Kyverno",
@@ -29811,8 +33428,8 @@
         "analyze_db_health"
       ],
       "metadata": {
-        "stars": 2390,
-        "last_updated": "2026-03-23T03:03:35Z"
+        "stars": 2592,
+        "last_updated": "2026-04-23T03:03:47Z"
       },
       "repository_url": "https://github.com/crystaldba/postgres-mcp",
       "tags": [
@@ -37504,6 +41121,118 @@
           "default": "stdio"
         }
       ]
+    },
+    "toolhive-doc-mcp": {
+      "title": "ToolHive Docs",
+      "description": "Search ToolHive docs for help with using and contributing to the project (local version)",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "get_chunk",
+        "query_docs"
+      ],
+      "metadata": {
+        "stars": 3,
+        "last_updated": "2026-04-16T10:07:59Z"
+      },
+      "repository_url": "https://github.com/StacklokLabs/toolhive-doc-mcp",
+      "tags": [
+        "docs",
+        "documentation",
+        "help",
+        "knowledge-base",
+        "search",
+        "stacklok",
+        "support",
+        "toolhive"
+      ],
+      "overview": "## ToolHive Docs MCP Server\n\nThe toolhive-doc-mcp server allows you to search ToolHive documentation for help with using and contributing to the project (local version). The system maintains a pre-built SQLite vector database containing documentation that undergoes parsing, chunking, and embedding using a local bge-small-en-v1.5 model. When queried, it performs semantic search by comparing queries against stored embeddings to return relevant documentation chunks.",
+      "tool_definitions": [
+        {
+          "annotations": {},
+          "description": "Retrieve full details of a specific documentation chunk by its ID",
+          "inputSchema": {
+            "properties": {
+              "chunk_id": {
+                "description": "UUID of the documentation chunk",
+                "type": "string"
+              }
+            },
+            "required": [
+              "chunk_id"
+            ],
+            "type": "object"
+          },
+          "name": "get_chunk"
+        },
+        {
+          "annotations": {},
+          "description": "Search Stacklok documentation and return relevant snippets with relevance scores",
+          "inputSchema": {
+            "properties": {
+              "limit": {
+                "default": 5,
+                "description": "Maximum number of results to return (1-50, default: 5)",
+                "type": "integer"
+              },
+              "min_score": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "description": "Minimum relevance score (0.0-1.0)"
+              },
+              "query": {
+                "description": "Search query (natural language question or keywords)",
+                "type": "string"
+              },
+              "query_type": {
+                "default": "semantic",
+                "description": "Type of search (semantic, keyword, hybrid, default: semantic)",
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ],
+            "type": "object"
+          },
+          "name": "query_docs"
+        }
+      ],
+      "image": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.13-20260420",
+      "target_port": 8080,
+      "env_vars": [
+        {
+          "name": "OTEL_ENABLED",
+          "description": "Enable/disable OpenTelemetry logging",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "OTEL_ENDPOINT",
+          "description": "OpenTelemetry collector endpoint",
+          "required": false
+        },
+        {
+          "name": "OTEL_SERVICE_NAME",
+          "description": "Service name for telemetry",
+          "required": false,
+          "default": "toolhive-doc-mcp"
+        },
+        {
+          "name": "OTEL_SERVICE_VERSION",
+          "description": "Service version for telemetry",
+          "required": false,
+          "default": "1.0.0"
+        }
+      ]
     }
   },
   "remote_servers": {
@@ -37575,8 +41304,8 @@
         "get_regional_availability"
       ],
       "metadata": {
-        "stars": 8551,
-        "last_updated": "2026-03-25T03:02:07Z"
+        "stars": 8859,
+        "last_updated": "2026-04-24T09:55:12Z"
       },
       "repository_url": "https://github.com/awslabs/mcp",
       "tags": [
@@ -37645,6 +41374,39 @@
       },
       "url": "https://mcp.canva.com/mcp"
     },
+    "cloudflare-remote": {
+      "title": "Cloudflare API (Remote)",
+      "description": "Official Cloudflare MCP server for the entire Cloudflare API via Code Mode",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "search",
+        "execute"
+      ],
+      "metadata": {
+        "stars": 326,
+        "last_updated": "2026-04-08T03:03:51Z"
+      },
+      "repository_url": "https://github.com/cloudflare/mcp",
+      "tags": [
+        "remote",
+        "cloudflare",
+        "dns",
+        "cdn",
+        "workers",
+        "security",
+        "infrastructure",
+        "api"
+      ],
+      "overview": "## Cloudflare API (Remote)\n\nThe Cloudflare API remote MCP server is Cloudflare's official managed Model Context Protocol server providing token-efficient access to the entire Cloudflare API. Powered by Code Mode, it exposes over 2,500 API endpoints across Workers, KV, R2, D1, Pages, DNS, Firewall, Load Balancers, Stream, Images, AI Gateway, Vectorize, Access, Zero Trust, and more through just two tools in approximately 1,000 tokens. It supports OAuth and API token authentication via Streamable HTTP transport.",
+      "custom_metadata": {
+        "author": "Cloudflare",
+        "homepage": "https://developers.cloudflare.com/agents/model-context-protocol/mcp-servers-for-cloudflare/",
+        "license": "Apache-2.0"
+      },
+      "url": "https://mcp.cloudflare.com/mcp"
+    },
     "context7-remote": {
       "title": "Context7 (Remote)",
       "description": "Remote Context7 MCP server pulls version-specific docs and code examples directly into your prompt",
@@ -37656,8 +41418,8 @@
         "get-library-docs"
       ],
       "metadata": {
-        "stars": 50341,
-        "last_updated": "2026-03-24T02:59:29Z"
+        "stars": 53609,
+        "last_updated": "2026-04-24T09:55:11Z"
       },
       "repository_url": "https://github.com/upstash/context7",
       "tags": [
@@ -37670,6 +41432,84 @@
         "homepage": "https://context7.com/"
       },
       "url": "https://mcp.context7.com/mcp"
+    },
+    "datadog-remote": {
+      "title": "Datadog (Remote)",
+      "description": "Official Datadog MCP server for observability data access including logs, metrics, and traces",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "get_logs",
+        "list_spans",
+        "get_trace",
+        "list_metrics",
+        "get_metrics",
+        "get_monitors",
+        "list_hosts",
+        "list_incidents",
+        "get_incident",
+        "list_dashboards"
+      ],
+      "metadata": {
+        "stars": 30,
+        "last_updated": "2026-04-08T03:03:50Z"
+      },
+      "repository_url": "https://github.com/datadog-labs/mcp-server",
+      "tags": [
+        "remote",
+        "datadog",
+        "observability",
+        "monitoring",
+        "logs",
+        "metrics",
+        "traces",
+        "incidents",
+        "dashboards",
+        "apm"
+      ],
+      "overview": "## Datadog (Remote)\n\nThe Datadog remote MCP server is Datadog's official managed Model Context Protocol server that connects AI agents to Datadog's observability platform. It provides structured access to logs, metrics, traces, dashboards, monitors, incidents, hosts, services, events, and notebooks through toolsets that can be selectively enabled. The server uses Streamable HTTP transport with API key and application key authentication, and supports regional endpoints for different Datadog sites.",
+      "custom_metadata": {
+        "author": "Datadog",
+        "homepage": "https://docs.datadoghq.com/bits_ai/mcp_server/",
+        "license": "Proprietary"
+      },
+      "url": "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
+    },
+    "excalidraw-remote": {
+      "title": "Excalidraw (Remote)",
+      "description": "Streams hand-drawn Excalidraw diagrams with animated drawing, camera panning, and fullscreen editing",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "read_me",
+        "create_view",
+        "export_to_excalidraw",
+        "save_checkpoint",
+        "read_checkpoint"
+      ],
+      "metadata": {
+        "stars": 3807,
+        "last_updated": "2026-04-09T03:03:28Z"
+      },
+      "repository_url": "https://github.com/excalidraw/excalidraw-mcp",
+      "tags": [
+        "remote",
+        "diagrams",
+        "visualization",
+        "excalidraw",
+        "whiteboard",
+        "drawing",
+        "mcp-app"
+      ],
+      "overview": "## Excalidraw (Remote)\n\nThe Excalidraw remote MCP App server streams hand-drawn Excalidraw diagrams directly into the chat with smooth viewport camera control and interactive fullscreen editing. AI assistants can draw architecture diagrams, sketches, and illustrations using Excalidraw's hand-drawn aesthetic, with support for checkpointing and restoring diagram state. Finished diagrams can be exported and shared via excalidraw.com.",
+      "custom_metadata": {
+        "author": "Excalidraw",
+        "homepage": "https://excalidraw.com",
+        "license": "MIT"
+      },
+      "url": "https://mcp.excalidraw.com/mcp"
     },
     "github-remote": {
       "title": "GitHub (Remote)",
@@ -37848,6 +41688,67 @@
       },
       "url": "https://gitlab.com/api/v4/mcp"
     },
+    "google-maps-remote": {
+      "title": "Google Maps Grounding Lite (Remote)",
+      "description": "Official Google Maps MCP server for places, weather, and route data",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "search_places",
+        "lookup_weather",
+        "compute_routes"
+      ],
+      "metadata": {
+        "stars": 3507,
+        "last_updated": "2026-04-08T03:03:51Z"
+      },
+      "repository_url": "https://github.com/google/mcp",
+      "tags": [
+        "remote",
+        "google",
+        "maps",
+        "geospatial",
+        "places",
+        "weather",
+        "routes",
+        "directions"
+      ],
+      "overview": "## Google Maps Grounding Lite (Remote)\n\nThe Google Maps Grounding Lite remote MCP server is Google's official managed Model Context Protocol server providing access to Google Maps Platform geospatial data. It offers three tools for place search with summaries and Google Maps links, weather lookups with current conditions and forecasts, and route computation with distance and duration data. Authentication requires a Google Maps API key passed via the X-Goog-Api-Key header. The server is currently experimental and available at no charge during the pre-GA preview period.",
+      "custom_metadata": {
+        "author": "Google",
+        "homepage": "https://developers.google.com/maps/ai/grounding-lite",
+        "license": "Proprietary"
+      },
+      "url": "https://mapstools.googleapis.com/mcp"
+    },
+    "granola": {
+      "title": "Granola (Remote)",
+      "description": "Access meeting notes and transcripts from the Granola platform",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "query_granola_meetings",
+        "list_meetings",
+        "get_meetings",
+        "get_meeting_transcript"
+      ],
+      "metadata": {
+        "last_updated": "2026-04-15T03:03:57Z"
+      },
+      "tags": [
+        "meetings",
+        "transcripts",
+        "notes"
+      ],
+      "overview": "## Granola MCP Server\n\nThe Granola MCP server connects your Granola meeting notes and transcripts to AI assistants and agents through the Model Context Protocol standard. It gives AI tools direct access to your meeting data without manual copying and pasting, enabling AI-driven workflows that build on the context from your real conversations.\n\nWith this server, AI assistants can search and retrieve your meetings, read full transcripts, and use meeting content as grounded context for downstream tasks. This unlocks workflows like asking Claude to draft follow-up tickets from a bug discussion, updating a project board from standup notes, or generating proposals based on discovery call transcripts.\n\nIt is ideal for engineering, sales, and business development workflows where meeting notes are a primary source of record and need to flow into other tools without manual retrieval.",
+      "custom_metadata": {
+        "author": "Granola",
+        "homepage": "https://granola.ai/"
+      },
+      "url": "https://mcp.granola.ai/mcp"
+    },
     "hubspot-remote": {
       "title": "HubSpot (Remote)",
       "description": "HubSpot's official remote MCP server for read-only CRM data access with OAuth",
@@ -37922,6 +41823,71 @@
       },
       "url": "https://huggingface.co/mcp"
     },
+    "jam": {
+      "title": "Jam",
+      "description": "Jam's official remote MCP server for debugging with video recordings and logs",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "getDetails",
+        "getConsoleLogs",
+        "getNetworkRequests",
+        "getScreenshot",
+        "getUserEvents",
+        "analyzeVideo"
+      ],
+      "metadata": {
+        "last_updated": "2026-03-28T03:01:14Z"
+      },
+      "tags": [
+        "remote",
+        "jam",
+        "debugging",
+        "screen-recording",
+        "video-analysis",
+        "oauth",
+        "console-logs",
+        "network-requests",
+        "screenshots",
+        "user-events"
+      ],
+      "overview": "## Jam MCP Server\n\nThe jam MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Jam, a developer-focused bug reporting and debugging platform. It allows AI-driven workflows to capture, inspect, and reason about bug reports — including contextual metadata like logs, network activity, console output, and environment details — without switching tools. This server is particularly valuable for debugging, QA workflows, developer support, and incident triage where rich client-side context is critical.",
+      "custom_metadata": {
+        "author": "Jam",
+        "homepage": "https://jam.dev/docs/debug-a-jam/mcp"
+      },
+      "url": "https://mcp.jam.dev/mcp"
+    },
+    "kiwi": {
+      "title": "Kiwi.com Flights",
+      "description": "Kiwi.com Flight Search MCP server to search and book flights",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "search-flight"
+      ],
+      "metadata": {
+        "stars": 9,
+        "last_updated": "2026-04-03T03:03:27Z"
+      },
+      "repository_url": "https://github.com/alpic-ai/kiwi-mcp-server-public",
+      "tags": [
+        "remote",
+        "travel",
+        "flights",
+        "booking",
+        "search",
+        "kiwi"
+      ],
+      "overview": "## Kiwi.com Flights MCP Server\n\nThe Kiwi.com MCP server enables AI assistants to search for flights through Kiwi.com's travel platform. It connects to the Kiwi.com API to search for available flights based on origin, destination, and travel dates, returning structured results that AI agents can use to recommend itineraries, compare options, and assist with travel planning workflows. The server uses a streamable HTTP transport for efficient API communication.",
+      "custom_metadata": {
+        "author": "Kiwi.com",
+        "homepage": "https://kiwi.com"
+      },
+      "url": "https://mcp.kiwi.com"
+    },
     "linear": {
       "title": "Linear",
       "description": "Linear's official remote MCP server to manage issues, projects, and comments",
@@ -37973,6 +41939,58 @@
         "homepage": "https://linear.app/docs/mcp"
       },
       "url": "https://mcp.linear.app/mcp"
+    },
+    "mcp-spec": {
+      "title": "MCP Specification",
+      "description": "Official MCP server for the Model Context Protocol specification",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "SearchModelContextProtocol"
+      ],
+      "metadata": {
+        "last_updated": "2026-03-30T03:03:51Z"
+      },
+      "tags": [
+        "remote",
+        "mcp",
+        "specification",
+        "protocol",
+        "documentation",
+        "official"
+      ],
+      "overview": "## MCP Specification Server\n\nThe mcp-spec is a Model Context Protocol (MCP) server that provides AI assistants with direct, structured access to the MCP specification itself. It enables AI-driven workflows to reference the official protocol definition while reasoning about MCP servers, tools, transports, and behaviors. The server is particularly valuable for MCP client and server development, protocol education, validation, and tooling scenarios where assistants require authoritative, spec-accurate context.",
+      "custom_metadata": {
+        "author": "Model Context Protocol",
+        "homepage": "https://modelcontextprotocol.io"
+      },
+      "url": "https://modelcontextprotocol.io/mcp"
+    },
+    "mermaid": {
+      "title": "Mermaid",
+      "description": "Enables AI assistants to create, validate, and render Mermaid diagrams seamlessly",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "validate_and_render_mermaid_diagram"
+      ],
+      "metadata": {
+        "last_updated": "2026-04-12T03:04:11Z"
+      },
+      "tags": [
+        "remote",
+        "diagrams",
+        "visualization",
+        "mermaid"
+      ],
+      "overview": "## Mermaid MCP Server\n\nThe mermaid MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to generate and work with Mermaid diagrams through a structured, AI-friendly interface. It facilitates the creation of visual representations including systems, processes, architectures, and relationships using Mermaid's text-based diagram syntax within AI environments. This server is particularly valuable for documentation, architecture design, system explanation, and workflows where visual clarity enhances understanding and communication.",
+      "custom_metadata": {
+        "author": "Mermaid",
+        "homepage": "https://docs.mermaidchart.com/ai/mcp-server"
+      },
+      "url": "https://mcp.mermaidchart.com/mcp"
     },
     "monday": {
       "title": "Monday.com",
@@ -38336,7 +42354,7 @@
         "set_during_runtime"
       ],
       "metadata": {
-        "last_updated": "2026-03-24T02:59:29Z"
+        "last_updated": "2026-04-24T03:04:35Z"
       },
       "tags": [
         "remote",
@@ -38455,6 +42473,39 @@
         "homepage": "https://docs.stripe.com/mcp"
       },
       "url": "https://mcp.stripe.com"
+    },
+    "toolhive-doc-mcp-remote": {
+      "title": "ToolHive Docs (Remote)",
+      "description": "Search ToolHive docs for help with using and contributing to the project (hosted version)",
+      "tier": "Official",
+      "status": "Active",
+      "transport": "streamable-http",
+      "tools": [
+        "query_docs",
+        "get_chunk"
+      ],
+      "metadata": {
+        "stars": 3,
+        "last_updated": "2026-04-13T03:04:50Z"
+      },
+      "repository_url": "https://github.com/StacklokLabs/toolhive-doc-mcp",
+      "tags": [
+        "remote",
+        "docs",
+        "documentation",
+        "help",
+        "search",
+        "stacklok",
+        "support",
+        "toolhive"
+      ],
+      "overview": "## ToolHive Docs Remote MCP Server\n\nThe toolhive-doc-mcp-remote server allows you to search ToolHive documentation for help with using and contributing to the project (hosted version). The server maintains a pre-built SQLite vector database containing documentation that has been fetched from configured sources, then parsed and chunked into manageable sections. Documentation is embedded using a local bge-small-en-v1.5 model and indexed for fast vector similarity search. When users query the documentation, the server performs semantic search by comparing queries against stored embeddings and returns the most relevant documentation chunks.",
+      "custom_metadata": {
+        "author": "Stacklok",
+        "homepage": "https://github.com/StacklokLabs/toolhive-doc-mcp",
+        "license": "Apache-2.0"
+      },
+      "url": "https://toolhive-doc-mcp.stacklok.com/mcp"
     },
     "vercel": {
       "title": "Vercel",
