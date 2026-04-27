@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-04-25T00:52:28Z",
+  "last_updated": "2026-04-27T14:56:47Z",
   "servers": {
     "adb-mysql-mcp-server": {
       "title": "AnalyticDB for MySQL",
@@ -210,8 +210,8 @@
         "example_GetAstronautsCurrentlyInSpace"
       ],
       "metadata": {
-        "stars": 276,
-        "last_updated": "2026-03-27T03:03:46Z"
+        "stars": 279,
+        "last_updated": "2026-04-27T03:05:26Z"
       },
       "repository_url": "https://github.com/apollographql/apollo-mcp-server",
       "tags": [
@@ -1521,7 +1521,7 @@
       ],
       "metadata": {
         "stars": 1206,
-        "last_updated": "2026-04-14T21:54:02Z"
+        "last_updated": "2026-04-25T02:08:18Z"
       },
       "repository_url": "https://github.com/Azure/azure-mcp",
       "tags": [
@@ -3660,7 +3660,7 @@
           "name": "workbooks"
         }
       ],
-      "image": "mcr.microsoft.com/azure-sdk/azure-mcp:2.0.1",
+      "image": "mcr.microsoft.com/azure-sdk/azure-mcp:2.0.2",
       "permissions": {
         "network": {
           "outbound": {
@@ -14396,7 +14396,7 @@
       ],
       "metadata": {
         "stars": 77,
-        "last_updated": "2026-04-21T23:55:31Z"
+        "last_updated": "2026-04-27T13:57:24Z"
       },
       "repository_url": "https://github.com/heroku/heroku-mcp-server",
       "tags": [
@@ -14504,7 +14504,9 @@
                       "type": "string"
                     },
                     "relativePath": {
-                      "description": "Virtual path for tarball entry.",
+                      "description": "Relative virtual path for each staged source file (strict character set).",
+                      "maxLength": 512,
+                      "minLength": 1,
                       "type": "string"
                     }
                   },
@@ -15235,7 +15237,7 @@
           "name": "rename_app"
         }
       ],
-      "image": "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.2.1",
+      "image": "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.2.2",
       "permissions": {
         "network": {
           "outbound": {
@@ -39039,7 +39041,7 @@
       ],
       "metadata": {
         "stars": 1759,
-        "last_updated": "2026-04-15T03:03:58Z"
+        "last_updated": "2026-04-27T13:57:30Z"
       },
       "repository_url": "https://github.com/tavily-ai/tavily-mcp",
       "tags": [
@@ -39290,6 +39292,10 @@
                 "description": "Will return all results before the specified end date. Required to be written in the format YYYY-MM-DD",
                 "type": "string"
               },
+              "exact_match": {
+                "description": "Only return results containing the exact phrase(s) in quotes in your query",
+                "type": "boolean"
+              },
               "exclude_domains": {
                 "default": [],
                 "description": "List of domains to specifically exclude, if the user asks to exclude a domain set this to the domain of the site",
@@ -39380,7 +39386,7 @@
           "name": "tavily_search"
         }
       ],
-      "image": "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.18",
+      "image": "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.19",
       "permissions": {
         "network": {
           "outbound": {
@@ -41206,7 +41212,7 @@
           "name": "query_docs"
         }
       ],
-      "image": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.13-20260420",
+      "image": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.13-20260427",
       "target_port": 8080,
       "env_vars": [
         {
@@ -41803,7 +41809,7 @@
         "gr1_flux1_schnell_infer"
       ],
       "metadata": {
-        "last_updated": "2026-03-27T03:03:46Z"
+        "last_updated": "2026-04-27T03:05:26Z"
       },
       "tags": [
         "remote",
@@ -41920,7 +41926,7 @@
         "search_documentation"
       ],
       "metadata": {
-        "last_updated": "2026-03-27T03:03:46Z"
+        "last_updated": "2026-04-26T03:04:32Z"
       },
       "tags": [
         "issue-tracking",
@@ -42074,7 +42080,7 @@
         "list_slow_queries"
       ],
       "metadata": {
-        "last_updated": "2026-03-26T03:03:42Z"
+        "last_updated": "2026-04-26T03:04:31Z"
       },
       "tags": [
         "remote",
