@@ -3,13 +3,13 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.4.11": {
+        "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.4.12": {
           "args": [
             "--storage-path",
             "/arxiv-papers"
           ],
           "metadata": {
-            "last_updated": "2026-04-21T09:54:15Z",
+            "last_updated": "2026-04-27T15:02:03Z",
             "stars": 2509
           },
           "overview": "## arXiv MCP Server\n\nThe arxiv-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically access the arXiv research repository — one of the largest open archives of scientific papers — via a simple MCP interface. It lets AI workflows search for academic papers, download and read their content, and manage collected research, all without switching tools or manually scraping content.",
@@ -300,7 +300,7 @@
           "name": "ARXIV_STORAGE_PATH"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.4.11",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.4.12",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
