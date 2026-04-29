@@ -77,11 +77,34 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+    concurrency:
+      group: update-catalog-data
+      cancel-in-progress: false
     needs: [lint, validate-and-test]
     if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Get app user ID
+        id: app-user
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+        run: |
+          USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          echo "id=$USER_ID" >> "$GITHUB_OUTPUT"
+
       - name: Checkout code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Set up Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6
@@ -111,8 +134,8 @@ jobs:
         run: |
           BRANCH="update-catalog-data-${VERSION}"
 
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.name "${APP_SLUG}[bot]"
+          git config --local user.email "${APP_USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
 
           # Create or reset the branch
           git checkout -B "$BRANCH"
@@ -162,8 +185,10 @@ jobs:
             gh pr merge "$BRANCH" --auto --squash || true
           fi
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           VERSION: ${{ steps.metadata.outputs.version }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          APP_USER_ID: ${{ steps.app-user.outputs.id }}
 
   build-pr:
     name: Build Check
