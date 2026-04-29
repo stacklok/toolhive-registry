@@ -357,6 +357,17 @@ jobs:
         with:
           client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
           private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Get app user ID
+        id: app-user
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+        run: |
+          USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          echo "id=$USER_ID" >> "$GITHUB_OUTPUT"
 
       - name: Checkout code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -386,8 +397,8 @@ jobs:
       - name: Commit and push all changes
         if: steps.check_changes.outputs.changes == 'true'
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.name "${APP_SLUG}[bot]"
+          git config --local user.email "${APP_USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
 
           # Pull any remote changes first to avoid conflicts
           git pull origin "$BRANCH_REF" --rebase
@@ -443,6 +454,8 @@ jobs:
         env:
           BRANCH_REF: ${{ github.head_ref || github.ref_name }}
           GH_ACTOR: ${{ github.actor }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          APP_USER_ID: ${{ steps.app-user.outputs.id }}
 
   comment-summary:
     name: Post Summary Comment
