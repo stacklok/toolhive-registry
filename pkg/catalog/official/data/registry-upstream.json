@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-04-28T01:00:50Z"
+    "last_updated": "2026-04-29T10:09:10Z"
   },
   "data": {
     "servers": [
@@ -5791,7 +5791,7 @@
                   "homepage": "https://www.canva.dev/docs/connect/canva-mcp-server-setup/"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-28T03:01:14Z"
+                  "last_updated": "2026-04-28T03:05:05Z"
                 },
                 "overview": "## Canva MCP Server\n\nThe canva MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Canva's design platform through a structured, AI-friendly interface. It enables AI-driven workflows to create, edit, and manage visual designs — such as presentations, social graphics, documents, and brand assets — without leaving the conversational or automated workflow. This server is especially useful for content creation, marketing workflows, design automation, and brand-aware AI assistants.",
                 "status": "Active",
@@ -16907,7 +16907,7 @@
                   "homepage": "https://jam.dev/docs/debug-a-jam/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-28T03:01:14Z"
+                  "last_updated": "2026-04-28T03:05:05Z"
                 },
                 "overview": "## Jam MCP Server\n\nThe jam MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Jam, a developer-focused bug reporting and debugging platform. It allows AI-driven workflows to capture, inspect, and reason about bug reports — including contextual metadata like logs, network activity, console output, and environment details — without switching tools. This server is particularly valuable for debugging, QA workflows, developer support, and incident triage where rich client-side context is critical.",
                 "status": "Active",
@@ -27967,7 +27967,7 @@
                   "homepage": "https://developers.notion.com/docs/get-started-with-mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-29T03:03:43Z"
+                  "last_updated": "2026-04-29T03:05:19Z"
                 },
                 "overview": "## Notion Remote MCP Server\n\nNotion's official remote MCP server enables AI assistants to interact with Notion workspaces over a streamable HTTP transport using OAuth authentication. It provides comprehensive coverage of the Notion API including creating, updating, duplicating, and moving pages; creating and updating databases; searching across the workspace; managing comments; and retrieving user and team information. This server is ideal for AI workflows that need to read from or write to Notion as a knowledge base, project tracker, or documentation system.",
                 "status": "Active",
@@ -34200,7 +34200,7 @@
                   "homepage": "https://www.paypal.ai/docs/tools/mcp-quickstart"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-29T03:03:43Z"
+                  "last_updated": "2026-04-29T03:05:19Z"
                 },
                 "overview": "## PayPal MCP Server\n\nPayPal's official remote MCP server enables AI assistants to interact with the PayPal platform for payment processing, invoicing, and business operations. It supports the full payment lifecycle including order creation, payment capture, and refunds; invoice management with sending, reminders, and QR code generation; product catalog and subscription plan management; dispute resolution; shipment tracking; and transaction history queries. Authentication is handled via PayPal OAuth, making it suitable for AI-driven e-commerce, financial automation, and customer service workflows.",
                 "status": "Active",
@@ -38525,7 +38525,7 @@
                   "homepage": "https://replicate.com/docs/reference/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-29T03:03:43Z"
+                  "last_updated": "2026-04-29T03:05:19Z"
                 },
                 "overview": "## Replicate MCP Server\n\nReplicate's official MCP server for AI models and ML workflows. The server provides access to Replicate's AI model platform through several functions: running and managing model predictions via their API, creating and managing deployments for production use, accessing thousands of pre-trained models from Replicate's library, and handling custom model training workflows.",
                 "status": "Active",
@@ -42464,7 +42464,7 @@
             "io.github.stacklok": {
               "registry.suse.com/suse/agentic/mcp/multi-linux-manager:0.5.2": {
                 "metadata": {
-                  "last_updated": "2026-03-29T15:55:08Z",
+                  "last_updated": "2026-04-29T03:05:19Z",
                   "stars": 12
                 },
                 "overview": "## SUSE Multi-Linux Manager MCP Server\n\nThe SUSE Multi-Linux Manager MCP Server bridges Large Language Models with SUSE's commercial Multi-Linux Manager infrastructure management solution. It enables AI agents and MCP-compliant clients to interact securely with managed servers, allowing natural language management of Linux infrastructure including retrieving system details, checking updates, scheduling maintenance, and managing system groups.\n\nThe server provides both read-only and write-enabled tools for comprehensive infrastructure management, with write operations gated behind an explicit opt-in flag for safety. This is the commercially supported version of the Uyuni MCP server.",
