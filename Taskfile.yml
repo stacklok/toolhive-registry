@@ -101,6 +101,29 @@ tasks:
       - sh: test -n "{{.SERVER}}"
         msg: "Please specify a server.json file with SERVER=path/to/server.json"
 
+  catalog:sync-skills:
+    desc: Sync a single dockyard-sourced skill.json with stacklok/dockyard
+    deps: [build]
+    cmds:
+      - ./{{.BUILD_DIR}}/catalog sync-skills {{.SKILL}} {{.CLI_ARGS}}
+    vars:
+      SKILL: '{{.SKILL | default ""}}'
+    preconditions:
+      - sh: test -n "{{.SKILL}}"
+        msg: "Please specify a skill.json file with SKILL=path/to/skill.json"
+
+  catalog:sync-skills:all:
+    desc: Sync every dockyard-sourced skill with stacklok/dockyard
+    deps: [build]
+    cmds:
+      - ./{{.BUILD_DIR}}/catalog sync-skills --all -v {{.CLI_ARGS}}
+
+  catalog:sync-skills:all:dry-run:
+    desc: Preview every dockyard-sourced skill bump without writing
+    deps: [build]
+    cmds:
+      - ./{{.BUILD_DIR}}/catalog sync-skills --all --dry-run -v
+
   version:
     desc: Show version information
     deps: [build]
