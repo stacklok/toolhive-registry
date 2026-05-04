@@ -22,6 +22,17 @@
         "\"(?<depName>[^:\"]*\\/[^:\"]+):(?<currentValue>[^\"]+)\":\\s*\\{"
       ],
       "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Update OCI image versions in skill.json files",
+      "managerFilePatterns": [
+        "/^registries/.*/skills/.*/skill\\.json$/"
+      ],
+      "matchStrings": [
+        "\"identifier\":\\s*\"(?<depName>[^:\"]+):(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "docker"
     }
   ],
   "packageRules": [

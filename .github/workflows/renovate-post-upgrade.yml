@@ -1,0 +1,165 @@
+name: Renovate Post-Upgrade
+
+# When Renovate bumps the OCI tag in a dockyard-sourced skill.json,
+# fetch the corresponding ref from dockyard's spec.yaml and rewrite the
+# git package's `ref` field so both pointers stay in lockstep.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'registries/**/skills/**/skill.json'
+
+permissions: {}
+
+concurrency:
+  group: renovate-post-upgrade-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync-skill-refs:
+    name: Sync skill git refs from dockyard
+    runs-on: ubuntu-latest
+    if: github.actor == 'renovate[bot]'
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: read
+
+      - name: Get app user ID
+        id: app-user
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+        run: |
+          USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          echo "id=$USER_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout PR branch
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Sync git refs from dockyard spec.yaml
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+
+          changed=$(git diff --name-only "$PR_BASE_SHA"...HEAD -- 'registries/**/skills/**/skill.json' || true)
+          if [ -z "$changed" ]; then
+            echo "No skill.json files changed in this PR; nothing to do."
+            exit 0
+          fi
+
+          fail=0
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            skill_dir=$(dirname "$f")
+            skill_name=$(basename "$skill_dir")
+            echo "==> $skill_name ($f)"
+
+            new_id=$(jq -r '.packages[] | select(.registryType == "oci") | .identifier // empty' "$f" | head -n1)
+            if [ -z "$new_id" ]; then
+              echo "  no oci package; skipping"
+              continue
+            fi
+            case "$new_id" in
+              ghcr.io/stacklok/dockyard/skills/*) ;;
+              *)
+                echo "  identifier $new_id is not a dockyard image; skipping"
+                continue
+                ;;
+            esac
+
+            new_tag="${new_id##*:}"
+
+            spec_url="https://raw.githubusercontent.com/stacklok/dockyard/main/skills/${skill_name}/spec.yaml"
+            spec=$(mktemp)
+            if ! curl -fsSL "$spec_url" -o "$spec"; then
+              echo "::error file=${f}::Failed to fetch dockyard spec.yaml for ${skill_name} from ${spec_url}"
+              fail=1
+              continue
+            fi
+
+            spec_version=$(yq -r '.spec.version' "$spec")
+            spec_ref=$(yq -r '.spec.ref' "$spec")
+            spec_repo=$(yq -r '.spec.repository' "$spec")
+            spec_path=$(yq -r '.spec.path // ""' "$spec")
+
+            cat_repo=$(jq -r '.packages[] | select(.registryType == "git") | .url // empty' "$f" | head -n1)
+            cat_subfolder=$(jq -r '.packages[] | select(.registryType == "git") | .subfolder // ""' "$f" | head -n1)
+            cat_ref=$(jq -r '.packages[] | select(.registryType == "git") | .ref // empty' "$f" | head -n1)
+
+            if [ "$spec_version" != "$new_tag" ]; then
+              echo "::error file=${f}::Version mismatch for ${skill_name}: catalog tag is ${new_tag} but dockyard spec.version is ${spec_version}"
+              fail=1
+              continue
+            fi
+            if [ -n "$cat_repo" ] && [ "$cat_repo" != "$spec_repo" ]; then
+              echo "::error file=${f}::Repository mismatch for ${skill_name}: catalog ${cat_repo} vs dockyard ${spec_repo}"
+              fail=1
+              continue
+            fi
+            if [ "$cat_subfolder" != "$spec_path" ]; then
+              echo "::error file=${f}::Subfolder mismatch for ${skill_name}: catalog '${cat_subfolder}' vs dockyard '${spec_path}'"
+              fail=1
+              continue
+            fi
+            if ! [[ "$spec_ref" =~ ^[0-9a-f]{40}$ ]]; then
+              echo "::error file=${f}::dockyard spec.ref for ${skill_name} is not a 40-char SHA: ${spec_ref}"
+              fail=1
+              continue
+            fi
+            if [ "$cat_ref" = "$spec_ref" ]; then
+              echo "  ref already matches dockyard ($spec_ref); nothing to do"
+              continue
+            fi
+
+            # Surgical replacement to preserve formatting, key order, and trailing newline.
+            tmp=$(mktemp)
+            sed -E "s|(\"ref\": \")[0-9a-f]{40}(\")|\1${spec_ref}\2|" "$f" > "$tmp"
+            if ! diff -q "$f" "$tmp" >/dev/null; then
+              mv "$tmp" "$f"
+              echo "  updated ref: ${cat_ref} -> ${spec_ref}"
+            else
+              rm -f "$tmp"
+              echo "::error file=${f}::Could not locate a 40-char ref to replace in ${f}"
+              fail=1
+            fi
+          done <<< "$changed"
+
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::One or more skills failed to sync; failing the workflow."
+            exit 1
+          fi
+
+          git diff --stat || true
+
+      - name: Commit and push if changed
+        env:
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          APP_USER_ID: ${{ steps.app-user.outputs.id }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${APP_USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+          git add registries
+          git commit -s -m "chore: sync skill git refs with dockyard spec.yaml"
+          git push origin "HEAD:${HEAD_REF}"
