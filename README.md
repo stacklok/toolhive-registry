@@ -363,9 +363,24 @@ task catalog:build
 # Update metadata for oldest entries
 task catalog:update-metadata:oldest
 
+# Preview a sync of every dockyard-sourced skill (no writes)
+task catalog:sync-skills:all:dry-run
+
 # See all available commands
 task
 ```
+
+### Dockyard skill sync
+
+Skills whose first OCI package targets `ghcr.io/stacklok/dockyard/skills/<name>:*`
+are kept in lockstep with the `skills/<name>/spec.yaml` files in
+[stacklok/dockyard](https://github.com/stacklok/dockyard). The
+[`sync-skills` workflow](.github/workflows/sync-skills.yml) runs daily, executes
+`catalog sync-skills --all`, and opens (or refreshes) a single
+`catalog-sync-skills` PR that bumps both the OCI tag (`packages[].identifier`)
+and the upstream git ref (`packages[].ref`) so they always match what dockyard
+last published. To run it manually, use `task catalog:sync-skills:all` or
+trigger the workflow via `workflow_dispatch`.
 
 ## License
 

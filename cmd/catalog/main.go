@@ -104,6 +104,7 @@ func init() {
 	rootCmd.AddCommand(versionCmd)
 	rootCmd.AddCommand(updateMetadataCmd)
 	rootCmd.AddCommand(updateToolsCmd)
+	rootCmd.AddCommand(syncSkillsCmd)
 }
 
 func main() {
