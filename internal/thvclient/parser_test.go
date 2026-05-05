@@ -5,6 +5,12 @@ import (
 	"testing"
 )
 
+const (
+	toolA  = "tool_a"
+	toolB  = "tool_b"
+	myTool = "my_tool"
+)
+
 func TestParseToolsJSON_Valid(t *testing.T) {
 	t.Parallel()
 	output := `{"tools":[{"name":"tool_b","description":"B"},{"name":"tool_a","description":"A"}]}`
@@ -12,7 +18,7 @@ func TestParseToolsJSON_Valid(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ParseToolsJSON failed: %v", err)
 	}
-	expected := []string{"tool_a", "tool_b"}
+	expected := []string{toolA, toolB}
 	if !slices.Equal(tools, expected) {
 		t.Errorf("expected %v, got %v", expected, tools)
 	}
@@ -26,7 +32,7 @@ func TestParseToolsJSON_WithWarnings(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ParseToolsJSON failed: %v", err)
 	}
-	if len(tools) != 1 || tools[0] != "my_tool" {
+	if len(tools) != 1 || tools[0] != myTool {
 		t.Errorf("expected [my_tool], got %v", tools)
 	}
 }
@@ -69,7 +75,7 @@ tool_a       Does A`
 	if err != nil {
 		t.Fatalf("ParseToolsText failed: %v", err)
 	}
-	expected := []string{"tool_a", "tool_b"}
+	expected := []string{toolA, toolB}
 	if !slices.Equal(tools, expected) {
 		t.Errorf("expected %v, got %v", expected, tools)
 	}
@@ -98,7 +104,7 @@ func TestParseToolDefinitions_Valid(t *testing.T) {
 		t.Fatalf("expected 2 tool definitions, got %d", len(defs))
 	}
 	// Verify sorted by name
-	if defs[0].Name != "tool_a" || defs[1].Name != "tool_b" {
+	if defs[0].Name != toolA || defs[1].Name != toolB {
 		t.Errorf("expected sorted [tool_a, tool_b], got [%s, %s]", defs[0].Name, defs[1].Name)
 	}
 	// Verify descriptions
@@ -179,7 +185,7 @@ func TestParseToolDefinitions_WithWarnings(t *testing.T) {
 	if len(defs) != 1 {
 		t.Fatalf("expected 1 tool definition, got %d", len(defs))
 	}
-	if defs[0].Name != "my_tool" {
+	if defs[0].Name != myTool {
 		t.Errorf("expected 'my_tool', got %q", defs[0].Name)
 	}
 	if defs[0].Description != "test tool" {
