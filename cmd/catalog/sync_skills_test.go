@@ -62,8 +62,10 @@ const fixtureNonDockyardSkillJSON = `{
 `
 
 const (
-	originalRef = "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955"
-	bumpedRef   = "f2cff985bcec174fcd096db65a23f06ec9bdde29"
+	originalRef    = "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955"
+	bumpedRef      = "f2cff985bcec174fcd096db65a23f06ec9bdde29"
+	securityReview = "security-review"
+	fixtureRepoURL = "https://github.com/foo/bar"
 )
 
 // dockyardSpecYAML returns a spec.yaml body with the given fields. The skill
@@ -130,7 +132,7 @@ func writeSkill(t *testing.T, body string) string {
 func TestSyncOneSkill_TagOnly(t *testing.T) {
 	t.Parallel()
 	srv := fakeDockyard(t, map[string]string{
-		"security-review": dockyardSpecYAML(
+		securityReview: dockyardSpecYAML(
 			"https://github.com/getsentry/skills",
 			originalRef, "skills/security-review", "0.2.0",
 		),
@@ -153,7 +155,7 @@ func TestSyncOneSkill_TagOnly(t *testing.T) {
 func TestSyncOneSkill_RefOnly(t *testing.T) {
 	t.Parallel()
 	srv := fakeDockyard(t, map[string]string{
-		"security-review": dockyardSpecYAML(
+		securityReview: dockyardSpecYAML(
 			"https://github.com/getsentry/skills",
 			bumpedRef, "skills/security-review", "0.1.0",
 		),
@@ -176,7 +178,7 @@ func TestSyncOneSkill_RefOnly(t *testing.T) {
 func TestSyncOneSkill_Both(t *testing.T) {
 	t.Parallel()
 	srv := fakeDockyard(t, map[string]string{
-		"security-review": dockyardSpecYAML(
+		securityReview: dockyardSpecYAML(
 			"https://github.com/getsentry/skills",
 			bumpedRef, "skills/security-review", "0.2.0",
 		),
@@ -196,7 +198,7 @@ func TestSyncOneSkill_Both(t *testing.T) {
 func TestSyncOneSkill_NoOp(t *testing.T) {
 	t.Parallel()
 	srv := fakeDockyard(t, map[string]string{
-		"security-review": dockyardSpecYAML(
+		securityReview: dockyardSpecYAML(
 			"https://github.com/getsentry/skills",
 			originalRef, "skills/security-review", "0.1.0",
 		),
@@ -217,7 +219,7 @@ func TestSyncOneSkill_NoOp(t *testing.T) {
 func TestSyncOneSkill_DryRun(t *testing.T) {
 	t.Parallel()
 	srv := fakeDockyard(t, map[string]string{
-		"security-review": dockyardSpecYAML(
+		securityReview: dockyardSpecYAML(
 			"https://github.com/getsentry/skills",
 			bumpedRef, "skills/security-review", "0.2.0",
 		),
@@ -241,7 +243,7 @@ func TestSyncOneSkill_DryRun(t *testing.T) {
 func TestSyncOneSkill_RepoMismatchSkips(t *testing.T) {
 	t.Parallel()
 	srv := fakeDockyard(t, map[string]string{
-		"security-review": dockyardSpecYAML(
+		securityReview: dockyardSpecYAML(
 			"https://github.com/example/other-skills",
 			bumpedRef, "skills/security-review", "0.2.0",
 		),
@@ -265,7 +267,7 @@ func TestSyncOneSkill_RepoMismatchSkips(t *testing.T) {
 func TestSyncOneSkill_SubfolderMismatchSkips(t *testing.T) {
 	t.Parallel()
 	srv := fakeDockyard(t, map[string]string{
-		"security-review": dockyardSpecYAML(
+		securityReview: dockyardSpecYAML(
 			"https://github.com/getsentry/skills",
 			bumpedRef, "different/path", "0.2.0",
 		),
@@ -306,7 +308,7 @@ func TestSyncOneSkill_NoDockyardPackageSkips(t *testing.T) {
 func TestSyncOneSkill_MalformedYAMLErrors(t *testing.T) {
 	t.Parallel()
 	srv := fakeDockyard(t, map[string]string{
-		"security-review": "spec:\n  version: [unterminated",
+		securityReview: "spec:\n  version: [unterminated",
 	})
 
 	path := writeSkill(t, fixtureSkillJSON)
@@ -348,11 +350,11 @@ func TestFindDockyardSkillFiles(t *testing.T) {
 func TestRunSyncSkillsAllReportsErrorExit(t *testing.T) {
 	t.Parallel()
 	srv := fakeDockyard(t, map[string]string{
-		"security-review": "spec:\n  version: [unterminated",
+		securityReview: "spec:\n  version: [unterminated",
 	})
 
 	root := t.TempDir()
-	dir := filepath.Join(root, "toolhive", "skills", "security-review")
+	dir := filepath.Join(root, "toolhive", "skills", securityReview)
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		t.Fatalf("mkdir: %v", err)
 	}
@@ -371,12 +373,12 @@ func TestRepoURLsMatch(t *testing.T) {
 		a, b string
 		want bool
 	}{
-		{"https://github.com/foo/bar", "https://github.com/foo/bar", true},
-		{"https://github.com/foo/bar.git", "https://github.com/foo/bar", true},
-		{"https://github.com/foo/bar/", "https://github.com/foo/bar.git", true},
-		{"https://github.com/foo/bar", "https://github.com/foo/baz", false},
-		{"", "https://github.com/foo/bar", false},
-		{"https://github.com/foo/bar", "", false},
+		{fixtureRepoURL, fixtureRepoURL, true},
+		{fixtureRepoURL + ".git", fixtureRepoURL, true},
+		{fixtureRepoURL + "/", fixtureRepoURL + ".git", true},
+		{fixtureRepoURL, "https://github.com/foo/baz", false},
+		{"", fixtureRepoURL, false},
+		{fixtureRepoURL, "", false},
 	}
 	for _, tc := range cases {
 		if got := repoURLsMatch(tc.a, tc.b); got != tc.want {
