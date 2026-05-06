@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-04-30T01:01:54Z"
+    "last_updated": "2026-05-06T00:57:39Z"
   },
   "data": {
     "servers": [
@@ -965,7 +965,7 @@
                   "homepage": "https://www.atlassian.com/platform/remote-mcp-server"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-30T03:03:51Z"
+                  "last_updated": "2026-05-01T03:05:40Z"
                 },
                 "overview": "## Atlassian Remote MCP Server\n\nThe atlassian-remote MCP Server is a cloud-hosted Model Context Protocol (MCP) implementation from Atlassian that lets AI assistants and agents securely access and interact with Atlassian Cloud data — including Jira, Confluence, and Compass — without manual integrations. This official Atlassian tool enables AI systems to query and modify enterprise data across multiple Atlassian products through a secure, OAuth 2.1-authenticated remote endpoint, supporting operations like issue creation, documentation updates, and cross-tool workflows while respecting existing user permissions.",
                 "status": "Active",
@@ -5131,8 +5131,8 @@
                   "stdio"
                 ],
                 "metadata": {
-                  "last_updated": "2026-03-31T01:10:36Z",
-                  "stars": 48
+                  "last_updated": "2026-05-04T03:43:23Z",
+                  "stars": 50
                 },
                 "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
                 "permissions": {
@@ -22207,8 +22207,8 @@
                   "homepage": "https://kiwi.com"
                 },
                 "metadata": {
-                  "last_updated": "2026-04-03T03:03:27Z",
-                  "stars": 9
+                  "last_updated": "2026-05-05T03:04:52Z",
+                  "stars": 11
                 },
                 "overview": "## Kiwi.com Flights MCP Server\n\nThe Kiwi.com MCP server enables AI assistants to search for flights through Kiwi.com's travel platform. It connects to the Kiwi.com API to search for available flights based on origin, destination, and travel dates, returning structured results that AI agents can use to recommend itineraries, compare options, and assist with travel planning workflows. The server uses a streamable HTTP transport for efficient API communication.",
                 "status": "Active",
@@ -26041,7 +26041,7 @@
                   "homepage": "https://modelcontextprotocol.io"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-30T03:03:51Z"
+                  "last_updated": "2026-05-01T03:05:40Z"
                 },
                 "overview": "## MCP Specification Server\n\nThe mcp-spec is a Model Context Protocol (MCP) server that provides AI assistants with direct, structured access to the MCP specification itself. It enables AI-driven workflows to reference the official protocol definition while reasoning about MCP servers, tools, transports, and behaviors. The server is particularly valuable for MCP client and server development, protocol education, validation, and tooling scenarios where assistants require authoritative, spec-accurate context.",
                 "status": "Active",
@@ -26483,8 +26483,8 @@
                   "license": "MIT"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-31T03:03:56Z",
-                  "stars": 387
+                  "last_updated": "2026-05-02T03:04:29Z",
+                  "stars": 396
                 },
                 "overview": "## Monday.com MCP Server\n\nThe monday MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Monday.com, the work management and project tracking platform. It allows AI-driven workflows to create, update, and reason about boards, items, groups, and statuses — bringing operational and planning context directly into AI-assisted workflows. This server is especially useful for project management, team coordination, operational tracking, and workflow automation where Monday.com is the system of record.",
                 "status": "Active",
@@ -32649,7 +32649,7 @@
                   "homepage": "https://developers.notion.com/docs/get-started-with-mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-30T03:03:51Z"
+                  "last_updated": "2026-04-30T03:06:08Z"
                 },
                 "overview": "## Notion Remote MCP Server\n\nNotion's official remote MCP server enables AI assistants to interact with Notion workspaces over a streamable HTTP transport using OAuth authentication. It provides comprehensive coverage of the Notion API including creating, updating, duplicating, and moving pages; creating and updating databases; searching across the workspace; managing comments; and retrieving user and team information. This server is ideal for AI workflows that need to read from or write to Notion as a knowledge base, project tracker, or documentation system.",
                 "status": "Active",
@@ -33437,8 +33437,8 @@
             "io.github.stacklok": {
               "ghcr.io/stackloklabs/osv-mcp/server:0.1.3": {
                 "metadata": {
-                  "last_updated": "2026-04-01T22:15:33Z",
-                  "stars": 26
+                  "last_updated": "2026-05-04T03:43:28Z",
+                  "stars": 33
                 },
                 "overview": "## OSV MCP Server\n\nThe osv MCP server provides access to the OSV (Open Source Vulnerabilities) database for querying package and commit vulnerabilities. The server offers MCP-based access to the OSV vulnerability database through direct API queries to OSV.dev for vulnerability lookups by package name, version, or commit hash. It supports batch vulnerability queries for multiple packages simultaneously and delivers detailed vulnerability information including CVE IDs, severity scores, and affected versions across multiple programming languages and package managers.",
                 "permissions": {
@@ -39346,7 +39346,7 @@
                   "homepage": "https://www.paypal.ai/docs/tools/mcp-quickstart"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-29T15:55:09Z"
+                  "last_updated": "2026-04-30T03:06:08Z"
                 },
                 "overview": "## PayPal MCP Server\n\nPayPal's official remote MCP server enables AI assistants to interact with the PayPal platform for payment processing, invoicing, and business operations. It supports the full payment lifecycle including order creation, payment capture, and refunds; invoice management with sending, reminders, and QR code generation; product catalog and subscription plan management; dispute resolution; shipment tracking; and transaction history queries. Authentication is handled via PayPal OAuth, making it suitable for AI-driven e-commerce, financial automation, and customer service workflows.",
                 "status": "Active",
@@ -41646,8 +41646,8 @@
             "io.github.stacklok": {
               "ghcr.io/pab1it0/prometheus-mcp-server:1.6.0": {
                 "metadata": {
-                  "last_updated": "2026-03-30T03:03:51Z",
-                  "stars": 400
+                  "last_updated": "2026-05-04T03:44:10Z",
+                  "stars": 429
                 },
                 "overview": "## Prometheus MCP Server\n\nThe Prometheus MCP server provides AI assistants with direct access to Prometheus metrics and monitoring data. It enables real-time querying of time-series metrics using PromQL, range queries for trend analysis, alert and rule inspection, and target health monitoring. The server exposes tools for metric discovery, label exploration, and exemplar queries, making it straightforward to integrate Prometheus observability data into AI-driven analysis and incident response workflows.",
                 "permissions": {
@@ -44470,8 +44470,8 @@
                   "license": "MIT"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-31T03:03:57Z",
-                  "stars": 644
+                  "last_updated": "2026-05-03T03:05:31Z",
+                  "stars": 665
                 },
                 "overview": "## Semgrep Remote MCP Server\n\nThe semgrep-remote MCP server is the official Semgrep MCP server for code security scanning and vulnerability detection. The server enables vulnerability scanning utilizing semantic analysis across 5,000+ rules, abstract syntax tree generation and multi-language support queries, supply chain security analysis for dependencies and third-party code, and custom security rule development and validation with schema capabilities.",
                 "status": "Active",
@@ -45846,7 +45846,7 @@
                   "homepage": "https://sentry.io"
                 },
                 "metadata": {
-                  "last_updated": "2026-04-01T03:03:50Z"
+                  "last_updated": "2026-05-03T03:05:31Z"
                 },
                 "overview": "## Sentry Remote MCP Server\n\nSentry's official remote MCP server enables AI assistants to connect to Sentry's error monitoring and performance tracking platform using OAuth authentication over a streamable HTTP transport. It supports finding organizations, teams, projects, and releases; retrieving detailed issue and trace information; searching events and issues; and running AI-powered issue analysis through Sentry Seer. The server provides the full context needed for AI-driven incident triage, root cause analysis, and performance debugging directly within an assistant workflow.",
                 "status": "Active",
@@ -46252,8 +46252,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/sonarqube:latest": {
                 "metadata": {
-                  "last_updated": "2026-04-02T03:03:25Z",
-                  "stars": 453
+                  "last_updated": "2026-05-04T03:05:44Z",
+                  "stars": 544
                 },
                 "overview": "## SonarQube MCP Server\n\nThe sonarqube MCP server provides integration with SonarQube Server or Cloud for code quality and security analysis. The SonarQube MCP server establishes connections to SonarQube instances through stdio transport, utilizing token-based authentication to expose analysis capabilities including code and file analysis execution, project metrics and quality gate assessment retrieval, issue, rule, and dependency risk inspection, and system health monitoring and status endpoints.",
                 "permissions": {
@@ -46411,8 +46411,8 @@
                   "homepage": "https://developer.squareup.com/docs/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-04-02T03:03:26Z",
-                  "stars": 95
+                  "last_updated": "2026-05-05T03:04:51Z",
+                  "stars": 99
                 },
                 "overview": "## Square MCP Server\n\nSquare's official remote MCP server for payment processing and commerce. The server provides access to Square's commerce platform through Server-Sent Events (SSE) transport, featuring a flexible API request handling tool, type introspection capabilities for API schema discovery, and service discovery for available endpoints. It enables full Square API access for payments, commerce, and customer management operations.",
                 "status": "Active",
@@ -47267,7 +47267,7 @@
                   "homepage": "https://docs.stripe.com/mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-04-03T03:03:27Z"
+                  "last_updated": "2026-05-05T03:04:51Z"
                 },
                 "overview": "## Stripe Remote MCP Server\n\nStripe's official remote MCP server for payment processing and subscriptions. The server provides access to Stripe's payment platform through streamable-HTTP transport with comprehensive Stripe API operations organized by category — covering account, balance, customer, payment, product, and subscription tools plus documentation search and resource discovery features. It provides full payment processing API access (payments, invoices, refunds), comprehensive subscription and customer management, and Stripe documentation search and resource fetching capabilities.",
                 "status": "Active",
@@ -48290,7 +48290,7 @@
             "io.github.stacklok": {
               "registry.suse.com/suse/agentic/mcp/multi-linux-manager:0.5.2": {
                 "metadata": {
-                  "last_updated": "2026-03-29T15:55:08Z",
+                  "last_updated": "2026-04-30T03:06:07Z",
                   "stars": 12
                 },
                 "overview": "## SUSE Multi-Linux Manager MCP Server\n\nThe SUSE Multi-Linux Manager MCP Server bridges Large Language Models with SUSE's commercial Multi-Linux Manager infrastructure management solution. It enables AI agents and MCP-compliant clients to interact securely with managed servers, allowing natural language management of Linux infrastructure including retrieving system details, checking updates, scheduling maintenance, and managing system groups.\n\nThe server provides both read-only and write-enabled tools for comprehensive infrastructure management, with write operations gated behind an explicit opt-in flag for safety. This is the commercially supported version of the Uyuni MCP server.",
@@ -50873,7 +50873,7 @@
             "io.github.stacklok": {
               "ghcr.io/uyuni-project/mcp-server-uyuni:0.5.2": {
                 "metadata": {
-                  "last_updated": "2026-03-29T15:55:08Z",
+                  "last_updated": "2026-04-30T03:06:08Z",
                   "stars": 12
                 },
                 "overview": "## Uyuni MCP Server\n\nThe Uyuni MCP Server bridges Large Language Models with the Uyuni infrastructure management solution from SUSE. It enables AI agents and MCP-compliant clients to interact securely with Uyuni servers, allowing natural language management of Linux infrastructure including retrieving system details, checking updates, scheduling maintenance, and managing system groups.\n\nThe server provides both read-only and write-enabled tools for comprehensive infrastructure management, with write operations gated behind an explicit opt-in flag for safety.",
@@ -50960,7 +50960,7 @@
                   "homepage": "https://vercel.com/docs/mcp/vercel-mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-03-31T03:03:56Z"
+                  "last_updated": "2026-05-02T03:04:29Z"
                 },
                 "overview": "## Vercel MCP Server\n\nVercel's official remote MCP server for deployment platform and project management. It provides programmatic access to Vercel's deployment infrastructure, project management, and documentation through a streamable-http transport. The server enables AI assistants to connect with Vercel's deployment platform, offering tools for searching documentation, managing teams and projects, monitoring deployments and their events, and retrieving content from Vercel-hosted URLs. Authentication is handled through OAuth.",
                 "status": "Active",
@@ -51023,7 +51023,7 @@
                   "homepage": "https://dev.wix.com"
                 },
                 "metadata": {
-                  "last_updated": "2026-04-02T03:03:25Z"
+                  "last_updated": "2026-05-04T03:05:44Z"
                 },
                 "overview": "## Wix MCP Server\n\nWix's official remote MCP server for development platform and site management. It provides programmatic access to Wix documentation, API exploration, and site management capabilities through a streamable-http transport. Key capabilities include access to comprehensive Wix documentation with search functionality, ability to read full documentation articles and method schemas, direct calls to Wix Site APIs, site listing and management features, and support and feedback functionality for Wix development.",
                 "status": "Active",
@@ -51087,7 +51087,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/agentic-actions-auditor/skills/agentic-actions-auditor"
           }
         ]
@@ -51118,7 +51118,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/agents-md"
           }
         ]
@@ -51149,7 +51149,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "0397d7d88fa6ac7517a88389622eb0799e86ded2",
+            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
             "subfolder": "skills/agents-sdk"
           }
         ]
@@ -51180,7 +51180,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "eba6ae3f673baecb38d8ecd9df3ea4ce1f254443",
+            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
             "subfolder": "skills/atlas-stream-processing"
           }
         ]
@@ -51331,7 +51331,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/anthropics/skills",
-            "ref": "2c7ec5e78b8e5d43ea02e90bb8826f6b9f147b0c",
+            "ref": "5128e1865d670f5d6c9cef000e6dfc4e951fb5b9",
             "subfolder": "skills/claude-api"
           }
         ]
@@ -51362,7 +51362,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/claude-settings-audit"
           }
         ]
@@ -51517,7 +51517,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "0397d7d88fa6ac7517a88389622eb0799e86ded2",
+            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
             "subfolder": "skills/cloudflare"
           }
         ]
@@ -51548,7 +51548,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "0397d7d88fa6ac7517a88389622eb0799e86ded2",
+            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
             "subfolder": "skills/cloudflare-email-service"
           }
         ]
@@ -51612,7 +51612,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/code-simplifier"
           }
         ]
@@ -51643,7 +51643,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/static-analysis/skills/codeql"
           }
         ]
@@ -51674,7 +51674,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/commit"
           }
         ]
@@ -51705,7 +51705,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/constant-time-analysis/skills/constant-time-analysis"
           }
         ]
@@ -51736,7 +51736,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/create-branch"
           }
         ]
@@ -51767,7 +51767,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "a04611e9d3c402859f7d973be451c16cd5982ca5",
+            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
             "subfolder": "dd-apm"
           }
         ]
@@ -51798,7 +51798,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "a04611e9d3c402859f7d973be451c16cd5982ca5",
+            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
             "subfolder": "dd-docs"
           }
         ]
@@ -51829,7 +51829,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "a04611e9d3c402859f7d973be451c16cd5982ca5",
+            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
             "subfolder": "dd-llmo/eval-session-classify"
           }
         ]
@@ -51860,7 +51860,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "a04611e9d3c402859f7d973be451c16cd5982ca5",
+            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
             "subfolder": "dd-logs"
           }
         ]
@@ -51891,7 +51891,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "a04611e9d3c402859f7d973be451c16cd5982ca5",
+            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
             "subfolder": "dd-monitors"
           }
         ]
@@ -51922,7 +51922,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "a04611e9d3c402859f7d973be451c16cd5982ca5",
+            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
             "subfolder": "dd-pup"
           }
         ]
@@ -51953,7 +51953,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
             "subfolder": "skills/developing-genkit-dart"
           }
         ]
@@ -51984,7 +51984,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
             "subfolder": "skills/developing-genkit-go"
           }
         ]
@@ -52015,7 +52015,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
             "subfolder": "skills/developing-genkit-js"
           }
         ]
@@ -52046,7 +52046,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/differential-review/skills/differential-review"
           }
         ]
@@ -52077,7 +52077,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/django-access-review"
           }
         ]
@@ -52108,7 +52108,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/django-perf-review"
           }
         ]
@@ -52139,7 +52139,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/doc-coauthoring"
           }
         ]
@@ -52170,7 +52170,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "0397d7d88fa6ac7517a88389622eb0799e86ded2",
+            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
             "subfolder": "skills/durable-objects"
           }
         ]
@@ -52201,7 +52201,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/find-bugs"
           }
         ]
@@ -52232,7 +52232,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
             "subfolder": "skills/firebase-ai-logic-basics"
           }
         ]
@@ -52263,7 +52263,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
             "subfolder": "skills/firebase-app-hosting-basics"
           }
         ]
@@ -52294,7 +52294,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
             "subfolder": "skills/firebase-auth-basics"
           }
         ]
@@ -52325,7 +52325,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
             "subfolder": "skills/firebase-basics"
           }
         ]
@@ -52356,7 +52356,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
             "subfolder": "skills/firebase-data-connect-basics"
           }
         ]
@@ -52387,7 +52387,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
             "subfolder": "skills/firebase-firestore-enterprise-native-mode"
           }
         ]
@@ -52418,7 +52418,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
             "subfolder": "skills/firebase-firestore-standard"
           }
         ]
@@ -52449,7 +52449,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "4679fc8dd31f77f068301eb4796ec37904da53aa",
+            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
             "subfolder": "skills/firebase-hosting-basics"
           }
         ]
@@ -52480,7 +52480,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/atlassian/forge-skills",
-            "ref": "0d60ac5436dcb63af0869e110728f40e61274924",
+            "ref": "eeec947d81d9c9085bfeda27d93df9960a6d4995",
             "subfolder": "skills/forge-app-builder"
           }
         ]
@@ -52511,7 +52511,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/atlassian/forge-skills",
-            "ref": "0d60ac5436dcb63af0869e110728f40e61274924",
+            "ref": "eeec947d81d9c9085bfeda27d93df9960a6d4995",
             "subfolder": "skills/forge-app-review"
           }
         ]
@@ -52542,7 +52542,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/atlassian/forge-skills",
-            "ref": "0d60ac5436dcb63af0869e110728f40e61274924",
+            "ref": "eeec947d81d9c9085bfeda27d93df9960a6d4995",
             "subfolder": "skills/forge-debugger"
           }
         ]
@@ -52573,7 +52573,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/fp-check/skills/fp-check"
           }
         ]
@@ -52604,7 +52604,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/google-gemini/gemini-skills",
-            "ref": "5b655a47ac6d03a2d96d6e64ca051b6a7fe62296",
+            "ref": "f9138ae2c29136ac434a18fd6fdcd5c313895299",
             "subfolder": "skills/gemini-api-dev"
           }
         ]
@@ -52635,7 +52635,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/google-gemini/gemini-skills",
-            "ref": "5b655a47ac6d03a2d96d6e64ca051b6a7fe62296",
+            "ref": "f9138ae2c29136ac434a18fd6fdcd5c313895299",
             "subfolder": "skills/gemini-interactions-api"
           }
         ]
@@ -52666,7 +52666,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/google-gemini/gemini-skills",
-            "ref": "5b655a47ac6d03a2d96d6e64ca051b6a7fe62296",
+            "ref": "f9138ae2c29136ac434a18fd6fdcd5c313895299",
             "subfolder": "skills/gemini-live-api-dev"
           }
         ]
@@ -52697,7 +52697,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/gh-review-requests"
           }
         ]
@@ -52728,7 +52728,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/gha-security-review"
           }
         ]
@@ -52759,7 +52759,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "skills/hf-cli"
           }
         ]
@@ -52790,7 +52790,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "hf-mcp/skills/hf-mcp"
           }
         ]
@@ -52821,7 +52821,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "skills/huggingface-community-evals"
           }
         ]
@@ -52852,7 +52852,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "skills/huggingface-datasets"
           }
         ]
@@ -52883,7 +52883,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "skills/huggingface-gradio"
           }
         ]
@@ -52914,7 +52914,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "skills/huggingface-llm-trainer"
           }
         ]
@@ -52945,7 +52945,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "skills/huggingface-paper-publisher"
           }
         ]
@@ -52976,7 +52976,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "skills/huggingface-papers"
           }
         ]
@@ -53007,7 +53007,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "skills/huggingface-tool-builder"
           }
         ]
@@ -53038,7 +53038,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "skills/huggingface-trackio"
           }
         ]
@@ -53069,7 +53069,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "skills/huggingface-vision-trainer"
           }
         ]
@@ -53100,7 +53100,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/insecure-defaults/skills/insecure-defaults"
           }
         ]
@@ -53131,7 +53131,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/iterate-pr"
           }
         ]
@@ -53224,7 +53224,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "eba6ae3f673baecb38d8ecd9df3ea4ce1f254443",
+            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
             "subfolder": "skills/mongodb-connection"
           }
         ]
@@ -53255,7 +53255,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "eba6ae3f673baecb38d8ecd9df3ea4ce1f254443",
+            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
             "subfolder": "skills/mongodb-mcp-setup"
           }
         ]
@@ -53293,7 +53293,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "eba6ae3f673baecb38d8ecd9df3ea4ce1f254443",
+            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
             "subfolder": "skills/mongodb-natural-language-querying"
           }
         ]
@@ -53324,7 +53324,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "eba6ae3f673baecb38d8ecd9df3ea4ce1f254443",
+            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
             "subfolder": "skills/mongodb-query-optimizer"
           }
         ]
@@ -53355,7 +53355,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "eba6ae3f673baecb38d8ecd9df3ea4ce1f254443",
+            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
             "subfolder": "skills/mongodb-schema-design"
           }
         ]
@@ -53386,7 +53386,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "eba6ae3f673baecb38d8ecd9df3ea4ce1f254443",
+            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
             "subfolder": "skills/mongodb-search-and-ai"
           }
         ]
@@ -53479,7 +53479,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
             "subfolder": "authoring/skills/package-usage"
           }
         ]
@@ -53727,7 +53727,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/pr-writer"
           }
         ]
@@ -53758,7 +53758,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/prompt-optimizer"
           }
         ]
@@ -53789,7 +53789,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/property-based-testing/skills/property-based-testing"
           }
         ]
@@ -53820,7 +53820,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
             "subfolder": "authoring/skills/provider-upgrade"
           }
         ]
@@ -53851,7 +53851,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
             "subfolder": "authoring/skills/pulumi-automation-api"
           }
         ]
@@ -53882,7 +53882,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
             "subfolder": "authoring/skills/pulumi-best-practices"
           }
         ]
@@ -53913,7 +53913,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
             "subfolder": "authoring/skills/pulumi-component"
           }
         ]
@@ -53944,7 +53944,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
             "subfolder": "authoring/skills/pulumi-esc"
           }
         ]
@@ -53975,7 +53975,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
             "subfolder": "authoring/skills/pulumi-upgrade-provider"
           }
         ]
@@ -54006,7 +54006,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "0397d7d88fa6ac7517a88389622eb0799e86ded2",
+            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
             "subfolder": "skills/sandbox-sdk"
           }
         ]
@@ -54037,7 +54037,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/static-analysis/skills/sarif-parsing"
           }
         ]
@@ -54068,7 +54068,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/security-review"
           }
         ]
@@ -54099,7 +54099,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/static-analysis/skills/semgrep"
           }
         ]
@@ -54130,7 +54130,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/semgrep-rule-creator/skills/semgrep-rule-creator"
           }
         ]
@@ -54161,7 +54161,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/semgrep-rule-variant-creator/skills/semgrep-rule-variant-creator"
           }
         ]
@@ -54192,7 +54192,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/sharp-edges/skills/sharp-edges"
           }
         ]
@@ -54250,7 +54250,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/skill-scanner"
           }
         ]
@@ -54281,7 +54281,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "94ea2a26c70f3f646f07a613ffe5cd3d4eca1955",
+            "ref": "f2cff985bcec174fcd096db65a23f06ec9bdde29",
             "subfolder": "skills/skill-writer"
           }
         ]
@@ -54622,7 +54622,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/supabase/agent-skills",
-            "ref": "3e7fd16bf8cab06d3c24dc775a331e6effcba29a",
+            "ref": "e5f7a7cfd697765848ffd6a4505f3c02e1ee17ee",
             "subfolder": "skills/supabase"
           }
         ]
@@ -54653,7 +54653,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/supabase/agent-skills",
-            "ref": "3e7fd16bf8cab06d3c24dc775a331e6effcba29a",
+            "ref": "e5f7a7cfd697765848ffd6a4505f3c02e1ee17ee",
             "subfolder": "skills/supabase-postgres-best-practices"
           }
         ]
@@ -54684,7 +54684,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/supply-chain-risk-auditor/skills/supply-chain-risk-auditor"
           }
         ]
@@ -54746,7 +54746,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "061ab494cb145f43ae8f218939b99160e2c61c58",
+            "ref": "904a2f93416c5c0cc7c5ad487a2bdfa68e8be031",
             "subfolder": "skills/transformers-js"
           }
         ]
@@ -54808,7 +54808,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "fbeac07327a601b954ba82e7f7e1c24cf3b1fa71",
+            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
             "subfolder": "authoring/skills/upstream-patches"
           }
         ]
@@ -54839,7 +54839,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/variant-analysis/skills/variant-analysis"
           }
         ]
@@ -54870,7 +54870,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/google-gemini/gemini-skills",
-            "ref": "5b655a47ac6d03a2d96d6e64ca051b6a7fe62296",
+            "ref": "f9138ae2c29136ac434a18fd6fdcd5c313895299",
             "subfolder": "skills/vertex-ai-api-dev"
           }
         ]
@@ -54963,7 +54963,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "0397d7d88fa6ac7517a88389622eb0799e86ded2",
+            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
             "subfolder": "skills/web-perf"
           }
         ]
@@ -54994,7 +54994,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "0397d7d88fa6ac7517a88389622eb0799e86ded2",
+            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
             "subfolder": "skills/workers-best-practices"
           }
         ]
@@ -55025,7 +55025,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "0397d7d88fa6ac7517a88389622eb0799e86ded2",
+            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
             "subfolder": "skills/wrangler"
           }
         ]
@@ -55056,7 +55056,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "e8cc5baf9329ccb491bfa200e82eacbac83b1ead",
+            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
             "subfolder": "plugins/yara-authoring/skills/yara-rule-authoring"
           }
         ]
