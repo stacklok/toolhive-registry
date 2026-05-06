@@ -94,8 +94,14 @@ jobs:
     name: Detect Changed Servers
     runs-on: ubuntu-latest
     needs: [security-check]
+    # Skip on the bot's own synchronize pushes: commit-all-changes pushes with
+    # an app token, which (unlike GITHUB_TOKEN) re-triggers pull_request events.
+    # Without this guard the workflow re-runs on its own commit and loops.
     if: |
       always() &&
+      !(github.event_name == 'pull_request' &&
+        github.event.action == 'synchronize' &&
+        github.event.sender.login == 'toolhive-release-app[bot]') &&
       (github.event_name == 'workflow_dispatch' ||
        (github.event_name == 'pull_request' && needs.security-check.outputs.should-run == 'true'))
     outputs:
