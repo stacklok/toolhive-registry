@@ -9,7 +9,7 @@
             "mcp"
           ],
           "metadata": {
-            "last_updated": "2026-05-07T03:05:54Z",
+            "last_updated": "2026-05-07T03:07:40Z",
             "stars": 15042
           },
           "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
@@ -76,11 +76,16 @@
             },
             {
               "annotations": {},
-              "description": "\n    Fetches findings from the Semgrep AppSec Platform Findings API.\n\n    This function retrieves security, code quality, and supply chain findings that have already been\n    identified by previous Semgrep scans and uploaded to the Semgrep AppSec platform. It does NOT\n    perform a new scan or analyze code directly. Instead, it queries the Semgrep API to access\n    historical scan results for a given repository or set of repositories.\n\n    DEFAULT BEHAVIOR: By default, this tool should filter by the current repository. The model\n    should determine the current repository name and pass it in the 'repos' parameter to ensure\n    findings are scoped to the relevant codebase. However, users may explicitly request findings\n    from other repositories, in which case the model should respect that request.\n\n    Use this function when a prompt requests a summary, list, or analysis of existing findings,\n    such as:\n        - \"Please list the top 10 security findings and propose solutions for them.\"\n        - \"Show all open critical vulnerabilities in this repository.\"\n        - \"Summarize the most recent Semgrep scan results.\"\n        - \"Get findings from repository X\" (explicitly requesting different repo)\n\n    This function is ideal for:\n    - Reviewing, listing, or summarizing findings from past scans.\n    - Providing actionable insights or remediation advice based on existing scan data.\n\n    Do NOT use this function to perform a new scan or check code that has not yet been analyzed by\n    Semgrep. For new scans, use the appropriate scanning function.\n\n    Args:\n        issue_type (str): Filter findings by type. Use 'sast' for code analysis\n            findings and 'sca' for supply chain analysis findings (e.g., 'sast', 'sca').\n        status (Optional[str]): Filter findings by status (default: 'open').\n        repos (Optional[List[str]]): List of repository names to filter results. By default, should\n            include the current repository name to scope findings appropriately. Can be overridden\n            when users explicitly request findings from other repositories.\n        severities (Optional[List[str]]): Filter findings by severity (e.g., ['critical', 'high']).\n        confidence (Optional[List[str]]): Filter findings by confidence level (e.g., ['high']).\n        autotriage_verdict (Optional[str]): Filter findings by auto-triage verdict\n            (default: 'true_positive').\n        page (Optional[int]): Page number for paginated results. (default: 0)\n        page_size (int): Number of findings per page (default: 100, min: 100, max: 3000).\n\n    Returns:\n        List[Finding]: A list of findings matching the specified filters, where each finding\n        contains details such as rule ID, description, severity, file location, and remediation\n        guidance if available.\n    ",
+              "description": "\n    Fetches findings from the Semgrep AppSec Platform Findings API.\n\n    This function retrieves security, code quality, and supply chain findings that have already been\n    identified by previous Semgrep scans and uploaded to the Semgrep AppSec platform. It does NOT\n    perform a new scan or analyze code directly. Instead, it queries the Semgrep API to access\n    historical scan results for a given repository or set of repositories.\n\n    DEFAULT BEHAVIOR: By default, this tool should filter by the current repository. The model\n    should determine the current repository name and pass it in the 'repos' parameter to ensure\n    findings are scoped to the relevant codebase. However, users may explicitly request findings\n    from other repositories, in which case the model should respect that request.\n\n    Use this function when a prompt requests a summary, list, or analysis of existing findings,\n    such as:\n        - \"Please list the top 10 security findings and propose solutions for them.\"\n        - \"Show all open critical vulnerabilities in this repository.\"\n        - \"Summarize the most recent Semgrep scan results.\"\n        - \"Get findings from repository X\" (explicitly requesting different repo)\n\n    This function is ideal for:\n    - Reviewing, listing, or summarizing findings from past scans.\n    - Providing actionable insights or remediation advice based on existing scan data.\n\n    Do NOT use this function to perform a new scan or check code that has not yet been analyzed by\n    Semgrep. For new scans, use the appropriate scanning function.\n    ",
               "inputSchema": {
                 "properties": {
                   "autotriage_verdict": {
-                    "default": "true_positive",
+                    "default": "VERDICT_TRUE_POSITIVE",
+                    "description": "Autotriage verdict of the issues to filter by.",
+                    "enum": [
+                      "VERDICT_TRUE_POSITIVE",
+                      "VERDICT_FALSE_POSITIVE"
+                    ],
                     "title": "Autotriage Verdict",
                     "type": "string"
                   },
@@ -88,6 +93,11 @@
                     "anyOf": [
                       {
                         "items": {
+                          "enum": [
+                            "CONFIDENCE_HIGH",
+                            "CONFIDENCE_MEDIUM",
+                            "CONFIDENCE_LOW"
+                          ],
                           "type": "string"
                         },
                         "type": "array"
@@ -97,42 +107,44 @@
                       }
                     ],
                     "default": null,
+                    "description": "Confidences of the issues to filter by.",
                     "title": "Confidence"
                   },
                   "issue_type": {
-                    "default": "sast",
+                    "default": "ISSUE_TYPE_SAST",
+                    "description": "Type of issue to filter by.",
+                    "enum": [
+                      "ISSUE_TYPE_SAST",
+                      "ISSUE_TYPE_SCA"
+                    ],
                     "title": "Issue Type",
                     "type": "string"
                   },
-                  "page": {
-                    "default": 0,
-                    "title": "Page",
-                    "type": "integer"
-                  },
-                  "page_size": {
-                    "default": 100,
-                    "title": "Page Size",
+                  "limit": {
+                    "default": 10,
+                    "description": "Maximum number of findings to return",
+                    "title": "Limit",
                     "type": "integer"
                   },
                   "repos": {
-                    "anyOf": [
-                      {
-                        "items": {
-                          "type": "string"
-                        },
-                        "type": "array"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "default": null,
-                    "title": "Repos"
+                    "default": [],
+                    "description": "List of repository names to filter by. Include the owner and repository name, e.g. 'owner/repository'",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Repos",
+                    "type": "array"
                   },
                   "severities": {
                     "anyOf": [
                       {
                         "items": {
+                          "enum": [
+                            "SEVERITY_CRITICAL",
+                            "SEVERITY_HIGH",
+                            "SEVERITY_MEDIUM",
+                            "SEVERITY_LOW"
+                          ],
                           "type": "string"
                         },
                         "type": "array"
@@ -142,10 +154,19 @@
                       }
                     ],
                     "default": null,
+                    "description": "Severities of the issues to filter by.",
                     "title": "Severities"
                   },
                   "status": {
-                    "default": "open",
+                    "default": "ISSUE_TAB_OPEN",
+                    "description": "Status of the issue to filter by.",
+                    "enum": [
+                      "ISSUE_TAB_OPEN",
+                      "ISSUE_TAB_CLOSED",
+                      "ISSUE_TAB_IGNORED",
+                      "ISSUE_TAB_REVIEWING",
+                      "ISSUE_TAB_FIXING"
+                    ],
                     "title": "Status",
                     "type": "string"
                   }
