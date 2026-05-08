@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/toolhive-legacy-registry.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-05-07T01:01:56Z",
+  "last_updated": "2026-05-08T01:02:04Z",
   "servers": {
     "adb-mysql-mcp-server": {
       "title": "AnalyticDB for MySQL",
@@ -4405,8 +4405,8 @@
         "browserbase_stagehand_observe"
       ],
       "metadata": {
-        "stars": 3224,
-        "last_updated": "2026-04-05T03:03:17Z"
+        "stars": 3315,
+        "last_updated": "2026-05-07T03:07:13Z"
       },
       "repository_url": "https://github.com/browserbase/mcp-server-browserbase",
       "tags": [
@@ -17291,8 +17291,8 @@
         "set_stack_frame_variable_type"
       ],
       "metadata": {
-        "stars": 7114,
-        "last_updated": "2026-04-05T03:03:17Z"
+        "stars": 8258,
+        "last_updated": "2026-05-07T03:07:26Z"
       },
       "repository_url": "https://github.com/mrexodia/ida-pro-mcp",
       "tags": [
@@ -30692,8 +30692,8 @@
         "update_team"
       ],
       "metadata": {
-        "stars": 58,
-        "last_updated": "2026-04-05T03:03:17Z"
+        "stars": 67,
+        "last_updated": "2026-05-07T03:07:29Z"
       },
       "repository_url": "https://github.com/PagerDuty/pagerduty-mcp-server",
       "tags": [
@@ -39475,6 +39475,7 @@
         "hget",
         "hgetall",
         "hset",
+        "hybrid_search",
         "info",
         "json_del",
         "json_get",
@@ -39500,16 +39501,20 @@
         "type",
         "unsubscribe",
         "vector_search_hash",
+        "xack",
         "xadd",
         "xdel",
+        "xgroup_create",
+        "xgroup_destroy",
         "xrange",
+        "xreadgroup",
         "zadd",
         "zrange",
         "zrem"
       ],
       "metadata": {
-        "stars": 471,
-        "last_updated": "2026-04-04T03:00:40Z"
+        "stars": 504,
+        "last_updated": "2026-05-07T03:06:47Z"
       },
       "repository_url": "https://github.com/redis/mcp-redis",
       "tags": [
@@ -39831,6 +39836,61 @@
             "type": "object"
           },
           "name": "hset"
+        },
+        {
+          "annotations": {},
+          "description": "\nPerform a hybrid search combining a Redis filter expression with KNN vector similarity.\n\nHybrid search pre-filters documents by metadata before ranking by vector similarity —\nthe standard pattern for production RAG and semantic search pipelines.\n\nFilter expression examples:\n    \"*\"                              → no filter, pure vector search (same as vector_search_hash)\n    \"@category:{news}\"              → tag filter\n    \"@year:[2020 2024]\"             → numeric range\n    \"@lang:{en} @year:[2022 +inf]\"  → combined tag + range\n    \"@title:redis\"                  → full-text match on a text field\n\nFull filter syntax: https://redis.io/docs/latest/develop/interact/search-and-query/query/\n\nArgs:\n    query_vector:       List of floats to use as the query vector.\n    filter_expression:  Redis filter expression to restrict candidates before KNN ranking.\n                        Defaults to '*' (no filter).\n    index_name:         Name of the Redis index (default: 'vector_index').\n    vector_field:       Name of the indexed vector field (default: 'vector').\n    k:                  Number of nearest neighbors to return.\n    return_fields:      Additional fields to include in results (optional).\n\nReturns:\n    A list of matched documents with their similarity score, or an error message.\n",
+          "inputSchema": {
+            "properties": {
+              "filter_expression": {
+                "default": "*",
+                "title": "Filter Expression",
+                "type": "string"
+              },
+              "index_name": {
+                "default": "vector_index",
+                "title": "Index Name",
+                "type": "string"
+              },
+              "k": {
+                "default": 5,
+                "title": "K",
+                "type": "integer"
+              },
+              "query_vector": {
+                "items": {
+                  "type": "number"
+                },
+                "title": "Query Vector",
+                "type": "array"
+              },
+              "return_fields": {
+                "anyOf": [
+                  {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Return Fields"
+              },
+              "vector_field": {
+                "default": "vector",
+                "title": "Vector Field",
+                "type": "string"
+              }
+            },
+            "required": [
+              "query_vector"
+            ],
+            "type": "object"
+          },
+          "name": "hybrid_search"
         },
         {
           "annotations": {},
@@ -40512,6 +40572,36 @@
         },
         {
           "annotations": {},
+          "description": "Acknowledge entries that were processed by a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    entry_ids (List[str]): Entry IDs to acknowledge.\n\nReturns:\n    str: Confirmation message or an error message.\n",
+          "inputSchema": {
+            "properties": {
+              "entry_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Entry Ids",
+                "type": "array"
+              },
+              "group_name": {
+                "title": "Group Name",
+                "type": "string"
+              },
+              "key": {
+                "title": "Key",
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "group_name",
+              "entry_ids"
+            ],
+            "type": "object"
+          },
+          "name": "xack"
+        },
+        {
+          "annotations": {},
           "description": "Add an entry to a Redis stream with an optional expiration time.\n\nArgs:\n    key (str): The stream key.\n    fields (dict): The fields and values for the stream entry.\n    expiration (int, optional): Expiration time in seconds.\n\nReturns:\n    str: The ID of the added entry or an error message.\n",
           "inputSchema": {
             "properties": {
@@ -40569,6 +40659,60 @@
         },
         {
           "annotations": {},
+          "description": "Create a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    start_id (str, optional): Stream ID from which the group starts consuming.\n    mkstream (bool, optional): Create the stream if it does not exist.\n\nReturns:\n    str: Confirmation message or an error message.\n",
+          "inputSchema": {
+            "properties": {
+              "group_name": {
+                "title": "Group Name",
+                "type": "string"
+              },
+              "key": {
+                "title": "Key",
+                "type": "string"
+              },
+              "mkstream": {
+                "default": true,
+                "title": "Mkstream",
+                "type": "boolean"
+              },
+              "start_id": {
+                "default": "$",
+                "title": "Start Id",
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "group_name"
+            ],
+            "type": "object"
+          },
+          "name": "xgroup_create"
+        },
+        {
+          "annotations": {},
+          "description": "Destroy a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n\nReturns:\n    str: Confirmation message or an error message.\n",
+          "inputSchema": {
+            "properties": {
+              "group_name": {
+                "title": "Group Name",
+                "type": "string"
+              },
+              "key": {
+                "title": "Key",
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "group_name"
+            ],
+            "type": "object"
+          },
+          "name": "xgroup_destroy"
+        },
+        {
+          "annotations": {},
           "description": "Read entries from a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    count (int, optional): Number of entries to retrieve.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
           "inputSchema": {
             "properties": {
@@ -40588,6 +40732,55 @@
             "type": "object"
           },
           "name": "xrange"
+        },
+        {
+          "annotations": {},
+          "description": "Read entries from a Redis stream using a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    consumer_name (str): The consumer name.\n    count (int, optional): Maximum number of entries to retrieve.\n    block_ms (int, optional): Maximum time to block waiting for entries.\n        Use None for a non-blocking read. 0 is rejected because Redis treats\n        BLOCK 0 as an indefinite wait.\n    stream_id (str, optional): Stream ID to read from. Use \"\u003e\" for new messages.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
+          "inputSchema": {
+            "properties": {
+              "block_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Block Ms"
+              },
+              "consumer_name": {
+                "title": "Consumer Name",
+                "type": "string"
+              },
+              "count": {
+                "default": 1,
+                "title": "Count",
+                "type": "integer"
+              },
+              "group_name": {
+                "title": "Group Name",
+                "type": "string"
+              },
+              "key": {
+                "title": "Key",
+                "type": "string"
+              },
+              "stream_id": {
+                "default": "\u003e",
+                "title": "Stream Id",
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "group_name",
+              "consumer_name"
+            ],
+            "type": "object"
+          },
+          "name": "xreadgroup"
         },
         {
           "annotations": {},
@@ -40780,8 +40973,8 @@
         "semgrep_scan_with_custom_rule"
       ],
       "metadata": {
-        "stars": 14672,
-        "last_updated": "2026-04-05T03:03:17Z"
+        "stars": 15042,
+        "last_updated": "2026-05-07T03:07:40Z"
       },
       "repository_url": "https://github.com/semgrep/semgrep",
       "tags": [
@@ -40834,11 +41027,16 @@
         },
         {
           "annotations": {},
-          "description": "\n    Fetches findings from the Semgrep AppSec Platform Findings API.\n\n    This function retrieves security, code quality, and supply chain findings that have already been\n    identified by previous Semgrep scans and uploaded to the Semgrep AppSec platform. It does NOT\n    perform a new scan or analyze code directly. Instead, it queries the Semgrep API to access\n    historical scan results for a given repository or set of repositories.\n\n    DEFAULT BEHAVIOR: By default, this tool should filter by the current repository. The model\n    should determine the current repository name and pass it in the 'repos' parameter to ensure\n    findings are scoped to the relevant codebase. However, users may explicitly request findings\n    from other repositories, in which case the model should respect that request.\n\n    Use this function when a prompt requests a summary, list, or analysis of existing findings,\n    such as:\n        - \"Please list the top 10 security findings and propose solutions for them.\"\n        - \"Show all open critical vulnerabilities in this repository.\"\n        - \"Summarize the most recent Semgrep scan results.\"\n        - \"Get findings from repository X\" (explicitly requesting different repo)\n\n    This function is ideal for:\n    - Reviewing, listing, or summarizing findings from past scans.\n    - Providing actionable insights or remediation advice based on existing scan data.\n\n    Do NOT use this function to perform a new scan or check code that has not yet been analyzed by\n    Semgrep. For new scans, use the appropriate scanning function.\n\n    Args:\n        issue_type (str): Filter findings by type. Use 'sast' for code analysis\n            findings and 'sca' for supply chain analysis findings (e.g., 'sast', 'sca').\n        status (Optional[str]): Filter findings by status (default: 'open').\n        repos (Optional[List[str]]): List of repository names to filter results. By default, should\n            include the current repository name to scope findings appropriately. Can be overridden\n            when users explicitly request findings from other repositories.\n        severities (Optional[List[str]]): Filter findings by severity (e.g., ['critical', 'high']).\n        confidence (Optional[List[str]]): Filter findings by confidence level (e.g., ['high']).\n        autotriage_verdict (Optional[str]): Filter findings by auto-triage verdict\n            (default: 'true_positive').\n        page (Optional[int]): Page number for paginated results. (default: 0)\n        page_size (int): Number of findings per page (default: 100, min: 100, max: 3000).\n\n    Returns:\n        List[Finding]: A list of findings matching the specified filters, where each finding\n        contains details such as rule ID, description, severity, file location, and remediation\n        guidance if available.\n    ",
+          "description": "\n    Fetches findings from the Semgrep AppSec Platform Findings API.\n\n    This function retrieves security, code quality, and supply chain findings that have already been\n    identified by previous Semgrep scans and uploaded to the Semgrep AppSec platform. It does NOT\n    perform a new scan or analyze code directly. Instead, it queries the Semgrep API to access\n    historical scan results for a given repository or set of repositories.\n\n    DEFAULT BEHAVIOR: By default, this tool should filter by the current repository. The model\n    should determine the current repository name and pass it in the 'repos' parameter to ensure\n    findings are scoped to the relevant codebase. However, users may explicitly request findings\n    from other repositories, in which case the model should respect that request.\n\n    Use this function when a prompt requests a summary, list, or analysis of existing findings,\n    such as:\n        - \"Please list the top 10 security findings and propose solutions for them.\"\n        - \"Show all open critical vulnerabilities in this repository.\"\n        - \"Summarize the most recent Semgrep scan results.\"\n        - \"Get findings from repository X\" (explicitly requesting different repo)\n\n    This function is ideal for:\n    - Reviewing, listing, or summarizing findings from past scans.\n    - Providing actionable insights or remediation advice based on existing scan data.\n\n    Do NOT use this function to perform a new scan or check code that has not yet been analyzed by\n    Semgrep. For new scans, use the appropriate scanning function.\n    ",
           "inputSchema": {
             "properties": {
               "autotriage_verdict": {
-                "default": "true_positive",
+                "default": "VERDICT_TRUE_POSITIVE",
+                "description": "Autotriage verdict of the issues to filter by.",
+                "enum": [
+                  "VERDICT_TRUE_POSITIVE",
+                  "VERDICT_FALSE_POSITIVE"
+                ],
                 "title": "Autotriage Verdict",
                 "type": "string"
               },
@@ -40846,6 +41044,11 @@
                 "anyOf": [
                   {
                     "items": {
+                      "enum": [
+                        "CONFIDENCE_HIGH",
+                        "CONFIDENCE_MEDIUM",
+                        "CONFIDENCE_LOW"
+                      ],
                       "type": "string"
                     },
                     "type": "array"
@@ -40855,42 +41058,44 @@
                   }
                 ],
                 "default": null,
+                "description": "Confidences of the issues to filter by.",
                 "title": "Confidence"
               },
               "issue_type": {
-                "default": "sast",
+                "default": "ISSUE_TYPE_SAST",
+                "description": "Type of issue to filter by.",
+                "enum": [
+                  "ISSUE_TYPE_SAST",
+                  "ISSUE_TYPE_SCA"
+                ],
                 "title": "Issue Type",
                 "type": "string"
               },
-              "page": {
-                "default": 0,
-                "title": "Page",
-                "type": "integer"
-              },
-              "page_size": {
-                "default": 100,
-                "title": "Page Size",
+              "limit": {
+                "default": 10,
+                "description": "Maximum number of findings to return",
+                "title": "Limit",
                 "type": "integer"
               },
               "repos": {
-                "anyOf": [
-                  {
-                    "items": {
-                      "type": "string"
-                    },
-                    "type": "array"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "default": null,
-                "title": "Repos"
+                "default": [],
+                "description": "List of repository names to filter by. Include the owner and repository name, e.g. 'owner/repository'",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Repos",
+                "type": "array"
               },
               "severities": {
                 "anyOf": [
                   {
                     "items": {
+                      "enum": [
+                        "SEVERITY_CRITICAL",
+                        "SEVERITY_HIGH",
+                        "SEVERITY_MEDIUM",
+                        "SEVERITY_LOW"
+                      ],
                       "type": "string"
                     },
                     "type": "array"
@@ -40900,10 +41105,19 @@
                   }
                 ],
                 "default": null,
+                "description": "Severities of the issues to filter by.",
                 "title": "Severities"
               },
               "status": {
-                "default": "open",
+                "default": "ISSUE_TAB_OPEN",
+                "description": "Status of the issue to filter by.",
+                "enum": [
+                  "ISSUE_TAB_OPEN",
+                  "ISSUE_TAB_CLOSED",
+                  "ISSUE_TAB_IGNORED",
+                  "ISSUE_TAB_REVIEWING",
+                  "ISSUE_TAB_FIXING"
+                ],
                 "title": "Status",
                 "type": "string"
               }
