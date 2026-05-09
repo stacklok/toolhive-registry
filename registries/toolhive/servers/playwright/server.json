@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "mcr.microsoft.com/playwright/mcp:v0.0.75": {
           "metadata": {
-            "last_updated": "2026-04-27T16:41:23Z",
+            "last_updated": "2026-05-09T16:55:27Z",
             "stars": 28552
           },
           "overview": "## Playwright MCP Server\n\nThe playwright MCP server provides browser automation capabilities using Playwright. The server enables comprehensive browser automation supporting Chromium, Firefox, and WebKit, with full control over page interactions including clicks, typing, navigation, and screenshots. Additional capabilities include network request monitoring, console message capture for debugging, form filling, file uploads, and dialog handling for complete workflow automation.",
@@ -72,13 +72,13 @@
                     },
                     "type": "array"
                   },
-                  "ref": {
-                    "description": "Exact target element reference from the page snapshot",
+                  "target": {
+                    "description": "Exact target element reference from the page snapshot, or a unique element selector",
                     "type": "string"
                   }
                 },
                 "required": [
-                  "ref"
+                  "target"
                 ],
                 "type": "object"
               },
@@ -150,28 +150,69 @@
                     "description": "Human-readable target element description used to obtain the permission to interact with the element",
                     "type": "string"
                   },
-                  "endRef": {
-                    "description": "Exact target element reference from the page snapshot",
+                  "endTarget": {
+                    "description": "Exact target element reference from the page snapshot, or a unique element selector",
                     "type": "string"
                   },
                   "startElement": {
                     "description": "Human-readable source element description used to obtain the permission to interact with the element",
                     "type": "string"
                   },
-                  "startRef": {
-                    "description": "Exact source element reference from the page snapshot",
+                  "startTarget": {
+                    "description": "Exact target element reference from the page snapshot, or a unique element selector",
                     "type": "string"
                   }
                 },
                 "required": [
-                  "startElement",
-                  "startRef",
-                  "endElement",
-                  "endRef"
+                  "startTarget",
+                  "endTarget"
                 ],
                 "type": "object"
               },
               "name": "browser_drag"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Drop files or data onto an element"
+              },
+              "description": "Drop files or MIME-typed data onto an element, as if dragged from outside the page. At least one of \"paths\" or \"data\" must be provided.",
+              "inputSchema": {
+                "properties": {
+                  "data": {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Data to drop, as a map of MIME type to string value (e.g. {\"text/plain\": \"hello\", \"text/uri-list\": \"https://example.com\"}).",
+                    "propertyNames": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  "element": {
+                    "description": "Human-readable element description used to obtain permission to interact with the element",
+                    "type": "string"
+                  },
+                  "paths": {
+                    "description": "Absolute paths to files to drop onto the element.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "target": {
+                    "description": "Exact target element reference from the page snapshot, or a unique element selector",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "target"
+                ],
+                "type": "object"
+              },
+              "name": "browser_drop"
             },
             {
               "annotations": {
@@ -195,8 +236,8 @@
                     "description": "() =\u003e { /* code */ } or (element) =\u003e { /* code */ } when element is provided",
                     "type": "string"
                   },
-                  "ref": {
-                    "description": "Exact target element reference from the page snapshot",
+                  "target": {
+                    "description": "Exact target element reference from the page snapshot, or a unique element selector",
                     "type": "string"
                   }
                 },
@@ -245,16 +286,16 @@
                     "items": {
                       "additionalProperties": false,
                       "properties": {
+                        "element": {
+                          "description": "Human-readable element description used to obtain permission to interact with the element",
+                          "type": "string"
+                        },
                         "name": {
                           "description": "Human-readable field name",
                           "type": "string"
                         },
-                        "ref": {
-                          "description": "Exact target field reference from the page snapshot",
-                          "type": "string"
-                        },
-                        "selector": {
-                          "description": "CSS or role selector for the field element, when \"ref\" is not available. Either \"selector\" or \"ref\" is required.",
+                        "target": {
+                          "description": "Exact target element reference from the page snapshot, or a unique element selector",
                           "type": "string"
                         },
                         "type": {
@@ -274,9 +315,9 @@
                         }
                       },
                       "required": [
+                        "target",
                         "name",
                         "type",
-                        "ref",
                         "value"
                       ],
                       "type": "object"
@@ -331,13 +372,13 @@
                     "description": "Human-readable element description used to obtain permission to interact with the element",
                     "type": "string"
                   },
-                  "ref": {
-                    "description": "Exact target element reference from the page snapshot",
+                  "target": {
+                    "description": "Exact target element reference from the page snapshot, or a unique element selector",
                     "type": "string"
                   }
                 },
                 "required": [
-                  "ref"
+                  "target"
                 ],
                 "type": "object"
               },
@@ -385,9 +426,47 @@
                 "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
+                "title": "Show network request details"
+              },
+              "description": "Returns full details (headers and body) of a single network request, or a single part if `part` is set. Use the number from browser_network_requests.",
+              "inputSchema": {
+                "properties": {
+                  "filename": {
+                    "description": "Filename to save the result to. If not provided, output is returned as text.",
+                    "type": "string"
+                  },
+                  "index": {
+                    "description": "1-based index of the request, as printed by browser_network_requests.",
+                    "maximum": 9007199254740991,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "part": {
+                    "description": "Return only this part of the request. Omit to return full details.",
+                    "enum": [
+                      "request-headers",
+                      "request-body",
+                      "response-headers",
+                      "response-body"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "index"
+                ],
+                "type": "object"
+              },
+              "name": "browser_network_request"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
                 "title": "List network requests"
               },
-              "description": "Returns all network requests since loading the page",
+              "description": "Returns a numbered list of network requests since loading the page. Use browser_network_request with the number to get full details.",
               "inputSchema": {
                 "properties": {
                   "filename": {
@@ -398,16 +477,6 @@
                     "description": "Only return requests whose URL matches this regexp (e.g. \"/api/.*user\").",
                     "type": "string"
                   },
-                  "requestBody": {
-                    "default": false,
-                    "description": "Whether to include request body. Defaults to false.",
-                    "type": "boolean"
-                  },
-                  "requestHeaders": {
-                    "default": false,
-                    "description": "Whether to include request headers. Defaults to false.",
-                    "type": "boolean"
-                  },
                   "static": {
                     "default": false,
                     "description": "Whether to include successful static resources like images, fonts, scripts, etc. Defaults to false.",
@@ -415,9 +484,7 @@
                   }
                 },
                 "required": [
-                  "static",
-                  "requestBody",
-                  "requestHeaders"
+                  "static"
                 ],
                 "type": "object"
               },
@@ -477,9 +544,9 @@
                 "destructiveHint": true,
                 "openWorldHint": true,
                 "readOnlyHint": false,
-                "title": "Run Playwright code"
+                "title": "Run Playwright code (unsafe)"
               },
-              "description": "Run Playwright code snippet",
+              "description": "Run a Playwright code snippet. Unsafe: executes arbitrary JavaScript in the Playwright server process and is RCE-equivalent.",
               "inputSchema": {
                 "properties": {
                   "code": {
@@ -494,7 +561,7 @@
                 "required": [],
                 "type": "object"
               },
-              "name": "browser_run_code"
+              "name": "browser_run_code_unsafe"
             },
             {
               "annotations": {
@@ -510,8 +577,8 @@
                     "description": "Human-readable element description used to obtain permission to interact with the element",
                     "type": "string"
                   },
-                  "ref": {
-                    "description": "Exact target element reference from the page snapshot",
+                  "target": {
+                    "description": "Exact target element reference from the page snapshot, or a unique element selector",
                     "type": "string"
                   },
                   "values": {
@@ -523,7 +590,7 @@
                   }
                 },
                 "required": [
-                  "ref",
+                  "target",
                   "values"
                 ],
                 "type": "object"
@@ -540,12 +607,20 @@
               "description": "Capture accessibility snapshot of the current page, this is better than screenshot",
               "inputSchema": {
                 "properties": {
+                  "boxes": {
+                    "description": "Include each element's bounding box as [box=x,y,width,height] in the snapshot. Coordinates are viewport-relative, in CSS pixels (Element.getBoundingClientRect)",
+                    "type": "boolean"
+                  },
                   "depth": {
                     "description": "Limit the depth of the snapshot tree",
                     "type": "number"
                   },
                   "filename": {
                     "description": "Save snapshot to markdown file instead of returning it in the response.",
+                    "type": "string"
+                  },
+                  "target": {
+                    "description": "Exact target element reference from the page snapshot, or a unique element selector",
                     "type": "string"
                   }
                 },
@@ -577,6 +652,10 @@
                   "index": {
                     "description": "Tab index, used for close/select. If omitted for close, current tab is closed.",
                     "type": "number"
+                  },
+                  "url": {
+                    "description": "URL to navigate to in the new tab, used for new.",
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -597,7 +676,7 @@
               "inputSchema": {
                 "properties": {
                   "element": {
-                    "description": "Human-readable element description used to obtain permission to screenshot the element. If not provided, the screenshot will be taken of viewport. If element is provided, ref must be provided too.",
+                    "description": "Human-readable element description used to obtain permission to interact with the element",
                     "type": "string"
                   },
                   "filename": {
@@ -608,8 +687,8 @@
                     "description": "When true, takes a screenshot of the full scrollable page, instead of the currently visible viewport. Cannot be used with element screenshots.",
                     "type": "boolean"
                   },
-                  "ref": {
-                    "description": "Exact target element reference from the page snapshot. If not provided, the screenshot will be taken of viewport. If ref is provided, element must be provided too.",
+                  "target": {
+                    "description": "Exact target element reference from the page snapshot, or a unique element selector",
                     "type": "string"
                   },
                   "type": {
@@ -643,10 +722,6 @@
                     "description": "Human-readable element description used to obtain permission to interact with the element",
                     "type": "string"
                   },
-                  "ref": {
-                    "description": "Exact target element reference from the page snapshot",
-                    "type": "string"
-                  },
                   "slowly": {
                     "description": "Whether to type one character at a time. Useful for triggering key handlers in the page. By default entire text is filled in at once.",
                     "type": "boolean"
@@ -655,13 +730,17 @@
                     "description": "Whether to submit entered text (press Enter after)",
                     "type": "boolean"
                   },
+                  "target": {
+                    "description": "Exact target element reference from the page snapshot, or a unique element selector",
+                    "type": "string"
+                  },
                   "text": {
                     "description": "Text to type into the element",
                     "type": "string"
                   }
                 },
                 "required": [
-                  "ref",
+                  "target",
                   "text"
                 ],
                 "type": "object"
@@ -702,6 +781,7 @@
             "browser_close",
             "browser_console_messages",
             "browser_drag",
+            "browser_drop",
             "browser_evaluate",
             "browser_file_upload",
             "browser_fill_form",
@@ -709,10 +789,11 @@
             "browser_hover",
             "browser_navigate",
             "browser_navigate_back",
+            "browser_network_request",
             "browser_network_requests",
             "browser_press_key",
             "browser_resize",
-            "browser_run_code",
+            "browser_run_code_unsafe",
             "browser_select_option",
             "browser_snapshot",
             "browser_tabs",
