@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "docker.io/mcp/redis:latest": {
           "metadata": {
-            "last_updated": "2026-05-09T03:05:13Z",
+            "last_updated": "2026-05-09T03:06:10Z",
             "stars": 506
           },
           "overview": "## Redis MCP Server\n\nThe redis MCP server enables LLMs to interact with Redis key-value databases through a set of standardized tools. The server connects to Redis databases and provides MCP tools for basic operations (CRUD operations, database management), data structures (full support for strings, hashes, lists, sets, sorted sets, JSON), vector search functionality, and streams/Pub/Sub features for messaging and time-series data handling.",
@@ -340,6 +340,61 @@
                 "type": "object"
               },
               "name": "hset"
+            },
+            {
+              "annotations": {},
+              "description": "\nPerform a hybrid search combining a Redis filter expression with KNN vector similarity.\n\nHybrid search pre-filters documents by metadata before ranking by vector similarity —\nthe standard pattern for production RAG and semantic search pipelines.\n\nFilter expression examples:\n    \"*\"                              → no filter, pure vector search (same as vector_search_hash)\n    \"@category:{news}\"              → tag filter\n    \"@year:[2020 2024]\"             → numeric range\n    \"@lang:{en} @year:[2022 +inf]\"  → combined tag + range\n    \"@title:redis\"                  → full-text match on a text field\n\nFull filter syntax: https://redis.io/docs/latest/develop/interact/search-and-query/query/\n\nArgs:\n    query_vector:       List of floats to use as the query vector.\n    filter_expression:  Redis filter expression to restrict candidates before KNN ranking.\n                        Defaults to '*' (no filter).\n    index_name:         Name of the Redis index (default: 'vector_index').\n    vector_field:       Name of the indexed vector field (default: 'vector').\n    k:                  Number of nearest neighbors to return.\n    return_fields:      Additional fields to include in results (optional).\n\nReturns:\n    A list of matched documents with their similarity score, or an error message.\n",
+              "inputSchema": {
+                "properties": {
+                  "filter_expression": {
+                    "default": "*",
+                    "title": "Filter Expression",
+                    "type": "string"
+                  },
+                  "index_name": {
+                    "default": "vector_index",
+                    "title": "Index Name",
+                    "type": "string"
+                  },
+                  "k": {
+                    "default": 5,
+                    "title": "K",
+                    "type": "integer"
+                  },
+                  "query_vector": {
+                    "items": {
+                      "type": "number"
+                    },
+                    "title": "Query Vector",
+                    "type": "array"
+                  },
+                  "return_fields": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Return Fields"
+                  },
+                  "vector_field": {
+                    "default": "vector",
+                    "title": "Vector Field",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query_vector"
+                ],
+                "type": "object"
+              },
+              "name": "hybrid_search"
             },
             {
               "annotations": {},
@@ -1021,6 +1076,36 @@
             },
             {
               "annotations": {},
+              "description": "Acknowledge entries that were processed by a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    entry_ids (List[str]): Entry IDs to acknowledge.\n\nReturns:\n    str: Confirmation message or an error message.\n",
+              "inputSchema": {
+                "properties": {
+                  "entry_ids": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Entry Ids",
+                    "type": "array"
+                  },
+                  "group_name": {
+                    "title": "Group Name",
+                    "type": "string"
+                  },
+                  "key": {
+                    "title": "Key",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "group_name",
+                  "entry_ids"
+                ],
+                "type": "object"
+              },
+              "name": "xack"
+            },
+            {
+              "annotations": {},
               "description": "Add an entry to a Redis stream with an optional expiration time.\n\nArgs:\n    key (str): The stream key.\n    fields (dict): The fields and values for the stream entry.\n    expiration (int, optional): Expiration time in seconds.\n\nReturns:\n    str: The ID of the added entry or an error message.\n",
               "inputSchema": {
                 "properties": {
@@ -1078,6 +1163,60 @@
             },
             {
               "annotations": {},
+              "description": "Create a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    start_id (str, optional): Stream ID from which the group starts consuming.\n    mkstream (bool, optional): Create the stream if it does not exist.\n\nReturns:\n    str: Confirmation message or an error message.\n",
+              "inputSchema": {
+                "properties": {
+                  "group_name": {
+                    "title": "Group Name",
+                    "type": "string"
+                  },
+                  "key": {
+                    "title": "Key",
+                    "type": "string"
+                  },
+                  "mkstream": {
+                    "default": true,
+                    "title": "Mkstream",
+                    "type": "boolean"
+                  },
+                  "start_id": {
+                    "default": "$",
+                    "title": "Start Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "group_name"
+                ],
+                "type": "object"
+              },
+              "name": "xgroup_create"
+            },
+            {
+              "annotations": {},
+              "description": "Destroy a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n\nReturns:\n    str: Confirmation message or an error message.\n",
+              "inputSchema": {
+                "properties": {
+                  "group_name": {
+                    "title": "Group Name",
+                    "type": "string"
+                  },
+                  "key": {
+                    "title": "Key",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "group_name"
+                ],
+                "type": "object"
+              },
+              "name": "xgroup_destroy"
+            },
+            {
+              "annotations": {},
               "description": "Read entries from a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    count (int, optional): Number of entries to retrieve.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
               "inputSchema": {
                 "properties": {
@@ -1097,6 +1236,55 @@
                 "type": "object"
               },
               "name": "xrange"
+            },
+            {
+              "annotations": {},
+              "description": "Read entries from a Redis stream using a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    consumer_name (str): The consumer name.\n    count (int, optional): Maximum number of entries to retrieve.\n    block_ms (int, optional): Maximum time to block waiting for entries.\n        Use None for a non-blocking read. 0 is rejected because Redis treats\n        BLOCK 0 as an indefinite wait.\n    stream_id (str, optional): Stream ID to read from. Use \"\u003e\" for new messages.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
+              "inputSchema": {
+                "properties": {
+                  "block_ms": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Block Ms"
+                  },
+                  "consumer_name": {
+                    "title": "Consumer Name",
+                    "type": "string"
+                  },
+                  "count": {
+                    "default": 1,
+                    "title": "Count",
+                    "type": "integer"
+                  },
+                  "group_name": {
+                    "title": "Group Name",
+                    "type": "string"
+                  },
+                  "key": {
+                    "title": "Key",
+                    "type": "string"
+                  },
+                  "stream_id": {
+                    "default": "\u003e",
+                    "title": "Stream Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "group_name",
+                  "consumer_name"
+                ],
+                "type": "object"
+              },
+              "name": "xreadgroup"
             },
             {
               "annotations": {},
@@ -1208,6 +1396,7 @@
             "hget",
             "hgetall",
             "hset",
+            "hybrid_search",
             "info",
             "json_del",
             "json_get",
@@ -1233,9 +1422,13 @@
             "type",
             "unsubscribe",
             "vector_search_hash",
+            "xack",
             "xadd",
             "xdel",
+            "xgroup_create",
+            "xgroup_destroy",
             "xrange",
+            "xreadgroup",
             "zadd",
             "zrange",
             "zrem"
