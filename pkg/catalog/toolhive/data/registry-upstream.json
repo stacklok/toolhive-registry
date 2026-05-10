@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-05-08T01:02:05Z"
+    "last_updated": "2026-05-10T01:06:32Z"
   },
   "data": {
     "servers": [
@@ -1250,8 +1250,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/aws-diagram:1.0.23": {
                 "metadata": {
-                  "last_updated": "2026-04-06T03:04:18Z",
-                  "stars": 8687
+                  "last_updated": "2026-05-08T03:06:06Z",
+                  "stars": 8991
                 },
                 "overview": "## AWS Diagram MCP Server\n\nThe aws-diagram MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically generate professional diagrams — such as AWS architecture diagrams, sequence flows, and class diagrams — through a prompt-driven interface. It uses the Python diagrams package DSL to turn structured diagram descriptions into visual output, making it easy to include infrastructure visuals inside AI-augmented workflows.",
                 "permissions": {
@@ -10680,8 +10680,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/everything:latest": {
                 "metadata": {
-                  "last_updated": "2026-04-06T03:04:17Z",
-                  "stars": 83039
+                  "last_updated": "2026-05-08T03:06:20Z",
+                  "stars": 85231
                 },
                 "overview": "## Everything MCP Server\n\nThe everything-mcp-server is a reference and demonstration Model Context Protocol (MCP) server that exposes a broad collection of example tools in a single implementation. The server is designed as a learning and testing resource, showcasing how MCP functions end-to-end through diverse tool types encompassing data access, computation, state management, and side effects that AI assistants can invoke during workflows. Rather than integrating with external services, this implementation serves primarily for educational purposes, client validation, debugging, and protocol testing — making it valuable for developers onboarding to MCP, understanding server architecture, and conducting regression testing.",
                 "permissions": {
@@ -24498,8 +24498,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-cypher:0.5.3": {
                 "metadata": {
-                  "last_updated": "2026-04-06T03:04:18Z",
-                  "stars": 931
+                  "last_updated": "2026-05-08T03:06:12Z",
+                  "stars": 944
                 },
                 "overview": "## Neo4j Cypher MCP Server\n\nThe mcp-neo4j-cypher server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neo4j graph databases using Cypher, Neo4j's query language. It allows AI-driven workflows to query, explore, and analyze graph data — including nodes, relationships, and paths — without embedding Neo4j drivers or Cypher execution logic into the client. This server is especially useful for knowledge graphs, dependency analysis, recommendation systems, and any workflow that benefits from graph-native querying and reasoning.",
                 "permissions": {
@@ -26126,8 +26126,8 @@
             "io.github.stacklok": {
               "docker.io/mcp/memory:latest": {
                 "metadata": {
-                  "last_updated": "2026-04-05T03:03:18Z",
-                  "stars": 82976
+                  "last_updated": "2026-05-08T03:06:10Z",
+                  "stars": 85231
                 },
                 "overview": "## Memory MCP Server\n\nThe memory MCP server provides AI assistants with persistent, long-term memory across interactions. It allows AI workflows to maintain context and knowledge beyond individual conversations, supporting personalization and enabling continuity in assistant interactions. The system works by running as an MCP service that manages persistent storage, handling indexing and retrieval so AI clients can access historical context during reasoning tasks — enabling assistants to develop awareness of user preferences and prior decisions over extended periods.",
                 "permissions": {
@@ -51326,7 +51326,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/agentic-actions-auditor/skills/agentic-actions-auditor"
           }
         ]
@@ -51388,7 +51388,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
+            "ref": "60147cbb773649eadca89cee92b4e0caf02234b4",
             "subfolder": "skills/agents-sdk"
           }
         ]
@@ -51450,7 +51450,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/ClickHouse/agent-skills",
-            "ref": "d28416142e5634ce288602cd0c8f3457e68177ff",
+            "ref": "c7f9095dd18778331892304bf47558176cc5ed31",
             "subfolder": "skills/chdb-datastore"
           }
         ]
@@ -51481,7 +51481,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/ClickHouse/agent-skills",
-            "ref": "d28416142e5634ce288602cd0c8f3457e68177ff",
+            "ref": "c7f9095dd18778331892304bf47558176cc5ed31",
             "subfolder": "skills/chdb-sql"
           }
         ]
@@ -51570,7 +51570,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/anthropics/skills",
-            "ref": "d230a6dd6eb1a0dbee9fec55e2f00a96e28dff81",
+            "ref": "d211d437443a7b2496a3dad9575e7dddd724c585",
             "subfolder": "skills/claude-api"
           }
         ]
@@ -51632,7 +51632,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/ClickHouse/agent-skills",
-            "ref": "d28416142e5634ce288602cd0c8f3457e68177ff",
+            "ref": "c7f9095dd18778331892304bf47558176cc5ed31",
             "subfolder": "skills/clickhouse-architecture-advisor"
           }
         ]
@@ -51663,7 +51663,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/ClickHouse/agent-skills",
-            "ref": "d28416142e5634ce288602cd0c8f3457e68177ff",
+            "ref": "c7f9095dd18778331892304bf47558176cc5ed31",
             "subfolder": "skills/clickhouse-best-practices"
           }
         ]
@@ -51694,7 +51694,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/ClickHouse/agent-skills",
-            "ref": "d28416142e5634ce288602cd0c8f3457e68177ff",
+            "ref": "c7f9095dd18778331892304bf47558176cc5ed31",
             "subfolder": "skills/clickhousectl-cloud-deploy"
           }
         ]
@@ -51725,7 +51725,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/ClickHouse/agent-skills",
-            "ref": "d28416142e5634ce288602cd0c8f3457e68177ff",
+            "ref": "c7f9095dd18778331892304bf47558176cc5ed31",
             "subfolder": "skills/clickhousectl-local-dev"
           }
         ]
@@ -51756,7 +51756,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
+            "ref": "60147cbb773649eadca89cee92b4e0caf02234b4",
             "subfolder": "skills/cloudflare"
           }
         ]
@@ -51787,7 +51787,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
+            "ref": "60147cbb773649eadca89cee92b4e0caf02234b4",
             "subfolder": "skills/cloudflare-email-service"
           }
         ]
@@ -51882,7 +51882,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/static-analysis/skills/codeql"
           }
         ]
@@ -51944,7 +51944,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/constant-time-analysis/skills/constant-time-analysis"
           }
         ]
@@ -52006,7 +52006,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
+            "ref": "a53efe8854327ddd7e4453efe1f08b7a486fedfd",
             "subfolder": "dd-apm"
           }
         ]
@@ -52037,7 +52037,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
+            "ref": "a53efe8854327ddd7e4453efe1f08b7a486fedfd",
             "subfolder": "dd-docs"
           }
         ]
@@ -52068,7 +52068,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
+            "ref": "a53efe8854327ddd7e4453efe1f08b7a486fedfd",
             "subfolder": "dd-llmo/eval-session-classify"
           }
         ]
@@ -52099,7 +52099,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
+            "ref": "a53efe8854327ddd7e4453efe1f08b7a486fedfd",
             "subfolder": "dd-logs"
           }
         ]
@@ -52130,7 +52130,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
+            "ref": "a53efe8854327ddd7e4453efe1f08b7a486fedfd",
             "subfolder": "dd-monitors"
           }
         ]
@@ -52161,7 +52161,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "1f3645fff72fe5bd03137361b31db6f9d22e041c",
+            "ref": "a53efe8854327ddd7e4453efe1f08b7a486fedfd",
             "subfolder": "dd-pup"
           }
         ]
@@ -52192,7 +52192,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
+            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
             "subfolder": "skills/developing-genkit-dart"
           }
         ]
@@ -52223,7 +52223,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
+            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
             "subfolder": "skills/developing-genkit-go"
           }
         ]
@@ -52254,7 +52254,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
+            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
             "subfolder": "skills/developing-genkit-js"
           }
         ]
@@ -52285,7 +52285,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/differential-review/skills/differential-review"
           }
         ]
@@ -52409,7 +52409,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
+            "ref": "60147cbb773649eadca89cee92b4e0caf02234b4",
             "subfolder": "skills/durable-objects"
           }
         ]
@@ -52471,7 +52471,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
+            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
             "subfolder": "skills/firebase-ai-logic-basics"
           }
         ]
@@ -52502,7 +52502,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
+            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
             "subfolder": "skills/firebase-app-hosting-basics"
           }
         ]
@@ -52533,7 +52533,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
+            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
             "subfolder": "skills/firebase-auth-basics"
           }
         ]
@@ -52564,7 +52564,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
+            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
             "subfolder": "skills/firebase-basics"
           }
         ]
@@ -52595,7 +52595,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
+            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
             "subfolder": "skills/firebase-data-connect-basics"
           }
         ]
@@ -52626,7 +52626,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
+            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
             "subfolder": "skills/firebase-firestore-enterprise-native-mode"
           }
         ]
@@ -52657,7 +52657,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
+            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
             "subfolder": "skills/firebase-firestore-standard"
           }
         ]
@@ -52688,7 +52688,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "fafde8b60bbacc0b59ac3e3c1f8fa1d3aa65cd2c",
+            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
             "subfolder": "skills/firebase-hosting-basics"
           }
         ]
@@ -52812,7 +52812,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/fp-check/skills/fp-check"
           }
         ]
@@ -52993,12 +52993,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/hf-cli:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hf-cli:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "skills/hf-cli"
           }
         ]
@@ -53024,12 +53024,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/hf-mcp:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hf-mcp:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "hf-mcp/skills/hf-mcp"
           }
         ]
@@ -53055,12 +53055,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-community-evals:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-community-evals:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "skills/huggingface-community-evals"
           }
         ]
@@ -53086,12 +53086,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-datasets:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-datasets:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "skills/huggingface-datasets"
           }
         ]
@@ -53117,12 +53117,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-gradio:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-gradio:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "skills/huggingface-gradio"
           }
         ]
@@ -53148,12 +53148,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-llm-trainer:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-llm-trainer:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "skills/huggingface-llm-trainer"
           }
         ]
@@ -53179,12 +53179,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-paper-publisher:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-paper-publisher:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "skills/huggingface-paper-publisher"
           }
         ]
@@ -53210,12 +53210,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-papers:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-papers:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "skills/huggingface-papers"
           }
         ]
@@ -53241,12 +53241,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-tool-builder:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-tool-builder:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "skills/huggingface-tool-builder"
           }
         ]
@@ -53272,12 +53272,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-trackio:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-trackio:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "skills/huggingface-trackio"
           }
         ]
@@ -53303,12 +53303,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-vision-trainer:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-vision-trainer:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "skills/huggingface-vision-trainer"
           }
         ]
@@ -53339,7 +53339,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/insecure-defaults/skills/insecure-defaults"
           }
         ]
@@ -53718,7 +53718,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
+            "ref": "08a842ebcea42d958fb2843b26c525929de6f6a9",
             "subfolder": "authoring/skills/package-usage"
           }
         ]
@@ -53749,7 +53749,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pinecone-io/skills",
-            "ref": "787cd274ffeae942c9dcd693eadb86bafcacca19",
+            "ref": "c91a85f5b8415bde6891f180aa79e09279c38706",
             "subfolder": "skills/pinecone-assistant"
           }
         ]
@@ -53780,7 +53780,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pinecone-io/skills",
-            "ref": "787cd274ffeae942c9dcd693eadb86bafcacca19",
+            "ref": "c91a85f5b8415bde6891f180aa79e09279c38706",
             "subfolder": "skills/pinecone-cli"
           }
         ]
@@ -53811,7 +53811,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pinecone-io/skills",
-            "ref": "787cd274ffeae942c9dcd693eadb86bafcacca19",
+            "ref": "c91a85f5b8415bde6891f180aa79e09279c38706",
             "subfolder": "skills/pinecone-docs"
           }
         ]
@@ -53842,7 +53842,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pinecone-io/skills",
-            "ref": "787cd274ffeae942c9dcd693eadb86bafcacca19",
+            "ref": "c91a85f5b8415bde6891f180aa79e09279c38706",
             "subfolder": "skills/pinecone-help"
           }
         ]
@@ -53873,7 +53873,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pinecone-io/skills",
-            "ref": "787cd274ffeae942c9dcd693eadb86bafcacca19",
+            "ref": "c91a85f5b8415bde6891f180aa79e09279c38706",
             "subfolder": "skills/pinecone-mcp"
           }
         ]
@@ -53904,7 +53904,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pinecone-io/skills",
-            "ref": "787cd274ffeae942c9dcd693eadb86bafcacca19",
+            "ref": "c91a85f5b8415bde6891f180aa79e09279c38706",
             "subfolder": "skills/pinecone-query"
           }
         ]
@@ -53935,7 +53935,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pinecone-io/skills",
-            "ref": "787cd274ffeae942c9dcd693eadb86bafcacca19",
+            "ref": "c91a85f5b8415bde6891f180aa79e09279c38706",
             "subfolder": "skills/pinecone-quickstart"
           }
         ]
@@ -54028,7 +54028,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/property-based-testing/skills/property-based-testing"
           }
         ]
@@ -54059,7 +54059,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
+            "ref": "08a842ebcea42d958fb2843b26c525929de6f6a9",
             "subfolder": "authoring/skills/provider-upgrade"
           }
         ]
@@ -54090,7 +54090,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
+            "ref": "08a842ebcea42d958fb2843b26c525929de6f6a9",
             "subfolder": "authoring/skills/pulumi-automation-api"
           }
         ]
@@ -54121,7 +54121,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
+            "ref": "08a842ebcea42d958fb2843b26c525929de6f6a9",
             "subfolder": "authoring/skills/pulumi-best-practices"
           }
         ]
@@ -54152,7 +54152,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
+            "ref": "08a842ebcea42d958fb2843b26c525929de6f6a9",
             "subfolder": "authoring/skills/pulumi-component"
           }
         ]
@@ -54183,7 +54183,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
+            "ref": "08a842ebcea42d958fb2843b26c525929de6f6a9",
             "subfolder": "authoring/skills/pulumi-esc"
           }
         ]
@@ -54214,7 +54214,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
+            "ref": "08a842ebcea42d958fb2843b26c525929de6f6a9",
             "subfolder": "authoring/skills/pulumi-upgrade-provider"
           }
         ]
@@ -54245,7 +54245,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
+            "ref": "60147cbb773649eadca89cee92b4e0caf02234b4",
             "subfolder": "skills/sandbox-sdk"
           }
         ]
@@ -54276,7 +54276,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/static-analysis/skills/sarif-parsing"
           }
         ]
@@ -54338,7 +54338,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/static-analysis/skills/semgrep"
           }
         ]
@@ -54369,7 +54369,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/semgrep-rule-creator/skills/semgrep-rule-creator"
           }
         ]
@@ -54400,7 +54400,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/semgrep-rule-variant-creator/skills/semgrep-rule-variant-creator"
           }
         ]
@@ -54431,7 +54431,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/sharp-edges/skills/sharp-edges"
           }
         ]
@@ -54799,7 +54799,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/stripe/agent-toolkit",
-            "ref": "f6e8ff385e15f24cee5986518221228b7dc9ac6d",
+            "ref": "14623416d84fdfad0aea8744d4c6f838ebc87654",
             "subfolder": "skills/stripe-best-practices"
           }
         ]
@@ -54830,7 +54830,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/stripe/agent-toolkit",
-            "ref": "f6e8ff385e15f24cee5986518221228b7dc9ac6d",
+            "ref": "14623416d84fdfad0aea8744d4c6f838ebc87654",
             "subfolder": "skills/stripe-projects"
           }
         ]
@@ -54861,7 +54861,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/supabase/agent-skills",
-            "ref": "4bb13d858d19f1f848505a66f46fc9603fdcde95",
+            "ref": "fa9911ac26eb15184d0e0f21ac195c6224e6c0b4",
             "subfolder": "skills/supabase"
           }
         ]
@@ -54892,7 +54892,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/supabase/agent-skills",
-            "ref": "4bb13d858d19f1f848505a66f46fc9603fdcde95",
+            "ref": "fa9911ac26eb15184d0e0f21ac195c6224e6c0b4",
             "subfolder": "skills/supabase-postgres-best-practices"
           }
         ]
@@ -54923,7 +54923,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/supply-chain-risk-auditor/skills/supply-chain-risk-auditor"
           }
         ]
@@ -54980,12 +54980,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/transformers-js:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/transformers-js:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "6bbfb54f32e58b9661f725de865927a274f01776",
+            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
             "subfolder": "skills/transformers-js"
           }
         ]
@@ -55016,7 +55016,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/stripe/agent-toolkit",
-            "ref": "f6e8ff385e15f24cee5986518221228b7dc9ac6d",
+            "ref": "14623416d84fdfad0aea8744d4c6f838ebc87654",
             "subfolder": "skills/upgrade-stripe"
           }
         ]
@@ -55047,7 +55047,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/pulumi/agent-skills",
-            "ref": "3ec9d51a06e32ee537bce7911337a4f20b0c17de",
+            "ref": "08a842ebcea42d958fb2843b26c525929de6f6a9",
             "subfolder": "authoring/skills/upstream-patches"
           }
         ]
@@ -55078,7 +55078,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/variant-analysis/skills/variant-analysis"
           }
         ]
@@ -55202,7 +55202,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
+            "ref": "60147cbb773649eadca89cee92b4e0caf02234b4",
             "subfolder": "skills/web-perf"
           }
         ]
@@ -55233,7 +55233,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
+            "ref": "60147cbb773649eadca89cee92b4e0caf02234b4",
             "subfolder": "skills/workers-best-practices"
           }
         ]
@@ -55264,7 +55264,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "7c449def4e0c63daa27212d853094e4c8e37bbe8",
+            "ref": "60147cbb773649eadca89cee92b4e0caf02234b4",
             "subfolder": "skills/wrangler"
           }
         ]
@@ -55295,7 +55295,7 @@
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "540111a52a2b76009fb279fed2b8f5d3eaa97adc",
+            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
             "subfolder": "plugins/yara-authoring/skills/yara-rule-authoring"
           }
         ]
