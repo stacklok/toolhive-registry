@@ -7,7 +7,7 @@ on:
     paths:
       - 'pkg/catalog/*/data/**'
   schedule:
-    - cron: '0 6 * * *' # daily at 6 AM UTC
+    - cron: '0 6 * * 1' # weekly on Mondays at 6 AM UTC, after Friday's data updates have merged over the weekend
   workflow_dispatch:
 
 permissions:

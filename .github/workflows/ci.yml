@@ -8,8 +8,9 @@ on:
     branches:
       - main
   schedule:
-    # Run daily at 00:00 UTC to catch any updates
-    - cron: '0 0 * * *'
+    # Run weekly on Mondays at 5:00 AM UTC, after the weekend merge window, so the
+    # rebuild captures everything merged Fri-Sun before the Monday release fires.
+    - cron: '0 5 * * 1'
   workflow_dispatch:
 
 permissions: {}
