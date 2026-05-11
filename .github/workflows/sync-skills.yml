@@ -2,8 +2,8 @@ name: Sync Dockyard Skills
 
 on:
   schedule:
-    # Run daily at 3:00 AM UTC, an hour after update-metadata.yml.
-    - cron: '0 3 * * *'
+    # Run weekly on Fridays at 3:00 AM UTC, an hour after update-metadata.yml.
+    - cron: '0 3 * * 5'
   workflow_dispatch:
     inputs:
       dockyard-ref:

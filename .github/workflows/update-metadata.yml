@@ -2,8 +2,8 @@ name: Update Server Metadata
 
 on:
   schedule:
-    # Run daily at 2:00 AM UTC
-    - cron: '0 2 * * *'
+    # Run weekly on Fridays at 2:00 AM UTC
+    - cron: '0 2 * * 5'
   workflow_dispatch:
     inputs:
       count:
