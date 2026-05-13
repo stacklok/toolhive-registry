@@ -36,14 +36,13 @@ tasks:
       - "{{.BUILD_DIR}}/catalog"
 
   catalog:build:
-    desc: Build registry files from server.json (both formats)
+    desc: Build registry files from server.json
     deps: [build]
     cmds:
-      - ./{{.BUILD_DIR}}/catalog build --format all -v
+      - ./{{.BUILD_DIR}}/catalog build -v
     sources:
       - registries/**/server.json
     generates:
-      - "{{.BUILD_DIR}}/*/registry-legacy.json"
       - "{{.BUILD_DIR}}/*/registry-upstream.json"
 
   catalog:validate:

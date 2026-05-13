@@ -357,7 +357,7 @@ If you need to work with the registry programmatically:
 # Validate all entries
 task catalog:validate
 
-# Build the registry files (both ToolHive and official MCP formats)
+# Build the upstream MCP registry files
 task catalog:build
 
 # Update metadata for oldest entries

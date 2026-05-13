@@ -62,20 +62,14 @@ jobs:
 
             for registry_dir in pkg/catalog/*/; do
               registry_name=$(basename "$registry_dir")
-              data_file="$registry_dir/data/registry-legacy.json"
+              data_file="$registry_dir/data/registry-upstream.json"
               [ -f "$data_file" ] || continue
 
-              CONTAINER_COUNT=$(jq '.servers | length' "$data_file")
-              REMOTE_COUNT=$(jq '.remote_servers | length // 0' "$data_file")
+              CONTAINER_COUNT=$(jq '[.data.servers[] | select(.packages != null and (.packages | length > 0))] | length' "$data_file")
+              REMOTE_COUNT=$(jq '[.data.servers[] | select(.remotes != null and (.remotes | length > 0))] | length' "$data_file")
               TOTAL=$((CONTAINER_COUNT + REMOTE_COUNT))
-              LAST_UPDATED=$(jq -r '.last_updated' "$data_file")
-
-              upstream_file="$registry_dir/data/registry-upstream.json"
-              if [ -f "$upstream_file" ]; then
-                SKILL_COUNT=$(jq '.data.skills | length // 0' "$upstream_file")
-              else
-                SKILL_COUNT=0
-              fi
+              LAST_UPDATED=$(jq -r '.meta.last_updated' "$data_file")
+              SKILL_COUNT=$(jq '.data.skills | length // 0' "$data_file")
 
               echo "### Registry: \`$registry_name\`"
               echo ""
@@ -94,9 +88,6 @@ jobs:
               echo ""
               echo "\`\`\`go"
               echo "import \"github.com/stacklok/toolhive-catalog/pkg/catalog/${registry_name}\""
-              echo ""
-              echo "// ToolHive legacy format"
-              echo "data := ${registry_name}.Legacy()"
               echo ""
               echo "// Upstream MCP format"
               echo "data := ${registry_name}.Upstream()"
