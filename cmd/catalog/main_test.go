@@ -8,6 +8,8 @@ import (
 func TestValidateBuildFormat(t *testing.T) {
 	t.Parallel()
 
+	const legacyRemovedMsg = "legacy registry format was removed"
+
 	tests := []struct {
 		name    string
 		format  string
@@ -17,9 +19,9 @@ func TestValidateBuildFormat(t *testing.T) {
 		{name: "upstream", format: "upstream"},
 		{name: "case insensitive upstream", format: "UpStream"},
 		{name: "old all flag value", format: "all"},
-		{name: "legacy toolhive", format: "toolhive", wantErr: "legacy registry format was removed"},
-		{name: "case insensitive legacy toolhive", format: "TOOLHIVE", wantErr: "legacy registry format was removed"},
-		{name: "legacy alias", format: "legacy", wantErr: "legacy registry format was removed"},
+		{name: "legacy toolhive", format: "toolhive", wantErr: legacyRemovedMsg},
+		{name: "case insensitive legacy toolhive", format: "TOOLHIVE", wantErr: legacyRemovedMsg},
+		{name: "legacy alias", format: "legacy", wantErr: legacyRemovedMsg},
 		{name: "unknown", format: "json", wantErr: `unknown format "json"`},
 	}
 
