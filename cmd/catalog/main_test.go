@@ -18,6 +18,7 @@ func TestValidateBuildFormat(t *testing.T) {
 		{name: "case insensitive upstream", format: "UpStream"},
 		{name: "old all flag value", format: "all"},
 		{name: "legacy toolhive", format: "toolhive", wantErr: "legacy registry format was removed"},
+		{name: "case insensitive legacy toolhive", format: "TOOLHIVE", wantErr: "legacy registry format was removed"},
 		{name: "legacy alias", format: "legacy", wantErr: "legacy registry format was removed"},
 		{name: "unknown", format: "json", wantErr: `unknown format "json"`},
 	}

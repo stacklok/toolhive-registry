@@ -97,7 +97,7 @@ func init() {
 	buildCmd.Flags().StringVarP(&outputDir, "output-dir", "o", defaultOutputDir, "Output directory")
 	buildCmd.Flags().StringVarP(
 		&format, "format", "f", formatUpstream,
-		"Deprecated: output format; only upstream is supported",
+		"Output format; only upstream is supported",
 	)
 	if err := buildCmd.Flags().MarkDeprecated(
 		"format", "legacy format output was removed; only registry-upstream.json is built",
