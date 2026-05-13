@@ -15,6 +15,10 @@ import (
 )
 
 const (
+	formatToolhive = "toolhive"
+	formatUpstream = "upstream"
+	formatAll      = "all"
+
 	defaultRegistries = "registries"
 	defaultOutputDir  = "build"
 
@@ -36,6 +40,7 @@ var (
 var (
 	registriesDir string
 	outputDir     string
+	format        string
 	verbose       bool
 )
 
@@ -90,6 +95,15 @@ func init() {
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose output")
 
 	buildCmd.Flags().StringVarP(&outputDir, "output-dir", "o", defaultOutputDir, "Output directory")
+	buildCmd.Flags().StringVarP(
+		&format, "format", "f", formatUpstream,
+		"Deprecated: output format; only upstream is supported",
+	)
+	if err := buildCmd.Flags().MarkDeprecated(
+		"format", "legacy format output was removed; only registry-upstream.json is built",
+	); err != nil {
+		panic(err)
+	}
 
 	rootCmd.AddCommand(buildCmd)
 	rootCmd.AddCommand(validateCmd)
@@ -173,6 +187,10 @@ func discoverRegistries() ([]registryInfo, error) {
 }
 
 func runBuild(_ *cobra.Command, _ []string) error {
+	if err := validateBuildFormat(format); err != nil {
+		return err
+	}
+
 	registries, err := discoverRegistries()
 	if err != nil {
 		return err
@@ -193,6 +211,17 @@ func runBuild(_ *cobra.Command, _ []string) error {
 	}
 
 	return nil
+}
+
+func validateBuildFormat(f string) error {
+	switch strings.ToLower(f) {
+	case "", formatUpstream, formatAll:
+		return nil
+	case formatToolhive, "legacy":
+		return fmt.Errorf("legacy registry format was removed; only %q output is supported", formatUpstream)
+	default:
+		return fmt.Errorf("unknown format %q: only %q output is supported", f, formatUpstream)
+	}
 }
 
 func runValidate(_ *cobra.Command, _ []string) error {
