@@ -15,10 +15,6 @@ import (
 )
 
 const (
-	formatToolhive = "toolhive"
-	formatUpstream = "upstream"
-	formatAll      = "all"
-
 	defaultRegistries = "registries"
 	defaultOutputDir  = "build"
 
@@ -40,7 +36,6 @@ var (
 var (
 	registriesDir string
 	outputDir     string
-	format        string
 	verbose       bool
 )
 
@@ -63,7 +58,6 @@ For each registry found, it produces output in the build directory:
 
   build/
     toolhive/
-      registry-legacy.json
       registry-upstream.json`,
 }
 
@@ -96,8 +90,6 @@ func init() {
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose output")
 
 	buildCmd.Flags().StringVarP(&outputDir, "output-dir", "o", defaultOutputDir, "Output directory")
-	buildCmd.Flags().StringVarP(&format, "format", "f", formatAll,
-		fmt.Sprintf("Output format (%s, %s, %s)", formatToolhive, formatUpstream, formatAll))
 
 	rootCmd.AddCommand(buildCmd)
 	rootCmd.AddCommand(validateCmd)
@@ -186,22 +178,18 @@ func runBuild(_ *cobra.Command, _ []string) error {
 		return err
 	}
 
-	formats := determineFormats(format)
-
 	for _, reg := range registries {
 		regOutputDir := filepath.Join(outputDir, reg.name)
 		if err := os.MkdirAll(regOutputDir, 0750); err != nil {
 			return fmt.Errorf("failed to create output directory %s: %w", regOutputDir, err)
 		}
 
-		for _, f := range formats {
-			if err := buildFormat(reg, f, regOutputDir); err != nil {
-				return fmt.Errorf("failed to build %s format for registry %q: %w", f, reg.name, err)
-			}
+		if err := buildUpstream(reg, regOutputDir); err != nil {
+			return fmt.Errorf("failed to build registry %q: %w", reg.name, err)
 		}
 
-		fmt.Printf("Built registry %q: %d entries [%s] -> %s\n",
-			reg.name, len(reg.loader.GetEntries()), strings.Join(formats, ", "), regOutputDir)
+		fmt.Printf("Built registry %q: %d entries -> %s\n",
+			reg.name, len(reg.loader.GetEntries()), regOutputDir)
 	}
 
 	return nil
@@ -225,60 +213,14 @@ func runValidate(_ *cobra.Command, _ []string) error {
 			fmt.Printf("  %s upstream format: valid\n", reg.name)
 		}
 
-		legacyBuilder := internalregistry.NewLegacyBuilder(reg.loader)
-		if err := legacyBuilder.ValidateAgainstSchema(); err != nil {
-			return fmt.Errorf("registry %q: toolhive validation failed: %w", reg.name, err)
-		}
-		if verbose {
-			fmt.Printf("  %s toolhive format: valid\n", reg.name)
-		}
-
 		skillCount := 0
 		if reg.skillLoader != nil {
 			skillCount = len(reg.skillLoader.GetEntries())
 		}
-		fmt.Printf("Registry %q: all %d servers and %d skills valid (both formats)\n",
+		fmt.Printf("Registry %q: all %d servers and %d skills valid\n",
 			reg.name, len(reg.loader.GetEntries()), skillCount)
 	}
 
-	return nil
-}
-
-func determineFormats(f string) []string {
-	switch strings.ToLower(f) {
-	case formatAll:
-		return []string{formatToolhive, formatUpstream}
-	case formatUpstream:
-		return []string{formatUpstream}
-	case formatToolhive:
-		return []string{formatToolhive}
-	default:
-		return []string{formatAll}
-	}
-}
-
-func buildFormat(reg registryInfo, f string, outDir string) error {
-	switch f {
-	case formatToolhive:
-		return buildToolhive(reg.loader, outDir)
-	case formatUpstream:
-		return buildUpstream(reg, outDir)
-	default:
-		return fmt.Errorf("unknown format: %s", f)
-	}
-}
-
-func buildToolhive(loader *internalregistry.Loader, outDir string) error {
-	builder := internalregistry.NewLegacyBuilder(loader)
-	outPath := filepath.Join(outDir, "registry-legacy.json")
-
-	if err := builder.WriteJSON(outPath); err != nil {
-		return fmt.Errorf("failed to write toolhive registry: %w", err)
-	}
-
-	if verbose {
-		fmt.Printf("  wrote %s\n", outPath)
-	}
 	return nil
 }
 
