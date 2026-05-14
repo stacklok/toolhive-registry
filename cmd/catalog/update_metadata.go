@@ -10,7 +10,6 @@ import (
 	"github.com/google/go-containerregistry/pkg/authn"
 	"github.com/spf13/cobra"
 	"github.com/stacklok/toolhive-core/container/verifier"
-	"github.com/stacklok/toolhive-core/registry/converters"
 	toolhiveRegistry "github.com/stacklok/toolhive-core/registry/types"
 
 	"github.com/stacklok/toolhive-catalog/internal/metadata"
@@ -187,17 +186,14 @@ func verifyServerProvenance(
 		return fmt.Errorf("provenance verification is only supported for package servers")
 	}
 
-	imgMeta, err := converters.ServerJSONToImageMetadata(&sf.ServerJSON)
-	if err != nil {
-		return fmt.Errorf("failed to convert for verification: %w", err)
-	}
+	imageRef := sf.ServerJSON.Packages[0].Identifier
 
-	v, err := verifier.New(imgMeta.Provenance, authn.DefaultKeychain)
+	v, err := verifier.New(ext.Provenance, authn.DefaultKeychain)
 	if err != nil {
 		return fmt.Errorf("failed to create verifier: %w", err)
 	}
 
-	if err := v.VerifyServer(imgMeta.Image, imgMeta.Provenance); err != nil {
+	if err := v.VerifyServer(imageRef, ext.Provenance); err != nil {
 		return fmt.Errorf("verification failed: %w", err)
 	}
 
