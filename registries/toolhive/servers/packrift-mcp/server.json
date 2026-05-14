@@ -1,0 +1,70 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.packrift.com/mcp": {
+          "custom_metadata": {
+            "author": "Packrift",
+            "homepage": "https://packrift.com/pages/mcp-server-card",
+            "license": "MIT"
+          },
+          "metadata": {
+            "last_updated": "2026-05-10T22:40:40Z",
+            "stars": 0
+          },
+          "overview": "## Packrift MCP\n\nPackrift MCP is a remote Model Context Protocol server for exact-spec ecommerce packaging procurement. It lets AI assistants search Packrift's Shopify packaging catalog, compare box and mailer dimensions, retrieve live pricing and inventory, estimate shipping, and build checkout, reorder, or bulk-quote handoff URLs.\n\nThe server is intended for agentic commerce and fulfillment workflows where an assistant needs to resolve packaging specifications before routing a buyer to a Packrift product, cart, reorder path, or quote request.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "ecommerce",
+            "packaging",
+            "shopify",
+            "fulfillment",
+            "inventory",
+            "pricing",
+            "shipping",
+            "agentic-commerce"
+          ],
+          "tier": "Community",
+          "tools": [
+            "find_packaging_for_item",
+            "search_products",
+            "get_product",
+            "get_pricing",
+            "check_inventory",
+            "get_shipping_estimate",
+            "create_cart_url",
+            "get_reorder_link",
+            "get_bulk_quote_link",
+            "explain_no_exact_match"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Remote MCP server for ecommerce packaging lookup, pricing, inventory, shipping, and cart handoff",
+  "icons": [
+    {
+      "mimeType": "image/png",
+      "sizes": [
+        "400x400"
+      ],
+      "src": "https://raw.githubusercontent.com/Packrift/packrift-mcp/main/assets/packrift-logo-400.png"
+    }
+  ],
+  "name": "io.github.Packrift/packrift-mcp",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.packrift.com/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/Packrift/packrift-mcp"
+  },
+  "title": "Packrift MCP",
+  "version": "0.1.0",
+  "websiteUrl": "https://packrift.com/pages/mcp-server-card"
+}
