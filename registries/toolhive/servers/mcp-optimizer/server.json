@@ -5,8 +5,8 @@
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/mcp-optimizer:0.3.0": {
           "metadata": {
-            "last_updated": "2026-04-09T11:08:37Z",
-            "stars": 10
+            "last_updated": "2026-05-15T03:21:00Z",
+            "stars": 11
           },
           "overview": "## MCP Optimizer\n\nMCP Optimizer is an intelligent intermediary MCP server that acts as a unified gateway in front of all ToolHive-managed MCP servers. Instead of configuring your AI client with every individual MCP server, you point it at MCP Optimizer and it handles semantic tool discovery and routing automatically. It exposes a single MCP endpoint that aggregates tools from all running servers, intelligently routing each LLM request to the most appropriate tool regardless of which underlying server provides it.\n\nKey capabilities include group-based filtering to scope tool discovery to specific ToolHive groups (e.g. production vs staging environments), connection resilience with configurable exponential backoff retry logic, and support for both Docker and Kubernetes runtime modes. MCP Optimizer is particularly useful for managing large numbers of MCP tools, addressing the common problem of LLMs being overwhelmed by too many available tools.",
           "permissions": {
