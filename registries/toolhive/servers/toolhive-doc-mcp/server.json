@@ -103,6 +103,11 @@
       "environmentVariables": [
         {
           "default": "false",
+          "description": "Enable/disable automatic daily refresh of the documentation database",
+          "name": "REFRESH_ENABLED"
+        },
+        {
+          "default": "false",
           "description": "Enable/disable OpenTelemetry logging",
           "name": "OTEL_ENABLED"
         },
