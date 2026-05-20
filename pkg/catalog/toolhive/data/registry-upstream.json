@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-05-13T19:21:23Z"
+    "last_updated": "2026-05-18T06:30:23Z"
   },
   "data": {
     "servers": [
@@ -12796,7 +12796,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/github/github-mcp-server:v1.0.3",
+            "identifier": "ghcr.io/github/github-mcp-server:v1.0.4",
             "transport": {
               "type": "stdio"
             },
@@ -12829,9 +12829,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/github/github-mcp-server:v1.0.3": {
+              "ghcr.io/github/github-mcp-server:v1.0.4": {
                 "metadata": {
-                  "last_updated": "2026-04-24T13:29:36Z",
+                  "last_updated": "2026-05-15T00:35:30Z",
                   "stars": 28440
                 },
                 "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -51352,12 +51352,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/agents-md:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/agents-md:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/agents-md"
           }
         ]
@@ -51414,12 +51414,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/atlas-stream-processing:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/atlas-stream-processing:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
+            "ref": "5cbde1c81a8c5e18de0952e52ec90808be11283f",
             "subfolder": "skills/atlas-stream-processing"
           }
         ]
@@ -51534,12 +51534,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/claimable-postgres:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/claimable-postgres:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/neondatabase/agent-skills",
-            "ref": "38c7da85db656c8c9efd1e6433c200212926fd2d",
+            "ref": "ad7eade053f06f3ed6ada1d9cb72d0e264b5051b",
             "subfolder": "skills/claimable-postgres"
           }
         ]
@@ -51565,12 +51565,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/claude-api:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/claude-api:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/anthropics/skills",
-            "ref": "d211d437443a7b2496a3dad9575e7dddd724c585",
+            "ref": "f458cee31a7577a47ba0c9a101976fa599385174",
             "subfolder": "skills/claude-api"
           }
         ]
@@ -51596,12 +51596,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/claude-settings-audit:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/claude-settings-audit:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/claude-settings-audit"
           }
         ]
@@ -51846,12 +51846,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/code-simplifier:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/code-simplifier:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/code-simplifier"
           }
         ]
@@ -51908,12 +51908,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/commit:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/commit:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/commit"
           }
         ]
@@ -51970,12 +51970,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/create-branch:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/create-branch:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/create-branch"
           }
         ]
@@ -52187,12 +52187,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/developing-genkit-dart:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/developing-genkit-dart:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
+            "ref": "c3bb9d52cc672839274599dce0acbc5b654fa3ce",
             "subfolder": "skills/developing-genkit-dart"
           }
         ]
@@ -52218,12 +52218,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/developing-genkit-go:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/developing-genkit-go:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
+            "ref": "c3bb9d52cc672839274599dce0acbc5b654fa3ce",
             "subfolder": "skills/developing-genkit-go"
           }
         ]
@@ -52249,12 +52249,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/developing-genkit-js:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/developing-genkit-js:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
+            "ref": "c3bb9d52cc672839274599dce0acbc5b654fa3ce",
             "subfolder": "skills/developing-genkit-js"
           }
         ]
@@ -52311,12 +52311,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/django-access-review:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/django-access-review:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/django-access-review"
           }
         ]
@@ -52342,12 +52342,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/django-perf-review:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/django-perf-review:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/django-perf-review"
           }
         ]
@@ -52373,12 +52373,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/doc-coauthoring:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/doc-coauthoring:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/doc-coauthoring"
           }
         ]
@@ -52435,12 +52435,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/find-bugs:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/find-bugs:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/find-bugs"
           }
         ]
@@ -52466,12 +52466,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-ai-logic-basics:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-ai-logic-basics:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
+            "ref": "c3bb9d52cc672839274599dce0acbc5b654fa3ce",
             "subfolder": "skills/firebase-ai-logic-basics"
           }
         ]
@@ -52497,12 +52497,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-app-hosting-basics:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-app-hosting-basics:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
+            "ref": "c3bb9d52cc672839274599dce0acbc5b654fa3ce",
             "subfolder": "skills/firebase-app-hosting-basics"
           }
         ]
@@ -52528,12 +52528,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-auth-basics:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-auth-basics:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
+            "ref": "c3bb9d52cc672839274599dce0acbc5b654fa3ce",
             "subfolder": "skills/firebase-auth-basics"
           }
         ]
@@ -52559,12 +52559,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-basics:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-basics:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
+            "ref": "c3bb9d52cc672839274599dce0acbc5b654fa3ce",
             "subfolder": "skills/firebase-basics"
           }
         ]
@@ -52590,12 +52590,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-data-connect-basics:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-data-connect-basics:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
+            "ref": "c3bb9d52cc672839274599dce0acbc5b654fa3ce",
             "subfolder": "skills/firebase-data-connect-basics"
           }
         ]
@@ -52683,12 +52683,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-hosting-basics:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-hosting-basics:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "9067c1e3d3afbb212235356702db6ab4b82ec88a",
+            "ref": "c3bb9d52cc672839274599dce0acbc5b654fa3ce",
             "subfolder": "skills/firebase-hosting-basics"
           }
         ]
@@ -52714,12 +52714,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/forge-app-builder:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/forge-app-builder:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/atlassian/forge-skills",
-            "ref": "9999904da629e0413db0343daeff863af311e8ab",
+            "ref": "2ab11f061033333640cc3cb59bfe817944e4f205",
             "subfolder": "skills/forge-app-builder"
           }
         ]
@@ -52745,12 +52745,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/forge-app-review:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/forge-app-review:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/atlassian/forge-skills",
-            "ref": "9999904da629e0413db0343daeff863af311e8ab",
+            "ref": "2ab11f061033333640cc3cb59bfe817944e4f205",
             "subfolder": "skills/forge-app-review"
           }
         ]
@@ -52776,12 +52776,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/forge-debugger:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/forge-debugger:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/atlassian/forge-skills",
-            "ref": "9999904da629e0413db0343daeff863af311e8ab",
+            "ref": "2ab11f061033333640cc3cb59bfe817944e4f205",
             "subfolder": "skills/forge-debugger"
           }
         ]
@@ -52838,12 +52838,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/gemini-api-dev:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/gemini-api-dev:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/google-gemini/gemini-skills",
-            "ref": "ed36956c6f8cbaeb4495143e638eacb9013a8b31",
+            "ref": "c609019e270842ab256bb822890ab6463b235091",
             "subfolder": "skills/gemini-api-dev"
           }
         ]
@@ -52869,12 +52869,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/gemini-interactions-api:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/gemini-interactions-api:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/google-gemini/gemini-skills",
-            "ref": "ed36956c6f8cbaeb4495143e638eacb9013a8b31",
+            "ref": "c609019e270842ab256bb822890ab6463b235091",
             "subfolder": "skills/gemini-interactions-api"
           }
         ]
@@ -52900,12 +52900,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/gemini-live-api-dev:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/gemini-live-api-dev:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/google-gemini/gemini-skills",
-            "ref": "ed36956c6f8cbaeb4495143e638eacb9013a8b31",
+            "ref": "c609019e270842ab256bb822890ab6463b235091",
             "subfolder": "skills/gemini-live-api-dev"
           }
         ]
@@ -52931,12 +52931,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/gh-review-requests:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/gh-review-requests:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/gh-review-requests"
           }
         ]
@@ -52962,12 +52962,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/gha-security-review:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/gha-security-review:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/gha-security-review"
           }
         ]
@@ -52993,12 +52993,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/hf-cli:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hf-cli:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "skills/hf-cli"
           }
         ]
@@ -53024,12 +53024,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/hf-mcp:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hf-mcp:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "hf-mcp/skills/hf-mcp"
           }
         ]
@@ -53055,12 +53055,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-community-evals:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-community-evals:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "skills/huggingface-community-evals"
           }
         ]
@@ -53086,12 +53086,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-datasets:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-datasets:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "skills/huggingface-datasets"
           }
         ]
@@ -53117,12 +53117,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-gradio:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-gradio:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "skills/huggingface-gradio"
           }
         ]
@@ -53148,12 +53148,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-llm-trainer:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-llm-trainer:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "skills/huggingface-llm-trainer"
           }
         ]
@@ -53179,12 +53179,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-paper-publisher:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-paper-publisher:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "skills/huggingface-paper-publisher"
           }
         ]
@@ -53210,12 +53210,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-papers:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-papers:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "skills/huggingface-papers"
           }
         ]
@@ -53241,12 +53241,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-tool-builder:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-tool-builder:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "skills/huggingface-tool-builder"
           }
         ]
@@ -53272,12 +53272,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-trackio:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-trackio:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "skills/huggingface-trackio"
           }
         ]
@@ -53303,12 +53303,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-vision-trainer:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/huggingface-vision-trainer:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "skills/huggingface-vision-trainer"
           }
         ]
@@ -53365,12 +53365,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/iterate-pr:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/iterate-pr:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/iterate-pr"
           }
         ]
@@ -53458,12 +53458,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-connection:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-connection:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
+            "ref": "5cbde1c81a8c5e18de0952e52ec90808be11283f",
             "subfolder": "skills/mongodb-connection"
           }
         ]
@@ -53489,12 +53489,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-mcp-setup:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-mcp-setup:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
+            "ref": "5cbde1c81a8c5e18de0952e52ec90808be11283f",
             "subfolder": "skills/mongodb-mcp-setup"
           }
         ]
@@ -53527,12 +53527,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-natural-language-querying:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-natural-language-querying:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
+            "ref": "5cbde1c81a8c5e18de0952e52ec90808be11283f",
             "subfolder": "skills/mongodb-natural-language-querying"
           }
         ]
@@ -53558,12 +53558,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-query-optimizer:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-query-optimizer:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
+            "ref": "5cbde1c81a8c5e18de0952e52ec90808be11283f",
             "subfolder": "skills/mongodb-query-optimizer"
           }
         ]
@@ -53589,12 +53589,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-schema-design:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-schema-design:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
+            "ref": "5cbde1c81a8c5e18de0952e52ec90808be11283f",
             "subfolder": "skills/mongodb-schema-design"
           }
         ]
@@ -53620,12 +53620,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-search-and-ai:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-search-and-ai:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mongodb/agent-skills",
-            "ref": "160e31ea50af4192aeed08f04ef6dc1fe5676930",
+            "ref": "5cbde1c81a8c5e18de0952e52ec90808be11283f",
             "subfolder": "skills/mongodb-search-and-ai"
           }
         ]
@@ -53651,12 +53651,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/neon-postgres:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/neon-postgres:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/neondatabase/agent-skills",
-            "ref": "38c7da85db656c8c9efd1e6433c200212926fd2d",
+            "ref": "ad7eade053f06f3ed6ada1d9cb72d0e264b5051b",
             "subfolder": "skills/neon-postgres"
           }
         ]
@@ -53682,12 +53682,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/neon-postgres-egress-optimizer:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/neon-postgres-egress-optimizer:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/neondatabase/agent-skills",
-            "ref": "38c7da85db656c8c9efd1e6433c200212926fd2d",
+            "ref": "ad7eade053f06f3ed6ada1d9cb72d0e264b5051b",
             "subfolder": "skills/neon-postgres-egress-optimizer"
           }
         ]
@@ -53961,12 +53961,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/pr-writer:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/pr-writer:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/pr-writer"
           }
         ]
@@ -53992,12 +53992,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/prompt-optimizer:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/prompt-optimizer:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/prompt-optimizer"
           }
         ]
@@ -54302,12 +54302,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/security-review:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/security-review:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/security-review"
           }
         ]
@@ -54484,12 +54484,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/skill-scanner:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/skill-scanner:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/skill-scanner"
           }
         ]
@@ -54515,12 +54515,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/skill-writer:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/skill-writer:0.1.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "89aaec068abcc70368ccd3e1f7fee58a66313377",
+            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
             "subfolder": "skills/skill-writer"
           }
         ]
@@ -54794,12 +54794,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/stripe-best-practices:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/stripe-best-practices:0.1.3"
           },
           {
             "registryType": "git",
             "url": "https://github.com/stripe/agent-toolkit",
-            "ref": "27b4b183445f733425e30de4ad14341c09bf1c3c",
+            "ref": "ec93d4c4b9ffdbc994ac45ce692d4ec1cdb755f0",
             "subfolder": "skills/stripe-best-practices"
           }
         ]
@@ -54825,12 +54825,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/stripe-projects:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/stripe-projects:0.2.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/stripe/agent-toolkit",
-            "ref": "27b4b183445f733425e30de4ad14341c09bf1c3c",
+            "ref": "ec93d4c4b9ffdbc994ac45ce692d4ec1cdb755f0",
             "subfolder": "skills/stripe-projects"
           }
         ]
@@ -54856,12 +54856,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/supabase:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/supabase:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/supabase/agent-skills",
-            "ref": "fa9911ac26eb15184d0e0f21ac195c6224e6c0b4",
+            "ref": "3e7771598f3a03d29533208dd7b5a50bdfc8860f",
             "subfolder": "skills/supabase"
           }
         ]
@@ -54887,12 +54887,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/supabase-postgres-best-practices:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/supabase-postgres-best-practices:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/supabase/agent-skills",
-            "ref": "fa9911ac26eb15184d0e0f21ac195c6224e6c0b4",
+            "ref": "3e7771598f3a03d29533208dd7b5a50bdfc8860f",
             "subfolder": "skills/supabase-postgres-best-practices"
           }
         ]
@@ -54980,12 +54980,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/transformers-js:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/transformers-js:0.1.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/huggingface/skills",
-            "ref": "7c71cfb2b12920002c3177474c779feeec4e9ad1",
+            "ref": "c3accb78c01b249a060ca87acac9df96368b2f57",
             "subfolder": "skills/transformers-js"
           }
         ]
@@ -55011,12 +55011,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/upgrade-stripe:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/upgrade-stripe:0.1.3"
           },
           {
             "registryType": "git",
             "url": "https://github.com/stripe/agent-toolkit",
-            "ref": "27b4b183445f733425e30de4ad14341c09bf1c3c",
+            "ref": "ec93d4c4b9ffdbc994ac45ce692d4ec1cdb755f0",
             "subfolder": "skills/upgrade-stripe"
           }
         ]
