@@ -1,0 +1,73 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://xquik.com/mcp": {
+          "custom_metadata": {
+            "author": "Xquik",
+            "homepage": "https://docs.xquik.com/mcp/overview",
+            "license": "MIT"
+          },
+          "metadata": {
+            "last_updated": "2026-05-18T21:56:42Z"
+          },
+          "overview": "## Xquik Remote MCP Server\n\nXquik's official remote MCP server provides API-key authenticated access to X data and automation workflows through Streamable HTTP. It exposes a compact two-tool interface: `explore` searches the API catalog and `xquik` executes authenticated Xquik API calls through `xquik.request`. The server covers tweet and user lookup, search, bulk extraction jobs, media download, webhooks, SDK-backed API workflows, and confirmation-gated writes.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "twitter",
+            "social-media",
+            "data-extraction",
+            "api",
+            "automation"
+          ],
+          "tier": "Official",
+          "tools": [
+            "explore",
+            "xquik"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Remote X data, search, extraction, webhooks, SDK workflows, and writes via Xquik",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://xquik.com/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/xquik-remote",
+  "remotes": [
+    {
+      "headers": [
+        {
+          "description": "Xquik API key from your dashboard account page",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "x-api-key",
+          "value": "{XQUIK_API_KEY}",
+          "variables": {
+            "XQUIK_API_KEY": {
+              "description": "Your Xquik API key",
+              "isSecret": true
+            }
+          }
+        }
+      ],
+      "type": "streamable-http",
+      "url": "https://xquik.com/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/Xquik-dev/x-twitter-scraper"
+  },
+  "title": "Xquik (Remote)",
+  "version": "2.4.13",
+  "websiteUrl": "https://docs.xquik.com/mcp/overview"
+}
