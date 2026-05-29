@@ -3,13 +3,13 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "semgrep/semgrep:latest": {
+        "docker.io/semgrep/semgrep:1.164.0": {
           "args": [
             "semgrep",
             "mcp"
           ],
           "metadata": {
-            "last_updated": "2026-04-10T03:04:30Z",
+            "last_updated": "2026-05-29T13:16:20Z",
             "stars": 14745
           },
           "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
@@ -80,14 +80,21 @@
               "inputSchema": {
                 "properties": {
                   "autotriage_verdict": {
-                    "default": "VERDICT_TRUE_POSITIVE",
-                    "description": "Autotriage verdict of the issues to filter by.",
-                    "enum": [
-                      "VERDICT_TRUE_POSITIVE",
-                      "VERDICT_FALSE_POSITIVE"
+                    "anyOf": [
+                      {
+                        "enum": [
+                          "VERDICT_TRUE_POSITIVE",
+                          "VERDICT_FALSE_POSITIVE"
+                        ],
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
                     ],
-                    "title": "Autotriage Verdict",
-                    "type": "string"
+                    "default": null,
+                    "description": "Autotriage verdict of the issues to filter by. If not provided, findings with any verdict (including unrated) are returned.",
+                    "title": "Autotriage Verdict"
                   },
                   "confidence": {
                     "anyOf": [
@@ -125,6 +132,15 @@
                     "description": "Maximum number of findings to return",
                     "title": "Limit",
                     "type": "integer"
+                  },
+                  "refs": {
+                    "default": [],
+                    "description": "List of git refs (branch names) to filter findings by. If not provided, only findings on the primary branch are returned.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Refs",
+                    "type": "array"
                   },
                   "repos": {
                     "default": [],
@@ -316,7 +332,7 @@
           "name": "SEMGREP_APP_TOKEN"
         }
       ],
-      "identifier": "semgrep/semgrep:latest",
+      "identifier": "docker.io/semgrep/semgrep:1.164.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

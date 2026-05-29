@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "docker.io/mcp/everything:latest": {
+        "ghcr.io/stacklok/dockyard/npx/server-everything:2026.1.26": {
           "metadata": {
-            "last_updated": "2026-05-08T03:06:20Z",
+            "last_updated": "2026-05-29T13:15:40Z",
             "stars": 85231
           },
           "overview": "## Everything MCP Server\n\nThe everything-mcp-server is a reference and demonstration Model Context Protocol (MCP) server that exposes a broad collection of example tools in a single implementation. The server is designed as a learning and testing resource, showcasing how MCP functions end-to-end through diverse tool types encompassing data access, computation, state management, and side effects that AI assistants can invoke during workflows. Rather than integrating with external services, this implementation serves primarily for educational purposes, client validation, debugging, and protocol testing — making it valuable for developers onboarding to MCP, understanding server architecture, and conducting regression testing.",
@@ -31,29 +31,24 @@
           "tool_definitions": [
             {
               "annotations": {},
-              "description": "Adds two numbers",
+              "description": "Echoes back the input string",
               "inputSchema": {
                 "properties": {
-                  "a": {
-                    "description": "First number",
-                    "type": "number"
-                  },
-                  "b": {
-                    "description": "Second number",
-                    "type": "number"
+                  "message": {
+                    "description": "Message to echo",
+                    "type": "string"
                   }
                 },
                 "required": [
-                  "a",
-                  "b"
+                  "message"
                 ],
                 "type": "object"
               },
-              "name": "add"
+              "name": "echo"
             },
             {
               "annotations": {},
-              "description": "Demonstrates how annotations can be used to provide metadata about content",
+              "description": "Demonstrates how annotations can be used to provide metadata about content.",
               "inputSchema": {
                 "properties": {
                   "includeImage": {
@@ -76,24 +71,35 @@
                 ],
                 "type": "object"
               },
-              "name": "annotatedMessage"
+              "name": "get-annotated-message"
             },
             {
               "annotations": {},
-              "description": "Echoes back the input",
+              "description": "Returns all environment variables, helpful for debugging MCP server configuration",
               "inputSchema": {
-                "properties": {
-                  "message": {
-                    "description": "Message to echo",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "message"
-                ],
+                "properties": {},
+                "required": [],
                 "type": "object"
               },
-              "name": "echo"
+              "name": "get-env"
+            },
+            {
+              "annotations": {},
+              "description": "Returns up to ten resource links that reference different types of resources",
+              "inputSchema": {
+                "properties": {
+                  "count": {
+                    "default": 3,
+                    "description": "Number of resource links to return (1-10)",
+                    "maximum": 10,
+                    "minimum": 1,
+                    "type": "number"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get-resource-links"
             },
             {
               "annotations": {},
@@ -101,32 +107,154 @@
               "inputSchema": {
                 "properties": {
                   "resourceId": {
-                    "description": "ID of the resource to reference (1-100)",
-                    "maximum": 100,
-                    "minimum": 1,
+                    "default": 1,
+                    "description": "ID of the text resource to fetch",
+                    "type": "number"
+                  },
+                  "resourceType": {
+                    "default": "Text",
+                    "enum": [
+                      "Text",
+                      "Blob"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get-resource-reference"
+            },
+            {
+              "annotations": {},
+              "description": "Returns structured content along with an output schema for client data validation",
+              "inputSchema": {
+                "properties": {
+                  "location": {
+                    "description": "Choose city",
+                    "enum": [
+                      "New York",
+                      "Chicago",
+                      "Los Angeles"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "location"
+                ],
+                "type": "object"
+              },
+              "name": "get-structured-content"
+            },
+            {
+              "annotations": {},
+              "description": "Returns the sum of two numbers",
+              "inputSchema": {
+                "properties": {
+                  "a": {
+                    "description": "First number",
+                    "type": "number"
+                  },
+                  "b": {
+                    "description": "Second number",
                     "type": "number"
                   }
                 },
                 "required": [
-                  "resourceId"
+                  "a",
+                  "b"
                 ],
                 "type": "object"
               },
-              "name": "getResourceReference"
+              "name": "get-sum"
             },
             {
               "annotations": {},
-              "description": "Returns the MCP_TINY_IMAGE",
+              "description": "Returns a tiny MCP logo image.",
               "inputSchema": {
                 "properties": {},
                 "required": [],
                 "type": "object"
               },
-              "name": "getTinyImage"
+              "name": "get-tiny-image"
             },
             {
               "annotations": {},
-              "description": "Demonstrates a long running operation with progress updates",
+              "description": "Compresses a single file using gzip compression. Depending upon the selected output type, returns either the compressed data as a gzipped resource or a resource link, allowing it to be downloaded in a subsequent request during the current session.",
+              "inputSchema": {
+                "properties": {
+                  "data": {
+                    "default": "https://raw.githubusercontent.com/modelcontextprotocol/servers/refs/heads/main/README.md",
+                    "description": "URL or data URI of the file content to compress",
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "name": {
+                    "default": "README.md.gz",
+                    "description": "Name of the output file",
+                    "type": "string"
+                  },
+                  "outputType": {
+                    "default": "resourceLink",
+                    "description": "How the resulting gzipped file should be returned. 'resourceLink' returns a link to a resource that can be read later, 'resource' returns a full resource object.",
+                    "enum": [
+                      "resourceLink",
+                      "resource"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "gzip-file-as-resource"
+            },
+            {
+              "annotations": {},
+              "description": "Simulates a deep research operation that gathers, analyzes, and synthesizes information. Demonstrates MCP task-based operations with progress through multiple stages. If 'ambiguous' is true and client supports elicitation, sends an elicitation request for clarification.",
+              "inputSchema": {
+                "properties": {
+                  "ambiguous": {
+                    "default": false,
+                    "description": "Simulate an ambiguous query that requires clarification (triggers input_required status)",
+                    "type": "boolean"
+                  },
+                  "topic": {
+                    "description": "The research topic to investigate",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "topic"
+                ],
+                "type": "object"
+              },
+              "name": "simulate-research-query"
+            },
+            {
+              "annotations": {},
+              "description": "Toggles simulated, random-leveled logging on or off.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "toggle-simulated-logging"
+            },
+            {
+              "annotations": {},
+              "description": "Toggles simulated resource subscription updates on or off.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "toggle-subscriber-updates"
+            },
+            {
+              "annotations": {},
+              "description": "Demonstrates a long running operation with progress updates.",
               "inputSchema": {
                 "properties": {
                   "duration": {
@@ -143,50 +271,23 @@
                 "required": [],
                 "type": "object"
               },
-              "name": "longRunningOperation"
-            },
-            {
-              "annotations": {},
-              "description": "Prints all environment variables, helpful for debugging MCP server configuration",
-              "inputSchema": {
-                "properties": {},
-                "required": [],
-                "type": "object"
-              },
-              "name": "printEnv"
-            },
-            {
-              "annotations": {},
-              "description": "Samples from an LLM using MCP's sampling feature",
-              "inputSchema": {
-                "properties": {
-                  "maxTokens": {
-                    "default": 100,
-                    "description": "Maximum number of tokens to generate",
-                    "type": "number"
-                  },
-                  "prompt": {
-                    "description": "The prompt to send to the LLM",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "prompt"
-                ],
-                "type": "object"
-              },
-              "name": "sampleLLM"
+              "name": "trigger-long-running-operation"
             }
           ],
           "tools": [
-            "add",
-            "annotatedMessage",
             "echo",
-            "getResourceReference",
-            "getTinyImage",
-            "longRunningOperation",
-            "printEnv",
-            "sampleLLM"
+            "get-annotated-message",
+            "get-env",
+            "get-resource-links",
+            "get-resource-reference",
+            "get-structured-content",
+            "get-sum",
+            "get-tiny-image",
+            "gzip-file-as-resource",
+            "simulate-research-query",
+            "toggle-simulated-logging",
+            "toggle-subscriber-updates",
+            "trigger-long-running-operation"
           ]
         }
       }
@@ -205,7 +306,7 @@
   "name": "io.github.stacklok/everything",
   "packages": [
     {
-      "identifier": "docker.io/mcp/everything:latest",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/server-everything:2026.1.26",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

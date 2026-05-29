@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "docker.io/mcp/git:latest": {
+        "ghcr.io/stacklok/dockyard/uvx/mcp-server-git:2026.1.14": {
           "metadata": {
-            "last_updated": "2026-04-18T03:03:09Z",
+            "last_updated": "2026-05-29T13:16:19Z",
             "stars": 84011
           },
           "overview": "## Git MCP Server\n\nThe git-mcp-server is a Model Context Protocol (MCP) server that gives AI assistants direct access to Git repositories through a structured, AI-friendly interface. It enables AI-driven workflows to read repository state, inspect history, and reason about changes without switching tools or manually invoking Git commands. It is especially useful for code understanding, change analysis, release preparation, and development workflows where repository context needs to be embedded directly into an AI assistant.",
@@ -52,6 +52,56 @@
                 "type": "object"
               },
               "name": "git_add"
+            },
+            {
+              "annotations": {},
+              "description": "List Git branches",
+              "inputSchema": {
+                "properties": {
+                  "branch_type": {
+                    "description": "Whether to list local branches ('local'), remote branches ('remote') or all branches('all').",
+                    "title": "Branch Type",
+                    "type": "string"
+                  },
+                  "contains": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "The commit sha that branch should contain. Do not pass anything to this param if no commit sha is specified",
+                    "title": "Contains"
+                  },
+                  "not_contains": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "The commit sha that branch should NOT contain. Do not pass anything to this param if no commit sha is specified",
+                    "title": "Not Contains"
+                  },
+                  "repo_path": {
+                    "description": "The path to the Git repository.",
+                    "title": "Repo Path",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "repo_path",
+                  "branch_type"
+                ],
+                "type": "object"
+              },
+              "name": "git_branch"
             },
             {
               "annotations": {},
@@ -136,6 +186,11 @@
               "description": "Shows differences between branches or commits",
               "inputSchema": {
                 "properties": {
+                  "context_lines": {
+                    "default": 3,
+                    "title": "Context Lines",
+                    "type": "integer"
+                  },
                   "repo_path": {
                     "title": "Repo Path",
                     "type": "string"
@@ -158,6 +213,11 @@
               "description": "Shows changes that are staged for commit",
               "inputSchema": {
                 "properties": {
+                  "context_lines": {
+                    "default": 3,
+                    "title": "Context Lines",
+                    "type": "integer"
+                  },
                   "repo_path": {
                     "title": "Repo Path",
                     "type": "string"
@@ -175,6 +235,11 @@
               "description": "Shows changes in the working directory that are not yet staged",
               "inputSchema": {
                 "properties": {
+                  "context_lines": {
+                    "default": 3,
+                    "title": "Context Lines",
+                    "type": "integer"
+                  },
                   "repo_path": {
                     "title": "Repo Path",
                     "type": "string"
@@ -189,26 +254,22 @@
             },
             {
               "annotations": {},
-              "description": "Initialize a new Git repository",
-              "inputSchema": {
-                "properties": {
-                  "repo_path": {
-                    "title": "Repo Path",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "repo_path"
-                ],
-                "type": "object"
-              },
-              "name": "git_init"
-            },
-            {
-              "annotations": {},
               "description": "Shows the commit logs",
               "inputSchema": {
                 "properties": {
+                  "end_timestamp": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "End timestamp for filtering commits. Accepts: ISO 8601 format (e.g., '2024-01-15T14:30:25'), relative dates (e.g., '2 weeks ago', 'yesterday'), or absolute dates (e.g., '2024-01-15', 'Jan 15 2024')",
+                    "title": "End Timestamp"
+                  },
                   "max_count": {
                     "default": 10,
                     "title": "Max Count",
@@ -217,6 +278,19 @@
                   "repo_path": {
                     "title": "Repo Path",
                     "type": "string"
+                  },
+                  "start_timestamp": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Start timestamp for filtering commits. Accepts: ISO 8601 format (e.g., '2024-01-15T14:30:25'), relative dates (e.g., '2 weeks ago', 'yesterday'), or absolute dates (e.g., '2024-01-15', 'Jan 15 2024')",
+                    "title": "Start Timestamp"
                   }
                 },
                 "required": [
@@ -285,13 +359,13 @@
           ],
           "tools": [
             "git_add",
+            "git_branch",
             "git_checkout",
             "git_commit",
             "git_create_branch",
             "git_diff",
             "git_diff_staged",
             "git_diff_unstaged",
-            "git_init",
             "git_log",
             "git_reset",
             "git_show",
@@ -314,7 +388,7 @@
   "name": "io.github.stacklok/git",
   "packages": [
     {
-      "identifier": "docker.io/mcp/git:latest",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-server-git:2026.1.14",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

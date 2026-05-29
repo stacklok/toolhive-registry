@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "docker.io/mcp/redis:latest": {
+        "ghcr.io/stacklok/dockyard/uvx/redis-mcp-server:0.5.0": {
           "metadata": {
-            "last_updated": "2026-05-07T03:06:47Z",
+            "last_updated": "2026-05-29T13:16:12Z",
             "stars": 504
           },
           "overview": "## Redis MCP Server\n\nThe redis MCP server enables LLMs to interact with Redis key-value databases through a set of standardized tools. The server connects to Redis databases and provides MCP tools for basic operations (CRUD operations, database management), data structures (full support for strings, hashes, lists, sets, sorted sets, JSON), vector search functionality, and streams/Pub/Sub features for messaging and time-series data handling.",
@@ -1076,36 +1076,6 @@
             },
             {
               "annotations": {},
-              "description": "Acknowledge entries that were processed by a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    entry_ids (List[str]): Entry IDs to acknowledge.\n\nReturns:\n    str: Confirmation message or an error message.\n",
-              "inputSchema": {
-                "properties": {
-                  "entry_ids": {
-                    "items": {
-                      "type": "string"
-                    },
-                    "title": "Entry Ids",
-                    "type": "array"
-                  },
-                  "group_name": {
-                    "title": "Group Name",
-                    "type": "string"
-                  },
-                  "key": {
-                    "title": "Key",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "key",
-                  "group_name",
-                  "entry_ids"
-                ],
-                "type": "object"
-              },
-              "name": "xack"
-            },
-            {
-              "annotations": {},
               "description": "Add an entry to a Redis stream with an optional expiration time.\n\nArgs:\n    key (str): The stream key.\n    fields (dict): The fields and values for the stream entry.\n    expiration (int, optional): Expiration time in seconds.\n\nReturns:\n    str: The ID of the added entry or an error message.\n",
               "inputSchema": {
                 "properties": {
@@ -1163,60 +1133,6 @@
             },
             {
               "annotations": {},
-              "description": "Create a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    start_id (str, optional): Stream ID from which the group starts consuming.\n    mkstream (bool, optional): Create the stream if it does not exist.\n\nReturns:\n    str: Confirmation message or an error message.\n",
-              "inputSchema": {
-                "properties": {
-                  "group_name": {
-                    "title": "Group Name",
-                    "type": "string"
-                  },
-                  "key": {
-                    "title": "Key",
-                    "type": "string"
-                  },
-                  "mkstream": {
-                    "default": true,
-                    "title": "Mkstream",
-                    "type": "boolean"
-                  },
-                  "start_id": {
-                    "default": "$",
-                    "title": "Start Id",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "key",
-                  "group_name"
-                ],
-                "type": "object"
-              },
-              "name": "xgroup_create"
-            },
-            {
-              "annotations": {},
-              "description": "Destroy a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n\nReturns:\n    str: Confirmation message or an error message.\n",
-              "inputSchema": {
-                "properties": {
-                  "group_name": {
-                    "title": "Group Name",
-                    "type": "string"
-                  },
-                  "key": {
-                    "title": "Key",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "key",
-                  "group_name"
-                ],
-                "type": "object"
-              },
-              "name": "xgroup_destroy"
-            },
-            {
-              "annotations": {},
               "description": "Read entries from a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    count (int, optional): Number of entries to retrieve.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
               "inputSchema": {
                 "properties": {
@@ -1236,55 +1152,6 @@
                 "type": "object"
               },
               "name": "xrange"
-            },
-            {
-              "annotations": {},
-              "description": "Read entries from a Redis stream using a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    consumer_name (str): The consumer name.\n    count (int, optional): Maximum number of entries to retrieve.\n    block_ms (int, optional): Maximum time to block waiting for entries.\n        Use None for a non-blocking read. 0 is rejected because Redis treats\n        BLOCK 0 as an indefinite wait.\n    stream_id (str, optional): Stream ID to read from. Use \"\u003e\" for new messages.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
-              "inputSchema": {
-                "properties": {
-                  "block_ms": {
-                    "anyOf": [
-                      {
-                        "type": "integer"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "default": null,
-                    "title": "Block Ms"
-                  },
-                  "consumer_name": {
-                    "title": "Consumer Name",
-                    "type": "string"
-                  },
-                  "count": {
-                    "default": 1,
-                    "title": "Count",
-                    "type": "integer"
-                  },
-                  "group_name": {
-                    "title": "Group Name",
-                    "type": "string"
-                  },
-                  "key": {
-                    "title": "Key",
-                    "type": "string"
-                  },
-                  "stream_id": {
-                    "default": "\u003e",
-                    "title": "Stream Id",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "key",
-                  "group_name",
-                  "consumer_name"
-                ],
-                "type": "object"
-              },
-              "name": "xreadgroup"
             },
             {
               "annotations": {},
@@ -1422,13 +1289,9 @@
             "type",
             "unsubscribe",
             "vector_search_hash",
-            "xack",
             "xadd",
             "xdel",
-            "xgroup_create",
-            "xgroup_destroy",
             "xrange",
-            "xreadgroup",
             "zadd",
             "zrange",
             "zrem"
@@ -1506,7 +1369,7 @@
           "name": "MCP_TRANSPORT"
         }
       ],
-      "identifier": "docker.io/mcp/redis:latest",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/redis-mcp-server:0.5.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

@@ -3,7 +3,7 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "docker.io/mcp/stripe:latest": {
+        "ghcr.io/stacklok/dockyard/npx/stripe-mcp:0.3.3": {
           "args": [
             "--tools=all"
           ],
@@ -782,7 +782,7 @@
           "name": "STRIPE_SECRET_KEY"
         }
       ],
-      "identifier": "docker.io/mcp/stripe:latest",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/stripe-mcp:0.3.3",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
