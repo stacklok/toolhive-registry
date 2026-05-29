@@ -3,7 +3,7 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "semgrep/semgrep:latest": {
+        "docker.io/semgrep/semgrep:1.164.0": {
           "args": [
             "semgrep",
             "mcp"
@@ -316,7 +316,7 @@
           "name": "SEMGREP_APP_TOKEN"
         }
       ],
-      "identifier": "semgrep/semgrep:latest",
+      "identifier": "docker.io/semgrep/semgrep:1.164.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
