@@ -1,0 +1,52 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.bhuvanabala": {
+        "https://vindata-mcp.vindata.workers.dev/mcp": {
+          "custom_metadata": {
+            "author": "VINdata",
+            "homepage": "https://vindata.io"
+          },
+          "metadata": {
+            "last_updated": "2026-06-01T00:00:00Z"
+          },
+          "overview": "## VINdata MCP\n\nVINdata MCP is a remote MCP server for VIN decoding and European vehicle data. It provides automotive workflows with structured vehicle information through streamable-HTTP transport. The server exposes a decode_vin tool that returns vehicle details including make, model, year, equipment data, and derived feature flags.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "vin",
+            "automotive",
+            "vehicle-data",
+            "europe",
+            "dealers",
+            "vin-decoder"
+          ],
+          "tier": "Official",
+          "tools": [
+            "decode_vin"
+          ]
+        }
+      }
+    }
+  },
+  "description": "VIN decoding and European vehicle data for automotive workflows",
+  "icons": [
+    {
+      "mimeType": "image/png",
+      "sizes": [
+        "400x400"
+      ],
+      "src": "https://vindata.io/assets/vin-logo-BWkY0BRe.png"
+    }
+  ],
+  "name": "io.github.bhuvanabala/vindata-mcp",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://vindata-mcp.vindata.workers.dev/mcp"
+    }
+  ],
+  "title": "VINdata MCP",
+  "version": "1.0.1"
+}
