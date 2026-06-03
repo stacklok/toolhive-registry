@@ -196,6 +196,18 @@ Skill shadowing (same name/description, different behavior) is the primary stabi
 Run `task catalog:validate` and `thv skills validate` to verify compliance.
 ```
 
+## Submitting the Verdict
+
+When posting to GitHub, the verdict must carry its blocking state — a plain comment does **not** gate the merge. Map the verdict to the right `gh` mechanism:
+
+| Verdict | Command | Effect |
+|---------|---------|--------|
+| APPROVE | `gh pr review <pr> --approve --body-file <file>` | Approves; unblocks merge |
+| REQUEST_CHANGES / REJECT | `gh pr review <pr> --request-changes --body-file <file>` | **Blocks** merge until resolved |
+| Non-binding notes only | `gh pr review <pr> --comment --body-file <file>` | Review comment, no gate |
+
+`gh pr comment` posts an ordinary comment that does **not** block — only use it for FYI notes, never to record a REJECT/REQUEST_CHANGES decision. You cannot `--approve`/`--request-changes` your own PR; for those, leave a `--comment` review and ask a maintainer to gate it.
+
 ## Error Handling
 
 | Situation | Action |

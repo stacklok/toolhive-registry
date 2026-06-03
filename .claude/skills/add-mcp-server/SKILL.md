@@ -101,7 +101,7 @@ For complete templates with env vars, permissions, provenance: see [references/c
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "https://api.example.com/mcp": {
-          "tier": "Official",
+          "tier": "Community",
           "status": "Active",
           "tags": ["remote", "category1"],
           "tools": ["tool_name"],
@@ -124,7 +124,7 @@ For complete templates with OAuth, custom_metadata: see [references/remote-serve
 | **Overview** | Markdown string starting with `## Title\n\n` followed by 3-5 sentences |
 | **Name format** | `io.github.stacklok/<server-name>` |
 | **Title** | Human-readable display name (e.g., `"Fetch"`, `"GitHub (Remote)"`, `"AWS Knowledge Bases"`) |
-| **Tier** | Exactly `"Official"` or `"Community"` |
+| **Tier** | Exactly `"Official"` or `"Community"`. Default to `"Community"` — `"Official"` is reserved for servers maintained by the ToolHive team, the MCP spec authors, or the platform owner of the integrated service |
 | **Status** | Exactly `"Active"` or `"Deprecated"` |
 | **Remote tags** | Must include `"remote"` in tags |
 | **Remote transport** | `"streamable-http"` or `"sse"` only (NEVER `"stdio"`) |
