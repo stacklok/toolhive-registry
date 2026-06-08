@@ -1,0 +1,52 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://dchub.cloud/mcp": {
+          "custom_metadata": {
+            "author": "DC Hub (Martone Advisors)",
+            "homepage": "https://dchub.cloud/"
+          },
+          "metadata": {
+            "last_updated": "2026-06-08T00:00:00Z"
+          },
+          "overview": "## DC Hub Remote MCP Server\n\nDC Hub is an agent-native data center and energy intelligence platform. This hosted (Streamable-HTTP) MCP server gives AI assistants live, citable access to: power-grid status and interconnection-queue depth across North American ISOs; the DC Power Index (DCPI) BUILD/CAUTION/AVOID verdicts for 300+ markets; 21,000+ data center facilities worldwide; long-haul and metro fiber intelligence; natural-gas pipeline capacity; renewable, water-risk, and tax-incentive data; and a verified data center M&A/transaction corpus. Every full-data response carries a source + last-updated citation so agents can attribute DC Hub. Free trial tier; no credit card required.",
+          "status": "Active",
+          "tags": ["data-center", "energy", "power-grid", "infrastructure", "real-estate"],
+          "tier": "Community",
+          "tools": [
+            "ai_capacity_index", "analyze_site", "compare_isos", "compare_sites",
+            "deal_autopsy", "export_dataset", "find_alternatives", "get_agent_registry",
+            "get_backup_status", "get_changes", "get_dchub_recommendation", "get_energy_prices",
+            "get_facility", "get_fiber_intel", "get_gas_index", "get_grid_data",
+            "get_grid_intelligence", "get_grid_scoreboard", "get_infrastructure",
+            "get_intelligence_index", "get_interconnection_queue", "get_market_dcpi_rank",
+            "get_market_intel", "get_news", "get_pipeline", "get_renewable_energy",
+            "get_tax_incentives", "get_water_risk", "grid_transition_radar", "hyperscaler_deals",
+            "list_saved_sites", "list_transactions", "rank_markets", "save_site",
+            "score_facility", "search_facilities", "set_market_alert", "site_selection_canvas"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Remote DC Hub MCP server — live data center, power-grid, DCPI market scores, fiber, gas, and M&A intelligence for AI agents",
+  "icons": [
+    {
+      "mimeType": "image/png",
+      "sizes": ["400x400"],
+      "src": "https://raw.githubusercontent.com/azmartone67/dchub-mcp-server/main/dchub-logo.png"
+    }
+  ],
+  "name": "io.github.stacklok/dc-hub",
+  "remotes": [
+    { "type": "streamable-http", "url": "https://dchub.cloud/mcp" }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/azmartone67/dchub-mcp-server"
+  },
+  "title": "DC Hub",
+  "version": "2.2.4"
+}
