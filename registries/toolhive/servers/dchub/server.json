@@ -1,0 +1,91 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/dchub",
+  "description": "Real-time data-center intelligence: facilities, power grids, energy markets, and M&A deals",
+  "title": "DC Hub",
+  "repository": {
+    "url": "https://github.com/azmartone67/dchub-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://dchub.cloud/mcp"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/dchub/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://dchub.cloud/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "data-center",
+            "energy",
+            "power-grid",
+            "infrastructure",
+            "market-intelligence",
+            "site-selection",
+            "fiber",
+            "real-estate"
+          ],
+          "tools": [
+            "search_facilities",
+            "get_facility",
+            "get_market_intel",
+            "get_market_dcpi_rank",
+            "get_gas_index",
+            "get_grid_scoreboard",
+            "compare_isos",
+            "get_intelligence_index",
+            "list_transactions",
+            "get_news",
+            "get_pipeline",
+            "get_interconnection_queue",
+            "get_grid_data",
+            "get_changes",
+            "save_site",
+            "list_saved_sites",
+            "set_market_alert",
+            "export_dataset",
+            "analyze_site",
+            "compare_sites",
+            "get_infrastructure",
+            "get_fiber_intel",
+            "get_energy_prices",
+            "get_renewable_energy",
+            "get_tax_incentives",
+            "get_water_risk",
+            "get_grid_intelligence",
+            "get_agent_registry",
+            "get_backup_status",
+            "get_dchub_recommendation",
+            "rank_markets",
+            "find_alternatives",
+            "score_facility",
+            "ai_capacity_index",
+            "hyperscaler_deals",
+            "site_selection_canvas",
+            "grid_transition_radar",
+            "deal_autopsy"
+          ],
+          "overview": "## DC Hub\n\nDC Hub is a remote MCP server providing real-time data-center intelligence over streamable HTTP. It combines 21,000+ data-center facilities across 170+ countries, live grid telemetry and interconnection-queue verdicts for major North American ISOs (PJM, ERCOT, CAISO, MISO, SPP, NYISO, ISO-NE), 2,000+ tracked M&A transactions, and the DC Hub Power Index across 232 markets — alongside fiber routes, substations, gas pipelines, NEPA filings, energy pricing, and tax incentives. Its 38 tools cover facility search, market research, grid and interconnection analysis, site selection, and deal intelligence for AI assistants. A free anonymous tier is available; an optional X-API-Key header unlocks higher rate limits and full datasets.",
+          "custom_metadata": {
+            "author": "DC Hub",
+            "homepage": "https://dchub.cloud",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
