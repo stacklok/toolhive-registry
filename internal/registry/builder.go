@@ -57,7 +57,6 @@ func (b *Builder) Build() *thvregistry.UpstreamRegistry {
 		},
 		Data: thvregistry.UpstreamData{
 			Servers: servers,
-			Groups:  []thvregistry.UpstreamGroup{},
 			Skills:  skills,
 		},
 	}

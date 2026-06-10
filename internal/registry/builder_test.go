@@ -39,7 +39,6 @@ func TestBuilder_Build(t *testing.T) {
 	assert.Equal(t, "1.0.0", result.Version)
 	assert.NotEmpty(t, result.Meta.LastUpdated)
 	assert.Len(t, result.Data.Servers, 2)
-	assert.Empty(t, result.Data.Groups)
 
 	// Verify sorted order: alpha before beta
 	assert.Equal(t, "io.github.stacklok/test-server", result.Data.Servers[0].Name)
