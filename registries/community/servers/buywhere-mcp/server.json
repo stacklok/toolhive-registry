@@ -1,0 +1,66 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.BuyWhere/buywhere-mcp",
+  "title": "BuyWhere MCP",
+  "description": "Real-time product search and cross-border price comparison for AI agents across 50M+ products in 6 markets (SG, MY, TH, US, ID, AU). Connects to FairPrice, Lazada, Shopee, Amazon and 20+ other merchants.",
+  "version": "0.3.11",
+  "repository": {
+    "url": "https://github.com/BuyWhere/buywhere-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "buywhere-mcp-server",
+      "version": "0.3.11",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "BuyWhere API key used for authenticated product catalog requests.",
+          "isRequired": true,
+          "format": "string",
+          "isSecret": true,
+          "name": "BUYWHERE_API_KEY"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.BuyWhere": {
+        "@buywhere/mcp-server": {
+          "metadata": {
+            "last_updated": "2026-06-11T20:00:00Z",
+            "stars": 0
+          },
+          "overview": "## BuyWhere MCP Server\n\nReal-time product search and price comparison across 6 markets. Connects AI agents to FairPrice, Lazada, Shopee, Amazon, and 20+ other merchants via MCP.\n\n**Key features:**\n- 50M+ products across SG, MY, TH, US, ID, AU\n- Hybrid FTS + vector search for accurate product matching\n- find_similar tool for cross-merchant price comparison\n- Free API tier (1K requests/month) for individual developers",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [443]
+              }
+            }
+          },
+          "status": "Active",
+          "tags": [
+            "ecommerce",
+            "product-search",
+            "price-comparison",
+            "mcp",
+            "typescript",
+            "singapore",
+            "southeast-asia"
+          ],
+          "tier": "Community",
+          "tools": [
+            "search_product",
+            "find_similar",
+            "compare_prices"
+          ]
+        }
+      }
+    }
+  }
+}
