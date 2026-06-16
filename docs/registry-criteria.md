@@ -70,12 +70,15 @@ The following criteria apply to both MCP servers and skills.
 - Source code must be publicly accessible on a public hosting platform (GitHub,
   GitLab, etc.).
 - Must use an [acceptable open source license](#acceptable-licenses).
-- The **server implementation itself** must be open source — not just a client,
-  SDK, or stub that wraps a proprietary, closed backend. A repository that
-  contains only packaging metadata (`README`, `LICENSE`, icon, `server.json`)
-  or a thin client around a hosted service does not satisfy this requirement,
-  even for remote servers. For a remote entry, the code that implements the
-  advertised tools must be the part that is published openly.
+- For a **third-party community entry**, the server implementation itself must
+  be open source — not just a client, SDK, or stub that wraps a proprietary,
+  closed backend. A repository containing only packaging metadata (`README`,
+  `LICENSE`, icon, `server.json`), or a thin client around someone's hosted
+  service, does not satisfy this requirement. This does **not** apply to a
+  server published by the official vendor of the integrated service (see
+  [Proprietary service references](#proprietary-service-references)): an
+  official vendor's MCP server may run on a proprietary backend — there, what
+  matters is that the entry is genuinely first-party.
 
 ### Acceptable licenses
 
