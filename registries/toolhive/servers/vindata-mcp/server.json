@@ -1,0 +1,42 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.bhuvanabala/vindata-mcp",
+  "description": "VIN decoding and European vehicle data for automotive workflows.",
+  "title": "VINdata MCP",
+  "repository": {
+    "url": "https://github.com/bhuvanabala/vindata-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://vindata-mcp.vindata.workers.dev/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://vindata-mcp.vindata.workers.dev/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "vin",
+            "automotive",
+            "vehicle-data",
+            "api",
+            "remote"
+          ],
+          "tools": [
+            "decode_vin"
+          ],
+          "custom_metadata": {
+            "author": "VINdata",
+            "homepage": "https://vindata.io",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
