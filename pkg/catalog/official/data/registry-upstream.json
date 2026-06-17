@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-05-29T13:12:18Z"
+    "last_updated": "2026-06-01T06:40:20Z"
   },
   "data": {
     "servers": [
@@ -34293,7 +34293,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/perplexity-ask:0.9.0": {
                 "metadata": {
-                  "last_updated": "2026-04-19T03:04:12Z",
+                  "last_updated": "2026-05-29T13:15:39Z",
                   "stars": 2092
                 },
                 "overview": "## Perplexity Ask MCP Server\n\nThe perplexity-ask MCP server integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks. The server provides three specialized tools: perplexity_ask for quick web search using the Sonar API, perplexity_research for comprehensive research with detailed citations, and perplexity_reason for advanced reasoning for complex problem-solving.",
@@ -34318,20 +34318,31 @@
                 "tier": "Official",
                 "tool_definitions": [
                   {
-                    "annotations": {},
-                    "description": "Engages in a conversation using the Sonar API. Accepts an array of messages (each with a role and content) and returns a ask completion response from the Perplexity model.",
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
+                    "description": "Answer a question using web-grounded AI (Sonar Pro model). Best for: quick factual questions, summaries, explanations, and general Q\u0026A. Returns a text response with numbered citations. Fastest and cheapest option. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For in-depth multi-source research, use perplexity_research instead. For step-by-step reasoning and analysis, use perplexity_reason instead.",
                     "inputSchema": {
                       "properties": {
                         "messages": {
                           "description": "Array of conversation messages",
                           "items": {
+                            "additionalProperties": false,
                             "properties": {
                               "content": {
                                 "description": "The content of the message",
                                 "type": "string"
                               },
                               "role": {
-                                "description": "Role of the message (e.g., system, user, assistant)",
+                                "description": "Role of the message sender",
+                                "enum": [
+                                  "system",
+                                  "user",
+                                  "assistant"
+                                ],
                                 "type": "string"
                               }
                             },
@@ -34342,6 +34353,33 @@
                             "type": "object"
                           },
                           "type": "array"
+                        },
+                        "search_context_size": {
+                          "description": "Controls how much web context is retrieved. 'low' (default) is fastest, 'high' provides more comprehensive results.",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ],
+                          "type": "string"
+                        },
+                        "search_domain_filter": {
+                          "description": "Restrict search results to specific domains (e.g., ['wikipedia.org', 'arxiv.org']). Use '-' prefix for exclusion (e.g., ['-reddit.com']).",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "search_recency_filter": {
+                          "description": "Filter search results by recency. Use 'hour' for very recent news, 'day' for today's updates, 'week' for this week, etc.",
+                          "enum": [
+                            "hour",
+                            "day",
+                            "week",
+                            "month",
+                            "year"
+                          ],
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -34352,20 +34390,31 @@
                     "name": "perplexity_ask"
                   },
                   {
-                    "annotations": {},
-                    "description": "Performs reasoning tasks using the Perplexity API. Accepts an array of messages (each with a role and content) and returns a well-reasoned response using the sonar-reasoning-pro model.",
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
+                    "description": "Analyze a question using step-by-step reasoning with web grounding (Sonar Reasoning Pro model). Best for: math, logic, comparisons, complex arguments, and tasks requiring chain-of-thought. Returns a reasoned response with numbered citations. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For quick factual questions, use perplexity_ask instead. For comprehensive multi-source research, use perplexity_research instead.",
                     "inputSchema": {
                       "properties": {
                         "messages": {
                           "description": "Array of conversation messages",
                           "items": {
+                            "additionalProperties": false,
                             "properties": {
                               "content": {
                                 "description": "The content of the message",
                                 "type": "string"
                               },
                               "role": {
-                                "description": "Role of the message (e.g., system, user, assistant)",
+                                "description": "Role of the message sender",
+                                "enum": [
+                                  "system",
+                                  "user",
+                                  "assistant"
+                                ],
                                 "type": "string"
                               }
                             },
@@ -34376,6 +34425,37 @@
                             "type": "object"
                           },
                           "type": "array"
+                        },
+                        "search_context_size": {
+                          "description": "Controls how much web context is retrieved. 'low' (default) is fastest, 'high' provides more comprehensive results.",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ],
+                          "type": "string"
+                        },
+                        "search_domain_filter": {
+                          "description": "Restrict search results to specific domains (e.g., ['wikipedia.org', 'arxiv.org']). Use '-' prefix for exclusion (e.g., ['-reddit.com']).",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "search_recency_filter": {
+                          "description": "Filter search results by recency. Use 'hour' for very recent news, 'day' for today's updates, 'week' for this week, etc.",
+                          "enum": [
+                            "hour",
+                            "day",
+                            "week",
+                            "month",
+                            "year"
+                          ],
+                          "type": "string"
+                        },
+                        "strip_thinking": {
+                          "description": "If true, removes \u003cthink\u003e...\u003c/think\u003e tags and their content from the response to save context tokens. Default is false.",
+                          "type": "boolean"
                         }
                       },
                       "required": [
@@ -34386,20 +34466,31 @@
                     "name": "perplexity_reason"
                   },
                   {
-                    "annotations": {},
-                    "description": "Performs deep research using the Perplexity API. Accepts an array of messages (each with a role and content) and returns a comprehensive research response with citations.",
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
+                    "description": "Conduct deep, multi-source research on a topic (Sonar Deep Research model). Best for: literature reviews, comprehensive overviews, investigative queries needing many sources. Returns a detailed response with numbered citations. Significantly slower than other tools (30+ seconds). For quick factual questions, use perplexity_ask instead. For logical analysis and reasoning, use perplexity_reason instead.",
                     "inputSchema": {
                       "properties": {
                         "messages": {
                           "description": "Array of conversation messages",
                           "items": {
+                            "additionalProperties": false,
                             "properties": {
                               "content": {
                                 "description": "The content of the message",
                                 "type": "string"
                               },
                               "role": {
-                                "description": "Role of the message (e.g., system, user, assistant)",
+                                "description": "Role of the message sender",
+                                "enum": [
+                                  "system",
+                                  "user",
+                                  "assistant"
+                                ],
                                 "type": "string"
                               }
                             },
@@ -34410,6 +34501,20 @@
                             "type": "object"
                           },
                           "type": "array"
+                        },
+                        "reasoning_effort": {
+                          "description": "Controls depth of deep research reasoning. Higher values produce more thorough analysis.",
+                          "enum": [
+                            "minimal",
+                            "low",
+                            "medium",
+                            "high"
+                          ],
+                          "type": "string"
+                        },
+                        "strip_thinking": {
+                          "description": "If true, removes \u003cthink\u003e...\u003c/think\u003e tags and their content from the response to save context tokens. Default is false.",
+                          "type": "boolean"
                         }
                       },
                       "required": [
@@ -34418,12 +34523,51 @@
                       "type": "object"
                     },
                     "name": "perplexity_research"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
+                    "description": "Search the web and return a ranked list of results with titles, URLs, snippets, and dates. Best for: finding specific URLs, checking recent news, verifying facts, discovering sources. Returns formatted results (title, URL, snippet, date) — no AI synthesis. For AI-generated answers with citations, use perplexity_ask instead.",
+                    "inputSchema": {
+                      "properties": {
+                        "country": {
+                          "description": "ISO 3166-1 alpha-2 country code for regional results (e.g., 'US', 'GB')",
+                          "type": "string"
+                        },
+                        "max_results": {
+                          "description": "Maximum number of results to return (1-20, default: 10)",
+                          "maximum": 20,
+                          "minimum": 1,
+                          "type": "number"
+                        },
+                        "max_tokens_per_page": {
+                          "description": "Maximum tokens to extract per webpage (default: 1024)",
+                          "maximum": 2048,
+                          "minimum": 256,
+                          "type": "number"
+                        },
+                        "query": {
+                          "description": "Search query string",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "perplexity_search"
                   }
                 ],
                 "tools": [
                   "perplexity_ask",
                   "perplexity_reason",
-                  "perplexity_research"
+                  "perplexity_research",
+                  "perplexity_search"
                 ]
               }
             }
@@ -37255,7 +37399,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/redis-mcp-server:0.5.0": {
                 "metadata": {
-                  "last_updated": "2026-05-22T03:21:55Z",
+                  "last_updated": "2026-05-29T13:16:14Z",
                   "stars": 511
                 },
                 "overview": "## Redis MCP Server\n\nThe redis MCP server enables LLMs to interact with Redis key-value databases through a set of standardized tools. The server connects to Redis databases and provides MCP tools for basic operations (CRUD operations, database management), data structures (full support for strings, hashes, lists, sets, sorted sets, JSON), vector search functionality, and streams/Pub/Sub features for messaging and time-series data handling.",
@@ -38326,36 +38470,6 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Acknowledge entries that were processed by a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    entry_ids (List[str]): Entry IDs to acknowledge.\n\nReturns:\n    str: Confirmation message or an error message.\n",
-                    "inputSchema": {
-                      "properties": {
-                        "entry_ids": {
-                          "items": {
-                            "type": "string"
-                          },
-                          "title": "Entry Ids",
-                          "type": "array"
-                        },
-                        "group_name": {
-                          "title": "Group Name",
-                          "type": "string"
-                        },
-                        "key": {
-                          "title": "Key",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "key",
-                        "group_name",
-                        "entry_ids"
-                      ],
-                      "type": "object"
-                    },
-                    "name": "xack"
-                  },
-                  {
-                    "annotations": {},
                     "description": "Add an entry to a Redis stream with an optional expiration time.\n\nArgs:\n    key (str): The stream key.\n    fields (dict): The fields and values for the stream entry.\n    expiration (int, optional): Expiration time in seconds.\n\nReturns:\n    str: The ID of the added entry or an error message.\n",
                     "inputSchema": {
                       "properties": {
@@ -38413,60 +38527,6 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Create a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    start_id (str, optional): Stream ID from which the group starts consuming.\n    mkstream (bool, optional): Create the stream if it does not exist.\n\nReturns:\n    str: Confirmation message or an error message.\n",
-                    "inputSchema": {
-                      "properties": {
-                        "group_name": {
-                          "title": "Group Name",
-                          "type": "string"
-                        },
-                        "key": {
-                          "title": "Key",
-                          "type": "string"
-                        },
-                        "mkstream": {
-                          "default": true,
-                          "title": "Mkstream",
-                          "type": "boolean"
-                        },
-                        "start_id": {
-                          "default": "$",
-                          "title": "Start Id",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "key",
-                        "group_name"
-                      ],
-                      "type": "object"
-                    },
-                    "name": "xgroup_create"
-                  },
-                  {
-                    "annotations": {},
-                    "description": "Destroy a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n\nReturns:\n    str: Confirmation message or an error message.\n",
-                    "inputSchema": {
-                      "properties": {
-                        "group_name": {
-                          "title": "Group Name",
-                          "type": "string"
-                        },
-                        "key": {
-                          "title": "Key",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "key",
-                        "group_name"
-                      ],
-                      "type": "object"
-                    },
-                    "name": "xgroup_destroy"
-                  },
-                  {
-                    "annotations": {},
                     "description": "Read entries from a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    count (int, optional): Number of entries to retrieve.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
                     "inputSchema": {
                       "properties": {
@@ -38486,55 +38546,6 @@
                       "type": "object"
                     },
                     "name": "xrange"
-                  },
-                  {
-                    "annotations": {},
-                    "description": "Read entries from a Redis stream using a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    consumer_name (str): The consumer name.\n    count (int, optional): Maximum number of entries to retrieve.\n    block_ms (int, optional): Maximum time to block waiting for entries.\n        Use None for a non-blocking read. 0 is rejected because Redis treats\n        BLOCK 0 as an indefinite wait.\n    stream_id (str, optional): Stream ID to read from. Use \"\u003e\" for new messages.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
-                    "inputSchema": {
-                      "properties": {
-                        "block_ms": {
-                          "anyOf": [
-                            {
-                              "type": "integer"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "default": null,
-                          "title": "Block Ms"
-                        },
-                        "consumer_name": {
-                          "title": "Consumer Name",
-                          "type": "string"
-                        },
-                        "count": {
-                          "default": 1,
-                          "title": "Count",
-                          "type": "integer"
-                        },
-                        "group_name": {
-                          "title": "Group Name",
-                          "type": "string"
-                        },
-                        "key": {
-                          "title": "Key",
-                          "type": "string"
-                        },
-                        "stream_id": {
-                          "default": "\u003e",
-                          "title": "Stream Id",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "key",
-                        "group_name",
-                        "consumer_name"
-                      ],
-                      "type": "object"
-                    },
-                    "name": "xreadgroup"
                   },
                   {
                     "annotations": {},
@@ -38672,13 +38683,9 @@
                   "type",
                   "unsubscribe",
                   "vector_search_hash",
-                  "xack",
                   "xadd",
                   "xdel",
-                  "xgroup_create",
-                  "xgroup_destroy",
                   "xrange",
-                  "xreadgroup",
                   "zadd",
                   "zrange",
                   "zrem"
@@ -38810,7 +38817,7 @@
                   "mcp"
                 ],
                 "metadata": {
-                  "last_updated": "2026-04-10T03:04:30Z",
+                  "last_updated": "2026-05-29T13:16:20Z",
                   "stars": 14745
                 },
                 "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
@@ -38881,14 +38888,21 @@
                     "inputSchema": {
                       "properties": {
                         "autotriage_verdict": {
-                          "default": "VERDICT_TRUE_POSITIVE",
-                          "description": "Autotriage verdict of the issues to filter by.",
-                          "enum": [
-                            "VERDICT_TRUE_POSITIVE",
-                            "VERDICT_FALSE_POSITIVE"
+                          "anyOf": [
+                            {
+                              "enum": [
+                                "VERDICT_TRUE_POSITIVE",
+                                "VERDICT_FALSE_POSITIVE"
+                              ],
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
                           ],
-                          "title": "Autotriage Verdict",
-                          "type": "string"
+                          "default": null,
+                          "description": "Autotriage verdict of the issues to filter by. If not provided, findings with any verdict (including unrated) are returned.",
+                          "title": "Autotriage Verdict"
                         },
                         "confidence": {
                           "anyOf": [
@@ -38926,6 +38940,15 @@
                           "description": "Maximum number of findings to return",
                           "title": "Limit",
                           "type": "integer"
+                        },
+                        "refs": {
+                          "default": [],
+                          "description": "List of git refs (branch names) to filter findings by. If not provided, only findings on the primary branch are returned.",
+                          "items": {
+                            "type": "string"
+                          },
+                          "title": "Refs",
+                          "type": "array"
                         },
                         "repos": {
                           "default": [],

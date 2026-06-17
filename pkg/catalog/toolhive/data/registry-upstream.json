@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-05-29T13:12:18Z"
+    "last_updated": "2026-06-01T06:40:20Z"
   },
   "data": {
     "servers": [
@@ -10680,7 +10680,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/server-everything:2026.1.26": {
                 "metadata": {
-                  "last_updated": "2026-05-08T03:06:20Z",
+                  "last_updated": "2026-05-29T13:15:40Z",
                   "stars": 85231
                 },
                 "overview": "## Everything MCP Server\n\nThe everything-mcp-server is a reference and demonstration Model Context Protocol (MCP) server that exposes a broad collection of example tools in a single implementation. The server is designed as a learning and testing resource, showcasing how MCP functions end-to-end through diverse tool types encompassing data access, computation, state management, and side effects that AI assistants can invoke during workflows. Rather than integrating with external services, this implementation serves primarily for educational purposes, client validation, debugging, and protocol testing — making it valuable for developers onboarding to MCP, understanding server architecture, and conducting regression testing.",
@@ -10706,29 +10706,24 @@
                 "tool_definitions": [
                   {
                     "annotations": {},
-                    "description": "Adds two numbers",
+                    "description": "Echoes back the input string",
                     "inputSchema": {
                       "properties": {
-                        "a": {
-                          "description": "First number",
-                          "type": "number"
-                        },
-                        "b": {
-                          "description": "Second number",
-                          "type": "number"
+                        "message": {
+                          "description": "Message to echo",
+                          "type": "string"
                         }
                       },
                       "required": [
-                        "a",
-                        "b"
+                        "message"
                       ],
                       "type": "object"
                     },
-                    "name": "add"
+                    "name": "echo"
                   },
                   {
                     "annotations": {},
-                    "description": "Demonstrates how annotations can be used to provide metadata about content",
+                    "description": "Demonstrates how annotations can be used to provide metadata about content.",
                     "inputSchema": {
                       "properties": {
                         "includeImage": {
@@ -10751,24 +10746,35 @@
                       ],
                       "type": "object"
                     },
-                    "name": "annotatedMessage"
+                    "name": "get-annotated-message"
                   },
                   {
                     "annotations": {},
-                    "description": "Echoes back the input",
+                    "description": "Returns all environment variables, helpful for debugging MCP server configuration",
                     "inputSchema": {
-                      "properties": {
-                        "message": {
-                          "description": "Message to echo",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "message"
-                      ],
+                      "properties": {},
+                      "required": [],
                       "type": "object"
                     },
-                    "name": "echo"
+                    "name": "get-env"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Returns up to ten resource links that reference different types of resources",
+                    "inputSchema": {
+                      "properties": {
+                        "count": {
+                          "default": 3,
+                          "description": "Number of resource links to return (1-10)",
+                          "maximum": 10,
+                          "minimum": 1,
+                          "type": "number"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "get-resource-links"
                   },
                   {
                     "annotations": {},
@@ -10776,32 +10782,154 @@
                     "inputSchema": {
                       "properties": {
                         "resourceId": {
-                          "description": "ID of the resource to reference (1-100)",
-                          "maximum": 100,
-                          "minimum": 1,
+                          "default": 1,
+                          "description": "ID of the text resource to fetch",
+                          "type": "number"
+                        },
+                        "resourceType": {
+                          "default": "Text",
+                          "enum": [
+                            "Text",
+                            "Blob"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "get-resource-reference"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Returns structured content along with an output schema for client data validation",
+                    "inputSchema": {
+                      "properties": {
+                        "location": {
+                          "description": "Choose city",
+                          "enum": [
+                            "New York",
+                            "Chicago",
+                            "Los Angeles"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "location"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get-structured-content"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Returns the sum of two numbers",
+                    "inputSchema": {
+                      "properties": {
+                        "a": {
+                          "description": "First number",
+                          "type": "number"
+                        },
+                        "b": {
+                          "description": "Second number",
                           "type": "number"
                         }
                       },
                       "required": [
-                        "resourceId"
+                        "a",
+                        "b"
                       ],
                       "type": "object"
                     },
-                    "name": "getResourceReference"
+                    "name": "get-sum"
                   },
                   {
                     "annotations": {},
-                    "description": "Returns the MCP_TINY_IMAGE",
+                    "description": "Returns a tiny MCP logo image.",
                     "inputSchema": {
                       "properties": {},
                       "required": [],
                       "type": "object"
                     },
-                    "name": "getTinyImage"
+                    "name": "get-tiny-image"
                   },
                   {
                     "annotations": {},
-                    "description": "Demonstrates a long running operation with progress updates",
+                    "description": "Compresses a single file using gzip compression. Depending upon the selected output type, returns either the compressed data as a gzipped resource or a resource link, allowing it to be downloaded in a subsequent request during the current session.",
+                    "inputSchema": {
+                      "properties": {
+                        "data": {
+                          "default": "https://raw.githubusercontent.com/modelcontextprotocol/servers/refs/heads/main/README.md",
+                          "description": "URL or data URI of the file content to compress",
+                          "format": "uri",
+                          "type": "string"
+                        },
+                        "name": {
+                          "default": "README.md.gz",
+                          "description": "Name of the output file",
+                          "type": "string"
+                        },
+                        "outputType": {
+                          "default": "resourceLink",
+                          "description": "How the resulting gzipped file should be returned. 'resourceLink' returns a link to a resource that can be read later, 'resource' returns a full resource object.",
+                          "enum": [
+                            "resourceLink",
+                            "resource"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "gzip-file-as-resource"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Simulates a deep research operation that gathers, analyzes, and synthesizes information. Demonstrates MCP task-based operations with progress through multiple stages. If 'ambiguous' is true and client supports elicitation, sends an elicitation request for clarification.",
+                    "inputSchema": {
+                      "properties": {
+                        "ambiguous": {
+                          "default": false,
+                          "description": "Simulate an ambiguous query that requires clarification (triggers input_required status)",
+                          "type": "boolean"
+                        },
+                        "topic": {
+                          "description": "The research topic to investigate",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "topic"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "simulate-research-query"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Toggles simulated, random-leveled logging on or off.",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "toggle-simulated-logging"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Toggles simulated resource subscription updates on or off.",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "toggle-subscriber-updates"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Demonstrates a long running operation with progress updates.",
                     "inputSchema": {
                       "properties": {
                         "duration": {
@@ -10818,50 +10946,23 @@
                       "required": [],
                       "type": "object"
                     },
-                    "name": "longRunningOperation"
-                  },
-                  {
-                    "annotations": {},
-                    "description": "Prints all environment variables, helpful for debugging MCP server configuration",
-                    "inputSchema": {
-                      "properties": {},
-                      "required": [],
-                      "type": "object"
-                    },
-                    "name": "printEnv"
-                  },
-                  {
-                    "annotations": {},
-                    "description": "Samples from an LLM using MCP's sampling feature",
-                    "inputSchema": {
-                      "properties": {
-                        "maxTokens": {
-                          "default": 100,
-                          "description": "Maximum number of tokens to generate",
-                          "type": "number"
-                        },
-                        "prompt": {
-                          "description": "The prompt to send to the LLM",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "prompt"
-                      ],
-                      "type": "object"
-                    },
-                    "name": "sampleLLM"
+                    "name": "trigger-long-running-operation"
                   }
                 ],
                 "tools": [
-                  "add",
-                  "annotatedMessage",
                   "echo",
-                  "getResourceReference",
-                  "getTinyImage",
-                  "longRunningOperation",
-                  "printEnv",
-                  "sampleLLM"
+                  "get-annotated-message",
+                  "get-env",
+                  "get-resource-links",
+                  "get-resource-reference",
+                  "get-structured-content",
+                  "get-sum",
+                  "get-tiny-image",
+                  "gzip-file-as-resource",
+                  "simulate-research-query",
+                  "toggle-simulated-logging",
+                  "toggle-subscriber-updates",
+                  "trigger-long-running-operation"
                 ]
               }
             }
@@ -12477,7 +12578,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/mcp-server-git:2026.1.14": {
                 "metadata": {
-                  "last_updated": "2026-04-18T03:03:09Z",
+                  "last_updated": "2026-05-29T13:16:19Z",
                   "stars": 84011
                 },
                 "overview": "## Git MCP Server\n\nThe git-mcp-server is a Model Context Protocol (MCP) server that gives AI assistants direct access to Git repositories through a structured, AI-friendly interface. It enables AI-driven workflows to read repository state, inspect history, and reason about changes without switching tools or manually invoking Git commands. It is especially useful for code understanding, change analysis, release preparation, and development workflows where repository context needs to be embedded directly into an AI assistant.",
@@ -12524,6 +12625,56 @@
                       "type": "object"
                     },
                     "name": "git_add"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List Git branches",
+                    "inputSchema": {
+                      "properties": {
+                        "branch_type": {
+                          "description": "Whether to list local branches ('local'), remote branches ('remote') or all branches('all').",
+                          "title": "Branch Type",
+                          "type": "string"
+                        },
+                        "contains": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "The commit sha that branch should contain. Do not pass anything to this param if no commit sha is specified",
+                          "title": "Contains"
+                        },
+                        "not_contains": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "The commit sha that branch should NOT contain. Do not pass anything to this param if no commit sha is specified",
+                          "title": "Not Contains"
+                        },
+                        "repo_path": {
+                          "description": "The path to the Git repository.",
+                          "title": "Repo Path",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "repo_path",
+                        "branch_type"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "git_branch"
                   },
                   {
                     "annotations": {},
@@ -12608,6 +12759,11 @@
                     "description": "Shows differences between branches or commits",
                     "inputSchema": {
                       "properties": {
+                        "context_lines": {
+                          "default": 3,
+                          "title": "Context Lines",
+                          "type": "integer"
+                        },
                         "repo_path": {
                           "title": "Repo Path",
                           "type": "string"
@@ -12630,6 +12786,11 @@
                     "description": "Shows changes that are staged for commit",
                     "inputSchema": {
                       "properties": {
+                        "context_lines": {
+                          "default": 3,
+                          "title": "Context Lines",
+                          "type": "integer"
+                        },
                         "repo_path": {
                           "title": "Repo Path",
                           "type": "string"
@@ -12647,6 +12808,11 @@
                     "description": "Shows changes in the working directory that are not yet staged",
                     "inputSchema": {
                       "properties": {
+                        "context_lines": {
+                          "default": 3,
+                          "title": "Context Lines",
+                          "type": "integer"
+                        },
                         "repo_path": {
                           "title": "Repo Path",
                           "type": "string"
@@ -12661,26 +12827,22 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Initialize a new Git repository",
-                    "inputSchema": {
-                      "properties": {
-                        "repo_path": {
-                          "title": "Repo Path",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "repo_path"
-                      ],
-                      "type": "object"
-                    },
-                    "name": "git_init"
-                  },
-                  {
-                    "annotations": {},
                     "description": "Shows the commit logs",
                     "inputSchema": {
                       "properties": {
+                        "end_timestamp": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "End timestamp for filtering commits. Accepts: ISO 8601 format (e.g., '2024-01-15T14:30:25'), relative dates (e.g., '2 weeks ago', 'yesterday'), or absolute dates (e.g., '2024-01-15', 'Jan 15 2024')",
+                          "title": "End Timestamp"
+                        },
                         "max_count": {
                           "default": 10,
                           "title": "Max Count",
@@ -12689,6 +12851,19 @@
                         "repo_path": {
                           "title": "Repo Path",
                           "type": "string"
+                        },
+                        "start_timestamp": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "Start timestamp for filtering commits. Accepts: ISO 8601 format (e.g., '2024-01-15T14:30:25'), relative dates (e.g., '2 weeks ago', 'yesterday'), or absolute dates (e.g., '2024-01-15', 'Jan 15 2024')",
+                          "title": "Start Timestamp"
                         }
                       },
                       "required": [
@@ -12757,13 +12932,13 @@
                 ],
                 "tools": [
                   "git_add",
+                  "git_branch",
                   "git_checkout",
                   "git_commit",
                   "git_create_branch",
                   "git_diff",
                   "git_diff_staged",
                   "git_diff_unstaged",
-                  "git_init",
                   "git_log",
                   "git_reset",
                   "git_show",
@@ -25966,7 +26141,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/server-memory:2026.1.26": {
                 "metadata": {
-                  "last_updated": "2026-05-08T03:06:10Z",
+                  "last_updated": "2026-05-29T13:15:41Z",
                   "stars": 85231
                 },
                 "overview": "## Memory MCP Server\n\nThe memory MCP server provides AI assistants with persistent, long-term memory across interactions. It allows AI workflows to maintain context and knowledge beyond individual conversations, supporting personalization and enabling continuity in assistant interactions. The system works by running as an MCP service that manages persistent storage, handling indexing and retrieval so AI clients can access historical context during reasoning tasks — enabling assistants to develop awareness of user preferences and prior decisions over extended periods.",
@@ -26595,101 +26770,6 @@
                   "prepare_query_tuning",
                   "complete_query_tuning",
                   "list_slow_queries"
-                ]
-              }
-            }
-          }
-        }
-      },
-      {
-        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-        "name": "io.github.stacklok/netbird",
-        "description": "Enables management of an NetBird network.",
-        "title": "NetBird",
-        "repository": {
-          "url": "https://github.com/aantti/mcp-netbird",
-          "source": "github"
-        },
-        "version": "1.0.0",
-        "icons": [
-          {
-            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/netbird/icon.svg",
-            "mimeType": "image/svg+xml",
-            "sizes": [
-              "any"
-            ]
-          }
-        ],
-        "packages": [
-          {
-            "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/go/netbird:latest",
-            "transport": {
-              "type": "sse",
-              "url": "http://localhost:8001"
-            },
-            "environmentVariables": [
-              {
-                "description": "NetBird API token for authentication",
-                "isRequired": true,
-                "isSecret": true,
-                "name": "NETBIRD_API_TOKEN"
-              },
-              {
-                "description": "NetBird API host (default is api.netbird.io)",
-                "name": "NETBIRD_HOST"
-              }
-            ]
-          }
-        ],
-        "_meta": {
-          "io.modelcontextprotocol.registry/publisher-provided": {
-            "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/go/netbird:latest": {
-                "args": [
-                  "--transport",
-                  "sse",
-                  "--sse-address",
-                  ":8001"
-                ],
-                "metadata": {
-                  "last_updated": "2026-04-26T03:04:31Z",
-                  "stars": 45
-                },
-                "overview": "## NetBird MCP Server\n\nThe netbird MCP server enables management of a NetBird network through a structured AI-friendly interface. The server offers comprehensive NetBird network management including peer and network configuration, access control via groups and policies, posture checks for security compliance, and port allocation and nameserver management capabilities.",
-                "permissions": {
-                  "network": {
-                    "outbound": {
-                      "allow_host": [
-                        "api.netbird.io"
-                      ],
-                      "allow_port": [
-                        443
-                      ],
-                      "insecure_allow_all": true
-                    }
-                  }
-                },
-                "status": "Active",
-                "tags": [
-                  "netbird",
-                  "vpn",
-                  "networking",
-                  "peer",
-                  "route",
-                  "dns",
-                  "setup-key",
-                  "management"
-                ],
-                "tier": "Community",
-                "tools": [
-                  "list_netbird_peers",
-                  "list_netbird_port_allocations",
-                  "list_netbird_groups",
-                  "list_netbird_policies",
-                  "list_netbird_posture_checks",
-                  "list_netbird_networks",
-                  "list_netbird_nameservers"
                 ]
               }
             }
@@ -39304,7 +39384,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/perplexity-ask:0.9.0": {
                 "metadata": {
-                  "last_updated": "2026-04-19T03:04:11Z",
+                  "last_updated": "2026-05-29T13:15:49Z",
                   "stars": 2092
                 },
                 "overview": "## Perplexity Ask MCP Server\n\nThe perplexity-ask MCP server integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks. The server provides three specialized tools: perplexity_ask for quick web search using the Sonar API, perplexity_research for comprehensive research with detailed citations, and perplexity_reason for advanced reasoning for complex problem-solving.",
@@ -39329,20 +39409,31 @@
                 "tier": "Official",
                 "tool_definitions": [
                   {
-                    "annotations": {},
-                    "description": "Engages in a conversation using the Sonar API. Accepts an array of messages (each with a role and content) and returns a ask completion response from the Perplexity model.",
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
+                    "description": "Answer a question using web-grounded AI (Sonar Pro model). Best for: quick factual questions, summaries, explanations, and general Q\u0026A. Returns a text response with numbered citations. Fastest and cheapest option. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For in-depth multi-source research, use perplexity_research instead. For step-by-step reasoning and analysis, use perplexity_reason instead.",
                     "inputSchema": {
                       "properties": {
                         "messages": {
                           "description": "Array of conversation messages",
                           "items": {
+                            "additionalProperties": false,
                             "properties": {
                               "content": {
                                 "description": "The content of the message",
                                 "type": "string"
                               },
                               "role": {
-                                "description": "Role of the message (e.g., system, user, assistant)",
+                                "description": "Role of the message sender",
+                                "enum": [
+                                  "system",
+                                  "user",
+                                  "assistant"
+                                ],
                                 "type": "string"
                               }
                             },
@@ -39353,6 +39444,33 @@
                             "type": "object"
                           },
                           "type": "array"
+                        },
+                        "search_context_size": {
+                          "description": "Controls how much web context is retrieved. 'low' (default) is fastest, 'high' provides more comprehensive results.",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ],
+                          "type": "string"
+                        },
+                        "search_domain_filter": {
+                          "description": "Restrict search results to specific domains (e.g., ['wikipedia.org', 'arxiv.org']). Use '-' prefix for exclusion (e.g., ['-reddit.com']).",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "search_recency_filter": {
+                          "description": "Filter search results by recency. Use 'hour' for very recent news, 'day' for today's updates, 'week' for this week, etc.",
+                          "enum": [
+                            "hour",
+                            "day",
+                            "week",
+                            "month",
+                            "year"
+                          ],
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -39363,20 +39481,31 @@
                     "name": "perplexity_ask"
                   },
                   {
-                    "annotations": {},
-                    "description": "Performs reasoning tasks using the Perplexity API. Accepts an array of messages (each with a role and content) and returns a well-reasoned response using the sonar-reasoning-pro model.",
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
+                    "description": "Analyze a question using step-by-step reasoning with web grounding (Sonar Reasoning Pro model). Best for: math, logic, comparisons, complex arguments, and tasks requiring chain-of-thought. Returns a reasoned response with numbered citations. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For quick factual questions, use perplexity_ask instead. For comprehensive multi-source research, use perplexity_research instead.",
                     "inputSchema": {
                       "properties": {
                         "messages": {
                           "description": "Array of conversation messages",
                           "items": {
+                            "additionalProperties": false,
                             "properties": {
                               "content": {
                                 "description": "The content of the message",
                                 "type": "string"
                               },
                               "role": {
-                                "description": "Role of the message (e.g., system, user, assistant)",
+                                "description": "Role of the message sender",
+                                "enum": [
+                                  "system",
+                                  "user",
+                                  "assistant"
+                                ],
                                 "type": "string"
                               }
                             },
@@ -39387,6 +39516,37 @@
                             "type": "object"
                           },
                           "type": "array"
+                        },
+                        "search_context_size": {
+                          "description": "Controls how much web context is retrieved. 'low' (default) is fastest, 'high' provides more comprehensive results.",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ],
+                          "type": "string"
+                        },
+                        "search_domain_filter": {
+                          "description": "Restrict search results to specific domains (e.g., ['wikipedia.org', 'arxiv.org']). Use '-' prefix for exclusion (e.g., ['-reddit.com']).",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "search_recency_filter": {
+                          "description": "Filter search results by recency. Use 'hour' for very recent news, 'day' for today's updates, 'week' for this week, etc.",
+                          "enum": [
+                            "hour",
+                            "day",
+                            "week",
+                            "month",
+                            "year"
+                          ],
+                          "type": "string"
+                        },
+                        "strip_thinking": {
+                          "description": "If true, removes \u003cthink\u003e...\u003c/think\u003e tags and their content from the response to save context tokens. Default is false.",
+                          "type": "boolean"
                         }
                       },
                       "required": [
@@ -39397,20 +39557,31 @@
                     "name": "perplexity_reason"
                   },
                   {
-                    "annotations": {},
-                    "description": "Performs deep research using the Perplexity API. Accepts an array of messages (each with a role and content) and returns a comprehensive research response with citations.",
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
+                    "description": "Conduct deep, multi-source research on a topic (Sonar Deep Research model). Best for: literature reviews, comprehensive overviews, investigative queries needing many sources. Returns a detailed response with numbered citations. Significantly slower than other tools (30+ seconds). For quick factual questions, use perplexity_ask instead. For logical analysis and reasoning, use perplexity_reason instead.",
                     "inputSchema": {
                       "properties": {
                         "messages": {
                           "description": "Array of conversation messages",
                           "items": {
+                            "additionalProperties": false,
                             "properties": {
                               "content": {
                                 "description": "The content of the message",
                                 "type": "string"
                               },
                               "role": {
-                                "description": "Role of the message (e.g., system, user, assistant)",
+                                "description": "Role of the message sender",
+                                "enum": [
+                                  "system",
+                                  "user",
+                                  "assistant"
+                                ],
                                 "type": "string"
                               }
                             },
@@ -39421,6 +39592,20 @@
                             "type": "object"
                           },
                           "type": "array"
+                        },
+                        "reasoning_effort": {
+                          "description": "Controls depth of deep research reasoning. Higher values produce more thorough analysis.",
+                          "enum": [
+                            "minimal",
+                            "low",
+                            "medium",
+                            "high"
+                          ],
+                          "type": "string"
+                        },
+                        "strip_thinking": {
+                          "description": "If true, removes \u003cthink\u003e...\u003c/think\u003e tags and their content from the response to save context tokens. Default is false.",
+                          "type": "boolean"
                         }
                       },
                       "required": [
@@ -39429,12 +39614,51 @@
                       "type": "object"
                     },
                     "name": "perplexity_research"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
+                    "description": "Search the web and return a ranked list of results with titles, URLs, snippets, and dates. Best for: finding specific URLs, checking recent news, verifying facts, discovering sources. Returns formatted results (title, URL, snippet, date) — no AI synthesis. For AI-generated answers with citations, use perplexity_ask instead.",
+                    "inputSchema": {
+                      "properties": {
+                        "country": {
+                          "description": "ISO 3166-1 alpha-2 country code for regional results (e.g., 'US', 'GB')",
+                          "type": "string"
+                        },
+                        "max_results": {
+                          "description": "Maximum number of results to return (1-20, default: 10)",
+                          "maximum": 20,
+                          "minimum": 1,
+                          "type": "number"
+                        },
+                        "max_tokens_per_page": {
+                          "description": "Maximum tokens to extract per webpage (default: 1024)",
+                          "maximum": 2048,
+                          "minimum": 256,
+                          "type": "number"
+                        },
+                        "query": {
+                          "description": "Search query string",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "perplexity_search"
                   }
                 ],
                 "tools": [
                   "perplexity_ask",
                   "perplexity_reason",
-                  "perplexity_research"
+                  "perplexity_research",
+                  "perplexity_search"
                 ]
               }
             }
@@ -42671,7 +42895,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/redis-mcp-server:0.5.0": {
                 "metadata": {
-                  "last_updated": "2026-05-07T03:06:47Z",
+                  "last_updated": "2026-05-29T13:16:12Z",
                   "stars": 504
                 },
                 "overview": "## Redis MCP Server\n\nThe redis MCP server enables LLMs to interact with Redis key-value databases through a set of standardized tools. The server connects to Redis databases and provides MCP tools for basic operations (CRUD operations, database management), data structures (full support for strings, hashes, lists, sets, sorted sets, JSON), vector search functionality, and streams/Pub/Sub features for messaging and time-series data handling.",
@@ -43742,36 +43966,6 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Acknowledge entries that were processed by a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    entry_ids (List[str]): Entry IDs to acknowledge.\n\nReturns:\n    str: Confirmation message or an error message.\n",
-                    "inputSchema": {
-                      "properties": {
-                        "entry_ids": {
-                          "items": {
-                            "type": "string"
-                          },
-                          "title": "Entry Ids",
-                          "type": "array"
-                        },
-                        "group_name": {
-                          "title": "Group Name",
-                          "type": "string"
-                        },
-                        "key": {
-                          "title": "Key",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "key",
-                        "group_name",
-                        "entry_ids"
-                      ],
-                      "type": "object"
-                    },
-                    "name": "xack"
-                  },
-                  {
-                    "annotations": {},
                     "description": "Add an entry to a Redis stream with an optional expiration time.\n\nArgs:\n    key (str): The stream key.\n    fields (dict): The fields and values for the stream entry.\n    expiration (int, optional): Expiration time in seconds.\n\nReturns:\n    str: The ID of the added entry or an error message.\n",
                     "inputSchema": {
                       "properties": {
@@ -43829,60 +44023,6 @@
                   },
                   {
                     "annotations": {},
-                    "description": "Create a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    start_id (str, optional): Stream ID from which the group starts consuming.\n    mkstream (bool, optional): Create the stream if it does not exist.\n\nReturns:\n    str: Confirmation message or an error message.\n",
-                    "inputSchema": {
-                      "properties": {
-                        "group_name": {
-                          "title": "Group Name",
-                          "type": "string"
-                        },
-                        "key": {
-                          "title": "Key",
-                          "type": "string"
-                        },
-                        "mkstream": {
-                          "default": true,
-                          "title": "Mkstream",
-                          "type": "boolean"
-                        },
-                        "start_id": {
-                          "default": "$",
-                          "title": "Start Id",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "key",
-                        "group_name"
-                      ],
-                      "type": "object"
-                    },
-                    "name": "xgroup_create"
-                  },
-                  {
-                    "annotations": {},
-                    "description": "Destroy a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n\nReturns:\n    str: Confirmation message or an error message.\n",
-                    "inputSchema": {
-                      "properties": {
-                        "group_name": {
-                          "title": "Group Name",
-                          "type": "string"
-                        },
-                        "key": {
-                          "title": "Key",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "key",
-                        "group_name"
-                      ],
-                      "type": "object"
-                    },
-                    "name": "xgroup_destroy"
-                  },
-                  {
-                    "annotations": {},
                     "description": "Read entries from a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    count (int, optional): Number of entries to retrieve.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
                     "inputSchema": {
                       "properties": {
@@ -43902,55 +44042,6 @@
                       "type": "object"
                     },
                     "name": "xrange"
-                  },
-                  {
-                    "annotations": {},
-                    "description": "Read entries from a Redis stream using a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    consumer_name (str): The consumer name.\n    count (int, optional): Maximum number of entries to retrieve.\n    block_ms (int, optional): Maximum time to block waiting for entries.\n        Use None for a non-blocking read. 0 is rejected because Redis treats\n        BLOCK 0 as an indefinite wait.\n    stream_id (str, optional): Stream ID to read from. Use \"\u003e\" for new messages.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
-                    "inputSchema": {
-                      "properties": {
-                        "block_ms": {
-                          "anyOf": [
-                            {
-                              "type": "integer"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "default": null,
-                          "title": "Block Ms"
-                        },
-                        "consumer_name": {
-                          "title": "Consumer Name",
-                          "type": "string"
-                        },
-                        "count": {
-                          "default": 1,
-                          "title": "Count",
-                          "type": "integer"
-                        },
-                        "group_name": {
-                          "title": "Group Name",
-                          "type": "string"
-                        },
-                        "key": {
-                          "title": "Key",
-                          "type": "string"
-                        },
-                        "stream_id": {
-                          "default": "\u003e",
-                          "title": "Stream Id",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "key",
-                        "group_name",
-                        "consumer_name"
-                      ],
-                      "type": "object"
-                    },
-                    "name": "xreadgroup"
                   },
                   {
                     "annotations": {},
@@ -44088,13 +44179,9 @@
                   "type",
                   "unsubscribe",
                   "vector_search_hash",
-                  "xack",
                   "xadd",
                   "xdel",
-                  "xgroup_create",
-                  "xgroup_destroy",
                   "xrange",
-                  "xreadgroup",
                   "zadd",
                   "zrange",
                   "zrem"
@@ -44226,7 +44313,7 @@
                   "mcp"
                 ],
                 "metadata": {
-                  "last_updated": "2026-05-07T03:07:40Z",
+                  "last_updated": "2026-05-29T13:16:20Z",
                   "stars": 15042
                 },
                 "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
@@ -44297,14 +44384,21 @@
                     "inputSchema": {
                       "properties": {
                         "autotriage_verdict": {
-                          "default": "VERDICT_TRUE_POSITIVE",
-                          "description": "Autotriage verdict of the issues to filter by.",
-                          "enum": [
-                            "VERDICT_TRUE_POSITIVE",
-                            "VERDICT_FALSE_POSITIVE"
+                          "anyOf": [
+                            {
+                              "enum": [
+                                "VERDICT_TRUE_POSITIVE",
+                                "VERDICT_FALSE_POSITIVE"
+                              ],
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
                           ],
-                          "title": "Autotriage Verdict",
-                          "type": "string"
+                          "default": null,
+                          "description": "Autotriage verdict of the issues to filter by. If not provided, findings with any verdict (including unrated) are returned.",
+                          "title": "Autotriage Verdict"
                         },
                         "confidence": {
                           "anyOf": [
@@ -44342,6 +44436,15 @@
                           "description": "Maximum number of findings to return",
                           "title": "Limit",
                           "type": "integer"
+                        },
+                        "refs": {
+                          "default": [],
+                          "description": "List of git refs (branch names) to filter findings by. If not provided, only findings on the primary branch are returned.",
+                          "items": {
+                            "type": "string"
+                          },
+                          "title": "Refs",
+                          "type": "array"
                         },
                         "repos": {
                           "default": [],
@@ -45996,7 +46099,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/server-sequential-thinking:2025.12.18": {
                 "metadata": {
-                  "last_updated": "2026-04-19T03:04:11Z",
+                  "last_updated": "2026-05-29T13:15:43Z",
                   "stars": 84056
                 },
                 "overview": "## Sequential Thinking MCP Server\n\nThe sequentialthinking MCP server enables dynamic problem-solving with a structured, reflective approach that adapts as understanding deepens. Key capabilities include structured reflective problem-solving, dynamic adaptation during analysis, step-by-step chain-of-thought reasoning, and branching thought processes for comprehensive exploration.",
@@ -46024,11 +46127,12 @@
                 "tool_definitions": [
                   {
                     "annotations": {},
-                    "description": "A detailed tool for dynamic and reflective problem-solving through thoughts.\nThis tool helps analyze problems through a flexible thinking process that can adapt and evolve.\nEach thought can build on, question, or revise previous insights as understanding deepens.\n\nWhen to use this tool:\n- Breaking down complex problems into steps\n- Planning and design with room for revision\n- Analysis that might need course correction\n- Problems where the full scope might not be clear initially\n- Problems that require a multi-step solution\n- Tasks that need to maintain context over multiple steps\n- Situations where irrelevant information needs to be filtered out\n\nKey features:\n- You can adjust total_thoughts up or down as you progress\n- You can question or revise previous thoughts\n- You can add more thoughts even after reaching what seemed like the end\n- You can express uncertainty and explore alternative approaches\n- Not every thought needs to build linearly - you can branch or backtrack\n- Generates a solution hypothesis\n- Verifies the hypothesis based on the Chain of Thought steps\n- Repeats the process until satisfied\n- Provides a correct answer\n\nParameters explained:\n- thought: Your current thinking step, which can include:\n* Regular analytical steps\n* Revisions of previous thoughts\n* Questions about previous decisions\n* Realizations about needing more analysis\n* Changes in approach\n* Hypothesis generation\n* Hypothesis verification\n- next_thought_needed: True if you need more thinking, even if at what seemed like the end\n- thought_number: Current number in sequence (can go beyond initial total if needed)\n- total_thoughts: Current estimate of thoughts needed (can be adjusted up/down)\n- is_revision: A boolean indicating if this thought revises previous thinking\n- revises_thought: If is_revision is true, which thought number is being reconsidered\n- branch_from_thought: If branching, which thought number is the branching point\n- branch_id: Identifier for the current branch (if any)\n- needs_more_thoughts: If reaching end but realizing more thoughts needed\n\nYou should:\n1. Start with an initial estimate of needed thoughts, but be ready to adjust\n2. Feel free to question or revise previous thoughts\n3. Don't hesitate to add more thoughts if needed, even at the \"end\"\n4. Express uncertainty when present\n5. Mark thoughts that revise previous thinking or branch into new paths\n6. Ignore information that is irrelevant to the current step\n7. Generate a solution hypothesis when appropriate\n8. Verify the hypothesis based on the Chain of Thought steps\n9. Repeat the process until satisfied with the solution\n10. Provide a single, ideally correct answer as the final output\n11. Only set next_thought_needed to false when truly done and a satisfactory answer is reached",
+                    "description": "A detailed tool for dynamic and reflective problem-solving through thoughts.\nThis tool helps analyze problems through a flexible thinking process that can adapt and evolve.\nEach thought can build on, question, or revise previous insights as understanding deepens.\n\nWhen to use this tool:\n- Breaking down complex problems into steps\n- Planning and design with room for revision\n- Analysis that might need course correction\n- Problems where the full scope might not be clear initially\n- Problems that require a multi-step solution\n- Tasks that need to maintain context over multiple steps\n- Situations where irrelevant information needs to be filtered out\n\nKey features:\n- You can adjust total_thoughts up or down as you progress\n- You can question or revise previous thoughts\n- You can add more thoughts even after reaching what seemed like the end\n- You can express uncertainty and explore alternative approaches\n- Not every thought needs to build linearly - you can branch or backtrack\n- Generates a solution hypothesis\n- Verifies the hypothesis based on the Chain of Thought steps\n- Repeats the process until satisfied\n- Provides a correct answer\n\nParameters explained:\n- thought: Your current thinking step, which can include:\n  * Regular analytical steps\n  * Revisions of previous thoughts\n  * Questions about previous decisions\n  * Realizations about needing more analysis\n  * Changes in approach\n  * Hypothesis generation\n  * Hypothesis verification\n- nextThoughtNeeded: True if you need more thinking, even if at what seemed like the end\n- thoughtNumber: Current number in sequence (can go beyond initial total if needed)\n- totalThoughts: Current estimate of thoughts needed (can be adjusted up/down)\n- isRevision: A boolean indicating if this thought revises previous thinking\n- revisesThought: If is_revision is true, which thought number is being reconsidered\n- branchFromThought: If branching, which thought number is the branching point\n- branchId: Identifier for the current branch (if any)\n- needsMoreThoughts: If reaching end but realizing more thoughts needed\n\nYou should:\n1. Start with an initial estimate of needed thoughts, but be ready to adjust\n2. Feel free to question or revise previous thoughts\n3. Don't hesitate to add more thoughts if needed, even at the \"end\"\n4. Express uncertainty when present\n5. Mark thoughts that revise previous thinking or branch into new paths\n6. Ignore information that is irrelevant to the current step\n7. Generate a solution hypothesis when appropriate\n8. Verify the hypothesis based on the Chain of Thought steps\n9. Repeat the process until satisfied with the solution\n10. Provide a single, ideally correct answer as the final output\n11. Only set nextThoughtNeeded to false when truly done and a satisfactory answer is reached",
                     "inputSchema": {
                       "properties": {
                         "branchFromThought": {
                           "description": "Branching point thought number",
+                          "maximum": 9007199254740991,
                           "minimum": 1,
                           "type": "integer"
                         },
@@ -46050,6 +46154,7 @@
                         },
                         "revisesThought": {
                           "description": "Which thought is being reconsidered",
+                          "maximum": 9007199254740991,
                           "minimum": 1,
                           "type": "integer"
                         },
@@ -46058,12 +46163,14 @@
                           "type": "string"
                         },
                         "thoughtNumber": {
-                          "description": "Current thought number",
+                          "description": "Current thought number (numeric value, e.g., 1, 2, 3)",
+                          "maximum": 9007199254740991,
                           "minimum": 1,
                           "type": "integer"
                         },
                         "totalThoughts": {
-                          "description": "Estimated total thoughts needed",
+                          "description": "Estimated total thoughts needed (numeric value, e.g., 5, 10)",
+                          "maximum": 9007199254740991,
                           "minimum": 1,
                           "type": "integer"
                         }
@@ -50615,7 +50722,7 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/uvx/mcp-server-time:2026.1.26": {
                 "metadata": {
-                  "last_updated": "2026-04-18T03:03:09Z",
+                  "last_updated": "2026-05-29T13:16:13Z",
                   "stars": 84011
                 },
                 "overview": "## Time MCP Server\n\nThe time MCP server provides time information and IANA timezone conversions with auto system timezone detection. The server leverages Python's timezone libraries to deliver current time queries across any IANA timezone with automatic detection of the system's local timezone when none is specified, time conversion capabilities between different timezones, timezone-aware datetime strings formatted in ISO 8601 standard, and Daylight Saving Time indicators. The server exposes two primary tools: get_current_time and convert_time.",
@@ -50645,11 +50752,11 @@
                     "inputSchema": {
                       "properties": {
                         "source_timezone": {
-                          "description": "Source IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'UTC' as local timezone if no source timezone provided by the user.",
+                          "description": "Source IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'Etc/UTC' as local timezone if no source timezone provided by the user.",
                           "type": "string"
                         },
                         "target_timezone": {
-                          "description": "Target IANA timezone name (e.g., 'Asia/Tokyo', 'America/San_Francisco'). Use 'UTC' as local timezone if no target timezone provided by the user.",
+                          "description": "Target IANA timezone name (e.g., 'Asia/Tokyo', 'America/San_Francisco'). Use 'Etc/UTC' as local timezone if no target timezone provided by the user.",
                           "type": "string"
                         },
                         "time": {
@@ -50672,7 +50779,7 @@
                     "inputSchema": {
                       "properties": {
                         "timezone": {
-                          "description": "IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'UTC' as local timezone if no timezone provided by the user.",
+                          "description": "IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'Etc/UTC' as local timezone if no timezone provided by the user.",
                           "type": "string"
                         }
                       },
