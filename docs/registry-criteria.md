@@ -70,6 +70,15 @@ The following criteria apply to both MCP servers and skills.
 - Source code must be publicly accessible on a public hosting platform (GitHub,
   GitLab, etc.).
 - Must use an [acceptable open source license](#acceptable-licenses).
+- For a **third-party community entry**, the server implementation itself must
+  be open source — not just a client, SDK, or stub that wraps a proprietary,
+  closed backend. A repository containing only packaging metadata (`README`,
+  `LICENSE`, icon, `server.json`), or a thin client around someone's hosted
+  service, does not satisfy this requirement. This does **not** apply to a
+  server published by the official vendor of the integrated service (see
+  [Proprietary service references](#proprietary-service-references)): an
+  official vendor's MCP server may run on a proprietary backend — there, what
+  matters is that the entry is genuinely first-party.
 
 ### Acceptable licenses
 
@@ -121,11 +130,34 @@ good test coverage, clear documentation, organizational backing.
 
 **Yellow flags**: no releases or meaningful commits in the last 6 months, many
 unanswered issues, missing tests, incomplete documentation, single maintainer
-with no org backing.
+with no org backing, a brand-new repository or account (days-to-weeks old) with
+little organic adoption.
 
 **Red flags**: copyleft or restricted license (see
 [Acceptable licenses](#acceptable-licenses)), no source code, known unpatched
 CVEs, abandoned project, no clear maintainer.
+
+#### Manufactured traction and listing campaigns
+
+We weigh *organic* community signals, not raw counts. The following patterns
+are common in low-effort or vendor-spam submissions and weigh against inclusion
+even when the server technically functions:
+
+- Stars or followers that don't match engagement (e.g. a high star count with
+  near-zero watchers, forks, or external contributors) — a sign of inflated or
+  purchased traction rather than real adoption.
+- An account or organization that maintains a large fan-out of near-empty
+  repositories created in a short window (per-language SDK clones,
+  per-platform integration stubs, forks of registry repositories), indicating
+  an automated "get listed everywhere" campaign rather than a maintained
+  project.
+- A history composed largely of automated or marketing commits (SEO posts,
+  bulk registry submissions) from bot identities, with little substantive
+  development.
+
+These are weighed signals rather than hard gates, but a cluster of them
+alongside a single maintainer and no real adoption is grounds to decline a
+submission until the project demonstrates genuine, sustained community health.
 
 ## Evaluation framework
 
