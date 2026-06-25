@@ -8,7 +8,7 @@ require (
 	github.com/mark3labs/mcp-go v0.55.0
 	github.com/modelcontextprotocol/registry v1.7.9
 	github.com/spf13/cobra v1.10.2
-	github.com/stacklok/toolhive-core v0.0.25
+	github.com/stacklok/toolhive-core v0.0.26
 	github.com/stretchr/testify v1.11.1
 	gopkg.in/yaml.v3 v3.0.1
 )
