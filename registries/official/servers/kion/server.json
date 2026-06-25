@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "kionsoftware/kion-mcp:v0.5.0": {
           "metadata": {
-            "last_updated": "2026-04-24T15:19:14Z",
+            "last_updated": "2026-06-25T04:24:06Z",
             "stars": 7
           },
           "overview": "## Kion MCP Server\n\nThe kion MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Kion, a cloud governance and financial management platform. It allows AI-driven workflows to access cloud accounts, policies, budgets, and compliance data, providing governance visibility across accounts and resources, cost and budget context for decision-making, policy awareness for inspecting controls and enforcement, cross-cloud reasoning from a unified interface, and operational support for questions about ownership and compliance.",
@@ -653,35 +653,30 @@
             },
             {
               "annotations": {},
-              "description": "Returns a list of accounts from the application.",
+              "description": "Search for cloud accounts managed in Kion.\n\nWith no parameters, returns all accounts. Filters can be combined to narrow results.\nThe returned Kion 'id' field can be used with other tools like get_entity_by_id or spend report filters.",
               "inputSchema": {
                 "properties": {
-                  "account_type": {
-                    "description": "Filters results to only return Accounts that match the given account type ID.",
+                  "account_number": {
+                    "default": null,
+                    "description": "Cloud provider account identifier (AWS Account Number, Azure Subscription ID, or GCP Project ID). Not the Kion internal ID. When used alone, does a direct lookup returning a single account. Can be combined with other filters to narrow results.",
                     "type": "string"
+                  },
+                  "account_type_ids": {
+                    "default": null,
+                    "description": "Filter by account type IDs (OR logic — accounts matching any provided type are returned). IDs: 1=AWS Standard, 2=AWS GovCloud, 3=Azure CSP Standard, 4=AWS C2S, 5=AWS SC2S, 6=Azure EA, 7=Azure Government EA, 8=Azure CSP Resource Group, 9=Azure EA Resource Group, 10=Azure Government EA Resource Group, 11=Azure Government CSP, 12=Azure Government CSP Resource Group, 13=Azure Secret EA, 14=Azure Secret EA Resource Group, 15=Google Cloud Standard, 16=Azure MCA, 17=Azure MCA Resource Group, 18=Azure Government MCA, 19=Azure Government MCA Resource Group, 20=Azure CSP Top Secret, 21=Azure CSP Top Secret Resource Group, 22=Azure EA Top Secret, 23=Azure EA Top Secret Resource Group, 24=Azure MCA Top Secret, 25=Azure MCA Top Secret Resource Group, 26=OCI Commercial, 27=OCI Government, 28=OCI Federal, 29=Custom Account.",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "type": "array"
                   },
                   "alias": {
-                    "description": "Filters results to only return Accounts that match the given account alias exactly.",
-                    "type": "string"
-                  },
-                  "label": {
-                    "description": "Filters results to only return Accounts with the given `key:value` colon separated label pair.\n\u003cul\u003e\n\u003cli\u003eMultiple labels can be OR'd together by providing multiple key:value pairs separated\nby commas to a single label parameter (for example, label=env:production,env:staging).\u003c/li\u003e\n\u003cli\u003eMultiple labels can be AND'd together by providing multiple key:value pairs to\ndifferent label parameters (for example, label=env:production\u0026label=owner:jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env:production",
-                    "type": "string"
-                  },
-                  "label_id": {
-                    "description": "Filters results to only return Accounts with the given label IDs.\n\u003cul\u003e\n\u003cli\u003eMultiple label IDs can be OR'd together by providing multiple IDs separated\nby commas to a single label_id parameter (for example, label_id=3,4).\u003c/li\u003e\n\u003cli\u003eMultiple label IDs can be AND'd together by providing multiple IDs to\ndifferent label_id parameters (for example, label_id=3\u0026label_id=4).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: 3",
-                    "type": "string"
-                  },
-                  "label_key": {
-                    "description": "Filters results to only return Accounts with the given label key.\n\u003cul\u003e\n\u003cli\u003eMultiple label keys can be OR'd together by providing multiple keys separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label keys can be AND'd together by providing multiple keys to\ndifferent label_key parameters (for example, label_key=env\u0026label_key=owner).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: env",
-                    "type": "string"
-                  },
-                  "label_value": {
-                    "description": "Filters results to only return Accounts with the given label value.\n\u003cul\u003e\n\u003cli\u003eMultiple label values can be OR'd together by providing multiple values separated\nby commas to a single label_key parameter (for example, label_key=env,owner).\u003c/li\u003e\n\u003cli\u003eMultiple label values can be AND'd together by providing multiple values to\ndifferent label_value parameters (for example, label_value=production\u0026label_value=jdoe).\u003c/li\u003e\n\u003c/ul\u003e\n\nExample\\: production",
+                    "default": null,
+                    "description": "Filter accounts by exact account alias.",
                     "type": "string"
                   },
                   "name": {
-                    "description": "Specifies a name pattern to look up.",
+                    "default": null,
+                    "description": "Filter accounts by name pattern (partial match).",
                     "type": "string"
                   }
                 },
