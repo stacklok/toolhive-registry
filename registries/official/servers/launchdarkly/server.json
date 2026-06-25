@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.6.1": {
+        "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.6.2": {
           "metadata": {
-            "last_updated": "2026-04-15T20:27:18Z",
+            "last_updated": "2026-06-25T04:20:47Z",
             "stars": 20
           },
           "overview": "## LaunchDarkly MCP Server\n\nThe launchdarkly MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with LaunchDarkly, the feature management and experimentation platform. It allows AI-driven workflows to inspect feature flags, environments, and targeting rules, helping teams understand feature rollout, experimentation, and risk management without leaving their current tools. This server is particularly valuable for release management, experimentation analysis, and operational decision-making scenarios where feature flag context matters.",
@@ -714,6 +714,40 @@
             },
             {
               "annotations": {},
+              "description": "Fetches audit log entries for a LaunchDarkly account. Use the `spec` parameter with format `proj/\u003cprojectKey\u003e:env/\u003cenvKey\u003e:flag/\u003cflagKey\u003e` to query a specific flag's change history (use `env/*` for all environments). The `before` and `after` parameters accept Unix epoch timestamps in milliseconds for date-range filtering. Returns at most 20 entries per call, ordered newest-first.\n",
+              "inputSchema": {
+                "properties": {
+                  "request": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "after": {
+                        "type": "integer"
+                      },
+                      "before": {
+                        "type": "integer"
+                      },
+                      "limit": {
+                        "type": "integer"
+                      },
+                      "q": {
+                        "type": "string"
+                      },
+                      "spec": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "get-audit-log-entries"
+            },
+            {
+              "annotations": {},
               "description": "Identifies which repositories have code references to a given flag, helping agents determine if they're operating on the correct repository and understand the scope of cleanup (single vs multi-repo).\n",
               "inputSchema": {
                 "properties": {
@@ -1263,6 +1297,7 @@
             "get-ai-config",
             "get-ai-config-targeting",
             "get-ai-config-variation",
+            "get-audit-log-entries",
             "get-code-references",
             "get-environments",
             "get-feature-flag",
@@ -1299,7 +1334,7 @@
           "name": "LAUNCHDARKLY_API_KEY"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.6.1",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/launchdarkly-mcp-server:0.6.2",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
