@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:0.26.0": {
           "metadata": {
-            "last_updated": "2026-04-22T05:26:20Z",
+            "last_updated": "2026-06-25T04:22:57Z",
             "stars": 33303
           },
           "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
@@ -212,7 +212,7 @@
                     "type": "string"
                   },
                   "value": {
-                    "description": "The value to fill in",
+                    "description": "The value to fill in. \"true\" or \"false\" for checkboxes and toggles, \"true\" for radio buttons.",
                     "type": "string"
                   }
                 },
@@ -228,7 +228,7 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Fill out multiple form elements at once",
+              "description": "Fill out multiple form elements (inputs, selects, checkboxes, radios) at once. ALWAYS prefer this tool over multiple individual 'fill' or 'click' calls when interacting with forms. It is significantly faster, more reliable, and reduces turn count. Example: Fill username, password, and check \"Remember Me\" in one call.",
               "inputSchema": {
                 "properties": {
                   "elements": {
@@ -241,7 +241,7 @@
                           "type": "string"
                         },
                         "value": {
-                          "description": "Value for the element",
+                          "description": "Value for the element. \"true\" or \"false\" for checkboxes and toggles, \"true\" for radio buttons.",
                           "type": "string"
                         }
                       },
@@ -363,7 +363,7 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Get Lighthouse score and reports for accessibility, SEO and best practices. This excludes performance. For performance audits, run performance_start_trace",
+              "description": "Get Lighthouse score and reports for accessibility, SEO, best practices, and agentic browsing. This excludes performance. For performance audits, run performance_start_trace",
               "inputSchema": {
                 "properties": {
                   "device": {
