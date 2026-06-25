@@ -8,7 +8,7 @@
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-05-04T03:43:23Z",
+            "last_updated": "2026-06-25T04:22:47Z",
             "stars": 50
           },
           "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -75,6 +75,61 @@
                 "type": "object"
               },
               "name": "cancel_build"
+            },
+            {
+              "annotations": {
+                "title": "Create Annotation"
+              },
+              "description": "Create an annotation on a build or specific job. Use scope='build' (default) or scope='job' with job_id",
+              "inputSchema": {
+                "properties": {
+                  "append": {
+                    "description": "Append the body to an existing annotation with the same context",
+                    "type": "boolean"
+                  },
+                  "body": {
+                    "description": "The annotation body as HTML or Markdown",
+                    "type": "string"
+                  },
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "context": {
+                    "description": "Optional annotation context used to identify or append to an annotation",
+                    "type": "string"
+                  },
+                  "job_id": {
+                    "description": "Job ID required when scope is job",
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  },
+                  "priority": {
+                    "description": "Optional annotation priority from 1 to 10",
+                    "type": "integer"
+                  },
+                  "scope": {
+                    "description": "Annotation scope: 'build' (default) or 'job'. When 'job', job_id is required.",
+                    "type": "string"
+                  },
+                  "style": {
+                    "description": "Optional annotation style: success, info, warning, or error",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number",
+                  "body"
+                ],
+                "type": "object"
+              },
+              "name": "create_annotation"
             },
             {
               "annotations": {
@@ -295,6 +350,63 @@
             },
             {
               "annotations": {
+                "title": "Create Pipeline Schedule"
+              },
+              "description": "Create a new pipeline schedule that triggers builds on a cron-driven interval",
+              "inputSchema": {
+                "properties": {
+                  "branch": {
+                    "description": "Target branch (defaults to the pipeline default branch)",
+                    "type": "string"
+                  },
+                  "commit": {
+                    "description": "Commit reference (defaults to HEAD)",
+                    "type": "string"
+                  },
+                  "cronline": {
+                    "description": "Schedule interval as a crontab expression (e.g. '0 0 * * *') or predefined value (e.g. '@daily'\\, '@hourly'\\, '@weekly'\\, '@monthly'\\, '@yearly')",
+                    "type": "string"
+                  },
+                  "enabled": {
+                    "description": "Whether the schedule is active. Defaults to true if unset.",
+                    "type": [
+                      "null",
+                      "boolean"
+                    ]
+                  },
+                  "env": {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Environment variables to set on triggered builds",
+                    "type": "object"
+                  },
+                  "label": {
+                    "description": "Descriptive label for the schedule",
+                    "type": "string"
+                  },
+                  "message": {
+                    "description": "Message attached to triggered builds",
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "cronline"
+                ],
+                "type": "object"
+              },
+              "name": "create_pipeline_schedule"
+            },
+            {
+              "annotations": {
                 "readOnlyHint": true,
                 "title": "Get Current User"
               },
@@ -309,17 +421,62 @@
             {
               "annotations": {
                 "readOnlyHint": true,
-                "title": "Get Artifact"
+                "title": "Get Agent"
               },
-              "description": "Get detailed information about a specific artifact including its metadata, file size, SHA-1 hash, and download URL",
+              "description": "Get detailed information about a specific agent including its connection state, host details, current job, metadata, and pause status",
               "inputSchema": {
                 "properties": {
-                  "url": {
+                  "agent_id": {
+                    "type": "string"
+                  },
+                  "detail_level": {
+                    "description": "Response detail level: 'summary'\\, 'detailed'\\, or 'full' (default)",
+                    "type": "string"
+                  },
+                  "org_slug": {
                     "type": "string"
                   }
                 },
                 "required": [
-                  "url"
+                  "org_slug",
+                  "agent_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_agent"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Artifact"
+              },
+              "description": "Download a specific artifact's content, identified by its organization, pipeline, build, job, and artifact identifiers. The content is returned base64-encoded",
+              "inputSchema": {
+                "properties": {
+                  "artifact_id": {
+                    "description": "The UUID of the artifact to download",
+                    "type": "string"
+                  },
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "job_id": {
+                    "description": "The UUID of the job that produced the artifact",
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number",
+                  "job_id",
+                  "artifact_id"
                 ],
                 "type": "object"
               },
@@ -541,6 +698,33 @@
             {
               "annotations": {
                 "readOnlyHint": true,
+                "title": "Get Pipeline Schedule"
+              },
+              "description": "Get detailed information about a single pipeline schedule including its cron expression, target branch, environment variables, enabled state, last failure, and next build time",
+              "inputSchema": {
+                "properties": {
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "schedule_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_pipeline_schedule"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
                 "title": "Get Test"
               },
               "description": "Get a specific test in Buildkite Test Engine. This provides additional metadata for failed test executions",
@@ -595,12 +779,56 @@
             {
               "annotations": {
                 "readOnlyHint": true,
+                "title": "List Agents"
+              },
+              "description": "List agents in an organization with their connection state, host details, version, current job, and pause status",
+              "inputSchema": {
+                "properties": {
+                  "detail_level": {
+                    "description": "Response detail level: 'summary' (default)\\, 'detailed'\\, or 'full'",
+                    "type": "string"
+                  },
+                  "hostname": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "type": "integer"
+                  },
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "type": "integer"
+                  },
+                  "version": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug"
+                ],
+                "type": "object"
+              },
+              "name": "list_agents"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
                 "title": "List Annotations"
               },
-              "description": "List all annotations for a build, including their context, style (success/info/warning/error), rendered HTML content, and creation timestamps",
+              "description": "List annotations for a build or a specific job. Use scope='build' (default) or scope='job' with job_id",
               "inputSchema": {
                 "properties": {
                   "build_number": {
+                    "type": "string"
+                  },
+                  "job_id": {
+                    "description": "Job ID required when scope is job",
                     "type": "string"
                   },
                   "org_slug": {
@@ -615,6 +843,10 @@
                     "type": "integer"
                   },
                   "pipeline_slug": {
+                    "type": "string"
+                  },
+                  "scope": {
+                    "description": "Annotation scope: 'build' (default) or 'job'. When 'job', job_id is required.",
                     "type": "string"
                   }
                 },
@@ -809,6 +1041,37 @@
                 "type": "object"
               },
               "name": "list_clusters"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "List Pipeline Schedules"
+              },
+              "description": "List the pipeline schedules for a pipeline, including cron expression, target branch, environment variables, enabled state, and next scheduled build time",
+              "inputSchema": {
+                "properties": {
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "type": "integer"
+                  },
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "type": "integer"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug"
+                ],
+                "type": "object"
+              },
+              "name": "list_pipeline_schedules"
             },
             {
               "annotations": {
@@ -1192,23 +1455,38 @@
                   },
                   "color": {
                     "description": "New hex color code for the cluster",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "default_queue_id": {
                     "description": "ID of the default queue for the cluster",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "description": {
                     "description": "New description for the cluster",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "emoji": {
                     "description": "New emoji for the cluster",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "name": {
                     "description": "New name for the cluster",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "org_slug": {
                     "type": "string"
@@ -1235,7 +1513,10 @@
                   },
                   "description": {
                     "description": "New description for the queue",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "org_slug": {
                     "type": "string"
@@ -1245,7 +1526,10 @@
                   },
                   "retry_agent_affinity": {
                     "description": "Agent retry affinity: prefer-warmest or prefer-different",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   }
                 },
                 "required": [
@@ -1266,24 +1550,42 @@
                 "properties": {
                   "cancel_running_branch_builds": {
                     "description": "Cancel running builds when new builds are created on the same branch",
-                    "type": "boolean"
+                    "type": [
+                      "null",
+                      "boolean"
+                    ]
                   },
                   "cluster_id": {
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "configuration": {
                     "description": "The pipeline configuration in YAML format",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "default_branch": {
                     "description": "The default branch for builds and metrics filtering",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "description": {
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "name": {
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "org_slug": {
                     "type": "string"
@@ -1293,11 +1595,17 @@
                   },
                   "repository_url": {
                     "description": "The Git repository URL",
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "skip_queued_branch_builds": {
                     "description": "Skip intermediate builds when new builds are created on the same branch",
-                    "type": "boolean"
+                    "type": [
+                      "null",
+                      "boolean"
+                    ]
                   },
                   "tags": {
                     "description": "Tags to apply to the pipeline for filtering and organization",
@@ -1312,13 +1620,82 @@
                 },
                 "required": [
                   "org_slug",
-                  "pipeline_slug",
-                  "repository_url",
-                  "configuration"
+                  "pipeline_slug"
                 ],
                 "type": "object"
               },
               "name": "update_pipeline"
+            },
+            {
+              "annotations": {
+                "title": "Update Pipeline Schedule"
+              },
+              "description": "Modify an existing pipeline schedule's cron expression, branch, environment variables, or enabled state",
+              "inputSchema": {
+                "properties": {
+                  "branch": {
+                    "type": [
+                      "null",
+                      "string"
+                    ]
+                  },
+                  "commit": {
+                    "type": [
+                      "null",
+                      "string"
+                    ]
+                  },
+                  "cronline": {
+                    "description": "Schedule interval as a crontab expression or predefined value",
+                    "type": [
+                      "null",
+                      "string"
+                    ]
+                  },
+                  "enabled": {
+                    "description": "Whether the schedule is active. Re-enabling clears previous failure data.",
+                    "type": [
+                      "null",
+                      "boolean"
+                    ]
+                  },
+                  "env": {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Environment variables to set on triggered builds. Providing this field REPLACES the existing env map entirely — include all keys you want to retain.",
+                    "type": "object"
+                  },
+                  "label": {
+                    "type": [
+                      "null",
+                      "string"
+                    ]
+                  },
+                  "message": {
+                    "type": [
+                      "null",
+                      "string"
+                    ]
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "schedule_id"
+                ],
+                "type": "object"
+              },
+              "name": "update_pipeline_schedule"
             },
             {
               "annotations": {
@@ -1337,11 +1714,14 @@
           "tools": [
             "access_token",
             "cancel_build",
+            "create_annotation",
             "create_build",
             "create_cluster",
             "create_cluster_queue",
             "create_pipeline",
+            "create_pipeline_schedule",
             "current_user",
+            "get_agent",
             "get_artifact",
             "get_build",
             "get_build_test_engine_runs",
@@ -1350,14 +1730,17 @@
             "get_failed_executions",
             "get_job_env",
             "get_pipeline",
+            "get_pipeline_schedule",
             "get_test",
             "get_test_run",
+            "list_agents",
             "list_annotations",
             "list_artifacts_for_build",
             "list_artifacts_for_job",
             "list_builds",
             "list_cluster_queues",
             "list_clusters",
+            "list_pipeline_schedules",
             "list_pipelines",
             "list_test_runs",
             "pause_cluster_queue_dispatch",
@@ -1371,6 +1754,7 @@
             "update_cluster",
             "update_cluster_queue",
             "update_pipeline",
+            "update_pipeline_schedule",
             "user_token_organization"
           ]
         }
