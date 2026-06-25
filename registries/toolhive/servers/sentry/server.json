@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.33.0": {
           "metadata": {
-            "last_updated": "2026-04-22T07:20:07Z",
+            "last_updated": "2026-06-25T04:23:11Z",
             "stars": 619
           },
           "overview": "## Sentry MCP Server\n\nThe sentry MCP server is a Model Context Protocol (MCP) service for human-in-the-loop coding agents and developer workflow debugging. The server enables comprehensive Sentry project and organization management, real-time error tracking with event search and issue monitoring, AI-powered issue analysis through Sentry Seer integration, and integrated documentation search for platform guidance.",
@@ -565,27 +565,36 @@
             },
             {
               "annotations": {
-                "openWorldHint": false,
+                "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Retrieve raw profile chunk data to inspect individual function calls, threads, and stack traces.\n\nUSE THIS TOOL WHEN:\n- User wants to inspect raw profiling samples for a specific profiler session\n- User needs to see individual thread activity and stack traces\n- User wants detailed frame-level data (function names, file locations, call counts)\n\nRETURNS:\n- Profile chunk metadata (platform, release, environment)\n- Per-thread sample counts and names\n- Top frames by occurrence with file locations\n- User code vs library code breakdown\n\nNOTE: This tool requires a `profilerId` which identifies a specific profiling session.\nUse `get_profile` for aggregated flamegraph analysis by transaction name.\n\n\u003cexamples\u003e\n### Inspect a profiler session\n```\nget_profile_details(\n  organizationSlug='my-org',\n  projectSlugOrId='backend',\n  profilerId='041bde57b9844e36b8b7e5734efae5f7',\n  start='2024-01-01T00:00:00',\n  end='2024-01-01T01:00:00'\n)\n```\n\u003c/examples\u003e\n\n\u003chints\u003e\n- Use `focusOnUserCode: true` (default) to filter out library/system frames\n- The profilerId can be found in Sentry profile URLs or event data\n\u003c/hints\u003e",
+              "description": "Inspect a specific Sentry profile in detail.\n\nUSE THIS TOOL WHEN:\n- User shares a transaction profile URL and wants the details\n- User has a profile ID and wants a concise summary plus raw sample structure\n- User needs to inspect a continuous profile session by profiler ID and time range\n\nRETURNS:\n- Transaction profile summary with profile URL, transaction, trace, release, and runtime details\n- Sample structure summaries such as frame count, sample count, stacks, and thread breakdown\n- Top frames by occurrence for a quick hotspot overview\n\nNOTE: This tool supports two profile modes.\n- Transaction profiles: pass `profileUrl` or `organizationSlug` + `projectSlugOrId` + `profileId`\n- Continuous profiles: pass `profileUrl` or `organizationSlug` + `projectSlugOrId` + `profilerId` + `start` + `end`\n\n\u003cexamples\u003e\n### Transaction profile URL\n```\nget_profile_details(\n  profileUrl='https://my-org.sentry.io/explore/profiling/profile/backend/cfe78a5c892d4a64a962d837673398d2/flamegraph/'\n)\n```\n\n### Transaction profile by ID\n```\nget_profile_details(\n  organizationSlug='my-org',\n  projectSlugOrId='backend',\n  profileId='cfe78a5c892d4a64a962d837673398d2'\n)\n```\n\n### Continuous profile by session\n```\nget_profile_details(\n  organizationSlug='my-org',\n  projectSlugOrId='backend',\n  profilerId='041bde57b9844e36b8b7e5734efae5f7',\n  start='2024-01-01T00:00:00Z',\n  end='2024-01-01T01:00:00Z'\n)\n```\n\u003c/examples\u003e",
               "inputSchema": {
                 "properties": {
                   "end": {
-                    "description": "End time for the profile chunk query (ISO 8601 format, e.g., '2024-01-01T01:00:00')",
+                    "description": "Continuous profile end time in ISO 8601 format, for example '2024-01-01T01:00:00Z'",
                     "type": "string"
                   },
                   "focusOnUserCode": {
                     "default": true,
-                    "description": "Show only user code (in_app: true). Set to false to include library code.",
+                    "description": "Show only user code frames in the hotspot table. Set to false to include library frames.",
                     "type": "boolean"
                   },
                   "organizationSlug": {
                     "description": "The organization's slug. You can find a existing list of organizations you have access to using the `find_organizations()` tool.",
                     "type": "string"
                   },
+                  "profileId": {
+                    "description": "Transaction profile ID from a profile flamegraph URL",
+                    "type": "string"
+                  },
+                  "profileUrl": {
+                    "description": "Sentry transaction profile or continuous profile URL. If provided, organization, project, and profile identifiers are extracted from the URL.",
+                    "format": "uri",
+                    "type": "string"
+                  },
                   "profilerId": {
-                    "description": "Profiler session ID (UUID from Sentry profile data)",
+                    "description": "Continuous profiler session ID",
                     "type": "string"
                   },
                   "projectSlugOrId": {
@@ -609,17 +618,11 @@
                     "description": "The region URL for the organization you're querying, if known. For Sentry's Cloud Service (sentry.io), this is typically the region-specific URL like 'https://us.sentry.io'. For self-hosted Sentry installations, this parameter is usually not needed and should be omitted. You can find the correct regionUrl from the organization details using the `find_organizations()` tool."
                   },
                   "start": {
-                    "description": "Start time for the profile chunk query (ISO 8601 format, e.g., '2024-01-01T00:00:00')",
+                    "description": "Continuous profile start time in ISO 8601 format, for example '2024-01-01T00:00:00Z'",
                     "type": "string"
                   }
                 },
-                "required": [
-                  "organizationSlug",
-                  "projectSlugOrId",
-                  "profilerId",
-                  "start",
-                  "end"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "get_profile_details"
@@ -629,7 +632,7 @@
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Get high-level information about a specific Sentry replay by URL or replay ID.\n\nUSE THIS TOOL WHEN USERS:\n- Share a replay URL\n- Ask what happened in a specific replay\n- Want a concise replay summary plus the next issue or trace lookups to run\n\n\u003cexamples\u003e\n### With replay URL\n```\nget_replay_details(replayUrl='https://my-organization.sentry.io/replays/7e07485f-12f9-416b-8b14-26260799b51f/')\n```\n\n### With organization and replay ID\n```\nget_replay_details(organizationSlug='my-organization', replayId='7e07485f-12f9-416b-8b14-26260799b51f')\n```\n\u003c/examples\u003e",
+              "description": "Get high-level information about a specific Sentry replay by URL or replay ID.\n\nUSE THIS TOOL WHEN USERS:\n- Share a replay URL\n- Ask what happened in a specific replay\n- Want a concise replay summary plus the next issue or trace lookups to run\n\n\u003cexamples\u003e\n### With replay URL\n```\nget_replay_details(replayUrl='https://my-organization.sentry.io/explore/replays/7e07485f-12f9-416b-8b14-26260799b51f/')\n```\n\n### With organization and replay ID\n```\nget_replay_details(organizationSlug='my-organization', replayId='7e07485f-12f9-416b-8b14-26260799b51f')\n```\n\u003c/examples\u003e",
               "inputSchema": {
                 "properties": {
                   "organizationSlug": {
@@ -653,7 +656,7 @@
                     "type": "string"
                   },
                   "replayUrl": {
-                    "description": "The URL of the replay. e.g. https://my-organization.sentry.io/replays/7e07485f-12f9-416b-8b14-26260799b51f/",
+                    "description": "The URL of the replay. e.g. https://my-organization.sentry.io/explore/replays/7e07485f-12f9-416b-8b14-26260799b51f/",
                     "format": "uri",
                     "type": "string"
                   }
@@ -668,7 +671,7 @@
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Fetch a Sentry resource by URL or by type and ID.\n\n\u003cexamples\u003e\n### From a Sentry URL\nget_sentry_resource(url='https://sentry.io/issues/PROJECT-123/')\n\n### Breadcrumbs from a Sentry URL\nget_sentry_resource(url='https://sentry.io/issues/PROJECT-123/', resourceType='breadcrumbs')\n\n### By type and ID\nget_sentry_resource(resourceType='issue', organizationSlug='my-org', resourceId='PROJECT-123')\n\u003c/examples\u003e",
+              "description": "Fetch a Sentry resource by URL or by type and ID.\n\nSupports issues, events, traces, spans, replays, and breadcrumbs.\nTrace lookups return a condensed overview by default.\n\nFor `resourceType='span'`, pass `resourceId` as `\u003ctraceId\u003e:\u003cspanId\u003e`.\n\n\u003cexamples\u003e\n### From a Sentry URL\nget_sentry_resource(url='https://sentry.io/issues/PROJECT-123/')\n\n### Breadcrumbs from a Sentry URL\nget_sentry_resource(url='https://sentry.io/issues/PROJECT-123/', resourceType='breadcrumbs')\n\n### By type and ID\nget_sentry_resource(resourceType='issue', organizationSlug='my-org', resourceId='PROJECT-123')\n\n### Span by trace and span ID\nget_sentry_resource(resourceType='span', organizationSlug='my-org', resourceId='a4d1aae7216b47ff8117cf4e09ce9d0a:aa8e7f3384ef4ff5')\n\n### Replay by ID\nget_sentry_resource(resourceType='replay', organizationSlug='my-org', resourceId='7e07485f-12f9-416b-8b14-26260799b51f')\n\u003c/examples\u003e",
               "inputSchema": {
                 "properties": {
                   "organizationSlug": {
@@ -676,15 +679,16 @@
                     "type": "string"
                   },
                   "resourceId": {
-                    "description": "Resource identifier: issue shortId (e.g., 'PROJECT-123'), event ID, or trace ID. Required when not using a URL.",
+                    "description": "Resource identifier: issue shortId (e.g., 'PROJECT-123'), event ID, trace ID, replay ID, or `traceId:spanId` for span resources. Required when not using a URL.",
                     "type": "string"
                   },
                   "resourceType": {
-                    "description": "Resource type. With a URL, overrides the auto-detected type (e.g., 'breadcrumbs' on an issue URL).",
+                    "description": "Resource type. With a URL, can override the auto-detected type for breadcrumbs on an issue/event URL or for `trace` on a span-focused trace URL.",
                     "enum": [
                       "issue",
                       "event",
                       "trace",
+                      "span",
                       "breadcrumbs",
                       "replay"
                     ],
@@ -876,7 +880,7 @@
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Search for events AND perform counts/aggregations - the ONLY tool for statistics and counts.\n\nSupports TWO query types:\n1. AGGREGATIONS (counts, sums, averages): 'how many errors', 'count of issues', 'total tokens'\n2. Individual events with timestamps: 'show me error logs from last hour'\n\nUSE THIS FOR ALL COUNTS/STATISTICS:\n- 'how many errors today' → returns count\n- 'count of database failures' → returns count\n- 'total number of issues' → returns count\n- 'average response time' → returns avg()\n- 'sum of tokens used' → returns sum()\n\nALSO USE FOR INDIVIDUAL EVENTS:\n- 'error logs from last hour' → returns event list\n- 'database errors with timestamps' → returns event list\n- 'trace spans for slow API calls' → returns span list\n\nDataset Selection (AI automatically chooses):\n- errors: Exception/crash events\n- logs: Log entries\n- spans: Performance data, AI/LLM calls, token usage\n\nDO NOT USE for grouped issue lists → use search_issues\n\n\u003cexamples\u003e\nsearch_events(organizationSlug='my-org', naturalLanguageQuery='how many errors today')\nsearch_events(organizationSlug='my-org', naturalLanguageQuery='count of database failures this week')\nsearch_events(organizationSlug='my-org', naturalLanguageQuery='total tokens used by model')\nsearch_events(organizationSlug='my-org', naturalLanguageQuery='error logs from the last hour')\n\u003c/examples\u003e\n\n\u003chints\u003e\n- If the user passes a parameter in the form of name/otherName, it's likely in the format of \u003corganizationSlug\u003e/\u003cprojectSlug\u003e.\n- Parse org/project notation directly without calling find_organizations or find_projects.\n\u003c/hints\u003e",
+              "description": "Search Sentry events and replays. This is the ONLY tool for counts/statistics on event datasets.\n\nSupports TWO query types:\n1. AGGREGATIONS (counts, sums, averages): 'how many errors', 'count of issues', 'total tokens'\n2. Individual events with timestamps: 'show me error logs from last hour'\n\nUSE THIS FOR ALL COUNTS/STATISTICS:\n- 'how many errors today' → returns count\n- 'count of database failures' → returns count\n- 'total number of issues' → returns count\n- 'average response time' → returns avg()\n- 'sum of tokens used' → returns sum()\n\nALSO USE FOR INDIVIDUAL EVENTS OR REPLAY LISTS:\n- 'error logs from last hour' → returns event list\n- 'database errors with timestamps' → returns event list\n- 'trace spans for slow API calls' → returns span list\n- 'checkout replays with errors' → returns replay list\n\nDataset Selection (AI automatically chooses):\n- errors: Exception/crash events\n- logs: Log entries\n- spans: Performance data, AI/LLM calls, token usage\n- metrics: Newer span metrics, metric values, counters, gauges, and distributions\n- profiles: Transaction and continuous profile results, profile IDs, and profiled transactions\n- replays: Session replay results such as rage clicks, dead clicks, visited pages, and replay users\n\nReplay searches on this tool return replay lists only. Replay count()/avg()/sum() aggregations are not supported.\n\nDO NOT USE for grouped issue lists → use search_issues\n\n\u003cexamples\u003e\nsearch_events(organizationSlug='my-org', naturalLanguageQuery='how many errors today')\nsearch_events(organizationSlug='my-org', naturalLanguageQuery='count of database failures this week')\nsearch_events(organizationSlug='my-org', naturalLanguageQuery='total tokens used by model')\nsearch_events(organizationSlug='my-org', naturalLanguageQuery='error logs from the last hour')\n\u003c/examples\u003e\n\n\u003chints\u003e\n- If the user passes a parameter in the form of name/otherName, it's likely in the format of \u003corganizationSlug\u003e/\u003cprojectSlug\u003e.\n- Parse org/project notation directly without calling find_organizations or find_projects.\n\u003c/hints\u003e",
               "inputSchema": {
                 "properties": {
                   "includeExplanation": {
@@ -1086,12 +1090,50 @@
                 "openWorldHint": true,
                 "readOnlyHint": false
               },
-              "description": "Update an issue's status or assignment in Sentry. This allows you to resolve, ignore, or reassign issues.\n\nUse this tool when you need to:\n- Resolve an issue that has been fixed\n- Assign an issue to a team member or team for investigation\n- Mark an issue as ignored to reduce noise\n- Reopen a resolved issue by setting status to 'unresolved'\n\n\u003cexamples\u003e\n### Resolve an issue\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', status='resolved')\n```\n\n### Assign an issue to a user (use whoami to get your user ID)\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', assignedTo='user:123456')\n```\n\n### Assign an issue to a team (by ID or slug)\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', assignedTo='team:789')\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', assignedTo='team:my-team-slug')\n```\n\n### Mark an issue as ignored\n\n```\nupdate_issue(organizationSlug='my-organization', issueId='PROJECT-123', status='ignored')\n```\n\n\u003c/examples\u003e\n\n\u003chints\u003e\n- If the user provides the `issueUrl`, you can ignore the other required parameters and extract them from the URL.\n- At least one of `status` or `assignedTo` must be provided to update the issue.\n- assignedTo format: Use 'user:ID' for users (e.g., 'user:123456') or 'team:ID_OR_SLUG' for teams (e.g., 'team:789' or 'team:my-team-slug')\n- To find your user ID, first use the whoami tool which returns your numeric user ID\n- Valid status values are: 'resolved', 'resolvedInNextRelease', 'unresolved', 'ignored'.\n\u003c/hints\u003e",
+              "description": "Update a Sentry issue's status or assignment.\n\nUse this to resolve, reopen, assign, or ignore an issue.\n\n\u003cexamples\u003e\n```\nupdate_issue(organizationSlug='my-org', issueId='PROJECT-123', status='resolved')\nupdate_issue(organizationSlug='my-org', issueId='PROJECT-123', assignedTo='user:123456')\nupdate_issue(organizationSlug='my-org', issueId='PROJECT-123', status='ignored')\nupdate_issue(organizationSlug='my-org', issueId='PROJECT-123', status='ignored', ignoreMode='forever')\nupdate_issue(organizationSlug='my-org', issueId='PROJECT-123', status='ignored', ignoreMode='untilOccurrenceCount', ignoreCount=100, ignoreWindowMinutes=60)\n```\n\u003c/examples\u003e\n\n\u003chints\u003e\n- Provide `issueUrl` or `organizationSlug` + `issueId`.\n- At least one of `status` or `assignedTo` is required.\n- `assignedTo` format: `user:ID` or `team:ID_OR_SLUG`.\n- Use `whoami` to find your user ID for self-assignment.\n- Status values: `resolved`, `resolvedInNextRelease`, `unresolved`, `ignored`.\n- `status='ignored'` defaults to `ignoreMode='untilEscalating'`.\n- Ignore modes: `untilEscalating`, `forever`, `forDuration`, `untilOccurrenceCount`, `untilUserCount`.\n- Matching ignore inputs are `ignoreDurationMinutes`, `ignoreCount` + optional `ignoreWindowMinutes`, or `ignoreUserCount` + optional `ignoreUserWindowMinutes`.\n- To switch an already ignored issue between `untilEscalating`, `forever`, and condition-based ignore modes, first set `status='unresolved'`, then ignore it again with the new rule.\n\u003c/hints\u003e",
               "inputSchema": {
                 "properties": {
                   "assignedTo": {
                     "description": "The assignee in format 'user:ID' or 'team:ID_OR_SLUG' where ID is numeric. Example: 'user:123456', 'team:789', or 'team:my-team-slug'. Use the whoami tool to find your user ID.",
                     "type": "string"
+                  },
+                  "ignoreCount": {
+                    "description": "How many times the issue must occur before it stops being ignored when ignoreMode is 'untilOccurrenceCount'.",
+                    "exclusiveMinimum": 0,
+                    "type": "integer"
+                  },
+                  "ignoreDurationMinutes": {
+                    "description": "How many minutes to ignore the issue when ignoreMode is 'forDuration'.",
+                    "exclusiveMinimum": 0,
+                    "type": "integer"
+                  },
+                  "ignoreMode": {
+                    "description": "How ignored issues should behave. Use 'untilEscalating' to match the Sentry UI default, 'forever' for a permanent ignore, 'forDuration' with ignoreDurationMinutes, 'untilOccurrenceCount' with ignoreCount and optional ignoreWindowMinutes, or 'untilUserCount' with ignoreUserCount and optional ignoreUserWindowMinutes.",
+                    "enum": [
+                      "untilEscalating",
+                      "forever",
+                      "forDuration",
+                      "untilOccurrenceCount",
+                      "untilUserCount"
+                    ],
+                    "type": "string"
+                  },
+                  "ignoreUserCount": {
+                    "description": "How many users must be affected before the issue stops being ignored when ignoreMode is 'untilUserCount'.",
+                    "exclusiveMinimum": 0,
+                    "type": "integer"
+                  },
+                  "ignoreUserWindowMinutes": {
+                    "description": "Optional time window in minutes for ignoreUserCount. If omitted, Sentry counts all future affected users.",
+                    "exclusiveMinimum": 0,
+                    "maximum": 10080,
+                    "type": "integer"
+                  },
+                  "ignoreWindowMinutes": {
+                    "description": "Optional time window in minutes for ignoreCount. If omitted, Sentry counts all future occurrences.",
+                    "exclusiveMinimum": 0,
+                    "maximum": 10080,
+                    "type": "integer"
                   },
                   "issueId": {
                     "description": "The Issue ID. e.g. `PROJECT-1Z43`",
