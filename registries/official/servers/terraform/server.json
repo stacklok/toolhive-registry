@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "docker.io/hashicorp/terraform-mcp-server:1.0.0": {
           "metadata": {
-            "last_updated": "2026-05-09T00:25:07Z",
+            "last_updated": "2026-06-25T04:24:00Z",
             "stars": 1267
           },
           "overview": "## Terraform MCP Server\n\nThe terraform MCP server provides Terraform registry and Cloud/Enterprise integration for providers, modules, policies, and workspaces. The server provides MCP-based access to Terraform resources through the Terraform Registry API for searching providers and modules, HCP Terraform/TFE API for workspace and policy operations, and environment variable-based authentication. It supports both public registry and private enterprise instances and includes tools for managing workspaces, variables, policies, and accessing Terraform documentation and registry resources.",
@@ -875,6 +875,29 @@
                 "idempotentHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
+                "title": "Get Sentinel mock data for a Terraform plan"
+              },
+              "description": "Exports and downloads Sentinel mock bundle data for a Terraform plan. This data can be used to test Sentinel policies against plan output. The export is asynchronous - this tool handles polling until the export is ready.",
+              "inputSchema": {
+                "properties": {
+                  "plan_id": {
+                    "description": "The ID of the plan to export Sentinel mock data for (e.g., plan-8F5JFydVYAmtTjET)",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "plan_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_sentinel_mock"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
                 "title": "Get detailed information about a Terraform Stack"
               },
               "description": "Fetches detailed information about a specific Terraform Stack.",
@@ -1656,6 +1679,7 @@
             "get_provider_capabilities",
             "get_provider_details",
             "get_run_details",
+            "get_sentinel_mock",
             "get_stack_details",
             "get_token_permissions",
             "get_workspace_details",
