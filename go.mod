@@ -5,7 +5,7 @@ go 1.26
 require (
 	github.com/google/go-cmp v0.7.0
 	github.com/google/go-containerregistry v0.21.7
-	github.com/mark3labs/mcp-go v0.55.0
+	github.com/mark3labs/mcp-go v0.55.1
 	github.com/modelcontextprotocol/registry v1.7.9
 	github.com/spf13/cobra v1.10.2
 	github.com/stacklok/toolhive-core v0.0.26
