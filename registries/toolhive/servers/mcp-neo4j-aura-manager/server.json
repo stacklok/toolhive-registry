@@ -14,7 +14,6 @@
               "outbound": {
                 "allow_host": [
                   "api.neo4j.io",
-                  "console.neo4j.io",
                   ".neo4j.io"
                 ],
                 "allow_port": [
@@ -71,18 +70,13 @@
           "description": "Neo4j Aura API client ID",
           "isRequired": true,
           "isSecret": true,
-          "name": "AURA_CLIENT_ID"
+          "name": "NEO4J_AURA_CLIENT_ID"
         },
         {
           "description": "Neo4j Aura API client secret",
           "isRequired": true,
           "isSecret": true,
-          "name": "AURA_CLIENT_SECRET"
-        },
-        {
-          "description": "Neo4j Aura tenant ID",
-          "isSecret": true,
-          "name": "AURA_TENANT_ID"
+          "name": "NEO4J_AURA_CLIENT_SECRET"
         }
       ],
       "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-aura-manager:0.4.8",
