@@ -99,6 +99,16 @@
         {
           "description": "Enable write tools for state-changing operations (default: false)",
           "name": "UYUNI_MCP_WRITE_TOOLS_ENABLED"
+        },
+        {
+          "description": "SSH private key used by the add_system tool to bootstrap new systems",
+          "isSecret": true,
+          "name": "UYUNI_SSH_PRIV_KEY"
+        },
+        {
+          "description": "Passphrase for UYUNI_SSH_PRIV_KEY when the key is encrypted",
+          "isSecret": true,
+          "name": "UYUNI_SSH_PRIV_KEY_PASS"
         }
       ],
       "identifier": "registry.suse.com/suse/agentic/mcp/multi-linux-manager:0.5.2",

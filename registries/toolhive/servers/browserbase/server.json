@@ -216,8 +216,7 @@
           "name": "BROWSERBASE_PROJECT_ID"
         },
         {
-          "description": "Google Gemini API key for Stagehand",
-          "isRequired": true,
+          "description": "Google Gemini API key; only required when overriding the default Stagehand model (the default model needs no personal key)",
           "isSecret": true,
           "name": "GEMINI_API_KEY"
         }

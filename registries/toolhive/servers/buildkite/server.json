@@ -1780,10 +1780,6 @@
           "isRequired": true,
           "isSecret": true,
           "name": "BUILDKITE_API_TOKEN"
-        },
-        {
-          "description": "Token threshold for job logs. If exceeded, logs will be written to disk and returned by path (for local use only).",
-          "name": "JOB_LOG_TOKEN_THRESHOLD"
         }
       ],
       "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.7.0",

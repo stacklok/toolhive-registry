@@ -327,7 +327,7 @@
     {
       "environmentVariables": [
         {
-          "description": "Token for connecting to Semgrep AppSec Platform",
+          "description": "Token for connecting to the Semgrep AppSec Platform; required for the semgrep_findings tool, optional for local scan tools",
           "isSecret": true,
           "name": "SEMGREP_APP_TOKEN"
         }

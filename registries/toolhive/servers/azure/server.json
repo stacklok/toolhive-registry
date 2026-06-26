@@ -2248,20 +2248,17 @@
     {
       "environmentVariables": [
         {
-          "description": "Your Azure tenant ID",
-          "isRequired": true,
+          "description": "Your Azure tenant ID (only needed for service-principal auth; optional when using the Azure credential chain such as Azure CLI or managed identity)",
           "isSecret": true,
           "name": "AZURE_TENANT_ID"
         },
         {
-          "description": "Your Azure client ID for authentication",
-          "isRequired": true,
+          "description": "Your Azure client ID for authentication (only needed for service-principal auth; optional when using the Azure credential chain such as Azure CLI or managed identity)",
           "isSecret": true,
           "name": "AZURE_CLIENT_ID"
         },
         {
-          "description": "Your Azure client secret for authentication",
-          "isRequired": true,
+          "description": "Your Azure client secret for authentication (only needed for service-principal auth; optional when using the Azure credential chain such as Azure CLI or managed identity)",
           "isSecret": true,
           "name": "AZURE_CLIENT_SECRET"
         },

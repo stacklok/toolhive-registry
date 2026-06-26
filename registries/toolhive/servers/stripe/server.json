@@ -16,8 +16,7 @@
             "network": {
               "outbound": {
                 "allow_host": [
-                  "api.stripe.com",
-                  "docs.stripe.com"
+                  "mcp.stripe.com"
                 ],
                 "allow_port": [
                   443
@@ -779,6 +778,7 @@
         {
           "description": "Your Stripe secret API key, available in the Stripe Dashboard.",
           "isRequired": true,
+          "isSecret": true,
           "name": "STRIPE_SECRET_KEY"
         }
       ],

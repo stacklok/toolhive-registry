@@ -1205,30 +1205,6 @@
         {
           "description": "FireCrawl API URL (default: https://api.firecrawl.dev/v1)",
           "name": "FIRECRAWL_API_URL"
-        },
-        {
-          "description": "Maximum number of retry attempts for API calls",
-          "name": "FIRECRAWL_RETRY_MAX_ATTEMPTS"
-        },
-        {
-          "description": "Initial delay in milliseconds for retry backoff",
-          "name": "FIRECRAWL_RETRY_INITIAL_DELAY"
-        },
-        {
-          "description": "Maximum delay in milliseconds for retry backoff",
-          "name": "FIRECRAWL_RETRY_MAX_DELAY"
-        },
-        {
-          "description": "Backoff factor for retry delay calculation",
-          "name": "FIRECRAWL_RETRY_BACKOFF_FACTOR"
-        },
-        {
-          "description": "Credit threshold for warning notifications",
-          "name": "FIRECRAWL_CREDIT_WARNING_THRESHOLD"
-        },
-        {
-          "description": "Credit threshold for critical notifications",
-          "name": "FIRECRAWL_CREDIT_CRITICAL_THRESHOLD"
         }
       ],
       "identifier": "docker.io/mcp/firecrawl:latest",
