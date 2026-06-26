@@ -69,6 +69,12 @@ The script prints a JSON array (also written to `--out`): per entry it reports
 `monthsStale` / `isStale`, `openIssues`, plus `dockyard` and `tier`. `null` on an
 image/repo field means inconclusive (tooling couldn't run / transient), **not** a pass.
 
+It also reports `officialDrift`: for an Official-tier entry, whether its
+`registries/official` mirror has drifted from the `registries/toolhive` source -
+`false` (in sync), a list of differing top-level keys (e.g. `["repository"]`), or `null`
+(no mirror, e.g. Community-tier). A non-empty list is a finding worth reporting and means
+a fix needs applying to both copies.
+
 ## Step 3 - deep canonical-correctness checks (sub-agents)
 
 For each in-scope entry, spawn a sub-agent to do check 3. Keep it cheap: these are
@@ -99,7 +105,25 @@ for env-var references, or `WebFetch`), then return **structured findings only**
 Each finding must cite upstream evidence (a URL or `file:line`). Findings without
 evidence are not actionable - drop them or mark `couldNotVerify`.
 
-## Step 4 - merge and write the report
+## Step 4 - verify findings before reporting (adversarial)
+
+Single-pass deep checks over-report - this is not optional cleanup, it's a core step.
+A cheap finder reliably flags plausible-but-wrong issues: a host that a leading-dot
+`allow_host` already covers, an "unused" var its own evidence shows is used, an
+`insecure_allow_all` that is actually justified, a 401 from a healthy OAuth-gated remote.
+
+For every high/critical finding (and ideally all of them), spawn an **independent agent -
+a stronger model than the finder** - to re-check it against upstream, prompted to refute by
+default: "confirm only if you can re-derive this from upstream; mark refuted if the entry is
+actually correct; uncertain if you can't tell." Drop refuted findings; keep confirmed ones
+with the verifier's note. In the first official-tier run this stage refuted ~6 high and ~21
+medium false positives that had survived the finder.
+
+When fixes are later applied, re-verify each one against upstream while editing (grep the
+actual var name / host) - a cheap third check that catches the cases a verifier still misses
+(e.g. a contested host the second pass got wrong).
+
+## Step 5 - merge and write the report
 
 Merge mechanical results (step 2) with deep findings (step 3) into severity-ranked
 findings using the scale in the criteria file. Write to
@@ -136,18 +160,30 @@ sub-agent upstream-doc review. Report only - no entries were modified.
 Each finding lists the entry, category, detail, evidence (URL/command), and a
 suggested action for the human (since this is report-only). Lead with the worst.
 
-## Step 5 - hand off
+## Step 6 - hand off
 
 Show the user the summary table and the top findings inline. Do **not** commit the
 report or edit any entry unless the user explicitly asks. If they want fixes, that's
-a separate pass (and `mcp-review` / `add-mcp-server` cover the editing rules).
+a separate pass (and `mcp-review` / `add-mcp-server` cover the editing rules). When fixing
+an Official-tier entry, remember it has a mirror copy (see Notes) that must be updated too.
 
 ## Notes
 
 - **Inconclusive is not clean.** Surface `null` image/repo results and unreachable
   upstream docs as "could not verify," never as passing.
+- **Check wildcard coverage before flagging a missing host.** `allow_host` is Squid-style:
+  a leading-dot entry (`.example.com`) already matches every subdomain. List the actual
+  `allow_host` and confirm the needed host isn't already covered before reporting it missing.
+  (Both the finder and a verifier missed this on `aws-documentation` in the first run.)
+- **A remote endpoint returning 401/403 is alive,** not a finding - it's auth/OAuth-gated.
+  Only DNS failure, connection refused, 404, 5xx, or TLS errors mean it may be down.
+- **Official-tier entries are mirrored in `registries/official/servers/`** (a copy, not a
+  symlink). Flag when an entry's `registries/official` copy has drifted from its
+  `registries/toolhive` source - that drift is itself a finding. And any fix to an
+  Official-tier entry must be applied to both copies (CI reconciles only the auto-populated
+  `metadata` / `tool_definitions`, not the hand-edited fields).
 - **Be fair on staleness.** A small, finished server can be quiet for good reasons;
   weigh `monthsStale` against the server's scope before flagging.
 - **Be fair on `insecure_allow_all`.** Servers that reach arbitrary user-supplied
-  hosts (fetch, scrapers, browsers) may legitimately need it; flag it only where a
-  concrete scoped host list is feasible, and propose that list.
+  hosts (fetch, scrapers, browsers, db/cluster/registry clients) may legitimately need it;
+  flag it only where a concrete scoped host list is feasible, and propose that list.

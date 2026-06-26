@@ -70,7 +70,14 @@ Shapes in use: `{}` (no outbound), `{allow_host:[...], allow_port:[...]}` (scope
   justify it; say so rather than flagging blindly.)
 - **Missing host** - the server needs a host that isn't in `allow_host`; the entry as
   written would break that functionality. (Highest-value finding: it's a real bug.)
-- **Overly broad** - `allow_host`/`allow_port` wider than what the server uses.
+  **Before flagging, check wildcard coverage:** `allow_host` is Squid-style, so a
+  leading-dot entry (`.example.com`) already matches `example.com` and *every* subdomain.
+  List the actual `allow_host` and confirm the needed host isn't already covered by a
+  leading-dot entry - e.g. `.docs.aws.amazon.com` covers `x.docs.aws.amazon.com`, but does
+  NOT cover a different domain like `proxy.search.docs.aws.com`. (This exact distinction was
+  missed by both the finder and a verifier in the first run; check it explicitly.)
+- **Overly broad** - `allow_host`/`allow_port` wider than what the server uses, including a
+  bare apex (`sentry.io`) that a sibling leading-dot entry (`.sentry.io`) already covers.
 - **Host format** - subdomain wildcards are a leading-dot prefix (`.github.com`), not
   globs. Flag malformed hosts.
 
@@ -92,6 +99,25 @@ This changes how to read any profile that targets a local service. Inside the co
 - To reach **another workload on the same container network**, the profile lists that
   workload's hostname and port (not localhost).
 - Ref: https://docs.stacklok.com/toolhive/guides-cli/network-isolation#accessing-other-workloads-on-the-same-container-network
+
+### Remote servers (`remotes[]`, no container)
+
+Remote entries have no env vars or permission profile, so check 3 is mostly endpoint health:
+
+- **Endpoint liveness** - POST an MCP `initialize` to `remotes[0].url`. A `200`, an SSE
+  stream, or a `401`/`403` all mean the endpoint is **alive** - auth/OAuth-gated is healthy,
+  not a finding. Only DNS failure, connection refused, `404`, `5xx`, or a TLS/cert error mean
+  it may be down (a high finding). Do not report an OAuth-gated `401` as broken.
+- **oauth_config sanity** - if present, `authorize_url`/`token_url` hosts should be consistent
+  with the endpoint.
+
+### Dual-registry drift (Official tier)
+
+Official-tier entries exist in **both** `registries/toolhive/servers/<name>/` and
+`registries/official/servers/<name>/` (a copy, not a symlink). If the two copies disagree on
+hand-edited fields (env vars, permissions, `repository.url`, tier), that drift is a finding -
+report it. Auto-populated `metadata` / `tool_definitions` differences are expected (CI updates
+each copy independently) and are not findings.
 
 ### Not findings (do not flag these)
 

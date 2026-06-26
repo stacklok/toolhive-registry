@@ -189,6 +189,45 @@ def check_repo(repo_url: str, timeout: int) -> dict:
     return out
 
 
+def _strip_volatile(data: dict) -> dict:
+    """Copy of the entry with CI-managed fields (metadata, tool_definitions) removed,
+    so the two registry copies can be compared on their hand-edited content only."""
+    d = json.loads(json.dumps(data))
+    pub = d.get("_meta", {}).get(PUBLISHER_KEY, {}).get(NAMESPACE_KEY, {})
+    for ext in pub.values():
+        if isinstance(ext, dict):
+            ext.pop("metadata", None)
+            ext.pop("tool_definitions", None)
+    return d
+
+
+def check_official_drift(path: Path) -> dict:
+    """Official-tier entries live in BOTH registries/toolhive and registries/official
+    (a copy, not a symlink). From the toolhive side, compare hand-edited content against
+    the official mirror and report which top-level fields have drifted.
+
+    Returns officialDrift = None (no mirror / not a toolhive path), False (in sync), or a
+    list of differing top-level keys (e.g. ["_meta", "repository"]). metadata and
+    tool_definitions are ignored since CI updates each copy independently.
+    """
+    parts = path.parts
+    if "registries" not in parts:
+        return {"officialDrift": None}
+    i = parts.index("registries")
+    if i + 1 >= len(parts) or parts[i + 1] != "toolhive":
+        return {"officialDrift": None}  # only check from the toolhive side
+    official = Path(*parts[: i + 1], "official", *parts[i + 2:])
+    if not official.is_file():
+        return {"officialDrift": None}  # no mirror (e.g. Community-tier entries)
+    try:
+        a = _strip_volatile(json.loads(path.read_text()))
+        b = _strip_volatile(json.loads(official.read_text()))
+    except (OSError, json.JSONDecodeError) as exc:
+        return {"officialDrift": f"compare error: {exc}"}
+    diffs = sorted(k for k in set(a) | set(b) if a.get(k) != b.get(k))
+    return {"officialDrift": diffs or False}
+
+
 def audit_one(path: Path, timeout: int) -> dict:
     rel = str(path)
     result: dict = {"name": path.parent.name, "path": rel}
@@ -225,6 +264,9 @@ def audit_one(path: Path, timeout: int) -> dict:
     # Check 1b + 2: repo resolves & activity. Always keyed off repository.url so
     # dockyard-repackaged entries report on the real upstream, not the wrapper.
     result.update(check_repo(repo_url, timeout))
+
+    # Cross-registry drift: Official-tier entries are mirrored in registries/official.
+    result.update(check_official_drift(path))
 
     # Convenience rollup the skill can sort/group on.
     stale = result.get("monthsStale")
