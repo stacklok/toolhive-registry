@@ -5,8 +5,8 @@
       "io.github.stacklok": {
         "ghcr.io/github/github-mcp-server:v1.4.0": {
           "metadata": {
-            "last_updated": "2026-06-25T04:22:55Z",
-            "stars": 28599
+            "last_updated": "2026-06-26T21:27:20Z",
+            "stars": 28440
           },
           "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
           "permissions": {
@@ -2046,10 +2046,6 @@
         {
           "description": "Comma-separated list of toolsets to enable (e.g., 'repos,issues,pull_requests'). If not set, all toolsets are enabled. See the README for available toolsets.",
           "name": "GITHUB_TOOLSETS"
-        },
-        {
-          "description": "Set to '1' to enable dynamic toolset discovery",
-          "name": "GITHUB_DYNAMIC_TOOLSETS"
         },
         {
           "description": "Set to '1' to enable read-only mode, preventing any modifications to GitHub resources",

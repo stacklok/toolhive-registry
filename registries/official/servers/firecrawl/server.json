@@ -5,8 +5,8 @@
       "io.github.stacklok": {
         "docker.io/mcp/firecrawl:latest": {
           "metadata": {
-            "last_updated": "2026-06-05T03:23:52Z",
-            "stars": 6487
+            "last_updated": "2026-06-26T21:27:55Z",
+            "stars": 6109
           },
           "overview": "## Firecrawl MCP Server\n\nThe firecrawl-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants to crawl, scrape, and extract content from websites at scale using Firecrawl. This tool transforms entire websites — including documentation, blogs, and knowledge bases — into clean, structured, machine-readable data without requiring custom crawlers. It is particularly suited for research, content ingestion, documentation analysis, and RAG workflows needing high-quality web content.",
           "permissions": {
@@ -75,6 +75,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get agent job status"
@@ -96,129 +97,6 @@
             {
               "annotations": {
                 "destructiveHint": false,
-                "openWorldHint": false,
-                "readOnlyHint": false,
-                "title": "Create browser session"
-              },
-              "description": "\n**DEPRECATED — prefer firecrawl_scrape + firecrawl_interact instead.** Interact lets you scrape a page and then click, fill forms, and navigate without managing sessions manually.\n\nCreate a browser session for code execution via CDP (Chrome DevTools Protocol).\n\n**Arguments:**\n- ttl: Total session lifetime in seconds (30-3600, optional)\n- activityTtl: Idle timeout in seconds (10-3600, optional)\n- streamWebView: Whether to enable live view streaming (optional)\n- profile: Save and reuse browser state (cookies, localStorage) across sessions (optional)\n  - name: Profile name (sessions with the same name share state)\n  - saveChanges: Whether to save changes back to the profile (default: true)\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_browser_create\",\n  \"arguments\": {\n    \"profile\": { \"name\": \"my-profile\", \"saveChanges\": true }\n  }\n}\n```\n**Returns:** Session ID, CDP URL, and live view URL.\n",
-              "inputSchema": {
-                "properties": {
-                  "activityTtl": {
-                    "maximum": 3600,
-                    "minimum": 10,
-                    "type": "number"
-                  },
-                  "profile": {
-                    "additionalProperties": false,
-                    "properties": {
-                      "name": {
-                        "maxLength": 128,
-                        "minLength": 1,
-                        "type": "string"
-                      },
-                      "saveChanges": {
-                        "default": true,
-                        "type": "boolean"
-                      }
-                    },
-                    "required": [
-                      "name",
-                      "saveChanges"
-                    ],
-                    "type": "object"
-                  },
-                  "streamWebView": {
-                    "type": "boolean"
-                  },
-                  "ttl": {
-                    "maximum": 3600,
-                    "minimum": 30,
-                    "type": "number"
-                  }
-                },
-                "required": [],
-                "type": "object"
-              },
-              "name": "firecrawl_browser_create"
-            },
-            {
-              "annotations": {
-                "destructiveHint": true,
-                "openWorldHint": false,
-                "readOnlyHint": false,
-                "title": "Delete browser session"
-              },
-              "description": "\n**DEPRECATED — prefer firecrawl_scrape + firecrawl_interact instead.**\n\nDestroy a browser session.\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_browser_delete\",\n  \"arguments\": {\n    \"sessionId\": \"session-id-here\"\n  }\n}\n```\n**Returns:** Success confirmation.\n",
-              "inputSchema": {
-                "properties": {
-                  "sessionId": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "sessionId"
-                ],
-                "type": "object"
-              },
-              "name": "firecrawl_browser_delete"
-            },
-            {
-              "annotations": {
-                "destructiveHint": true,
-                "openWorldHint": false,
-                "readOnlyHint": false,
-                "title": "Run code in browser session"
-              },
-              "description": "\n**DEPRECATED — prefer firecrawl_scrape + firecrawl_interact instead.** Interact lets you scrape a page and then click, fill forms, and navigate without managing sessions manually.\n\nExecute code in a browser session. Supports agent-browser commands (bash), Python, or JavaScript.\n**Requires:** An active browser session (create one with firecrawl_browser_create first).\n\n**Arguments:**\n- sessionId: The browser session ID (required)\n- code: The code to execute (required)\n- language: \"bash\", \"python\", or \"node\" (optional, defaults to \"bash\")\n\n**Recommended: Use bash with agent-browser commands** (pre-installed in every sandbox):\n```json\n{\n  \"name\": \"firecrawl_browser_execute\",\n  \"arguments\": {\n    \"sessionId\": \"session-id-here\",\n    \"code\": \"agent-browser open https://example.com\",\n    \"language\": \"bash\"\n  }\n}\n```\n\n**Common agent-browser commands:**\n- `agent-browser open \u003curl\u003e` — Navigate to URL\n- `agent-browser snapshot` — Get accessibility tree with clickable refs (for AI)\n- `agent-browser snapshot -i -c` — Interactive elements only, compact\n- `agent-browser click @e5` — Click element by ref from snapshot\n- `agent-browser type @e3 \"text\"` — Type into element\n- `agent-browser fill @e3 \"text\"` — Clear and fill element\n- `agent-browser get text @e1` — Get text content\n- `agent-browser get title` — Get page title\n- `agent-browser get url` — Get current URL\n- `agent-browser screenshot [path]` — Take screenshot\n- `agent-browser scroll down` — Scroll page\n- `agent-browser wait 2000` — Wait 2 seconds\n- `agent-browser --help` — Full command reference\n\n**For Playwright scripting, use Python** (has proper async/await support):\n```json\n{\n  \"name\": \"firecrawl_browser_execute\",\n  \"arguments\": {\n    \"sessionId\": \"session-id-here\",\n    \"code\": \"await page.goto('https://example.com')\\ntitle = await page.title()\\nprint(title)\",\n    \"language\": \"python\"\n  }\n}\n```\n\n**Note:** Prefer bash (agent-browser) or Python.\n**Returns:** Execution result including stdout, stderr, and exit code.\n",
-              "inputSchema": {
-                "properties": {
-                  "code": {
-                    "type": "string"
-                  },
-                  "language": {
-                    "enum": [
-                      "bash",
-                      "python",
-                      "node"
-                    ],
-                    "type": "string"
-                  },
-                  "sessionId": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "sessionId",
-                  "code"
-                ],
-                "type": "object"
-              },
-              "name": "firecrawl_browser_execute"
-            },
-            {
-              "annotations": {
-                "openWorldHint": false,
-                "readOnlyHint": true,
-                "title": "List browser sessions"
-              },
-              "description": "\n**DEPRECATED — prefer firecrawl_scrape + firecrawl_interact instead.**\n\nList browser sessions, optionally filtered by status.\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_browser_list\",\n  \"arguments\": {\n    \"status\": \"active\"\n  }\n}\n```\n**Returns:** Array of browser sessions.\n",
-              "inputSchema": {
-                "properties": {
-                  "status": {
-                    "enum": [
-                      "active",
-                      "destroyed"
-                    ],
-                    "type": "string"
-                  }
-                },
-                "required": [],
-                "type": "object"
-              },
-              "name": "firecrawl_browser_list"
-            },
-            {
-              "annotations": {
                 "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get crawl status"
@@ -483,6 +361,9 @@
                         ],
                         "type": "object"
                       },
+                      "redactPII": {
+                        "type": "boolean"
+                      },
                       "removeBase64Images": {
                         "type": "boolean"
                       },
@@ -562,6 +443,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Extract structured data"
@@ -607,12 +489,146 @@
                 "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": false,
+                "title": "Send feedback on a Firecrawl job"
+              },
+              "description": "\nSend structured feedback for a completed Firecrawl v2 job. Use this for endpoint-level feedback on `scrape`, `parse`, `map`, or `search` jobs when the job result was useful, partially useful, or failed to meet expectations.\n\nFor search-result quality specifically, prefer `firecrawl_search_feedback` when available because it has search-focused guidance. This generic tool posts to `/v2/feedback` and accepts endpoint-wide signals:\n\n- **endpoint** — one of `search`, `scrape`, `parse`, or `map`.\n- **jobId** — the id returned by that endpoint.\n- **rating** — overall result quality: `good`, `partial`, or `bad`.\n- **issues** — stable lowercase issue codes such as `missing_markdown`, `bad_pdf_parse`, or `wrong_links`.\n- **tags** — optional lowercase tags for grouping feedback.\n- **note** — short human-readable context. Do not include huge page contents or raw scrape results.\n- **url**, **pageNumbers**, and **metadata** — small contextual fields that identify what the feedback refers to.\n\nDo not store multi-MB outputs in feedback. Use concise notes, issue codes, URLs, and page numbers.\n\n**Returns:** `{ success, feedbackId, creditsRefunded, creditsRefundedToday?, dailyRefundCap?, dailyCapReached?, alreadySubmitted?, warning? }` JSON.\n",
+              "inputSchema": {
+                "properties": {
+                  "endpoint": {
+                    "enum": [
+                      "search",
+                      "scrape",
+                      "parse",
+                      "map"
+                    ],
+                    "type": "string"
+                  },
+                  "issues": {
+                    "items": {
+                      "maxLength": 80,
+                      "minLength": 1,
+                      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 20,
+                    "type": "array"
+                  },
+                  "jobId": {
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                    "type": "string"
+                  },
+                  "metadata": {
+                    "additionalProperties": {},
+                    "propertyNames": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  "missingContent": {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "description": {
+                          "maxLength": 2000,
+                          "type": "string"
+                        },
+                        "topic": {
+                          "maxLength": 200,
+                          "minLength": 1,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "topic"
+                      ],
+                      "type": "object"
+                    },
+                    "maxItems": 50,
+                    "type": "array"
+                  },
+                  "note": {
+                    "maxLength": 4000,
+                    "type": "string"
+                  },
+                  "pageNumbers": {
+                    "items": {
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991,
+                      "type": "integer"
+                    },
+                    "maxItems": 100,
+                    "type": "array"
+                  },
+                  "querySuggestions": {
+                    "maxLength": 2000,
+                    "type": "string"
+                  },
+                  "rating": {
+                    "enum": [
+                      "good",
+                      "bad",
+                      "partial"
+                    ],
+                    "type": "string"
+                  },
+                  "tags": {
+                    "items": {
+                      "maxLength": 80,
+                      "minLength": 1,
+                      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 20,
+                    "type": "array"
+                  },
+                  "url": {
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "valuableSources": {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "reason": {
+                          "maxLength": 1000,
+                          "type": "string"
+                        },
+                        "url": {
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "type": "object"
+                    },
+                    "maxItems": 50,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "jobId",
+                  "rating"
+                ],
+                "type": "object"
+              },
+              "name": "firecrawl_feedback"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false,
                 "title": "Interact with a scraped page"
               },
-              "description": "\nInteract with a previously scraped page in a live browser session. Scrape a page first with firecrawl_scrape, then use the returned scrapeId to click buttons, fill forms, extract dynamic content, or navigate deeper.\n\n**Best for:** Multi-step workflows on a single page — searching a site, clicking through results, filling forms, extracting data that requires interaction.\n**Requires:** A scrapeId from a previous firecrawl_scrape call (found in the metadata of the scrape response).\n\n**Arguments:**\n- scrapeId: The scrape job ID from a previous scrape (required)\n- prompt: Natural language instruction describing the action to take (use this OR code)\n- code: Code to execute in the browser session (use this OR prompt)\n- language: \"bash\", \"python\", or \"node\" (optional, defaults to \"node\", only used with code)\n- timeout: Execution timeout in seconds, 1-300 (optional, defaults to 30)\n\n**Usage Example (prompt):**\n```json\n{\n  \"name\": \"firecrawl_interact\",\n  \"arguments\": {\n    \"scrapeId\": \"scrape-id-from-previous-scrape\",\n    \"prompt\": \"Click on the first product and tell me its price\"\n  }\n}\n```\n\n**Usage Example (code):**\n```json\n{\n  \"name\": \"firecrawl_interact\",\n  \"arguments\": {\n    \"scrapeId\": \"scrape-id-from-previous-scrape\",\n    \"code\": \"agent-browser click @e5\",\n    \"language\": \"bash\"\n  }\n}\n```\n**Returns:** Execution result including output, stdout, stderr, exit code, and live view URLs.\n",
+              "description": "\nInteract with a page in a live browser session: click buttons, fill forms, extract dynamic content, or navigate deeper.\n\n**Best for:** Multi-step workflows on a single page — searching a site, clicking through results, filling forms, extracting data that requires interaction.\n**Two ways to target a page:**\n- Pass a `url` to interact directly. The session is opened for you in one call (use this for a fresh page).\n- Pass a `scrapeId` from a previous firecrawl_scrape to reuse that already-loaded page (cheaper when you just scraped it).\n\n**Arguments:**\n- url: Page to interact with; opens a session for you (use this OR scrapeId)\n- scrapeId: Scrape job ID from a previous scrape, found in its metadata (use this OR url)\n- prompt: Natural language instruction describing the action to take (use this OR code)\n- code: Code to execute in the browser session (use this OR prompt)\n- language: \"bash\", \"python\", or \"node\" (optional, defaults to \"node\", only used with code)\n- timeout: Interact execution timeout in seconds, 1-300 (optional, defaults to 30)\n- scrapeOptions: Optional scrape controls used only with url mode, such as waitFor, maxAge, proxy, or zeroDataRetention\n\n**Usage Example (prompt, direct via url):**\n```json\n{\n  \"name\": \"firecrawl_interact\",\n  \"arguments\": {\n    \"url\": \"https://example.com/products\",\n    \"prompt\": \"Click on the first product and tell me its price\"\n  }\n}\n```\n\n**Usage Example (code):**\n```json\n{\n  \"name\": \"firecrawl_interact\",\n  \"arguments\": {\n    \"scrapeId\": \"scrape-id-from-previous-scrape\",\n    \"code\": \"agent-browser click @e5\",\n    \"language\": \"bash\"\n  }\n}\n```\n**Returns:** Execution result including output, stdout, stderr, exit code, and live view URLs.\n",
               "inputSchema": {
                 "properties": {
                   "code": {
+                    "minLength": 1,
                     "type": "string"
                   },
                   "language": {
@@ -624,20 +640,267 @@
                     "type": "string"
                   },
                   "prompt": {
+                    "minLength": 1,
                     "type": "string"
                   },
                   "scrapeId": {
+                    "minLength": 1,
                     "type": "string"
+                  },
+                  "scrapeOptions": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "actions": {
+                        "items": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "direction": {
+                              "enum": [
+                                "up",
+                                "down"
+                              ],
+                              "type": "string"
+                            },
+                            "fullPage": {
+                              "type": "boolean"
+                            },
+                            "key": {
+                              "type": "string"
+                            },
+                            "milliseconds": {
+                              "type": "number"
+                            },
+                            "script": {
+                              "type": "string"
+                            },
+                            "selector": {
+                              "type": "string"
+                            },
+                            "text": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "enum": [
+                                "wait",
+                                "screenshot",
+                                "scroll",
+                                "scrape",
+                                "click",
+                                "write",
+                                "press",
+                                "executeJavascript",
+                                "generatePDF"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "excludeTags": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "formats": {
+                        "items": {
+                          "enum": [
+                            "markdown",
+                            "html",
+                            "rawHtml",
+                            "screenshot",
+                            "links",
+                            "summary",
+                            "changeTracking",
+                            "branding",
+                            "json",
+                            "query",
+                            "audio"
+                          ],
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "includeTags": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "jsonOptions": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "prompt": {
+                            "type": "string"
+                          },
+                          "schema": {
+                            "additionalProperties": {},
+                            "propertyNames": {
+                              "type": "string"
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "location": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "country": {
+                            "type": "string"
+                          },
+                          "languages": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "lockdown": {
+                        "type": "boolean"
+                      },
+                      "maxAge": {
+                        "type": "number"
+                      },
+                      "mobile": {
+                        "type": "boolean"
+                      },
+                      "onlyMainContent": {
+                        "type": "boolean"
+                      },
+                      "parsers": {
+                        "items": {
+                          "enum": [
+                            "pdf"
+                          ],
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "pdfOptions": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "maxPages": {
+                            "maximum": 10000,
+                            "minimum": 1,
+                            "type": "integer"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "profile": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "saveChanges": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "proxy": {
+                        "enum": [
+                          "basic",
+                          "stealth",
+                          "enhanced",
+                          "auto"
+                        ],
+                        "type": "string"
+                      },
+                      "queryOptions": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "mode": {
+                            "default": "freeform",
+                            "enum": [
+                              "directQuote",
+                              "freeform"
+                            ],
+                            "type": "string"
+                          },
+                          "prompt": {
+                            "maxLength": 10000,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "prompt",
+                          "mode"
+                        ],
+                        "type": "object"
+                      },
+                      "redactPII": {
+                        "type": "boolean"
+                      },
+                      "removeBase64Images": {
+                        "type": "boolean"
+                      },
+                      "screenshotOptions": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "fullPage": {
+                            "type": "boolean"
+                          },
+                          "quality": {
+                            "type": "number"
+                          },
+                          "viewport": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "height": {
+                                "type": "number"
+                              },
+                              "width": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "width",
+                              "height"
+                            ],
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "skipTlsVerification": {
+                        "type": "boolean"
+                      },
+                      "storeInCache": {
+                        "type": "boolean"
+                      },
+                      "waitFor": {
+                        "type": "number"
+                      },
+                      "zeroDataRetention": {
+                        "type": "boolean"
+                      }
+                    },
+                    "type": "object"
                   },
                   "timeout": {
                     "maximum": 300,
                     "minimum": 1,
                     "type": "number"
+                  },
+                  "url": {
+                    "format": "uri",
+                    "type": "string"
                   }
                 },
-                "required": [
-                  "scrapeId"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "firecrawl_interact"
@@ -665,6 +928,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Map a website"
@@ -706,11 +970,12 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get monitor check"
               },
-              "description": "\nGet a single check with page-level diff results. Filter `pageStatus` to surface only the pages that changed (or were new, removed, etc.).\n\nEach entry in `data.pages[]` has `url`, `status` (`same` | `new` | `changed` | `removed` | `error`), and — when changed — a `diff` and possibly a `snapshot`. The shape of `diff` depends on the monitor's `formats` configuration:\n\n- **Markdown mode (default).** `diff.text` is the unified markdown diff; `diff.json` is a parse-diff AST (`{ files: [...] }`). No `snapshot`.\n- **JSON mode** (`changeTracking` with `modes: [\"json\"]`). `diff.json` is a per-field map keyed by JSON path into the extraction, e.g. `plans[0].price`, with each value being `{ previous, current }`. `snapshot.json` is the full current extraction. No `diff.text`.\n- **Mixed mode** (`modes: [\"json\", \"git-diff\"]`). Both `diff.text` (markdown sidecar) AND `diff.json` (per-field map) are present, plus `snapshot.json`.\n\n**Example JSON-mode response `pages[]` entry:**\n\n```json\n{\n  \"url\": \"https://example.com/pricing\",\n  \"status\": \"changed\",\n  \"diff\": {\n    \"json\": {\n      \"plans[0].price\":       { \"previous\": \"$19/mo\",        \"current\": \"$24/mo\" },\n      \"plans[1].features[2]\": { \"previous\": \"10 GB storage\", \"current\": \"25 GB storage\" }\n    }\n  },\n  \"snapshot\": { \"json\": { \"plans\": [/* current full extraction matching the monitor's schema */] } }\n}\n```\n\nWhen summarizing a check for the user, prefer `diff.json` paths (e.g. \"plans[0].price changed from $19/mo to $24/mo\") over re-printing the markdown diff — it's more concise and grounded in the schema fields they asked for.\n\nThe endpoint paginates via a top-level `next` URL; this tool returns one page at a time. Increase `limit` (max 100) to fetch fewer pages.\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_monitor_check\",\n  \"arguments\": {\n    \"id\": \"mon_abc123\",\n    \"checkId\": \"chk_xyz\",\n    \"pageStatus\": \"changed\"\n  }\n}\n```\n",
+              "description": "\nGet a single check with page-level diff results. Filter `pageStatus` to surface only the pages that changed (or were new, removed, etc.).\n\nEach entry in `data.pages[]` has `url`, `status` (`same` | `new` | `changed` | `removed` | `error`), optional `judgment` when goal-based judging ran, and — when changed — a `diff` and possibly a `snapshot`. The shape of `diff` depends on the monitor's `formats` configuration:\n\n- **Markdown mode (default).** `diff.text` is the unified markdown diff; `diff.json` is a parse-diff AST (`{ files: [...] }`). No `snapshot`.\n- **JSON mode** (`changeTracking` with `modes: [\"json\"]`). `diff.json` is a per-field map keyed by JSON path into the extraction, e.g. `plans[0].price`, with each value being `{ previous, current }`. `snapshot.json` is the full current extraction. No `diff.text`.\n- **Mixed mode** (`modes: [\"json\", \"git-diff\"]`). Both `diff.text` (markdown sidecar) AND `diff.json` (per-field map) are present, plus `snapshot.json`.\n\n**Example JSON-mode response `pages[]` entry:**\n\n```json\n{\n  \"url\": \"https://example.com/pricing\",\n  \"status\": \"changed\",\n  \"diff\": {\n    \"json\": {\n      \"plans[0].price\":       { \"previous\": \"$19/mo\",        \"current\": \"$24/mo\" },\n      \"plans[1].features[2]\": { \"previous\": \"10 GB storage\", \"current\": \"25 GB storage\" }\n    }\n  },\n  \"snapshot\": { \"json\": { \"plans\": [/* current full extraction matching the monitor's schema */] } },\n  \"judgment\": {\n    \"meaningful\": true,\n    \"confidence\": \"high\",\n    \"reason\": \"The pricing changed, which matches the monitor goal.\",\n    \"meaningfulChanges\": [\n      {\n        \"type\": \"changed\",\n        \"before\": \"$19/mo\",\n        \"after\": \"$24/mo\",\n        \"reason\": \"The tracked plan price changed.\"\n      }\n    ]\n  }\n}\n```\n\nWhen summarizing a check for the user, prefer `diff.json` paths (e.g. \"plans[0].price changed from $19/mo to $24/mo\") over re-printing the markdown diff — it's more concise and grounded in the schema fields they asked for.\n\nWhen `judgment` is present, use it to decide what to surface. `judgment.meaningful: false` means the change was classified as noise for the monitor's goal. When `judgment.meaningfulChanges` is present, prefer those goal-relevant changes over raw diff hunks; each item includes `type`, `before`, `after`, and `reason`.\n\nThe endpoint paginates via a top-level `next` URL; this tool returns one page at a time. Increase `limit` (max 100) to fetch fewer pages.\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_monitor_check\",\n  \"arguments\": {\n    \"id\": \"mon_abc123\",\n    \"checkId\": \"chk_xyz\",\n    \"pageStatus\": \"changed\"\n  }\n}\n```\n",
               "inputSchema": {
                 "properties": {
                   "checkId": {
@@ -750,11 +1015,12 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List monitor checks"
               },
-              "description": "\nList historical checks for a monitor.\n\n**Usage Example:**\n```json\n{ \"name\": \"firecrawl_monitor_checks\", \"arguments\": { \"id\": \"mon_abc123\", \"limit\": 10 } }\n```\n",
+              "description": "\nList historical checks for a monitor.\n\n**Usage Example:**\n```json\n{ \"name\": \"firecrawl_monitor_checks\", \"arguments\": { \"id\": \"mon_abc123\", \"limit\": 10, \"status\": \"completed\" } }\n```\n",
               "inputSchema": {
                 "properties": {
                   "id": {
@@ -769,6 +1035,17 @@
                     "maximum": 9007199254740991,
                     "minimum": 0,
                     "type": "integer"
+                  },
+                  "status": {
+                    "enum": [
+                      "queued",
+                      "running",
+                      "completed",
+                      "failed",
+                      "partial",
+                      "skipped_overlap"
+                    ],
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -780,11 +1057,12 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": false,
                 "title": "Create monitor"
               },
-              "description": "\nCreate a Firecrawl monitor — a recurring scrape or crawl that diffs each result against the last retained snapshot.\n\nPass the full request body. Required fields: `name`, `schedule` (with `cron` or `text`), and `targets` (one or more `{ type: 'scrape', urls: [...] }` or `{ type: 'crawl', url: '...' }`). Optional: `webhook`, `notification`, `retentionDays`.\n\n**Markdown-mode (default):** Each check produces a unified text diff of the page's markdown. No extra configuration needed.\n\n```json\n{\n  \"name\": \"firecrawl_monitor_create\",\n  \"arguments\": {\n    \"body\": {\n      \"name\": \"Blog watch\",\n      \"schedule\": { \"text\": \"every 30 minutes\", \"timezone\": \"UTC\" },\n      \"targets\": [{ \"type\": \"scrape\", \"urls\": [\"https://example.com/blog\"] }],\n      \"notification\": { \"email\": { \"enabled\": true, \"recipients\": [\"a@b.com\"] } }\n    }\n  }\n}\n```\n\n**JSON-mode change tracking:** To detect changes in **specific structured fields** (price, headline, in-stock flag, list items) instead of the whole page, add a `changeTracking` format with `modes: [\"json\"]` and a JSON schema to the target's `scrapeOptions.formats`. The check response will then carry a per-field diff (keyed by JSON path, e.g. `plans[0].price`) and a `snapshot.json` with the full current extraction. See `firecrawl_monitor_check` for the response shape.\n\n```json\n{\n  \"name\": \"firecrawl_monitor_create\",\n  \"arguments\": {\n    \"body\": {\n      \"name\": \"Pricing watch\",\n      \"schedule\": { \"text\": \"hourly\", \"timezone\": \"UTC\" },\n      \"targets\": [{\n        \"type\": \"scrape\",\n        \"urls\": [\"https://example.com/pricing\"],\n        \"scrapeOptions\": {\n          \"formats\": [{\n            \"type\": \"changeTracking\",\n            \"modes\": [\"json\"],\n            \"prompt\": \"Extract pricing tiers and headline features for each plan.\",\n            \"schema\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"plans\": {\n                  \"type\": \"array\",\n                  \"items\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                      \"name\":     { \"type\": \"string\" },\n                      \"price\":    { \"type\": \"string\" },\n                      \"features\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }\n                    }\n                  }\n                }\n              }\n            }\n          }]\n        }\n      }]\n    }\n  }\n}\n```\n\n**Mixed mode (JSON + git-diff):** Use `modes: [\"json\", \"git-diff\"]` to get both per-field diffs and a markdown sidecar. The page is marked `changed` whenever either surface changed.\n",
+              "description": "\nCreate a Firecrawl monitor — a recurring scrape or crawl that diffs each result against the last retained snapshot.\n\nPrefer the simple path: pass `page` or `pages` plus `goal`. The tool will create a scrape monitor with a 30-minute schedule and meaningful-change judging enabled by the API. Use `body` only for advanced requests such as crawl targets, JSON change tracking, custom retention, or manual `judgeEnabled` control.\n\nMeaningful-change judge: set `goal` to a plain-language description of what the user actually cares about. `judgeEnabled` defaults to true when `goal` is set, so providing `goal` is enough. Page webhooks expose `isMeaningful` and `judgment` on `monitor.page` events.\n\nSimple fields:\n- `page`: one page URL to monitor.\n- `pages`: multiple page URLs to monitor.\n- `goal`: plain-English instruction for what changes matter. Required for the simple path.\n- `scheduleText`: optional natural-language schedule, default `every 30 minutes`.\n- `email`: optional email recipient for summaries.\n- `webhookUrl`: optional webhook URL. Configures `monitor.page` and `monitor.check.completed`.\n\nGoal guidance:\n- Expand the user's one-line monitoring intent into a concise 2-3 sentence monitor goal.\n- State what should trigger an alert, restate any scope the user gave, and include intent-specific exclusions only when obvious from the user's request.\n- Generic noise such as whitespace, formatting-only changes, request IDs, tracking params, generic metadata, and unrelated page chrome is already handled by the judge; do not repeat it in every goal.\n- If the user is vague, keep the goal broad rather than guessing exclusions. If the user asks for broad monitoring or \"any change\", preserve that and do not add exclusions that hide changes.\n- If the user says they do not care about something, include that explicitly. It is okay to ask whether they want to ignore specific noise when it is likely to matter.\n- Do not invent page-specific sections, thresholds, entities, or business rules unless the user mentioned them.\n\nFull `body` requests require: `name`, `schedule` (with `cron` or `text`), and `targets` (one or more `{ type: 'scrape', urls: [...] }` or `{ type: 'crawl', url: '...' }`). Optional: `goal`, `judgeEnabled`, `webhook`, `notification`, `retentionDays`.\n\n**Markdown-mode (default):** Each check produces a unified text diff of the page's markdown. No extra configuration needed.\n\n```json\n{\n  \"name\": \"firecrawl_monitor_create\",\n  \"arguments\": {\n    \"page\": \"https://example.com/blog\",\n    \"goal\": \"Alert when a new blog post is published or an existing headline changes.\",\n    \"email\": \"alerts@example.com\"\n  }\n}\n```\n\n**Multiple pages:**\n\n```json\n{\n  \"name\": \"firecrawl_monitor_create\",\n  \"arguments\": {\n    \"pages\": [\"https://example.com/pricing\", \"https://example.com/changelog\"],\n    \"goal\": \"Alert when pricing, packaging, or launch messaging changes.\",\n    \"webhookUrl\": \"https://example.com/webhooks/firecrawl\"\n  }\n}\n```\n\n**JSON-mode change tracking:** To detect changes in **specific structured fields** (price, headline, in-stock flag, list items) instead of the whole page, add a `changeTracking` format with `modes: [\"json\"]` and a JSON schema to the target's `scrapeOptions.formats`. The check response will then carry a per-field diff (keyed by JSON path, e.g. `plans[0].price`) and a `snapshot.json` with the full current extraction. See `firecrawl_monitor_check` for the response shape.\n\n```json\n{\n  \"name\": \"firecrawl_monitor_create\",\n  \"arguments\": {\n    \"body\": {\n      \"name\": \"Pricing watch\",\n      \"schedule\": { \"text\": \"hourly\", \"timezone\": \"UTC\" },\n      \"goal\": \"Alert when a pricing tier, price, billing period, limit, or headline feature changes. Ignore unrelated marketing copy unless it changes the pricing offer.\",\n      \"targets\": [{\n        \"type\": \"scrape\",\n        \"urls\": [\"https://example.com/pricing\"],\n        \"scrapeOptions\": {\n          \"formats\": [{\n            \"type\": \"changeTracking\",\n            \"modes\": [\"json\"],\n            \"prompt\": \"Extract pricing tiers and headline features for each plan.\",\n            \"schema\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"plans\": {\n                  \"type\": \"array\",\n                  \"items\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                      \"name\":     { \"type\": \"string\" },\n                      \"price\":    { \"type\": \"string\" },\n                      \"features\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }\n                    }\n                  }\n                }\n              }\n            }\n          }]\n        }\n      }]\n    }\n  }\n}\n```\n\n**Mixed mode (JSON + git-diff):** Use `modes: [\"json\", \"git-diff\"]` to get both per-field diffs and a markdown sidecar. The page is marked `changed` whenever either surface changed.\n",
               "inputSchema": {
                 "properties": {
                   "body": {
@@ -793,11 +1071,39 @@
                       "type": "string"
                     },
                     "type": "object"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "goal": {
+                    "type": "string"
+                  },
+                  "includeDiffs": {
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "type": "string"
+                  },
+                  "pages": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "scheduleText": {
+                    "type": "string"
+                  },
+                  "timezone": {
+                    "type": "string"
+                  },
+                  "webhookUrl": {
+                    "type": "string"
                   }
                 },
-                "required": [
-                  "body"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "firecrawl_monitor_create"
@@ -825,6 +1131,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get monitor"
@@ -845,6 +1152,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List monitors"
@@ -870,6 +1178,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": false,
                 "title": "Run monitor now"
@@ -890,11 +1199,12 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
                 "openWorldHint": true,
                 "readOnlyHint": false,
                 "title": "Update monitor"
               },
-              "description": "\nUpdate a monitor. Pass any subset of fields to patch: `name`, `status` (\"active\" | \"paused\"), `schedule`, `targets`, `webhook`, `notification`, `retentionDays`.\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_monitor_update\",\n  \"arguments\": {\n    \"id\": \"mon_abc123\",\n    \"body\": { \"status\": \"paused\" }\n  }\n}\n```\n",
+              "description": "\nUpdate a monitor. Pass any subset of fields to patch: `name`, `status` (\"active\" | \"paused\"), `schedule`, `targets`, `goal`, `judgeEnabled`, `webhook`, `notification`, `retentionDays`.\n\n**Usage Example:**\n```json\n{\n  \"name\": \"firecrawl_monitor_update\",\n  \"arguments\": {\n    \"id\": \"mon_abc123\",\n    \"body\": { \"status\": \"paused\" }\n  }\n}\n```\n",
               "inputSchema": {
                 "properties": {
                   "body": {
@@ -918,14 +1228,16 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Parse a local file"
               },
-              "description": "\nParse a file from the local filesystem using a self-hosted Firecrawl API's /v2/parse endpoint.\nThis is the fastest and most reliable way to extract content from a document on disk — if the file lives locally and the MCP is pointed at a self-hosted Firecrawl instance, you should always prefer this tool over uploading the file elsewhere and then scraping it.\n\n**Best for:** Extracting content from a local document (PDF, Word, Excel, HTML, etc.) when you don't want to host it on the public web first; pulling structured data out of a file with JSON format; converting binary documents into markdown for downstream reasoning.\n**Not recommended for:** Remote URLs (use firecrawl_scrape); multiple files at once (call parse multiple times); documents that require interactive actions, screenshots, or change tracking — those aren't supported by the parse endpoint.\n**Common mistakes:** Passing a URL instead of a local file path; requesting an unsupported format (screenshot, branding, changeTracking); setting waitFor, location, mobile, or a non-basic/auto proxy — parse uploads reject all of those.\n\n**Supported file types:** .html, .htm, .xhtml, .pdf, .docx, .doc, .odt, .rtf, .xlsx, .xls\n**Unsupported options:** actions, screenshot/branding/changeTracking formats, waitFor \u003e 0, location, mobile, proxy values other than \"auto\" or \"basic\".\n\n**CRITICAL - Format Selection (same rules as firecrawl_scrape):**\nWhen the user asks for SPECIFIC data points from a document, you MUST use JSON format with a schema. Only use markdown when the user needs the ENTIRE document content.\n\n**Use JSON format when the user asks for:**\n- Specific fields, parameters, or values from a form / PDF / spreadsheet\n- Prices, numbers, or other structured data\n- Lists of items or properties\n\n**Use markdown format when:**\n- User wants to read, summarize, or analyze the full document\n- User explicitly asks for the complete content\n\n**Handling PDFs:**\nAdd `\"parsers\": [\"pdf\"]` (optionally with `pdfOptions.maxPages`) when parsing a PDF so the PDF engine is invoked explicitly. For very long documents, cap `maxPages` to keep the response within token limits.\n\n**Usage Example (markdown from a local PDF):**\n```json\n{\n  \"name\": \"firecrawl_parse\",\n  \"arguments\": {\n    \"filePath\": \"/absolute/path/to/document.pdf\",\n    \"formats\": [\"markdown\"],\n    \"parsers\": [\"pdf\"],\n    \"onlyMainContent\": true\n  }\n}\n```\n\n**Usage Example (structured JSON extraction from a local HTML file):**\n```json\n{\n  \"name\": \"firecrawl_parse\",\n  \"arguments\": {\n    \"filePath\": \"./invoice.html\",\n    \"formats\": [\"json\"],\n    \"jsonOptions\": {\n      \"prompt\": \"Extract the invoice number, total, and line items\",\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"invoiceNumber\": { \"type\": \"string\" },\n          \"total\": { \"type\": \"number\" },\n          \"lineItems\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"description\": { \"type\": \"string\" },\n                \"amount\": { \"type\": \"number\" }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n```\n**Returns:** A parsed document with markdown, html, links, summary, json, or query results depending on the requested formats.\n",
+              "description": "\nParse a file using Firecrawl's /v2/parse endpoint.\n\nIn local/non-cloud MCP mode, this tool reads filePath from the MCP server filesystem and posts multipart data to the configured self-hosted FIRECRAWL_API_URL, preserving the existing direct-read behavior.\n\nIn hosted CLOUD_SERVICE mode, this tool is a two-call flow because hosted MCP cannot read your local filesystem:\n1. Call with filePath, contentType, parse options, and optional declaredSizeBytes. The hosted server mints a short-lived upload URL and returns a safe local curl PUT command plus nextToolCall.\n2. Run the returned curl command locally, then call firecrawl_parse again with uploadRef and the desired parse options. The hosted server calls /v2/parse server-side with your session credential.\n\n**Best for:** Extracting content from a local document (PDF, Word, Excel, HTML, etc.); pulling structured data out of a file with JSON format; converting binary documents into markdown for downstream reasoning.\n**Not recommended for:** Remote URLs (use firecrawl_scrape); multiple files at once (call parse multiple times); documents that require interactive actions, screenshots, or change tracking — those aren't supported by the parse endpoint.\n**Common mistakes:** In hosted mode, do not pass both filePath and uploadRef. Phase 1 uses filePath only to generate upload instructions; phase 2 uses uploadRef only to parse server-side.\n\n**Supported file types:** .html, .htm, .xhtml, .pdf, .docx, .doc, .odt, .rtf, .xlsx, .xls\n**Unsupported options:** actions, screenshot/branding/changeTracking formats, waitFor \u003e 0, location, mobile, proxy values other than \"auto\" or \"basic\".\n**Privacy:** Set `redactPII: true` to return content with personally identifiable information redacted.\n\n**CRITICAL - Format Selection (same rules as firecrawl_scrape):**\nWhen the user asks for SPECIFIC data points from a document, you MUST use JSON format with a schema. Only use markdown when the user needs the ENTIRE document content.\n\n**Handling PDFs:**\nAdd `\"parsers\": [\"pdf\"]` (optionally with `pdfOptions.maxPages`) when parsing a PDF so the PDF engine is invoked explicitly. For very long documents, cap `maxPages` to keep the response within token limits.\n\n**Hosted phase 1 example:**\n```json\n{\n  \"name\": \"firecrawl_parse\",\n  \"arguments\": {\n    \"filePath\": \"/absolute/path/to/document.pdf\",\n    \"contentType\": \"application/pdf\",\n    \"formats\": [\"markdown\"],\n    \"parsers\": [\"pdf\"],\n    \"zeroDataRetention\": true\n  }\n}\n```\n\n**Hosted phase 2 example:**\n```json\n{\n  \"name\": \"firecrawl_parse\",\n  \"arguments\": {\n    \"uploadRef\": \"upload-ref-from-phase-1\",\n    \"formats\": [\"markdown\"],\n    \"parsers\": [\"pdf\"],\n    \"zeroDataRetention\": true\n  }\n}\n```\n\n**Returns:** Phase 1 hosted upload instructions or a parsed document with markdown, html, links, summary, json, or query results depending on the requested formats.\n",
               "inputSchema": {
                 "properties": {
                   "contentType": {
+                    "description": "Optional MIME type override. If omitted, the server infers the file kind from the extension.",
                     "type": "string"
                   },
                   "excludeTags": {
@@ -935,6 +1247,7 @@
                     "type": "array"
                   },
                   "filePath": {
+                    "description": "Absolute or relative path to a local file to parse. Supported: .html, .htm, .pdf, .docx, .doc, .odt, .rtf, .xlsx, .xls",
                     "minLength": 1,
                     "type": "string"
                   },
@@ -1030,6 +1343,9 @@
                     ],
                     "type": "object"
                   },
+                  "redactPII": {
+                    "type": "boolean"
+                  },
                   "removeBase64Images": {
                     "type": "boolean"
                   },
@@ -1052,11 +1368,193 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Inspect a paper"
+              },
+              "description": "Fetch canonical metadata for one paper by primaryId or canonical paperId. Use this after search/related results when you need the full title, abstract, authors, categories, source ids, and dates rendered as markdown.",
+              "inputSchema": {
+                "properties": {
+                  "paperId": {
+                    "description": "Canonical paperId or primaryId such as `arxiv:1706.03762`, `pmcid:PMC12530322`, `pmid:40953549`, or `doi:10.1016/j.neunet.2025.108095`.",
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "paperId"
+                ],
+                "type": "object"
+              },
+              "name": "firecrawl_research_inspect_paper"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Read a paper"
+              },
+              "description": "Read the most relevant in-body (full-text) passages of ONE specific paper for a question. Use this to VERIFY whether a candidate actually satisfies a constraint before you include or reject it (e.g. 'does this paper actually use technique X / report a score on benchmark Y'). Returns the best-matching passages, or a notice if the paper's full text is unavailable.",
+              "inputSchema": {
+                "properties": {
+                  "k": {
+                    "description": "Number of passages to return (default 4).",
+                    "maximum": 50,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "paperId": {
+                    "description": "Canonical paperId or primaryId such as `arxiv:1706.03762`, `pmcid:PMC12530322`, `pmid:40953549`, or `doi:10.1016/j.neunet.2025.108095`.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "question": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "paperId",
+                  "question"
+                ],
+                "type": "object"
+              },
+              "name": "firecrawl_research_read_paper"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Find related arXiv papers"
+              },
+              "description": "Expand from anchor papers you have already found, via the citation graph, ranked and filtered to a natural-language `intent`. Pass arXiv ids of your strongest hits as `seed_ids`. Modes: `similar` (cocitation/coupling — papers in the same niche; the default), `citers` (papers that cite the anchors), `references` (papers the anchors cite). This reaches relevant papers that plain search misses, so use it on your best hits before finishing. A `similar` call already runs a DEEP multi-round expansion internally (re-seeding from each round’s best finds), so one call reaches the wider neighborhood — no need to chain many. Returns the candidates plus the pool size.",
+              "inputSchema": {
+                "properties": {
+                  "intent": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "k": {
+                    "maximum": 500,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "mode": {
+                    "enum": [
+                      "similar",
+                      "citers",
+                      "references"
+                    ],
+                    "type": "string"
+                  },
+                  "rerank": {
+                    "description": "Apply an additional rerank over the fused candidates.",
+                    "type": "boolean"
+                  },
+                  "seed_ids": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "maxItems": 10,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "seed_ids",
+                  "intent"
+                ],
+                "type": "object"
+              },
+              "name": "firecrawl_research_related_papers"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Search GitHub history"
+              },
+              "description": "Search GitHub issue/PR history and repository readmes. Returns ranked matches with repo, url, a short snippet, and (when available) the full matched content in markdown.",
+              "inputSchema": {
+                "properties": {
+                  "k": {
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "query": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "firecrawl_research_search_github"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Search arXiv papers"
+              },
+              "description": "Primary entry point for finding arXiv papers by topic. Semantic (HyDE) search over arXiv abstracts; returns ranked papers with arXiv id, title, and abstract. The query should be a natural-language description of what you want. Run SEVERAL distinct framings of the question (sibling domains, rival methods, dataset/benchmark names) rather than one query — recall improves markedly with diverse framings. Returns up to `k` results (default 40).",
+              "inputSchema": {
+                "properties": {
+                  "authors": {
+                    "description": "Author substring filter(s); ALL must match (case-insensitive).",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "categories": {
+                    "description": "arXiv category filter(s) (e.g. `cs.LG`); ALL must match.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "from": {
+                    "description": "Inclusive lower bound on created/updated date (`YYYY-MM-DD`).",
+                    "type": "string"
+                  },
+                  "k": {
+                    "maximum": 500,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "query": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "Inclusive upper bound on created/updated date (`YYYY-MM-DD`).",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "firecrawl_research_search_papers"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": false,
                 "title": "Scrape a URL"
               },
-              "description": "\nScrape content from a single URL with advanced options.\nThis is the most powerful, fastest and most reliable scraper tool, if available you should always default to using this tool for any web scraping needs.\n\n**Best for:** Single page content extraction, when you know exactly which page contains the information.\n**Not recommended for:** Multiple pages (call scrape multiple times or use crawl), unknown page location (use search).\n**Common mistakes:** Using markdown format when extracting specific data points (use JSON instead).\n**Other Features:** Use 'branding' format to extract brand identity (colors, fonts, typography, spacing, UI components) for design analysis or style replication.\n\n**CRITICAL - Format Selection (you MUST follow this):**\nWhen the user asks for SPECIFIC data points, you MUST use JSON format with a schema. Only use markdown when the user needs the ENTIRE page content.\n\n**Use JSON format when user asks for:**\n- Parameters, fields, or specifications (e.g., \"get the header parameters\", \"what are the required fields\")\n- Prices, numbers, or structured data (e.g., \"extract the pricing\", \"get the product details\")\n- API details, endpoints, or technical specs (e.g., \"find the authentication endpoint\")\n- Lists of items or properties (e.g., \"list the features\", \"get all the options\")\n- Any specific piece of information from a page\n\n**Use markdown format ONLY when:**\n- User wants to read/summarize an entire article or blog post\n- User needs to see all content on a page without specific extraction\n- User explicitly asks for the full page content\n\n**Handling JavaScript-rendered pages (SPAs):**\nIf JSON extraction returns empty, minimal, or just navigation content, the page is likely JavaScript-rendered or the content is on a different URL. Try these steps IN ORDER:\n1. **Add waitFor parameter:** Set `waitFor: 5000` to `waitFor: 10000` to allow JavaScript to render before extraction\n2. **Try a different URL:** If the URL has a hash fragment (#section), try the base URL or look for a direct page URL\n3. **Use firecrawl_map to find the correct page:** Large documentation sites or SPAs often spread content across multiple URLs. Use `firecrawl_map` with a `search` parameter to discover the specific page containing your target content, then scrape that URL directly.\n   Example: If scraping \"https://docs.example.com/reference\" fails to find webhook parameters, use `firecrawl_map` with `{\"url\": \"https://docs.example.com/reference\", \"search\": \"webhook\"}` to find URLs like \"/reference/webhook-events\", then scrape that specific page.\n4. **Use firecrawl_agent:** As a last resort for heavily dynamic pages where map+scrape still fails, use the agent which can autonomously navigate and research\n\n**Usage Example (JSON format - REQUIRED for specific data extraction):**\n```json\n{\n  \"name\": \"firecrawl_scrape\",\n  \"arguments\": {\n    \"url\": \"https://example.com/api-docs\",\n    \"formats\": [\"json\"],\n    \"jsonOptions\": {\n      \"prompt\": \"Extract the header parameters for the authentication endpoint\",\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"parameters\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"name\": { \"type\": \"string\" },\n                \"type\": { \"type\": \"string\" },\n                \"required\": { \"type\": \"boolean\" },\n                \"description\": { \"type\": \"string\" }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n```\n\n**Prefer markdown format by default.** You can read and reason over the full page content directly — no need for an intermediate query step. Use markdown for questions about page content, factual lookups, and any task where you need to understand the page.\n\n**Use JSON format when user needs:**\n- Structured data with specific fields (extract all products with name, price, description)\n- Data in a specific schema for downstream processing\n\n**Use query format only when:**\n- The page is extremely long and you need a single targeted answer without processing the full content\n- You want a quick factual answer and don't need to retain the page content\n- Set `queryOptions.mode` to `\"directQuote\"` when you need verbatim page text; otherwise it defaults to `\"freeform\"`\n\n**Usage Example (markdown format - default for most tasks):**\n```json\n{\n  \"name\": \"firecrawl_scrape\",\n  \"arguments\": {\n    \"url\": \"https://example.com/article\",\n    \"formats\": [\"markdown\"],\n    \"onlyMainContent\": true\n  }\n}\n```\n**Usage Example (branding format - extract brand identity):**\n```json\n{\n  \"name\": \"firecrawl_scrape\",\n  \"arguments\": {\n    \"url\": \"https://example.com\",\n    \"formats\": [\"branding\"]\n  }\n}\n```\n**Branding format:** Extracts comprehensive brand identity (colors, fonts, typography, spacing, logo, UI components) for design analysis or style replication.\n**Performance:** Add maxAge parameter for 500% faster scrapes using cached data.\n**Lockdown mode:** Set `lockdown: true` to serve the request only from the existing index/cache without any outbound network request. For air-gapped or compliance-constrained use where the request URL itself is considered sensitive. Errors on cache miss. Billed at 5 credits.\n**Returns:** JSON structured data, markdown, branding profile, or other formats as specified.\n\n",
+              "description": "\nScrape content from a single URL with advanced options.\nThis is the most powerful, fastest and most reliable scraper tool, if available you should always default to using this tool for any web scraping needs.\n\n**Best for:** Single page content extraction, when you know exactly which page contains the information.\n**Not recommended for:** Multiple pages (call scrape multiple times or use crawl), unknown page location (use search).\n**Common mistakes:** Using markdown format when extracting specific data points (use JSON instead).\n**Other Features:** Use 'branding' format to extract brand identity (colors, fonts, typography, spacing, UI components) for design analysis or style replication.\n\n**CRITICAL - Format Selection (you MUST follow this):**\nWhen the user asks for SPECIFIC data points, you MUST use JSON format with a schema. Only use markdown when the user needs the ENTIRE page content.\n\n**Use JSON format when user asks for:**\n- Parameters, fields, or specifications (e.g., \"get the header parameters\", \"what are the required fields\")\n- Prices, numbers, or structured data (e.g., \"extract the pricing\", \"get the product details\")\n- API details, endpoints, or technical specs (e.g., \"find the authentication endpoint\")\n- Lists of items or properties (e.g., \"list the features\", \"get all the options\")\n- Any specific piece of information from a page\n\n**Use markdown format ONLY when:**\n- User wants to read/summarize an entire article or blog post\n- User needs to see all content on a page without specific extraction\n- User explicitly asks for the full page content\n\n**Handling JavaScript-rendered pages (SPAs):**\nIf JSON extraction returns empty, minimal, or just navigation content, the page is likely JavaScript-rendered or the content is on a different URL. Try these steps IN ORDER:\n1. **Add waitFor parameter:** Set `waitFor: 5000` to `waitFor: 10000` to allow JavaScript to render before extraction\n2. **Try a different URL:** If the URL has a hash fragment (#section), try the base URL or look for a direct page URL\n3. **Use firecrawl_map to find the correct page:** Large documentation sites or SPAs often spread content across multiple URLs. Use `firecrawl_map` with a `search` parameter to discover the specific page containing your target content, then scrape that URL directly.\n   Example: If scraping \"https://docs.example.com/reference\" fails to find webhook parameters, use `firecrawl_map` with `{\"url\": \"https://docs.example.com/reference\", \"search\": \"webhook\"}` to find URLs like \"/reference/webhook-events\", then scrape that specific page.\n4. **Use firecrawl_agent:** As a last resort for heavily dynamic pages where map+scrape still fails, use the agent which can autonomously navigate and research\n\n**Usage Example (JSON format - REQUIRED for specific data extraction):**\n```json\n{\n  \"name\": \"firecrawl_scrape\",\n  \"arguments\": {\n    \"url\": \"https://example.com/api-docs\",\n    \"formats\": [\"json\"],\n    \"jsonOptions\": {\n      \"prompt\": \"Extract the header parameters for the authentication endpoint\",\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"parameters\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"name\": { \"type\": \"string\" },\n                \"type\": { \"type\": \"string\" },\n                \"required\": { \"type\": \"boolean\" },\n                \"description\": { \"type\": \"string\" }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n```\n\n**Prefer markdown format by default.** You can read and reason over the full page content directly — no need for an intermediate query step. Use markdown for questions about page content, factual lookups, and any task where you need to understand the page.\n\n**Use JSON format when user needs:**\n- Structured data with specific fields (extract all products with name, price, description)\n- Data in a specific schema for downstream processing\n\n**Use query format only when:**\n- The page is extremely long and you need a single targeted answer without processing the full content\n- You want a quick factual answer and don't need to retain the page content\n- Set `queryOptions.mode` to `\"directQuote\"` when you need verbatim page text; otherwise it defaults to `\"freeform\"`\n\n**Usage Example (markdown format - default for most tasks):**\n```json\n{\n  \"name\": \"firecrawl_scrape\",\n  \"arguments\": {\n    \"url\": \"https://example.com/article\",\n    \"formats\": [\"markdown\"],\n    \"onlyMainContent\": true\n  }\n}\n```\n**Usage Example (branding format - extract brand identity):**\n```json\n{\n  \"name\": \"firecrawl_scrape\",\n  \"arguments\": {\n    \"url\": \"https://example.com\",\n    \"formats\": [\"branding\"]\n  }\n}\n```\n**Branding format:** Extracts comprehensive brand identity (colors, fonts, typography, spacing, logo, UI components) for design analysis or style replication.\n**Performance:** Add maxAge parameter for 500% faster scrapes using cached data.\n**Lockdown mode:** Set `lockdown: true` to serve the request only from the existing index/cache without any outbound network request. For air-gapped or compliance-constrained use where the request URL itself is considered sensitive. Errors on cache miss. Billed at 5 credits.\n**Privacy:** Set `redactPII: true` to return content with personally identifiable information redacted.\n**Returns:** JSON structured data, markdown, branding profile, or other formats as specified.\n\n",
               "inputSchema": {
                 "properties": {
                   "actions": {
@@ -1250,6 +1748,9 @@
                     ],
                     "type": "object"
                   },
+                  "redactPII": {
+                    "type": "boolean"
+                  },
                   "removeBase64Images": {
                     "type": "boolean"
                   },
@@ -1307,6 +1808,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Search the web"
@@ -1550,6 +2052,9 @@
                         ],
                         "type": "object"
                       },
+                      "redactPII": {
+                        "type": "boolean"
+                      },
                       "removeBase64Images": {
                         "type": "boolean"
                       },
@@ -1629,6 +2134,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": false,
                 "title": "Send feedback on a search result"
@@ -1637,6 +2143,7 @@
               "inputSchema": {
                 "properties": {
                   "missingContent": {
+                    "description": "Array of specific pieces of content the agent expected to find but did not. One entry per distinct topic. Each entry has a short `topic` and optional longer `description`.",
                     "items": {
                       "additionalProperties": false,
                       "properties": {
@@ -1709,13 +2216,10 @@
           "tools": [
             "firecrawl_agent",
             "firecrawl_agent_status",
-            "firecrawl_browser_create",
-            "firecrawl_browser_delete",
-            "firecrawl_browser_execute",
-            "firecrawl_browser_list",
             "firecrawl_check_crawl_status",
             "firecrawl_crawl",
             "firecrawl_extract",
+            "firecrawl_feedback",
             "firecrawl_interact",
             "firecrawl_interact_stop",
             "firecrawl_map",
@@ -1728,6 +2232,11 @@
             "firecrawl_monitor_run",
             "firecrawl_monitor_update",
             "firecrawl_parse",
+            "firecrawl_research_inspect_paper",
+            "firecrawl_research_read_paper",
+            "firecrawl_research_related_papers",
+            "firecrawl_research_search_github",
+            "firecrawl_research_search_papers",
             "firecrawl_scrape",
             "firecrawl_search",
             "firecrawl_search_feedback"
@@ -1759,30 +2268,6 @@
         {
           "description": "FireCrawl API URL (default: https://api.firecrawl.dev/v1)",
           "name": "FIRECRAWL_API_URL"
-        },
-        {
-          "description": "Maximum number of retry attempts for API calls",
-          "name": "FIRECRAWL_RETRY_MAX_ATTEMPTS"
-        },
-        {
-          "description": "Initial delay in milliseconds for retry backoff",
-          "name": "FIRECRAWL_RETRY_INITIAL_DELAY"
-        },
-        {
-          "description": "Maximum delay in milliseconds for retry backoff",
-          "name": "FIRECRAWL_RETRY_MAX_DELAY"
-        },
-        {
-          "description": "Backoff factor for retry delay calculation",
-          "name": "FIRECRAWL_RETRY_BACKOFF_FACTOR"
-        },
-        {
-          "description": "Credit threshold for warning notifications",
-          "name": "FIRECRAWL_CREDIT_WARNING_THRESHOLD"
-        },
-        {
-          "description": "Credit threshold for critical notifications",
-          "name": "FIRECRAWL_CREDIT_CRITICAL_THRESHOLD"
         }
       ],
       "identifier": "docker.io/mcp/firecrawl:latest",

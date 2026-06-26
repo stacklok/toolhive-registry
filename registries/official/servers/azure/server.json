@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "mcr.microsoft.com/azure-sdk/azure-mcp:2.0.4": {
           "metadata": {
-            "last_updated": "2026-06-25T04:21:30Z",
+            "last_updated": "2026-06-26T21:27:24Z",
             "stars": 1206
           },
           "overview": "## Azure MCP Server\n\nThe azure MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Microsoft Azure resources and APIs through a unified, AI-friendly interface. It allows natural-language workflows to explore, query, and manage Azure infrastructure and services without requiring custom SDK integration or manual portal usage. This server is well suited for cloud operations, infrastructure exploration, troubleshooting, and automation scenarios where Azure context needs to be embedded directly into AI-driven workflows.",
@@ -2248,20 +2248,17 @@
     {
       "environmentVariables": [
         {
-          "description": "Your Azure tenant ID",
-          "isRequired": true,
+          "description": "Your Azure tenant ID (only needed for service-principal auth; optional when using the Azure credential chain such as Azure CLI or managed identity)",
           "isSecret": true,
           "name": "AZURE_TENANT_ID"
         },
         {
-          "description": "Your Azure client ID for authentication",
-          "isRequired": true,
+          "description": "Your Azure client ID for authentication (only needed for service-principal auth; optional when using the Azure credential chain such as Azure CLI or managed identity)",
           "isSecret": true,
           "name": "AZURE_CLIENT_ID"
         },
         {
-          "description": "Your Azure client secret for authentication",
-          "isRequired": true,
+          "description": "Your Azure client secret for authentication (only needed for service-principal auth; optional when using the Azure credential chain such as Azure CLI or managed identity)",
           "isSecret": true,
           "name": "AZURE_CLIENT_SECRET"
         },
@@ -2287,7 +2284,7 @@
   ],
   "repository": {
     "source": "github",
-    "url": "https://github.com/Azure/azure-mcp"
+    "url": "https://github.com/microsoft/mcp"
   },
   "title": "Azure",
   "version": "1.0.0"

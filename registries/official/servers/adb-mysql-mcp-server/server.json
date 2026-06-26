@@ -131,9 +131,18 @@
           "name": "ADB_MYSQL_PASSWORD"
         },
         {
-          "description": "Database name to connect to",
-          "isRequired": true,
+          "description": "Database name to connect to (optional; can be passed per-call via the database tool argument instead)",
           "name": "ADB_MYSQL_DATABASE"
+        },
+        {
+          "description": "Alibaba Cloud access key ID; required for the OpenAPI tool group (cluster management, diagnostics, monitoring). The OpenAPI tools are disabled if it is unset.",
+          "isSecret": true,
+          "name": "ALIBABA_CLOUD_ACCESS_KEY_ID"
+        },
+        {
+          "description": "Alibaba Cloud access key secret; required for the OpenAPI tool group (cluster management, diagnostics, monitoring). The OpenAPI tools are disabled if it is unset.",
+          "isSecret": true,
+          "name": "ALIBABA_CLOUD_ACCESS_KEY_SECRET"
         }
       ],
       "identifier": "ghcr.io/stacklok/dockyard/uvx/adb-mysql-mcp-server:1.0.0",

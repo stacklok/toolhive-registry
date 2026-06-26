@@ -13,8 +13,8 @@
             "8000"
           ],
           "metadata": {
-            "last_updated": "2026-04-24T03:04:34Z",
-            "stars": 144
+            "last_updated": "2026-04-22T03:04:17Z",
+            "stars": 143
           },
           "overview": "## CrowdStrike Falcon MCP Server\n\nThe crowdstrike-falcon-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the CrowdStrike Falcon platform through a structured, AI-friendly interface. It allows AI-driven workflows to query security telemetry, investigate threats, manage detections, and inspect endpoint posture without switching tools or manually navigating the Falcon console. This server is particularly useful for security operations (SOC), incident response, threat hunting, and security analysis workflows augmented by AI.",
           "permissions": {
@@ -102,8 +102,7 @@
           "name": "FALCON_CLIENT_SECRET"
         },
         {
-          "description": "CrowdStrike API base URL (e.g., https://api.crowdstrike.com, https://api.us-2.crowdstrike.com, https://api.eu-1.crowdstrike.com)",
-          "isRequired": true,
+          "description": "CrowdStrike API base URL (optional; defaults to https://api.crowdstrike.com). Region-specific, e.g. https://api.us-2.crowdstrike.com, https://api.eu-1.crowdstrike.com",
           "name": "FALCON_BASE_URL"
         },
         {
