@@ -1,0 +1,103 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/box-remote",
+  "description": "Box's official hosted MCP server for files, AI querying, metadata, and document generation",
+  "title": "Box (Remote)",
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.box.com"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/box-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.box.com": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "box",
+            "storage",
+            "files",
+            "ai",
+            "content-management",
+            "document-generation",
+            "oauth"
+          ],
+          "tools": [
+            "who_am_i",
+            "get_download_url",
+            "get_file_content",
+            "get_file_details",
+            "get_file_preview",
+            "get_folder_details",
+            "list_folder_content_by_folder_id",
+            "copy_file",
+            "copy_folder",
+            "create_folder",
+            "move_file",
+            "move_folder",
+            "upload_file",
+            "upload_file_version",
+            "get_upload_url",
+            "update_file_properties",
+            "update_folder_properties",
+            "set_file_metadata",
+            "set_folder_metadata",
+            "create_metadata_template",
+            "update_metadata_template",
+            "list_metadata_templates",
+            "get_metadata_template_schema",
+            "search_files_keyword",
+            "search_files_metadata",
+            "search_folders_by_name",
+            "list_file_comments",
+            "list_item_collaborations",
+            "list_tasks",
+            "add_file_shared_link",
+            "add_folder_shared_link",
+            "create_collaboration",
+            "update_collaboration",
+            "create_file_comment",
+            "ai_qa_single_file",
+            "ai_qa_multi_file",
+            "ai_qa_hub",
+            "ai_extract_freeform",
+            "ai_extract_structured",
+            "ai_extract_structured_from_fields",
+            "ai_extract_structured_from_fields_enhanced",
+            "ai_extract_structured_from_metadata_template",
+            "ai_extract_structured_from_metadata_template_enhanced",
+            "list_hubs",
+            "get_hub_details",
+            "get_hub_items",
+            "create_hub",
+            "update_hub",
+            "copy_hub",
+            "add_items_to_hub",
+            "list_docgen_templates",
+            "get_docgen_template_by_id",
+            "create_docgen_template",
+            "create_docgen_batch"
+          ],
+          "overview": "## Box (Remote)\n\nThe box-remote MCP server is Box's official hosted Model Context Protocol server, letting AI assistants and agents work with Box content without running a local MCP process. It provides secure, permission-aware access through OAuth, so users sign in with their Box credentials and the server respects existing access controls. Capabilities span searching files and folders, reading and managing content, setting metadata, managing collaborations and shared links, organizing Box Hubs, querying and extracting data with Box AI, and generating documents from Box Doc Gen templates. Administrators enable access and configure scopes for supported AI platforms in the Box Admin Console.",
+          "custom_metadata": {
+            "author": "Box",
+            "homepage": "https://docs.box.com/en/box-mcp/about-box-mcp-server"
+          }
+        }
+      }
+    }
+  }
+}
