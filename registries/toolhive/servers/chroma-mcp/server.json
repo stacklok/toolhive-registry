@@ -584,7 +584,7 @@
     {
       "environmentVariables": [
         {
-          "description": "API key for ChromaDB authentication",
+          "description": "Chroma Cloud API key, sent as the x-chroma-token header to api.trychroma.com; only used when CHROMA_CLIENT_TYPE is 'cloud'",
           "isSecret": true,
           "name": "CHROMA_API_KEY"
         }
