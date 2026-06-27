@@ -14,11 +14,13 @@
               "outbound": {
                 "allow_host": [
                   "api.brightdata.com",
-                  "brightdata.com"
+                  "brightdata.com",
+                  "brd.superproxy.io"
                 ],
                 "allow_port": [
                   443,
-                  80
+                  80,
+                  9222
                 ]
               }
             }

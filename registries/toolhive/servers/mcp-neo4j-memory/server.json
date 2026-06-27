@@ -82,6 +82,11 @@
           "description": "Neo4j database password",
           "isSecret": true,
           "name": "NEO4J_PASSWORD"
+        },
+        {
+          "default": "neo4j",
+          "description": "Neo4j database name",
+          "name": "NEO4J_DATABASE"
         }
       ],
       "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-neo4j-memory:0.4.5",

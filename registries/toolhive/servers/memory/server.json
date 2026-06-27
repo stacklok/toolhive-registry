@@ -5,17 +5,13 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/server-memory:2026.1.26": {
           "metadata": {
-            "last_updated": "2026-05-29T13:15:41Z",
+            "last_updated": "2026-06-26T19:44:53Z",
             "stars": 85231
           },
           "overview": "## Memory MCP Server\n\nThe memory MCP server provides AI assistants with persistent, long-term memory across interactions. It allows AI workflows to maintain context and knowledge beyond individual conversations, supporting personalization and enabling continuity in assistant interactions. The system works by running as an MCP service that manages persistent storage, handling indexing and retrieval so AI clients can access historical context during reasoning tasks — enabling assistants to develop awareness of user preferences and prior decisions over extended periods.",
           "permissions": {
             "network": {
-              "outbound": {
-                "allow_port": [
-                  443
-                ]
-              }
+              "outbound": {}
             }
           },
           "status": "Active",
