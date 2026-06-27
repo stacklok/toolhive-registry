@@ -5,8 +5,8 @@
       "io.github.stacklok": {
         "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:1.3.46": {
           "metadata": {
-            "last_updated": "2026-04-24T03:04:35Z",
-            "stars": 8858
+            "last_updated": "2026-04-24T09:55:11Z",
+            "stars": 8859
           },
           "overview": "## AWS API MCP Server\n\nThe aws-api MCP server is an MCP (Model Context Protocol) server that enables AI assistants and agents to interact directly and securely with AWS services and APIs through a standardized, protocol-driven interface. It acts as a bridge between your MCP-compatible AI workflows and the breadth of AWS's cloud API surface, allowing natural-language-orchestrated tasks — from exploring resources to managing infrastructure — without manual API coding.",
           "permissions": {
@@ -14,7 +14,8 @@
               "outbound": {
                 "allow_host": [
                   "aws.amazon.com",
-                  ".amazonaws.com"
+                  ".amazonaws.com",
+                  "api-mcp.global.api.aws"
                 ],
                 "allow_port": [
                   443

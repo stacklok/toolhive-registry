@@ -8,8 +8,8 @@
             "http"
           ],
           "metadata": {
-            "last_updated": "2026-04-21T03:03:49Z",
-            "stars": 646
+            "last_updated": "2026-04-23T03:03:47Z",
+            "stars": 647
           },
           "overview": "## Elasticsearch MCP Server\n\nThe elasticsearch-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Elasticsearch clusters through a structured, AI-friendly interface. It allows AI-driven workflows to search, index, analyze, and manage data stored in Elasticsearch without writing custom client code or switching to separate tooling. This server is well suited for search-driven applications, log analysis, observability workflows, and any AI use case that depends on fast, flexible querying over large datasets.",
           "permissions": {
@@ -80,20 +80,8 @@
           "name": "ES_PASSWORD"
         },
         {
-          "description": "Path to custom CA certificate for Elasticsearch SSL/TLS",
-          "name": "ES_CA_CERT"
-        },
-        {
           "description": "Set to '1' or 'true' to skip SSL certificate verification",
           "name": "ES_SSL_SKIP_VERIFY"
-        },
-        {
-          "description": "Path prefix for Elasticsearch instance exposed at a non-root path",
-          "name": "ES_PATH_PREFIX"
-        },
-        {
-          "description": "Server assumes Elasticsearch 9.x. Set to 8 target Elasticsearch 8.x",
-          "name": "ES_VERSION"
         }
       ],
       "identifier": "docker.elastic.co/mcp/elasticsearch:0.4.6",

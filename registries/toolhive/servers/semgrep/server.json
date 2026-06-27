@@ -9,7 +9,7 @@
             "mcp"
           ],
           "metadata": {
-            "last_updated": "2026-06-25T04:22:57Z",
+            "last_updated": "2026-06-26T21:53:45Z",
             "stars": 15042
           },
           "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
@@ -327,7 +327,7 @@
     {
       "environmentVariables": [
         {
-          "description": "Token for connecting to Semgrep AppSec Platform",
+          "description": "Token for connecting to the Semgrep AppSec Platform; required for the semgrep_findings tool, optional for local scan tools",
           "isSecret": true,
           "name": "SEMGREP_APP_TOKEN"
         }

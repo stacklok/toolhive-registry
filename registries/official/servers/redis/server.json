@@ -5,8 +5,8 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/redis-mcp-server:0.5.0": {
           "metadata": {
-            "last_updated": "2026-05-29T13:16:14Z",
-            "stars": 511
+            "last_updated": "2026-06-26T21:53:42Z",
+            "stars": 504
           },
           "overview": "## Redis MCP Server\n\nThe redis MCP server enables LLMs to interact with Redis key-value databases through a set of standardized tools. The server connects to Redis databases and provides MCP tools for basic operations (CRUD operations, database management), data structures (full support for strings, hashes, lists, sets, sorted sets, JSON), vector search functionality, and streams/Pub/Sub features for messaging and time-series data handling.",
           "permissions": {
@@ -1342,7 +1342,7 @@
         },
         {
           "description": "CA certificate for verifying server",
-          "name": "REDIS_CA_PATH"
+          "name": "REDIS_SSL_CA_PATH"
         },
         {
           "description": "Client's private key file for client authentication",
@@ -1354,7 +1354,7 @@
         },
         {
           "description": "Whether the client should verify the server's certificate (default \"required\")",
-          "name": "REDIS_CERT_REQS"
+          "name": "REDIS_SSL_CERT_REQS"
         },
         {
           "description": "Path to the trusted CA certificates file",
@@ -1363,10 +1363,6 @@
         {
           "description": "Enable Redis Cluster mode (True|False, default False)",
           "name": "REDIS_CLUSTER_MODE"
-        },
-        {
-          "description": "Use the stdio or sse transport (default stdio)",
-          "name": "MCP_TRANSPORT"
         }
       ],
       "identifier": "ghcr.io/stacklok/dockyard/uvx/redis-mcp-server:0.5.0",

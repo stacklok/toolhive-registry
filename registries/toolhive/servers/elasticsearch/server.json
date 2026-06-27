@@ -80,20 +80,8 @@
           "name": "ES_PASSWORD"
         },
         {
-          "description": "Path to custom CA certificate for Elasticsearch SSL/TLS",
-          "name": "ES_CA_CERT"
-        },
-        {
           "description": "Set to '1' or 'true' to skip SSL certificate verification",
           "name": "ES_SSL_SKIP_VERIFY"
-        },
-        {
-          "description": "Path prefix for Elasticsearch instance exposed at a non-root path",
-          "name": "ES_PATH_PREFIX"
-        },
-        {
-          "description": "Server assumes Elasticsearch 9.x. Set to 8 target Elasticsearch 8.x",
-          "name": "ES_VERSION"
         }
       ],
       "identifier": "docker.elastic.co/mcp/elasticsearch:0.4.6",
