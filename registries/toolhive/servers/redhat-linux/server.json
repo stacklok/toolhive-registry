@@ -19,6 +19,16 @@
             "troubleshooting",
             "networking"
           ],
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  22
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
           "tier": "Official",
           "tool_definitions": [
             {

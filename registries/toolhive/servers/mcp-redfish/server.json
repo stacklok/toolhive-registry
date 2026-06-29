@@ -17,6 +17,16 @@
             "hardware",
             "server-management"
           ],
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_port": [
+                  443
+                ],
+                "insecure_allow_all": true
+              }
+            }
+          },
           "tier": "Community",
           "tool_definitions": [
             {
