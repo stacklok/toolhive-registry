@@ -243,6 +243,5 @@ A `Required` miss is REQUEST_CHANGES or REJECT. `Expected` misses are called out
 ```bash
 task catalog:validate                                             # Validate all entries
 task catalog:build                                                # Build registry
-jq '.servers["<name>"]' build/toolhive/registry.json              # Check container entry
-jq '.remote_servers["<name>"]' build/toolhive/registry.json       # Check remote entry
+jq '.data.servers[] | select(.name == "io.github.stacklok/<name>")' build/toolhive/registry-upstream.json
 ```

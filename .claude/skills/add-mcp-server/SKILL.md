@@ -161,8 +161,7 @@ task catalog:validate
 task catalog:build
 
 # Verify entry in output
-jq '.servers["<name>"]' build/toolhive/registry.json          # containers
-jq '.remote_servers["<name>"]' build/toolhive/registry.json   # remotes
+jq '.data.servers[] | select(.name == "io.github.stacklok/<name>")' build/toolhive/registry-upstream.json
 ```
 
 ## Reference Examples
