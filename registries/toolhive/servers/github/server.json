@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/github/github-mcp-server:v1.5.0": {
           "metadata": {
-            "last_updated": "2026-06-26T21:53:04Z",
+            "last_updated": "2026-06-30T06:52:03Z",
             "stars": 28440
           },
           "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -121,19 +121,38 @@
               "annotations": {
                 "title": "Add comment to issue or pull request"
               },
-              "description": "Add a comment to a specific issue in a GitHub repository. Use this tool to add comments to pull requests as well (in this case pass pull request number as issue_number), but only if user is not asking specifically to add review comments.",
+              "description": "Add a comment and/or reaction to a specific issue or issue comment in a GitHub repository. Use this tool with pull requests as well (in this case pass pull request number as issue_number), but only if user is not asking specifically to add or react to review comments. At least one of body or reaction is required.",
               "inputSchema": {
                 "properties": {
                   "body": {
-                    "description": "Comment content",
+                    "description": "Comment content. Required unless reaction is provided.",
                     "type": "string"
                   },
+                  "comment_id": {
+                    "description": "The numeric ID of the issue or pull request comment to react to. Use this for reactions to comments; omit it to react to the issue or pull request itself. Cannot be combined with body.",
+                    "minimum": 1,
+                    "type": "number"
+                  },
                   "issue_number": {
-                    "description": "Issue number to comment on",
+                    "description": "Issue or pull request number to comment on or react to.",
                     "type": "number"
                   },
                   "owner": {
                     "description": "Repository owner",
+                    "type": "string"
+                  },
+                  "reaction": {
+                    "description": "Emoji reaction to add. Required unless body is provided.",
+                    "enum": [
+                      "+1",
+                      "-1",
+                      "laugh",
+                      "confused",
+                      "heart",
+                      "hooray",
+                      "rocket",
+                      "eyes"
+                    ],
                     "type": "string"
                   },
                   "repo": {
@@ -144,8 +163,7 @@
                 "required": [
                   "owner",
                   "repo",
-                  "issue_number",
-                  "body"
+                  "issue_number"
                 ],
                 "type": "object"
               },
@@ -155,15 +173,16 @@
               "annotations": {
                 "title": "Add reply to pull request comment"
               },
-              "description": "Add a reply to an existing pull request comment. This creates a new comment that is linked as a reply to the specified comment.",
+              "description": "Add a reply and/or reaction to an existing pull request comment. This can create a new comment linked as a reply to the specified comment, add an emoji reaction to the specified comment, or do both. At least one of body or reaction is required.",
               "inputSchema": {
                 "properties": {
                   "body": {
-                    "description": "The text of the reply",
+                    "description": "The text of the reply. Required unless reaction is provided.",
                     "type": "string"
                   },
                   "commentId": {
-                    "description": "The ID of the comment to reply to",
+                    "description": "The numeric ID of the pull request review comment to reply or react to. Use the number from a #discussion_r... anchor, not the GraphQL thread node ID (PRRT_...).",
+                    "minimum": 1,
                     "type": "number"
                   },
                   "owner": {
@@ -171,8 +190,22 @@
                     "type": "string"
                   },
                   "pullNumber": {
-                    "description": "Pull request number",
+                    "description": "Pull request number. Required when body is provided.",
                     "type": "number"
+                  },
+                  "reaction": {
+                    "description": "Emoji reaction to add. Required unless body is provided.",
+                    "enum": [
+                      "+1",
+                      "-1",
+                      "laugh",
+                      "confused",
+                      "heart",
+                      "hooray",
+                      "rocket",
+                      "eyes"
+                    ],
+                    "type": "string"
                   },
                   "repo": {
                     "description": "Repository name",
@@ -182,9 +215,7 @@
                 "required": [
                   "owner",
                   "repo",
-                  "pullNumber",
-                  "commentId",
-                  "body"
+                  "commentId"
                 ],
                 "type": "object"
               },
@@ -744,11 +775,12 @@
                     "type": "number"
                   },
                   "method": {
-                    "description": "The read operation to perform on a single issue.\nOptions are:\n1. get - Get details of a specific issue.\n2. get_comments - Get issue comments.\n3. get_sub_issues - Get sub-issues of the issue.\n4. get_labels - Get labels assigned to the issue.\n",
+                    "description": "The read operation to perform on a single issue.\nOptions are:\n1. get - Get details of a specific issue.\n2. get_comments - Get issue comments.\n3. get_sub_issues - Get sub-issues (children) of the issue.\n4. get_parent - Get the parent issue, if this issue is a sub-issue of another.\n5. get_labels - Get labels assigned to the issue.\n",
                     "enum": [
                       "get",
                       "get_comments",
                       "get_sub_issues",
+                      "get_parent",
                       "get_labels"
                     ],
                     "type": "string"
@@ -804,6 +836,42 @@
                   "duplicate_of": {
                     "description": "Issue number that this issue is a duplicate of. Only used when state_reason is 'duplicate'.",
                     "type": "number"
+                  },
+                  "issue_fields": {
+                    "description": "Issue field values to set or clear. Each item requires 'field_name' and exactly one of 'value', 'field_option_name', or 'delete: true'.",
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "delete": {
+                          "description": "Set to true to clear this field's current value on the issue. Cannot be combined with 'value' or 'field_option_name'.",
+                          "enum": [
+                            true
+                          ],
+                          "type": "boolean"
+                        },
+                        "field_name": {
+                          "description": "Issue field name (case-insensitive). Must match a field returned by list_issue_fields for this repository or its organization.",
+                          "type": "string"
+                        },
+                        "field_option_name": {
+                          "description": "Option name for single-select fields. Validated against the field's options before the API call. Cannot be combined with 'value' or 'delete'.",
+                          "type": "string"
+                        },
+                        "value": {
+                          "description": "Value to set. Use for text, number, and date fields (date as YYYY-MM-DD). For single-select fields, prefer 'field_option_name' so the option is validated before the API call. Cannot be combined with 'field_option_name' or 'delete'.",
+                          "type": [
+                            "string",
+                            "number",
+                            "boolean"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "field_name"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
                   },
                   "issue_number": {
                     "description": "Issue number to update",
@@ -966,6 +1034,30 @@
             {
               "annotations": {
                 "readOnlyHint": true,
+                "title": "List issue fields"
+              },
+              "description": "List issue fields for a repository or organization. Returns field definitions including name, type (text, number, date, single_select), and for single_select fields the list of valid option names. When repo is omitted, returns org-level fields directly.",
+              "inputSchema": {
+                "properties": {
+                  "owner": {
+                    "description": "The account owner of the repository or organization. The name is not case sensitive.",
+                    "type": "string"
+                  },
+                  "repo": {
+                    "description": "The name of the repository. When provided, returns fields for this specific repository (inherited from its organization). When omitted, returns org-level fields directly.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "owner"
+                ],
+                "type": "object"
+              },
+              "name": "list_issue_fields"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
                 "title": "List available issue types"
               },
               "description": "List supported issue types for a repository or its owner organization. When repo is omitted, returns org-level issue types directly.",
@@ -1006,6 +1098,27 @@
                       "DESC"
                     ],
                     "type": "string"
+                  },
+                  "field_filters": {
+                    "description": "Filter by custom issue field values. Each entry takes a field_name and a value; the server looks up the field and coerces the value to its type (single-select option name, text, number, or YYYY-MM-DD date).",
+                    "items": {
+                      "properties": {
+                        "field_name": {
+                          "description": "Name of the custom field (e.g. \"Priority\"). Case-insensitive.",
+                          "type": "string"
+                        },
+                        "value": {
+                          "description": "Value to filter on. For single-select fields, the option name (e.g. \"P1\"). For dates, YYYY-MM-DD. For numbers, the numeric value as a string. For text, the text value.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "field_name",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
                   },
                   "labels": {
                     "description": "Filter by labels",
@@ -1994,6 +2107,7 @@
             "issue_write",
             "list_branches",
             "list_commits",
+            "list_issue_fields",
             "list_issue_types",
             "list_issues",
             "list_pull_requests",
