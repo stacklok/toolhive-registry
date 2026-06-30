@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "mcr.microsoft.com/playwright/mcp:v0.0.76": {
+        "mcr.microsoft.com/playwright/mcp:v0.0.77": {
           "metadata": {
-            "last_updated": "2026-06-26T21:53:13Z",
+            "last_updated": "2026-06-30T06:51:47Z",
             "stars": 28552
           },
           "overview": "## Playwright MCP Server\n\nThe playwright MCP server provides browser automation capabilities using Playwright. The server enables comprehensive browser automation supporting Chromium, Firefox, and WebKit, with full control over page interactions including clicks, typing, navigation, and screenshots. Additional capabilities include network request monitoring, console message capture for debugging, form filling, file uploads, and dialog handling for complete workflow automation.",
@@ -687,6 +687,15 @@
                     "description": "When true, takes a screenshot of the full scrollable page, instead of the currently visible viewport. Cannot be used with element screenshots.",
                     "type": "boolean"
                   },
+                  "scale": {
+                    "default": "css",
+                    "description": "Image resolution scale. \"css\" produces a screenshot sized in CSS pixels (smaller, consistent across devices). \"device\" produces a high-resolution screenshot using device pixels (larger, accounts for the device pixel ratio). Default is css.",
+                    "enum": [
+                      "css",
+                      "device"
+                    ],
+                    "type": "string"
+                  },
                   "target": {
                     "description": "Exact target element reference from the page snapshot, or a unique element selector",
                     "type": "string"
@@ -702,7 +711,8 @@
                   }
                 },
                 "required": [
-                  "type"
+                  "type",
+                  "scale"
                 ],
                 "type": "object"
               },
@@ -992,7 +1002,7 @@
           "name": "PLAYWRIGHT_MCP_VIEWPORT_SIZE"
         }
       ],
-      "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.76",
+      "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.77",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
