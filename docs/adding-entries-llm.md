@@ -809,11 +809,7 @@ This compiles all entries into the registry and verifies there are no conflicts 
 ### 3. Verify Entry
 
 ```bash
-# For container servers:
-jq '.servers["<server-name>"]' build/toolhive/registry.json
-
-# For remote servers:
-jq '.remote_servers["<server-name>"]' build/toolhive/registry.json
+jq '.data.servers[] | select(.name == "io.github.stacklok/<server-name>")' build/toolhive/registry-upstream.json
 ```
 
 ---
