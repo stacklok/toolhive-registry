@@ -3,12 +3,12 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/buildkite/buildkite-mcp-server:1.7.0": {
+        "ghcr.io/buildkite/buildkite-mcp-server:1.8.0": {
           "args": [
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-06-26T21:53:07Z",
+            "last_updated": "2026-06-30T06:51:59Z",
             "stars": 50
           },
           "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -450,7 +450,7 @@
                 "readOnlyHint": true,
                 "title": "Get Artifact"
               },
-              "description": "Download a specific artifact's content, identified by its organization, pipeline, build, job, and artifact identifiers. The content is returned base64-encoded",
+              "description": "Get a specific artifact by organization, pipeline, build, job, and artifact identifiers. Text artifacts under 64 KiB are returned inline in `content`; larger or binary artifacts return metadata plus a short-lived `download_url`. When `download_url_auth` is \"none\" the URL is presigned (a buildkiteartifacts.com S3 link) — fetch it with a plain GET and NO Authorization header. It expires after `download_url_expires_in_seconds`; if it has expired, call this tool again for a fresh URL.",
               "inputSchema": {
                 "properties": {
                   "artifact_id": {
@@ -487,22 +487,10 @@
                 "readOnlyHint": true,
                 "title": "Get Build"
               },
-              "description": "Get build information including job IDs, names, and states. Use job_state to filter (e.g. 'failed,broken'). Returns enough detail to identify which jobs to investigate with log and artifact tools",
+              "description": "Get a single build. Jobs are not included — use list_jobs or get_job for job detail",
               "inputSchema": {
                 "properties": {
                   "build_number": {
-                    "type": "string"
-                  },
-                  "detail_level": {
-                    "description": "Response detail level: 'detailed' (default) or 'full'. Detailed includes job IDs/names/states; full includes complete job objects",
-                    "type": "string"
-                  },
-                  "include_agent": {
-                    "description": "Include full agent details in job objects. When false (default)\\, only agent.id is included",
-                    "type": "boolean"
-                  },
-                  "job_state": {
-                    "description": "Filter jobs by state. Comma-separated for multiple states (e.g.\\, 'failed\\,broken\\,canceled')",
                     "type": "string"
                   },
                   "org_slug": {
@@ -636,6 +624,41 @@
                 "type": "object"
               },
               "name": "get_failed_executions"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Get Job"
+              },
+              "description": "Get a single job by its UUID. Provide 'pipeline_slug' and 'build_number' for a build-scoped lookup, or omit both to look the job up by organization and job ID alone",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "description": "Build number. Provide together with 'pipeline_slug' for a build-scoped lookup. Omit both to look up the job by organization and job ID alone",
+                    "type": "string"
+                  },
+                  "include_agent": {
+                    "description": "Include full agent details in job objects. When false (default)\\, only agent.id is included",
+                    "type": "boolean"
+                  },
+                  "job_id": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "description": "Pipeline slug. Provide together with 'build_number' for a build-scoped lookup. Omit both to look up the job by organization and job ID alone",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "job_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_job"
             },
             {
               "annotations": {
@@ -864,7 +887,7 @@
                 "readOnlyHint": true,
                 "title": "Build Artifact List"
               },
-              "description": "List all artifacts for a build across all jobs, including file details, paths, sizes, MIME types, and download URLs",
+              "description": "List all artifacts for a build across all jobs, including filenames, paths, sizes, and MIME types. Output can be large for big builds — use per_page and paginate. To fetch an artifact's contents or a download URL, call get_artifact with that artifact's id and job_id.",
               "inputSchema": {
                 "properties": {
                   "build_number": {
@@ -899,7 +922,7 @@
                 "readOnlyHint": true,
                 "title": "Job Artifact List"
               },
-              "description": "List all artifacts for an individual job, including file details, paths, sizes, MIME types, and download URLs",
+              "description": "List all artifacts for an individual job, including filenames, paths, sizes, and MIME types. To fetch an artifact's contents or a download URL, call get_artifact with that artifact's id and job_id.",
               "inputSchema": {
                 "properties": {
                   "build_number": {
@@ -938,7 +961,7 @@
                 "readOnlyHint": true,
                 "title": "List Builds"
               },
-              "description": "List builds for a pipeline or across all pipelines in an organization. When pipeline_slug is omitted, lists builds across all pipelines in the organization",
+              "description": "List builds for a pipeline or across all pipelines in an organization, returning a lightweight summary of each build. When pipeline_slug is omitted, lists builds across all pipelines in the organization. Jobs are not included — use list_jobs or get_job for job detail",
               "inputSchema": {
                 "properties": {
                   "branch": {
@@ -951,10 +974,6 @@
                   },
                   "creator": {
                     "description": "Filter builds by build creator",
-                    "type": "string"
-                  },
-                  "detail_level": {
-                    "description": "Response detail level: 'summary' (default)\\, 'detailed'\\, or 'full'",
                     "type": "string"
                   },
                   "org_slug": {
@@ -1041,6 +1060,60 @@
                 "type": "object"
               },
               "name": "list_clusters"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "List Jobs"
+              },
+              "description": "List jobs for a Buildkite build, with optional state filtering and cursor-based pagination. Returns an object with 'items' (the jobs) and 'links' containing 'next'/'self' URLs; pass the cursor from 'links.next' back as 'after' to fetch the next page",
+              "inputSchema": {
+                "properties": {
+                  "after": {
+                    "description": "Cursor for the next page. Take this from the 'links.next' URL of a previous response. Mutually exclusive with 'before'",
+                    "type": "string"
+                  },
+                  "before": {
+                    "description": "Cursor for the previous page. Take this from a previous response. Mutually exclusive with 'after'",
+                    "type": "string"
+                  },
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "include_agent": {
+                    "description": "Include full agent details in job objects. When false (default)\\, only agent.id is included",
+                    "type": "boolean"
+                  },
+                  "include_retried_jobs": {
+                    "description": "Include retried jobs in the response. Defaults to true on the server when omitted",
+                    "type": [
+                      "null",
+                      "boolean"
+                    ]
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "per_page": {
+                    "description": "Results per page for cursor pagination (min 1\\, max 100\\, default 30)",
+                    "type": "integer"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "description": "Filter jobs by state. Comma-separated for multiple states (e.g.\\, 'passed\\,failed\\,running')",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number"
+                ],
+                "type": "object"
+              },
+              "name": "list_jobs"
             },
             {
               "annotations": {
@@ -1728,6 +1801,7 @@
             "get_cluster",
             "get_cluster_queue",
             "get_failed_executions",
+            "get_job",
             "get_job_env",
             "get_pipeline",
             "get_pipeline_schedule",
@@ -1740,6 +1814,7 @@
             "list_builds",
             "list_cluster_queues",
             "list_clusters",
+            "list_jobs",
             "list_pipeline_schedules",
             "list_pipelines",
             "list_test_runs",
@@ -1782,7 +1857,7 @@
           "name": "BUILDKITE_API_TOKEN"
         }
       ],
-      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.7.0",
+      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.8.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
