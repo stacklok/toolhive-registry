@@ -22,17 +22,24 @@ const (
 	defaultDockyardBaseURL = "https://raw.githubusercontent.com/stacklok/dockyard"
 
 	statusUpdated = "updated"
+	statusCreated = "created"
 	statusNoop    = "noop"
 	statusSkipped = "skipped"
 	statusMissing = "missing"
 	statusError   = "error"
+
+	// opCreate marks results produced by the --add-missing create path so
+	// the summary can report creations separately from updates.
+	opCreate = "create"
 )
 
 var (
-	syncSkillsAll      bool
-	syncSkillsDryRun   bool
-	syncSkillsDockyard string
-	syncSkillsBaseURL  string
+	syncSkillsAll        bool
+	syncSkillsAddMissing bool
+	syncSkillsDryRun     bool
+	syncSkillsDockyard   string
+	syncSkillsBaseURL    string
+	syncSkillsAPIURL     string
 )
 
 var syncSkillsCmd = &cobra.Command{
@@ -44,8 +51,10 @@ git ref with the corresponding skills/<name>/spec.yaml in
 github.com/stacklok/dockyard.
 
 Modes:
-  catalog sync-skills <skill.json>   Sync a single file
-  catalog sync-skills --all          Sync every dockyard-sourced skill`,
+  catalog sync-skills <skill.json>            Sync a single file
+  catalog sync-skills --all                   Sync every dockyard-sourced skill
+  catalog sync-skills --all --add-missing     Also create entries for dockyard
+                                              skills absent from the catalog`,
 	Args: validateSyncSkillsArgs,
 	RunE: runSyncSkills,
 }
@@ -54,6 +63,10 @@ func init() {
 	syncSkillsCmd.Flags().BoolVar(
 		&syncSkillsAll, "all", false,
 		"Sync all dockyard-sourced skills under the registries directory",
+	)
+	syncSkillsCmd.Flags().BoolVar(
+		&syncSkillsAddMissing, "add-missing", false,
+		"Create catalog entries for dockyard skills that have none (requires --all)",
 	)
 	syncSkillsCmd.Flags().BoolVarP(
 		&syncSkillsDryRun, "dry-run", "d", false,
@@ -67,6 +80,10 @@ func init() {
 		&syncSkillsBaseURL, "dockyard-base-url", defaultDockyardBaseURL,
 		"Base URL for dockyard raw content (mainly for tests)",
 	)
+	syncSkillsCmd.Flags().StringVar(
+		&syncSkillsAPIURL, "dockyard-api-url", defaultDockyardAPIBaseURL,
+		"Base URL for the dockyard GitHub API (mainly for tests)",
+	)
 }
 
 func validateSyncSkillsArgs(_ *cobra.Command, args []string) error {
@@ -75,6 +92,9 @@ func validateSyncSkillsArgs(_ *cobra.Command, args []string) error {
 	}
 	if !syncSkillsAll && len(args) == 0 {
 		return fmt.Errorf("requires a skill.json path or --all")
+	}
+	if syncSkillsAddMissing && !syncSkillsAll {
+		return fmt.Errorf("--add-missing requires --all")
 	}
 	if len(args) > 1 {
 		return fmt.Errorf("accepts at most 1 arg(s), received %d", len(args))
@@ -87,15 +107,19 @@ func validateSyncSkillsArgs(_ *cobra.Command, args []string) error {
 // in parallel.
 type syncOptions struct {
 	BaseURL     string
+	APIBaseURL  string
 	DockyardRef string
 	DryRun      bool
+	AddMissing  bool
+	GitHubToken string
 	HTTP        *http.Client
 }
 
 // dockyardSpec mirrors the relevant subset of dockyard's skills/<name>/spec.yaml.
 type dockyardSpec struct {
 	Metadata struct {
-		Name string `yaml:"name"`
+		Name        string `yaml:"name"`
+		Description string `yaml:"description"`
 	} `yaml:"metadata"`
 	Spec struct {
 		Repository string `yaml:"repository"`
@@ -110,6 +134,9 @@ type syncResult struct {
 	Path      string
 	SkillName string
 	Status    string
+	// Op distinguishes create-mode results (opCreate) from the default
+	// update path, so summaries can count the two separately.
+	Op        string
 	Detail    string
 	IDBefore  string
 	IDAfter   string
@@ -123,8 +150,11 @@ type syncResult struct {
 func defaultSyncOptions() syncOptions {
 	return syncOptions{
 		BaseURL:     syncSkillsBaseURL,
+		APIBaseURL:  syncSkillsAPIURL,
 		DockyardRef: syncSkillsDockyard,
 		DryRun:      syncSkillsDryRun,
+		AddMissing:  syncSkillsAddMissing,
+		GitHubToken: os.Getenv("GITHUB_TOKEN"),
 		HTTP:        &http.Client{Timeout: 15 * time.Second},
 	}
 }
@@ -148,7 +178,7 @@ func runSyncSkillsAll(ctx context.Context, opts syncOptions, root string) error 
 	if err != nil {
 		return err
 	}
-	if len(paths) == 0 {
+	if len(paths) == 0 && !opts.AddMissing {
 		fmt.Println("No dockyard-sourced skills found")
 		return nil
 	}
@@ -158,6 +188,14 @@ func runSyncSkillsAll(ctx context.Context, opts syncOptions, root string) error 
 	results := make([]syncResult, 0, len(paths))
 	for _, p := range paths {
 		results = append(results, syncOneSkill(ctx, opts, p))
+	}
+
+	if opts.AddMissing {
+		created, err := createMissingSkills(ctx, opts, root)
+		if err != nil {
+			return err
+		}
+		results = append(results, created...)
 	}
 
 	printSyncSummary(results)
@@ -445,9 +483,14 @@ func printSyncResult(r syncResult, single bool) {
 	case statusUpdated:
 		fmt.Printf("UPDATED  %s (%s)\n", r.Path, r.SkillName)
 		printDelta(r)
+	case statusCreated:
+		fmt.Printf("CREATED  %s (%s): %s\n", r.Path, r.SkillName, r.Detail)
 	case statusNoop:
 		if r.Planned {
 			fmt.Printf("DRY-RUN  %s (%s)\n", r.Path, r.SkillName)
+			if r.Detail != "" {
+				fmt.Printf("  %s\n", r.Detail)
+			}
 			printDelta(r)
 			return
 		}
@@ -476,22 +519,27 @@ func printSyncSummary(results []syncResult) {
 	for _, r := range results {
 		printSyncResult(r, false)
 	}
-	planned := 0
+	plannedUpdate := 0
+	plannedCreate := 0
 	noop := 0
 	for _, r := range results {
 		if r.Status != statusNoop {
 			continue
 		}
-		if r.Planned {
-			planned++
-		} else {
+		switch {
+		case r.Planned && r.Op == opCreate:
+			plannedCreate++
+		case r.Planned:
+			plannedUpdate++
+		default:
 			noop++
 		}
 	}
 	fmt.Println()
-	if planned > 0 {
-		fmt.Printf("Summary: %d would-update, %d noop, %d skipped, %d missing, %d error (of %d) [dry run]\n",
-			planned,
+	if plannedUpdate > 0 || plannedCreate > 0 {
+		fmt.Printf("Summary: %d would-update, %d would-create, %d noop, %d skipped, %d missing, %d error (of %d) [dry run]\n",
+			plannedUpdate,
+			plannedCreate,
 			noop,
 			countByStatus(results, statusSkipped),
 			countByStatus(results, statusMissing),
@@ -500,8 +548,9 @@ func printSyncSummary(results []syncResult) {
 		)
 		return
 	}
-	fmt.Printf("Summary: %d updated, %d noop, %d skipped, %d missing, %d error (of %d)\n",
+	fmt.Printf("Summary: %d updated, %d created, %d noop, %d skipped, %d missing, %d error (of %d)\n",
 		countByStatus(results, statusUpdated),
+		countByStatus(results, statusCreated),
 		noop,
 		countByStatus(results, statusSkipped),
 		countByStatus(results, statusMissing),

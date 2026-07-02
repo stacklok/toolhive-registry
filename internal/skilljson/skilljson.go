@@ -18,6 +18,9 @@ import (
 // the stacklok/dockyard pipeline.
 const DockyardSkillPrefix = "ghcr.io/stacklok/dockyard/skills/"
 
+// RegistryTypeGit is the package registryType value for git-sourced packages.
+const RegistryTypeGit = "git"
+
 // SkillFile represents a loaded skill.json with both its parsed structure
 // and its original bytes for round-trip fidelity.
 type SkillFile struct {
@@ -73,7 +76,7 @@ func (sf *SkillFile) DockyardOCIPackage() (idx int, skillName, currentTag string
 // GitPackage returns the index of the first git package, or -1 if none.
 func (sf *SkillFile) GitPackage() int {
 	for i, p := range sf.Skill.Packages {
-		if p.RegistryType == "git" {
+		if p.RegistryType == RegistryTypeGit {
 			return i
 		}
 	}

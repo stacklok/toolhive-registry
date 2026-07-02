@@ -2,11 +2,13 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"testing"
 )
@@ -86,6 +88,8 @@ spec:
 
 // fakeDockyard returns an httptest.Server that serves spec.yaml files for the
 // given map of skill name -> body. Skills missing from the map yield 404.
+// It also serves a GitHub-contents-style directory listing of the map keys
+// at /api/contents/skills (plus one file entry, which callers must filter).
 func fakeDockyard(t *testing.T, specs map[string]string) *httptest.Server {
 	t.Helper()
 	mux := http.NewServeMux()
@@ -105,6 +109,19 @@ func fakeDockyard(t *testing.T, specs map[string]string) *httptest.Server {
 		w.Header().Set("Content-Type", "text/plain")
 		_, _ = w.Write([]byte(body))
 	})
+	mux.HandleFunc("/api/contents/skills", func(w http.ResponseWriter, _ *http.Request) {
+		names := make([]string, 0, len(specs))
+		for name := range specs {
+			names = append(names, name)
+		}
+		sort.Strings(names)
+		entries := []contentsEntry{{Name: "README.md", Type: "file"}}
+		for _, name := range names {
+			entries = append(entries, contentsEntry{Name: name, Type: "dir"})
+		}
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(entries)
+	})
 	srv := httptest.NewServer(mux)
 	t.Cleanup(srv.Close)
 	return srv
@@ -113,6 +130,7 @@ func fakeDockyard(t *testing.T, specs map[string]string) *httptest.Server {
 func optsFor(srv *httptest.Server, dryRun bool) syncOptions {
 	return syncOptions{
 		BaseURL:     srv.URL,
+		APIBaseURL:  srv.URL + "/api",
 		DockyardRef: "main",
 		DryRun:      dryRun,
 		HTTP:        srv.Client(),
