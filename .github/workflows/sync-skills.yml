@@ -79,8 +79,9 @@ jobs:
       - name: Sync dockyard-sourced skills
         env:
           DOCKYARD_REF: ${{ github.event.inputs.dockyard-ref || 'main' }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          /tmp/catalog sync-skills --all --dockyard-ref "$DOCKYARD_REF" -v
+          /tmp/catalog sync-skills --all --add-missing --dockyard-ref "$DOCKYARD_REF" -v
 
       - name: Validate after sync
         run: /tmp/catalog validate -v
@@ -88,13 +89,16 @@ jobs:
       - name: Check for changes
         id: check-changes
         run: |
-          if git diff --quiet; then
+          # Stage before diffing so newly created skill entries (untracked
+          # files) count as changes too.
+          git add registries/
+          if git diff --cached --quiet; then
             echo "No changes detected"
             echo "changed=false" >> $GITHUB_OUTPUT
           else
             echo "Changes detected"
             echo "changed=true" >> $GITHUB_OUTPUT
-            git diff --stat
+            git diff --cached --stat
           fi
 
       - name: Commit and open or update PR
@@ -104,7 +108,6 @@ jobs:
         run: |
           BRANCH="catalog-sync-skills"
 
-          git add -u registries/
           git commit -m "chore: sync skills with dockyard"
           git push -f origin "$BRANCH"
 
@@ -127,6 +130,13 @@ jobs:
           rewrites both the OCI tag (`packages[].identifier`) and the upstream
           git ref (`packages[].ref`) so the two stay in lockstep with whatever
           dockyard last published.
+
+          It also creates catalog entries for dockyard skills that have none
+          yet. Auto-created entries have a title derived from the skill name
+          and may use a generic placeholder `icon.svg` (flagged in the sync
+          output) — reviewers should polish titles and swap placeholder icons
+          before merging. Skills that must not be onboarded can be listed in
+          `registries/<registry>/skills/.sync-skills-ignore`.
 
           ---
           *This is an automated PR created by the daily skill sync workflow.*
