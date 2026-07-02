@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "obsidian-markdown",
+  "title": "Obsidian Markdown",
+  "description": "Create and edit Obsidian Flavored Markdown with wikilinks, embeds, callouts, properties, and other Obsidian-specific syntax. Use when working with .md files in Obsidian, or when the user mentions wikilinks, callouts, frontmatter, tags, embeds, or Obsidian notes.",
+  "version": "0.1.1",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/kepano/obsidian-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/obsidian-markdown:0.1.1"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/kepano/obsidian-skills",
+      "ref": "ac9398734fe719565809f7a6048b05c36b1ca38f",
+      "subfolder": "skills/obsidian-markdown"
+    }
+  ]
+}

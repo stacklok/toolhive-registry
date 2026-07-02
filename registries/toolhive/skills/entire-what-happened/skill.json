@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "entire-what-happened",
+  "title": "Entire What Happened",
+  "description": "Trace the latest change for a file range, line, or pasted snippet via `git blame` plus deduplicated `entire explain` lookups. Use when the user asks what happened, why a block was changed, or wants provenance for a specific section.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/entireio/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/entire-what-happened:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/entireio/skills",
+      "ref": "c376dc971045eb38c094802ca43875d1cfa00ea4",
+      "subfolder": "skills/what-happened"
+    }
+  ]
+}

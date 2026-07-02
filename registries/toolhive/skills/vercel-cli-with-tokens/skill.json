@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "vercel-cli-with-tokens",
+  "title": "Vercel CLI With Tokens",
+  "description": "Deploy and manage projects on Vercel using the Vercel CLI with token-based authentication, without `vercel login`. Use when the user wants to 'deploy to vercel', 'set up vercel', or 'add environment variables to vercel' from a non-interactive environment.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/vercel-labs/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/vercel-cli-with-tokens:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/vercel-labs/agent-skills",
+      "ref": "b9c8ee0643d87d3c5a953d1e22382ff2ead39229",
+      "subfolder": "skills/vercel-cli-with-tokens"
+    }
+  ]
+}

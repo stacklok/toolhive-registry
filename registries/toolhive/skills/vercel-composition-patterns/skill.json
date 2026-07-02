@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "vercel-composition-patterns",
+  "title": "Vercel Composition Patterns",
+  "description": "React composition patterns that scale. Use when refactoring components with boolean prop proliferation, building flexible component libraries, or designing reusable APIs. Triggers on tasks involving compound components, render props, context providers, or component architecture. Includes React 19 API changes.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/vercel-labs/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/vercel-composition-patterns:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/vercel-labs/agent-skills",
+      "ref": "b9c8ee0643d87d3c5a953d1e22382ff2ead39229",
+      "subfolder": "skills/composition-patterns"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "entire-session-handoff",
+  "title": "Entire Session Handoff",
+  "description": "Hand off the current or a saved Entire session to another agent. Inspects recent sessions and produces a handoff summary covering state, discoveries, blockers, and next steps.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/entireio/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/entire-session-handoff:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/entireio/skills",
+      "ref": "c376dc971045eb38c094802ca43875d1cfa00ea4",
+      "subfolder": "skills/session-handoff"
+    }
+  ]
+}

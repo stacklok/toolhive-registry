@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "improve-codebase-architecture",
+  "title": "Improve Codebase Architecture",
+  "description": "Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the decisions in docs/adr/. Use when the user wants to improve architecture, find refactoring opportunities, consolidate tightly-coupled modules, or make a codebase more testable and AI-navigable.",
+  "version": "0.1.1",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/mattpocock/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/improve-codebase-architecture:0.1.1"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mattpocock/skills",
+      "ref": "f304057d61d3df3c9fd992ac2b6e3833cb9325fb",
+      "subfolder": "skills/engineering/improve-codebase-architecture"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "zeroize-audit",
+  "title": "Zeroize Audit",
+  "description": "Detect missing or compiler-eliminated zeroization of secrets in C/C++ and Rust — assembly-level analysis and control-flow verification for code handling keys, passwords, or sensitive data",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/trailofbits/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/zeroize-audit:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/trailofbits/skills",
+      "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
+      "subfolder": "plugins/zeroize-audit/skills/zeroize-audit"
+    }
+  ]
+}

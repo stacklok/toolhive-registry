@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "entire-search",
+  "title": "Entire Search",
+  "description": "Find prior work, checkpoints, or agent conversations in Entire history by topic, repo, branch, author, or recent time window. Use before guessing from memory.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/entireio/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/entire-search:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/entireio/skills",
+      "ref": "c376dc971045eb38c094802ca43875d1cfa00ea4",
+      "subfolder": "skills/search"
+    }
+  ]
+}

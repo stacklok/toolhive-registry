@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "tdd",
+  "title": "TDD",
+  "description": "Test-driven development with red-green-refactor loop. Use when the user wants to build features or fix bugs using TDD, mentions 'red-green-refactor', wants integration tests, or asks for test-first development.",
+  "version": "0.1.1",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/mattpocock/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/tdd:0.1.1"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mattpocock/skills",
+      "ref": "f304057d61d3df3c9fd992ac2b6e3833cb9325fb",
+      "subfolder": "skills/engineering/tdd"
+    }
+  ]
+}

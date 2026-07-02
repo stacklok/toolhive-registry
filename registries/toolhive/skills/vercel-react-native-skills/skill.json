@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "vercel-react-native-skills",
+  "title": "Vercel React Native Skills",
+  "description": "React Native and Expo best practices for building performant mobile apps. Use when building React Native components, optimizing list performance, implementing animations, or working with native modules. Triggers on tasks involving React Native, Expo, mobile performance, or native platform APIs.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/vercel-labs/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/vercel-react-native-skills:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/vercel-labs/agent-skills",
+      "ref": "b9c8ee0643d87d3c5a953d1e22382ff2ead39229",
+      "subfolder": "skills/react-native-skills"
+    }
+  ]
+}
