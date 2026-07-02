@@ -153,6 +153,17 @@ func createSkillEntry(ctx context.Context, opts syncOptions, skillsDir, name str
 
 	spec, err := fetchDockyardSpec(ctx, opts, name)
 	if err != nil {
+		// A directory listed under dockyard's skills/ that has no fetchable
+		// spec.yaml (mid-publish, a shared/template dir, a transient 404) is
+		// skipped rather than failing the whole run — matching the
+		// single-skill path in loadDockyardSpec. A create error would
+		// otherwise abort the entire sync, including legitimate tag/ref
+		// updates for other skills.
+		if isNotFoundErr(err) {
+			res.Status = statusMissing
+			res.Detail = "not present in dockyard"
+			return res
+		}
 		return errorResult(res, err.Error())
 	}
 
@@ -169,13 +180,17 @@ func createSkillEntry(ctx context.Context, opts syncOptions, skillsDir, name str
 	if err != nil {
 		return errorResult(res, err.Error())
 	}
-	res.Detail = iconDetail
+	// Dockyard's spec.yaml carries no license, so generated entries never
+	// have one — flag it alongside the icon so reviewers fill it in before
+	// merging (every hand-written catalog skill has a license).
+	detail := iconDetail + "; license needs review"
+	res.Detail = detail
 	res.IDAfter = skill.Packages[0].Identifier
 	res.RefAfter = spec.Spec.Ref
 
 	if opts.DryRun {
 		res.Status = statusNoop
-		res.Detail = "[DRY RUN] would create (" + iconDetail + ")"
+		res.Detail = "[DRY RUN] would create (" + detail + ")"
 		res.Planned = true
 		return res
 	}

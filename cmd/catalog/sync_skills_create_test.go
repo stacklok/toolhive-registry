@@ -138,7 +138,7 @@ func TestCreateMissingSkills_CopiesSiblingIcon(t *testing.T) {
 	if len(results) != 1 || results[0].Status != statusCreated {
 		t.Fatalf("expected 1 created result, got %+v", results)
 	}
-	if want := "icon copied from " + securityReview; results[0].Detail != want {
+	if want := "icon copied from " + securityReview + "; license needs review"; results[0].Detail != want {
 		t.Errorf("expected detail %q, got %q", want, results[0].Detail)
 	}
 	icon, err := os.ReadFile(filepath.Join(skillsDir, "agents-md", "icon.svg"))
@@ -302,6 +302,23 @@ func TestCreateSkillEntry_MissingVersionErrors(t *testing.T) {
 	}
 	if _, err := os.Stat(filepath.Join(skillsDir, newSkillName)); !os.IsNotExist(err) {
 		t.Errorf("failed create left a directory behind")
+	}
+}
+
+func TestCreateSkillEntry_MissingSpecIsNonFatal(t *testing.T) {
+	t.Parallel()
+	// fakeDockyard 404s any name absent from its specs map, mimicking a
+	// dockyard skills/ dir with no fetchable spec.yaml. This must be skipped
+	// (missing), not turned into a fatal error that aborts the whole sync.
+	srv := fakeDockyard(t, map[string]string{})
+
+	_, skillsDir := seedRegistry(t)
+	res := createSkillEntry(context.Background(), optsFor(srv, false), skillsDir, "no-such-skill")
+	if res.Status != statusMissing {
+		t.Fatalf("expected missing, got %s (%s)", res.Status, res.Detail)
+	}
+	if _, err := os.Stat(filepath.Join(skillsDir, "no-such-skill")); !os.IsNotExist(err) {
+		t.Errorf("missing skill left a directory behind")
 	}
 }
 
