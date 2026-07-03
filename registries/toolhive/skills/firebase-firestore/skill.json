@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "firebase-firestore",
+  "title": "Firebase Firestore",
+  "description": "Cloud Firestore database setup, queries, security rules, and data modeling — auto-detects Standard vs Enterprise Native Mode editions; replaces the previously separate firebase-firestore-standard and firebase-firestore-enterprise-native-mode skills, consolidated upstream",
+  "version": "0.2.1",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/firebase/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-firestore:0.2.1"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/firebase/agent-skills",
+      "ref": "02c0a61889121567a9335285eddcf62aa99a2a7c",
+      "subfolder": "skills/firebase-firestore"
+    }
+  ]
+}

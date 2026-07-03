@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "json-canvas",
+  "title": "JSON Canvas",
+  "description": "Create and edit JSON Canvas files (.canvas) with nodes, edges, groups, and connections. Use when working with .canvas files, creating visual canvases, mind maps, flowcharts, or when the user mentions Canvas files in Obsidian.",
+  "version": "0.1.1",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/kepano/obsidian-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/json-canvas:0.1.1"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/kepano/obsidian-skills",
+      "ref": "ac9398734fe719565809f7a6048b05c36b1ca38f",
+      "subfolder": "skills/json-canvas"
+    }
+  ]
+}

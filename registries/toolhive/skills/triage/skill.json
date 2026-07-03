@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "triage",
+  "title": "Triage",
+  "description": "Triage issues through a state machine driven by triage roles. Use when the user wants to create an issue, triage issues, review incoming bugs or feature requests, prepare issues for an AFK agent, or manage issue workflow.",
+  "version": "0.1.1",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/mattpocock/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/triage:0.1.1"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mattpocock/skills",
+      "ref": "f304057d61d3df3c9fd992ac2b6e3833cb9325fb",
+      "subfolder": "skills/engineering/triage"
+    }
+  ]
+}

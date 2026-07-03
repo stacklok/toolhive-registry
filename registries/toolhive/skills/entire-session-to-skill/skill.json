@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "entire-session-to-skill",
+  "title": "Entire Session To Skill",
+  "description": "Turn one or more Entire-tracked sessions, checkpoints, or repeated agent workflows into a reusable SKILL.md draft.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/entireio/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/entire-session-to-skill:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/entireio/skills",
+      "ref": "c376dc971045eb38c094802ca43875d1cfa00ea4",
+      "subfolder": "skills/session-to-skill"
+    }
+  ]
+}

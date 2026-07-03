@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "dd-llmo-eval-bootstrap",
+  "title": "Dd Llmo Eval Bootstrap",
+  "description": "Bootstrap LLM evaluation sessions in Datadog LLM Observability — set up datasets, metrics, and baseline comparisons for prompt or model changes",
+  "version": "0.3.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/datadog-labs/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/dd-llmo-eval-bootstrap:0.3.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/datadog-labs/agent-skills",
+      "ref": "9bcb3ceafacae78dbba76c9459a878fc7d6a0d10",
+      "subfolder": "dd-llmo/llm-obs-eval-bootstrap"
+    }
+  ]
+}

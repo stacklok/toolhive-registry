@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "migrate-to-shoehorn",
+  "title": "Migrate To Shoehorn",
+  "description": "Migrate test files from `as` type assertions to @total-typescript/shoehorn. Use when the user mentions shoehorn, wants to replace `as` in tests, or needs partial test data.",
+  "version": "0.1.1",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/mattpocock/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/migrate-to-shoehorn:0.1.1"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mattpocock/skills",
+      "ref": "f304057d61d3df3c9fd992ac2b6e3833cb9325fb",
+      "subfolder": "skills/misc/migrate-to-shoehorn"
+    }
+  ]
+}

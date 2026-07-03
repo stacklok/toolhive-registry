@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "defuddle",
+  "title": "Defuddle",
+  "description": "Extract clean markdown content from web pages using Defuddle CLI, removing clutter and navigation to save tokens. Use instead of WebFetch when the user provides a URL to read or analyze, for online documentation, articles, blog posts, or any standard web page. Do NOT use for URLs ending in .md — those are already markdown, use WebFetch directly.",
+  "version": "0.1.1",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/kepano/obsidian-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/defuddle:0.1.1"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/kepano/obsidian-skills",
+      "ref": "ac9398734fe719565809f7a6048b05c36b1ca38f",
+      "subfolder": "skills/defuddle"
+    }
+  ]
+}
