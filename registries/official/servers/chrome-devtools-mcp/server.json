@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.4.0": {
           "metadata": {
-            "last_updated": "2026-06-25T04:23:01Z",
+            "last_updated": "2026-07-08T07:51:13Z",
             "stars": 34184
           },
           "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
@@ -136,8 +136,12 @@
                     "minimum": 1,
                     "type": "number"
                   },
+                  "extraHttpHeaders": {
+                    "description": "Extra HTTP headers as a JSON string object, e.g. {\"X-Custom\": \"value\", \"Authorization\": \"Bearer token\"}. Headers are included into every HTTP request originating from the page and persist across navigations until cleared. Pass an empty string to clear all extra headers.",
+                    "type": "string"
+                  },
                   "geolocation": {
-                    "description": "Geolocation (`\u003clatitude\u003ex\u003clongitude\u003e`) to emulate. Latitude between -90 and 90. Longitude between -180 and 180. Omit to clear the geolocation override.",
+                    "description": "Geolocation (`\u003clatitude\u003e,\u003clongitude\u003e`) to emulate. Latitude between -90 and 90. Longitude between -180 and 180. Omit to clear the geolocation override.",
                     "type": "string"
                   },
                   "networkConditions": {
@@ -182,6 +186,10 @@
                   },
                   "dialogAction": {
                     "description": "Handle dialogs while execution. \"accept\", \"dismiss\", or string for response of window.prompt. Defaults to accept.",
+                    "type": "string"
+                  },
+                  "filePath": {
+                    "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
                     "type": "string"
                   },
                   "function": {
@@ -415,6 +423,10 @@
                     "description": "Maximum number of messages to return. When omitted, returns all messages.",
                     "exclusiveMinimum": 0,
                     "type": "integer"
+                  },
+                  "serviceWorkerId": {
+                    "description": "Filter messages to only return messages of the specified service worker.",
+                    "type": "string"
                   },
                   "types": {
                     "description": "Filter messages to only return messages of the specified resource types. When omitted or empty, returns all messages.",
@@ -752,7 +764,7 @@
                 ],
                 "type": "object"
               },
-              "name": "take_memory_snapshot"
+              "name": "take_heapsnapshot"
             },
             {
               "annotations": {
@@ -919,7 +931,7 @@
             "press_key",
             "resize_page",
             "select_page",
-            "take_memory_snapshot",
+            "take_heapsnapshot",
             "take_screenshot",
             "take_snapshot",
             "type_text",
