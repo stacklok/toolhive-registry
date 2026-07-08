@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/mcp-server-time:2026.6.4": {
           "metadata": {
-            "last_updated": "2026-05-29T13:16:13Z",
+            "last_updated": "2026-07-08T07:51:27Z",
             "stars": 84011
           },
           "overview": "## Time MCP Server\n\nThe time MCP server provides time information and IANA timezone conversions with auto system timezone detection. The server leverages Python's timezone libraries to deliver current time queries across any IANA timezone with automatic detection of the system's local timezone when none is specified, time conversion capabilities between different timezones, timezone-aware datetime strings formatted in ISO 8601 standard, and Daylight Saving Time indicators. The server exposes two primary tools: get_current_time and convert_time.",
@@ -30,7 +30,12 @@
           "tier": "Community",
           "tool_definitions": [
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Convert time between timezones",
               "inputSchema": {
                 "properties": {
@@ -57,8 +62,13 @@
               "name": "convert_time"
             },
             {
-              "annotations": {},
-              "description": "Get current time in a specific timezones",
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
+              "description": "Get current time in a specific timezone",
               "inputSchema": {
                 "properties": {
                   "timezone": {
