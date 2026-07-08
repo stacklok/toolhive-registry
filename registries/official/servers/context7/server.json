@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/context7:3.2.3": {
           "metadata": {
-            "last_updated": "2026-06-25T04:23:06Z",
+            "last_updated": "2026-07-08T10:29:14Z",
             "stars": 52568
           },
           "overview": "## Context7 MCP Server\n\nThe context7 MCP server is a Model Context Protocol (MCP) server that provides AI assistants with direct access to up-to-date library and framework documentation from Context7, running as a local MCP service. It allows AI-driven workflows to retrieve current, authoritative docs and examples for popular programming languages, frameworks, and tools — helping models generate accurate, version-appropriate code and explanations without relying solely on training data. It is particularly valuable for local development environments, IDE-integrated assistants, and workflows where developers want documentation access to run alongside other local MCP tools.",
@@ -50,7 +50,7 @@
                     "type": "string"
                   },
                   "query": {
-                    "description": "The question or task you need help with. Be specific and include relevant details. Good: 'How to set up authentication with JWT in Express.js' or 'React useEffect cleanup function examples'. Bad: 'auth' or 'hooks'. The query is sent to the Context7 API for processing. Do not include any sensitive or confidential information such as API keys, passwords, credentials, personal data, or proprietary code in your query.",
+                    "description": "The question or task you need help with, scoped to a single concept. Be specific and include relevant details, but keep each query to one topic — if the user's question spans multiple distinct concepts, make a separate call per concept instead of combining them, unless the question is about how the concepts interact. Good: 'How to set up authentication with JWT in Express.js' or 'React useEffect cleanup function examples'. Bad (too vague): 'auth' or 'hooks'. Bad (too broad): 'routing and auth and caching in Next.js'. The query is sent to the Context7 API for processing. Do not include any sensitive or confidential information such as API keys, passwords, credentials, personal data, or proprietary code in your query.",
                     "type": "string"
                   }
                 },
