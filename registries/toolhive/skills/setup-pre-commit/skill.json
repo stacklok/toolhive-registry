@@ -3,7 +3,7 @@
   "name": "setup-pre-commit",
   "title": "Setup Pre Commit",
   "description": "Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo. Use when the user wants to add pre-commit hooks, set up Husky, configure lint-staged, or add commit-time formatting/typechecking/testing.",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "status": "active",
   "repository": {
     "url": "https://github.com/mattpocock/skills",
@@ -18,12 +18,12 @@
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/skills/setup-pre-commit:0.1.1"
+      "identifier": "ghcr.io/stacklok/dockyard/skills/setup-pre-commit:0.2.0"
     },
     {
       "registryType": "git",
       "url": "https://github.com/mattpocock/skills",
-      "ref": "f304057d61d3df3c9fd992ac2b6e3833cb9325fb",
+      "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
       "subfolder": "skills/misc/setup-pre-commit"
     }
   ]

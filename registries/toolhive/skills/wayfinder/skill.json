@@ -1,9 +1,9 @@
 {
   "namespace": "io.github.stacklok",
-  "name": "improve-codebase-architecture",
-  "title": "Improve Codebase Architecture",
-  "description": "Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.",
-  "version": "0.2.0",
+  "name": "wayfinder",
+  "title": "Wayfinder",
+  "description": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of investigation tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.",
+  "version": "0.1.0",
   "status": "active",
   "repository": {
     "url": "https://github.com/mattpocock/skills",
@@ -18,13 +18,13 @@
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/skills/improve-codebase-architecture:0.2.0"
+      "identifier": "ghcr.io/stacklok/dockyard/skills/wayfinder:0.1.0"
     },
     {
       "registryType": "git",
       "url": "https://github.com/mattpocock/skills",
       "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
-      "subfolder": "skills/engineering/improve-codebase-architecture"
+      "subfolder": "skills/engineering/wayfinder"
     }
   ]
 }
