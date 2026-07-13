@@ -1,0 +1,207 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/okta-mcp-server",
+  "description": "Manage Okta users, groups, applications, policies, and org configuration through natural language",
+  "title": "Okta",
+  "repository": {
+    "url": "https://github.com/okta/okta-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/okta:1.1.3",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "OKTA_ORG_URL",
+          "description": "Okta organization URL (e.g. https://dev-123456.okta.com)",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "OKTA_CLIENT_ID",
+          "description": "Client ID of the Okta application configured for this server",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "OKTA_SCOPES",
+          "description": "Space-separated OAuth 2.0 scopes granted to the application; only tools covered by these scopes are registered at startup (example: \"okta.users.read okta.groups.read\")",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "OKTA_PRIVATE_KEY",
+          "description": "RSA private key (PEM) for Private Key JWT authentication. Required in this containerized deployment since the alternative device-authorization flow needs an interactive browser",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "OKTA_KEY_ID",
+          "description": "Key ID of the public key registered on the Okta application, paired with OKTA_PRIVATE_KEY",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "OKTA_LOG_LEVEL",
+          "description": "Logging verbosity, e.g. DEBUG (optional)",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/okta-mcp-server/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/okta:1.1.3": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": ["identity", "iam", "authentication", "security", "administration"],
+          "tools": [
+            "activate_application",
+            "activate_policy",
+            "activate_policy_rule",
+            "add_user_to_group",
+            "confirm_delete_application",
+            "confirm_delete_group",
+            "create_application",
+            "create_brand",
+            "create_custom_domain",
+            "create_device_assurance_policy",
+            "create_email_customization",
+            "create_email_domain",
+            "create_group",
+            "create_policy",
+            "create_policy_rule",
+            "create_user",
+            "deactivate_application",
+            "deactivate_policy",
+            "deactivate_policy_rule",
+            "deactivate_user",
+            "delete_all_email_customizations",
+            "delete_application",
+            "delete_brand",
+            "delete_brand_theme_background_image",
+            "delete_brand_theme_favicon",
+            "delete_brand_theme_logo",
+            "delete_custom_domain",
+            "delete_customized_error_page",
+            "delete_customized_sign_in_page",
+            "delete_deactivated_user",
+            "delete_device_assurance_policy",
+            "delete_email_customization",
+            "delete_email_domain",
+            "delete_group",
+            "delete_policy",
+            "delete_policy_rule",
+            "delete_preview_error_page",
+            "delete_preview_sign_in_page",
+            "export_users_csv",
+            "get_application",
+            "get_brand",
+            "get_brand_theme",
+            "get_custom_domain",
+            "get_customized_error_page",
+            "get_customized_sign_in_page",
+            "get_default_error_page",
+            "get_default_sign_in_page",
+            "get_device_assurance_policy",
+            "get_email_customization",
+            "get_email_customization_preview",
+            "get_email_default_content",
+            "get_email_default_content_preview",
+            "get_email_domain",
+            "get_email_settings",
+            "get_email_template",
+            "get_error_page_resources",
+            "get_group",
+            "get_login_failures",
+            "get_logs",
+            "get_policy",
+            "get_policy_rule",
+            "get_preview_error_page",
+            "get_preview_sign_in_page",
+            "get_sign_in_page_resources",
+            "get_sign_out_page_settings",
+            "get_user",
+            "get_user_profile_attributes",
+            "list_applications",
+            "list_brand_domains",
+            "list_brand_themes",
+            "list_brands",
+            "list_custom_domains",
+            "list_device_assurance_policies",
+            "list_email_customizations",
+            "list_email_domains",
+            "list_email_templates",
+            "list_group_apps",
+            "list_group_users",
+            "list_groups",
+            "list_policies",
+            "list_policy_rules",
+            "list_sign_in_widget_versions",
+            "list_users",
+            "remove_user_from_group",
+            "replace_brand",
+            "replace_brand_theme",
+            "replace_custom_domain",
+            "replace_customized_error_page",
+            "replace_customized_sign_in_page",
+            "replace_device_assurance_policy",
+            "replace_email_customization",
+            "replace_email_domain",
+            "replace_email_settings",
+            "replace_preview_error_page",
+            "replace_preview_sign_in_page",
+            "replace_sign_out_page_settings",
+            "send_test_email",
+            "update_application",
+            "update_group",
+            "update_policy",
+            "update_policy_rule",
+            "update_user",
+            "upload_brand_theme_background_image",
+            "upload_brand_theme_favicon",
+            "upload_brand_theme_logo",
+            "upsert_custom_domain_certificate",
+            "verify_custom_domain",
+            "verify_email_domain"
+          ],
+          "overview": "## Okta MCP Server\n\nThe Okta MCP Server is Okta's official Model Context Protocol server, giving AI assistants and agents natural-language access to Okta's identity and access management platform. It exposes tools for managing users, groups, applications, authentication and access policies, and device assurance, alongside org configuration such as branding, custom sign-in and error pages, email templates, and custom/email domains, plus read access to system logs for auditing. Tools are dynamically enabled or hidden at startup based on the OAuth scopes granted to the configured Okta application, so the model only ever sees operations it's authorized to perform. Authentication uses OAuth 2.0, either an interactive device-authorization flow or Private Key JWT for browserless, server-to-server use.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [".okta.com", ".oktapreview.com", ".okta-emea.com"],
+                "allow_port": [443]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "custom_metadata": {
+            "author": "Okta",
+            "homepage": "https://github.com/okta/okta-mcp-server",
+            "license": "Apache-2.0"
+          }
+        }
+      }
+    }
+  }
+}
