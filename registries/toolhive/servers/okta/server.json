@@ -54,9 +54,10 @@
         },
         {
           "name": "PYTHON_KEYRING_BACKEND",
-          "description": "Keyring backend for token storage. The container has no system keyring, so this must point at a file-based backend or the server blocks waiting for a keyring password at startup, even with Private Key JWT auth. Default: keyrings.alt.file.PlaintextKeyring",
+          "description": "Keyring backend for token storage. The container has no system keyring, so this must point at a file-based backend or the server blocks waiting for a keyring password at startup, even with Private Key JWT auth.",
           "isRequired": true,
-          "isSecret": false
+          "isSecret": false,
+          "default": "keyrings.alt.file.PlaintextKeyring"
         }
       ]
     }
