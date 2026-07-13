@@ -51,6 +51,12 @@
           "description": "Logging verbosity, e.g. DEBUG (optional)",
           "isRequired": false,
           "isSecret": false
+        },
+        {
+          "name": "PYTHON_KEYRING_BACKEND",
+          "description": "Keyring backend for token storage. The container has no system keyring, so this must point at a file-based backend or the server blocks waiting for a keyring password at startup, even with Private Key JWT auth. Default: keyrings.alt.file.PlaintextKeyring",
+          "isRequired": true,
+          "isSecret": false
         }
       ]
     }
