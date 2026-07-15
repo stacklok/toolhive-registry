@@ -1,0 +1,65 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/uizze-remote",
+  "description": "Gives coding agents real UI references, design contracts, validation, audits, and critiques to prevent generic AI UI output",
+  "title": "UIZZE (Remote)",
+  "repository": {
+    "url": "https://github.com/aislon/uizze-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://uizze.com/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Enter Bearer followed by your UIZZE agent token.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/uizze-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://uizze.com/mcp": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": ["remote", "ui-design", "developer-tools", "codex", "claude-code", "cursor"],
+          "tools": [
+            "create_ui_design_contract",
+            "get_ui_reference_brief",
+            "validate_implementation_manifest",
+            "search_design_patterns",
+            "get_screen_design_analysis",
+            "critique_implemented_ui",
+            "audit_implemented_ui",
+            "search_ui_references",
+            "compare_ui_references",
+            "search_ui_elements",
+            "get_screen_reference",
+            "get_app_reference_pack",
+            "get_flow_reference_pack",
+            "get_collection_reference_pack"
+          ],
+          "overview": "## UIZZE Remote MCP Server\n\nUIZZE is a first-party hosted MCP server that gives coding agents real web and iOS UI references before implementation. It supports Codex, Claude Code, and Cursor with design contracts, implementation validation, deterministic audits, and critiques intended to prevent generic AI UI output. The endpoint uses Streamable HTTP and requires a paid UIZZE agent token in the Authorization header; UIZZE has no free plan or trial.",
+          "custom_metadata": {
+            "author": "UIZZE",
+            "homepage": "https://uizze.com/docs",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
