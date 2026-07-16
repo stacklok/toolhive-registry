@@ -8,7 +8,7 @@
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-07-08T07:49:19Z",
+            "last_updated": "2026-07-16T22:16:00Z",
             "stars": 50
           },
           "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -52,6 +52,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
                 "title": "Cancel Build"
               },
               "description": "Cancel a running build on a Buildkite pipeline",
@@ -78,6 +79,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
                 "title": "Create Annotation"
               },
               "description": "Create an annotation on a build or specific job. Use scope='build' (default) or scope='job' with job_id",
@@ -133,6 +135,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "title": "Create Build"
               },
               "description": "Trigger a new build on a Buildkite pipeline for a specific commit and branch, with optional environment variables, metadata, and author information",
@@ -284,6 +287,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "title": "Create Pipeline"
               },
               "description": "Set up a new CI/CD pipeline in Buildkite with YAML configuration, repository connection, and cluster assignment",
@@ -350,6 +354,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "title": "Create Pipeline Schedule"
               },
               "description": "Create a new pipeline schedule that triggers builds on a cron-driven interval",
@@ -1292,6 +1297,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
                 "title": "Rebuild Build"
               },
               "description": "Rebuild/retry an entire build on a Buildkite pipeline",
@@ -1318,7 +1324,7 @@
             },
             {
               "annotations": {
-                "destructiveHint": false,
+                "destructiveHint": true,
                 "title": "Resume Cluster Queue Dispatch"
               },
               "description": "Resume dispatch on a paused cluster queue, allowing jobs to be dispatched to agents again",
@@ -1345,6 +1351,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
                 "title": "Retry Job"
               },
               "description": "Retry a specific failed or timed out job in a Buildkite build",
@@ -1480,6 +1487,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
                 "title": "Unblock Job"
               },
               "description": "Unblock a blocked job in a Buildkite build to allow it to continue execution",
@@ -1517,7 +1525,7 @@
             },
             {
               "annotations": {
-                "destructiveHint": false,
+                "destructiveHint": true,
                 "title": "Update Cluster"
               },
               "description": "Update an existing cluster's name, description, emoji, color, or default queue",
@@ -1575,7 +1583,7 @@
             },
             {
               "annotations": {
-                "destructiveHint": false,
+                "destructiveHint": true,
                 "title": "Update Cluster Queue"
               },
               "description": "Update an existing cluster queue's description or retry agent affinity",
@@ -1616,6 +1624,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
                 "title": "Update Pipeline"
               },
               "description": "Modify an existing Buildkite pipeline's configuration, repository, settings, or metadata",
@@ -1701,6 +1710,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
                 "title": "Update Pipeline Schedule"
               },
               "description": "Modify an existing pipeline schedule's cron expression, branch, environment variables, or enabled state",
