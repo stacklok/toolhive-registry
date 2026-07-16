@@ -8,7 +8,7 @@
             "--enable-write-tools"
           ],
           "metadata": {
-            "last_updated": "2026-07-08T07:51:50Z",
+            "last_updated": "2026-07-16T19:49:25Z",
             "stars": 69
           },
           "overview": "## PagerDuty MCP Server\n\nThe pagerduty MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with PagerDuty, the incident management and on-call platform. It allows AI-driven workflows to access incidents, services, schedules, and on-call status information, bringing real-time incident response context into AI-assisted operations. This server is especially useful for incident triage, on-call support, operational awareness, and post-incident analysis where PagerDuty serves as the primary system of record.",
@@ -794,10 +794,11 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
-              "description": "Create a new on-call schedule.\n\nEach schedule layer requires a 'name' field to identify the layer.\n\nArgs:\n    create_model: The schedule creation data\n\nReturns:\n    The created schedule\n",
+              "description": "Create a new schedule. All new schedules use PagerDuty's next-gen shift-based (v3) system.\n\nArgs:\n    schedule_data: Name, time_zone, and rotations for the new shift-based schedule.\n\nReturns:\n    The created schedule.\n",
               "inputSchema": {
                 "$defs": {
-                  "ScheduleCreateData": {
+                  "ScheduleV3Create": {
+                    "description": "Request body for creating a v3 schedule.",
                     "properties": {
                       "description": {
                         "anyOf": [
@@ -809,81 +810,20 @@
                           }
                         ],
                         "default": null,
-                        "description": "The description of the schedule",
+                        "description": "A description of the v3 schedule",
                         "title": "Description"
                       },
                       "name": {
-                        "description": "The name of the schedule",
+                        "description": "The name of the v3 schedule",
                         "title": "Name",
                         "type": "string"
                       },
-                      "schedule_layers": {
-                        "description": "A list of schedule layers",
-                        "items": {
-                          "$ref": "#/$defs/ScheduleLayerCreate"
-                        },
-                        "title": "Schedule Layers",
-                        "type": "array"
-                      },
-                      "time_zone": {
-                        "description": "The time zone of the schedule using IANA timezone format (e.g., 'America/New_York')",
-                        "title": "Time Zone",
-                        "type": "string"
-                      },
-                      "type": {
-                        "const": "schedule",
-                        "default": "schedule",
-                        "title": "Type",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "name",
-                      "time_zone",
-                      "schedule_layers"
-                    ],
-                    "title": "ScheduleCreateData",
-                    "type": "object"
-                  },
-                  "ScheduleCreateRequest": {
-                    "properties": {
-                      "schedule": {
-                        "$ref": "#/$defs/ScheduleCreateData",
-                        "description": "The schedule to be created"
-                      }
-                    },
-                    "required": [
-                      "schedule"
-                    ],
-                    "title": "ScheduleCreateRequest",
-                    "type": "object"
-                  },
-                  "ScheduleLayerCreate": {
-                    "properties": {
-                      "end": {
-                        "anyOf": [
-                          {
-                            "format": "date-time",
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "The end time of this layer. If null, the layer does not end",
-                        "title": "End"
-                      },
-                      "name": {
-                        "description": "The name of the schedule layer",
-                        "title": "Name",
-                        "type": "string"
-                      },
-                      "restrictions": {
+                      "rotations": {
                         "anyOf": [
                           {
                             "items": {
-                              "$ref": "#/$defs/ScheduleLayerRestriction"
+                              "additionalProperties": true,
+                              "type": "object"
                             },
                             "type": "array"
                           },
@@ -892,125 +832,47 @@
                           }
                         ],
                         "default": null,
-                        "description": "An array of restrictions for the layer. A restriction is a limit on which period of the day or week the schedule layer can accept assignments",
-                        "title": "Restrictions"
+                        "description": "Rotations for the schedule. Each rotation contains events, which contain custom_shifts that define on-call coverage windows.",
+                        "title": "Rotations"
                       },
-                      "rotation_turn_length_seconds": {
-                        "description": "The duration of each on-call shift in seconds",
-                        "title": "Rotation Turn Length Seconds",
-                        "type": "integer"
-                      },
-                      "rotation_virtual_start": {
-                        "description": "The effective start time of the layer. This can be before the start time of the schedule",
-                        "format": "date-time",
-                        "title": "Rotation Virtual Start",
-                        "type": "string"
-                      },
-                      "start": {
-                        "description": "The start time of this layer",
-                        "format": "date-time",
-                        "title": "Start",
-                        "type": "string"
-                      },
-                      "users": {
-                        "description": "The ordered list of users on this layer. The position of the user on the list determines their order in the layer",
-                        "items": {
-                          "$ref": "#/$defs/ScheduleLayerUser"
-                        },
-                        "title": "Users",
-                        "type": "array"
-                      }
-                    },
-                    "required": [
-                      "name",
-                      "start",
-                      "rotation_virtual_start",
-                      "rotation_turn_length_seconds",
-                      "users"
-                    ],
-                    "title": "ScheduleLayerCreate",
-                    "type": "object"
-                  },
-                  "ScheduleLayerRestriction": {
-                    "properties": {
-                      "duration_seconds": {
-                        "description": "The duration of the restriction in seconds",
-                        "title": "Duration Seconds",
-                        "type": "integer"
-                      },
-                      "start_day_of_week": {
-                        "default": 1,
-                        "description": "The day of week the restriction starts (1=Monday, 7=Sunday, ISO-8601)",
-                        "title": "Start Day Of Week",
-                        "type": "integer"
-                      },
-                      "start_time_of_day": {
-                        "description": "The time of day when the restriction starts (HH:MM:SS)",
-                        "title": "Start Time Of Day",
-                        "type": "string"
-                      },
-                      "type": {
-                        "description": "The type of restriction (daily_restriction or weekly_restriction)",
-                        "title": "Type",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "start_time_of_day",
-                      "duration_seconds"
-                    ],
-                    "title": "ScheduleLayerRestriction",
-                    "type": "object"
-                  },
-                  "ScheduleLayerUser": {
-                    "properties": {
-                      "user": {
-                        "$ref": "#/$defs/UserReference",
-                        "description": "The reference to the user in this layer"
-                      }
-                    },
-                    "required": [
-                      "user"
-                    ],
-                    "title": "ScheduleLayerUser",
-                    "type": "object"
-                  },
-                  "UserReference": {
-                    "properties": {
-                      "id": {
-                        "description": "The ID of the referenced object",
-                        "title": "Id",
-                        "type": "string"
-                      },
-                      "summary": {
+                      "teams": {
                         "anyOf": [
                           {
-                            "type": "string"
+                            "items": {
+                              "additionalProperties": true,
+                              "type": "object"
+                            },
+                            "type": "array"
                           },
                           {
                             "type": "null"
                           }
                         ],
                         "default": null,
-                        "description": "A short-form, server-generated string that provides succinct information about the referenced object",
-                        "title": "Summary"
+                        "description": "Teams to associate with this schedule (each must have an 'id' field)",
+                        "title": "Teams"
+                      },
+                      "time_zone": {
+                        "description": "The time zone for the v3 schedule (e.g. America/New_York)",
+                        "title": "Time Zone",
+                        "type": "string"
                       }
                     },
                     "required": [
-                      "id"
+                      "name",
+                      "time_zone"
                     ],
-                    "title": "UserReference",
+                    "title": "ScheduleV3Create",
                     "type": "object"
                   }
                 },
                 "properties": {
-                  "create_model": {
-                    "$ref": "#/$defs/ScheduleCreateRequest"
+                  "schedule_data": {
+                    "$ref": "#/$defs/ScheduleV3Create"
                   }
                 },
                 "required": [
-                  "create_model"
+                  "schedule_data"
                 ],
                 "type": "object"
               },
@@ -1087,6 +949,459 @@
                 "type": "object"
               },
               "name": "create_schedule_override"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Create one or more custom shifts for a v3 schedule.\n\nCustom shifts are ad-hoc one-off shifts that sit outside of rotation events,\nuseful for covering specific dates without modifying the rotation.\n\nExample:\n  custom_shifts:\n    - type: \"custom_shift\"\n      start_time: \"2025-03-15T09:00:00Z\"\n      end_time: \"2025-03-15T17:00:00Z\"\n      assignments:\n        - type: \"shift_assignment\"\n          member: {type: \"user_member\", user_id: \"PUSER123\"}\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    custom_shifts: List of custom shifts to create\n\nReturns:\n    The created custom shifts\n",
+              "inputSchema": {
+                "$defs": {
+                  "CustomShiftAssignmentCreate": {
+                    "description": "Assignment entry for a custom shift creation request.",
+                    "properties": {
+                      "member": {
+                        "$ref": "#/$defs/ShiftMember",
+                        "description": "The member to assign to this shift"
+                      },
+                      "type": {
+                        "const": "shift_assignment",
+                        "default": "shift_assignment",
+                        "description": "Must be 'shift_assignment'",
+                        "title": "Type",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "member"
+                    ],
+                    "title": "CustomShiftAssignmentCreate",
+                    "type": "object"
+                  },
+                  "CustomShiftCreate": {
+                    "description": "A single custom shift to create (one-off ad-hoc coverage).",
+                    "properties": {
+                      "assignments": {
+                        "description": "Exactly one assignment per custom shift",
+                        "items": {
+                          "$ref": "#/$defs/CustomShiftAssignmentCreate"
+                        },
+                        "title": "Assignments",
+                        "type": "array"
+                      },
+                      "end_time": {
+                        "description": "ISO 8601 datetime for when this shift ends (e.g. '2025-03-15T17:00:00Z')",
+                        "title": "End Time",
+                        "type": "string"
+                      },
+                      "start_time": {
+                        "description": "ISO 8601 datetime for when this shift starts (e.g. '2025-03-15T09:00:00Z')",
+                        "title": "Start Time",
+                        "type": "string"
+                      },
+                      "type": {
+                        "const": "custom_shift",
+                        "default": "custom_shift",
+                        "description": "Must be 'custom_shift'",
+                        "title": "Type",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "start_time",
+                      "end_time",
+                      "assignments"
+                    ],
+                    "title": "CustomShiftCreate",
+                    "type": "object"
+                  },
+                  "ShiftMember": {
+                    "description": "A member (user) assigned to a shift or rotation slot.",
+                    "properties": {
+                      "type": {
+                        "description": "'user_member' for a specific user, 'empty_member' for an intentionally unassigned slot",
+                        "enum": [
+                          "user_member",
+                          "empty_member"
+                        ],
+                        "title": "Type",
+                        "type": "string"
+                      },
+                      "user_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The PagerDuty user ID. Required when type is 'user_member'",
+                        "title": "User Id"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "title": "ShiftMember",
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "custom_shifts": {
+                    "items": {
+                      "$ref": "#/$defs/CustomShiftCreate"
+                    },
+                    "title": "Custom Shifts",
+                    "type": "array"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "custom_shifts"
+                ],
+                "type": "object"
+              },
+              "name": "create_schedule_v3_custom_shifts"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Create one or more overrides for a v3 schedule.\n\nAn override temporarily replaces a scheduled on-call member with a different\nmember for a specific time period. Each override must reference either a\nrotation_id or a custom_shift_id (not both).\n\nExample:\n  overrides:\n    - type: \"override_shift\"\n      rotation_id: \"ROTATION_ID\"\n      start_time: \"2025-03-15T09:00:00Z\"\n      end_time: \"2025-03-15T17:00:00Z\"\n      overridden_member: {type: \"user_member\", user_id: \"PUSER123\"}\n      overriding_member: {type: \"user_member\", user_id: \"PUSER456\"}\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    overrides: List of overrides to create\n\nReturns:\n    The created overrides\n",
+              "inputSchema": {
+                "$defs": {
+                  "OverrideShiftCreate": {
+                    "description": "A single override to create.",
+                    "properties": {
+                      "custom_shift_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "ID of the custom shift being overridden. Mutually exclusive with rotation_id.",
+                        "title": "Custom Shift Id"
+                      },
+                      "end_time": {
+                        "description": "ISO 8601 datetime when the override ends",
+                        "title": "End Time",
+                        "type": "string"
+                      },
+                      "overridden_member": {
+                        "$ref": "#/$defs/ShiftMember",
+                        "description": "The member being replaced"
+                      },
+                      "overriding_member": {
+                        "$ref": "#/$defs/ShiftMember",
+                        "description": "The member taking over"
+                      },
+                      "rotation_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "ID of the rotation whose shift is being overridden. Mutually exclusive with custom_shift_id.",
+                        "title": "Rotation Id"
+                      },
+                      "start_time": {
+                        "description": "ISO 8601 datetime when the override starts",
+                        "title": "Start Time",
+                        "type": "string"
+                      },
+                      "type": {
+                        "const": "override_shift",
+                        "default": "override_shift",
+                        "description": "Must be 'override_shift'",
+                        "title": "Type",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "start_time",
+                      "end_time",
+                      "overridden_member",
+                      "overriding_member"
+                    ],
+                    "title": "OverrideShiftCreate",
+                    "type": "object"
+                  },
+                  "ShiftMember": {
+                    "description": "A member (user) assigned to a shift or rotation slot.",
+                    "properties": {
+                      "type": {
+                        "description": "'user_member' for a specific user, 'empty_member' for an intentionally unassigned slot",
+                        "enum": [
+                          "user_member",
+                          "empty_member"
+                        ],
+                        "title": "Type",
+                        "type": "string"
+                      },
+                      "user_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The PagerDuty user ID. Required when type is 'user_member'",
+                        "title": "User Id"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "title": "ShiftMember",
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "overrides": {
+                    "items": {
+                      "$ref": "#/$defs/OverrideShiftCreate"
+                    },
+                    "title": "Overrides",
+                    "type": "array"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "overrides"
+                ],
+                "type": "object"
+              },
+              "name": "create_schedule_v3_overrides"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Create a new rotation within a v3 schedule.\n\nRotations are containers for events. After creating a rotation, add events to it\nusing create_schedule_v3_rotation_event to define on-call coverage windows and members.\n\nArgs:\n    schedule_id: The ID of the v3 schedule to add the rotation to\n\nReturns:\n    The created rotation\n",
+              "inputSchema": {
+                "properties": {
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id"
+                ],
+                "type": "object"
+              },
+              "name": "create_schedule_v3_rotation"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Create a new event within a v3 schedule rotation.\n\nAn event defines when and how users are on-call: the recurring time window\n(start_time/end_time), a recurrence rule (RRULE), and an assignment strategy\n(rotating or every-member).\n\nExample for a weekly rotating on-call:\n  name: \"Weekly On-Call\"\n  start_time: {date_time: \"2025-03-03T09:00:00Z\", time_zone: \"America/New_York\"}\n  end_time: {date_time: \"2025-03-10T09:00:00Z\", time_zone: \"America/New_York\"}\n  effective_since: \"2025-03-03T09:00:00Z\"\n  recurrence: [\"RRULE:FREQ=WEEKLY\"]\n  assignment_strategy:\n    type: \"rotating_member_assignment_strategy\"\n    shifts_per_member: 1\n    members:\n      - {type: \"user_member\", user_id: \"PUSER123\"}\n      - {type: \"user_member\", user_id: \"PUSER456\"}\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    rotation_id: The ID of the rotation to add this event to\n    event_data: Event configuration including name, time window, recurrence, and assignment strategy\n\nReturns:\n    The created rotation event\n",
+              "inputSchema": {
+                "$defs": {
+                  "AssignmentStrategy": {
+                    "description": "Defines how users are assigned on-call within a rotation event's time window.",
+                    "properties": {
+                      "members": {
+                        "description": "List of members (up to 20). Each must have 'type' and optionally 'user_id'.",
+                        "items": {
+                          "$ref": "#/$defs/ShiftMember"
+                        },
+                        "title": "Members",
+                        "type": "array"
+                      },
+                      "shifts_per_member": {
+                        "anyOf": [
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Required for rotating_member_assignment_strategy. Number of consecutive shift occurrences each member covers before rotating.",
+                        "title": "Shifts Per Member"
+                      },
+                      "type": {
+                        "description": "'rotating_member_assignment_strategy': users rotate in sequence. 'every_member_assignment_strategy': all members are on-call simultaneously.",
+                        "enum": [
+                          "rotating_member_assignment_strategy",
+                          "every_member_assignment_strategy"
+                        ],
+                        "title": "Type",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "members"
+                    ],
+                    "title": "AssignmentStrategy",
+                    "type": "object"
+                  },
+                  "RotationEventCreate": {
+                    "description": "Request body for creating a rotation event.",
+                    "properties": {
+                      "assignment_strategy": {
+                        "$ref": "#/$defs/AssignmentStrategy",
+                        "description": "How users are assigned on-call. Use rotating_member_assignment_strategy or every_member_assignment_strategy."
+                      },
+                      "effective_since": {
+                        "description": "ISO 8601 datetime when this event starts producing shifts (e.g. '2025-03-03T09:00:00Z')",
+                        "title": "Effective Since",
+                        "type": "string"
+                      },
+                      "effective_until": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "ISO 8601 datetime when this event stops producing shifts. Omit or null for indefinite.",
+                        "title": "Effective Until"
+                      },
+                      "end_time": {
+                        "$ref": "#/$defs/ZonedDateTime",
+                        "description": "End of the recurring time window. Use ZonedDateTime: {date_time, time_zone}"
+                      },
+                      "name": {
+                        "description": "Display name for this event (max 255 characters)",
+                        "title": "Name",
+                        "type": "string"
+                      },
+                      "recurrence": {
+                        "description": "RFC 5545 recurrence rules. Array with exactly one RRULE plus optional EXDATE/RDATE entries. Example: ['RRULE:FREQ=WEEKLY'] for weekly, ['RRULE:FREQ=WEEKLY;BYDAY=MO,WE,FR'] for weekdays.",
+                        "items": {
+                          "type": "string"
+                        },
+                        "title": "Recurrence",
+                        "type": "array"
+                      },
+                      "start_time": {
+                        "$ref": "#/$defs/ZonedDateTime",
+                        "description": "Start of the recurring time window. Use ZonedDateTime: {date_time, time_zone}"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "start_time",
+                      "end_time",
+                      "effective_since",
+                      "recurrence",
+                      "assignment_strategy"
+                    ],
+                    "title": "RotationEventCreate",
+                    "type": "object"
+                  },
+                  "ShiftMember": {
+                    "description": "A member (user) assigned to a shift or rotation slot.",
+                    "properties": {
+                      "type": {
+                        "description": "'user_member' for a specific user, 'empty_member' for an intentionally unassigned slot",
+                        "enum": [
+                          "user_member",
+                          "empty_member"
+                        ],
+                        "title": "Type",
+                        "type": "string"
+                      },
+                      "user_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The PagerDuty user ID. Required when type is 'user_member'",
+                        "title": "User Id"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "title": "ShiftMember",
+                    "type": "object"
+                  },
+                  "ZonedDateTime": {
+                    "description": "A time-of-day value with an explicit time zone.",
+                    "properties": {
+                      "date_time": {
+                        "description": "ISO 8601 datetime string (e.g. 2025-03-03T09:00:00Z)",
+                        "title": "Date Time",
+                        "type": "string"
+                      },
+                      "time_zone": {
+                        "description": "IANA timezone identifier (e.g. America/New_York)",
+                        "title": "Time Zone",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "date_time",
+                      "time_zone"
+                    ],
+                    "title": "ZonedDateTime",
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "event_data": {
+                    "$ref": "#/$defs/RotationEventCreate"
+                  },
+                  "rotation_id": {
+                    "title": "Rotation Id",
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "rotation_id",
+                  "event_data"
+                ],
+                "type": "object"
+              },
+              "name": "create_schedule_v3_rotation_event"
             },
             {
               "annotations": {
@@ -2029,6 +2344,217 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
+              "description": "Create a new webhook subscription.\n\nThe signing secret is included in the delivery_method of the returned subscription.\nIt is only returned on this initial create response — store it securely.\n\nArgs:\n    webhook_data: Configuration for the new webhook subscription, including\n        delivery URL, event types, and scope filter\n\nReturns:\n    The created webhook subscription (includes the one-time signing secret in delivery_method.secret)\n",
+              "inputSchema": {
+                "$defs": {
+                  "WebhookCreate": {
+                    "description": "Request body for creating a webhook subscription.",
+                    "properties": {
+                      "active": {
+                        "anyOf": [
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Whether the subscription should be active on creation",
+                        "title": "Active"
+                      },
+                      "delivery_method": {
+                        "$ref": "#/$defs/WebhookDeliveryMethod",
+                        "description": "The delivery configuration — must include type and url"
+                      },
+                      "description": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "A short description of this webhook subscription",
+                        "title": "Description"
+                      },
+                      "events": {
+                        "description": "The event types to subscribe to (e.g. incident.triggered, incident.resolved, incident.acknowledged, service.updated). At least one event is required.",
+                        "items": {
+                          "type": "string"
+                        },
+                        "title": "Events",
+                        "type": "array"
+                      },
+                      "filter": {
+                        "$ref": "#/$defs/WebhookFilter",
+                        "description": "The scope filter — account_reference for all events, or service_reference/team_reference for specific resources"
+                      },
+                      "type": {
+                        "default": "webhook_subscription",
+                        "description": "Must be webhook_subscription",
+                        "title": "Type",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "delivery_method",
+                      "events",
+                      "filter"
+                    ],
+                    "title": "WebhookCreate",
+                    "type": "object"
+                  },
+                  "WebhookCustomHeader": {
+                    "properties": {
+                      "name": {
+                        "description": "The header name",
+                        "title": "Name",
+                        "type": "string"
+                      },
+                      "value": {
+                        "description": "The header value",
+                        "title": "Value",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "value"
+                    ],
+                    "title": "WebhookCustomHeader",
+                    "type": "object"
+                  },
+                  "WebhookDeliveryMethod": {
+                    "description": "HTTP delivery method for a webhook subscription.",
+                    "properties": {
+                      "custom_headers": {
+                        "anyOf": [
+                          {
+                            "items": {
+                              "$ref": "#/$defs/WebhookCustomHeader"
+                            },
+                            "type": "array"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Optional custom headers to include with each webhook delivery",
+                        "title": "Custom Headers"
+                      },
+                      "id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The delivery method ID (read-only)",
+                        "title": "Id"
+                      },
+                      "secret": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The signing secret for this webhook. Only returned on the initial create response — store it securely.",
+                        "title": "Secret"
+                      },
+                      "temporarily_disabled": {
+                        "anyOf": [
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "True if the webhook is temporarily disabled due to repeated delivery failures",
+                        "title": "Temporarily Disabled"
+                      },
+                      "type": {
+                        "default": "http_delivery_method",
+                        "description": "The delivery method type",
+                        "title": "Type",
+                        "type": "string"
+                      },
+                      "url": {
+                        "description": "The destination URL for webhook delivery",
+                        "title": "Url",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "url"
+                    ],
+                    "title": "WebhookDeliveryMethod",
+                    "type": "object"
+                  },
+                  "WebhookFilter": {
+                    "description": "Scope filter for a webhook subscription.",
+                    "properties": {
+                      "id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The ID of the service or team to filter on (required for service/team scope)",
+                        "title": "Id"
+                      },
+                      "type": {
+                        "description": "The scope of events to receive: account-wide, a specific service, or a specific team",
+                        "enum": [
+                          "account_reference",
+                          "service_reference",
+                          "team_reference"
+                        ],
+                        "title": "Type",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "title": "WebhookFilter",
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "webhook_data": {
+                    "$ref": "#/$defs/WebhookCreate"
+                  }
+                },
+                "required": [
+                  "webhook_data"
+                ],
+                "type": "object"
+              },
+              "name": "create_webhook_subscription"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
               "description": "Delete an alert grouping setting.\n\nArgs:\n    setting_id: The ID of the alert grouping setting to delete\n\nReturns:\n    Confirmation message\n",
               "inputSchema": {
                 "properties": {
@@ -2050,6 +2576,136 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
+              "description": "Delete a v3 schedule.\n\nArgs:\n    schedule_id: The ID of the v3 schedule to delete\n\nReturns:\n    Confirmation message\n",
+              "inputSchema": {
+                "properties": {
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id"
+                ],
+                "type": "object"
+              },
+              "name": "delete_schedule_v3"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Delete a custom shift from a v3 schedule.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    custom_shift_id: The ID of the custom shift to delete\n\nReturns:\n    Confirmation message\n",
+              "inputSchema": {
+                "properties": {
+                  "custom_shift_id": {
+                    "title": "Custom Shift Id",
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "custom_shift_id"
+                ],
+                "type": "object"
+              },
+              "name": "delete_schedule_v3_custom_shift"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Delete an override from a v3 schedule.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    override_id: The ID of the override to delete\n\nReturns:\n    Confirmation message\n",
+              "inputSchema": {
+                "properties": {
+                  "override_id": {
+                    "title": "Override Id",
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "override_id"
+                ],
+                "type": "object"
+              },
+              "name": "delete_schedule_v3_override"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Delete a rotation from a v3 schedule.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    rotation_id: The ID of the rotation to delete\n\nReturns:\n    Confirmation message\n",
+              "inputSchema": {
+                "properties": {
+                  "rotation_id": {
+                    "title": "Rotation Id",
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "rotation_id"
+                ],
+                "type": "object"
+              },
+              "name": "delete_schedule_v3_rotation"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Delete an event from a v3 schedule rotation.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    rotation_id: The ID of the rotation\n    event_id: The ID of the event to delete\n\nReturns:\n    Confirmation message\n",
+              "inputSchema": {
+                "properties": {
+                  "event_id": {
+                    "title": "Event Id",
+                    "type": "string"
+                  },
+                  "rotation_id": {
+                    "title": "Rotation Id",
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "rotation_id",
+                  "event_id"
+                ],
+                "type": "object"
+              },
+              "name": "delete_schedule_v3_rotation_event"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
               "description": "Delete a team.\n\nArgs:\n    team_id: The ID of the team to delete\n\nReturns:\n    Confirmation message\n",
               "inputSchema": {
                 "properties": {
@@ -2064,6 +2720,27 @@
                 "type": "object"
               },
               "name": "delete_team"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Delete a webhook subscription.\n\nArgs:\n    subscription_id: The ID of the webhook subscription to delete\n",
+              "inputSchema": {
+                "properties": {
+                  "subscription_id": {
+                    "title": "Subscription Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "subscription_id"
+                ],
+                "type": "object"
+              },
+              "name": "delete_webhook_subscription"
             },
             {
               "annotations": {
@@ -2111,6 +2788,27 @@
                 "type": "object"
               },
               "name": "get_alert_grouping_setting"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Get dependencies for a business service.\n\nArgs:\n    business_service_id: The ID of the business service\n\nReturns:\n    JSON string with relationships list\n",
+              "inputSchema": {
+                "properties": {
+                  "business_service_id": {
+                    "title": "Business Service Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "business_service_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_business_service_dependencies"
             },
             {
               "annotations": {
@@ -2244,6 +2942,27 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
+              "description": "Get a specific extension schema by ID.\n\nArgs:\n    schema_id: The ID of the extension schema to retrieve\n\nReturns:\n    Extension schema details\n",
+              "inputSchema": {
+                "properties": {
+                  "schema_id": {
+                    "title": "Schema Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schema_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_extension_schema"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
               "description": "Get a specific incident.\n\nArgs:\n    incident_id: The ID or number of the incident to retrieve.\n    query_model: Optional query parameters for additional information to include\n\nReturns:\n    Incident details\n",
               "inputSchema": {
                 "$defs": {
@@ -2295,6 +3014,330 @@
                 "type": "object"
               },
               "name": "get_incident"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Get full-period aggregated incident metrics from PagerDuty Analytics.\n\nReturns rollup metrics for the entire requested period including percentile\ndistributions (P50, P75, P90, P95) for ack and resolve times. These percentile\nfields are ONLY available from this endpoint — not from the per-team or per-service\ngrouped endpoints.\n\nArgs:\n    created_at_start: ISO8601 DateTime. Incidents created before this are omitted.\n    created_at_end: ISO8601 DateTime. Incidents created on/after this are omitted.\n    team_ids: Only incidents related to these teams will be included.\n    service_ids: Only incidents related to these services will be included.\n    urgency: Filter by urgency: 'high' or 'low'.\n    time_zone: The time zone for results (e.g. 'America/New_York').\n    order: Sort order: 'asc' or 'desc'.\n    order_by: Field to sort results by.\n\nReturns:\n    JSON string of AnalyticsAggregatedMetrics object.\n",
+              "inputSchema": {
+                "properties": {
+                  "created_at_end": {
+                    "title": "Created At End",
+                    "type": "string"
+                  },
+                  "created_at_start": {
+                    "title": "Created At Start",
+                    "type": "string"
+                  },
+                  "order": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Order"
+                  },
+                  "order_by": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Order By"
+                  },
+                  "service_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Service Ids"
+                  },
+                  "team_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Team Ids"
+                  },
+                  "time_zone": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Time Zone"
+                  },
+                  "urgency": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Urgency"
+                  }
+                },
+                "required": [
+                  "created_at_start",
+                  "created_at_end"
+                ],
+                "type": "object"
+              },
+              "name": "get_incident_metrics_all"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Get aggregated incident metrics per service from PagerDuty Analytics.\n\nReturns service-level MTTA, mean MTTR, escalation counts, incident\nvolume, and uptime percentage. Use this instead of list_incidents when you need\nservice health metrics — data is pre-aggregated by PagerDuty's analytics engine.\n\nArgs:\n    created_at_start: ISO8601 DateTime. Incidents created before this are omitted.\n    created_at_end: ISO8601 DateTime. Incidents created on/after this are omitted.\n    team_ids: Only incidents related to these teams will be included.\n    service_ids: Only incidents related to these services will be included.\n    urgency: Filter by urgency: 'high' or 'low'.\n    time_zone: The time zone for results (e.g. 'America/New_York').\n    order: Sort order: 'asc' or 'desc'.\n    order_by: Field to sort results by.\n\nReturns:\n    JSON string of ListResponseModel containing AnalyticsServiceMetrics objects.\n",
+              "inputSchema": {
+                "properties": {
+                  "created_at_end": {
+                    "title": "Created At End",
+                    "type": "string"
+                  },
+                  "created_at_start": {
+                    "title": "Created At Start",
+                    "type": "string"
+                  },
+                  "order": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Order"
+                  },
+                  "order_by": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Order By"
+                  },
+                  "service_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Service Ids"
+                  },
+                  "team_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Team Ids"
+                  },
+                  "time_zone": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Time Zone"
+                  },
+                  "urgency": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Urgency"
+                  }
+                },
+                "required": [
+                  "created_at_start",
+                  "created_at_end"
+                ],
+                "type": "object"
+              },
+              "name": "get_incident_metrics_by_service"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Get aggregated incident metrics per team from PagerDuty Analytics.\n\nReturns team-level MTTA, mean MTTR, escalation counts, incident\nvolume, and uptime percentage. Use for team performance comparisons and dashboards.\n\nArgs:\n    created_at_start: ISO8601 DateTime. Incidents created before this are omitted.\n    created_at_end: ISO8601 DateTime. Incidents created on/after this are omitted.\n    team_ids: Only incidents related to these teams will be included.\n    service_ids: Only incidents related to these services will be included.\n    urgency: Filter by urgency: 'high' or 'low'.\n    time_zone: The time zone for results (e.g. 'America/New_York').\n    order: Sort order: 'asc' or 'desc'.\n    order_by: Field to sort results by.\n    aggregate_unit: Time unit to aggregate metrics by: 'day', 'week', or 'month'.\n        If omitted, returns a single all-period row.\n\nReturns:\n    JSON string of ListResponseModel containing AnalyticsTeamMetrics objects.\n",
+              "inputSchema": {
+                "properties": {
+                  "aggregate_unit": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Aggregate Unit"
+                  },
+                  "created_at_end": {
+                    "title": "Created At End",
+                    "type": "string"
+                  },
+                  "created_at_start": {
+                    "title": "Created At Start",
+                    "type": "string"
+                  },
+                  "order": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Order"
+                  },
+                  "order_by": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Order By"
+                  },
+                  "service_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Service Ids"
+                  },
+                  "team_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Team Ids"
+                  },
+                  "time_zone": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Time Zone"
+                  },
+                  "urgency": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Urgency"
+                  }
+                },
+                "required": [
+                  "created_at_start",
+                  "created_at_end"
+                ],
+                "type": "object"
+              },
+              "name": "get_incident_metrics_by_team"
             },
             {
               "annotations": {
@@ -2493,9 +3536,218 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "Get a specific schedule by ID.\n\nArgs:\n    schedule_id: The ID of the schedule to retrieve\n\nReturns:\n    Schedule details\n",
+              "description": "Get aggregated load metrics per responder from PagerDuty Analytics.\n\nReturns per-responder on-call hours, incident count, acknowledgment count,\nsleep-hour interruptions, and engaged time. Use for responder workload analysis.\n\nArgs:\n    date_range_start: ISO8601 DateTime. Incidents with created_at before this value are omitted.\n    date_range_end: ISO8601 DateTime. Incidents with created_at \u003e= this value are omitted.\n    team_ids: Only incidents related to these teams will be included.\n    urgency: Filter by urgency: 'high' or 'low'.\n    time_zone: The time zone for results (e.g. 'America/New_York').\n    order: Sort order: 'asc' or 'desc'.\n    order_by: Field to sort results by.\n\nReturns:\n    JSON string of ListResponseModel containing AnalyticsResponderLoad objects.\n",
               "inputSchema": {
                 "properties": {
+                  "date_range_end": {
+                    "title": "Date Range End",
+                    "type": "string"
+                  },
+                  "date_range_start": {
+                    "title": "Date Range Start",
+                    "type": "string"
+                  },
+                  "order": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Order"
+                  },
+                  "order_by": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Order By"
+                  },
+                  "team_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Team Ids"
+                  },
+                  "time_zone": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Time Zone"
+                  },
+                  "urgency": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Urgency"
+                  }
+                },
+                "required": [
+                  "date_range_start",
+                  "date_range_end"
+                ],
+                "type": "object"
+              },
+              "name": "get_responder_load_metrics"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Get responder metrics aggregated by team from PagerDuty Analytics.\n\nReturns per-user oncall seconds, interruption counts (business hours, off hours, sleep hours),\nengaged time, and incident counts for a given date range. Powered by PagerDuty's analytics\nengine — oncall hours are computed authoritatively, accounting for schedule overlaps.\n\nArgs:\n    date_range_start: ISO8601 DateTime. Incidents with created_at before this value are omitted.\n    date_range_end: ISO8601 DateTime. Incidents with created_at \u003e= this value are omitted.\n    team_ids: Only incidents related to these teams will be included.\n    responder_ids: Only incidents related to these responders will be included.\n    urgency: Filter by urgency: 'high' or 'low'.\n    time_zone: The time zone to use for results and grouping (e.g. 'America/New_York').\n    order: Sort order: 'asc' or 'desc'.\n    order_by: Field to sort results by.\n\nReturns:\n    JSON string of ListResponseModel containing AnalyticsResponderMetrics objects.\n",
+              "inputSchema": {
+                "properties": {
+                  "date_range_end": {
+                    "title": "Date Range End",
+                    "type": "string"
+                  },
+                  "date_range_start": {
+                    "title": "Date Range Start",
+                    "type": "string"
+                  },
+                  "order": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Order"
+                  },
+                  "order_by": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Order By"
+                  },
+                  "responder_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Responder Ids"
+                  },
+                  "team_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Team Ids"
+                  },
+                  "time_zone": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Time Zone"
+                  },
+                  "urgency": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Urgency"
+                  }
+                },
+                "required": [
+                  "date_range_start",
+                  "date_range_end"
+                ],
+                "type": "object"
+              },
+              "name": "get_responder_metrics"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Get a single schedule by ID — works for layer-based (v2) and shift-based (v3) schedules alike.\n\nYou normally do not need to know the kind in advance; this resolves it automatically.\n\nArgs:\n    schedule_id: The ID of the schedule to retrieve.\n    kind: Optional hint (\"layer_based\" or \"shift_based\", taken from a prior list result) to\n        skip an extra lookup. A wrong or omitted hint still resolves correctly.\n\nReturns:\n    The schedule details (a layer-based Schedule or a shift-based ScheduleV3).\n",
+              "inputSchema": {
+                "properties": {
+                  "kind": {
+                    "anyOf": [
+                      {
+                        "enum": [
+                          "layer_based",
+                          "shift_based"
+                        ],
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Kind"
+                  },
                   "schedule_id": {
                     "title": "Schedule Id",
                     "type": "string"
@@ -2507,6 +3759,115 @@
                 "type": "object"
               },
               "name": "get_schedule"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Get a specific custom shift within a v3 schedule.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    custom_shift_id: The ID of the custom shift\n\nReturns:\n    The custom shift\n",
+              "inputSchema": {
+                "properties": {
+                  "custom_shift_id": {
+                    "title": "Custom Shift Id",
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "custom_shift_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_schedule_v3_custom_shift"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Get a specific override within a v3 schedule.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    override_id: The ID of the override\n\nReturns:\n    The override\n",
+              "inputSchema": {
+                "properties": {
+                  "override_id": {
+                    "title": "Override Id",
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "override_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_schedule_v3_override"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Get a specific rotation within a v3 schedule.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    rotation_id: The ID of the rotation\n\nReturns:\n    The rotation including its events\n",
+              "inputSchema": {
+                "properties": {
+                  "rotation_id": {
+                    "title": "Rotation Id",
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "rotation_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_schedule_v3_rotation"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Get a specific event within a v3 schedule rotation.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    rotation_id: The ID of the rotation\n    event_id: The ID of the event\n\nReturns:\n    The rotation event\n",
+              "inputSchema": {
+                "properties": {
+                  "event_id": {
+                    "title": "Event Id",
+                    "type": "string"
+                  },
+                  "rotation_id": {
+                    "title": "Rotation Id",
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "rotation_id",
+                  "event_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_schedule_v3_rotation_event"
             },
             {
               "annotations": {
@@ -2611,6 +3972,27 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
+              "description": "Get dependencies for a technical service.\n\nArgs:\n    service_id: The ID of the technical service\n\nReturns:\n    JSON string with relationships list\n",
+              "inputSchema": {
+                "properties": {
+                  "service_id": {
+                    "title": "Service Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "service_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_technical_service_dependencies"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
               "description": "Get the current user's data.\n\nReturns:\n    User: User name, role, id, and summary and teams\n",
               "inputSchema": {
                 "properties": {},
@@ -2618,6 +4000,27 @@
                 "type": "object"
               },
               "name": "get_user_data"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Get a specific webhook subscription by ID.\n\nArgs:\n    subscription_id: The ID of the webhook subscription to retrieve\n\nReturns:\n    Webhook subscription details\n",
+              "inputSchema": {
+                "properties": {
+                  "subscription_id": {
+                    "title": "Subscription Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "subscription_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_webhook_subscription"
             },
             {
               "annotations": {
@@ -2741,6 +4144,20 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
+              "description": "List all business services.\n\nReturns:\n    JSON string of business services\n",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_business_services"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
               "description": "List all change events with optional filtering.\n\nChange Events represent changes to systems, services, and applications that\ncan be correlated with incidents to provide context for troubleshooting.\n\nArgs:\n    since: The start of the date range over which you want to search.\n    until: The end of the date range over which you want to search.\n    limit: The number of results per page. Default 100.\n    offset: The offset of the first record returned.\n    total: Set to True to include total count in response.\n    team_ids: An array of team IDs. Only results related to these teams will be returned.\n    integration_ids: An array of integration IDs. Only results related to these integrations will be returned.\n\nReturns:\n    List of ChangeEvent objects matching the query parameters\n",
               "inputSchema": {
                 "properties": {
@@ -2848,103 +4265,77 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List escalation policies with optional filtering.\n\nReturns:\n    List of escalation policies matching the query parameters\n",
+              "description": "List escalation policies with optional filtering.\n\nArgs:\n    query: Filter by name\n    user_ids: Filter by user IDs\n    team_ids: Filter by team IDs\n    include: Additional details to include (e.g. services, teams)\n    limit: Max results to return\n\nReturns:\n    List of escalation policies matching the query parameters\n",
               "inputSchema": {
-                "$defs": {
-                  "EscalationPolicyQuery": {
-                    "properties": {
-                      "include": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Include additional details in response, such as 'services' or 'teams'",
-                        "title": "Include"
-                      },
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 20,
-                        "description": "Pagination limit",
-                        "title": "Limit"
-                      },
-                      "query": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter escalation policies by name or description",
-                        "title": "Query"
-                      },
-                      "team_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter escalation policies by team IDs",
-                        "title": "Team Ids"
-                      },
-                      "user_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter escalation policies by user IDs",
-                        "title": "User Ids"
-                      }
-                    },
-                    "title": "EscalationPolicyQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
-                  "query_model": {
+                  "include": {
                     "anyOf": [
                       {
-                        "$ref": "#/$defs/EscalationPolicyQuery"
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
                       },
                       {
                         "type": "null"
                       }
                     ],
-                    "default": null
+                    "default": null,
+                    "title": "Include"
+                  },
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                  },
+                  "query": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Query"
+                  },
+                  "team_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Team Ids"
+                  },
+                  "user_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "User Ids"
                   }
                 },
                 "required": [],
@@ -3010,6 +4401,33 @@
                 "type": "object"
               },
               "name": "list_event_orchestrations"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "List available extension schemas (extension vendors).\n\nExtension schemas describe the available extension integrations that can be\nattached to PagerDuty services.\n\nArgs:\n    limit: Max results to return\n\nReturns:\n    List of extension schemas\n",
+              "inputSchema": {
+                "properties": {
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_extension_schemas"
             },
             {
               "annotations": {
@@ -3129,211 +4547,103 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List incidents with optional filtering.\n\nArgs:\n    query_model: Optional filtering parameters\n\nReturns:\n    List of Incident objects matching the query parameters\n\n",
+              "description": "List incidents with optional filtering.\n\nArgs:\n    request_scope: Scope of incidents to return: 'all', 'assigned', or 'teams'\n    statuses: Filter by status (e.g. triggered, acknowledged, resolved)\n    since: Filter incidents created after this datetime\n    until: Filter incidents created before this datetime\n    urgencies: Filter by urgency (high, low)\n    priorities: Filter by priority IDs (use list_priorities to resolve names to IDs)\n    limit: Max results to return (default 1000)\n\nReturns:\n    List of Incident objects matching the query parameters\n",
               "inputSchema": {
-                "$defs": {
-                  "IncidentQuery": {
-                    "additionalProperties": false,
-                    "properties": {
-                      "date_range": {
-                        "anyOf": [
-                          {
-                            "const": "all",
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "When set to 'all', the since and until parameters and defaults are ignored. Use this to retrieve incidents across all time ranges.",
-                        "title": "Date Range"
-                      },
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 1000,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 100,
-                        "description": "Maximum number of results to return. Default is 100, maximum is 1000.",
-                        "title": "Limit"
-                      },
-                      "request_scope": {
-                        "default": "all",
-                        "description": "Filter incidents by request . Either all, my teams or assigned to me",
-                        "enum": [
-                          "all",
-                          "teams",
-                          "assigned"
-                        ],
-                        "title": "Request Scope",
-                        "type": "string"
-                      },
-                      "service_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter incidents by service IDs",
-                        "title": "Service Ids"
-                      },
-                      "since": {
-                        "anyOf": [
-                          {
-                            "format": "date-time",
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "filter incidents since a specific date",
-                        "title": "Since"
-                      },
-                      "sort_by": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "enum": [
-                                "incident_number:asc",
-                                "incident_number:desc",
-                                "created_at:asc",
-                                "created_at:desc",
-                                "resolved_at:asc",
-                                "resolved_at:desc",
-                                "urgency:asc",
-                                "urgency:desc"
-                              ],
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Used to specify both the field you wish to sort the results on (incident_number/created_at/resolved_at/urgency), as well as the direction (asc/desc) of the results. The sort_by field and direction should be separated by a colon. A maximum of two fields can be included, separated by a comma. Sort direction defaults to ascending. The account must have the urgencies ability to sort by the urgency.",
-                        "title": "Sort By"
-                      },
-                      "status": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "enum": [
-                                "triggered",
-                                "acknowledged",
-                                "resolved"
-                              ],
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "filter incidents by status",
-                        "title": "Status"
-                      },
-                      "teams_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter incidents by team IDs",
-                        "title": "Teams Ids"
-                      },
-                      "until": {
-                        "anyOf": [
-                          {
-                            "format": "date-time",
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "filter incidents until a specific date",
-                        "title": "Until"
-                      },
-                      "urgencies": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "enum": [
-                                "high",
-                                "low"
-                              ],
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter incidents by urgency",
-                        "title": "Urgencies"
-                      },
-                      "user_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter incidents by user IDs",
-                        "title": "User Ids"
-                      }
-                    },
-                    "title": "IncidentQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
-                  "query_model": {
+                  "limit": {
                     "anyOf": [
                       {
-                        "$ref": "#/$defs/IncidentQuery"
+                        "type": "integer"
                       },
                       {
                         "type": "null"
                       }
                     ],
-                    "default": null
+                    "default": null,
+                    "title": "Limit"
+                  },
+                  "priorities": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Priorities"
+                  },
+                  "request_scope": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Request Scope"
+                  },
+                  "since": {
+                    "anyOf": [
+                      {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Since"
+                  },
+                  "statuses": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Statuses"
+                  },
+                  "until": {
+                    "anyOf": [
+                      {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Until"
+                  },
+                  "urgencies": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Urgencies"
                   }
                 },
                 "required": [],
@@ -3648,6 +4958,20 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
+              "description": "List all priorities configured in the account.\n\nReturns:\n    JSON string of ListResponseModel containing PriorityReference objects\n",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_priorities"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
               "description": "List users in a schedule.\n\nArgs:\n    schedule_id: The ID of the schedule\n\nReturns:\n    List of users in the schedule\n",
               "inputSchema": {
                 "properties": {
@@ -3669,7 +4993,116 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List schedules with optional filtering.\n\nReturns:\n    List of schedules matching the query parameters\n",
+              "description": "List custom shifts for a v3 schedule within a time range.\n\nCustom shifts are ad-hoc one-off shifts outside of rotation events.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    since: Start of the time range (ISO 8601, required)\n    until: End of the time range (ISO 8601, required)\n\nReturns:\n    List of custom shifts in the specified time range\n",
+              "inputSchema": {
+                "properties": {
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  },
+                  "since": {
+                    "title": "Since",
+                    "type": "string"
+                  },
+                  "until": {
+                    "title": "Until",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "since",
+                  "until"
+                ],
+                "type": "object"
+              },
+              "name": "list_schedule_v3_custom_shifts"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "List overrides for a v3 schedule within a time range.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    since: Start of the time range (ISO 8601, required)\n    until: End of the time range (ISO 8601, required)\n\nReturns:\n    List of overrides in the specified time range\n",
+              "inputSchema": {
+                "properties": {
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  },
+                  "since": {
+                    "title": "Since",
+                    "type": "string"
+                  },
+                  "until": {
+                    "title": "Until",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "since",
+                  "until"
+                ],
+                "type": "object"
+              },
+              "name": "list_schedule_v3_overrides"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "List all events for a rotation in a v3 schedule.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    rotation_id: The ID of the rotation\n\nReturns:\n    List of events defining the on-call coverage windows and member assignments\n",
+              "inputSchema": {
+                "properties": {
+                  "rotation_id": {
+                    "title": "Rotation Id",
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "rotation_id"
+                ],
+                "type": "object"
+              },
+              "name": "list_schedule_v3_rotation_events"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "List all rotations for a v3 schedule.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n\nReturns:\n    List of rotations for the schedule\n",
+              "inputSchema": {
+                "properties": {
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id"
+                ],
+                "type": "object"
+              },
+              "name": "list_schedule_v3_rotations"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "List ALL PagerDuty schedules across BOTH scheduling systems in a single call.\n\nThis returns classic layer-based (v2) schedules AND next-gen shift-based (v3) schedules\ntogether. It is the complete, authoritative schedule list — there is no other list tool.\nEach item's `kind` field (\"layer_based\" or \"shift_based\") says which system it belongs to.\nIf either source fails, `response_summary`/`sources` explicitly mark the list INCOMPLETE;\notherwise treat it as exhaustive. Never tell the user a schedule type is unsupported or missing.\n\nArgs:\n    query_model: Filters (name query, team_ids, user_ids, limit). Shift-based (v3) schedules\n        are filtered by name `query` and `limit` only.\n    enrich: When True (default), fill in names for shift-based (v3) schedules (bounded to the\n        returned page, max 50). Set False to skip the extra lookups; v3 names may then be null.\n\nReturns:\n    The merged schedule summaries with per-source status and a `degraded` flag.\n",
               "inputSchema": {
                 "$defs": {
                   "ScheduleQuery": {
@@ -3757,19 +5190,18 @@
                   }
                 },
                 "properties": {
+                  "enrich": {
+                    "default": true,
+                    "title": "Enrich",
+                    "type": "boolean"
+                  },
                   "query_model": {
-                    "anyOf": [
-                      {
-                        "$ref": "#/$defs/ScheduleQuery"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "default": null
+                    "$ref": "#/$defs/ScheduleQuery"
                   }
                 },
-                "required": [],
+                "required": [
+                  "query_model"
+                ],
                 "type": "object"
               },
               "name": "list_schedules"
@@ -3893,71 +5325,47 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List all services.\n\nArgs:\n    query_model: Optional filtering parameters\n\nReturns:\n    List of services matching the query parameters\n",
+              "description": "List all services.\n\nArgs:\n    query: Filter by name\n    teams_ids: Filter by team IDs\n    limit: Max results to return\n\nReturns:\n    List of services matching the query parameters\n",
               "inputSchema": {
-                "$defs": {
-                  "ServiceQuery": {
-                    "properties": {
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 20,
-                        "description": "Pagination limit",
-                        "title": "Limit"
-                      },
-                      "query": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "filters the result, showing only the records whose name matches the query",
-                        "title": "Query"
-                      },
-                      "teams_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter incidents by team IDs",
-                        "title": "Teams Ids"
-                      }
-                    },
-                    "title": "ServiceQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
-                  "query_model": {
+                  "limit": {
                     "anyOf": [
                       {
-                        "$ref": "#/$defs/ServiceQuery"
+                        "type": "integer"
                       },
                       {
                         "type": "null"
                       }
                     ],
-                    "default": null
+                    "default": null,
+                    "title": "Limit"
+                  },
+                  "query": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Query"
+                  },
+                  "teams_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Teams Ids"
                   }
                 },
                 "required": [],
@@ -4450,6 +5858,45 @@
                 "type": "object"
               },
               "name": "list_users"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": true
+              },
+              "description": "List webhook subscriptions.\n\nArgs:\n    filter_type: Filter by scope type: 'account_reference', 'service_reference', or 'team_reference'\n    limit: Max results to return\n\nReturns:\n    List of webhook subscriptions\n",
+              "inputSchema": {
+                "properties": {
+                  "filter_type": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Filter Type"
+                  },
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_webhook_subscriptions"
             },
             {
               "annotations": {
@@ -5214,10 +6661,11 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
-              "description": "Update an existing schedule.\n\nArgs:\n    schedule_id: The ID of the schedule to update\n    update_model: The updated schedule data\n\nReturns:\n    The updated schedule\n",
+              "description": "Update an existing shift-based (v3) schedule.\n\nClassic layer-based (v2) schedules cannot be edited through this tool; attempting to update\none surfaces the PagerDuty API's guidance message rather than failing silently.\n\nArgs:\n    schedule_id: The ID of the shift-based (v3) schedule to update.\n    schedule_data: Fields to change (only provided fields are updated).\n\nReturns:\n    The updated schedule.\n",
               "inputSchema": {
                 "$defs": {
-                  "ScheduleCreateData": {
+                  "ScheduleV3Update": {
+                    "description": "Request body for updating a v3 schedule.",
                     "properties": {
                       "description": {
                         "anyOf": [
@@ -5229,48 +6677,12 @@
                           }
                         ],
                         "default": null,
-                        "description": "The description of the schedule",
+                        "description": "The updated description of the v3 schedule",
                         "title": "Description"
                       },
                       "name": {
-                        "description": "The name of the schedule",
-                        "title": "Name",
-                        "type": "string"
-                      },
-                      "schedule_layers": {
-                        "description": "A list of schedule layers",
-                        "items": {
-                          "$ref": "#/$defs/ScheduleLayerCreate"
-                        },
-                        "title": "Schedule Layers",
-                        "type": "array"
-                      },
-                      "time_zone": {
-                        "description": "The time zone of the schedule using IANA timezone format (e.g., 'America/New_York')",
-                        "title": "Time Zone",
-                        "type": "string"
-                      },
-                      "type": {
-                        "const": "schedule",
-                        "default": "schedule",
-                        "title": "Type",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "name",
-                      "time_zone",
-                      "schedule_layers"
-                    ],
-                    "title": "ScheduleCreateData",
-                    "type": "object"
-                  },
-                  "ScheduleLayerCreate": {
-                    "properties": {
-                      "end": {
                         "anyOf": [
                           {
-                            "format": "date-time",
                             "type": "string"
                           },
                           {
@@ -5278,19 +6690,15 @@
                           }
                         ],
                         "default": null,
-                        "description": "The end time of this layer. If null, the layer does not end",
-                        "title": "End"
+                        "description": "The updated name of the v3 schedule",
+                        "title": "Name"
                       },
-                      "name": {
-                        "description": "The name of the schedule layer",
-                        "title": "Name",
-                        "type": "string"
-                      },
-                      "restrictions": {
+                      "rotations": {
                         "anyOf": [
                           {
                             "items": {
-                              "$ref": "#/$defs/ScheduleLayerRestriction"
+                              "additionalProperties": true,
+                              "type": "object"
                             },
                             "type": "array"
                           },
@@ -5299,124 +6707,316 @@
                           }
                         ],
                         "default": null,
-                        "description": "An array of restrictions for the layer. A restriction is a limit on which period of the day or week the schedule layer can accept assignments",
-                        "title": "Restrictions"
+                        "description": "Updated rotations for the v3 schedule",
+                        "title": "Rotations"
                       },
-                      "rotation_turn_length_seconds": {
-                        "description": "The duration of each on-call shift in seconds",
-                        "title": "Rotation Turn Length Seconds",
-                        "type": "integer"
+                      "teams": {
+                        "anyOf": [
+                          {
+                            "items": {
+                              "additionalProperties": true,
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Updated teams to associate with this schedule",
+                        "title": "Teams"
                       },
-                      "rotation_virtual_start": {
-                        "description": "The effective start time of the layer. This can be before the start time of the schedule",
-                        "format": "date-time",
-                        "title": "Rotation Virtual Start",
+                      "time_zone": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The updated time zone for the v3 schedule",
+                        "title": "Time Zone"
+                      }
+                    },
+                    "title": "ScheduleV3Update",
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "schedule_data": {
+                    "$ref": "#/$defs/ScheduleV3Update"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "schedule_data"
+                ],
+                "type": "object"
+              },
+              "name": "update_schedule"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Update an existing custom shift in a v3 schedule.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    custom_shift_id: The ID of the custom shift to update\n    shift_data: Fields to update\n\nReturns:\n    The updated custom shift\n",
+              "inputSchema": {
+                "$defs": {
+                  "CustomShiftAssignmentCreate": {
+                    "description": "Assignment entry for a custom shift creation request.",
+                    "properties": {
+                      "member": {
+                        "$ref": "#/$defs/ShiftMember",
+                        "description": "The member to assign to this shift"
+                      },
+                      "type": {
+                        "const": "shift_assignment",
+                        "default": "shift_assignment",
+                        "description": "Must be 'shift_assignment'",
+                        "title": "Type",
                         "type": "string"
-                      },
-                      "start": {
-                        "description": "The start time of this layer",
-                        "format": "date-time",
-                        "title": "Start",
-                        "type": "string"
-                      },
-                      "users": {
-                        "description": "The ordered list of users on this layer. The position of the user on the list determines their order in the layer",
-                        "items": {
-                          "$ref": "#/$defs/ScheduleLayerUser"
-                        },
-                        "title": "Users",
-                        "type": "array"
                       }
                     },
                     "required": [
-                      "name",
-                      "start",
-                      "rotation_virtual_start",
-                      "rotation_turn_length_seconds",
-                      "users"
+                      "member"
                     ],
-                    "title": "ScheduleLayerCreate",
+                    "title": "CustomShiftAssignmentCreate",
                     "type": "object"
                   },
-                  "ScheduleLayerRestriction": {
+                  "CustomShiftUpdate": {
+                    "description": "Request body for updating a custom shift (full replace — all fields required).",
                     "properties": {
-                      "duration_seconds": {
-                        "description": "The duration of the restriction in seconds",
-                        "title": "Duration Seconds",
-                        "type": "integer"
+                      "assignments": {
+                        "description": "Assignments (exactly one per shift)",
+                        "items": {
+                          "$ref": "#/$defs/CustomShiftAssignmentCreate"
+                        },
+                        "title": "Assignments",
+                        "type": "array"
                       },
-                      "start_day_of_week": {
-                        "default": 1,
-                        "description": "The day of week the restriction starts (1=Monday, 7=Sunday, ISO-8601)",
-                        "title": "Start Day Of Week",
-                        "type": "integer"
+                      "end_time": {
+                        "description": "ISO 8601 end datetime",
+                        "title": "End Time",
+                        "type": "string"
                       },
-                      "start_time_of_day": {
-                        "description": "The time of day when the restriction starts (HH:MM:SS)",
-                        "title": "Start Time Of Day",
+                      "start_time": {
+                        "description": "ISO 8601 start datetime",
+                        "title": "Start Time",
                         "type": "string"
                       },
                       "type": {
-                        "description": "The type of restriction (daily_restriction or weekly_restriction)",
+                        "const": "custom_shift",
+                        "default": "custom_shift",
+                        "description": "Must be 'custom_shift'",
+                        "title": "Type",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "start_time",
+                      "end_time",
+                      "assignments"
+                    ],
+                    "title": "CustomShiftUpdate",
+                    "type": "object"
+                  },
+                  "ShiftMember": {
+                    "description": "A member (user) assigned to a shift or rotation slot.",
+                    "properties": {
+                      "type": {
+                        "description": "'user_member' for a specific user, 'empty_member' for an intentionally unassigned slot",
+                        "enum": [
+                          "user_member",
+                          "empty_member"
+                        ],
+                        "title": "Type",
+                        "type": "string"
+                      },
+                      "user_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The PagerDuty user ID. Required when type is 'user_member'",
+                        "title": "User Id"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "title": "ShiftMember",
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "custom_shift_id": {
+                    "title": "Custom Shift Id",
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  },
+                  "shift_data": {
+                    "$ref": "#/$defs/CustomShiftUpdate"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "custom_shift_id",
+                  "shift_data"
+                ],
+                "type": "object"
+              },
+              "name": "update_schedule_v3_custom_shift"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Update an existing override in a v3 schedule.\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    override_id: The ID of the override to update\n    start_time: ISO 8601 start datetime of the override\n    end_time: ISO 8601 end datetime of the override\n    overridden_member_type: Type of the member being replaced — 'user_member' or 'empty_member'\n    overriding_member_type: Type of the member taking over — 'user_member' or 'empty_member'\n    overridden_member_user_id: PagerDuty user ID of the member being replaced (required when type is 'user_member')\n    overriding_member_user_id: PagerDuty user ID of the member taking over (required when type is 'user_member')\n\nReturns:\n    The updated override\n",
+              "inputSchema": {
+                "properties": {
+                  "end_time": {
+                    "title": "End Time",
+                    "type": "string"
+                  },
+                  "overridden_member_type": {
+                    "title": "Overridden Member Type",
+                    "type": "string"
+                  },
+                  "overridden_member_user_id": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Overridden Member User Id"
+                  },
+                  "override_id": {
+                    "title": "Override Id",
+                    "type": "string"
+                  },
+                  "overriding_member_type": {
+                    "title": "Overriding Member Type",
+                    "type": "string"
+                  },
+                  "overriding_member_user_id": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Overriding Member User Id"
+                  },
+                  "schedule_id": {
+                    "title": "Schedule Id",
+                    "type": "string"
+                  },
+                  "start_time": {
+                    "title": "Start Time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schedule_id",
+                  "override_id",
+                  "start_time",
+                  "end_time",
+                  "overridden_member_type",
+                  "overriding_member_type"
+                ],
+                "type": "object"
+              },
+              "name": "update_schedule_v3_override"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Update an existing rotation event in a v3 schedule.\n\nUpdate rules:\n- Active events (already started): only effective_until can be changed\n- Future events: all fields can be changed\n- Past events: cannot be changed (returns 400)\n\nArgs:\n    schedule_id: The ID of the v3 schedule\n    rotation_id: The ID of the rotation\n    event_id: The ID of the event to update\n    event_data: Fields to update (only provided fields are changed)\n\nReturns:\n    The updated rotation event\n",
+              "inputSchema": {
+                "$defs": {
+                  "AssignmentStrategy": {
+                    "description": "Defines how users are assigned on-call within a rotation event's time window.",
+                    "properties": {
+                      "members": {
+                        "description": "List of members (up to 20). Each must have 'type' and optionally 'user_id'.",
+                        "items": {
+                          "$ref": "#/$defs/ShiftMember"
+                        },
+                        "title": "Members",
+                        "type": "array"
+                      },
+                      "shifts_per_member": {
+                        "anyOf": [
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Required for rotating_member_assignment_strategy. Number of consecutive shift occurrences each member covers before rotating.",
+                        "title": "Shifts Per Member"
+                      },
+                      "type": {
+                        "description": "'rotating_member_assignment_strategy': users rotate in sequence. 'every_member_assignment_strategy': all members are on-call simultaneously.",
+                        "enum": [
+                          "rotating_member_assignment_strategy",
+                          "every_member_assignment_strategy"
+                        ],
                         "title": "Type",
                         "type": "string"
                       }
                     },
                     "required": [
                       "type",
-                      "start_time_of_day",
-                      "duration_seconds"
+                      "members"
                     ],
-                    "title": "ScheduleLayerRestriction",
+                    "title": "AssignmentStrategy",
                     "type": "object"
                   },
-                  "ScheduleLayerUser": {
+                  "RotationEventUpdate": {
+                    "description": "Request body for updating a rotation event (full replace — all fields required).\n\nThe API performs a full replacement, so all fields from RotationEventCreate must be provided.\nNote: active events (already started) will only honour changes to effective_until;\nfuture events allow all fields to change; past events return 400.",
                     "properties": {
-                      "user": {
-                        "$ref": "#/$defs/UserReference",
-                        "description": "The reference to the user in this layer"
-                      }
-                    },
-                    "required": [
-                      "user"
-                    ],
-                    "title": "ScheduleLayerUser",
-                    "type": "object"
-                  },
-                  "ScheduleUpdateRequest": {
-                    "properties": {
-                      "id": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "The ID of the schedule to update (optional if provided in path)",
-                        "title": "Id"
+                      "assignment_strategy": {
+                        "$ref": "#/$defs/AssignmentStrategy",
+                        "description": "How users are assigned on-call"
                       },
-                      "schedule": {
-                        "$ref": "#/$defs/ScheduleCreateData",
-                        "description": "The updated schedule data"
-                      }
-                    },
-                    "required": [
-                      "schedule"
-                    ],
-                    "title": "ScheduleUpdateRequest",
-                    "type": "object"
-                  },
-                  "UserReference": {
-                    "properties": {
-                      "id": {
-                        "description": "The ID of the referenced object",
-                        "title": "Id",
+                      "effective_since": {
+                        "description": "ISO 8601 datetime when this event starts producing shifts",
+                        "title": "Effective Since",
                         "type": "string"
                       },
-                      "summary": {
+                      "effective_until": {
                         "anyOf": [
                           {
                             "type": "string"
@@ -5426,33 +7026,122 @@
                           }
                         ],
                         "default": null,
-                        "description": "A short-form, server-generated string that provides succinct information about the referenced object",
-                        "title": "Summary"
+                        "description": "ISO 8601 datetime when this event stops producing shifts. Null for indefinite.",
+                        "title": "Effective Until"
+                      },
+                      "end_time": {
+                        "$ref": "#/$defs/ZonedDateTime",
+                        "description": "End of the recurring time window. Use ZonedDateTime: {date_time, time_zone}"
+                      },
+                      "name": {
+                        "description": "Display name for this event (max 255 characters)",
+                        "title": "Name",
+                        "type": "string"
+                      },
+                      "recurrence": {
+                        "description": "RFC 5545 recurrence rules. Example: ['RRULE:FREQ=WEEKLY']",
+                        "items": {
+                          "type": "string"
+                        },
+                        "title": "Recurrence",
+                        "type": "array"
+                      },
+                      "start_time": {
+                        "$ref": "#/$defs/ZonedDateTime",
+                        "description": "Start of the recurring time window. Use ZonedDateTime: {date_time, time_zone}"
                       }
                     },
                     "required": [
-                      "id"
+                      "name",
+                      "start_time",
+                      "end_time",
+                      "effective_since",
+                      "recurrence",
+                      "assignment_strategy"
                     ],
-                    "title": "UserReference",
+                    "title": "RotationEventUpdate",
+                    "type": "object"
+                  },
+                  "ShiftMember": {
+                    "description": "A member (user) assigned to a shift or rotation slot.",
+                    "properties": {
+                      "type": {
+                        "description": "'user_member' for a specific user, 'empty_member' for an intentionally unassigned slot",
+                        "enum": [
+                          "user_member",
+                          "empty_member"
+                        ],
+                        "title": "Type",
+                        "type": "string"
+                      },
+                      "user_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The PagerDuty user ID. Required when type is 'user_member'",
+                        "title": "User Id"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "title": "ShiftMember",
+                    "type": "object"
+                  },
+                  "ZonedDateTime": {
+                    "description": "A time-of-day value with an explicit time zone.",
+                    "properties": {
+                      "date_time": {
+                        "description": "ISO 8601 datetime string (e.g. 2025-03-03T09:00:00Z)",
+                        "title": "Date Time",
+                        "type": "string"
+                      },
+                      "time_zone": {
+                        "description": "IANA timezone identifier (e.g. America/New_York)",
+                        "title": "Time Zone",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "date_time",
+                      "time_zone"
+                    ],
+                    "title": "ZonedDateTime",
                     "type": "object"
                   }
                 },
                 "properties": {
+                  "event_data": {
+                    "$ref": "#/$defs/RotationEventUpdate"
+                  },
+                  "event_id": {
+                    "title": "Event Id",
+                    "type": "string"
+                  },
+                  "rotation_id": {
+                    "title": "Rotation Id",
+                    "type": "string"
+                  },
                   "schedule_id": {
                     "title": "Schedule Id",
                     "type": "string"
-                  },
-                  "update_model": {
-                    "$ref": "#/$defs/ScheduleUpdateRequest"
                   }
                 },
                 "required": [
                   "schedule_id",
-                  "update_model"
+                  "rotation_id",
+                  "event_id",
+                  "event_data"
                 ],
                 "type": "object"
               },
-              "name": "update_schedule"
+              "name": "update_schedule_v3_rotation_event"
             },
             {
               "annotations": {
@@ -5710,6 +7399,141 @@
                 "type": "object"
               },
               "name": "update_team"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Update an existing webhook subscription.\n\nArgs:\n    subscription_id: The ID of the webhook subscription to update\n    webhook_data: Fields to update (only provided fields are changed)\n\nReturns:\n    The updated webhook subscription\n",
+              "inputSchema": {
+                "$defs": {
+                  "WebhookFilter": {
+                    "description": "Scope filter for a webhook subscription.",
+                    "properties": {
+                      "id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The ID of the service or team to filter on (required for service/team scope)",
+                        "title": "Id"
+                      },
+                      "type": {
+                        "description": "The scope of events to receive: account-wide, a specific service, or a specific team",
+                        "enum": [
+                          "account_reference",
+                          "service_reference",
+                          "team_reference"
+                        ],
+                        "title": "Type",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "title": "WebhookFilter",
+                    "type": "object"
+                  },
+                  "WebhookUpdate": {
+                    "description": "Request body for updating a webhook subscription. All fields are optional.",
+                    "properties": {
+                      "active": {
+                        "anyOf": [
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Enable or disable the webhook subscription",
+                        "title": "Active"
+                      },
+                      "delivery_method": {
+                        "anyOf": [
+                          {
+                            "additionalProperties": true,
+                            "type": "object"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Updated delivery method (provide only fields to change)",
+                        "title": "Delivery Method"
+                      },
+                      "description": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Updated description",
+                        "title": "Description"
+                      },
+                      "events": {
+                        "anyOf": [
+                          {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Updated list of event types to subscribe to",
+                        "title": "Events"
+                      },
+                      "filter": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/WebhookFilter"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Updated scope filter"
+                      }
+                    },
+                    "title": "WebhookUpdate",
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "subscription_id": {
+                    "title": "Subscription Id",
+                    "type": "string"
+                  },
+                  "webhook_data": {
+                    "$ref": "#/$defs/WebhookUpdate"
+                  }
+                },
+                "required": [
+                  "subscription_id",
+                  "webhook_data"
+                ],
+                "type": "object"
+              },
+              "name": "update_webhook_subscription"
             }
           ],
           "tools": [
@@ -5721,44 +7545,75 @@
             "create_incident",
             "create_schedule",
             "create_schedule_override",
+            "create_schedule_v3_custom_shifts",
+            "create_schedule_v3_overrides",
+            "create_schedule_v3_rotation",
+            "create_schedule_v3_rotation_event",
             "create_service",
             "create_status_page_post",
             "create_status_page_post_update",
             "create_team",
             "create_user",
+            "create_webhook_subscription",
             "delete_alert_grouping_setting",
+            "delete_schedule_v3",
+            "delete_schedule_v3_custom_shift",
+            "delete_schedule_v3_override",
+            "delete_schedule_v3_rotation",
+            "delete_schedule_v3_rotation_event",
             "delete_team",
+            "delete_webhook_subscription",
             "get_alert_from_incident",
             "get_alert_grouping_setting",
+            "get_business_service_dependencies",
             "get_change_event",
             "get_escalation_policy",
             "get_event_orchestration",
             "get_event_orchestration_global",
             "get_event_orchestration_router",
             "get_event_orchestration_service",
+            "get_extension_schema",
             "get_incident",
+            "get_incident_metrics_all",
+            "get_incident_metrics_by_service",
+            "get_incident_metrics_by_team",
             "get_incident_workflow",
             "get_log_entry",
             "get_outlier_incident",
             "get_past_incidents",
             "get_related_incidents",
+            "get_responder_load_metrics",
+            "get_responder_metrics",
             "get_schedule",
+            "get_schedule_v3_custom_shift",
+            "get_schedule_v3_override",
+            "get_schedule_v3_rotation",
+            "get_schedule_v3_rotation_event",
             "get_service",
             "get_status_page_post",
             "get_team",
+            "get_technical_service_dependencies",
             "get_user_data",
+            "get_webhook_subscription",
             "list_alert_grouping_settings",
             "list_alerts_from_incident",
+            "list_business_services",
             "list_change_events",
             "list_escalation_policies",
             "list_event_orchestrations",
+            "list_extension_schemas",
             "list_incident_change_events",
             "list_incident_notes",
             "list_incident_workflows",
             "list_incidents",
             "list_log_entries",
             "list_oncalls",
+            "list_priorities",
             "list_schedule_users",
+            "list_schedule_v3_custom_shifts",
+            "list_schedule_v3_overrides",
+            "list_schedule_v3_rotation_events",
+            "list_schedule_v3_rotations",
             "list_schedules",
             "list_service_change_events",
             "list_services",
@@ -5770,14 +7625,19 @@
             "list_team_members",
             "list_teams",
             "list_users",
+            "list_webhook_subscriptions",
             "manage_incidents",
             "remove_team_member",
             "start_incident_workflow",
             "update_alert_grouping_setting",
             "update_event_orchestration_router",
             "update_schedule",
+            "update_schedule_v3_custom_shift",
+            "update_schedule_v3_override",
+            "update_schedule_v3_rotation_event",
             "update_service",
-            "update_team"
+            "update_team",
+            "update_webhook_subscription"
           ]
         }
       }
