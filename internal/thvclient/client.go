@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mark3labs/mcp-go/mcp"
+	mcp "github.com/stacklok/toolhive-core/mcpcompat/mcp"
 
 	"github.com/stacklok/toolhive-catalog/internal/serverjson"
 )

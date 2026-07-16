@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/spf13/cobra"
+	mcp "github.com/stacklok/toolhive-core/mcpcompat/mcp"
 	toolhiveRegistry "github.com/stacklok/toolhive-core/registry/types"
 
 	"github.com/stacklok/toolhive-catalog/internal/serverjson"

@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/mark3labs/mcp-go/mcp"
+	mcp "github.com/stacklok/toolhive-core/mcpcompat/mcp"
 )
 
 // tool represents an MCP tool from thv mcp list output.
