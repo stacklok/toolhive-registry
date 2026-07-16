@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/github/github-mcp-server:v1.6.0": {
           "metadata": {
-            "last_updated": "2026-06-30T06:52:02Z",
+            "last_updated": "2026-07-16T19:48:42Z",
             "stars": 28440
           },
           "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -47,6 +47,8 @@
           "tool_definitions": [
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Add review comment to the requester's latest pending pull request review"
               },
               "description": "Add review comment to the requester's latest pending pull request review. A pending review needs to already exist to call this (check with the user if not sure).",
@@ -62,7 +64,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "path": {
                     "description": "The relative path to the file that necessitates a comment",
@@ -74,7 +77,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "side": {
                     "description": "The side of the diff to comment on. LEFT indicates the previous state, RIGHT indicates the new state",
@@ -119,6 +123,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Add comment to issue or pull request"
               },
               "description": "Add a comment and/or reaction to a specific issue or issue comment in a GitHub repository. Use this tool with pull requests as well (in this case pass pull request number as issue_number), but only if user is not asking specifically to add or react to review comments. At least one of body or reaction is required.",
@@ -139,7 +145,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "reaction": {
                     "description": "Emoji reaction to add. Required unless body is provided.",
@@ -157,7 +164,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -171,6 +179,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Add reply to pull request comment"
               },
               "description": "Add a reply and/or reaction to an existing pull request comment. This can create a new comment linked as a reply to the specified comment, add an emoji reaction to the specified comment, or do both. At least one of body or reaction is required.",
@@ -187,7 +197,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "pullNumber": {
                     "description": "Pull request number. Required when body is provided.",
@@ -209,7 +220,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -224,6 +236,7 @@
             {
               "annotations": {
                 "idempotentHint": true,
+                "readOnlyHint": false,
                 "title": "Assign Copilot to issue"
               },
               "description": "Assign Copilot to a specific issue in a GitHub repository.\n\nThis tool can help with the following outcomes:\n- a Pull Request created with source code changes to resolve the issue\n\n\nMore information can be found at:\n- https://docs.github.com/en/copilot/using-github-copilot/using-copilot-coding-agent-to-work-on-tasks/about-assigning-tasks-to-copilot\n",
@@ -243,11 +256,13 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -261,6 +276,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Create branch"
               },
               "description": "Create a new branch in a GitHub repository",
@@ -276,11 +293,13 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -294,6 +313,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Create or update file"
               },
               "description": "Create or update a single file in a GitHub repository. \nIf updating, you should provide the SHA of the file you want to update. Use this tool to create or update a file in a GitHub repository remotely; do not use it for local file operations.\n\nIn order to obtain the SHA of original file version before updating, use the following git command:\ngit rev-parse \u003cbranch\u003e:\u003cpath to file\u003e\n\nSHA MUST be provided for existing file updates.\n",
@@ -313,7 +334,8 @@
                   },
                   "owner": {
                     "description": "Repository owner (username or organization)",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "path": {
                     "description": "Path where to create/update the file",
@@ -321,7 +343,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "sha": {
                     "description": "The blob SHA of the file being replaced. Required if the file already exists.",
@@ -342,6 +365,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Open new pull request"
               },
               "description": "Create a new pull request in a GitHub repository.",
@@ -369,11 +394,13 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "reviewers": {
                     "description": "GitHub usernames or ORG/team-slug team reviewers to request reviews from",
@@ -400,6 +427,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Create repository"
               },
               "description": "Create a new GitHub repository in your account or specified organization",
@@ -437,6 +466,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Delete file"
               },
               "description": "Delete a file from a GitHub repository",
@@ -452,7 +483,8 @@
                   },
                   "owner": {
                     "description": "Repository owner (username or organization)",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "path": {
                     "description": "Path to the file to delete",
@@ -460,7 +492,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -476,6 +509,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Fork repository"
               },
               "description": "Fork a GitHub repository to your account or specified organization",
@@ -487,11 +522,13 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -504,6 +541,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get commit details"
               },
@@ -522,7 +560,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
@@ -537,7 +576,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "sha": {
                     "description": "Commit SHA, branch name, or tag name",
@@ -555,6 +595,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get file or directory contents"
               },
@@ -563,7 +604,8 @@
                 "properties": {
                   "owner": {
                     "description": "Repository owner (username or organization)",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "path": {
                     "default": "/",
@@ -576,7 +618,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "sha": {
                     "description": "Accepts optional commit SHA. If specified, it will be used instead of ref",
@@ -593,6 +636,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get a specific label from a repository"
               },
@@ -605,11 +649,13 @@
                   },
                   "owner": {
                     "description": "Repository owner (username or organization name)",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -623,6 +669,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get latest release"
               },
@@ -631,11 +678,13 @@
                 "properties": {
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -648,6 +697,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get my user profile"
               },
@@ -661,6 +711,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get a release by tag name"
               },
@@ -669,11 +720,13 @@
                 "properties": {
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "tag": {
                     "description": "Tag name (e.g., 'v1.0.0')",
@@ -691,6 +744,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get tag details"
               },
@@ -699,11 +753,13 @@
                 "properties": {
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "tag": {
                     "description": "Tag name",
@@ -721,6 +777,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get team members"
               },
@@ -746,6 +803,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get teams"
               },
@@ -764,6 +822,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get issue details"
               },
@@ -775,7 +834,7 @@
                     "type": "number"
                   },
                   "method": {
-                    "description": "The read operation to perform on a single issue.\nOptions are:\n1. get - Get details of a specific issue.\n2. get_comments - Get issue comments.\n3. get_sub_issues - Get sub-issues (children) of the issue.\n4. get_parent - Get the parent issue, if this issue is a sub-issue of another.\n5. get_labels - Get labels assigned to the issue.\n",
+                    "description": "The read operation to perform on a single issue.\nOptions are:\n1. get - Get issue details. Also returns best-effort hierarchy flags (`has_parent`, `has_children`); `parent` and `sub_issues_summary` are optional relationship summaries.\n2. get_comments - Get issue comments.\n3. get_sub_issues - Get sub-issues (children) of the issue.\n4. get_parent - Get the parent issue, if this issue is a sub-issue of another.\n5. get_labels - Get labels assigned to the issue.\n",
                     "enum": [
                       "get",
                       "get_comments",
@@ -787,7 +846,8 @@
                   },
                   "owner": {
                     "description": "The owner of the repository",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
@@ -802,7 +862,8 @@
                   },
                   "repo": {
                     "description": "The name of the repository",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -817,6 +878,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Create or update issue/pull request"
               },
               "description": "Create a new or update an existing issue in a GitHub repository.",
@@ -898,11 +961,13 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "state": {
                     "description": "New state",
@@ -941,6 +1006,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List branches"
               },
@@ -949,7 +1015,8 @@
                 "properties": {
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
@@ -964,7 +1031,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -977,6 +1045,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List commits"
               },
@@ -989,7 +1058,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
@@ -1008,7 +1078,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "sha": {
                     "description": "Commit SHA, branch or tag name to list commits of. If not provided, uses the default branch of the repository. If a commit SHA is provided, will list commits up to that SHA.",
@@ -1033,6 +1104,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List issue fields"
               },
@@ -1041,11 +1113,13 @@
                 "properties": {
                   "owner": {
                     "description": "The account owner of the repository or organization. The name is not case sensitive.",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "The name of the repository. When provided, returns fields for this specific repository (inherited from its organization). When omitted, returns org-level fields directly.",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -1057,6 +1131,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List available issue types"
               },
@@ -1065,11 +1140,13 @@
                 "properties": {
                   "owner": {
                     "description": "The account owner of the repository or organization.",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "The name of the repository. When provided, returns issue types for this specific repository. When omitted, returns org-level issue types directly.",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -1081,6 +1158,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List issues"
               },
@@ -1138,7 +1216,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "perPage": {
                     "description": "Results per page for pagination (min 1, max 100)",
@@ -1148,7 +1227,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "since": {
                     "description": "Filter by date (ISO 8601 timestamp)",
@@ -1173,6 +1253,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List pull requests"
               },
@@ -1197,7 +1278,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
@@ -1212,7 +1294,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "sort": {
                     "description": "Sort by",
@@ -1244,6 +1327,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List releases"
               },
@@ -1252,7 +1336,8 @@
                 "properties": {
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
@@ -1267,7 +1352,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -1280,6 +1366,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List repository collaborators"
               },
@@ -1297,7 +1384,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "page": {
                     "description": "Page number for pagination (default 1, min 1)",
@@ -1312,7 +1400,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -1325,6 +1414,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List tags"
               },
@@ -1333,7 +1423,8 @@
                 "properties": {
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
@@ -1348,7 +1439,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -1361,6 +1453,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Merge pull request"
               },
               "description": "Merge a pull request in a GitHub repository.",
@@ -1385,7 +1479,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "pullNumber": {
                     "description": "Pull request number",
@@ -1393,7 +1488,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -1407,6 +1503,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get details for a single pull request"
               },
@@ -1434,7 +1531,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
@@ -1453,7 +1551,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -1468,6 +1567,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Write operations (create, submit, delete) on pull request reviews"
               },
               "description": "Create and/or submit, delete review of a pull request.\n\nAvailable methods:\n- create: Create a new review of a pull request. If \"event\" parameter is provided, the review is submitted. If \"event\" is omitted, a pending review is created.\n- submit_pending: Submit an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request. The \"body\" and \"event\" parameters are used when submitting the review.\n- delete_pending: Delete an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request.\n- resolve_thread: Resolve a review thread. Requires only \"threadId\" parameter with the thread's node ID (e.g., PRRT_kwDOxxx). The owner, repo, and pullNumber parameters are not used for this method. Resolving an already-resolved thread is a no-op.\n- unresolve_thread: Unresolve a previously resolved review thread. Requires only \"threadId\" parameter. The owner, repo, and pullNumber parameters are not used for this method. Unresolving an already-unresolved thread is a no-op.\n",
@@ -1503,7 +1604,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "pullNumber": {
                     "description": "Pull request number",
@@ -1511,7 +1613,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "threadId": {
                     "description": "The node ID of the review thread (e.g., PRRT_kwDOxxx). Required for resolve_thread and unresolve_thread methods. Get thread IDs from pull_request_read with method get_review_comments.",
@@ -1530,6 +1633,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Push files to repository"
               },
               "description": "Push multiple files to a GitHub repository in a single commit",
@@ -1567,11 +1672,13 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -1587,6 +1694,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Request Copilot review"
               },
               "description": "Request a GitHub Copilot code review for a pull request. Use this for automated feedback on pull requests, usually before requesting a human reviewer.",
@@ -1594,7 +1703,8 @@
                 "properties": {
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "pullNumber": {
                     "description": "Pull request number",
@@ -1602,7 +1712,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
@@ -1616,6 +1727,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Search code"
               },
@@ -1659,6 +1771,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Search commits"
               },
@@ -1706,6 +1819,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Search issues"
               },
@@ -1722,7 +1836,8 @@
                   },
                   "owner": {
                     "description": "Optional repository owner. If provided with repo, only issues for this repository are listed.",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
@@ -1741,7 +1856,8 @@
                   },
                   "repo": {
                     "description": "Optional repository name. If provided with owner, only issues for this repository are listed.",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "sort": {
                     "description": "Sort field by number of matches of categories, defaults to best match",
@@ -1770,6 +1886,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Search pull requests"
               },
@@ -1786,7 +1903,8 @@
                   },
                   "owner": {
                     "description": "Optional repository owner. If provided with repo, only pull requests for this repository are listed.",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "page": {
                     "description": "Page number for pagination (min 1)",
@@ -1805,7 +1923,8 @@
                   },
                   "repo": {
                     "description": "Optional repository name. If provided with owner, only pull requests for this repository are listed.",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "sort": {
                     "description": "Sort field by number of matches of categories, defaults to best match",
@@ -1834,6 +1953,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Search repositories"
               },
@@ -1888,6 +2008,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Search users"
               },
@@ -1936,6 +2057,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Change sub-issue"
               },
               "description": "Add a sub-issue to a parent issue in a GitHub repository.",
@@ -1954,12 +2077,13 @@
                     "type": "number"
                   },
                   "method": {
-                    "description": "The action to perform on a single sub-issue\nOptions are:\n- 'add' - add a sub-issue to a parent issue in a GitHub repository.\n- 'remove' - remove a sub-issue from a parent issue in a GitHub repository.\n- 'reprioritize' - change the order of sub-issues within a parent issue in a GitHub repository. Use either 'after_id' or 'before_id' to specify the new position.\n\t\t\t\t",
+                    "description": "The action to perform on a single sub-issue\nOptions are:\n- 'add' - add a sub-issue to a parent issue in a GitHub repository.\n- 'remove' - remove a sub-issue from a parent issue in a GitHub repository.\n- 'reprioritize' - change the order of sub-issues within a parent issue in a GitHub repository. Use either 'after_id' or 'before_id' to specify the new position.\nWrites issue hierarchy. To move a sub-issue to a new parent, use `add` with `replace_parent=true`; there is no writable parent field.\n",
                     "type": "string"
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "replace_parent": {
                     "description": "When true, replaces the sub-issue's current parent issue. Use with 'add' method only.",
@@ -1967,7 +2091,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "sub_issue_id": {
                     "description": "The ID of the sub-issue to add. ID is not the same as issue number",
@@ -1987,6 +2112,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Edit pull request"
               },
               "description": "Update an existing pull request in a GitHub repository.",
@@ -2010,7 +2137,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "pullNumber": {
                     "description": "Pull request number to update",
@@ -2018,7 +2146,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   },
                   "reviewers": {
                     "description": "GitHub usernames or ORG/team-slug team reviewers to request reviews from",
@@ -2051,6 +2180,8 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Update pull request branch"
               },
               "description": "Update the branch of a pull request with the latest changes from the base branch.",
@@ -2062,7 +2193,8 @@
                   },
                   "owner": {
                     "description": "Repository owner",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "owner"
                   },
                   "pullNumber": {
                     "description": "Pull request number",
@@ -2070,7 +2202,8 @@
                   },
                   "repo": {
                     "description": "Repository name",
-                    "type": "string"
+                    "type": "string",
+                    "x-mcp-header": "repo"
                   }
                 },
                 "required": [
