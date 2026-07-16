@@ -53,9 +53,39 @@
       "commitMessageTopic": "MCP registry dependency",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps"
+    },
+    {
+      "description": "Group non-major Go module updates (excluding functionally significant deps handled individually)",
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "matchPackageNames": [
+        "!github.com/modelcontextprotocol/registry",
+        "!github.com/stacklok/toolhive*"
+      ],
+      "groupName": "go modules"
+    },
+    {
+      "description": "Group non-major GitHub Actions updates",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest",
+        "pin"
+      ],
+      "groupName": "github-actions"
     }
   ],
-  "prConcurrentLimit": 10,
+  "prConcurrentLimit": 20,
+  "prHourlyLimit": 0,
   "prCreation": "immediate",
   "semanticCommits": "enabled",
   "semanticCommitType": "chore",
