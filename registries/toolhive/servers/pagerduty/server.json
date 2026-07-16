@@ -3,12 +3,12 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/uvx/pagerduty-mcp:0.12.0": {
+        "ghcr.io/stacklok/dockyard/uvx/pagerduty-mcp:1.0.0": {
           "args": [
             "--enable-write-tools"
           ],
           "metadata": {
-            "last_updated": "2026-05-07T03:07:29Z",
+            "last_updated": "2026-07-08T07:51:50Z",
             "stars": 67
           },
           "overview": "## PagerDuty MCP Server\n\nThe pagerduty MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with PagerDuty, the incident management and on-call platform. It allows AI-driven workflows to access incidents, services, schedules, and on-call status information, bringing real-time incident response context into AI-assisted operations. This server is especially useful for incident triage, on-call support, operational awareness, and post-incident analysis where PagerDuty serves as the primary system of record.",
@@ -68,7 +68,7 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
-              "description": "Add responders to an incident.\n\nArgs:\n    incident_id: The ID of the incident to add responders to\n    request: The responder request data containing user IDs and optional message\n    ctx: The context containing the request information\n\nReturns:\n    Details of the responder request\n",
+              "description": "Add responders to an incident.\n\nArgs:\n    incident_id: The ID of the incident to add responders to\n    request: The responder request data containing user IDs and optional message\n\nReturns:\n    Details of the responder request\n",
               "inputSchema": {
                 "$defs": {
                   "IncidentResponderRequest": {
@@ -77,18 +77,6 @@
                         "description": "Optional message to include with the responder request",
                         "title": "Message",
                         "type": "string"
-                      },
-                      "requester_id": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "description": "User ID of the requester",
-                        "title": "Requester Id"
                       },
                       "responder_request_targets": {
                         "description": "Array of user or escalation policy IDs to request as responders",
@@ -100,7 +88,6 @@
                       }
                     },
                     "required": [
-                      "requester_id",
                       "message",
                       "responder_request_targets"
                     ],
@@ -642,6 +629,20 @@
               "description": "Create an incident.\n\nReturns:\n    The created incident\n",
               "inputSchema": {
                 "$defs": {
+                  "AssignmentInput": {
+                    "description": "Assignment for creating/updating incidents (no 'at' field required).",
+                    "properties": {
+                      "assignee": {
+                        "$ref": "#/$defs/UserReference",
+                        "description": "The user to assign to the incident"
+                      }
+                    },
+                    "required": [
+                      "assignee"
+                    ],
+                    "title": "AssignmentInput",
+                    "type": "object"
+                  },
                   "IncidentBody": {
                     "properties": {
                       "details": {
@@ -658,6 +659,22 @@
                   },
                   "IncidentCreate": {
                     "properties": {
+                      "assignments": {
+                        "anyOf": [
+                          {
+                            "items": {
+                              "$ref": "#/$defs/AssignmentInput"
+                            },
+                            "type": "array"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "List of assignees for the incident. Each assignment requires an 'assignee' with 'id' (user ID) and 'type' set to 'user_reference'. When provided, only the assigned user(s) receive the initial notification instead of the default service owner.",
+                        "title": "Assignments"
+                      },
                       "body": {
                         "anyOf": [
                           {
@@ -704,19 +721,6 @@
                     "title": "IncidentCreate",
                     "type": "object"
                   },
-                  "IncidentCreateRequest": {
-                    "properties": {
-                      "incident": {
-                        "$ref": "#/$defs/IncidentCreate",
-                        "description": "The incident to create"
-                      }
-                    },
-                    "required": [
-                      "incident"
-                    ],
-                    "title": "IncidentCreateRequest",
-                    "type": "object"
-                  },
                   "ServiceReference": {
                     "properties": {
                       "id": {
@@ -743,15 +747,42 @@
                     ],
                     "title": "ServiceReference",
                     "type": "object"
+                  },
+                  "UserReference": {
+                    "properties": {
+                      "id": {
+                        "description": "The ID of the referenced object",
+                        "title": "Id",
+                        "type": "string"
+                      },
+                      "summary": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "A short-form, server-generated string that provides succinct information about the referenced object",
+                        "title": "Summary"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "title": "UserReference",
+                    "type": "object"
                   }
                 },
                 "properties": {
-                  "create_model": {
-                    "$ref": "#/$defs/IncidentCreateRequest"
+                  "incident": {
+                    "$ref": "#/$defs/IncidentCreate"
                   }
                 },
                 "required": [
-                  "create_model"
+                  "incident"
                 ],
                 "type": "object"
               },
@@ -763,7 +794,7 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
-              "description": "Create a new on-call schedule.\n\nArgs:\n    create_model: The schedule creation data\n\nReturns:\n    The created schedule\n",
+              "description": "Create a new on-call schedule.\n\nEach schedule layer requires a 'name' field to identify the layer.\n\nArgs:\n    create_model: The schedule creation data\n\nReturns:\n    The created schedule\n",
               "inputSchema": {
                 "$defs": {
                   "ScheduleCreateData": {
@@ -991,7 +1022,7 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
-              "description": "Create an override for a schedule.\n\nArgs:\n    schedule_id: The ID of the schedule to override\n    override_request: Data for the schedule override\n\nReturns:\n    The created schedule override\n",
+              "description": "Create an override for a schedule.\n\nThe override_request contains an 'overrides' array. Each override requires\n'start' (ISO datetime), 'end' (ISO datetime), and 'user_id' (the user's PagerDuty ID).\n\nArgs:\n    schedule_id: The ID of the schedule to override\n    override_request: Data for the schedule override\n\nReturns:\n    The created schedule override\n",
               "inputSchema": {
                 "$defs": {
                   "Override": {
@@ -1008,15 +1039,16 @@
                         "title": "Start",
                         "type": "string"
                       },
-                      "user": {
-                        "$ref": "#/$defs/UserReference",
-                        "description": "The user for the override"
+                      "user_id": {
+                        "description": "The ID of the user for this override",
+                        "title": "User Id",
+                        "type": "string"
                       }
                     },
                     "required": [
                       "start",
                       "end",
-                      "user"
+                      "user_id"
                     ],
                     "title": "Override",
                     "type": "object"
@@ -1036,33 +1068,6 @@
                       "overrides"
                     ],
                     "title": "ScheduleOverrideCreate",
-                    "type": "object"
-                  },
-                  "UserReference": {
-                    "properties": {
-                      "id": {
-                        "description": "The ID of the referenced object",
-                        "title": "Id",
-                        "type": "string"
-                      },
-                      "summary": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "A short-form, server-generated string that provides succinct information about the referenced object",
-                        "title": "Summary"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ],
-                    "title": "UserReference",
                     "type": "object"
                   }
                 },
@@ -1089,7 +1094,7 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
-              "description": "Create a new service.\n\nArgs:\n    service_data: The data for the new service.\n    Do not include the ID in the data since it is auto-generated.\n    Always include the summary field for all references if available.\n\nReturns:\n    The created service\n",
+              "description": "Create a new service.\n\nThe escalation_policy reference only requires the 'id' field. The 'summary'\nfield is server-generated and ignored for object references.\n\nExample escalation_policy: {\"id\": \"PXXXXXX\"}\n\nArgs:\n    service_data: The data for the new service.\n    Do not include the ID in the data since it is auto-generated.\n\nReturns:\n    The created service\n",
               "inputSchema": {
                 "$defs": {
                   "EscalationPolicyReference": {
@@ -1100,14 +1105,21 @@
                         "type": "string"
                       },
                       "summary": {
-                        "description": "A short-form, server-generated string that provides succinct information about the escalation policy",
-                        "title": "Summary",
-                        "type": "string"
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Read-only. A short-form, server-generated string that provides succinct information about the escalation policy.",
+                        "title": "Summary"
                       }
                     },
                     "required": [
-                      "id",
-                      "summary"
+                      "id"
                     ],
                     "title": "EscalationPolicyReference",
                     "type": "object"
@@ -1155,6 +1167,19 @@
                         "default": null,
                         "description": "The name of the service",
                         "title": "Name"
+                      },
+                      "status": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The current state of the service",
+                        "title": "Status"
                       },
                       "teams": {
                         "anyOf": [
@@ -1940,7 +1965,71 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
-              "description": "Delete an alert grouping setting.\n\nArgs:\n    setting_id: The ID of the alert grouping setting to delete\n\nReturns:\n    None (successful deletion returns no content)\n",
+              "description": "Create a new PagerDuty user account. No invitation email is sent.\n\nArgs:\n    request: User creation parameters (name, email, role, time_zone)\n\nReturns:\n    The created User object.\n",
+              "inputSchema": {
+                "$defs": {
+                  "CreateUserRequest": {
+                    "properties": {
+                      "email": {
+                        "description": "The user's email address (used as login)",
+                        "title": "Email",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The full name of the user",
+                        "title": "Name",
+                        "type": "string"
+                      },
+                      "role": {
+                        "default": "user",
+                        "description": "The user's role in PagerDuty (user, admin, read_only_user, etc.)",
+                        "enum": [
+                          "admin",
+                          "limited_user",
+                          "observer",
+                          "owner",
+                          "read_only_user",
+                          "restricted_access",
+                          "read_only_limited_user",
+                          "user"
+                        ],
+                        "title": "Role",
+                        "type": "string"
+                      },
+                      "time_zone": {
+                        "default": "UTC",
+                        "description": "The user's time zone (e.g. 'America/New_York')",
+                        "title": "Time Zone",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "email"
+                    ],
+                    "title": "CreateUserRequest",
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "request": {
+                    "$ref": "#/$defs/CreateUserRequest"
+                  }
+                },
+                "required": [
+                  "request"
+                ],
+                "type": "object"
+              },
+              "name": "create_user"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false
+              },
+              "description": "Delete an alert grouping setting.\n\nArgs:\n    setting_id: The ID of the alert grouping setting to delete\n\nReturns:\n    Confirmation message\n",
               "inputSchema": {
                 "properties": {
                   "setting_id": {
@@ -1961,7 +2050,7 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
-              "description": "Delete a team.\n\nArgs:\n    team_id: The ID of the team to delete\n",
+              "description": "Delete a team.\n\nArgs:\n    team_id: The ID of the team to delete\n\nReturns:\n    Confirmation message\n",
               "inputSchema": {
                 "properties": {
                   "team_id": {
@@ -2155,12 +2244,49 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "Get a specific incident.\n\nArgs:\n    incident_id: The ID or number of the incident to retrieve.\n\nReturns:\n    Incident details\n",
+              "description": "Get a specific incident.\n\nArgs:\n    incident_id: The ID or number of the incident to retrieve.\n    query_model: Optional query parameters for additional information to include\n\nReturns:\n    Incident details\n",
               "inputSchema": {
+                "$defs": {
+                  "GetIncidentQuery": {
+                    "additionalProperties": false,
+                    "description": "Query model for retrieving a specific incident with optional parameters.",
+                    "properties": {
+                      "include": {
+                        "anyOf": [
+                          {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "List of additional information to include in the response. Available options: 'users', 'services', 'assignments', 'acknowledgers', 'custom_fields', 'teams', 'escalation_policies', 'notes', 'urgencies', 'priorities'",
+                        "title": "Include"
+                      }
+                    },
+                    "title": "GetIncidentQuery",
+                    "type": "object"
+                  }
+                },
                 "properties": {
                   "incident_id": {
                     "title": "Incident Id",
                     "type": "string"
+                  },
+                  "query_model": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/GetIncidentQuery"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
                   }
                 },
                 "required": [
@@ -2267,7 +2393,7 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "Get Past Incidents related to a specific incident ID.\n\nPast Incidents returns Incidents within the past 6 months that have similar\nmetadata and were generated on the same Service as the parent Incident.\nBy default, 5 Past Incidents are returned. This feature is currently available\nas part of the Event Intelligence package or Digital Operations plan only.\n\nArgs:\n    incident_id: The ID of the incident to get past incidents for\n    query_model: Query parameters including limit and total flag\n\nReturns:\n    List of past incidents with similarity scores\n",
+              "description": "Get Past Incidents related to a specific incident ID.\n\nPast Incidents returns Incidents within the past 6 months that have similar\nmetadata and were generated on the same Service as the parent Incident.\nBy default, 50 Past Incidents are returned. This feature is currently available\nas part of the Event Intelligence package or Digital Operations plan only.\n\nArgs:\n    incident_id: The ID of the incident to get past incidents for\n    query_model: Query parameters including limit and total flag\n\nReturns:\n    List of past incidents with similarity scores\n",
               "inputSchema": {
                 "$defs": {
                   "PastIncidentsQuery": {
@@ -2275,32 +2401,18 @@
                     "description": "Query model for retrieving past incidents related to a specific incident.",
                     "properties": {
                       "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 999,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
+                        "default": 5,
                         "description": "The number of results to be returned in the response. Default is 5, maximum is 999.",
-                        "title": "Limit"
+                        "maximum": 999,
+                        "minimum": 1,
+                        "title": "Limit",
+                        "type": "integer"
                       },
                       "total": {
-                        "anyOf": [
-                          {
-                            "type": "boolean"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Set to true to include the total number of Past Incidents in the response",
-                        "title": "Total"
+                        "default": false,
+                        "description": "Include the total number of Past Incidents in the response. Default is False.",
+                        "title": "Total",
+                        "type": "boolean"
                       }
                     },
                     "title": "PastIncidentsQuery",
@@ -2513,88 +2625,67 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List all alert grouping settings with optional filtering.\n\nArgs:\n    query_model: Optional filtering parameters\n\nReturns:\n    List of alert grouping settings matching the query parameters\n",
+              "description": "List all alert grouping settings with optional filtering.\n\nArgs:\n    service_ids: An array of service IDs. Only results related to these services will be returned.\n    limit: The number of results per page. Default 1000.\n    after: Cursor to retrieve next page.\n    before: Cursor to retrieve previous page.\n    total: Set to True to include total count in response.\n\nReturns:\n    List of alert grouping settings matching the query parameters\n",
               "inputSchema": {
-                "$defs": {
-                  "AlertGroupingSettingQuery": {
-                    "description": "Query parameters for listing alert grouping settings.",
-                    "properties": {
-                      "after": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Cursor to retrieve next page; only present if next page exists.",
-                        "title": "After"
-                      },
-                      "before": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Cursor to retrieve previous page; only present if not on first page.",
-                        "title": "Before"
-                      },
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 20,
-                        "description": "The number of results per page.",
-                        "title": "Limit"
-                      },
-                      "service_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "An array of service IDs. Only results related to these services will be returned.",
-                        "title": "Service Ids"
-                      },
-                      "total": {
-                        "default": false,
-                        "description": "By default the `total` field in pagination responses is set to `null` to provide the fastest possible response times. Set `total` to `true` for this field to be populated.",
-                        "title": "Total",
-                        "type": "boolean"
-                      }
-                    },
-                    "title": "AlertGroupingSettingQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
-                  "query_model": {
-                    "$ref": "#/$defs/AlertGroupingSettingQuery"
+                  "after": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "After"
+                  },
+                  "before": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Before"
+                  },
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": 1000,
+                    "title": "Limit"
+                  },
+                  "service_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Service Ids"
+                  },
+                  "total": {
+                    "default": false,
+                    "title": "Total",
+                    "type": "boolean"
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_alert_grouping_settings"
@@ -2605,59 +2696,40 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List alerts for a specific incident.\n\nArgs:\n    incident_id: The ID of the incident\n    query_model: Query parameters for pagination\n\nReturns:\n    List of Alert objects for the incident\n\n",
+              "description": "List alerts for a specific incident.\n\nArgs:\n    incident_id: The ID of the incident\n    limit: Maximum number of results to return (1-1000). Default is 100.\n    offset: Offset for pagination. Default is 0.\n\nReturns:\n    List of Alert objects for the given incident\n",
               "inputSchema": {
-                "$defs": {
-                  "AlertQuery": {
-                    "additionalProperties": false,
-                    "description": "Query parameters for listing alerts.",
-                    "properties": {
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 1000,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 100,
-                        "description": "Maximum number of results to return",
-                        "title": "Limit"
-                      },
-                      "offset": {
-                        "anyOf": [
-                          {
-                            "minimum": 0,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 0,
-                        "description": "Offset for pagination",
-                        "title": "Offset"
-                      }
-                    },
-                    "title": "AlertQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
                   "incident_id": {
                     "title": "Incident Id",
                     "type": "string"
                   },
-                  "query_model": {
-                    "$ref": "#/$defs/AlertQuery"
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": 100,
+                    "title": "Limit"
+                  },
+                  "offset": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": 0,
+                    "title": "Offset"
                   }
                 },
                 "required": [
-                  "incident_id",
-                  "query_model"
+                  "incident_id"
                 ],
                 "type": "object"
               },
@@ -2669,128 +2741,103 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List all change events with optional filtering.\n\nChange Events represent changes to systems, services, and applications that\ncan be correlated with incidents to provide context for troubleshooting.\n\nArgs:\n    query_model: Query parameters for filtering change events\n\nReturns:\n    List of ChangeEvent objects matching the query parameters\n",
+              "description": "List all change events with optional filtering.\n\nChange Events represent changes to systems, services, and applications that\ncan be correlated with incidents to provide context for troubleshooting.\n\nArgs:\n    since: The start of the date range over which you want to search.\n    until: The end of the date range over which you want to search.\n    limit: The number of results per page. Default 100.\n    offset: The offset of the first record returned.\n    total: Set to True to include total count in response.\n    team_ids: An array of team IDs. Only results related to these teams will be returned.\n    integration_ids: An array of integration IDs. Only results related to these integrations will be returned.\n\nReturns:\n    List of ChangeEvent objects matching the query parameters\n",
               "inputSchema": {
-                "$defs": {
-                  "ChangeEventQuery": {
-                    "additionalProperties": false,
-                    "description": "Query parameters for listing change events.",
-                    "properties": {
-                      "integration_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "An array of integration IDs. Only results related to these integrations will be returned",
-                        "title": "Integration Ids"
-                      },
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 20,
-                        "description": "The number of results per page",
-                        "title": "Limit"
-                      },
-                      "offset": {
-                        "anyOf": [
-                          {
-                            "minimum": 0,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "The offset of the first record returned",
-                        "title": "Offset"
-                      },
-                      "since": {
-                        "anyOf": [
-                          {
-                            "format": "date-time",
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "The start of the date range over which you want to search",
-                        "title": "Since"
-                      },
-                      "team_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "An array of team IDs. Only results related to these teams will be returned",
-                        "title": "Team Ids"
-                      },
-                      "total": {
-                        "anyOf": [
-                          {
-                            "type": "boolean"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "By default the total field is not included. Set to true to include it",
-                        "title": "Total"
-                      },
-                      "until": {
-                        "anyOf": [
-                          {
-                            "format": "date-time",
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "The end of the date range over which you want to search",
-                        "title": "Until"
-                      }
-                    },
-                    "title": "ChangeEventQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
-                  "query_model": {
-                    "$ref": "#/$defs/ChangeEventQuery"
+                  "integration_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Integration Ids"
+                  },
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": 100,
+                    "title": "Limit"
+                  },
+                  "offset": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Offset"
+                  },
+                  "since": {
+                    "anyOf": [
+                      {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Since"
+                  },
+                  "team_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Team Ids"
+                  },
+                  "total": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Total"
+                  },
+                  "until": {
+                    "anyOf": [
+                      {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Until"
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_change_events"
@@ -2889,12 +2936,18 @@
                 },
                 "properties": {
                   "query_model": {
-                    "$ref": "#/$defs/EscalationPolicyQuery"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/EscalationPolicyQuery"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_escalation_policies"
@@ -2905,74 +2958,55 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List event orchestrations with optional filtering.\n\nArgs:\n    query_model: Optional filtering parameters\n\nReturns:\n    List of event orchestrations matching the query parameters\n",
+              "description": "List event orchestrations with optional filtering.\n\nArgs:\n    limit: The number of results per page. Default 100.\n    offset: Offset to start pagination search results.\n    sort_by: Field and direction to sort by. Default 'name:asc'. Options:\n        'name:asc', 'name:desc', 'routes:asc', 'routes:desc',\n        'created_at:asc', 'created_at:desc'.\n\nReturns:\n    List of event orchestrations matching the query parameters\n",
               "inputSchema": {
-                "$defs": {
-                  "EventOrchestrationQuery": {
-                    "properties": {
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 20,
-                        "description": "The number of results per page.",
-                        "title": "Limit"
-                      },
-                      "offset": {
-                        "anyOf": [
-                          {
-                            "minimum": 0,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Offset to start pagination search results.",
-                        "title": "Offset"
-                      },
-                      "sort_by": {
-                        "anyOf": [
-                          {
-                            "enum": [
-                              "name:asc",
-                              "name:desc",
-                              "routes:asc",
-                              "routes:desc",
-                              "created_at:asc",
-                              "created_at:desc"
-                            ],
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": "name:asc",
-                        "description": "Used to specify the field you wish to sort the results on.",
-                        "title": "Sort By"
-                      }
-                    },
-                    "title": "EventOrchestrationQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
-                  "query_model": {
-                    "$ref": "#/$defs/EventOrchestrationQuery"
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": 100,
+                    "title": "Limit"
+                  },
+                  "offset": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Offset"
+                  },
+                  "sort_by": {
+                    "anyOf": [
+                      {
+                        "enum": [
+                          "name:asc",
+                          "name:desc",
+                          "routes:asc",
+                          "routes:desc",
+                          "created_at:asc",
+                          "created_at:desc"
+                        ],
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": "name:asc",
+                    "title": "Sort By"
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_event_orchestrations"
@@ -3037,77 +3071,51 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List incident workflows with optional filtering.\n\nArgs:\n    query_model: Optional filtering parameters. If None, returns the first page with default limit of 100.\n\nReturns:\n    List of IncidentWorkflow objects matching the query parameters\n",
+              "description": "List incident workflows with optional filtering.\n\nArgs:\n    limit: Maximum number of results to return. Maximum is 100. Default 100.\n    query: Filters the result, showing only the records whose name matches the query.\n    include: Array of additional details to include. Options: 'steps', 'team'.\n\nReturns:\n    List of IncidentWorkflow objects matching the query parameters\n",
               "inputSchema": {
-                "$defs": {
-                  "IncidentWorkflowQuery": {
-                    "additionalProperties": false,
-                    "description": "Query parameters for listing incident workflows.",
-                    "properties": {
-                      "include": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "enum": [
-                                "steps",
-                                "team"
-                              ],
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Array of additional details to include",
-                        "title": "Include"
-                      },
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 100,
-                        "description": "Maximum number of results to return. The maximum is 100",
-                        "title": "Limit"
-                      },
-                      "query": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filters the result, showing only the records whose name matches the query",
-                        "title": "Query"
-                      }
-                    },
-                    "title": "IncidentWorkflowQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
-                  "query_model": {
+                  "include": {
                     "anyOf": [
                       {
-                        "$ref": "#/$defs/IncidentWorkflowQuery"
+                        "items": {
+                          "enum": [
+                            "steps",
+                            "team"
+                          ],
+                          "type": "string"
+                        },
+                        "type": "array"
                       },
                       {
                         "type": "null"
                       }
                     ],
-                    "default": null
+                    "default": null,
+                    "title": "Include"
+                  },
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": 100,
+                    "title": "Limit"
+                  },
+                  "query": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Query"
                   }
                 },
                 "required": [],
@@ -3127,6 +3135,20 @@
                   "IncidentQuery": {
                     "additionalProperties": false,
                     "properties": {
+                      "date_range": {
+                        "anyOf": [
+                          {
+                            "const": "all",
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "When set to 'all', the since and until parameters and defaults are ignored. Use this to retrieve incidents across all time ranges.",
+                        "title": "Date Range"
+                      },
                       "limit": {
                         "anyOf": [
                           {
@@ -3138,8 +3160,8 @@
                             "type": "null"
                           }
                         ],
-                        "default": 1000,
-                        "description": "Maximum number of results to return. The maximum is 1000",
+                        "default": 100,
+                        "description": "Maximum number of results to return. Default is 100, maximum is 1000.",
                         "title": "Limit"
                       },
                       "request_scope": {
@@ -3303,12 +3325,18 @@
                 },
                 "properties": {
                   "query_model": {
-                    "$ref": "#/$defs/IncidentQuery"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/IncidentQuery"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_incidents"
@@ -3326,6 +3354,35 @@
                     "additionalProperties": false,
                     "description": "Query parameters for listing log entries.",
                     "properties": {
+                      "include": {
+                        "anyOf": [
+                          {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Array of additional models to include. Options: 'incidents', 'services', 'channels', 'teams'",
+                        "title": "Include"
+                      },
+                      "is_overview": {
+                        "anyOf": [
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "If true, returns only the most important changes to the incident",
+                        "title": "Is Overview"
+                      },
                       "limit": {
                         "anyOf": [
                           {
@@ -3369,6 +3426,48 @@
                         "description": "The start of the date range to search",
                         "title": "Since"
                       },
+                      "team_ids": {
+                        "anyOf": [
+                          {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Filter log entries by team IDs",
+                        "title": "Team Ids"
+                      },
+                      "time_zone": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Time zone for the results (e.g., 'America/New_York', 'UTC')",
+                        "title": "Time Zone"
+                      },
+                      "total": {
+                        "anyOf": [
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Include total count of log entries in the response",
+                        "title": "Total"
+                      },
                       "until": {
                         "anyOf": [
                           {
@@ -3390,12 +3489,18 @@
                 },
                 "properties": {
                   "query_model": {
-                    "$ref": "#/$defs/LogEntryQuery"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/LogEntryQuery"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_log_entries"
@@ -3406,141 +3511,133 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List on-call schedules with optional filtering.\n\nReturns:\n    List of on-call schedules matching the query parameters\n",
+              "description": "List on-call schedules with optional filtering.\n\nArgs:\n    time_zone: Time zone for date rendering (e.g. America/New_York)\n    user_ids: Filter by user IDs\n    escalation_policy_ids: Filter by escalation policy IDs\n    schedule_ids: Filter by schedule IDs\n    service_ids: Filter by service IDs. Resolves each service to its escalation policy to find on-call responders.\n    since: Start of time range\n    until: End of time range\n    earliest: Return only earliest oncall per user/policy combination. Defaults to True.\n    limit: Max results to return\n\nReturns:\n    List of on-call schedules matching the query parameters\n",
               "inputSchema": {
-                "$defs": {
-                  "OncallQuery": {
-                    "properties": {
-                      "earliest": {
-                        "anyOf": [
-                          {
-                            "type": "boolean"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": true,
-                        "description": "Return only the earliest oncall for each combination of user and escalation policy",
-                        "title": "Earliest"
-                      },
-                      "escalation_policy_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter by escalation policy IDs",
-                        "title": "Escalation Policy Ids"
-                      },
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 20,
-                        "description": "Pagination limit",
-                        "title": "Limit"
-                      },
-                      "schedule_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter by schedule IDs",
-                        "title": "Schedule Ids"
-                      },
-                      "since": {
-                        "anyOf": [
-                          {
-                            "format": "date-time",
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Start of timerange - defaults to current time",
-                        "title": "Since"
-                      },
-                      "time_zone": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Time zone in which dates should be rendered (e.g., 'America/New_York')",
-                        "title": "Time Zone"
-                      },
-                      "until": {
-                        "anyOf": [
-                          {
-                            "format": "date-time",
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "End of timerange - defaults to current time",
-                        "title": "Until"
-                      },
-                      "user_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter by user IDs",
-                        "title": "User Ids"
-                      }
-                    },
-                    "title": "OncallQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
-                  "query_model": {
-                    "$ref": "#/$defs/OncallQuery"
+                  "earliest": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": true,
+                    "title": "Earliest"
+                  },
+                  "escalation_policy_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Escalation Policy Ids"
+                  },
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                  },
+                  "schedule_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Schedule Ids"
+                  },
+                  "service_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Service Ids"
+                  },
+                  "since": {
+                    "anyOf": [
+                      {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Since"
+                  },
+                  "time_zone": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Time Zone"
+                  },
+                  "until": {
+                    "anyOf": [
+                      {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Until"
+                  },
+                  "user_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "User Ids"
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_oncalls"
@@ -3661,12 +3758,18 @@
                 },
                 "properties": {
                   "query_model": {
-                    "$ref": "#/$defs/ScheduleQuery"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/ScheduleQuery"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_schedules"
@@ -3677,132 +3780,108 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List all change events for a specific service.\n\nArgs:\n    service_id: The ID of the service\n    query_model: Query parameters for filtering change events\n\nReturns:\n    List of ChangeEvent objects associated with the service\n",
+              "description": "List all change events for a specific service.\n\nArgs:\n    service_id: The ID of the service.\n    since: The start of the date range over which you want to search.\n    until: The end of the date range over which you want to search.\n    limit: The number of results per page. Default 100.\n    offset: The offset of the first record returned.\n    total: Set to True to include total count in response.\n    team_ids: An array of team IDs. Only results related to these teams will be returned.\n    integration_ids: An array of integration IDs. Only results related to these integrations will be returned.\n\nReturns:\n    List of ChangeEvent objects associated with the service\n",
               "inputSchema": {
-                "$defs": {
-                  "ChangeEventQuery": {
-                    "additionalProperties": false,
-                    "description": "Query parameters for listing change events.",
-                    "properties": {
-                      "integration_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "An array of integration IDs. Only results related to these integrations will be returned",
-                        "title": "Integration Ids"
-                      },
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 20,
-                        "description": "The number of results per page",
-                        "title": "Limit"
-                      },
-                      "offset": {
-                        "anyOf": [
-                          {
-                            "minimum": 0,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "The offset of the first record returned",
-                        "title": "Offset"
-                      },
-                      "since": {
-                        "anyOf": [
-                          {
-                            "format": "date-time",
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "The start of the date range over which you want to search",
-                        "title": "Since"
-                      },
-                      "team_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "An array of team IDs. Only results related to these teams will be returned",
-                        "title": "Team Ids"
-                      },
-                      "total": {
-                        "anyOf": [
-                          {
-                            "type": "boolean"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "By default the total field is not included. Set to true to include it",
-                        "title": "Total"
-                      },
-                      "until": {
-                        "anyOf": [
-                          {
-                            "format": "date-time",
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "The end of the date range over which you want to search",
-                        "title": "Until"
-                      }
-                    },
-                    "title": "ChangeEventQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
-                  "query_model": {
-                    "$ref": "#/$defs/ChangeEventQuery"
+                  "integration_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Integration Ids"
+                  },
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": 100,
+                    "title": "Limit"
+                  },
+                  "offset": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Offset"
                   },
                   "service_id": {
                     "title": "Service Id",
                     "type": "string"
+                  },
+                  "since": {
+                    "anyOf": [
+                      {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Since"
+                  },
+                  "team_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Team Ids"
+                  },
+                  "total": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Total"
+                  },
+                  "until": {
+                    "anyOf": [
+                      {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Until"
                   }
                 },
                 "required": [
-                  "service_id",
-                  "query_model"
+                  "service_id"
                 ],
                 "type": "object"
               },
@@ -3870,12 +3949,18 @@
                 },
                 "properties": {
                   "query_model": {
-                    "$ref": "#/$defs/ServiceQuery"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/ServiceQuery"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_services"
@@ -3930,7 +4015,15 @@
                 },
                 "properties": {
                   "query_model": {
-                    "$ref": "#/$defs/StatusPageImpactQuery"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/StatusPageImpactQuery"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
                   },
                   "status_page_id": {
                     "title": "Status Page Id",
@@ -3938,8 +4031,7 @@
                   }
                 },
                 "required": [
-                  "status_page_id",
-                  "query_model"
+                  "status_page_id"
                 ],
                 "type": "object"
               },
@@ -3999,7 +4091,15 @@
                     "type": "string"
                   },
                   "query_model": {
-                    "$ref": "#/$defs/StatusPagePostUpdateQuery"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/StatusPagePostUpdateQuery"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
                   },
                   "status_page_id": {
                     "title": "Status Page Id",
@@ -4008,8 +4108,7 @@
                 },
                 "required": [
                   "status_page_id",
-                  "post_id",
-                  "query_model"
+                  "post_id"
                 ],
                 "type": "object"
               },
@@ -4065,7 +4164,15 @@
                 },
                 "properties": {
                   "query_model": {
-                    "$ref": "#/$defs/StatusPageSeverityQuery"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/StatusPageSeverityQuery"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
                   },
                   "status_page_id": {
                     "title": "Status Page Id",
@@ -4073,8 +4180,7 @@
                   }
                 },
                 "required": [
-                  "status_page_id",
-                  "query_model"
+                  "status_page_id"
                 ],
                 "type": "object"
               },
@@ -4130,7 +4236,15 @@
                 },
                 "properties": {
                   "query_model": {
-                    "$ref": "#/$defs/StatusPageStatusQuery"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/StatusPageStatusQuery"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
                   },
                   "status_page_id": {
                     "title": "Status Page Id",
@@ -4138,8 +4252,7 @@
                   }
                 },
                 "required": [
-                  "status_page_id",
-                  "query_model"
+                  "status_page_id"
                 ],
                 "type": "object"
               },
@@ -4196,12 +4309,18 @@
                 },
                 "properties": {
                   "query_model": {
-                    "$ref": "#/$defs/StatusPageQuery"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/StatusPageQuery"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_status_pages"
@@ -4233,69 +4352,47 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List teams based on the provided query model.\n\nArgs:\n    query_model: The model containing the query parameters\nReturns:\n    List of teams.\n",
+              "description": "List teams with optional filtering.\n\nArgs:\n    scope: 'all' for all teams, 'my' for teams the current user belongs to\n    query: Filter by team name\n    limit: Max results to return\n\nReturns:\n    List of teams.\n",
               "inputSchema": {
-                "$defs": {
-                  "TeamQuery": {
-                    "properties": {
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 20,
-                        "description": "Pagination limit",
-                        "title": "Limit"
-                      },
-                      "query": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "filters the result, showing only the records whose name matches the query",
-                        "title": "Query"
-                      },
-                      "scope": {
-                        "anyOf": [
-                          {
-                            "enum": [
-                              "all",
-                              "my"
-                            ],
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": "all",
-                        "description": "Scope of the query. 'all' for all teams, 'my' for teams the user is a member of",
-                        "title": "Scope"
-                      }
-                    },
-                    "title": "TeamQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
-                  "query_model": {
-                    "$ref": "#/$defs/TeamQuery"
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                  },
+                  "query": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Query"
+                  },
+                  "scope": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Scope"
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_teams"
@@ -4306,68 +4403,50 @@
                 "idempotentHint": true,
                 "readOnlyHint": true
               },
-              "description": "List users, optionally filtering by name (query) and team IDs.\n\nArgs:\n    query_model: Optional filtering parameters\n\nReturns:\n    List of users matching the criteria.\n",
+              "description": "List users, optionally filtering by name (query) and team IDs.\n\nArgs:\n    query: Filters the result, showing only the records whose name matches the query.\n    teams_ids: Filter users by team IDs.\n    limit: Pagination limit. Default 100.\n\nReturns:\n    List of users matching the criteria.\n",
               "inputSchema": {
-                "$defs": {
-                  "UserQuery": {
-                    "properties": {
-                      "limit": {
-                        "anyOf": [
-                          {
-                            "maximum": 100,
-                            "minimum": 1,
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": 20,
-                        "description": "Pagination limit",
-                        "title": "Limit"
-                      },
-                      "query": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filters the result, showing only the records whose name matches the query",
-                        "title": "Query"
-                      },
-                      "teams_ids": {
-                        "anyOf": [
-                          {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Filter users by team IDs",
-                        "title": "Teams Ids"
-                      }
-                    },
-                    "title": "UserQuery",
-                    "type": "object"
-                  }
-                },
                 "properties": {
-                  "query_model": {
-                    "$ref": "#/$defs/UserQuery"
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": 100,
+                    "title": "Limit"
+                  },
+                  "query": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Query"
+                  },
+                  "teams_ids": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Teams Ids"
                   }
                 },
-                "required": [
-                  "query_model"
-                ],
+                "required": [],
                 "type": "object"
               },
               "name": "list_users"
@@ -4378,7 +4457,7 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
-              "description": "Manage one or more incidents by changing its status, urgency, assignment, or escalation level.\n\nUse this tool when you want to bulk update incidents.\n\nArgs:\n    manage_request: The request model containing the incident IDs and the fields to update\n        (status, urgency, assignment, escalation level)\n\nReturns:\n    The updated incident\n",
+              "description": "Manage one or more incidents by changing its status, urgency, assignment, or escalation level.\n\nUse this tool when you want to bulk update incidents.\n\nThis tool accepts flat fields on the manage_request model: 'incident_ids' (list of IDs),\nplus optional 'status', 'urgency', 'assignment' (UserReference with 'id'), and\n'escalation_level' (int). It does NOT use the nested PagerDuty API format directly.\n\nArgs:\n    manage_request: The request model containing the incident IDs and the fields to update\n        (status, urgency, assignment, escalation level)\n\nReturns:\n    The updated incidents\n",
               "inputSchema": {
                 "$defs": {
                   "IncidentManageRequest": {
@@ -4503,7 +4582,7 @@
                 "idempotentHint": false,
                 "readOnlyHint": false
               },
-              "description": "Remove a user from a team.\n\nArgs:\n    team_id: The ID of the team to remove the user from\n    user_id: The ID of the user to remove\n",
+              "description": "Remove a user from a team.\n\nArgs:\n    team_id: The ID of the team to remove the user from\n    user_id: The ID of the user to remove\n\nReturns:\n    Confirmation message\n",
               "inputSchema": {
                 "properties": {
                   "team_id": {
@@ -5392,14 +5471,21 @@
                         "type": "string"
                       },
                       "summary": {
-                        "description": "A short-form, server-generated string that provides succinct information about the escalation policy",
-                        "title": "Summary",
-                        "type": "string"
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Read-only. A short-form, server-generated string that provides succinct information about the escalation policy.",
+                        "title": "Summary"
                       }
                     },
                     "required": [
-                      "id",
-                      "summary"
+                      "id"
                     ],
                     "title": "EscalationPolicyReference",
                     "type": "object"
@@ -5447,6 +5533,19 @@
                         "default": null,
                         "description": "The name of the service",
                         "title": "Name"
+                      },
+                      "status": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "The current state of the service",
+                        "title": "Status"
                       },
                       "teams": {
                         "anyOf": [
@@ -5626,6 +5725,7 @@
             "create_status_page_post",
             "create_status_page_post_update",
             "create_team",
+            "create_user",
             "delete_alert_grouping_setting",
             "delete_team",
             "get_alert_from_incident",
@@ -5709,7 +5809,7 @@
           "name": "PAGERDUTY_API_HOST"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/pagerduty-mcp:0.12.0",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/pagerduty-mcp:1.0.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
