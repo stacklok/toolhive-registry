@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/server-everything:2026.7.4": {
           "metadata": {
-            "last_updated": "2026-05-29T13:15:40Z",
+            "last_updated": "2026-07-16T21:51:30Z",
             "stars": 85231
           },
           "overview": "## Everything MCP Server\n\nThe everything-mcp-server is a reference and demonstration Model Context Protocol (MCP) server that exposes a broad collection of example tools in a single implementation. The server is designed as a learning and testing resource, showcasing how MCP functions end-to-end through diverse tool types encompassing data access, computation, state management, and side effects that AI assistants can invoke during workflows. Rather than integrating with external services, this implementation serves primarily for educational purposes, client validation, debugging, and protocol testing — making it valuable for developers onboarding to MCP, understanding server architecture, and conducting regression testing.",
@@ -30,7 +30,12 @@
           "tier": "Community",
           "tool_definitions": [
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Echoes back the input string",
               "inputSchema": {
                 "properties": {
@@ -47,7 +52,12 @@
               "name": "echo"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Demonstrates how annotations can be used to provide metadata about content.",
               "inputSchema": {
                 "properties": {
@@ -74,7 +84,12 @@
               "name": "get-annotated-message"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Returns all environment variables, helpful for debugging MCP server configuration",
               "inputSchema": {
                 "properties": {},
@@ -84,7 +99,12 @@
               "name": "get-env"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Returns up to ten resource links that reference different types of resources",
               "inputSchema": {
                 "properties": {
@@ -102,7 +122,12 @@
               "name": "get-resource-links"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Returns a resource reference that can be used by MCP clients",
               "inputSchema": {
                 "properties": {
@@ -126,7 +151,12 @@
               "name": "get-resource-reference"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Returns structured content along with an output schema for client data validation",
               "inputSchema": {
                 "properties": {
@@ -148,7 +178,12 @@
               "name": "get-structured-content"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Returns the sum of two numbers",
               "inputSchema": {
                 "properties": {
@@ -170,7 +205,12 @@
               "name": "get-sum"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Returns a tiny MCP logo image.",
               "inputSchema": {
                 "properties": {},
@@ -180,7 +220,12 @@
               "name": "get-tiny-image"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
               "description": "Compresses a single file using gzip compression. Depending upon the selected output type, returns either the compressed data as a gzipped resource or a resource link, allowing it to be downloaded in a subsequent request during the current session.",
               "inputSchema": {
                 "properties": {
@@ -211,7 +256,12 @@
               "name": "gzip-file-as-resource"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Simulates a deep research operation that gathers, analyzes, and synthesizes information. Demonstrates MCP task-based operations with progress through multiple stages. If 'ambiguous' is true and client supports elicitation, sends an elicitation request for clarification.",
               "inputSchema": {
                 "properties": {
@@ -233,7 +283,12 @@
               "name": "simulate-research-query"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Toggles simulated, random-leveled logging on or off.",
               "inputSchema": {
                 "properties": {},
@@ -243,7 +298,12 @@
               "name": "toggle-simulated-logging"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Toggles simulated resource subscription updates on or off.",
               "inputSchema": {
                 "properties": {},
@@ -253,7 +313,12 @@
               "name": "toggle-subscriber-updates"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Demonstrates a long running operation with progress updates.",
               "inputSchema": {
                 "properties": {
