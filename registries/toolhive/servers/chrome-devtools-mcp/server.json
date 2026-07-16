@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.4.0": {
+        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.6.0": {
           "metadata": {
-            "last_updated": "2026-07-08T07:51:06Z",
+            "last_updated": "2026-07-16T21:51:22Z",
             "stars": 33303
           },
           "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
@@ -173,7 +173,7 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Evaluate a JavaScript function inside the currently selected page. Returns the response as JSON,\nso returned values have to be JSON-serializable.",
+              "description": "Evaluate a JavaScript function inside the currently selected page. Returns the response as JSON, so returned values have to be JSON-serializable.",
               "inputSchema": {
                 "properties": {
                   "args": {
@@ -193,7 +193,7 @@
                     "type": "string"
                   },
                   "function": {
-                    "description": "A JavaScript function declaration to be executed by the tool in the currently selected page.\nExample without arguments: `() =\u003e {\n  return document.title\n}` or `async () =\u003e {\n  return await fetch(\"example.com\")\n}`.\nExample with arguments: `(el) =\u003e {\n  return el.innerText;\n}`\n",
+                    "description": "A JavaScript function declaration to be executed by the tool in the currently selected page.\nExample without arguments: `() =\u003e document.title` or `async () =\u003e await fetch(\"example.com\")`.\nExample with arguments: `(el) =\u003e el.innerText`\n",
                     "type": "string"
                   }
                 },
@@ -542,7 +542,7 @@
                     "description": "Whether to auto accept or beforeunload dialogs triggered by this navigation. Default is accept.",
                     "enum": [
                       "accept",
-                      "decline"
+                      "dismiss"
                     ],
                     "type": "string"
                   },
@@ -955,7 +955,7 @@
   "name": "io.github.stacklok/chrome-devtools-mcp",
   "packages": [
     {
-      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.4.0",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.6.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
