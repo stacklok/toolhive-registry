@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/uvx/mcp-server-git:2026.1.14": {
+        "ghcr.io/stacklok/dockyard/uvx/mcp-server-git:2026.7.10": {
           "metadata": {
-            "last_updated": "2026-05-29T13:16:19Z",
+            "last_updated": "2026-07-08T07:51:32Z",
             "stars": 84011
           },
           "overview": "## Git MCP Server\n\nThe git-mcp-server is a Model Context Protocol (MCP) server that gives AI assistants direct access to Git repositories through a structured, AI-friendly interface. It enables AI-driven workflows to read repository state, inspect history, and reason about changes without switching tools or manually invoking Git commands. It is especially useful for code understanding, change analysis, release preparation, and development workflows where repository context needs to be embedded directly into an AI assistant.",
@@ -29,7 +29,12 @@
           "tier": "Community",
           "tool_definitions": [
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Adds file contents to the staging area",
               "inputSchema": {
                 "properties": {
@@ -54,7 +59,12 @@
               "name": "git_add"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "List Git branches",
               "inputSchema": {
                 "properties": {
@@ -104,7 +114,12 @@
               "name": "git_branch"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Switches branches",
               "inputSchema": {
                 "properties": {
@@ -126,7 +141,12 @@
               "name": "git_checkout"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Records changes to the repository",
               "inputSchema": {
                 "properties": {
@@ -148,7 +168,12 @@
               "name": "git_commit"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Creates a new branch from an optional base branch",
               "inputSchema": {
                 "properties": {
@@ -182,7 +207,12 @@
               "name": "git_create_branch"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Shows differences between branches or commits",
               "inputSchema": {
                 "properties": {
@@ -209,7 +239,12 @@
               "name": "git_diff"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Shows changes that are staged for commit",
               "inputSchema": {
                 "properties": {
@@ -231,7 +266,12 @@
               "name": "git_diff_staged"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Shows changes in the working directory that are not yet staged",
               "inputSchema": {
                 "properties": {
@@ -253,7 +293,12 @@
               "name": "git_diff_unstaged"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Shows the commit logs",
               "inputSchema": {
                 "properties": {
@@ -301,7 +346,12 @@
               "name": "git_log"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Unstages all staged changes",
               "inputSchema": {
                 "properties": {
@@ -318,7 +368,12 @@
               "name": "git_reset"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Shows the contents of a commit",
               "inputSchema": {
                 "properties": {
@@ -340,7 +395,12 @@
               "name": "git_show"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Shows the working tree status",
               "inputSchema": {
                 "properties": {
@@ -388,7 +448,7 @@
   "name": "io.github.stacklok/git",
   "packages": [
     {
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-server-git:2026.1.14",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-server-git:2026.7.10",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
