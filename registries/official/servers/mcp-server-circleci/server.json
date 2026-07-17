@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.15.1": {
+        "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.17.0": {
           "metadata": {
-            "last_updated": "2026-04-22T07:20:01Z",
+            "last_updated": "2026-07-17T15:08:56Z",
             "stars": 82
           },
           "overview": "## CircleCI MCP Server\n\nThe mcp-server-circleci is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with CircleCI, the continuous integration and delivery platform. It allows AI-driven workflows to inspect pipelines, jobs, workflows, and build results — bringing CI/CD context directly into conversational and automated AI workflows without switching tools. This server is especially useful for build monitoring, failure analysis, release workflows, and developer productivity scenarios where understanding CI state and history is critical.",
@@ -271,7 +271,7 @@
             },
             {
               "annotations": {},
-              "description": "\n    This tool helps debug CircleCI build failures by retrieving failure logs.\n\n    CRITICAL REQUIREMENTS:\n    1. Truncation Handling (HIGHEST PRIORITY):\n       - ALWAYS check for \u003cMCPTruncationWarning\u003e in the output\n       - When present, you MUST start your response with:\n         \"WARNING: The logs have been truncated. Only showing the most recent entries. Earlier build failures may not be visible.\"\n       - Only proceed with log analysis after acknowledging the truncation\n\n    Input options (EXACTLY ONE of these THREE options must be used):\n\n    Option 1 - Project Slug and branch (BOTH required):\n    - projectSlug: The project slug obtained from listFollowedProjects tool (e.g., \"gh/organization/project\")\n    - branch: The name of the branch (required when using projectSlug)\n\n    Option 2 - Direct URL (provide ONE of these):\n    - projectURL: The URL of the CircleCI project in any of these formats:\n      * Project URL: https://app.circleci.com/pipelines/gh/organization/project\n      * Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n      * Legacy Job URL: https://circleci.com/pipelines/gh/organization/project/123\n      * Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n      * Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz\n\n    Option 3 - Project Detection (ALL of these must be provided together):\n    - workspaceRoot: The absolute path to the workspace root\n    - gitRemoteURL: The URL of the git remote repository\n    - branch: The name of the current branch\n    \n    Recommended Workflow:\n    1. Use listFollowedProjects tool to get a list of projects\n    2. Extract the projectSlug from the chosen project (format: \"gh/organization/project\")\n    3. Use that projectSlug with a branch name for this tool\n\n    Additional Requirements:\n    - Never call this tool with incomplete parameters\n    - If using Option 1, make sure to extract the projectSlug exactly as provided by listFollowedProjects\n    - If using Option 2, the URLs MUST be provided by the user - do not attempt to construct or guess URLs\n    - If using Option 3, ALL THREE parameters (workspaceRoot, gitRemoteURL, branch) must be provided\n    - If none of the options can be fully satisfied, ask the user for the missing information before making the tool call\n    ",
+              "description": "\n    This tool helps debug CircleCI build failures by retrieving failure logs.\n\n    CRITICAL REQUIREMENTS:\n    1. Large Log Handling:\n       - If you expect large logs or want the full output, provide outputDir. The full logs will be written to a file and the path returned.\n         * Use the project/workspace root when available, otherwise use the Downloads folder (e.g., \"~/Downloads\").\n       - If outputDir is omitted, logs are returned inline but may be truncated. When truncated, output will contain \u003cMCPTruncationWarning\u003e and you MUST acknowledge: \"WARNING: The logs have been truncated. Only showing the most recent entries.\"\n\n    Input options (EXACTLY ONE of these THREE options must be used):\n\n    Option 1 - Project Slug and branch (BOTH required):\n    - projectSlug: The project slug obtained from listFollowedProjects tool (e.g., \"gh/organization/project\")\n    - branch: The name of the branch (required when using projectSlug)\n\n    Option 2 - Direct URL (provide ONE of these):\n    - projectURL: The URL of the CircleCI project in any of these formats:\n      * Project URL: https://app.circleci.com/pipelines/gh/organization/project\n      * Pipeline URL: https://app.circleci.com/pipelines/gh/organization/project/123\n      * Legacy Job URL: https://circleci.com/pipelines/gh/organization/project/123\n      * Workflow URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def\n      * Job URL: https://app.circleci.com/pipelines/gh/organization/project/123/workflows/abc-def/jobs/xyz\n\n    Option 3 - Project Detection (ALL of these must be provided together):\n    - workspaceRoot: The absolute path to the workspace root\n    - gitRemoteURL: The URL of the git remote repository\n    - branch: The name of the current branch\n    \n    Recommended Workflow:\n    1. Use listFollowedProjects tool to get a list of projects\n    2. Extract the projectSlug from the chosen project (format: \"gh/organization/project\")\n    3. Use that projectSlug with a branch name for this tool\n\n    Additional Requirements:\n    - Never call this tool with incomplete parameters\n    - If using Option 1, make sure to extract the projectSlug exactly as provided by listFollowedProjects\n    - If using Option 2, the URLs MUST be provided by the user - do not attempt to construct or guess URLs\n    - If using Option 3, ALL THREE parameters (workspaceRoot, gitRemoteURL, branch) must be provided\n    - If none of the options can be fully satisfied, ask the user for the missing information before making the tool call\n    ",
               "inputSchema": {
                 "properties": {
                   "params": {
@@ -283,6 +283,10 @@
                       },
                       "gitRemoteURL": {
                         "description": "The URL of the remote git repository. This should be the URL of the repository that you cloned to your local workspace. For example: \"https://github.com/user/my-project.git\"",
+                        "type": "string"
+                      },
+                      "outputDir": {
+                        "description": "Optional. When provided, the full build logs are written to a file in this directory and the file path is returned. Use this for large logs to avoid truncation. Use the workspace/project root when available (e.g., \"/home/user/my-project\"), otherwise use the Downloads folder (e.g., \"~/Downloads\").",
                         "type": "string"
                       },
                       "projectSlug": {
@@ -598,6 +602,7 @@
                             },
                             "fileName": {
                               "description": "The name of the prompt template file",
+                              "pattern": "^[A-Za-z0-9._-]+$",
                               "type": "string"
                             }
                           },
@@ -786,7 +791,7 @@
           "name": "FILE_OUTPUT_DIRECTORY"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.15.1",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.17.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
