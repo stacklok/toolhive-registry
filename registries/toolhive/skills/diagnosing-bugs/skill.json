@@ -1,9 +1,9 @@
 {
   "namespace": "io.github.stacklok",
-  "name": "tdd",
-  "title": "TDD",
-  "description": "Test-driven development with red-green-refactor loop. Use when the user wants to build features or fix bugs using TDD, mentions 'red-green-refactor', wants integration tests, or asks for test-first development.",
-  "version": "0.1.1",
+  "name": "diagnosing-bugs",
+  "title": "Diagnosing Bugs",
+  "description": "Diagnosis loop for hard bugs and performance regressions. Use when the user says 'diagnose'/'debug this', or reports something broken/throwing/failing/slow.",
+  "version": "0.1.0",
   "status": "active",
   "repository": {
     "url": "https://github.com/mattpocock/skills",
@@ -18,13 +18,13 @@
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/skills/tdd:0.2.0"
+      "identifier": "ghcr.io/stacklok/dockyard/skills/diagnosing-bugs:0.1.0"
     },
     {
       "registryType": "git",
       "url": "https://github.com/mattpocock/skills",
       "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
-      "subfolder": "skills/engineering/tdd"
+      "subfolder": "skills/engineering/diagnosing-bugs"
     }
   ]
 }
