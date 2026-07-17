@@ -207,13 +207,6 @@
           "isRequired": false,
           "isSecret": false,
           "name": "OKTA_LOG_LEVEL"
-        },
-        {
-          "default": "keyrings.alt.file.PlaintextKeyring",
-          "description": "Keyring backend for token storage. The container has no system keyring, so this must point at a file-based backend or the server blocks waiting for a keyring password at startup, even with Private Key JWT auth.",
-          "isRequired": true,
-          "isSecret": false,
-          "name": "PYTHON_KEYRING_BACKEND"
         }
       ],
       "identifier": "ghcr.io/stacklok/dockyard/uvx/okta:1.1.3",
