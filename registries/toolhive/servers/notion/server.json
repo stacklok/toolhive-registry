@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/notion:2.2.1": {
+        "ghcr.io/stacklok/dockyard/npx/notion:2.4.1": {
           "metadata": {
-            "last_updated": "2026-04-16T03:04:14Z",
+            "last_updated": "2026-07-17T15:08:58Z",
             "stars": 4219
           },
           "overview": "## Notion MCP Server\n\nThe notion MCP server provides integration with Notion APIs through a local Notion MCP Server. The server offers complete Notion API integration for pages, blocks, and databases; create, read, update, and delete operations across Notion workspaces; user and workspace information retrieval; and search and data source querying with template support.",
@@ -258,41 +258,59 @@
                 },
                 "properties": {
                   "parent": {
-                    "additionalProperties": true,
-                    "description": "The page that contains the comment",
-                    "properties": {
-                      "page_id": {
-                        "description": "the page ID",
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "The page that contains the comment",
+                        "properties": {
+                          "page_id": {
+                            "description": "the page ID",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "page_id"
+                        ],
+                        "type": "object"
+                      },
+                      {
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "page_id"
-                    ],
-                    "type": "object"
+                    ]
                   },
                   "rich_text": {
                     "items": {
-                      "additionalProperties": true,
-                      "properties": {
-                        "text": {
+                      "anyOf": [
+                        {
                           "additionalProperties": true,
                           "properties": {
-                            "content": {
-                              "description": "The content of the comment",
-                              "type": "string"
+                            "text": {
+                              "additionalProperties": true,
+                              "properties": {
+                                "content": {
+                                  "description": "The content of the comment",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "content"
+                              ],
+                              "type": "object"
                             }
                           },
                           "required": [
-                            "content"
+                            "text"
                           ],
                           "type": "object"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "additionalProperties": true,
+                          "type": "object"
                         }
-                      },
-                      "required": [
-                        "text"
-                      ],
-                      "type": "object"
+                      ]
                     },
                     "type": "array"
                   }
@@ -534,22 +552,42 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "parent": {
-                    "$ref": "#/$defs/pageIdParentRequest"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/pageIdParentRequest"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   },
                   "properties": {
-                    "additionalProperties": true,
-                    "description": "Property schema of data source",
-                    "type": "object"
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "Property schema of data source",
+                        "type": "object"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   },
                   "title": {
                     "items": {
-                      "$ref": "#/$defs/richTextRequest"
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/richTextRequest"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "additionalProperties": true,
+                          "type": "object"
+                        }
+                      ]
                     },
                     "type": "array"
                   }
@@ -791,11 +829,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "block_id": {
                     "description": "Identifier for a Notion block",
                     "type": "string"
@@ -1037,11 +1070,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "block_id": {
                     "description": "Identifier for a [block](ref:block)",
                     "type": "string"
@@ -1292,13 +1320,7 @@
                     "type": "object"
                   }
                 },
-                "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  }
-                },
+                "properties": {},
                 "required": [],
                 "type": "object"
               },
@@ -1533,11 +1555,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "user_id": {
                     "format": "uuid",
                     "type": "string"
@@ -1779,11 +1796,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "page_size": {
                     "default": 100,
                     "description": "The number of items from the full list desired in the response. Maximum: 100",
@@ -2028,11 +2040,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "data_source_id": {
                     "description": "Identifier for a Notion data source",
                     "type": "string"
@@ -2281,18 +2288,20 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "page_id": {
                     "description": "Identifier for a Notion page",
                     "format": "uuid",
                     "type": "string"
                   },
                   "parent": {
-                    "$ref": "#/$defs/movePageParentRequest"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/movePageParentRequest"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   }
                 },
                 "required": [
@@ -2532,11 +2541,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "after": {
                     "description": "The ID of the existing block that the new block should be appended after.",
                     "type": "string"
@@ -2548,7 +2552,18 @@
                   "children": {
                     "description": "Child content to append to a container block as an array of [block objects](ref:block)",
                     "items": {
-                      "$ref": "#/$defs/blockObjectRequest"
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/blockObjectRequest"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "additionalProperties": true,
+                          "type": "object"
+                        }
+                      ]
                     },
                     "type": "array"
                   }
@@ -2790,54 +2805,63 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "archived": {
                     "type": "boolean"
                   },
                   "cover": {
-                    "additionalProperties": false,
-                    "description": "A cover image for the page. Only [external file objects](https://developers.notion.com/reference/file-object) are supported.",
-                    "properties": {
-                      "external": {
+                    "anyOf": [
+                      {
                         "additionalProperties": false,
+                        "description": "A cover image for the page. Only [external file objects](https://developers.notion.com/reference/file-object) are supported.",
                         "properties": {
-                          "url": {
+                          "external": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "url": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "url"
+                            ],
+                            "type": "object"
+                          },
+                          "type": {
+                            "enum": [
+                              "external"
+                            ],
                             "type": "string"
                           }
                         },
                         "required": [
-                          "url"
+                          "external"
                         ],
                         "type": "object"
                       },
-                      "type": {
-                        "enum": [
-                          "external"
-                        ],
+                      {
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "external"
-                    ],
-                    "type": "object"
+                    ]
                   },
                   "icon": {
-                    "additionalProperties": false,
-                    "description": "A page icon for the page. Supported types are [external file object](https://developers.notion.com/reference/file-object) or [emoji object](https://developers.notion.com/reference/emoji-object).",
-                    "properties": {
-                      "emoji": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": false,
+                        "description": "A page icon for the page. Supported types are [external file object](https://developers.notion.com/reference/file-object) or [emoji object](https://developers.notion.com/reference/emoji-object).",
+                        "properties": {
+                          "emoji": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "emoji"
+                        ],
+                        "type": "object"
+                      },
+                      {
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "emoji"
-                    ],
-                    "type": "object"
+                    ]
                   },
                   "in_trash": {
                     "default": false,
@@ -2849,9 +2873,16 @@
                     "type": "string"
                   },
                   "properties": {
-                    "additionalProperties": true,
-                    "description": "The property values to update for the page. The keys are the names or IDs of the property and the values are property values. If a page property ID is not included, then it is not changed.",
-                    "type": "object"
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "The property values to update for the page. The keys are the names or IDs of the property and the values are property values. If a page property ID is not included, then it is not changed.",
+                        "type": "object"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   }
                 },
                 "required": [
@@ -3090,15 +3121,21 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "children": {
                     "description": "The content to be rendered on the new page, represented as an array of [block objects](https://developers.notion.com/reference/block).",
                     "items": {
-                      "type": "string"
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "additionalProperties": true,
+                          "type": "object"
+                        }
+                      ]
                     },
                     "type": "array"
                   },
@@ -3113,12 +3150,26 @@
                     "type": "string"
                   },
                   "parent": {
-                    "$ref": "#/$defs/parentRequest"
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/parentRequest"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   },
                   "properties": {
-                    "additionalProperties": true,
-                    "description": "The property values for the new page. The keys are the names or IDs of the property and the values are property values.",
-                    "type": "object"
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "The property values for the new page. The keys are the names or IDs of the property and the values are property values.",
+                        "type": "object"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   }
                 },
                 "required": [
@@ -3358,29 +3409,31 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "filter": {
-                    "additionalProperties": true,
-                    "description": "A set of criteria, `value` and `property` keys, that limits the results to either only pages or only data sources. Possible `value` values are `\"page\"` or `\"data_source\"`. The only supported `property` value is `\"object\"`.",
-                    "properties": {
-                      "property": {
-                        "description": "The name of the property to filter by. Currently the only property you can filter by is the object type.  Possible values include `object`.   Limitation: Currently the only filter allowed is `object` which will filter by type of object (either `page` or `data_source`)",
-                        "type": "string"
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "A set of criteria, `value` and `property` keys, that limits the results to either only pages or only data sources. Possible `value` values are `\"page\"` or `\"data_source\"`. The only supported `property` value is `\"object\"`.",
+                        "properties": {
+                          "property": {
+                            "description": "The name of the property to filter by. Currently the only property you can filter by is the object type.  Possible values include `object`.   Limitation: Currently the only filter allowed is `object` which will filter by type of object (either `page` or `data_source`)",
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "The value of the property to filter the results by.  Possible values for object type include `page` or `data_source`.  **Limitation**: Currently the only filter allowed is `object` which will filter by type of object (either `page` or `data_source`)",
+                            "enum": [
+                              "page",
+                              "data_source"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
                       },
-                      "value": {
-                        "description": "The value of the property to filter the results by.  Possible values for object type include `page` or `data_source`.  **Limitation**: Currently the only filter allowed is `object` which will filter by type of object (either `page` or `data_source`)",
-                        "enum": [
-                          "page",
-                          "data_source"
-                        ],
+                      {
                         "type": "string"
                       }
-                    },
-                    "type": "object"
+                    ]
                   },
                   "page_size": {
                     "default": 100,
@@ -3393,19 +3446,26 @@
                     "type": "string"
                   },
                   "sort": {
-                    "additionalProperties": true,
-                    "description": "A set of criteria, `direction` and `timestamp` keys, that orders the results. The **only** supported timestamp value is `\"last_edited_time\"`. Supported `direction` values are `\"ascending\"` and `\"descending\"`. If `sort` is not provided, then the most recently edited results are returned first.",
-                    "properties": {
-                      "direction": {
-                        "description": "The direction to sort. Possible values include `ascending` and `descending`.",
-                        "type": "string"
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "A set of criteria, `direction` and `timestamp` keys, that orders the results. The **only** supported timestamp value is `\"last_edited_time\"`. Supported `direction` values are `\"ascending\"` and `\"descending\"`. If `sort` is not provided, then the most recently edited results are returned first.",
+                        "properties": {
+                          "direction": {
+                            "description": "The direction to sort. Possible values include `ascending` and `descending`.",
+                            "type": "string"
+                          },
+                          "timestamp": {
+                            "description": "The name of the timestamp to sort against. Possible values include `last_edited_time`.",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
                       },
-                      "timestamp": {
-                        "description": "The name of the timestamp to sort against. Possible values include `last_edited_time`.",
+                      {
                         "type": "string"
                       }
-                    },
-                    "type": "object"
+                    ]
                   },
                   "start_cursor": {
                     "description": "A `cursor` value returned in a previous response that If supplied, limits the response to results starting after the `cursor`. If not supplied, then the first page of results is returned. Refer to [pagination](https://developers.notion.com/reference/intro#pagination) for more details.",
@@ -3646,11 +3706,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "archived": {
                     "type": "boolean"
                   },
@@ -3659,14 +3714,32 @@
                     "type": "string"
                   },
                   "filter": {
-                    "additionalProperties": true,
-                    "description": "Filter conditions for querying the data source",
-                    "type": "object"
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "Filter conditions for querying the data source",
+                        "type": "object"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   },
                   "filter_properties": {
                     "description": "A list of page property value IDs to limit the response",
                     "items": {
-                      "type": "string"
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "additionalProperties": true,
+                          "type": "object"
+                        }
+                      ]
                     },
                     "type": "array"
                   },
@@ -3679,7 +3752,18 @@
                   },
                   "sorts": {
                     "items": {
-                      "$ref": "#/$defs/sortObject"
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/sortObject"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "additionalProperties": true,
+                          "type": "object"
+                        }
+                      ]
                     },
                     "type": "array"
                   },
@@ -3923,11 +4007,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "block_id": {
                     "description": "Identifier for a Notion block",
                     "type": "string"
@@ -4169,11 +4248,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "block_id": {
                     "description": "Identifier for a Notion block or page",
                     "type": "string"
@@ -4424,11 +4498,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "data_source_id": {
                     "description": "Identifier for a Notion data source",
                     "type": "string"
@@ -4670,11 +4739,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "database_id": {
                     "description": "Identifier for a Notion database",
                     "type": "string"
@@ -4916,11 +4980,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "filter_properties": {
                     "description": "A list of page property value IDs associated with the page. Use this param to limit the response to a specific page property value or values. To retrieve multiple properties, specify each page property ID. For example: `?filter_properties=iAk8\u0026filter_properties=b7dh`.",
                     "type": "string"
@@ -5166,11 +5225,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "page_id": {
                     "description": "Identifier for a Notion page",
                     "type": "string"
@@ -5196,6 +5250,253 @@
                 "type": "object"
               },
               "name": "API-retrieve-a-page-property"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Retrieve Page Markdown"
+              },
+              "description": "Notion | Retrieve a page as Markdown\nError Responses:\n400: Bad request\n403: The integration lacks the read/update content capability required for this page.\n404: Page not found or not shared with the integration.\n429: Rate limited.",
+              "inputSchema": {
+                "$defs": {
+                  "blockObjectRequest": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/paragraphBlockRequest"
+                      },
+                      {
+                        "$ref": "#/$defs/bulletedListItemBlockRequest"
+                      }
+                    ]
+                  },
+                  "bulletedListItemBlockRequest": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "bulleted_list_item": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "rich_text": {
+                            "items": {
+                              "$ref": "#/$defs/richTextRequest"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "rich_text"
+                        ],
+                        "type": "object"
+                      },
+                      "type": {
+                        "enum": [
+                          "bulleted_list_item"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "dataSourceIdParentRequest": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "database_id": {
+                        "format": "uuid",
+                        "type": "string"
+                      },
+                      "type": {
+                        "const": "database_id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "database_id"
+                    ],
+                    "type": "object"
+                  },
+                  "movePageParentRequest": {
+                    "oneOf": [
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "page_id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "type": {
+                            "const": "page_id"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "page_id"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "database_id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "type": {
+                            "const": "database_id"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "database_id"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "type": {
+                            "const": "workspace"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "pageIdParentRequest": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "page_id": {
+                        "format": "uuid",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "page_id"
+                    ],
+                    "type": "object"
+                  },
+                  "paragraphBlockRequest": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "paragraph": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "rich_text": {
+                            "items": {
+                              "$ref": "#/$defs/richTextRequest"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "rich_text"
+                        ],
+                        "type": "object"
+                      },
+                      "type": {
+                        "enum": [
+                          "paragraph"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "parentRequest": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/$defs/pageIdParentRequest"
+                      },
+                      {
+                        "$ref": "#/$defs/dataSourceIdParentRequest"
+                      },
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "type": {
+                            "const": "workspace"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "richTextRequest": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "text": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "content": {
+                            "type": "string"
+                          },
+                          "link": {
+                            "type": [
+                              "object",
+                              "null"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "content"
+                        ],
+                        "type": "object"
+                      },
+                      "type": {
+                        "enum": [
+                          "text"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "text"
+                    ],
+                    "type": "object"
+                  },
+                  "sortObject": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "direction": {
+                        "enum": [
+                          "ascending",
+                          "descending"
+                        ],
+                        "type": "string"
+                      },
+                      "property": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "property",
+                      "direction"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "include_transcript": {
+                    "default": false,
+                    "description": "Whether to include meeting note transcripts. When false (default), a placeholder with the meeting note URL is shown instead of the full transcript.",
+                    "type": "boolean"
+                  },
+                  "page_id": {
+                    "description": "Identifier for a Notion page (or block) to read or update as markdown.",
+                    "format": "uuid",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "page_id"
+                ],
+                "type": "object"
+              },
+              "name": "API-retrieve-page-markdown"
             },
             {
               "annotations": {
@@ -5426,11 +5727,6 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "archived": {
                     "default": true,
                     "description": "Set to true to archive (delete) a block. Set to false to un-archive (restore) a block.",
@@ -5441,10 +5737,17 @@
                     "type": "string"
                   },
                   "type": {
-                    "additionalProperties": true,
-                    "description": "The [block object `type`](ref:block#block-object-keys) value with the properties to be updated. Currently only `text` (for supported block types) and `checked` (for `to_do` blocks) fields can be updated.",
-                    "properties": {},
-                    "type": "object"
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "The [block object `type`](ref:block#block-object-keys) value with the properties to be updated. Currently only `text` (for supported block types) and `checked` (for `to_do` blocks) fields can be updated.",
+                        "properties": {},
+                        "type": "object"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   }
                 },
                 "required": [
@@ -5683,29 +5986,53 @@
                   }
                 },
                 "properties": {
-                  "Notion-Version": {
-                    "default": "2025-09-03",
-                    "description": "The Notion API version",
-                    "type": "string"
-                  },
                   "data_source_id": {
                     "description": "Identifier for a Notion data source",
                     "type": "string"
                   },
                   "description": {
                     "items": {
-                      "$ref": "#/$defs/richTextRequest"
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/richTextRequest"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "additionalProperties": true,
+                          "type": "object"
+                        }
+                      ]
                     },
                     "type": "array"
                   },
                   "properties": {
-                    "additionalProperties": true,
-                    "description": "Property schema updates",
-                    "type": "object"
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "Property schema updates",
+                        "type": "object"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   },
                   "title": {
                     "items": {
-                      "$ref": "#/$defs/richTextRequest"
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/richTextRequest"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "additionalProperties": true,
+                          "type": "object"
+                        }
+                      ]
                     },
                     "type": "array"
                   }
@@ -5716,6 +6043,400 @@
                 "type": "object"
               },
               "name": "API-update-a-data-source"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "title": "Update Page Markdown"
+              },
+              "description": "Notion | Update a page's content as Markdown\nError Responses:\n400: Bad request\n403: The integration lacks the read/update content capability required for this page.\n404: Page not found or not shared with the integration.\n409: Conflict (e.g. row limit exceeded).\n429: Rate limited.",
+              "inputSchema": {
+                "$defs": {
+                  "blockObjectRequest": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/paragraphBlockRequest"
+                      },
+                      {
+                        "$ref": "#/$defs/bulletedListItemBlockRequest"
+                      }
+                    ]
+                  },
+                  "bulletedListItemBlockRequest": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "bulleted_list_item": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "rich_text": {
+                            "items": {
+                              "$ref": "#/$defs/richTextRequest"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "rich_text"
+                        ],
+                        "type": "object"
+                      },
+                      "type": {
+                        "enum": [
+                          "bulleted_list_item"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "dataSourceIdParentRequest": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "database_id": {
+                        "format": "uuid",
+                        "type": "string"
+                      },
+                      "type": {
+                        "const": "database_id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "database_id"
+                    ],
+                    "type": "object"
+                  },
+                  "movePageParentRequest": {
+                    "oneOf": [
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "page_id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "type": {
+                            "const": "page_id"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "page_id"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "database_id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "type": {
+                            "const": "database_id"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "database_id"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "type": {
+                            "const": "workspace"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "pageIdParentRequest": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "page_id": {
+                        "format": "uuid",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "page_id"
+                    ],
+                    "type": "object"
+                  },
+                  "paragraphBlockRequest": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "paragraph": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "rich_text": {
+                            "items": {
+                              "$ref": "#/$defs/richTextRequest"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "rich_text"
+                        ],
+                        "type": "object"
+                      },
+                      "type": {
+                        "enum": [
+                          "paragraph"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "parentRequest": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/$defs/pageIdParentRequest"
+                      },
+                      {
+                        "$ref": "#/$defs/dataSourceIdParentRequest"
+                      },
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "type": {
+                            "const": "workspace"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "richTextRequest": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "text": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "content": {
+                            "type": "string"
+                          },
+                          "link": {
+                            "type": [
+                              "object",
+                              "null"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "content"
+                        ],
+                        "type": "object"
+                      },
+                      "type": {
+                        "enum": [
+                          "text"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "text"
+                    ],
+                    "type": "object"
+                  },
+                  "sortObject": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "direction": {
+                        "enum": [
+                          "ascending",
+                          "descending"
+                        ],
+                        "type": "string"
+                      },
+                      "property": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "property",
+                      "direction"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "properties": {
+                  "insert_content": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "Deprecated. Provide when type is `insert_content`. Inserts Markdown at a position.",
+                        "properties": {
+                          "after": {
+                            "description": "Ellipsis-format selection (\"start text...end text\") to insert after. Cannot be combined with position.",
+                            "type": "string"
+                          },
+                          "content": {
+                            "description": "Enhanced Markdown to insert.",
+                            "type": "string"
+                          },
+                          "position": {
+                            "additionalProperties": true,
+                            "description": "Insert at the start or end of the page. Cannot be combined with after.",
+                            "properties": {
+                              "type": {
+                                "enum": [
+                                  "start",
+                                  "end"
+                                ],
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "content"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "page_id": {
+                    "description": "Identifier for a Notion page (or block) to read or update as markdown.",
+                    "format": "uuid",
+                    "type": "string"
+                  },
+                  "replace_content": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "Provide when type is `replace_content`. Replaces the entire page content.",
+                        "properties": {
+                          "allow_deleting_content": {
+                            "description": "Permit deletion of existing child pages/databases that are no longer present in the new content.",
+                            "type": "boolean"
+                          },
+                          "new_str": {
+                            "description": "The complete new page content as enhanced Markdown.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "new_str"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "replace_content_range": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "Deprecated. Provide when type is `replace_content_range`. Replaces a selected range of Markdown.",
+                        "properties": {
+                          "allow_deleting_content": {
+                            "description": "Permit deletion of child pages/databases within the replaced range.",
+                            "type": "boolean"
+                          },
+                          "content": {
+                            "description": "New Markdown content for the range.",
+                            "type": "string"
+                          },
+                          "content_range": {
+                            "description": "Ellipsis-format selection (\"start text...end text\") identifying the range to replace.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "content",
+                          "content_range"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "type": {
+                    "description": "The kind of edit to apply. Prefer `replace_content` (overwrite the whole page) or `update_content` (targeted find-and-replace). `insert_content` and `replace_content_range` are deprecated.",
+                    "enum": [
+                      "replace_content",
+                      "update_content",
+                      "insert_content",
+                      "replace_content_range"
+                    ],
+                    "type": "string"
+                  },
+                  "update_content": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "description": "Provide when type is `update_content`. Applies targeted find-and-replace edits.",
+                        "properties": {
+                          "allow_deleting_content": {
+                            "description": "Permit deletion of existing child pages/databases removed by the edits.",
+                            "type": "boolean"
+                          },
+                          "content_updates": {
+                            "description": "Up to 100 find-and-replace edits applied in order.",
+                            "items": {
+                              "additionalProperties": true,
+                              "properties": {
+                                "new_str": {
+                                  "description": "Replacement Markdown text.",
+                                  "type": "string"
+                                },
+                                "old_str": {
+                                  "description": "Exact existing Markdown text to find.",
+                                  "type": "string"
+                                },
+                                "replace_all_matches": {
+                                  "description": "Replace every occurrence of old_str instead of just the first (default false).",
+                                  "type": "boolean"
+                                }
+                              },
+                              "required": [
+                                "old_str",
+                                "new_str"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "content_updates"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "page_id",
+                  "type"
+                ],
+                "type": "object"
+              },
+              "name": "API-update-page-markdown"
             }
           ],
           "tools": [
@@ -5739,8 +6460,10 @@
             "API-retrieve-a-database",
             "API-retrieve-a-page",
             "API-retrieve-a-page-property",
+            "API-retrieve-page-markdown",
             "API-update-a-block",
-            "API-update-a-data-source"
+            "API-update-a-data-source",
+            "API-update-page-markdown"
           ]
         }
       }
@@ -5772,7 +6495,7 @@
           "name": "OPENAPI_MCP_HEADERS"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/notion:2.2.1",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/notion:2.4.1",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
