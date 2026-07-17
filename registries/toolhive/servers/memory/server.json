@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/server-memory:2026.1.26": {
+        "ghcr.io/stacklok/dockyard/npx/server-memory:2026.7.4": {
           "metadata": {
-            "last_updated": "2026-06-26T19:44:53Z",
+            "last_updated": "2026-07-17T15:09:34Z",
             "stars": 85231
           },
           "overview": "## Memory MCP Server\n\nThe memory MCP server provides AI assistants with persistent, long-term memory across interactions. It allows AI workflows to maintain context and knowledge beyond individual conversations, supporting personalization and enabling continuity in assistant interactions. The system works by running as an MCP service that manages persistent storage, handling indexing and retrieval so AI clients can access historical context during reasoning tasks — enabling assistants to develop awareness of user preferences and prior decisions over extended periods.",
@@ -27,7 +27,12 @@
           "tier": "Community",
           "tool_definitions": [
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Add new observations to existing entities in the knowledge graph",
               "inputSchema": {
                 "properties": {
@@ -63,7 +68,12 @@
               "name": "add_observations"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Create multiple new entities in the knowledge graph",
               "inputSchema": {
                 "properties": {
@@ -104,7 +114,12 @@
               "name": "create_entities"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Create multiple new relations between entities in the knowledge graph. Relations should be in active voice",
               "inputSchema": {
                 "properties": {
@@ -142,7 +157,12 @@
               "name": "create_relations"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Delete multiple entities and their associated relations from the knowledge graph",
               "inputSchema": {
                 "properties": {
@@ -162,7 +182,12 @@
               "name": "delete_entities"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Delete specific observations from entities in the knowledge graph",
               "inputSchema": {
                 "properties": {
@@ -198,7 +223,12 @@
               "name": "delete_observations"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": false
+              },
               "description": "Delete multiple relations from the knowledge graph",
               "inputSchema": {
                 "properties": {
@@ -237,7 +267,12 @@
               "name": "delete_relations"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Open specific nodes in the knowledge graph by their names",
               "inputSchema": {
                 "properties": {
@@ -257,7 +292,12 @@
               "name": "open_nodes"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Read the entire knowledge graph",
               "inputSchema": {
                 "properties": {},
@@ -267,7 +307,12 @@
               "name": "read_graph"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true
+              },
               "description": "Search for nodes in the knowledge graph based on a query",
               "inputSchema": {
                 "properties": {
@@ -318,7 +363,7 @@
           "name": "MEMORY_FILE_PATH"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/server-memory:2026.1.26",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/server-memory:2026.7.4",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
