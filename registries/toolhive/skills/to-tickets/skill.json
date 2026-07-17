@@ -1,9 +1,9 @@
 {
   "namespace": "io.github.stacklok",
-  "name": "tdd",
-  "title": "TDD",
-  "description": "Test-driven development with red-green-refactor loop. Use when the user wants to build features or fix bugs using TDD, mentions 'red-green-refactor', wants integration tests, or asks for test-first development.",
-  "version": "0.1.1",
+  "name": "to-tickets",
+  "title": "To Tickets",
+  "description": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — edges as text in a local file, or native blocking links on a real tracker.",
+  "version": "0.1.0",
   "status": "active",
   "repository": {
     "url": "https://github.com/mattpocock/skills",
@@ -18,13 +18,13 @@
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/skills/tdd:0.2.0"
+      "identifier": "ghcr.io/stacklok/dockyard/skills/to-tickets:0.1.0"
     },
     {
       "registryType": "git",
       "url": "https://github.com/mattpocock/skills",
       "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
-      "subfolder": "skills/engineering/tdd"
+      "subfolder": "skills/engineering/to-tickets"
     }
   ]
 }
