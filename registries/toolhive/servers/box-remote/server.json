@@ -1,29 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/box-remote",
-  "description": "Box's official hosted MCP server for files, AI querying, metadata, and document generation",
-  "title": "Box (Remote)",
-  "version": "1.0.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://mcp.box.com"
-    }
-  ],
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/box-remote/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": [
-        "any"
-      ]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "https://mcp.box.com": {
-          "tier": "Official",
+          "custom_metadata": {
+            "author": "Box",
+            "homepage": "https://docs.box.com/en/box-mcp/about-box-mcp-server"
+          },
+          "metadata": {
+            "last_updated": "2026-07-17T03:11:26Z"
+          },
+          "overview": "## Box (Remote)\n\nThe box-remote MCP server is Box's official hosted Model Context Protocol server, letting AI assistants and agents work with Box content without running a local MCP process. It provides secure, permission-aware access through OAuth, so users sign in with their Box credentials and the server respects existing access controls. Capabilities span searching files and folders, reading and managing content, setting metadata, managing collaborations and shared links, organizing Box Hubs, querying and extracting data with Box AI, and generating documents from Box Doc Gen templates. Administrators enable access and configure scopes for supported AI platforms in the Box Admin Console.",
           "status": "Active",
           "tags": [
             "remote",
@@ -35,6 +23,7 @@
             "document-generation",
             "oauth"
           ],
+          "tier": "Official",
           "tools": [
             "who_am_i",
             "get_download_url",
@@ -90,14 +79,28 @@
             "get_docgen_template_by_id",
             "create_docgen_template",
             "create_docgen_batch"
-          ],
-          "overview": "## Box (Remote)\n\nThe box-remote MCP server is Box's official hosted Model Context Protocol server, letting AI assistants and agents work with Box content without running a local MCP process. It provides secure, permission-aware access through OAuth, so users sign in with their Box credentials and the server respects existing access controls. Capabilities span searching files and folders, reading and managing content, setting metadata, managing collaborations and shared links, organizing Box Hubs, querying and extracting data with Box AI, and generating documents from Box Doc Gen templates. Administrators enable access and configure scopes for supported AI platforms in the Box Admin Console.",
-          "custom_metadata": {
-            "author": "Box",
-            "homepage": "https://docs.box.com/en/box-mcp/about-box-mcp-server"
-          }
+          ]
         }
       }
     }
-  }
+  },
+  "description": "Box's official hosted MCP server for files, AI querying, metadata, and document generation",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/box-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/box-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.box.com"
+    }
+  ],
+  "title": "Box (Remote)",
+  "version": "1.0.0"
 }

@@ -1,81 +1,49 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stacklok/okta",
-  "description": "Manage Okta users, groups, applications, policies, and org configuration through natural language",
-  "title": "Okta",
-  "repository": {
-    "url": "https://github.com/okta/okta-mcp-server",
-    "source": "github"
-  },
-  "version": "1.0.0",
-  "packages": [
-    {
-      "registryType": "oci",
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/okta:1.1.3",
-      "transport": {
-        "type": "stdio"
-      },
-      "environmentVariables": [
-        {
-          "name": "OKTA_ORG_URL",
-          "description": "Okta organization URL (e.g. https://dev-123456.okta.com)",
-          "isRequired": true,
-          "isSecret": false
-        },
-        {
-          "name": "OKTA_CLIENT_ID",
-          "description": "Client ID of the Okta application configured for this server",
-          "isRequired": true,
-          "isSecret": false
-        },
-        {
-          "name": "OKTA_SCOPES",
-          "description": "Space-separated OAuth 2.0 scopes granted to the application; only tools covered by these scopes are registered at startup (example: \"okta.users.read okta.groups.read\")",
-          "isRequired": true,
-          "isSecret": false
-        },
-        {
-          "name": "OKTA_PRIVATE_KEY",
-          "description": "RSA private key (PEM) for Private Key JWT authentication. Required in this containerized deployment since the alternative device-authorization flow needs an interactive browser",
-          "isRequired": true,
-          "isSecret": true
-        },
-        {
-          "name": "OKTA_KEY_ID",
-          "description": "Key ID of the public key registered on the Okta application, paired with OKTA_PRIVATE_KEY",
-          "isRequired": true,
-          "isSecret": false
-        },
-        {
-          "name": "OKTA_LOG_LEVEL",
-          "description": "Logging verbosity, e.g. DEBUG (optional)",
-          "isRequired": false,
-          "isSecret": false
-        },
-        {
-          "name": "PYTHON_KEYRING_BACKEND",
-          "description": "Keyring backend for token storage. The container has no system keyring, so this must point at a file-based backend or the server blocks waiting for a keyring password at startup, even with Private Key JWT auth.",
-          "isRequired": true,
-          "isSecret": false,
-          "default": "keyrings.alt.file.PlaintextKeyring"
-        }
-      ]
-    }
-  ],
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/okta/icon.svg",
-      "mimeType": "image/svg+xml",
-      "sizes": ["any"]
-    }
-  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/okta:1.1.3": {
-          "tier": "Official",
+          "custom_metadata": {
+            "author": "Okta",
+            "homepage": "https://github.com/okta/okta-mcp-server",
+            "license": "Apache-2.0"
+          },
+          "metadata": {
+            "last_updated": "2026-07-17T03:11:26Z",
+            "stars": 51
+          },
+          "overview": "## Okta MCP Server\n\nThe Okta MCP Server is Okta's official Model Context Protocol server, giving AI assistants and agents natural-language access to Okta's identity and access management platform. It exposes tools for managing users, groups, applications, authentication and access policies, and device assurance, alongside org configuration such as branding, custom sign-in and error pages, email templates, and custom/email domains, plus read access to system logs for auditing. Tools are dynamically enabled or hidden at startup based on the OAuth scopes granted to the configured Okta application, so the model only ever sees operations it's authorized to perform. Authentication uses OAuth 2.0, either an interactive device-authorization flow or Private Key JWT for browserless, server-to-server use.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  ".okta.com",
+                  ".oktapreview.com",
+                  ".okta-emea.com"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
           "status": "Active",
-          "tags": ["identity", "iam", "authentication", "security", "administration"],
+          "tags": [
+            "identity",
+            "iam",
+            "authentication",
+            "security",
+            "administration"
+          ],
+          "tier": "Official",
           "tools": [
             "activate_application",
             "activate_policy",
@@ -185,30 +153,80 @@
             "upsert_custom_domain_certificate",
             "verify_custom_domain",
             "verify_email_domain"
-          ],
-          "overview": "## Okta MCP Server\n\nThe Okta MCP Server is Okta's official Model Context Protocol server, giving AI assistants and agents natural-language access to Okta's identity and access management platform. It exposes tools for managing users, groups, applications, authentication and access policies, and device assurance, alongside org configuration such as branding, custom sign-in and error pages, email templates, and custom/email domains, plus read access to system logs for auditing. Tools are dynamically enabled or hidden at startup based on the OAuth scopes granted to the configured Okta application, so the model only ever sees operations it's authorized to perform. Authentication uses OAuth 2.0, either an interactive device-authorization flow or Private Key JWT for browserless, server-to-server use.",
-          "permissions": {
-            "network": {
-              "outbound": {
-                "allow_host": [".okta.com", ".oktapreview.com", ".okta-emea.com"],
-                "allow_port": [443]
-              }
-            }
-          },
-          "provenance": {
-            "cert_issuer": "https://token.actions.githubusercontent.com",
-            "repository_uri": "https://github.com/stacklok/dockyard",
-            "runner_environment": "github-hosted",
-            "signer_identity": "/.github/workflows/build-containers.yml",
-            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
-          },
-          "custom_metadata": {
-            "author": "Okta",
-            "homepage": "https://github.com/okta/okta-mcp-server",
-            "license": "Apache-2.0"
-          }
+          ]
         }
       }
     }
-  }
+  },
+  "description": "Manage Okta users, groups, applications, policies, and org configuration through natural language",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/okta/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/okta",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Okta organization URL (e.g. https://dev-123456.okta.com)",
+          "isRequired": true,
+          "isSecret": false,
+          "name": "OKTA_ORG_URL"
+        },
+        {
+          "description": "Client ID of the Okta application configured for this server",
+          "isRequired": true,
+          "isSecret": false,
+          "name": "OKTA_CLIENT_ID"
+        },
+        {
+          "description": "Space-separated OAuth 2.0 scopes granted to the application; only tools covered by these scopes are registered at startup (example: \"okta.users.read okta.groups.read\")",
+          "isRequired": true,
+          "isSecret": false,
+          "name": "OKTA_SCOPES"
+        },
+        {
+          "description": "RSA private key (PEM) for Private Key JWT authentication. Required in this containerized deployment since the alternative device-authorization flow needs an interactive browser",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "OKTA_PRIVATE_KEY"
+        },
+        {
+          "description": "Key ID of the public key registered on the Okta application, paired with OKTA_PRIVATE_KEY",
+          "isRequired": true,
+          "isSecret": false,
+          "name": "OKTA_KEY_ID"
+        },
+        {
+          "description": "Logging verbosity, e.g. DEBUG (optional)",
+          "isRequired": false,
+          "isSecret": false,
+          "name": "OKTA_LOG_LEVEL"
+        },
+        {
+          "default": "keyrings.alt.file.PlaintextKeyring",
+          "description": "Keyring backend for token storage. The container has no system keyring, so this must point at a file-based backend or the server blocks waiting for a keyring password at startup, even with Private Key JWT auth.",
+          "isRequired": true,
+          "isSecret": false,
+          "name": "PYTHON_KEYRING_BACKEND"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/okta:1.1.3",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/okta/okta-mcp-server"
+  },
+  "title": "Okta",
+  "version": "1.0.0"
 }
