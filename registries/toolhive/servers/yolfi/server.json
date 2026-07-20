@@ -1,0 +1,70 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://app.yolfi.com/mcp": {
+          "custom_metadata": {
+            "author": "Yolfi",
+            "homepage": "https://yolfi.com/ai-agent-kit"
+          },
+          "overview": "## Yolfi Payments MCP\n\nYolfi gives AI coding agents tools for adding non-custodial crypto checkout flows to applications. Agents can authorize a workspace, create payment links and checkout sessions, configure signed webhooks, and verify payment status. The hosted MCP server uses OAuth and is also available as a local npm package.",
+          "status": "Active",
+          "tags": [
+            "payments",
+            "crypto",
+            "stablecoins",
+            "checkout",
+            "webhooks",
+            "remote"
+          ],
+          "tier": "Official",
+          "tools": [
+            "yolfi_agent_setup_start",
+            "yolfi_agent_checkin",
+            "yolfi_agent_register",
+            "yolfi_auth_status",
+            "yolfi_organization_get",
+            "yolfi_organization_update",
+            "yolfi_settlement_configure",
+            "yolfi_webhooks_configure",
+            "yolfi_webhooks_list",
+            "yolfi_webhooks_update",
+            "yolfi_webhooks_rotate_secret",
+            "yolfi_webhooks_delete",
+            "yolfi_paylinks_create",
+            "yolfi_paylinks_list",
+            "yolfi_paylinks_get",
+            "yolfi_paylinks_disable",
+            "yolfi_payments_create",
+            "yolfi_payments_status",
+            "yolfi_webhooks_verify"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Add Yolfi crypto checkout, paylinks, signed webhooks, and payment verification",
+  "icons": [
+    {
+      "mimeType": "image/png",
+      "sizes": [
+        "128x128"
+      ],
+      "src": "https://www.google.com/s2/favicons?domain=yolfi.com&sz=128"
+    }
+  ],
+  "name": "io.github.stacklok/yolfi",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://app.yolfi.com/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/yolfinance/yolfi-agent"
+  },
+  "title": "Yolfi Payments MCP",
+  "version": "0.2.0"
+}
