@@ -1,0 +1,62 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://bountyverdict-agent-production.mimirslab.workers.dev/mcp": {
+          "custom_metadata": {
+            "author": "Cristian Moroaica",
+            "homepage": "https://cristianmoroaica.github.io/bountyverdict/",
+            "license": "MIT"
+          },
+          "metadata": {
+            "last_updated": "2026-07-21T12:58:50Z"
+          },
+          "overview": "## BountyVerdict Agent Decision Tools\n\nBountyVerdict exposes six read-only decision tools for coding agents. Agents can assess one public GitHub bounty, rank 2-10 bounty opportunities, audit repository agent instructions, diagnose a failed GitHub Actions run, classify whether a failure should be retried once or fixed, and detect breaking MCP tools/list drift. Initialization and tool discovery require no account or API key. Each valid tool call returns an exact x402 v2 Base USDC payment requirement before execution; prices range from $0.02 to $0.40 USDC.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "github",
+            "coding-agents",
+            "continuous-integration",
+            "developer-tools",
+            "read-only",
+            "x402"
+          ],
+          "tier": "Community",
+          "tools": [
+            "check_github_bounty",
+            "rank_github_bounties",
+            "audit_agent_harness",
+            "diagnose_github_actions_run",
+            "classify_github_actions_flake",
+            "check_mcp_tool_drift"
+          ]
+        }
+      }
+    }
+  },
+  "description": "GitHub bounty, coding-agent, CI failure, flake, and MCP drift decisions via x402",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://cristianmoroaica.github.io/bountyverdict/favicon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/bountyverdict",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://bountyverdict-agent-production.mimirslab.workers.dev/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/cristianmoroaica/bountyverdict"
+  },
+  "title": "BountyVerdict Agent Decision Tools",
+  "version": "1.1.1"
+}
