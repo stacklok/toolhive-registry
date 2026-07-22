@@ -10,7 +10,7 @@
             "license": "MIT"
           },
           "metadata": {
-            "last_updated": "2026-07-21T23:58:03Z"
+            "last_updated": "2026-07-22T00:29:46Z"
           },
           "overview": "## BountyVerdict Agent Decision Tools\n\nBountyVerdict exposes six paid, read-only decision tools for coding agents. Agents can assess one public GitHub bounty, rank 2-10 bounty opportunities, audit repository agent instructions, diagnose a failed GitHub Actions run, classify whether a failure should be retried once or fixed, and detect breaking MCP tools/list drift. Initialization and tool discovery require no account or API key. A valid first unsigned call cannot charge and returns a structured product, price, use-boundary, decision, value, and free-sample preview plus the exact x402 v2 Base USDC handoff. Only an explicitly authorized signed retry can settle; prices range from $0.02 to $0.40 USDC.",
           "status": "Active",
@@ -58,5 +58,5 @@
     "url": "https://github.com/Mimirs402/bountyverdict"
   },
   "title": "BountyVerdict Agent Decision Tools",
-  "version": "1.1.5"
+  "version": "1.1.6"
 }
