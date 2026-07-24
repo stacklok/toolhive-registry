@@ -8,7 +8,7 @@
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-07-17T15:08:40Z",
+            "last_updated": "2026-07-24T02:53:27Z",
             "stars": 50
           },
           "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -369,7 +369,7 @@
                     "type": "string"
                   },
                   "cronline": {
-                    "description": "Schedule interval as a crontab expression (e.g. '0 0 * * *') or predefined value (e.g. '@daily'\\, '@hourly'\\, '@weekly'\\, '@monthly'\\, '@yearly')",
+                    "description": "Schedule interval as a crontab expression (e.g. '0 0 * * *') or predefined value (e.g. '@daily', '@hourly', '@weekly', '@monthly', '@yearly')",
                     "type": "string"
                   },
                   "enabled": {
@@ -435,7 +435,7 @@
                     "type": "string"
                   },
                   "detail_level": {
-                    "description": "Response detail level: 'summary'\\, 'detailed'\\, or 'full' (default)",
+                    "description": "Response detail level: 'summary', 'detailed', or 'full' (default)",
                     "type": "string"
                   },
                   "org_slug": {
@@ -492,7 +492,7 @@
                 "readOnlyHint": true,
                 "title": "Get Build"
               },
-              "description": "Get a single build. Jobs are not included — use list_jobs or get_job for job detail",
+              "description": "Get a single build with lightweight annotation summaries. Annotation bodies and jobs are not included — use list_annotations to read annotations, and list_jobs or get_job for job detail",
               "inputSchema": {
                 "properties": {
                   "build_number": {
@@ -611,7 +611,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "run_id": {
@@ -643,7 +643,7 @@
                     "type": "string"
                   },
                   "include_agent": {
-                    "description": "Include full agent details in job objects. When false (default)\\, only agent.id is included",
+                    "description": "Include full agent details in job objects. When false (default), only agent.id is included",
                     "type": "boolean"
                   },
                   "job_id": {
@@ -705,7 +705,7 @@
               "inputSchema": {
                 "properties": {
                   "detail_level": {
-                    "description": "Response detail level: 'summary'\\, 'detailed'\\, or 'full' (default)",
+                    "description": "Response detail level: 'summary', 'detailed', or 'full' (default)",
                     "type": "string"
                   },
                   "org_slug": {
@@ -813,7 +813,7 @@
               "inputSchema": {
                 "properties": {
                   "detail_level": {
-                    "description": "Response detail level: 'summary' (default)\\, 'detailed'\\, or 'full'",
+                    "description": "Response detail level: 'summary' (default), 'detailed', or 'full'",
                     "type": "string"
                   },
                   "hostname": {
@@ -830,7 +830,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "version": {
@@ -867,7 +867,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
@@ -906,7 +906,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
@@ -944,7 +944,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
@@ -989,15 +989,15 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
-                    "description": "Filter builds by pipeline. When omitted\\, lists builds across all pipelines in the organization",
+                    "description": "Filter builds by pipeline. When omitted, lists builds across all pipelines in the organization",
                     "type": "string"
                   },
                   "state": {
-                    "description": "Filter builds by state (scheduled\\, running\\, passed\\, failed\\, canceled\\, skipped)",
+                    "description": "Filter builds by state (scheduled, running, passed, failed, canceled, skipped)",
                     "type": "string"
                   }
                 },
@@ -1027,7 +1027,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   }
                 },
@@ -1055,7 +1055,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   }
                 },
@@ -1071,7 +1071,7 @@
                 "readOnlyHint": true,
                 "title": "List Jobs"
               },
-              "description": "List jobs for a Buildkite build, with optional state filtering and cursor-based pagination. Returns an object with 'items' (the jobs) and 'links' containing 'next'/'self' URLs; pass the cursor from 'links.next' back as 'after' to fetch the next page",
+              "description": "List jobs for a Buildkite build, returning an actionable summary by default. For CI failure diagnosis, use state='failed,broken' to avoid returning successful jobs. Use detail_level='detailed' for execution metadata or 'full' for the existing full MCP job response. Returns 'items' and cursor pagination 'links'",
               "inputSchema": {
                 "properties": {
                   "after": {
@@ -1085,8 +1085,16 @@
                   "build_number": {
                     "type": "string"
                   },
+                  "detail_level": {
+                    "description": "Response detail level: 'summary' (default), 'detailed', or 'full'",
+                    "type": "string"
+                  },
+                  "group_key": {
+                    "description": "Filter jobs by group key. Includes all jobs in the group",
+                    "type": "string"
+                  },
                   "include_agent": {
-                    "description": "Include full agent details in job objects. When false (default)\\, only agent.id is included",
+                    "description": "Include full agent details at the detailed and full levels. When false (default), detailed and full responses include only agent.id",
                     "type": "boolean"
                   },
                   "include_retried_jobs": {
@@ -1100,14 +1108,18 @@
                     "type": "string"
                   },
                   "per_page": {
-                    "description": "Results per page for cursor pagination (min 1\\, max 100\\, default 30)",
+                    "description": "Results per page for cursor pagination (min 1, max 100, default 30)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
                     "type": "string"
                   },
                   "state": {
-                    "description": "Filter jobs by state. Comma-separated for multiple states (e.g.\\, 'passed\\,failed\\,running')",
+                    "description": "Filter jobs by state. Comma-separated for multiple states (e.g., 'passed,failed,running')",
+                    "type": "string"
+                  },
+                  "step_key": {
+                    "description": "Filter jobs by step key. Includes all parallel jobs for the step",
                     "type": "string"
                   }
                 },
@@ -1136,7 +1148,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
@@ -1160,7 +1172,7 @@
               "inputSchema": {
                 "properties": {
                   "detail_level": {
-                    "description": "Response detail level: 'summary' (default)\\, 'detailed'\\, or 'full'",
+                    "description": "Response detail level: 'summary' (default), 'detailed', or 'full'",
                     "type": "string"
                   },
                   "name": {
@@ -1175,7 +1187,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "repository": {
@@ -1193,6 +1205,24 @@
             {
               "annotations": {
                 "readOnlyHint": true,
+                "title": "List Skill Guides"
+              },
+              "description": "List available skill guides that document usage patterns, pitfalls, and workflows for Buildkite MCP tools",
+              "inputSchema": {
+                "properties": {
+                  "query": {
+                    "description": "Optional case-insensitive filter over skill name and description",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_skills"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
                 "title": "List Test Runs"
               },
               "description": "List all test runs for a test suite in Buildkite Test Engine",
@@ -1206,7 +1236,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "test_suite_slug": {
@@ -1220,6 +1250,26 @@
                 "type": "object"
               },
               "name": "list_test_runs"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true,
+                "title": "Load Skill Guide"
+              },
+              "description": "Load the full content of a skill guide by name",
+              "inputSchema": {
+                "properties": {
+                  "skill_name": {
+                    "description": "Name of the skill to load, as returned by list_skills",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "skill_name"
+                ],
+                "type": "object"
+              },
+              "name": "load_skill"
             },
             {
               "annotations": {
@@ -1827,7 +1877,9 @@
             "list_jobs",
             "list_pipeline_schedules",
             "list_pipelines",
+            "list_skills",
             "list_test_runs",
+            "load_skill",
             "pause_cluster_queue_dispatch",
             "read_logs",
             "rebuild_build",
