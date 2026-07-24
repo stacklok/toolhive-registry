@@ -1,0 +1,96 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://api.webhound.ai/api/v2/mcp": {
+          "custom_metadata": {
+            "author": "Webhound",
+            "homepage": "https://www.webhound.ai",
+            "license": "MIT"
+          },
+          "metadata": {
+            "last_updated": "2026-07-24T13:43:19Z"
+          },
+          "oauth_config": {
+            "issuer": "https://api.webhound.ai/api/v2",
+            "resource": "https://api.webhound.ai/api/v2/mcp",
+            "scopes": [
+              "webhound:api",
+              "webhound:mcp"
+            ],
+            "use_pkce": true
+          },
+          "overview": "## Webhound\n\nWebhound lets a person or agent set a dollar budget for a web investigation. The prompt defines the question; the budget defines how much effort Hound spends searching, reading, following leads, and verifying claims. A completed run can return a cited report or structured dataset, along with working documents, claim traces, sources, and an evidence pack. Hound is Webhound's research harness, built with DeepSeek V4 Pro and GPT-5.4; it is not a model selector.\n\nToolHive connects to Webhound through per-user OAuth with dynamic client registration and PKCE. Each user authorizes their own account; this entry contains no API key, bearer token, client secret, or shared publisher credential. Callers keep watching until Webhound reports `done=true` before treating a research run as finished.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "research",
+            "reports",
+            "datasets",
+            "evidence",
+            "citations",
+            "oauth",
+            "dcr"
+          ],
+          "tier": "Official",
+          "tools": [
+            "webhound_health",
+            "webhound_onboarding",
+            "webhound_help",
+            "webhound_uninstall",
+            "webhound_get_defaults",
+            "webhound_set_defaults",
+            "webhound_start_report",
+            "webhound_start_dataset",
+            "webhound_watch",
+            "webhound_wait",
+            "webhound_add_sidecar_notes",
+            "webhound_list_sidecar_notes",
+            "webhound_update_sidecar_note",
+            "webhound_send_message",
+            "webhound_stop",
+            "webhound_resume",
+            "webhound_add_budget",
+            "webhound_set_budget",
+            "webhound_get_output",
+            "webhound_export_session",
+            "webhound_get_evidence_pack",
+            "webhound_get_shareable_link",
+            "webhound_get_claims",
+            "webhound_get_sources",
+            "webhound_search_sessions",
+            "webhound_list_sessions",
+            "webhound_get_session",
+            "webhound_upload_file",
+            "webhound_account",
+            "webhound_diagnose"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Budgeted, inspectable web research with cited reports, datasets, and evidence packs",
+  "icons": [
+    {
+      "mimeType": "image/png",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://www.webhound.ai/icon.png"
+    }
+  ],
+  "name": "io.github.stacklok/webhound",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.webhound.ai/api/v2/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/WebhoundAI/webhound-mcp"
+  },
+  "title": "Webhound",
+  "version": "0.4.3"
+}
