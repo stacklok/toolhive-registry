@@ -1,0 +1,66 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://app.taisly.com/mcp": {
+          "custom_metadata": {
+            "author": "Taisly",
+            "homepage": "https://taisly.com/en/ai-agent-kit",
+            "license": "MIT",
+            "authentication": "OAuth"
+          },
+          "overview": "## Taisly Social Media Posting\n\nTaisly gives AI agents tools to connect social accounts, validate posts, publish or schedule short-form videos, monitor status, and configure repost automations. The hosted Streamable HTTP server uses OAuth and supports TikTok, Instagram Reels, YouTube Shorts, X, and Facebook. Remote publishing uses public video URLs; a local npm transport is available for local files.",
+          "status": "Active",
+          "tags": [
+            "social-media",
+            "video",
+            "publishing",
+            "marketing",
+            "automation",
+            "remote"
+          ],
+          "tier": "Official",
+          "tools": [
+            "taisly_agent_setup_start",
+            "taisly_agent_checkin",
+            "taisly_auth_status",
+            "taisly_platforms_list",
+            "taisly_platform_schema",
+            "taisly_platform_connect_start",
+            "taisly_platform_connect_check",
+            "taisly_posts_validate",
+            "taisly_posts_create",
+            "taisly_posts_status",
+            "taisly_posts_list",
+            "taisly_reposts_list",
+            "taisly_reposts_create"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Publish and schedule short-form videos across connected social media accounts",
+  "icons": [
+    {
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ],
+      "src": "https://app.taisly.com/logo512.png"
+    }
+  ],
+  "name": "io.github.taisly/agent",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://app.taisly.com/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/taisly/agent"
+  },
+  "title": "Taisly Social Media Posting",
+  "version": "0.2.8"
+}
