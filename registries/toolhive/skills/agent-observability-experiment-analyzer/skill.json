@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "agent-observability-experiment-analyzer",
+  "title": "Agent Observability Experiment Analyzer",
+  "description": "Analyze LLM experiments in Datadog LLM Observability — compare variants, surface metric deltas, and recommend promotion/rollback based on evaluation results",
+  "version": "0.3.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/datadog-labs/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/agent-observability-experiment-analyzer:0.3.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/datadog-labs/agent-skills",
+      "ref": "69cca0e752d3a703d0b16ce7eaeaa787f2f90fd4",
+      "subfolder": "agent-observability/agent-observability-experiment-analyzer"
+    }
+  ]
+}

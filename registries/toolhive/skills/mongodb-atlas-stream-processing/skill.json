@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "mongodb-atlas-stream-processing",
+  "title": "Mongodb Atlas Stream Processing",
+  "description": "Build real-time stream processing pipelines with MongoDB Atlas Stream Processing — continuous queries over Kafka and MongoDB sources, windowing, aggregations, and enrichment",
+  "version": "0.1.1",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/mongodb/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/mongodb-atlas-stream-processing:0.1.1"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mongodb/agent-skills",
+      "ref": "b4ea8150a020b9babaddc6c271c6dc177c06a83f",
+      "subfolder": "skills/mongodb-atlas-stream-processing"
+    }
+  ]
+}
