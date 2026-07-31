@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.26": {
+        "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.28": {
           "metadata": {
-            "last_updated": "2026-07-17T15:08:56Z",
+            "last_updated": "2026-07-31T01:14:07Z",
             "stars": 8776
           },
           "overview": "## AWS Documentation MCP Server\n\nThe aws-documentation MCP server is a Model Context Protocol (MCP) server that provides AI assistants and agents with direct access to AWS's official documentation content through a structured MCP interface. It enables workflows that search, fetch, and recommend AWS documentation pages — returning markdown-formatted content and relevant recommendations — so models can cite accurate AWS technical details and best practices on-demand without manual lookup.",
@@ -42,7 +42,7 @@
           "tool_definitions": [
             {
               "annotations": {},
-              "description": "Fetch and convert an AWS documentation page to markdown format.\n\n## Usage\n\nThis tool retrieves the content of an AWS documentation page and converts it to markdown format.\nFor long documents, you can make multiple calls with different start_index values to retrieve\nthe entire content in chunks.\n\n## URL Requirements\n\n- Must be from the docs.aws.amazon.com domain\n- Must end with .html\n\n## Example URLs\n\n- https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html\n- https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html\n\n## Output Format\n\nThe output is formatted as markdown text with:\n- Preserved headings and structure\n- Code blocks for examples\n- Lists and tables converted to markdown format\n\n## Handling Long Documents\n\nIf the response indicates the document was truncated, you have several options:\n\n1. **Continue Reading**: Make another call with start_index set to the end of the previous response\n2. **Stop Early**: For very long documents (\u003e30,000 characters), if you've already found the specific information needed, you can stop reading\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to read\n    max_length: Maximum number of characters to return\n    start_index: On return output starting at this character index\n\nReturns:\n    Markdown content of the AWS documentation\n",
+              "description": "Fetch and convert an AWS documentation page to markdown format.\n\n## Usage\n\nThis tool retrieves the content of an AWS documentation page and converts it to markdown format.\nFor long documents, you can make multiple calls with different start_index values to retrieve\nthe entire content in chunks.\n\n## URL Requirements\n\n- Must be from the docs.aws.amazon.com domain\n- Must end with .html\n\n## Example URLs\n\n- https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html\n- https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html\n\n## Output Format\n\nThe output is formatted as markdown text with:\n- Preserved headings and structure\n- Code blocks for examples\n- Lists and tables converted to markdown format\n\n## Large Tables\n\nTables with more than 20 rows are automatically truncated to show only the header and 5 sample rows,\nalong with a hint to use the `search_table` tool. Use `search_table` to filter and retrieve specific\nrows from large tables (e.g., service quotas, IAM actions).\n\n## Handling Long Documents\n\nIf the response indicates the document was truncated, you have several options:\n\n1. **Continue Reading**: Make another call with start_index set to the end of the previous response\n2. **Stop Early**: For very long documents (\u003e30,000 characters), if you've already found the specific information needed, you can stop reading\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to read\n    max_length: Maximum number of characters to return\n    start_index: On return output starting at this character index\n\nReturns:\n    Markdown content of the AWS documentation\n",
               "inputSchema": {
                 "properties": {
                   "max_length": {
@@ -75,7 +75,7 @@
             },
             {
               "annotations": {},
-              "description": "Extract specific sections from AWS documentation pages by title.\n\nRetrieves a page, converts to markdown, and returns only matching sections.\nSection matching is case-insensitive and handles whitespace differences.\n\n## URL Requirements\n- Must end with .html\n\n## Read Sections Tips\n\n- Use exact section titles from search results 'sections' field when available\n- Section matching is case-insensitive and handles whitespace differences\n- Include multiple related sections in one call for comprehensive coverage\n\n## Example Usage\n\n```\n# If query is about S3 bucket naming rules:\n# Available sections: ['General purpose buckets naming rules', 'Example general purpose bucket names', 'Best practices', 'Creating a bucket that uses a GUID in the bucket name']\n# Read these specific sections:\nread_sections(\n    url='https://docs.aws.amazon.com/s3/latest/userguide/bucketnamingrules.html',\n    section_titles=['General purpose buckets naming rules', 'Best practices'],\n)\n\n# If query is about Python Lambda function examples:\n# Available sections: ['Example Python Lambda function code', 'Handler naming conventions', 'Using the Lambda event object', 'Accessing and using the Lambda context object'. 'Valid handler signatures for Python handlers', 'Returning a value', 'Using the AWS SDK for Python (Boto3) in your handler', 'Accessing environment variables, 'Code best practices for Python Lambda functions']\n# Read these specific sections:\nread_sections(\n    url='https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html',\n    section_titles=[\n        'Example Python Lambda function code',\n        'Code best practices for Python Lambda functions',\n    ],\n)\n```\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to read\n    section_titles: List of section titles to extract\n\nReturns:\n    Filtered markdown content containing only the requested sections\n",
+              "description": "Extract specific sections from AWS documentation pages by title.\n\nRetrieves a page, converts to markdown, and returns only matching sections.\nSection matching is case-insensitive and handles whitespace differences.\n\n## URL Requirements\n- Must end with .html\n\n## Large Tables\n\nTables with more than 20 rows are automatically truncated to show only the header and 5 sample rows,\nalong with a hint to use the `search_table` tool. Use `search_table` to filter and retrieve specific\nrows from large tables (e.g., service quotas, IAM actions).\n\n## Read Sections Tips\n\n- Use exact section titles from search results 'sections' field when available\n- Section matching is case-insensitive and handles whitespace differences\n- Include multiple related sections in one call for comprehensive coverage\n\n## Example Usage\n\n```\n# If query is about S3 bucket naming rules:\n# Available sections: ['General purpose buckets naming rules', 'Example general purpose bucket names', 'Best practices', 'Creating a bucket that uses a GUID in the bucket name']\n# Read these specific sections:\nread_sections(\n    url='https://docs.aws.amazon.com/s3/latest/userguide/bucketnamingrules.html',\n    section_titles=['General purpose buckets naming rules', 'Best practices'],\n)\n\n# If query is about Python Lambda function examples:\n# Available sections: ['Example Python Lambda function code', 'Handler naming conventions', 'Using the Lambda event object', 'Accessing and using the Lambda context object'. 'Valid handler signatures for Python handlers', 'Returning a value', 'Using the AWS SDK for Python (Boto3) in your handler', 'Accessing environment variables, 'Code best practices for Python Lambda functions']\n# Read these specific sections:\nread_sections(\n    url='https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html',\n    section_titles=[\n        'Example Python Lambda function code',\n        'Code best practices for Python Lambda functions',\n    ],\n)\n```\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to read\n    section_titles: List of section titles to extract\n\nReturns:\n    Filtered markdown content containing only the requested sections\n",
               "inputSchema": {
                 "properties": {
                   "section_titles": {
@@ -181,13 +181,59 @@
                 "type": "object"
               },
               "name": "search_documentation"
+            },
+            {
+              "annotations": {},
+              "description": "Search for specific rows in a large documentation table.\n\nUse this tool when you need specific rows from a large documentation table\n(e.g., service quotas, pricing tables, supported models lists). Returns\nmatching rows as JSON instead of dumping the entire table.\n\nThis is more efficient than read_sections for pages with hundreds of table rows.\nIf read_sections or read_documentation indicates a table was truncated, use this\ntool to find the specific rows you need.\n\n## Section Title\n\n- If you know the exact section title, provide it for precision\n- If unsure, omit section_title — the tool will search all tables on the page\n- Use section titles from search_documentation results (TOC) or read_documentation output\n- If the section title is wrong, the hint field will list available sections\n\n## URL Requirements\n\n- Must be from the docs.aws.amazon.com domain\n- Must end with .html\n\n## Example Usage\n\n```\n# With section title (searches all tables in that section):\nsearch_table(\n    url='https://docs.aws.amazon.com/general/latest/gr/bedrock.html',\n    section_title='Amazon Bedrock service quotas',\n    query='Titan Text Embeddings V2',\n)\n\n# Without section title (searches all tables on the page):\nsearch_table(\n    url='https://docs.aws.amazon.com/general/latest/gr/bedrock.html',\n    query='Claude 3 Sonnet requests',\n)\n```\n\n## Response Format\n\nReturns a SearchTableResponse with:\n- tables_searched: Number of tables searched\n- tables_with_matches: Number of tables containing matching rows\n- hint: Guidance message when no matches found, section not found, or no tables on page\n- error: Error message on HTTP/transport failures only\n- results: Array of table result objects, each with:\n    - table_heading: The sub-heading above the table (if any)\n    - columns: Column headers for that table\n    - parent_columns: (optional) For rowspan/nested tables, which columns are group headers\n    - child_columns: (optional) For rowspan/nested tables, which columns are nested under groups\n    - total_rows: Total rows (or groups, for nested tables) in that table\n    - matched_rows: Number of rows/groups matching the query per table\n    - showing: Number of rows/groups returned per table (capped by max_rows per table)\n    - rows: Array of matching row objects. For flat tables: {column → value}.\n      For nested tables: {parent_col → value, ..., \"rows\": [{child_col → value}, ...]}\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: AWS documentation page URL (must end with .html)\n    section_title: The section heading containing the table (optional — omit to search all tables on the page)\n    query: Search term to filter rows (all words must match, case-insensitive)\n    max_rows: Maximum matching rows to return per table (default 20)\n\nReturns:\n    SearchTableResponse with matching rows grouped by table\n",
+              "inputSchema": {
+                "properties": {
+                  "max_rows": {
+                    "default": 20,
+                    "description": "Maximum number of matching rows to return per table",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "title": "Max Rows",
+                    "type": "integer"
+                  },
+                  "query": {
+                    "description": "Search term to filter rows (case-insensitive, all words must match across any column)",
+                    "title": "Query",
+                    "type": "string"
+                  },
+                  "section_title": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "The section heading that contains the table. If omitted, searches all tables on the page. Use exact titles from search_documentation results or read_documentation output.",
+                    "title": "Section Title"
+                  },
+                  "url": {
+                    "description": "URL of the AWS documentation page containing the table",
+                    "title": "Url",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url",
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "search_table"
             }
           ],
           "tools": [
             "read_documentation",
             "read_sections",
             "recommend",
-            "search_documentation"
+            "search_documentation",
+            "search_table"
           ]
         }
       }
@@ -218,7 +264,7 @@
           "name": "FASTMCP_LOG_LEVEL"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.26",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.28",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
