@@ -10,7 +10,7 @@
             "license": "Apache-2.0"
           },
           "metadata": {
-            "last_updated": "2026-04-13T03:04:50Z",
+            "last_updated": "2026-07-31T20:52:32Z",
             "stars": 3
           },
           "overview": "## ToolHive Docs Remote MCP Server\n\nThe toolhive-doc-mcp-remote server allows you to search ToolHive documentation for help with using and contributing to the project (hosted version). The server maintains a pre-built SQLite vector database containing documentation that has been fetched from configured sources, then parsed and chunked into manageable sections. Documentation is embedded using a local bge-small-en-v1.5 model and indexed for fast vector similarity search. When users query the documentation, the server performs semantic search by comparing queries against stored embeddings and returns the most relevant documentation chunks.",
