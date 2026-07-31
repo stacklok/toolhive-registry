@@ -64,6 +64,9 @@
             "confluence_download_content_attachments",
             "confluence_delete_attachment",
             "confluence_get_page_images",
+            "confluence_list_page_templates",
+            "confluence_get_page_template",
+            "confluence_create_page_from_template",
             "confluence_get_page_restrictions",
             "confluence_set_page_restrictions",
             "confluence_copy_page",
@@ -117,6 +120,9 @@
             "jira_get_service_desk_for_project",
             "jira_get_service_desk_queues",
             "jira_get_queue_issues",
+            "jira_get_request_types",
+            "jira_get_request_type_fields",
+            "jira_create_customer_request",
             "jira_create_version",
             "jira_batch_create_versions",
             "jira_update_version",
@@ -126,7 +132,9 @@
             "jira_get_issue_dates",
             "jira_get_issue_sla",
             "jira_get_issue_development_info",
-            "jira_get_issues_development_info"
+            "jira_get_issues_development_info",
+            "jira_get_project_epic_hierarchy",
+            "jira_get_cross_project_dependencies"
           ]
         }
       }
@@ -197,6 +205,14 @@
         {
           "description": "Comma-separated list of Jira project keys to filter search results",
           "name": "JIRA_PROJECTS_FILTER"
+        },
+        {
+          "description": "Comma-separated list of Jira project keys guarded as internal-only, blocking their comments, links, and transition comments from being exposed to customer-facing JSM contexts. Empty/unset by default (guard disabled)",
+          "name": "JIRA_INTERNAL_ONLY_PROJECTS"
+        },
+        {
+          "description": "Comma-separated custom parent/child link-type phrases (e.g. 'parent:rolls up to,child:is part of') recognized by the epic-hierarchy and cross-project-dependency tools, in addition to Jira's built-in phrases",
+          "name": "HIERARCHY_LINK_PHRASES"
         },
         {
           "description": "Run in read-only mode (disables all write operations)",
