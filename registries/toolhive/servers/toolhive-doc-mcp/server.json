@@ -5,10 +5,15 @@
       "io.github.stacklok": {
         "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.17-20260720": {
           "metadata": {
-            "last_updated": "2026-04-16T10:07:59Z",
+            "last_updated": "2026-07-31T20:49:02Z",
             "stars": 3
           },
           "overview": "## ToolHive Docs MCP Server\n\nThe toolhive-doc-mcp server allows you to search ToolHive documentation for help with using and contributing to the project (local version). The system maintains a pre-built SQLite vector database containing documentation that undergoes parsing, chunking, and embedding using a local bge-small-en-v1.5 model. When queried, it performs semantic search by comparing queries against stored embeddings to return relevant documentation chunks.",
+          "permissions": {
+            "network": {
+              "outbound": {}
+            }
+          },
           "provenance": {
             "cert_issuer": "https://token.actions.githubusercontent.com",
             "repository_uri": "https://github.com/StacklokLabs/toolhive-doc-mcp",
@@ -27,11 +32,6 @@
             "support",
             "toolhive"
           ],
-          "permissions": {
-            "network": {
-              "outbound": {}
-            }
-          },
           "tier": "Official",
           "tool_definitions": [
             {
