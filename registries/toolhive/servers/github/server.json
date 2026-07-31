@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/github/github-mcp-server:v1.6.0": {
+        "ghcr.io/github/github-mcp-server:v1.7.0": {
           "metadata": {
-            "last_updated": "2026-07-16T19:48:46Z",
+            "last_updated": "2026-07-24T02:54:06Z",
             "stars": 28440
           },
           "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -239,7 +239,7 @@
                 "readOnlyHint": false,
                 "title": "Assign Copilot to issue"
               },
-              "description": "Assign Copilot to a specific issue in a GitHub repository.\n\nThis tool can help with the following outcomes:\n- a Pull Request created with source code changes to resolve the issue\n\n\nMore information can be found at:\n- https://docs.github.com/en/copilot/using-github-copilot/using-copilot-coding-agent-to-work-on-tasks/about-assigning-tasks-to-copilot\n",
+              "description": "Assign Copilot to a specific issue in a GitHub repository.\n\nThis tool can help with the following outcomes:\n- a Pull Request created with source code changes to resolve the issue\n\n\nMore information can be found at:\n- https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent\n",
               "inputSchema": {
                 "properties": {
                   "base_ref": {
@@ -2299,7 +2299,7 @@
           "name": "GITHUB_READ_ONLY"
         }
       ],
-      "identifier": "ghcr.io/github/github-mcp-server:v1.6.0",
+      "identifier": "ghcr.io/github/github-mcp-server:v1.7.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
