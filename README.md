@@ -15,6 +15,7 @@ Adding your MCP server to the registry is simple! You need to create a `server.j
 
 ### Step 1: Create a Folder
 
+Create folder registries/toolhive/servers/dark-moon/ with server.json: name 'dark-moon', title 'Dark-Moon', description 'Self-hosted autonomous AI penetration testing platform exposing an MCP server; Markdown methodology agents orchestrate offensive security tooling; runs on local Ollama/llama.cpp or cloud LLMs. GPL-3.0.', repository https://github.com/ASCIT31/Dark-Moon, tags [security, pentest, offensive, mcp, agent, self-hosted].
 Create a new folder in `registries/toolhive/servers/` with your server's name (use lowercase and hyphens):
 
 ```
