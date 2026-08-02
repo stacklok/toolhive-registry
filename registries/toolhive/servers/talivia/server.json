@@ -1,0 +1,65 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://talivia.com/mcp": {
+          "custom_metadata": {
+            "author": "Talivia",
+            "homepage": "https://talivia.com/ai-agent-kit",
+            "license": "MIT",
+            "authentication": "OAuth"
+          },
+          "overview": "## Talivia Revenue Analytics\n\nTalivia gives AI agents the tools to install website tracking, verify live analytics events, connect payment attribution through a secure browser flow, and show which referrers, campaigns, pages, and customer journeys become revenue. The official hosted Streamable HTTP server uses OAuth, and the same open-source Agent Kit is available as an npm package for local stdio clients.",
+          "status": "Active",
+          "tags": [
+            "analytics",
+            "website-analytics",
+            "revenue-attribution",
+            "marketing-attribution",
+            "payments",
+            "tracking",
+            "remote",
+            "automation"
+          ],
+          "tier": "Official",
+          "tools": [
+            "talivia_account_status",
+            "talivia_websites_list",
+            "talivia_websites_create",
+            "talivia_tracking_snippet_get",
+            "talivia_framework_install_plan_get",
+            "talivia_setup_status_get",
+            "talivia_tracker_verify",
+            "talivia_payment_connect_start",
+            "talivia_payment_status_get",
+            "talivia_checkout_attribution_guide_get"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Revenue-first website analytics installed and verified by AI agents through MCP",
+  "icons": [
+    {
+      "mimeType": "image/png",
+      "sizes": [
+        "180x180"
+      ],
+      "src": "https://talivia.com/apple-touch-icon.png"
+    }
+  ],
+  "name": "io.github.talivia-group/agent",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://talivia.com/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/talivia-group/agent"
+  },
+  "title": "Talivia Revenue Analytics",
+  "version": "0.1.0"
+}
