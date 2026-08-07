@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/github/github-mcp-server:v1.8.0": {
           "metadata": {
-            "last_updated": "2026-07-24T02:54:06Z",
+            "last_updated": "2026-08-07T00:30:17Z",
             "stars": 28440
           },
           "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -602,6 +602,24 @@
               "description": "Get the contents of a file or directory from a GitHub repository",
               "inputSchema": {
                 "properties": {
+                  "fields": {
+                    "description": "Subset of fields to return for each entry when the path is a directory. If omitted, all fields are returned. Ignored when the path is a single file. Use this to reduce response size when listing directories and you only need specific fields, e.g. just 'name' and 'type'.",
+                    "items": {
+                      "enum": [
+                        "type",
+                        "name",
+                        "path",
+                        "size",
+                        "sha",
+                        "url",
+                        "git_url",
+                        "html_url",
+                        "download_url"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
                   "owner": {
                     "description": "Repository owner (username or organization)",
                     "type": "string",
@@ -1056,6 +1074,20 @@
                     "description": "Author username or email address to filter commits by",
                     "type": "string"
                   },
+                  "fields": {
+                    "description": "Subset of fields to return for each commit. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields, e.g. just 'sha' and 'html_url'.",
+                    "items": {
+                      "enum": [
+                        "sha",
+                        "html_url",
+                        "commit",
+                        "author",
+                        "committer"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
                   "owner": {
                     "description": "Repository owner",
                     "type": "string",
@@ -1198,6 +1230,25 @@
                     },
                     "type": "array"
                   },
+                  "fields": {
+                    "description": "Subset of fields to return for each issue. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'body' and 'field_values' in particular drops the largest per-result data.",
+                    "items": {
+                      "enum": [
+                        "number",
+                        "title",
+                        "body",
+                        "state",
+                        "user",
+                        "labels",
+                        "comments",
+                        "created_at",
+                        "updated_at",
+                        "field_values"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
                   "labels": {
                     "description": "Filter by labels",
                     "items": {
@@ -1272,6 +1323,40 @@
                     ],
                     "type": "string"
                   },
+                  "fields": {
+                    "description": "Subset of fields to return for each pull request. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'body' in particular drops the largest per-result data.",
+                    "items": {
+                      "enum": [
+                        "number",
+                        "title",
+                        "body",
+                        "state",
+                        "draft",
+                        "merged",
+                        "mergeable_state",
+                        "html_url",
+                        "user",
+                        "labels",
+                        "assignees",
+                        "requested_reviewers",
+                        "merged_by",
+                        "head",
+                        "base",
+                        "additions",
+                        "deletions",
+                        "changed_files",
+                        "commits",
+                        "comments",
+                        "created_at",
+                        "updated_at",
+                        "closed_at",
+                        "merged_at",
+                        "milestone"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
                   "head": {
                     "description": "Filter by head user/org and branch",
                     "type": "string"
@@ -1334,6 +1419,24 @@
               "description": "List releases in a GitHub repository",
               "inputSchema": {
                 "properties": {
+                  "fields": {
+                    "description": "Subset of fields to return for each release. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'body' in particular drops the largest per-release data.",
+                    "items": {
+                      "enum": [
+                        "id",
+                        "tag_name",
+                        "name",
+                        "body",
+                        "html_url",
+                        "published_at",
+                        "prerelease",
+                        "draft",
+                        "author"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
                   "owner": {
                     "description": "Repository owner",
                     "type": "string",
@@ -1734,6 +1837,20 @@
               "description": "Fast and precise code search across ALL GitHub repositories using GitHub's native search engine. Best for finding exact symbols, functions, classes, or specific code patterns.",
               "inputSchema": {
                 "properties": {
+                  "fields": {
+                    "description": "Subset of fields to return for each code search result. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'repository' and 'text_matches' in particular drops the largest per-result data.",
+                    "items": {
+                      "enum": [
+                        "name",
+                        "path",
+                        "sha",
+                        "repository",
+                        "text_matches"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
                   "order": {
                     "description": "Sort order for results",
                     "enum": [
@@ -1826,6 +1943,39 @@
               "description": "Search for issues in GitHub repositories using issues search syntax already scoped to is:issue",
               "inputSchema": {
                 "properties": {
+                  "fields": {
+                    "description": "Subset of fields to return for each issue result. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'body', 'reactions', and 'labels' in particular drops the largest per-result data.",
+                    "items": {
+                      "enum": [
+                        "number",
+                        "title",
+                        "body",
+                        "state",
+                        "state_reason",
+                        "draft",
+                        "locked",
+                        "html_url",
+                        "user",
+                        "author_association",
+                        "labels",
+                        "assignee",
+                        "assignees",
+                        "milestone",
+                        "comments",
+                        "reactions",
+                        "created_at",
+                        "updated_at",
+                        "closed_at",
+                        "closed_by",
+                        "type",
+                        "repository_url",
+                        "pull_request",
+                        "field_values"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
                   "order": {
                     "description": "Sort order",
                     "enum": [
@@ -1893,6 +2043,37 @@
               "description": "Search for pull requests in GitHub repositories using issues search syntax already scoped to is:pr",
               "inputSchema": {
                 "properties": {
+                  "fields": {
+                    "description": "Subset of fields to return for each pull request result. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'body', 'reactions', and 'labels' in particular drops the largest per-result data.",
+                    "items": {
+                      "enum": [
+                        "number",
+                        "title",
+                        "body",
+                        "state",
+                        "state_reason",
+                        "draft",
+                        "locked",
+                        "html_url",
+                        "user",
+                        "author_association",
+                        "labels",
+                        "assignee",
+                        "assignees",
+                        "milestone",
+                        "comments",
+                        "reactions",
+                        "created_at",
+                        "updated_at",
+                        "closed_at",
+                        "closed_by",
+                        "pull_request",
+                        "repository_url"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
                   "order": {
                     "description": "Sort order",
                     "enum": [
