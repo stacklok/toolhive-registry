@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/uyuni-project/mcp-server-uyuni:0.5.2": {
+        "ghcr.io/uyuni-project/mcp-server-uyuni:0.6.0": {
           "metadata": {
-            "last_updated": "2026-04-30T03:06:08Z",
+            "last_updated": "2026-08-07T00:31:23Z",
             "stars": 12
           },
           "overview": "## Uyuni MCP Server\n\nThe Uyuni MCP Server bridges Large Language Models with the Uyuni infrastructure management solution from SUSE. It enables AI agents and MCP-compliant clients to interact securely with Uyuni servers, allowing natural language management of Linux infrastructure including retrieving system details, checking updates, scheduling maintenance, and managing system groups.\n\nThe server provides both read-only and write-enabled tools for comprehensive infrastructure management, with write operations gated behind an explicit opt-in flag for safety.",
@@ -31,31 +31,452 @@
             "suse"
           ],
           "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Check all active systems for pending updates.\n\nInputs: optional `include_updates`, `include_cves`, `system_limit`, `system_offset`, `updates_per_system`.\nBest for fleet scan; set `include_updates=true` to include per-system update items.\n`system_limit` is capped at 200 for response paging.\nReturns: `items` with systems that have pending updates (plus optional update details) and `meta`.",
+              "inputSchema": {
+                "properties": {
+                  "include_cves": {
+                    "default": false,
+                    "type": "boolean"
+                  },
+                  "include_updates": {
+                    "default": false,
+                    "type": "boolean"
+                  },
+                  "system_limit": {
+                    "default": 25,
+                    "type": "integer"
+                  },
+                  "system_offset": {
+                    "default": 0,
+                    "type": "integer"
+                  },
+                  "updates_per_system": {
+                    "default": 10,
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "check_all_systems_for_updates"
+            },
+            {
+              "annotations": {},
+              "description": "Find systems by IP address.\n\nInputs: `ip_address`; optional `limit`, `offset`.\n`limit` is capped at 500.\nReturns: `items` with matching systems (`system_name`, `system_id`, `ip`) and `meta`.",
+              "inputSchema": {
+                "properties": {
+                  "ip_address": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "ip_address"
+                ],
+                "type": "object"
+              },
+              "name": "find_systems_by_ip"
+            },
+            {
+              "annotations": {},
+              "description": "Find systems by hostname.\n\nInputs: `name`; optional `limit`, `offset`.\nUse this first when user input is a partial hostname.\nIf multiple systems match, ask the user to choose one `system_id`.\n`limit` is capped at 500.\nReturns: `items` with matching systems (`system_name`, `system_id`) and `meta`.",
+              "inputSchema": {
+                "properties": {
+                  "limit": {
+                    "default": 50,
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "type": "object"
+              },
+              "name": "find_systems_by_name"
+            },
+            {
+              "annotations": {},
+              "description": "Get details for one system.\n\nInputs: `system_identifier` (`system_name` or `system_id`).\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nReturns: `system_id`, `system_name`, `last_boot`, `uuid`, `cpu`, `network`, `installed_products`.\nUse system_id when possible.",
+              "inputSchema": {
+                "properties": {
+                  "system_identifier": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "system_identifier"
+                ],
+                "type": "object"
+              },
+              "name": "get_system_details"
+            },
+            {
+              "annotations": {},
+              "description": "Get one event detail.\n\nInputs: `system_identifier` (`system_name` or `system_id`), `event_id`.\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nReturns: event object including status, timestamps, result fields, and optional additional_info.\n`event_id` should come from `get_system_event_history`.",
+              "inputSchema": {
+                "properties": {
+                  "event_id": {
+                    "type": "integer"
+                  },
+                  "system_identifier": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "system_identifier",
+                  "event_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_system_event_details"
+            },
+            {
+              "annotations": {},
+              "description": "List events for one system.\n\nInputs: `system_identifier` (`system_name` or `system_id`); optional `offset`, `limit`, `earliest_date`.\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nReturns: newest-first event list with `id`, `history_type`, `status`, `summary`, `completed`.\nUse `get_system_event_details` for one event.",
+              "inputSchema": {
+                "properties": {
+                  "earliest_date": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "limit": {
+                    "default": 10,
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "type": "integer"
+                  },
+                  "system_identifier": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "system_identifier"
+                ],
+                "type": "object"
+              },
+              "name": "get_system_event_history"
+            },
+            {
+              "annotations": {},
+              "description": "Get pending updates for one system.\n\nInputs: `system_identifier` (`system_name` or `system_id`; prefer `system_id`).\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nBest for compact default update view.\nReturns: compact update list plus counts and `meta`.\nDefault behavior omits CVEs for lower token usage.\nFor pagination and CVE expansion, use `query_system_updates`.",
+              "inputSchema": {
+                "properties": {
+                  "system_identifier": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "system_identifier"
+                ],
+                "type": "object"
+              },
+              "name": "get_system_updates"
+            },
+            {
+              "annotations": {},
+              "description": "List unscheduled errata for one system.\n\nInputs: `system_id`.\nProvide `system_id` as a numeric string.\nReturns: errata list for that system.",
+              "inputSchema": {
+                "properties": {
+                  "system_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "system_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_unscheduled_errata"
+            },
+            {
+              "annotations": {},
+              "description": "List activation keys available to the current user.\n\nInputs: none.\nReturns: list of objects with `key` and `description`.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_activation_keys"
+            },
+            {
+              "annotations": {},
+              "description": "Query scheduled actions.\n\nInputs: optional `limit`, `offset`, `action_types`, `scheduler`.\n`action_types` and `scheduler` are optional exact-match filters; prefer values from `meta.observed_action_types` and `meta.observed_schedulers`.\n`limit` is capped at 500; use `meta.next_offset` to page.\nReturns: `items` with scheduled actions and `meta`.",
+              "inputSchema": {
+                "properties": {
+                  "action_types": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "limit": {
+                    "default": 50,
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "type": "integer"
+                  },
+                  "scheduler": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_all_scheduled_actions"
+            },
+            {
+              "annotations": {},
+              "description": "List systems in one group.\n\nInputs: `group_name`.\nReturns: list of `system_id` and `system_name`.",
+              "inputSchema": {
+                "properties": {
+                  "group_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "group_name"
+                ],
+                "type": "object"
+              },
+              "name": "list_group_systems"
+            },
+            {
+              "annotations": {},
+              "description": "List system groups.\n\nInputs: none.\nReturns: list with `id`, `name`, `description`, and `system_count`.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_system_groups"
+            },
+            {
+              "annotations": {},
+              "description": "\n    List active systems in Uyuni.\n    Inputs: optional `limit`, `offset`.\n    `limit` is capped at 500.\n    Returns: `items` with active systems (`system_name`, `system_id`) and `meta`.\n    Note: use `system_id` for other system tools.\n    ",
+              "inputSchema": {
+                "properties": {
+                  "limit": {
+                    "default": 50,
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_systems"
+            },
+            {
+              "annotations": {},
+              "description": "List systems that require reboot.\n\nInputs: optional `limit`, `offset`.\n`limit` is capped at 500.\nReturns: `items` with systems requiring reboot (`system_id`, `system_name`, `reboot_status`) and `meta`.",
+              "inputSchema": {
+                "properties": {
+                  "limit": {
+                    "default": 50,
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_systems_needing_reboot"
+            },
+            {
+              "annotations": {},
+              "description": "List systems affected by a CVE.\n\nInputs: `cve_identifier`; optional `limit`, `offset`.\n`limit` is capped at 500.\nReturns: `items` with unique affected systems (`system_id`, `system_name`) and `meta`.",
+              "inputSchema": {
+                "properties": {
+                  "cve_identifier": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 50,
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "cve_identifier"
+                ],
+                "type": "object"
+              },
+              "name": "list_systems_needing_update_for_cve"
+            },
+            {
+              "annotations": {},
+              "description": "Query pending updates for one system.\n\nInputs: `system_identifier` (`system_name` or `system_id`); optional `limit`, `offset`, `include_cves`, `advisory_types`.\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nBest for pagination and optional CVE expansion.\nPagination behavior: `limit \u003c= 0` returns no items (counts still available);\npositive `limit` is capped at 200.\nReturns: `updates` with pending updates for the system and `meta`.",
+              "inputSchema": {
+                "properties": {
+                  "advisory_types": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "enum": [
+                            "Security Advisory",
+                            "Product Enhancement Advisory",
+                            "Bug Fix Advisory"
+                          ],
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "include_cves": {
+                    "default": false,
+                    "type": "boolean"
+                  },
+                  "limit": {
+                    "default": 25,
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "type": "integer"
+                  },
+                  "system_identifier": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "system_identifier"
+                ],
+                "type": "object"
+              },
+              "name": "query_system_updates"
+            },
+            {
+              "annotations": {},
+              "description": "Summarize fleet update status.\n\nInputs: optional `system_limit`, `system_offset`.\n`system_limit` is capped at 200.\nReturns: paged list of systems with update counts in `items` and `meta`.",
+              "inputSchema": {
+                "properties": {
+                  "system_limit": {
+                    "default": 25,
+                    "type": "integer"
+                  },
+                  "system_offset": {
+                    "default": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "summarize_fleet_updates"
+            },
+            {
+              "annotations": {},
+              "description": "Summarize pending updates for one system.\n\nInputs: `system_identifier` (`system_name` or `system_id`); optional `advisory_types`.\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nBest for counts only.\n`advisory_types` accepts: `Security Advisory`, `Product Enhancement Advisory`, `Bug Fix Advisory`.\nReturns: update counts and `meta`.",
+              "inputSchema": {
+                "properties": {
+                  "advisory_types": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "enum": [
+                            "Security Advisory",
+                            "Product Enhancement Advisory",
+                            "Bug Fix Advisory"
+                          ],
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "system_identifier": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "system_identifier"
+                ],
+                "type": "object"
+              },
+              "name": "summarize_system_updates"
+            }
+          ],
           "tools": [
-            "list_systems",
-            "get_system_details",
-            "get_system_event_history",
-            "get_system_event_details",
-            "find_systems_by_name",
-            "find_systems_by_ip",
-            "get_system_updates",
             "check_all_systems_for_updates",
-            "list_systems_needing_update_for_cve",
-            "list_systems_needing_reboot",
+            "find_systems_by_ip",
+            "find_systems_by_name",
+            "get_system_details",
+            "get_system_event_details",
+            "get_system_event_history",
+            "get_system_updates",
             "get_unscheduled_errata",
             "list_activation_keys",
             "list_all_scheduled_actions",
-            "list_system_groups",
             "list_group_systems",
-            "schedule_pending_updates_to_system",
-            "schedule_specific_update",
-            "add_system",
-            "remove_system",
-            "schedule_system_reboot",
-            "cancel_action",
-            "create_system_group",
-            "add_systems_to_group",
-            "remove_systems_from_group"
+            "list_system_groups",
+            "list_systems",
+            "list_systems_needing_reboot",
+            "list_systems_needing_update_for_cve",
+            "query_system_updates",
+            "summarize_fleet_updates",
+            "summarize_system_updates"
           ]
         }
       }
@@ -112,7 +533,7 @@
           "name": "UYUNI_SSH_PRIV_KEY_PASS"
         }
       ],
-      "identifier": "ghcr.io/uyuni-project/mcp-server-uyuni:0.5.2",
+      "identifier": "ghcr.io/uyuni-project/mcp-server-uyuni:0.6.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
