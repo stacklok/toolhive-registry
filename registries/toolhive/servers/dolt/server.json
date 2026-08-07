@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "docker.io/dolthub/dolt-mcp:0.3.6": {
+        "docker.io/dolthub/dolt-mcp:0.3.7": {
           "metadata": {
-            "last_updated": "2026-06-26T21:53:06Z",
+            "last_updated": "2026-08-07T00:28:01Z",
             "stars": 8
           },
           "overview": "## Dolt MCP Server\n\nThe dolt-mcp-server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Dolt, a SQL database with built-in Git-style version control. It facilitates AI-driven workflows including querying data, inspecting schema changes, creating and managing branches, reviewing diffs, and analyzing historical data — all within a unified interface. It's particularly valuable for data analysis, auditing, experimentation, and collaborative workflows requiring tracking and understanding of data changes over time.",
@@ -554,11 +554,11 @@
                 "openWorldHint": false,
                 "readOnlyHint": false
               },
-              "description": "Hard resets the working set to the specified revision.",
+              "description": "Hard resets the branch HEAD, staging area, and working set to the specified revision, discarding uncommitted changes.",
               "inputSchema": {
                 "properties": {
                   "revision": {
-                    "description": "The revision to reset to (working set, table name, branch, commit sha, or '.' for all tables).",
+                    "description": "The revision to reset to (a branch name, commit sha, or ancestor spec such as 'HEAD~1'). Table names are not valid revisions.",
                     "type": "string"
                   },
                   "working_branch": {
@@ -586,11 +586,11 @@
                 "openWorldHint": false,
                 "readOnlyHint": false
               },
-              "description": "Soft resets the working set to the specified revision.",
+              "description": "Moves the branch HEAD to the specified revision, leaving the staging area and working set unchanged. To unstage tables instead, use the unstage_table or unstage_all_tables tools.",
               "inputSchema": {
                 "properties": {
                   "revision": {
-                    "description": "The revision to reset to (working set, table name, branch, commit sha, or '.' for all tables).",
+                    "description": "The revision to move the branch HEAD to (a branch name, commit sha, or ancestor spec such as 'HEAD~1'). Table names are not valid revisions.",
                     "type": "string"
                   },
                   "working_branch": {
@@ -1547,7 +1547,7 @@
           "name": "MCP_PORT"
         }
       ],
-      "identifier": "docker.io/dolthub/dolt-mcp:0.3.6",
+      "identifier": "docker.io/dolthub/dolt-mcp:0.3.7",
       "registryType": "oci",
       "transport": {
         "type": "streamable-http",
