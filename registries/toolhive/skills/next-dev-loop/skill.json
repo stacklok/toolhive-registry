@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "next-dev-loop",
+  "title": "Next Dev Loop",
+  "description": "Verify Next.js runtime behavior after editing app code. Use this skill to confirm a change actually works in a running app — not just that it compiles or type-checks. Combines /_next/mcp (Next.js's view) with agent-browser (the browser's view). Requires a running `next dev`.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/vercel/next.js",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/next-dev-loop:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/vercel/next.js",
+      "ref": "ede8799c40a63a8c2a6cdbd9c52cf89218534e4c",
+      "subfolder": "skills/next-dev-loop"
+    }
+  ]
+}

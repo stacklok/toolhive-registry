@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "gh-stack",
+  "title": "Gh Stack",
+  "description": "Manage stacked branches and pull requests with the gh-stack GitHub CLI extension: stack creation, viewing, push, submit, sync, rebase, merge, and checkout",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/github/gh-stack",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/gh-stack:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/github/gh-stack",
+      "ref": "14fc42ed9b6c376a53b2f999f138d3bd26dac546",
+      "subfolder": "skills/gh-stack"
+    }
+  ]
+}
