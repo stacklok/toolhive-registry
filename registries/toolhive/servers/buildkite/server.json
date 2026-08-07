@@ -2088,6 +2088,34 @@
           "isRequired": true,
           "isSecret": true,
           "name": "BUILDKITE_API_TOKEN"
+        },
+        {
+          "default": "https://api.buildkite.com/",
+          "description": "Base URL of the Buildkite API to use. Override for Buildkite Enterprise or self-hosted deployments. Defaults to https://api.buildkite.com/",
+          "isRequired": false,
+          "isSecret": false,
+          "name": "BUILDKITE_BASE_URL"
+        },
+        {
+          "default": "all",
+          "description": "Comma-separated list of toolsets to enable (e.g. 'pipelines,builds,clusters'). Defaults to 'all'",
+          "isRequired": false,
+          "isSecret": false,
+          "name": "BUILDKITE_TOOLSETS"
+        },
+        {
+          "default": "false",
+          "description": "Enable read-only mode, filtering out write operations from all toolsets. Defaults to false",
+          "isRequired": false,
+          "isSecret": false,
+          "name": "BUILDKITE_READ_ONLY"
+        },
+        {
+          "default": "10",
+          "description": "Maximum number of problem jobs diagnosed by a single failure summary request (hard max 50). Defaults to 10",
+          "isRequired": false,
+          "isSecret": false,
+          "name": "BUILDKITE_FAILURE_SUMMARY_MAX_JOBS"
         }
       ],
       "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.17.0",
