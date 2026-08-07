@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.11.1": {
           "metadata": {
-            "last_updated": "2026-07-31T20:52:33Z",
+            "last_updated": "2026-08-07T00:30:48Z",
             "stars": 2551
           },
           "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
@@ -42,6 +42,68 @@
           ],
           "tier": "Community",
           "tool_definitions": [
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Discover"
+              },
+              "description": "Search the web and rank results by AI-driven relevance. Returns scored results with title, description, and URL. Supports intent-based ranking, geo-targeting, date filtering, and keyword filtering.",
+              "inputSchema": {
+                "properties": {
+                  "city": {
+                    "description": "City for localized results (e.g., \"New York\", \"Berlin\")",
+                    "type": "string"
+                  },
+                  "country": {
+                    "description": "2-letter ISO country code for localized results (e.g., \"US\", \"GB\", \"DE\")",
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "type": "string"
+                  },
+                  "end_date": {
+                    "description": "Only content updated until this date (YYYY-MM-DD)",
+                    "type": "string"
+                  },
+                  "filter_keywords": {
+                    "description": "Keywords that must appear in search results",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "intent": {
+                    "description": "Describes the specific goal of the search to help the AI evaluate and rank result relevance.If not provided, the query string is used as the intent",
+                    "type": "string"
+                  },
+                  "language": {
+                    "description": "Language code (e.g., \"en\", \"es\", \"fr\")",
+                    "type": "string"
+                  },
+                  "num_results": {
+                    "description": "Exact number of search results to return",
+                    "type": "integer"
+                  },
+                  "query": {
+                    "description": "The search query",
+                    "type": "string"
+                  },
+                  "remove_duplicates": {
+                    "description": "Remove duplicate results (default: true)",
+                    "type": "boolean"
+                  },
+                  "start_date": {
+                    "description": "Only content updated from this date (YYYY-MM-DD)",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "discover"
+            },
             {
               "annotations": {
                 "openWorldHint": true,
@@ -96,7 +158,7 @@
                 "readOnlyHint": true,
                 "title": "Search Engine"
               },
-              "description": "Scrape search results from Google, Bing or Yandex. Returns SERP results in JSON or Markdown (URL, title, description), Ideal forgathering current information, news, and detailed search results.",
+              "description": "Scrape search results from Google, Bing or Yandex. Returns SERP results in JSON or Markdown (URL, title, description),Ideal forgathering current information, news, and detailed search results.",
               "inputSchema": {
                 "properties": {
                   "cursor": {
@@ -183,6 +245,7 @@
             }
           ],
           "tools": [
+            "discover",
             "scrape_as_markdown",
             "scrape_batch",
             "search_engine",
