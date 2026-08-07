@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.19.1": {
           "metadata": {
-            "last_updated": "2026-07-31T01:14:02Z",
+            "last_updated": "2026-08-07T00:28:33Z",
             "stars": 82
           },
           "overview": "## CircleCI MCP Server\n\nThe mcp-server-circleci is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with CircleCI, the continuous integration and delivery platform. It allows AI-driven workflows to inspect pipelines, jobs, workflows, and build results — bringing CI/CD context directly into conversational and automated AI workflows without switching tools. This server is especially useful for build monitoring, failure analysis, release workflows, and developer productivity scenarios where understanding CI state and history is critical.",
@@ -91,7 +91,7 @@
                         "type": "string"
                       },
                       "outputDir": {
-                        "description": "The directory to save the downloaded usage data CSV file.",
+                        "description": "The directory to save the downloaded usage data CSV file. Must be inside the current working directory, the user home directory, or a temp directory. System paths and hidden config directories (e.g. \"/etc\", \"~/.ssh\") are rejected.",
                         "type": "string"
                       },
                       "startDate": {
@@ -166,7 +166,7 @@
                             "type": "array"
                           }
                         ],
-                        "description": "Path to a usage data CSV file, or an array of paths to multiple part files to analyze together."
+                        "description": "Path to a usage data CSV file, or an array of paths to multiple part files to analyze together. Must be inside the current working directory, the user home directory, or a temp directory. System paths and hidden config directories (e.g. \"/etc\", \"~/.ssh\") are rejected."
                       },
                       "threshold": {
                         "default": 40,
@@ -202,7 +202,7 @@
                         "type": "string"
                       },
                       "outputDir": {
-                        "description": "Optional. When provided, the full build logs are written to a file in this directory and the file path is returned. Use this for large logs to avoid truncation. Use the workspace/project root when available (e.g., \"/home/user/my-project\"), otherwise use the Downloads folder (e.g., \"~/Downloads\").",
+                        "description": "Optional. When provided, the full build logs are written to a file in this directory and the file path is returned. Use this for large logs to avoid truncation. Use the workspace/project root when available (e.g., \"/home/user/my-project\"), otherwise use the Downloads folder (e.g., \"~/Downloads\"). Must be inside the current working directory, the user home directory, or a temp directory. System paths and hidden config directories (e.g. \"/etc\", \"~/.ssh\") are rejected.",
                         "type": "string"
                       },
                       "projectSlug": {
