@@ -9,7 +9,7 @@
             "/arxiv-papers"
           ],
           "metadata": {
-            "last_updated": "2026-07-08T07:51:20Z",
+            "last_updated": "2026-08-07T00:31:08Z",
             "stars": 2509
           },
           "overview": "## arXiv MCP Server\n\nThe arxiv-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically access the arXiv research repository — one of the largest open archives of scientific papers — via a simple MCP interface. It lets AI workflows search for academic papers, download and read their content, and manage collected research, all without switching tools or manually scraping content.",
@@ -88,12 +88,22 @@
                 "openWorldHint": true,
                 "readOnlyHint": false
               },
-              "description": "Download a paper from arXiv and return its full text content. Tries the HTML version first for clean extraction; falls back to PDF conversion if HTML is unavailable. Returns the paper content directly so you can read it immediately.",
+              "description": "Download a paper from arXiv and return its text content. Tries the HTML version first for clean extraction; falls back to PDF conversion if HTML is unavailable. Stores the paper locally and supports start/max_chars pagination for very large papers.",
               "inputSchema": {
                 "properties": {
+                  "max_chars": {
+                    "description": "Maximum raw paper characters to return from start; omit for full content",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
                   "paper_id": {
                     "description": "The arXiv ID of the paper to download (e.g. '2103.12345')",
                     "type": "string"
+                  },
+                  "start": {
+                    "description": "Zero-based character offset for returning large papers in chunks",
+                    "minimum": 0,
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -102,6 +112,31 @@
                 "type": "object"
               },
               "name": "download_paper"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Export BibTeX citations for one or more arXiv papers using authoritative arXiv metadata (title, authors, year, primary category), never model-generated fields. Version suffixes (e.g. '2401.12345v2') are preserved and citation keys are deterministic. Returns the rendered BibTeX plus per-paper status/error. BibTeX only; RIS/CSL-JSON are not yet supported.",
+              "inputSchema": {
+                "properties": {
+                  "paper_ids": {
+                    "description": "arXiv IDs, new-style ('2401.12345', optionally versioned '2401.12345v2') or legacy ('hep-ph/9901234').",
+                    "items": {
+                      "type": "string"
+                    },
+                    "maxItems": 50,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "paper_ids"
+                ],
+                "type": "object"
+              },
+              "name": "export_citations"
             },
             {
               "annotations": {
@@ -125,6 +160,108 @@
             },
             {
               "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Download, safely process, cache, and return bounded original LaTeX source. Use section tools for targeted reading.",
+              "inputSchema": {
+                "properties": {
+                  "max_chars": {
+                    "description": "Maximum source characters to return (default 12000)",
+                    "maximum": 50000,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "paper_id": {
+                    "description": "Validated modern or legacy arXiv paper ID",
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "start": {
+                    "description": "Zero-based character offset within this source or section",
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "paper_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_paper_latex"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Return one bounded LaTeX section by outline ID or exact title.",
+              "inputSchema": {
+                "properties": {
+                  "max_chars": {
+                    "description": "Maximum source characters to return (default 12000)",
+                    "maximum": 50000,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "paper_id": {
+                    "description": "Validated modern or legacy arXiv paper ID",
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "section_id": {
+                    "description": "Section ID from list_paper_latex_sections or exact title",
+                    "maxLength": 200,
+                    "type": "string"
+                  },
+                  "start": {
+                    "description": "Zero-based character offset within this source or section",
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "paper_id",
+                  "section_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_paper_latex_section"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Return a compact outline of headings from original LaTeX source.",
+              "inputSchema": {
+                "properties": {
+                  "max_sections": {
+                    "description": "Maximum headings to return (default 100)",
+                    "maximum": 200,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "paper_id": {
+                    "description": "Validated modern or legacy arXiv paper ID",
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "start": {
+                    "description": "Zero-based section index (default 0)",
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "paper_id"
+                ],
+                "type": "object"
+              },
+              "name": "list_paper_latex_sections"
+            },
+            {
+              "annotations": {
                 "readOnlyHint": true
               },
               "description": "List all papers that have been downloaded and stored locally via download_paper. Returns arXiv IDs only — use read_paper to access content. Returns an empty list if no papers have been downloaded yet. Workflow: search_papers -\u003e download_paper -\u003e list_papers -\u003e read_paper.",
@@ -139,12 +276,22 @@
               "annotations": {
                 "readOnlyHint": true
               },
-              "description": "Read the full text content of a paper that was previously downloaded via download_paper. Returns the paper in markdown format. Will fail with a clear error if the paper has not been downloaded yet — call download_paper first. Workflow: search_papers -\u003e download_paper -\u003e read_paper.",
+              "description": "Read the text content of a paper that was previously downloaded via download_paper. Returns the paper in markdown format and supports start/max_chars pagination for large papers. Will fail with a clear error if the paper has not been downloaded yet — call download_paper first. Workflow: search_papers -\u003e download_paper -\u003e read_paper.",
               "inputSchema": {
                 "properties": {
+                  "max_chars": {
+                    "description": "Maximum raw paper characters to return from start; omit for full content",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
                   "paper_id": {
                     "description": "The arXiv ID of the paper to read",
                     "type": "string"
+                  },
+                  "start": {
+                    "description": "Zero-based character offset for reading large papers in chunks",
+                    "minimum": 0,
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -286,7 +433,11 @@
             "check_alerts",
             "citation_graph",
             "download_paper",
+            "export_citations",
             "get_abstract",
+            "get_paper_latex",
+            "get_paper_latex_section",
+            "list_paper_latex_sections",
             "list_papers",
             "read_paper",
             "reindex",
