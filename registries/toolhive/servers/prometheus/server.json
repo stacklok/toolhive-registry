@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/pab1it0/prometheus-mcp-server:1.6.2": {
           "metadata": {
-            "last_updated": "2026-05-09T05:50:33Z",
+            "last_updated": "2026-08-07T00:29:00Z",
             "stars": 429
           },
           "overview": "## Prometheus MCP Server\n\nThe Prometheus MCP server provides AI assistants with direct access to Prometheus metrics and monitoring data. It enables real-time querying of time-series metrics using PromQL, range queries for trend analysis, alert and rule inspection, and target health monitoring. The server exposes tools for metric discovery, label exploration, and exemplar queries, making it straightforward to integrate Prometheus observability data into AI-driven analysis and incident response workflows.",
@@ -155,9 +155,40 @@
                 "readOnlyHint": true,
                 "title": "Get Scrape Targets"
               },
-              "description": "Get information about all scrape targets",
+              "description": "Get scrape targets, with state/pool filtering and optional pagination",
               "inputSchema": {
-                "properties": {},
+                "properties": {
+                  "limit": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "offset": {
+                    "default": 0,
+                    "type": "integer"
+                  },
+                  "scrape_pool": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "state": {
+                    "default": "active",
+                    "type": "string"
+                  }
+                },
                 "required": [],
                 "type": "object"
               },
