@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "docker.io/hashicorp/terraform-mcp-server:1.2.0": {
           "metadata": {
-            "last_updated": "2026-07-16T19:48:29Z",
+            "last_updated": "2026-08-07T00:29:47Z",
             "stars": 1267
           },
           "overview": "## Terraform MCP Server\n\nThe terraform MCP server provides Terraform registry and Cloud/Enterprise integration for providers, modules, policies, and workspaces. The server provides MCP-based access to Terraform resources through the Terraform Registry API for searching providers and modules, HCP Terraform/TFE API for workspace and policy operations, and environment variable-based authentication. It supports both public registry and private enterprise instances and includes tools for managing workspaces, variables, policies, and accessing Terraform documentation and registry resources.",
@@ -159,7 +159,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   },
                   "workspace_name": {
@@ -298,7 +298,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   },
                   "terraform_version": {
@@ -349,7 +349,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "Organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   },
                   "workspace_name": {
@@ -732,7 +732,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   }
                 },
@@ -778,7 +778,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   }
                 },
@@ -852,6 +852,29 @@
                 "idempotentHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
+                "title": "Get all comments for a given Terraform run."
+              },
+              "description": "Lists all user-submitted comments on a specific Terraform run. Use this tool when you need to review feedback, approvals, or notes that collaborators have left on a run. Returns each comment's ID and body text. To get the run's status, plan, and apply details instead, use get_run_details.",
+              "inputSchema": {
+                "properties": {
+                  "run_id": {
+                    "description": "The ID of the Terraform run to retrieve comments for (format: run-\u003calphanumeric\u003e, e.g. run-Nj2MTonBKmtmceGE.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "run_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_run_comments"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
                 "title": "Get detailed information about a Terraform run"
               },
               "description": "Fetches detailed information about a specific Terraform run.",
@@ -908,7 +931,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   }
                 },
@@ -926,13 +949,38 @@
                 "idempotentHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
+                "title": "Gets StateVersion with state_version_id"
+              },
+              "description": "Retrieves a Terraform state version. If state_version_id is provided, retrieves that specific state version. Otherwise, retrieves the latest state version for the specified workspace. One of state_version_id or workspace_id must be provided",
+              "inputSchema": {
+                "properties": {
+                  "state_version_id": {
+                    "description": "Optional StateVersion id to fetch exact version",
+                    "type": "string"
+                  },
+                  "workspace_id": {
+                    "description": "Optional Workspace id to fetch latest version",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_state_version"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
                 "title": "Get permissions for current token"
               },
               "description": "Fetches the permissions the current token has for the specified terraform organization.",
               "inputSchema": {
                 "properties": {
                   "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   }
                 },
@@ -955,7 +1003,7 @@
               "inputSchema": {
                 "properties": {
                   "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   },
                   "workspace_name": {
@@ -1030,7 +1078,7 @@
                     "type": "array"
                   },
                   "terraform_org_name": {
-                    "description": "Lists the runs in Terraform Cloud/Enterprise organization based on filters if no workspace is specified",
+                    "description": "The name of the Terraform Cloud/Enterprise organization in which to list runs based on the provided filters when no workspace is specified",
                     "type": "string"
                   },
                   "vcs_username": {
@@ -1080,7 +1128,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "The Terraform organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   }
                 },
@@ -1090,6 +1138,45 @@
                 "type": "object"
               },
               "name": "list_stacks"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "List all States Versions"
+              },
+              "description": "List all the State Versions for a given workspace and org name.",
+              "inputSchema": {
+                "properties": {
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "pageSize": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "terraform_org_name": {
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
+                    "type": "string"
+                  },
+                  "workspace_name": {
+                    "description": "The workspace name to list state versions for",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "terraform_org_name",
+                  "workspace_name"
+                ],
+                "type": "object"
+              },
+              "name": "list_state_versions"
             },
             {
               "annotations": {
@@ -1142,7 +1229,7 @@
                     "type": "number"
                   },
                   "terraform_org_name": {
-                    "description": "The name of the Terraform organization to list projects for.",
+                    "description": "The name of the Terraform Cloud/Enterprise organization to list projects for",
                     "type": "string"
                   }
                 },
@@ -1179,7 +1266,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "Organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   }
                 },
@@ -1201,7 +1288,7 @@
               "inputSchema": {
                 "properties": {
                   "terraform_org_name": {
-                    "description": "Organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   },
                   "workspace_id": {
@@ -1239,7 +1326,7 @@
                     "type": "number"
                   },
                   "terraform_org_name": {
-                    "description": "Organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   },
                   "workspace_name": {
@@ -1294,7 +1381,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "The Terraform organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   },
                   "wildcard_name": {
@@ -1415,7 +1502,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name to search within",
+                    "description": "The name of the Terraform Cloud/Enterprise organization to search for private modules in",
                     "type": "string"
                   }
                 },
@@ -1462,7 +1549,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name to search within",
+                    "description": "The name of the Terraform Cloud/Enterprise organization to search for private providers in",
                     "type": "string"
                   }
                 },
@@ -1568,7 +1655,7 @@
                     "type": "string"
                   },
                   "terraform_org_name": {
-                    "description": "The Terraform Cloud/Enterprise organization name",
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
                     "type": "string"
                   },
                   "terraform_version": {
@@ -1678,13 +1765,16 @@
             "get_private_provider_details",
             "get_provider_capabilities",
             "get_provider_details",
+            "get_run_comments",
             "get_run_details",
             "get_sentinel_mock",
             "get_stack_details",
+            "get_state_version",
             "get_token_permissions",
             "get_workspace_details",
             "list_runs",
             "list_stacks",
+            "list_state_versions",
             "list_terraform_orgs",
             "list_terraform_projects",
             "list_variable_sets",
