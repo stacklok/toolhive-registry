@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "next-cache-components-adoption",
+  "title": "Next Cache Components Adoption",
+  "description": "Turn on Cache Components in a Next.js app and resolve the blocking routes it surfaces. Use when the user wants to enable, adopt, or migrate to Cache Components, flip the `cacheComponents` flag, work through a flood of blocking-prerender / instant validation errors, run the `cache-components-instant-false` codemod, or decide between opting routes out with `export const instant = false` and fixing them in place.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/vercel/next.js",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/next-cache-components-adoption:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/vercel/next.js",
+      "ref": "ede8799c40a63a8c2a6cdbd9c52cf89218534e4c",
+      "subfolder": "skills/next-cache-components-adoption"
+    }
+  ]
+}

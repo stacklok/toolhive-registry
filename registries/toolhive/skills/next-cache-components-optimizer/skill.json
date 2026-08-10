@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "next-cache-components-optimizer",
+  "title": "Next Cache Components Optimizer",
+  "description": "Drive a Next.js route to instant navigation by setting up an agentic loop, under Cache Components / PPR, on initial load (hard navigation) and client-side navigation (soft navigation). Encode the goal as a failing @next/playwright instant() e2e and work it to green, one verified route at a time; the shipped test then guards against regression. Use when asked to make a route's navigation instant (its static shell commits immediately), fix a route whose static shell isn't prerendered/served/prefetched, grow a route's static shell or fix its slow first paint, diagnose which Suspense boundary keeps a route out of its static shell, or write the instant() e2e guard for one. Requires Next.js 16.3+ with cacheComponents; directs an upgrade if older.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/vercel/next.js",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/next-cache-components-optimizer:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/vercel/next.js",
+      "ref": "ede8799c40a63a8c2a6cdbd9c52cf89218534e4c",
+      "subfolder": "skills/next-cache-components-optimizer"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "to-questionnaire",
+  "title": "To Questionnaire",
+  "description": "Turn a decision you can't fully answer into a questionnaire for someone else to fill in.",
+  "version": "0.2.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/mattpocock/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/to-questionnaire:0.2.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mattpocock/skills",
+      "ref": "bb8fdc3fd12ce9729bb61f0885f51a420c3275ac",
+      "subfolder": "skills/productivity/to-questionnaire"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "next-partial-prefetching-adoption",
+  "title": "Next Partial Prefetching Adoption",
+  "description": "Turn on Partial Prefetching in a Next.js app and work through the insights it surfaces. Use when the user wants to enable or adopt Partial Prefetching, flip the `partialPrefetching` flag, opt routes in with `export const prefetch = 'partial'`, audit `<Link prefetch={true}>` calls, or resolve the link-prefetch-partial and instant-shell-url-data insights.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/vercel/next.js",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/next-partial-prefetching-adoption:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/vercel/next.js",
+      "ref": "ede8799c40a63a8c2a6cdbd9c52cf89218534e4c",
+      "subfolder": "skills/next-partial-prefetching-adoption"
+    }
+  ]
+}

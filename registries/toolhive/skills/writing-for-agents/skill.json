@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "writing-for-agents",
+  "title": "Writing For Agents",
+  "description": "Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md or CLAUDE.md.",
+  "version": "0.2.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/mattpocock/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/writing-for-agents:0.2.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mattpocock/skills",
+      "ref": "bb8fdc3fd12ce9729bb61f0885f51a420c3275ac",
+      "subfolder": "skills/productivity/writing-for-agents"
+    }
+  ]
+}
