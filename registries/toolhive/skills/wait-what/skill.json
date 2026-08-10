@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "wait-what",
+  "title": "Wait What",
+  "description": "Stop. That last message did not land — re-pitch it.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/mattpocock/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/wait-what:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mattpocock/skills",
+      "ref": "bb8fdc3fd12ce9729bb61f0885f51a420c3275ac",
+      "subfolder": "skills/productivity/wait-what"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "wizard",
+  "title": "Wizard",
+  "description": "Generate an interactive bash wizard that walks a human through a manual procedure — third-party setup, a one-off migration, an A→B state transition — opening URLs, capturing values, confirming each step, and writing .env files and GitHub Actions secrets.",
+  "version": "0.2.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/mattpocock/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/wizard:0.2.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/mattpocock/skills",
+      "ref": "bb8fdc3fd12ce9729bb61f0885f51a420c3275ac",
+      "subfolder": "skills/engineering/wizard"
+    }
+  ]
+}

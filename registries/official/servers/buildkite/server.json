@@ -3,12 +3,12 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/buildkite/buildkite-mcp-server:1.10.0": {
+        "ghcr.io/buildkite/buildkite-mcp-server:1.17.0": {
           "args": [
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-07-17T15:08:42Z",
+            "last_updated": "2026-08-07T13:35:21Z",
             "stars": 50
           },
           "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -39,6 +39,7 @@
           "tool_definitions": [
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Access Token"
               },
@@ -53,6 +54,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Cancel Build"
               },
               "description": "Cancel a running build on a Buildkite pipeline",
@@ -80,6 +83,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Create Annotation"
               },
               "description": "Create an annotation on a build or specific job. Use scope='build' (default) or scope='job' with job_id",
@@ -136,6 +141,8 @@
             {
               "annotations": {
                 "destructiveHint": false,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Create Build"
               },
               "description": "Trigger a new build on a Buildkite pipeline for a specific commit and branch, with optional environment variables, metadata, and author information",
@@ -222,6 +229,8 @@
             {
               "annotations": {
                 "destructiveHint": false,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Create Cluster"
               },
               "description": "Create a new cluster in an organization",
@@ -257,6 +266,8 @@
             {
               "annotations": {
                 "destructiveHint": false,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Create Cluster Queue"
               },
               "description": "Create a new queue in a cluster",
@@ -288,6 +299,8 @@
             {
               "annotations": {
                 "destructiveHint": false,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Create Pipeline"
               },
               "description": "Set up a new CI/CD pipeline in Buildkite with YAML configuration, repository connection, and cluster assignment",
@@ -355,6 +368,8 @@
             {
               "annotations": {
                 "destructiveHint": false,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Create Pipeline Schedule"
               },
               "description": "Create a new pipeline schedule that triggers builds on a cron-driven interval",
@@ -369,7 +384,7 @@
                     "type": "string"
                   },
                   "cronline": {
-                    "description": "Schedule interval as a crontab expression (e.g. '0 0 * * *') or predefined value (e.g. '@daily'\\, '@hourly'\\, '@weekly'\\, '@monthly'\\, '@yearly')",
+                    "description": "Schedule interval as a crontab expression (e.g. '0 0 * * *') or predefined value (e.g. '@daily', '@hourly', '@weekly', '@monthly', '@yearly')",
                     "type": "string"
                   },
                   "enabled": {
@@ -412,6 +427,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Current User"
               },
@@ -425,6 +441,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Agent"
               },
@@ -435,7 +452,7 @@
                     "type": "string"
                   },
                   "detail_level": {
-                    "description": "Response detail level: 'summary'\\, 'detailed'\\, or 'full' (default)",
+                    "description": "Response detail level: 'summary', 'detailed', or 'full' (default)",
                     "type": "string"
                   },
                   "org_slug": {
@@ -452,6 +469,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Artifact"
               },
@@ -489,10 +507,11 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Build"
               },
-              "description": "Get a single build. Jobs are not included — use list_jobs or get_job for job detail",
+              "description": "Get a single build with lightweight annotation summaries. Annotation bodies and jobs are not included — use list_annotations to read annotations, and list_jobs or get_job for job detail",
               "inputSchema": {
                 "properties": {
                   "build_number": {
@@ -516,6 +535,84 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": true,
+                "title": "Get Build Failure Summary"
+              },
+              "description": "Diagnose a Buildkite build failure in one call. Returns build state, terminal problem jobs, downstream failed or broken jobs, promised failures from running jobs, and size-bounded diagnostic content from logs, annotations, and failed Test Engine executions. Start with this tool before calling individual job, log, annotation, or test tools.",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "include_annotations": {
+                    "description": "Include error and warning annotation bodies (default true)",
+                    "type": [
+                      "null",
+                      "boolean"
+                    ]
+                  },
+                  "include_failed_tests": {
+                    "description": "Include failed Test Engine executions when the build has Test Engine runs (default true)",
+                    "type": [
+                      "null",
+                      "boolean"
+                    ]
+                  },
+                  "include_failure_expanded": {
+                    "description": "Include expanded test failure details such as stack traces within the summary's bounded test-content budget",
+                    "type": "boolean"
+                  },
+                  "include_logs": {
+                    "description": "Include a bounded log tail for failed, timed-out, canceled, and promised-failing jobs (default true)",
+                    "type": [
+                      "null",
+                      "boolean"
+                    ]
+                  },
+                  "log_tail": {
+                    "description": "Log lines to include for each failed, timed-out, canceled, or promised-failing job (default 50, max 200)",
+                    "type": "integer"
+                  },
+                  "max_annotations": {
+                    "description": "Maximum error or warning annotations to return (default 20, max 100); the server scans at most 500 total annotations",
+                    "type": "integer"
+                  },
+                  "max_failed_tests": {
+                    "description": "Maximum failed test executions to return across all Test Engine runs (default 100, max 200)",
+                    "type": "integer"
+                  },
+                  "max_failed_tests_per_run": {
+                    "description": "Maximum failed test executions to return per Test Engine run (default 20, max 100)",
+                    "type": "integer"
+                  },
+                  "max_jobs": {
+                    "description": "Maximum terminal problem or downstream-failed jobs to return (default 10, server may enforce a lower maximum, absolute max 50)",
+                    "type": "integer"
+                  },
+                  "max_test_runs": {
+                    "description": "Maximum Test Engine runs to inspect (default 5, max 20)",
+                    "type": "integer"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number"
+                ],
+                "type": "object"
+              },
+              "name": "get_build_failure_summary"
+            },
+            {
+              "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Build Test Engine Runs"
               },
@@ -543,6 +640,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Cluster"
               },
@@ -566,6 +664,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Cluster Queue"
               },
@@ -593,6 +692,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Failed Test Executions"
               },
@@ -611,7 +711,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "run_id": {
@@ -632,6 +732,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Job"
               },
@@ -643,7 +744,7 @@
                     "type": "string"
                   },
                   "include_agent": {
-                    "description": "Include full agent details in job objects. When false (default)\\, only agent.id is included",
+                    "description": "Include full agent details in job objects. When false (default), only agent.id is included",
                     "type": "boolean"
                   },
                   "job_id": {
@@ -667,6 +768,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Job Environment Variables"
               },
@@ -698,6 +800,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Pipeline"
               },
@@ -705,7 +808,7 @@
               "inputSchema": {
                 "properties": {
                   "detail_level": {
-                    "description": "Response detail level: 'summary'\\, 'detailed'\\, or 'full' (default)",
+                    "description": "Response detail level: 'summary', 'detailed', or 'full' (default)",
                     "type": "string"
                   },
                   "org_slug": {
@@ -725,6 +828,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Pipeline Schedule"
               },
@@ -752,6 +856,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Test"
               },
@@ -779,6 +884,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Test Run"
               },
@@ -806,6 +912,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List Agents"
               },
@@ -813,7 +920,7 @@
               "inputSchema": {
                 "properties": {
                   "detail_level": {
-                    "description": "Response detail level: 'summary' (default)\\, 'detailed'\\, or 'full'",
+                    "description": "Response detail level: 'summary' (default), 'detailed', or 'full'",
                     "type": "string"
                   },
                   "hostname": {
@@ -830,7 +937,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "version": {
@@ -846,6 +953,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List Annotations"
               },
@@ -867,7 +975,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
@@ -889,6 +997,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Build Artifact List"
               },
@@ -906,7 +1015,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
@@ -924,6 +1033,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Job Artifact List"
               },
@@ -944,7 +1054,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
@@ -963,6 +1073,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List Builds"
               },
@@ -989,15 +1100,15 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
-                    "description": "Filter builds by pipeline. When omitted\\, lists builds across all pipelines in the organization",
+                    "description": "Filter builds by pipeline. When omitted, lists builds across all pipelines in the organization",
                     "type": "string"
                   },
                   "state": {
-                    "description": "Filter builds by state (scheduled\\, running\\, passed\\, failed\\, canceled\\, skipped)",
+                    "description": "Filter builds by state (scheduled, running, passed, failed, canceled, skipped)",
                     "type": "string"
                   }
                 },
@@ -1010,6 +1121,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List Cluster Queues"
               },
@@ -1027,7 +1139,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   }
                 },
@@ -1041,6 +1153,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List Clusters"
               },
@@ -1055,7 +1168,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   }
                 },
@@ -1068,10 +1181,11 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List Jobs"
               },
-              "description": "List jobs for a Buildkite build, with optional state filtering and cursor-based pagination. Returns an object with 'items' (the jobs) and 'links' containing 'next'/'self' URLs; pass the cursor from 'links.next' back as 'after' to fetch the next page",
+              "description": "List jobs for a Buildkite build, returning an actionable summary by default. For CI failure diagnosis, use state='failed,broken' to avoid returning successful jobs. Use detail_level='detailed' for execution metadata or 'full' for the existing full MCP job response. Returns 'items' and cursor pagination 'links'",
               "inputSchema": {
                 "properties": {
                   "after": {
@@ -1085,8 +1199,16 @@
                   "build_number": {
                     "type": "string"
                   },
+                  "detail_level": {
+                    "description": "Response detail level: 'summary' (default), 'detailed', or 'full'",
+                    "type": "string"
+                  },
+                  "group_key": {
+                    "description": "Filter jobs by group key. Includes all jobs in the group",
+                    "type": "string"
+                  },
                   "include_agent": {
-                    "description": "Include full agent details in job objects. When false (default)\\, only agent.id is included",
+                    "description": "Include full agent details at the detailed and full levels. When false (default), detailed and full responses include only agent.id",
                     "type": "boolean"
                   },
                   "include_retried_jobs": {
@@ -1100,14 +1222,18 @@
                     "type": "string"
                   },
                   "per_page": {
-                    "description": "Results per page for cursor pagination (min 1\\, max 100\\, default 30)",
+                    "description": "Results per page for cursor pagination (min 1, max 100, default 30)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
                     "type": "string"
                   },
                   "state": {
-                    "description": "Filter jobs by state. Comma-separated for multiple states (e.g.\\, 'passed\\,failed\\,running')",
+                    "description": "Filter jobs by state. Comma-separated for multiple states (e.g., 'passed,failed,running')",
+                    "type": "string"
+                  },
+                  "step_key": {
+                    "description": "Filter jobs by step key. Includes all parallel jobs for the step",
                     "type": "string"
                   }
                 },
@@ -1122,6 +1248,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List Pipeline Schedules"
               },
@@ -1136,7 +1263,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "pipeline_slug": {
@@ -1153,6 +1280,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List Pipelines"
               },
@@ -1160,7 +1288,7 @@
               "inputSchema": {
                 "properties": {
                   "detail_level": {
-                    "description": "Response detail level: 'summary' (default)\\, 'detailed'\\, or 'full'",
+                    "description": "Response detail level: 'summary' (default), 'detailed', or 'full'",
                     "type": "string"
                   },
                   "name": {
@@ -1175,7 +1303,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "repository": {
@@ -1192,6 +1320,26 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": true,
+                "title": "List Skill Guides"
+              },
+              "description": "List available skill guides that document usage patterns, pitfalls, and workflows for Buildkite MCP tools",
+              "inputSchema": {
+                "properties": {
+                  "query": {
+                    "description": "Optional case-insensitive filter over skill name and description",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_skills"
+            },
+            {
+              "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "List Test Runs"
               },
@@ -1206,7 +1354,7 @@
                     "type": "integer"
                   },
                   "per_page": {
-                    "description": "Results per page for pagination (min 1\\, max 100)",
+                    "description": "Results per page for pagination (min 1, max 100)",
                     "type": "integer"
                   },
                   "test_suite_slug": {
@@ -1223,7 +1371,30 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": true,
+                "title": "Load Skill Guide"
+              },
+              "description": "Load the full content of a skill guide by name",
+              "inputSchema": {
+                "properties": {
+                  "skill_name": {
+                    "description": "Name of the skill to load, as returned by list_skills",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "skill_name"
+                ],
+                "type": "object"
+              },
+              "name": "load_skill"
+            },
+            {
+              "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Pause Cluster Queue Dispatch"
               },
               "description": "Pause dispatch on a cluster queue, preventing new jobs from being dispatched to agents",
@@ -1254,6 +1425,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Read Logs"
               },
@@ -1298,6 +1470,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Rebuild Build"
               },
               "description": "Rebuild/retry an entire build on a Buildkite pipeline",
@@ -1325,6 +1499,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Resume Cluster Queue Dispatch"
               },
               "description": "Resume dispatch on a paused cluster queue, allowing jobs to be dispatched to agents again",
@@ -1352,6 +1528,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Retry Job"
               },
               "description": "Retry a specific failed or timed out job in a Buildkite build",
@@ -1382,6 +1560,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Search Logs"
               },
@@ -1447,6 +1626,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Tail Logs"
               },
@@ -1488,6 +1668,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Unblock Job"
               },
               "description": "Unblock a blocked job in a Buildkite build to allow it to continue execution",
@@ -1526,6 +1708,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Update Cluster"
               },
               "description": "Update an existing cluster's name, description, emoji, color, or default queue",
@@ -1584,6 +1768,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Update Cluster Queue"
               },
               "description": "Update an existing cluster queue's description or retry agent affinity",
@@ -1625,6 +1811,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Update Pipeline"
               },
               "description": "Modify an existing Buildkite pipeline's configuration, repository, settings, or metadata",
@@ -1711,6 +1899,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "idempotentHint": false,
+                "readOnlyHint": false,
                 "title": "Update Pipeline Schedule"
               },
               "description": "Modify an existing pipeline schedule's cron expression, branch, environment variables, or enabled state",
@@ -1782,6 +1972,7 @@
             },
             {
               "annotations": {
+                "idempotentHint": false,
                 "readOnlyHint": true,
                 "title": "Get Organization for User Token"
               },
@@ -1792,6 +1983,34 @@
                 "type": "object"
               },
               "name": "user_token_organization"
+            },
+            {
+              "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": true,
+                "title": "Wait for Build"
+              },
+              "description": "Wait for a build to reach a terminal state (passed, failed, canceled, skipped, not_run, or blocked on a block step), polling for up to 45 seconds. Returns finished=true along with the build once it settles. If the build is still in progress when the window closes it returns finished=false and the current state only, with no build detail — call this tool again to keep waiting. Judge a long build by build_elapsed_seconds, which counts from the build's own start time and does not reset between calls; waited_seconds covers only the latest call. Do not wait indefinitely: after roughly ten consecutive calls, stop and report the build as still running with its elapsed time rather than continuing to poll. Jobs and annotation bodies are never included — use list_jobs or get_job for job detail, and list_annotations to read annotations",
+              "inputSchema": {
+                "properties": {
+                  "build_number": {
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "pipeline_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "pipeline_slug",
+                  "build_number"
+                ],
+                "type": "object"
+              },
+              "name": "wait_for_build"
             }
           ],
           "tools": [
@@ -1807,6 +2026,7 @@
             "get_agent",
             "get_artifact",
             "get_build",
+            "get_build_failure_summary",
             "get_build_test_engine_runs",
             "get_cluster",
             "get_cluster_queue",
@@ -1827,7 +2047,9 @@
             "list_jobs",
             "list_pipeline_schedules",
             "list_pipelines",
+            "list_skills",
             "list_test_runs",
+            "load_skill",
             "pause_cluster_queue_dispatch",
             "read_logs",
             "rebuild_build",
@@ -1840,7 +2062,8 @@
             "update_cluster_queue",
             "update_pipeline",
             "update_pipeline_schedule",
-            "user_token_organization"
+            "user_token_organization",
+            "wait_for_build"
           ]
         }
       }
@@ -1865,9 +2088,37 @@
           "isRequired": true,
           "isSecret": true,
           "name": "BUILDKITE_API_TOKEN"
+        },
+        {
+          "default": "https://api.buildkite.com/",
+          "description": "Base URL of the Buildkite API to use. Override for Buildkite Enterprise or self-hosted deployments. Defaults to https://api.buildkite.com/",
+          "isRequired": false,
+          "isSecret": false,
+          "name": "BUILDKITE_BASE_URL"
+        },
+        {
+          "default": "all",
+          "description": "Comma-separated list of toolsets to enable (e.g. 'pipelines,builds,clusters'). Defaults to 'all'",
+          "isRequired": false,
+          "isSecret": false,
+          "name": "BUILDKITE_TOOLSETS"
+        },
+        {
+          "default": "false",
+          "description": "Enable read-only mode, filtering out write operations from all toolsets. Defaults to false",
+          "isRequired": false,
+          "isSecret": false,
+          "name": "BUILDKITE_READ_ONLY"
+        },
+        {
+          "default": "10",
+          "description": "Maximum number of problem jobs diagnosed by a single failure summary request (hard max 50). Defaults to 10",
+          "isRequired": false,
+          "isSecret": false,
+          "name": "BUILDKITE_FAILURE_SUMMARY_MAX_JOBS"
         }
       ],
-      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.10.0",
+      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.17.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
