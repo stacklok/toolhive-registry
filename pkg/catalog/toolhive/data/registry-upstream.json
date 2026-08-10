@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-08-03T06:06:20Z"
+    "last_updated": "2026-08-10T05:33:38Z"
   },
   "data": {
     "servers": [
@@ -488,7 +488,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.5.0",
+            "identifier": "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.6.2",
             "transport": {
               "type": "stdio"
             },
@@ -504,13 +504,13 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.5.0": {
+              "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.6.2": {
                 "args": [
                   "--storage-path",
                   "/arxiv-papers"
                 ],
                 "metadata": {
-                  "last_updated": "2026-07-08T07:51:20Z",
+                  "last_updated": "2026-08-07T00:31:08Z",
                   "stars": 2509
                 },
                 "overview": "## arXiv MCP Server\n\nThe arxiv-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically access the arXiv research repository — one of the largest open archives of scientific papers — via a simple MCP interface. It lets AI workflows search for academic papers, download and read their content, and manage collected research, all without switching tools or manually scraping content.",
@@ -589,12 +589,22 @@
                       "openWorldHint": true,
                       "readOnlyHint": false
                     },
-                    "description": "Download a paper from arXiv and return its full text content. Tries the HTML version first for clean extraction; falls back to PDF conversion if HTML is unavailable. Returns the paper content directly so you can read it immediately.",
+                    "description": "Download a paper from arXiv and return its text content. Tries the HTML version first for clean extraction; falls back to PDF conversion if HTML is unavailable. Stores the paper locally and supports start/max_chars pagination for very large papers.",
                     "inputSchema": {
                       "properties": {
+                        "max_chars": {
+                          "description": "Maximum raw paper characters to return from start; omit for full content",
+                          "minimum": 1,
+                          "type": "integer"
+                        },
                         "paper_id": {
                           "description": "The arXiv ID of the paper to download (e.g. '2103.12345')",
                           "type": "string"
+                        },
+                        "start": {
+                          "description": "Zero-based character offset for returning large papers in chunks",
+                          "minimum": 0,
+                          "type": "integer"
                         }
                       },
                       "required": [
@@ -603,6 +613,31 @@
                       "type": "object"
                     },
                     "name": "download_paper"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true
+                    },
+                    "description": "Export BibTeX citations for one or more arXiv papers using authoritative arXiv metadata (title, authors, year, primary category), never model-generated fields. Version suffixes (e.g. '2401.12345v2') are preserved and citation keys are deterministic. Returns the rendered BibTeX plus per-paper status/error. BibTeX only; RIS/CSL-JSON are not yet supported.",
+                    "inputSchema": {
+                      "properties": {
+                        "paper_ids": {
+                          "description": "arXiv IDs, new-style ('2401.12345', optionally versioned '2401.12345v2') or legacy ('hep-ph/9901234').",
+                          "items": {
+                            "type": "string"
+                          },
+                          "maxItems": 50,
+                          "minItems": 1,
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "paper_ids"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "export_citations"
                   },
                   {
                     "annotations": {
@@ -626,6 +661,108 @@
                   },
                   {
                     "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": false
+                    },
+                    "description": "Download, safely process, cache, and return bounded original LaTeX source. Use section tools for targeted reading.",
+                    "inputSchema": {
+                      "properties": {
+                        "max_chars": {
+                          "description": "Maximum source characters to return (default 12000)",
+                          "maximum": 50000,
+                          "minimum": 1,
+                          "type": "integer"
+                        },
+                        "paper_id": {
+                          "description": "Validated modern or legacy arXiv paper ID",
+                          "maxLength": 40,
+                          "type": "string"
+                        },
+                        "start": {
+                          "description": "Zero-based character offset within this source or section",
+                          "minimum": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "paper_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_paper_latex"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": false
+                    },
+                    "description": "Return one bounded LaTeX section by outline ID or exact title.",
+                    "inputSchema": {
+                      "properties": {
+                        "max_chars": {
+                          "description": "Maximum source characters to return (default 12000)",
+                          "maximum": 50000,
+                          "minimum": 1,
+                          "type": "integer"
+                        },
+                        "paper_id": {
+                          "description": "Validated modern or legacy arXiv paper ID",
+                          "maxLength": 40,
+                          "type": "string"
+                        },
+                        "section_id": {
+                          "description": "Section ID from list_paper_latex_sections or exact title",
+                          "maxLength": 200,
+                          "type": "string"
+                        },
+                        "start": {
+                          "description": "Zero-based character offset within this source or section",
+                          "minimum": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "paper_id",
+                        "section_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_paper_latex_section"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": false
+                    },
+                    "description": "Return a compact outline of headings from original LaTeX source.",
+                    "inputSchema": {
+                      "properties": {
+                        "max_sections": {
+                          "description": "Maximum headings to return (default 100)",
+                          "maximum": 200,
+                          "minimum": 1,
+                          "type": "integer"
+                        },
+                        "paper_id": {
+                          "description": "Validated modern or legacy arXiv paper ID",
+                          "maxLength": 40,
+                          "type": "string"
+                        },
+                        "start": {
+                          "description": "Zero-based section index (default 0)",
+                          "minimum": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "paper_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "list_paper_latex_sections"
+                  },
+                  {
+                    "annotations": {
                       "readOnlyHint": true
                     },
                     "description": "List all papers that have been downloaded and stored locally via download_paper. Returns arXiv IDs only — use read_paper to access content. Returns an empty list if no papers have been downloaded yet. Workflow: search_papers -\u003e download_paper -\u003e list_papers -\u003e read_paper.",
@@ -640,12 +777,22 @@
                     "annotations": {
                       "readOnlyHint": true
                     },
-                    "description": "Read the full text content of a paper that was previously downloaded via download_paper. Returns the paper in markdown format. Will fail with a clear error if the paper has not been downloaded yet — call download_paper first. Workflow: search_papers -\u003e download_paper -\u003e read_paper.",
+                    "description": "Read the text content of a paper that was previously downloaded via download_paper. Returns the paper in markdown format and supports start/max_chars pagination for large papers. Will fail with a clear error if the paper has not been downloaded yet — call download_paper first. Workflow: search_papers -\u003e download_paper -\u003e read_paper.",
                     "inputSchema": {
                       "properties": {
+                        "max_chars": {
+                          "description": "Maximum raw paper characters to return from start; omit for full content",
+                          "minimum": 1,
+                          "type": "integer"
+                        },
                         "paper_id": {
                           "description": "The arXiv ID of the paper to read",
                           "type": "string"
+                        },
+                        "start": {
+                          "description": "Zero-based character offset for reading large papers in chunks",
+                          "minimum": 0,
+                          "type": "integer"
                         }
                       },
                       "required": [
@@ -787,7 +934,11 @@
                   "check_alerts",
                   "citation_graph",
                   "download_paper",
+                  "export_citations",
                   "get_abstract",
+                  "get_paper_latex",
+                  "get_paper_latex_section",
+                  "list_paper_latex_sections",
                   "list_papers",
                   "read_paper",
                   "reindex",
@@ -1785,7 +1936,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.0.31",
+            "identifier": "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.0.33",
             "transport": {
               "type": "stdio"
             },
@@ -1821,9 +1972,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.0.31": {
+              "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.0.33": {
                 "metadata": {
-                  "last_updated": "2026-07-31T19:50:53Z",
+                  "last_updated": "2026-08-07T00:30:10Z",
                   "stars": 8594
                 },
                 "overview": "## AWS Pricing MCP Server\n\nThe aws-pricing MCP server is a Model Context Protocol (MCP) server that gives AI assistants programmatic access to AWS pricing data through a structured interface. It allows AI-driven workflows to retrieve up-to-date pricing information for AWS services, instances, and usage dimensions, enabling cost estimation, comparison, and optimization tasks without manual navigation of pricing pages or spreadsheets. This server is particularly useful for cost modeling, architectural tradeoff analysis, and budget-aware automation inside AI assistants.",
@@ -9689,8 +9840,8 @@
                   "0.0.0.0"
                 ],
                 "metadata": {
-                  "last_updated": "2026-04-18T03:03:09Z",
-                  "stars": 14662
+                  "last_updated": "2026-08-07T03:07:37Z",
+                  "stars": 16127
                 },
                 "overview": "## Database Toolbox MCP Server\n\nThe database-toolbox-mcp-server is a Model Context Protocol (MCP) server that provides AI assistants with a unified, database-agnostic interface for interacting with multiple relational databases. It exposes common database operations as standardized MCP tools, allowing AI-driven workflows to query data, inspect schemas, and manage connections across different database engines without bespoke integrations for each one. This server is especially useful for data analysis, reporting, debugging, and operational workflows that span multiple databases.",
                 "permissions": {
@@ -9817,7 +9968,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/dolthub/dolt-mcp:0.3.6",
+            "identifier": "docker.io/dolthub/dolt-mcp:0.3.7",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8080"
@@ -9863,9 +10014,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/dolthub/dolt-mcp:0.3.6": {
+              "docker.io/dolthub/dolt-mcp:0.3.7": {
                 "metadata": {
-                  "last_updated": "2026-06-26T21:53:06Z",
+                  "last_updated": "2026-08-07T00:28:01Z",
                   "stars": 8
                 },
                 "overview": "## Dolt MCP Server\n\nThe dolt-mcp-server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Dolt, a SQL database with built-in Git-style version control. It facilitates AI-driven workflows including querying data, inspecting schema changes, creating and managing branches, reviewing diffs, and analyzing historical data — all within a unified interface. It's particularly valuable for data analysis, auditing, experimentation, and collaborative workflows requiring tracking and understanding of data changes over time.",
@@ -10414,11 +10565,11 @@
                       "openWorldHint": false,
                       "readOnlyHint": false
                     },
-                    "description": "Hard resets the working set to the specified revision.",
+                    "description": "Hard resets the branch HEAD, staging area, and working set to the specified revision, discarding uncommitted changes.",
                     "inputSchema": {
                       "properties": {
                         "revision": {
-                          "description": "The revision to reset to (working set, table name, branch, commit sha, or '.' for all tables).",
+                          "description": "The revision to reset to (a branch name, commit sha, or ancestor spec such as 'HEAD~1'). Table names are not valid revisions.",
                           "type": "string"
                         },
                         "working_branch": {
@@ -10446,11 +10597,11 @@
                       "openWorldHint": false,
                       "readOnlyHint": false
                     },
-                    "description": "Soft resets the working set to the specified revision.",
+                    "description": "Moves the branch HEAD to the specified revision, leaving the staging area and working set unchanged. To unstage tables instead, use the unstage_table or unstage_all_tables tools.",
                     "inputSchema": {
                       "properties": {
                         "revision": {
-                          "description": "The revision to reset to (working set, table name, branch, commit sha, or '.' for all tables).",
+                          "description": "The revision to move the branch HEAD to (a branch name, commit sha, or ancestor spec such as 'HEAD~1'). Table names are not valid revisions.",
                           "type": "string"
                         },
                         "working_branch": {
@@ -11943,8 +12094,8 @@
             "io.github.stacklok": {
               "ghcr.io/stackloklabs/gofetch/server:1.0.5": {
                 "metadata": {
-                  "last_updated": "2026-04-20T03:04:28Z",
-                  "stars": 23
+                  "last_updated": "2026-08-07T03:07:39Z",
+                  "stars": 25
                 },
                 "overview": "## Fetch MCP Server\n\nThe fetch-mcp-server is a lightweight Model Context Protocol (MCP) server that gives AI assistants direct access to external HTTP and HTTPS resources. It allows AI-driven workflows to retrieve web content, APIs, and remote resources on demand, making it easy to incorporate live data, documentation, or machine-readable endpoints into an assistant's reasoning loop. This server is commonly used as a foundational building block for research, data ingestion, and integration workflows where simple, reliable network access is required.",
                 "permissions": {
@@ -14871,7 +15022,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/github/github-mcp-server:v1.7.0",
+            "identifier": "ghcr.io/github/github-mcp-server:v1.8.0",
             "transport": {
               "type": "stdio"
             },
@@ -14900,9 +15051,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/github/github-mcp-server:v1.7.0": {
+              "ghcr.io/github/github-mcp-server:v1.8.0": {
                 "metadata": {
-                  "last_updated": "2026-07-24T02:54:06Z",
+                  "last_updated": "2026-08-07T00:30:17Z",
                   "stars": 28440
                 },
                 "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -15499,6 +15650,24 @@
                     "description": "Get the contents of a file or directory from a GitHub repository",
                     "inputSchema": {
                       "properties": {
+                        "fields": {
+                          "description": "Subset of fields to return for each entry when the path is a directory. If omitted, all fields are returned. Ignored when the path is a single file. Use this to reduce response size when listing directories and you only need specific fields, e.g. just 'name' and 'type'.",
+                          "items": {
+                            "enum": [
+                              "type",
+                              "name",
+                              "path",
+                              "size",
+                              "sha",
+                              "url",
+                              "git_url",
+                              "html_url",
+                              "download_url"
+                            ],
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
                         "owner": {
                           "description": "Repository owner (username or organization)",
                           "type": "string",
@@ -15953,6 +16122,20 @@
                           "description": "Author username or email address to filter commits by",
                           "type": "string"
                         },
+                        "fields": {
+                          "description": "Subset of fields to return for each commit. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields, e.g. just 'sha' and 'html_url'.",
+                          "items": {
+                            "enum": [
+                              "sha",
+                              "html_url",
+                              "commit",
+                              "author",
+                              "committer"
+                            ],
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
                         "owner": {
                           "description": "Repository owner",
                           "type": "string",
@@ -16095,6 +16278,25 @@
                           },
                           "type": "array"
                         },
+                        "fields": {
+                          "description": "Subset of fields to return for each issue. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'body' and 'field_values' in particular drops the largest per-result data.",
+                          "items": {
+                            "enum": [
+                              "number",
+                              "title",
+                              "body",
+                              "state",
+                              "user",
+                              "labels",
+                              "comments",
+                              "created_at",
+                              "updated_at",
+                              "field_values"
+                            ],
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
                         "labels": {
                           "description": "Filter by labels",
                           "items": {
@@ -16169,6 +16371,40 @@
                           ],
                           "type": "string"
                         },
+                        "fields": {
+                          "description": "Subset of fields to return for each pull request. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'body' in particular drops the largest per-result data.",
+                          "items": {
+                            "enum": [
+                              "number",
+                              "title",
+                              "body",
+                              "state",
+                              "draft",
+                              "merged",
+                              "mergeable_state",
+                              "html_url",
+                              "user",
+                              "labels",
+                              "assignees",
+                              "requested_reviewers",
+                              "merged_by",
+                              "head",
+                              "base",
+                              "additions",
+                              "deletions",
+                              "changed_files",
+                              "commits",
+                              "comments",
+                              "created_at",
+                              "updated_at",
+                              "closed_at",
+                              "merged_at",
+                              "milestone"
+                            ],
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
                         "head": {
                           "description": "Filter by head user/org and branch",
                           "type": "string"
@@ -16231,6 +16467,24 @@
                     "description": "List releases in a GitHub repository",
                     "inputSchema": {
                       "properties": {
+                        "fields": {
+                          "description": "Subset of fields to return for each release. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'body' in particular drops the largest per-release data.",
+                          "items": {
+                            "enum": [
+                              "id",
+                              "tag_name",
+                              "name",
+                              "body",
+                              "html_url",
+                              "published_at",
+                              "prerelease",
+                              "draft",
+                              "author"
+                            ],
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
                         "owner": {
                           "description": "Repository owner",
                           "type": "string",
@@ -16631,6 +16885,20 @@
                     "description": "Fast and precise code search across ALL GitHub repositories using GitHub's native search engine. Best for finding exact symbols, functions, classes, or specific code patterns.",
                     "inputSchema": {
                       "properties": {
+                        "fields": {
+                          "description": "Subset of fields to return for each code search result. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'repository' and 'text_matches' in particular drops the largest per-result data.",
+                          "items": {
+                            "enum": [
+                              "name",
+                              "path",
+                              "sha",
+                              "repository",
+                              "text_matches"
+                            ],
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
                         "order": {
                           "description": "Sort order for results",
                           "enum": [
@@ -16723,6 +16991,39 @@
                     "description": "Search for issues in GitHub repositories using issues search syntax already scoped to is:issue",
                     "inputSchema": {
                       "properties": {
+                        "fields": {
+                          "description": "Subset of fields to return for each issue result. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'body', 'reactions', and 'labels' in particular drops the largest per-result data.",
+                          "items": {
+                            "enum": [
+                              "number",
+                              "title",
+                              "body",
+                              "state",
+                              "state_reason",
+                              "draft",
+                              "locked",
+                              "html_url",
+                              "user",
+                              "author_association",
+                              "labels",
+                              "assignee",
+                              "assignees",
+                              "milestone",
+                              "comments",
+                              "reactions",
+                              "created_at",
+                              "updated_at",
+                              "closed_at",
+                              "closed_by",
+                              "type",
+                              "repository_url",
+                              "pull_request",
+                              "field_values"
+                            ],
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
                         "order": {
                           "description": "Sort order",
                           "enum": [
@@ -16790,6 +17091,37 @@
                     "description": "Search for pull requests in GitHub repositories using issues search syntax already scoped to is:pr",
                     "inputSchema": {
                       "properties": {
+                        "fields": {
+                          "description": "Subset of fields to return for each pull request result. If omitted, all fields are returned. Use this to reduce response size when you only need specific fields; omitting 'body', 'reactions', and 'labels' in particular drops the largest per-result data.",
+                          "items": {
+                            "enum": [
+                              "number",
+                              "title",
+                              "body",
+                              "state",
+                              "state_reason",
+                              "draft",
+                              "locked",
+                              "html_url",
+                              "user",
+                              "author_association",
+                              "labels",
+                              "assignee",
+                              "assignees",
+                              "milestone",
+                              "comments",
+                              "reactions",
+                              "created_at",
+                              "updated_at",
+                              "closed_at",
+                              "closed_by",
+                              "pull_request",
+                              "repository_url"
+                            ],
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
                         "order": {
                           "description": "Sort order",
                           "enum": [
@@ -22834,7 +23166,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/voska/hass-mcp:0.5.0",
+            "identifier": "docker.io/voska/hass-mcp:0.6.0",
             "transport": {
               "type": "stdio"
             },
@@ -22856,9 +23188,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/voska/hass-mcp:0.5.0": {
+              "docker.io/voska/hass-mcp:0.6.0": {
                 "metadata": {
-                  "last_updated": "2026-06-25T04:23:23Z",
+                  "last_updated": "2026-08-07T00:31:06Z",
                   "stars": 299
                 },
                 "overview": "## Home Assistant MCP Server\n\nThe hass-mcp server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Home Assistant (HASS), the open-source home automation platform. It enables AI-driven workflows to observe, control, and reason about smart home entities and states — turning a Home Assistant instance into a programmable, conversational environment. This server is ideal for smart home automation, contextual assistance, energy monitoring, and ambient intelligence use cases where AI needs real-time awareness of a physical environment. It provides privacy-preserving operation by running locally without requiring cloud services.",
@@ -22884,6 +23216,139 @@
                 ],
                 "tier": "Community",
                 "tool_definitions": [
+                  {
+                    "annotations": {},
+                    "description": "\nAdd a card to a dashboard view (live)\n\nArgs:\n    url_path: Dashboard URL path, or None for the default dashboard.\n    view: Target view — an integer index, or a string matching the view's\n          `path` or `title`.\n    card: The card config dict (must include a string `type`), e.g.\n          {\"type\": \"markdown\", \"content\": \"Hello\"}.\n    position: Insert index within the target card list (default: append).\n    section: For a \"sections\"-type view, which section to add into — an\n             index, section title, or heading text. REQUIRED for sections\n             views (use list_view_sections to see them); omit for classic\n             views.\n    dry_run: Preview without saving.\n\nReturns:\n    Save result with a `backup_id`, or a dry-run preview.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "card": {
+                          "anyOf": [
+                            {
+                              "additionalProperties": true,
+                              "type": "object"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Card"
+                        },
+                        "dry_run": {
+                          "default": false,
+                          "title": "Dry Run",
+                          "type": "boolean"
+                        },
+                        "position": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Position"
+                        },
+                        "section": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Section"
+                        },
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        },
+                        "view": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ],
+                          "default": 0,
+                          "title": "View"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "add_card"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nAdd a new view to a dashboard (live)\n\nArgs:\n    url_path: Dashboard URL path, or None for the default dashboard.\n    view_config: The view config dict, e.g. {\"title\": \"Garage\", \"path\": \"garage\"}.\n    position: Insert index among views (default: append).\n    dry_run: Preview without saving.\n\nReturns:\n    Save result with a `backup_id`, or a dry-run preview.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "dry_run": {
+                          "default": false,
+                          "title": "Dry Run",
+                          "type": "boolean"
+                        },
+                        "position": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Position"
+                        },
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        },
+                        "view_config": {
+                          "anyOf": [
+                            {
+                              "additionalProperties": true,
+                              "type": "object"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "View Config"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "add_view"
+                  },
                   {
                     "annotations": {},
                     "description": "\nCall any Home Assistant service (low-level API access)\n\nArgs:\n    domain: The domain of the service (e.g., 'light', 'switch', 'automation')\n    service: The service to call (e.g., 'turn_on', 'turn_off', 'toggle')\n    data: Optional data to pass to the service (e.g., {'entity_id': 'light.living_room'})\n\nReturns:\n    A dictionary with success status, the domain/service called, and the\n    list of affected entity states returned by Home Assistant.\n\nExamples:\n    domain='light', service='turn_on', data={'entity_id': 'light.x', 'brightness': 255}\n    domain='automation', service='reload'\n    domain='fan', service='set_percentage', data={'entity_id': 'fan.x', 'percentage': 50}\n\n",
@@ -22975,6 +23440,29 @@
                       "type": "object"
                     },
                     "name": "entity_action"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nGet a dashboard's full configuration\n\nArgs:\n    url_path: The dashboard's URL path (e.g. \"my-dash\"). Omit or pass None\n              for the default \"Overview\" dashboard.\n\nReturns:\n    The dashboard config dict (a top-level `views` list of cards). If the\n    dashboard has no stored config yet, returns an empty `{\"views\": []}`\n    scaffold with a `note`.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "get_dashboard_config"
                   },
                   {
                     "annotations": {},
@@ -23250,6 +23738,39 @@
                   },
                   {
                     "annotations": {},
+                    "description": "\nList on-disk backups of a dashboard's config\n\nBackups are written automatically before every dashboard write. NOTE: in\nDocker, backups persist only if HASS_MCP_BACKUP_DIR is volume-mounted.\n\nArgs:\n    url_path: Dashboard URL path, or None for the default dashboard.\n\nReturns:\n    A list of {backup_id, path}, oldest first.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_dashboard_backups"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nList Home Assistant dashboards (Lovelace)\n\nReturns:\n    A list of dashboards. Each entry has `url_path` (None for the default\n    \"Overview\" dashboard), `title`, and `mode` (\"storage\" or \"yaml\"). Only\n    \"storage\"-mode dashboards can be edited via these tools.\n",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_dashboards"
+                  },
+                  {
+                    "annotations": {},
                     "description": "\nGet a list of Home Assistant entities with optional filtering\n\nArgs:\n    domain: Optional domain to filter by (e.g., 'light', 'switch', 'sensor')\n    search_query: Optional search term to filter entities by name, id, or attributes\n                 (Note: Does not support wildcards. To get all entities, leave this empty)\n    limit: Maximum number of entities to return (default: 100)\n    fields: Optional list of specific fields to include in each entity\n    detailed: If True, returns all entity fields without filtering\n\nReturns:\n    A list of entity dictionaries with lean formatting by default\n\nExamples:\n    domain=\"light\" - get all lights\n    search_query=\"kitchen\", limit=20 - search entities\n    domain=\"sensor\", detailed=True - full sensor details\n\nBest Practices:\n    - Use lean format (default) for most operations\n    - Prefer domain filtering over no filtering\n    - For domain overviews, use domain_summary_tool instead of list_entities\n    - Only request detailed=True when necessary for full attribute inspection\n    - To get all entity types/domains, use list_entities without a domain filter, \n      then extract domains from entity_ids\n",
                     "inputSchema": {
                       "properties": {
@@ -23310,6 +23831,206 @@
                   },
                   {
                     "annotations": {},
+                    "description": "\nList the sections of a \"sections\"-type dashboard view\n\nModern Home Assistant views of `type: sections` hold their cards inside\nsections (not a top-level card list). Use this to discover which section\nto target with the card tools' `section` argument.\n\nArgs:\n    url_path: Dashboard URL path, or None for the default dashboard.\n    view: Target view (index, or matching `path`/`title`).\n\nReturns:\n    A list of {index, title, heading, card_count}, one per section. Errors\n    if the view is not a sections view.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        },
+                        "view": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ],
+                          "default": 0,
+                          "title": "View"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_view_sections"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nReorder a card within a dashboard view (live)\n\nArgs:\n    url_path: Dashboard URL path, or None for the default dashboard.\n    view: Target view (index, or matching `path`/`title`).\n    card_index: Current index of the card.\n    new_index: Destination index within the same card list.\n    section: For a \"sections\"-type view, which section the card is in\n             (index/title/heading). Required for sections views.\n    dry_run: Preview without saving.\n\nReturns:\n    Save result with a `backup_id`, or a dry-run preview.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "card_index": {
+                          "default": 0,
+                          "title": "Card Index",
+                          "type": "integer"
+                        },
+                        "dry_run": {
+                          "default": false,
+                          "title": "Dry Run",
+                          "type": "boolean"
+                        },
+                        "new_index": {
+                          "default": 0,
+                          "title": "New Index",
+                          "type": "integer"
+                        },
+                        "section": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Section"
+                        },
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        },
+                        "view": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ],
+                          "default": 0,
+                          "title": "View"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "move_card"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nRemove a card from a dashboard view (live)\n\nArgs:\n    url_path: Dashboard URL path, or None for the default dashboard.\n    view: Target view (index, or matching `path`/`title`).\n    card_index: Index of the card to remove within the target card list.\n    section: For a \"sections\"-type view, which section the card is in\n             (index/title/heading). Required for sections views.\n    dry_run: Preview without saving.\n\nReturns:\n    Save result with a `backup_id`, or a dry-run preview.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "card_index": {
+                          "default": 0,
+                          "title": "Card Index",
+                          "type": "integer"
+                        },
+                        "dry_run": {
+                          "default": false,
+                          "title": "Dry Run",
+                          "type": "boolean"
+                        },
+                        "section": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Section"
+                        },
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        },
+                        "view": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ],
+                          "default": 0,
+                          "title": "View"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "remove_card"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nRemove a view from a dashboard (live)\n\n⚠️ Removes the view and all its cards.\n\nArgs:\n    url_path: Dashboard URL path, or None for the default dashboard.\n    view: Target view (index, or matching `path`/`title`).\n    dry_run: Preview without saving.\n\nReturns:\n    Save result with a `backup_id`, or a dry-run preview.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "dry_run": {
+                          "default": false,
+                          "title": "Dry Run",
+                          "type": "boolean"
+                        },
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        },
+                        "view": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ],
+                          "default": 0,
+                          "title": "View"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "remove_view"
+                  },
+                  {
+                    "annotations": {},
                     "description": "\nRestart Home Assistant\n\n⚠️ WARNING: Temporarily disrupts all Home Assistant operations\n\nReturns:\n    Result of restart operation\n",
                     "inputSchema": {
                       "properties": {},
@@ -23317,6 +24038,46 @@
                       "type": "object"
                     },
                     "name": "restart_ha"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nRestore a dashboard from a backup (live)\n\nRestores the most recent backup unless `backup_id` is given. The current\nconfig is itself backed up first, so a restore can be undone.\n\nArgs:\n    url_path: Dashboard URL path, or None for the default dashboard.\n    backup_id: A specific backup id from list_dashboard_backups (default:\n               newest).\n    dry_run: Preview without saving.\n\nReturns:\n    Save result plus `restored_from`, or a dry-run preview.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "backup_id": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Backup Id"
+                        },
+                        "dry_run": {
+                          "default": false,
+                          "title": "Dry Run",
+                          "type": "boolean"
+                        },
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "restore_dashboard"
                   },
                   {
                     "annotations": {},
@@ -23342,6 +24103,47 @@
                   },
                   {
                     "annotations": {},
+                    "description": "\nReplace a dashboard's full configuration (low-level write)\n\n⚠️ WARNING: Overwrites the ENTIRE dashboard and updates every open browser\nlive. The prior config is backed up first (use restore_dashboard to undo).\nRequires an admin token; only storage-mode dashboards can be saved.\n\nArgs:\n    url_path: Dashboard URL path, or None for the default dashboard.\n    config: The complete new config dict (must contain a `views` list).\n    dry_run: If True, validate and return the resulting config + a change\n             summary WITHOUT saving.\n\nReturns:\n    On save: {success, url_path, backup_id, summary}. On dry_run:\n    {dry_run: True, url_path, summary, config}.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "config": {
+                          "anyOf": [
+                            {
+                              "additionalProperties": true,
+                              "type": "object"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Config"
+                        },
+                        "dry_run": {
+                          "default": false,
+                          "title": "Dry Run",
+                          "type": "boolean"
+                        },
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "set_dashboard_config"
+                  },
+                  {
+                    "annotations": {},
                     "description": "\nGet a comprehensive overview of the entire Home Assistant system\n\nReturns:\n    A dictionary containing:\n    - total_entities: Total count of all entities\n    - domains: Dictionary of domains with their entity counts and state distributions\n    - domain_samples: Representative sample entities for each domain (2-3 per domain)\n    - domain_attributes: Common attributes for each domain\n    - area_distribution: Entities grouped by area (if available)\n    \nExamples:\n    Returns domain counts, sample entities, and common attributes\nBest Practices:\n    - Use this as the first call when exploring an unfamiliar Home Assistant instance\n    - Perfect for building context about the structure of the smart home\n    - After getting an overview, use domain_summary_tool to dig deeper into specific domains\n",
                     "inputSchema": {
                       "properties": {},
@@ -23349,12 +24151,141 @@
                       "type": "object"
                     },
                     "name": "system_overview"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nReplace a card in a dashboard view (live)\n\nArgs:\n    url_path: Dashboard URL path, or None for the default dashboard.\n    view: Target view (index, or matching `path`/`title`).\n    card_index: Index of the card to replace within the target card list.\n    card: The new card config dict (must include a string `type`).\n    section: For a \"sections\"-type view, which section the card is in\n             (index/title/heading). Required for sections views.\n    dry_run: Preview without saving.\n\nReturns:\n    Save result with a `backup_id`, or a dry-run preview.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "card": {
+                          "anyOf": [
+                            {
+                              "additionalProperties": true,
+                              "type": "object"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Card"
+                        },
+                        "card_index": {
+                          "default": 0,
+                          "title": "Card Index",
+                          "type": "integer"
+                        },
+                        "dry_run": {
+                          "default": false,
+                          "title": "Dry Run",
+                          "type": "boolean"
+                        },
+                        "section": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Section"
+                        },
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        },
+                        "view": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ],
+                          "default": 0,
+                          "title": "View"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "update_card"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\nUpdate a view's properties — title, path, icon, etc. (live)\n\nCards in the view are preserved unless `changes` includes a `cards` key.\n\nArgs:\n    url_path: Dashboard URL path, or None for the default dashboard.\n    view: Target view (index, or matching `path`/`title`).\n    changes: Dict of view properties to merge in, e.g. {\"title\": \"New Title\"}.\n    dry_run: Preview without saving.\n\nReturns:\n    Save result with a `backup_id`, or a dry-run preview.\n",
+                    "inputSchema": {
+                      "properties": {
+                        "changes": {
+                          "anyOf": [
+                            {
+                              "additionalProperties": true,
+                              "type": "object"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Changes"
+                        },
+                        "dry_run": {
+                          "default": false,
+                          "title": "Dry Run",
+                          "type": "boolean"
+                        },
+                        "url_path": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "title": "Url Path"
+                        },
+                        "view": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ],
+                          "default": 0,
+                          "title": "View"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "update_view"
                   }
                 ],
                 "tools": [
+                  "add_card",
+                  "add_view",
                   "call_service_tool",
                   "domain_summary_tool",
                   "entity_action",
+                  "get_dashboard_config",
                   "get_entities_by_area",
                   "get_entity",
                   "get_error_log",
@@ -23364,10 +24295,20 @@
                   "get_statistics_range",
                   "get_version",
                   "list_automations",
+                  "list_dashboard_backups",
+                  "list_dashboards",
                   "list_entities",
+                  "list_view_sections",
+                  "move_card",
+                  "remove_card",
+                  "remove_view",
                   "restart_ha",
+                  "restore_dashboard",
                   "search_entities_tool",
-                  "system_overview"
+                  "set_dashboard_config",
+                  "system_overview",
+                  "update_card",
+                  "update_view"
                 ]
               }
             }
@@ -29269,7 +30210,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/magic-mcp:0.2.1",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/magic-mcp:0.2.2",
             "transport": {
               "type": "stdio"
             },
@@ -29286,10 +30227,10 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/magic-mcp:0.2.1": {
+              "ghcr.io/stacklok/dockyard/npx/magic-mcp:0.2.2": {
                 "metadata": {
-                  "last_updated": "2026-04-19T03:04:11Z",
-                  "stars": 4748
+                  "last_updated": "2026-08-07T03:07:38Z",
+                  "stars": 5612
                 },
                 "overview": "## Magic MCP Server\n\nThe magic-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact with Magic, a platform for AI-assisted software development and code understanding. It allows AI-driven workflows to generate, edit, and reason about code with deeper project awareness — turning Magic's code intelligence capabilities into native tools inside MCP-compatible assistants. This server excels particularly in code generation, refactoring, large-scale codebase understanding, and developer productivity workflows augmented by AI.",
                 "permissions": {
@@ -30469,7 +31410,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/nokia/mcp-redfish:0.3.9",
+            "identifier": "ghcr.io/nokia/mcp-redfish:0.3.10",
             "transport": {
               "type": "stdio"
             },
@@ -30520,9 +31461,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/nokia/mcp-redfish:0.3.9": {
+              "ghcr.io/nokia/mcp-redfish:0.3.10": {
                 "metadata": {
-                  "last_updated": "2026-07-08T07:49:28Z",
+                  "last_updated": "2026-08-07T00:28:18Z",
                   "stars": 6
                 },
                 "overview": "## Redfish MCP Server\n\nThe mcp-redfish server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with systems that expose the Redfish API, the industry-standard RESTful interface for out-of-band hardware management. It allows AI-driven workflows to inspect server hardware, firmware, power state, and health information without switching tools or manually navigating vendor-specific management consoles. This server is especially useful for data center operations, hardware monitoring, infrastructure troubleshooting, and AI-assisted systems management workflows.",
@@ -30720,7 +31661,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.19.0",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.19.1",
             "transport": {
               "type": "stdio"
             },
@@ -30746,9 +31687,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.19.0": {
+              "ghcr.io/stacklok/dockyard/npx/mcp-server-circleci:0.19.1": {
                 "metadata": {
-                  "last_updated": "2026-07-31T01:14:02Z",
+                  "last_updated": "2026-08-07T00:28:33Z",
                   "stars": 82
                 },
                 "overview": "## CircleCI MCP Server\n\nThe mcp-server-circleci is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with CircleCI, the continuous integration and delivery platform. It allows AI-driven workflows to inspect pipelines, jobs, workflows, and build results — bringing CI/CD context directly into conversational and automated AI workflows without switching tools. This server is especially useful for build monitoring, failure analysis, release workflows, and developer productivity scenarios where understanding CI state and history is critical.",
@@ -30834,7 +31775,7 @@
                               "type": "string"
                             },
                             "outputDir": {
-                              "description": "The directory to save the downloaded usage data CSV file.",
+                              "description": "The directory to save the downloaded usage data CSV file. Must be inside the current working directory, the user home directory, or a temp directory. System paths and hidden config directories (e.g. \"/etc\", \"~/.ssh\") are rejected.",
                               "type": "string"
                             },
                             "startDate": {
@@ -30909,7 +31850,7 @@
                                   "type": "array"
                                 }
                               ],
-                              "description": "Path to a usage data CSV file, or an array of paths to multiple part files to analyze together."
+                              "description": "Path to a usage data CSV file, or an array of paths to multiple part files to analyze together. Must be inside the current working directory, the user home directory, or a temp directory. System paths and hidden config directories (e.g. \"/etc\", \"~/.ssh\") are rejected."
                             },
                             "threshold": {
                               "default": 40,
@@ -30945,7 +31886,7 @@
                               "type": "string"
                             },
                             "outputDir": {
-                              "description": "Optional. When provided, the full build logs are written to a file in this directory and the file path is returned. Use this for large logs to avoid truncation. Use the workspace/project root when available (e.g., \"/home/user/my-project\"), otherwise use the Downloads folder (e.g., \"~/Downloads\").",
+                              "description": "Optional. When provided, the full build logs are written to a file in this directory and the file path is returned. Use this for large logs to avoid truncation. Use the workspace/project root when available (e.g., \"/home/user/my-project\"), otherwise use the Downloads folder (e.g., \"~/Downloads\"). Must be inside the current working directory, the user home directory, or a temp directory. System paths and hidden config directories (e.g. \"/etc\", \"~/.ssh\") are rejected.",
                               "type": "string"
                             },
                             "projectSlug": {
@@ -31349,7 +32290,7 @@
                   "last_updated": "2026-04-21T03:03:49Z",
                   "stars": 587
                 },
-                "overview": "## Neon MCP Server\n\nThe mcp-server-neon is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neon, the serverless PostgreSQL platform. It allows AI-driven workflows to inspect databases, manage branches, and reason about environments and schema state — bringing modern, branch-based database context directly into MCP-powered assistants. This server is especially useful for development, testing, preview environments, and workflows where database branching and isolation are key to rapid iteration.",
+                "overview": "## Neon MCP Server (Deprecated)\n\n**Deprecated:** This local containerized server has been deprecated in favor of Neon's official remote MCP server, available in the catalog as `neon`. See https://neon.com/docs/ai/neon-mcp-server for details.\n\nThe mcp-server-neon is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Neon, the serverless PostgreSQL platform. It allows AI-driven workflows to inspect databases, manage branches, and reason about environments and schema state — bringing modern, branch-based database context directly into MCP-powered assistants. This server is especially useful for development, testing, preview environments, and workflows where database branching and isolation are key to rapid iteration.",
                 "permissions": {
                   "network": {
                     "outbound": {
@@ -31372,7 +32313,7 @@
                   "signer_identity": "/.github/workflows/build-containers.yml",
                   "sigstore_url": "tuf-repo-cdn.sigstore.dev"
                 },
-                "status": "Active",
+                "status": "Deprecated",
                 "tags": [
                   "database",
                   "postgresql",
@@ -39291,8 +40232,8 @@
             "io.github.stacklok": {
               "ghcr.io/stacklok/dockyard/npx/onchain-mcp:1.0.6": {
                 "metadata": {
-                  "last_updated": "2026-04-20T03:04:28Z",
-                  "stars": 78
+                  "last_updated": "2026-08-07T03:07:38Z",
+                  "stars": 80
                 },
                 "overview": "## Onchain MCP Server\n\nThe onchain-mcp server is a Model Context Protocol (MCP) server for blockchain data interaction through the Bankless API, enabling seamless access to Ethereum and Web3 data. Key capabilities include comprehensive blockchain data access through Bankless API integration, smart contract interaction including reading contracts, ABIs, and source code, transaction and event monitoring with historical data access, and token balance queries and block information retrieval across Ethereum networks.",
                 "permissions": {
@@ -48870,7 +49811,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.78",
+            "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.79",
             "transport": {
               "type": "stdio"
             },
@@ -49053,9 +49994,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "mcr.microsoft.com/playwright/mcp:v0.0.78": {
+              "mcr.microsoft.com/playwright/mcp:v0.0.79": {
                 "metadata": {
-                  "last_updated": "2026-07-16T19:49:29Z",
+                  "last_updated": "2026-08-07T00:29:37Z",
                   "stars": 28552
                 },
                 "overview": "## Playwright MCP Server\n\nThe playwright MCP server provides browser automation capabilities using Playwright. The server enables comprehensive browser automation supporting Chromium, Firefox, and WebKit, with full control over page interactions including clicks, typing, navigation, and screenshots. Additional capabilities include network request monitoring, console message capture for debugging, form filling, file uploads, and dialog handling for complete workflow automation.",
@@ -49754,7 +50695,7 @@
                           "type": "string"
                         },
                         "filename": {
-                          "description": "File name to save the screenshot to. Defaults to `page-{timestamp}.{png|jpeg}` if not specified. Prefer relative file names to stay within the output directory.",
+                          "description": "File name to save the screenshot to. Defaults to `page-{timestamp}.{png|jpeg|webp}` if not specified. Prefer relative file names to stay within the output directory.",
                           "type": "string"
                         },
                         "fullPage": {
@@ -49775,17 +50716,16 @@
                           "type": "string"
                         },
                         "type": {
-                          "default": "png",
-                          "description": "Image format for the screenshot. Default is png.",
+                          "description": "Image format for the screenshot. If unset, inferred from the filename extension, otherwise png.",
                           "enum": [
                             "png",
-                            "jpeg"
+                            "jpeg",
+                            "webp"
                           ],
                           "type": "string"
                         }
                       },
                       "required": [
-                        "type",
                         "scale"
                       ],
                       "type": "object"
@@ -50106,7 +51046,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/pab1it0/prometheus-mcp-server:1.6.1",
+            "identifier": "ghcr.io/pab1it0/prometheus-mcp-server:1.6.2",
             "transport": {
               "type": "stdio"
             },
@@ -50152,9 +51092,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/pab1it0/prometheus-mcp-server:1.6.1": {
+              "ghcr.io/pab1it0/prometheus-mcp-server:1.6.2": {
                 "metadata": {
-                  "last_updated": "2026-05-09T05:50:33Z",
+                  "last_updated": "2026-08-07T00:29:00Z",
                   "stars": 429
                 },
                 "overview": "## Prometheus MCP Server\n\nThe Prometheus MCP server provides AI assistants with direct access to Prometheus metrics and monitoring data. It enables real-time querying of time-series metrics using PromQL, range queries for trend analysis, alert and rule inspection, and target health monitoring. The server exposes tools for metric discovery, label exploration, and exemplar queries, making it straightforward to integrate Prometheus observability data into AI-driven analysis and incident response workflows.",
@@ -50304,9 +51244,40 @@
                       "readOnlyHint": true,
                       "title": "Get Scrape Targets"
                     },
-                    "description": "Get information about all scrape targets",
+                    "description": "Get scrape targets, with state/pool filtering and optional pagination",
                     "inputSchema": {
-                      "properties": {},
+                      "properties": {
+                        "limit": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null
+                        },
+                        "offset": {
+                          "default": 0,
+                          "type": "integer"
+                        },
+                        "scrape_pool": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null
+                        },
+                        "state": {
+                          "default": "active",
+                          "type": "string"
+                        }
+                      },
                       "required": [],
                       "type": "object"
                     },
@@ -52716,7 +53687,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/semgrep/semgrep:1.171.0",
+            "identifier": "docker.io/semgrep/semgrep:1.172.0",
             "transport": {
               "type": "stdio"
             },
@@ -52732,13 +53703,13 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/semgrep/semgrep:1.171.0": {
+              "docker.io/semgrep/semgrep:1.172.0": {
                 "args": [
                   "semgrep",
                   "mcp"
                 ],
                 "metadata": {
-                  "last_updated": "2026-07-24T02:54:06Z",
+                  "last_updated": "2026-08-07T00:30:50Z",
                   "stars": 15042
                 },
                 "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
@@ -56746,7 +57717,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/hashicorp/terraform-mcp-server:1.1.0",
+            "identifier": "docker.io/hashicorp/terraform-mcp-server:1.2.0",
             "transport": {
               "type": "stdio"
             },
@@ -56782,9 +57753,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/hashicorp/terraform-mcp-server:1.1.0": {
+              "docker.io/hashicorp/terraform-mcp-server:1.2.0": {
                 "metadata": {
-                  "last_updated": "2026-07-16T19:48:30Z",
+                  "last_updated": "2026-08-07T00:30:00Z",
                   "stars": 1267
                 },
                 "overview": "## Terraform MCP Server\n\nThe terraform MCP server provides Terraform registry and Cloud/Enterprise integration for providers, modules, policies, and workspaces. The server provides MCP-based access to Terraform resources through the Terraform Registry API for searching providers and modules, HCP Terraform/TFE API for workspace and policy operations, and environment variable-based authentication. It supports both public registry and private enterprise instances and includes tools for managing workspaces, variables, policies, and accessing Terraform documentation and registry resources.",
@@ -56938,7 +57909,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "The Terraform Cloud/Enterprise organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         },
                         "workspace_name": {
@@ -57077,7 +58048,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "The Terraform Cloud/Enterprise organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         },
                         "terraform_version": {
@@ -57128,7 +58099,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "Organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         },
                         "workspace_name": {
@@ -57511,7 +58482,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "The Terraform Cloud/Enterprise organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         }
                       },
@@ -57557,7 +58528,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "The Terraform Cloud/Enterprise organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         }
                       },
@@ -57631,6 +58602,29 @@
                       "idempotentHint": false,
                       "openWorldHint": true,
                       "readOnlyHint": true,
+                      "title": "Get all comments for a given Terraform run."
+                    },
+                    "description": "Lists all user-submitted comments on a specific Terraform run. Use this tool when you need to review feedback, approvals, or notes that collaborators have left on a run. Returns each comment's ID and body text. To get the run's status, plan, and apply details instead, use get_run_details.",
+                    "inputSchema": {
+                      "properties": {
+                        "run_id": {
+                          "description": "The ID of the Terraform run to retrieve comments for (format: run-\u003calphanumeric\u003e, e.g. run-Nj2MTonBKmtmceGE.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "run_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_run_comments"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
                       "title": "Get detailed information about a Terraform run"
                     },
                     "description": "Fetches detailed information about a specific Terraform run.",
@@ -57687,7 +58681,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "The Terraform Cloud/Enterprise organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         }
                       },
@@ -57705,13 +58699,38 @@
                       "idempotentHint": false,
                       "openWorldHint": true,
                       "readOnlyHint": true,
+                      "title": "Gets StateVersion with state_version_id"
+                    },
+                    "description": "Retrieves a Terraform state version. If state_version_id is provided, retrieves that specific state version. Otherwise, retrieves the latest state version for the specified workspace. One of state_version_id or workspace_id must be provided",
+                    "inputSchema": {
+                      "properties": {
+                        "state_version_id": {
+                          "description": "Optional StateVersion id to fetch exact version",
+                          "type": "string"
+                        },
+                        "workspace_id": {
+                          "description": "Optional Workspace id to fetch latest version",
+                          "type": "string"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "get_state_version"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
                       "title": "Get permissions for current token"
                     },
                     "description": "Fetches the permissions the current token has for the specified terraform organization.",
                     "inputSchema": {
                       "properties": {
                         "terraform_org_name": {
-                          "description": "The Terraform Cloud/Enterprise organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         }
                       },
@@ -57734,7 +58753,7 @@
                     "inputSchema": {
                       "properties": {
                         "terraform_org_name": {
-                          "description": "The Terraform Cloud/Enterprise organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         },
                         "workspace_name": {
@@ -57809,7 +58828,7 @@
                           "type": "array"
                         },
                         "terraform_org_name": {
-                          "description": "Lists the runs in Terraform Cloud/Enterprise organization based on filters if no workspace is specified",
+                          "description": "The name of the Terraform Cloud/Enterprise organization in which to list runs based on the provided filters when no workspace is specified",
                           "type": "string"
                         },
                         "vcs_username": {
@@ -57859,7 +58878,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "The Terraform organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         }
                       },
@@ -57869,6 +58888,45 @@
                       "type": "object"
                     },
                     "name": "list_stacks"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "idempotentHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "List all States Versions"
+                    },
+                    "description": "List all the State Versions for a given workspace and org name.",
+                    "inputSchema": {
+                      "properties": {
+                        "page": {
+                          "description": "Page number for pagination (min 1)",
+                          "minimum": 1,
+                          "type": "number"
+                        },
+                        "pageSize": {
+                          "description": "Results per page for pagination (min 1, max 100)",
+                          "maximum": 100,
+                          "minimum": 1,
+                          "type": "number"
+                        },
+                        "terraform_org_name": {
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
+                          "type": "string"
+                        },
+                        "workspace_name": {
+                          "description": "The workspace name to list state versions for",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "terraform_org_name",
+                        "workspace_name"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "list_state_versions"
                   },
                   {
                     "annotations": {
@@ -57921,7 +58979,7 @@
                           "type": "number"
                         },
                         "terraform_org_name": {
-                          "description": "The name of the Terraform organization to list projects for.",
+                          "description": "The name of the Terraform Cloud/Enterprise organization to list projects for",
                           "type": "string"
                         }
                       },
@@ -57958,7 +59016,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "Organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         }
                       },
@@ -57980,7 +59038,7 @@
                     "inputSchema": {
                       "properties": {
                         "terraform_org_name": {
-                          "description": "Organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         },
                         "workspace_id": {
@@ -58018,7 +59076,7 @@
                           "type": "number"
                         },
                         "terraform_org_name": {
-                          "description": "Organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         },
                         "workspace_name": {
@@ -58073,7 +59131,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "The Terraform organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         },
                         "wildcard_name": {
@@ -58194,7 +59252,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "The Terraform Cloud/Enterprise organization name to search within",
+                          "description": "The name of the Terraform Cloud/Enterprise organization to search for private modules in",
                           "type": "string"
                         }
                       },
@@ -58241,7 +59299,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "The Terraform Cloud/Enterprise organization name to search within",
+                          "description": "The name of the Terraform Cloud/Enterprise organization to search for private providers in",
                           "type": "string"
                         }
                       },
@@ -58347,7 +59405,7 @@
                           "type": "string"
                         },
                         "terraform_org_name": {
-                          "description": "The Terraform Cloud/Enterprise organization name",
+                          "description": "The name of the Terraform Cloud/Enterprise organization",
                           "type": "string"
                         },
                         "terraform_version": {
@@ -58457,13 +59515,16 @@
                   "get_private_provider_details",
                   "get_provider_capabilities",
                   "get_provider_details",
+                  "get_run_comments",
                   "get_run_details",
                   "get_sentinel_mock",
                   "get_stack_details",
+                  "get_state_version",
                   "get_token_permissions",
                   "get_workspace_details",
                   "list_runs",
                   "list_stacks",
+                  "list_state_versions",
                   "list_terraform_orgs",
                   "list_terraform_projects",
                   "list_variable_sets",
@@ -58627,7 +59688,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.17-20260727",
+            "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.18-20260804",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8080"
@@ -58663,7 +59724,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.17-20260727": {
+              "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.18-20260804": {
                 "metadata": {
                   "last_updated": "2026-07-31T20:52:33Z",
                   "stars": 3
@@ -58842,7 +59903,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/uyuni-project/mcp-server-uyuni:0.5.2",
+            "identifier": "ghcr.io/uyuni-project/mcp-server-uyuni:0.6.0",
             "transport": {
               "type": "stdio"
             },
@@ -58889,9 +59950,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/uyuni-project/mcp-server-uyuni:0.5.2": {
+              "ghcr.io/uyuni-project/mcp-server-uyuni:0.6.0": {
                 "metadata": {
-                  "last_updated": "2026-04-30T03:06:08Z",
+                  "last_updated": "2026-08-07T00:31:23Z",
                   "stars": 12
                 },
                 "overview": "## Uyuni MCP Server\n\nThe Uyuni MCP Server bridges Large Language Models with the Uyuni infrastructure management solution from SUSE. It enables AI agents and MCP-compliant clients to interact securely with Uyuni servers, allowing natural language management of Linux infrastructure including retrieving system details, checking updates, scheduling maintenance, and managing system groups.\n\nThe server provides both read-only and write-enabled tools for comprehensive infrastructure management, with write operations gated behind an explicit opt-in flag for safety.",
@@ -58917,31 +59978,452 @@
                   "suse"
                 ],
                 "tier": "Community",
+                "tool_definitions": [
+                  {
+                    "annotations": {},
+                    "description": "Check all active systems for pending updates.\n\nInputs: optional `include_updates`, `include_cves`, `system_limit`, `system_offset`, `updates_per_system`.\nBest for fleet scan; set `include_updates=true` to include per-system update items.\n`system_limit` is capped at 200 for response paging.\nReturns: `items` with systems that have pending updates (plus optional update details) and `meta`.",
+                    "inputSchema": {
+                      "properties": {
+                        "include_cves": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "include_updates": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "system_limit": {
+                          "default": 25,
+                          "type": "integer"
+                        },
+                        "system_offset": {
+                          "default": 0,
+                          "type": "integer"
+                        },
+                        "updates_per_system": {
+                          "default": 10,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "check_all_systems_for_updates"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Find systems by IP address.\n\nInputs: `ip_address`; optional `limit`, `offset`.\n`limit` is capped at 500.\nReturns: `items` with matching systems (`system_name`, `system_id`, `ip`) and `meta`.",
+                    "inputSchema": {
+                      "properties": {
+                        "ip_address": {
+                          "type": "string"
+                        },
+                        "limit": {
+                          "default": 50,
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "default": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "ip_address"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "find_systems_by_ip"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Find systems by hostname.\n\nInputs: `name`; optional `limit`, `offset`.\nUse this first when user input is a partial hostname.\nIf multiple systems match, ask the user to choose one `system_id`.\n`limit` is capped at 500.\nReturns: `items` with matching systems (`system_name`, `system_id`) and `meta`.",
+                    "inputSchema": {
+                      "properties": {
+                        "limit": {
+                          "default": 50,
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "offset": {
+                          "default": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "find_systems_by_name"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Get details for one system.\n\nInputs: `system_identifier` (`system_name` or `system_id`).\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nReturns: `system_id`, `system_name`, `last_boot`, `uuid`, `cpu`, `network`, `installed_products`.\nUse system_id when possible.",
+                    "inputSchema": {
+                      "properties": {
+                        "system_identifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "system_identifier"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_system_details"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Get one event detail.\n\nInputs: `system_identifier` (`system_name` or `system_id`), `event_id`.\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nReturns: event object including status, timestamps, result fields, and optional additional_info.\n`event_id` should come from `get_system_event_history`.",
+                    "inputSchema": {
+                      "properties": {
+                        "event_id": {
+                          "type": "integer"
+                        },
+                        "system_identifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "system_identifier",
+                        "event_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_system_event_details"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List events for one system.\n\nInputs: `system_identifier` (`system_name` or `system_id`); optional `offset`, `limit`, `earliest_date`.\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nReturns: newest-first event list with `id`, `history_type`, `status`, `summary`, `completed`.\nUse `get_system_event_details` for one event.",
+                    "inputSchema": {
+                      "properties": {
+                        "earliest_date": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null
+                        },
+                        "limit": {
+                          "default": 10,
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "default": 0,
+                          "type": "integer"
+                        },
+                        "system_identifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "system_identifier"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_system_event_history"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Get pending updates for one system.\n\nInputs: `system_identifier` (`system_name` or `system_id`; prefer `system_id`).\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nBest for compact default update view.\nReturns: compact update list plus counts and `meta`.\nDefault behavior omits CVEs for lower token usage.\nFor pagination and CVE expansion, use `query_system_updates`.",
+                    "inputSchema": {
+                      "properties": {
+                        "system_identifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "system_identifier"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_system_updates"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List unscheduled errata for one system.\n\nInputs: `system_id`.\nProvide `system_id` as a numeric string.\nReturns: errata list for that system.",
+                    "inputSchema": {
+                      "properties": {
+                        "system_id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "system_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_unscheduled_errata"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List activation keys available to the current user.\n\nInputs: none.\nReturns: list of objects with `key` and `description`.",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_activation_keys"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Query scheduled actions.\n\nInputs: optional `limit`, `offset`, `action_types`, `scheduler`.\n`action_types` and `scheduler` are optional exact-match filters; prefer values from `meta.observed_action_types` and `meta.observed_schedulers`.\n`limit` is capped at 500; use `meta.next_offset` to page.\nReturns: `items` with scheduled actions and `meta`.",
+                    "inputSchema": {
+                      "properties": {
+                        "action_types": {
+                          "anyOf": [
+                            {
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null
+                        },
+                        "limit": {
+                          "default": 50,
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "default": 0,
+                          "type": "integer"
+                        },
+                        "scheduler": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_all_scheduled_actions"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List systems in one group.\n\nInputs: `group_name`.\nReturns: list of `system_id` and `system_name`.",
+                    "inputSchema": {
+                      "properties": {
+                        "group_name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "group_name"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "list_group_systems"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List system groups.\n\nInputs: none.\nReturns: list with `id`, `name`, `description`, and `system_count`.",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_system_groups"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "\n    List active systems in Uyuni.\n    Inputs: optional `limit`, `offset`.\n    `limit` is capped at 500.\n    Returns: `items` with active systems (`system_name`, `system_id`) and `meta`.\n    Note: use `system_id` for other system tools.\n    ",
+                    "inputSchema": {
+                      "properties": {
+                        "limit": {
+                          "default": 50,
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "default": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_systems"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List systems that require reboot.\n\nInputs: optional `limit`, `offset`.\n`limit` is capped at 500.\nReturns: `items` with systems requiring reboot (`system_id`, `system_name`, `reboot_status`) and `meta`.",
+                    "inputSchema": {
+                      "properties": {
+                        "limit": {
+                          "default": 50,
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "default": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "list_systems_needing_reboot"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "List systems affected by a CVE.\n\nInputs: `cve_identifier`; optional `limit`, `offset`.\n`limit` is capped at 500.\nReturns: `items` with unique affected systems (`system_id`, `system_name`) and `meta`.",
+                    "inputSchema": {
+                      "properties": {
+                        "cve_identifier": {
+                          "type": "string"
+                        },
+                        "limit": {
+                          "default": 50,
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "default": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "cve_identifier"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "list_systems_needing_update_for_cve"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Query pending updates for one system.\n\nInputs: `system_identifier` (`system_name` or `system_id`); optional `limit`, `offset`, `include_cves`, `advisory_types`.\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nBest for pagination and optional CVE expansion.\nPagination behavior: `limit \u003c= 0` returns no items (counts still available);\npositive `limit` is capped at 200.\nReturns: `updates` with pending updates for the system and `meta`.",
+                    "inputSchema": {
+                      "properties": {
+                        "advisory_types": {
+                          "anyOf": [
+                            {
+                              "items": {
+                                "enum": [
+                                  "Security Advisory",
+                                  "Product Enhancement Advisory",
+                                  "Bug Fix Advisory"
+                                ],
+                                "type": "string"
+                              },
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null
+                        },
+                        "include_cves": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "limit": {
+                          "default": 25,
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "default": 0,
+                          "type": "integer"
+                        },
+                        "system_identifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "system_identifier"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "query_system_updates"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Summarize fleet update status.\n\nInputs: optional `system_limit`, `system_offset`.\n`system_limit` is capped at 200.\nReturns: paged list of systems with update counts in `items` and `meta`.",
+                    "inputSchema": {
+                      "properties": {
+                        "system_limit": {
+                          "default": 25,
+                          "type": "integer"
+                        },
+                        "system_offset": {
+                          "default": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "summarize_fleet_updates"
+                  },
+                  {
+                    "annotations": {},
+                    "description": "Summarize pending updates for one system.\n\nInputs: `system_identifier` (`system_name` or `system_id`); optional `advisory_types`.\nName not found: resolve with `find_systems_by_name`, then pass `system_id`.\nBest for counts only.\n`advisory_types` accepts: `Security Advisory`, `Product Enhancement Advisory`, `Bug Fix Advisory`.\nReturns: update counts and `meta`.",
+                    "inputSchema": {
+                      "properties": {
+                        "advisory_types": {
+                          "anyOf": [
+                            {
+                              "items": {
+                                "enum": [
+                                  "Security Advisory",
+                                  "Product Enhancement Advisory",
+                                  "Bug Fix Advisory"
+                                ],
+                                "type": "string"
+                              },
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null
+                        },
+                        "system_identifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "system_identifier"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "summarize_system_updates"
+                  }
+                ],
                 "tools": [
-                  "list_systems",
-                  "get_system_details",
-                  "get_system_event_history",
-                  "get_system_event_details",
-                  "find_systems_by_name",
-                  "find_systems_by_ip",
-                  "get_system_updates",
                   "check_all_systems_for_updates",
-                  "list_systems_needing_update_for_cve",
-                  "list_systems_needing_reboot",
+                  "find_systems_by_ip",
+                  "find_systems_by_name",
+                  "get_system_details",
+                  "get_system_event_details",
+                  "get_system_event_history",
+                  "get_system_updates",
                   "get_unscheduled_errata",
                   "list_activation_keys",
                   "list_all_scheduled_actions",
-                  "list_system_groups",
                   "list_group_systems",
-                  "schedule_pending_updates_to_system",
-                  "schedule_specific_update",
-                  "add_system",
-                  "remove_system",
-                  "schedule_system_reboot",
-                  "cancel_action",
-                  "create_system_group",
-                  "add_systems_to_group",
-                  "remove_systems_from_group"
+                  "list_system_groups",
+                  "list_systems",
+                  "list_systems_needing_reboot",
+                  "list_systems_needing_update_for_cve",
+                  "query_system_updates",
+                  "summarize_fleet_updates",
+                  "summarize_system_updates"
                 ]
               }
             }
