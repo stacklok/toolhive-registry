@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "hashicorp-run-acceptance-tests",
+  "title": "HashiCorp Run Acceptance Tests",
+  "description": "Guide for running acceptance tests for a Terraform provider. Use this when asked to run an acceptance test or to run a test with the prefix `TestAcc`, when a test fails with missing environment variables, or when diagnosing a failing or suspiciously passing acceptance test.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/hashicorp/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-run-acceptance-tests:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/hashicorp/agent-skills",
+      "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+      "subfolder": "plugins/terraform/skills/run-acceptance-tests"
+    }
+  ]
+}

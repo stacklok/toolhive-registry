@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "hashicorp-provider-test-patterns",
+  "title": "HashiCorp Provider Test Patterns",
+  "description": "Terraform provider acceptance test patterns using terraform-plugin-testing with the Plugin Framework. Covers test structure, TestCase/TestStep fields, ConfigStateChecks with custom statecheck.StateCheck implementations, plan checks, CompareValue for cross-step assertions, config helpers, import testing with ImportStateKind, sweepers, and scenario patterns (basic, update, disappears, validation, regression), and ephemeral resource testing with the echoprovider package. Use when writing, reviewing, or debugging provider acceptance tests, including questions about statecheck, plancheck, TestCheckFunc, CheckDestroy, ExpectError, import state verification, ephemeral resources, or how to structure test files.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/hashicorp/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-provider-test-patterns:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/hashicorp/agent-skills",
+      "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+      "subfolder": "plugins/terraform/skills/provider-test-patterns"
+    }
+  ]
+}

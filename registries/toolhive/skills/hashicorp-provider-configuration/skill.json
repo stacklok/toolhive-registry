@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "hashicorp-provider-configuration",
+  "title": "HashiCorp Provider Configuration",
+  "description": "Implement Terraform provider configuration and authentication with the Plugin Framework: provider schema for credentials (Optional + Sensitive attributes), environment variable fallbacks, credential provider chains (static config, then environment variables, shared credentials file, and platform identity), unknown-value guards in Configure(), secret redaction, configure-time credential validation, and diagnostics that name every source tried. Use when implementing or reviewing a provider's Configure method or provider schema, adding authentication options (API keys, tokens, profiles, credentials files, assume-role), deciding how a provider should resolve credentials, debugging \"no valid credential sources\" or missing-credentials errors, or unit testing credential resolution.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/hashicorp/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-provider-configuration:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/hashicorp/agent-skills",
+      "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+      "subfolder": "plugins/terraform/skills/provider-configuration"
+    }
+  ]
+}
