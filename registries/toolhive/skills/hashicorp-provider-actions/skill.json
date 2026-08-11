@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "hashicorp-provider-actions",
+  "title": "Hashicorp Provider Actions",
+  "description": "Implement Terraform Provider actions using the Plugin Framework. Use when developing imperative operations that execute at lifecycle events (before/after create, update, destroy).",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/hashicorp/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-provider-actions:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/hashicorp/agent-skills",
+      "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+      "subfolder": "plugins/terraform/skills/provider-actions"
+    }
+  ]
+}

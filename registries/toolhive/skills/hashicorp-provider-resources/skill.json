@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "hashicorp-provider-resources",
+  "title": "Hashicorp Provider Resources",
+  "description": "Implement Terraform Provider resources and data sources using the Plugin Framework: CRUD operations, schema design, plan modifiers and validators, not-found handling, waiters for eventually consistent APIs, import support, resource design principles, and required acceptance test coverage. Use when adding or changing a resource or data source, deciding whether an API concept should be a resource, wiring a resource to the provider's configured client, handling drift or resource-not-found, or reviewing a resource implementation before submission.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/hashicorp/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-provider-resources:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/hashicorp/agent-skills",
+      "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+      "subfolder": "plugins/terraform/skills/provider-resources"
+    }
+  ]
+}

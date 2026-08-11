@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "hashicorp-aws-ami-builder",
+  "title": "Hashicorp AWS Ami Builder",
+  "description": "Build Amazon Machine Images (AMIs) with Packer using the amazon-ebs builder. Use when creating custom AMIs for EC2 instances.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/hashicorp/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-aws-ami-builder:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/hashicorp/agent-skills",
+      "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+      "subfolder": "plugins/packer/skills/aws-ami-builder"
+    }
+  ]
+}

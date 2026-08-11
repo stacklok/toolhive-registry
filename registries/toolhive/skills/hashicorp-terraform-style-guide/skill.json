@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "hashicorp-terraform-style-guide",
+  "title": "Hashicorp Terraform Style Guide",
+  "description": "Generate Terraform HCL code following HashiCorp's official style conventions and best practices. Use when writing, reviewing, or generating Terraform configurations.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/hashicorp/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-terraform-style-guide:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/hashicorp/agent-skills",
+      "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+      "subfolder": "plugins/terraform/skills/terraform-style-guide"
+    }
+  ]
+}
