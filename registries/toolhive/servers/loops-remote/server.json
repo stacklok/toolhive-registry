@@ -1,0 +1,60 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.loops.so": {
+          "custom_metadata": {
+            "author": "Loops",
+            "homepage": "https://loops.so/docs/mcp-server",
+            "license": "Proprietary"
+          },
+          "oauth_config": {
+            "authorize_url": "https://app.loops.so/oauth/authorize",
+            "token_url": "https://app.loops.so/oauth/token",
+            "use_pkce": true
+          },
+          "overview": "## Loops (Remote)\n\nLoops' official remote MCP server lets AI assistants work with a Loops account through an OAuth-authenticated, streamable HTTP connection. It provides tools for discovering the Loops API, inspecting operations, selecting a team, and managing contacts, mailing lists, campaigns, transactional email, and account data.\n\nThe server is designed for SaaS email workflows such as looking up and updating contacts, organizing audiences, reviewing campaign data, and operating transactional email without copying API credentials into an MCP client.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "loops",
+            "email",
+            "marketing",
+            "contacts",
+            "campaigns",
+            "transactional-email",
+            "automation",
+            "oauth"
+          ],
+          "tier": "Official",
+          "tools": [
+            "search",
+            "describe",
+            "teams",
+            "execute"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Manage Loops contacts, mailing lists, campaigns, and transactional email from your Loops account",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/loops-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/loops-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.loops.so"
+    }
+  ],
+  "title": "Loops (Remote)",
+  "version": "1.0.0"
+}
