@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/github/github-mcp-server:v1.9.0": {
           "metadata": {
-            "last_updated": "2026-08-07T00:30:11Z",
+            "last_updated": "2026-08-14T01:15:58Z",
             "stars": 28440
           },
           "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -325,7 +325,7 @@
                     "type": "string"
                   },
                   "content": {
-                    "description": "Content of the file",
+                    "description": "Content of the file, exactly as it should appear once written. Do not base64-encode it; this server does that before calling the REST API.",
                     "type": "string"
                   },
                   "message": {
@@ -852,7 +852,7 @@
                     "type": "number"
                   },
                   "method": {
-                    "description": "The read operation to perform on a single issue.\nOptions are:\n1. get - Get issue details. Also returns best-effort hierarchy flags (`has_parent`, `has_children`); `parent` and `sub_issues_summary` are optional relationship summaries.\n2. get_comments - Get issue comments.\n3. get_sub_issues - Get sub-issues (children) of the issue.\n4. get_parent - Get the parent issue, if this issue is a sub-issue of another.\n5. get_labels - Get labels assigned to the issue.\n",
+                    "description": "The read operation to perform on a single issue.\nOptions are:\n1. get - Get issue details. Also returns best-effort hierarchy flags (`has_parent`, `has_children`); `parent` and `sub_issues_summary` are optional relationship summaries, and `closed_by_pull_requests` summarizes the pull requests configured to close the issue as `total_count` plus up to 5 `references`.\n2. get_comments - Get issue comments.\n3. get_sub_issues - Get sub-issues (children) of the issue.\n4. get_parent - Get the parent issue, if this issue is a sub-issue of another.\n5. get_labels - Get labels assigned to the issue.\n",
                     "enum": [
                       "get",
                       "get_comments",
@@ -915,7 +915,7 @@
                     "type": "string"
                   },
                   "duplicate_of": {
-                    "description": "Issue number that this issue is a duplicate of. Only used when state_reason is 'duplicate'.",
+                    "description": "Issue number that this issue is a duplicate of. Required when state_reason is 'duplicate'.",
                     "type": "number"
                   },
                   "issue_fields": {
@@ -1009,8 +1009,16 @@
                     "type": "string"
                   },
                   "type": {
-                    "description": "Type of this issue. Only use if issue types are enabled for this repository. Use list_issue_types tool to get valid type values for this repository or its owner organization. If the repository doesn't support issue types, omit this parameter.",
-                    "type": "string"
+                    "anyOf": [
+                      {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Type of this issue. For updates, pass null to remove the current type. Only use if issue types are enabled for this repository. Use list_issue_types to get valid type values for this repository or its owner organization. If the repository doesn't support issue types, omit this parameter."
                   }
                 },
                 "required": [
@@ -1940,7 +1948,7 @@
                 "readOnlyHint": true,
                 "title": "Search issues"
               },
-              "description": "Search for issues in GitHub repositories using issues search syntax already scoped to is:issue",
+              "description": "Search issues using natural-language semantic matching. Best for conceptual or paraphrased queries (e.g. \"login fails after password reset\"). Already scoped to is:issue.",
               "inputSchema": {
                 "properties": {
                   "fields": {
@@ -2001,7 +2009,7 @@
                     "type": "number"
                   },
                   "query": {
-                    "description": "Search query using GitHub issues search syntax",
+                    "description": "The search query, as natural language. When the user gives alternative wordings, include them as plain words rather than joining them with OR.",
                     "type": "string"
                   },
                   "repo": {
