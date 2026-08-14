@@ -9,7 +9,7 @@
             "homepage": "https://docs.pinecone.io/guides/operations/mcp-server"
           },
           "metadata": {
-            "last_updated": "2026-04-22T03:04:16Z",
+            "last_updated": "2026-08-14T01:16:31Z",
             "stars": 64
           },
           "overview": "## Pinecone MCP Server\n\nThe Pinecone MCP server enables AI assistants and agents to interact with Pinecone — the managed vector database — for semantic search, retrieval-augmented generation, and document Q\u0026A workflows. It exposes tools to list and describe indexes, provision new integrated-embedding indexes, upsert records with automatic embedding, perform text-based semantic search with filtering and reranking, run cross-index cascading searches with deduplication, and query the official Pinecone documentation. The server supports integrated indexes (Pinecone-hosted embedding models); for standard indexes with external embeddings, use the Pinecone CLI instead.",
@@ -42,16 +42,509 @@
             "ai"
           ],
           "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Search across multiple indexes for records that are\nsimilar to the query text, then deduplicate and rerank the combined results.\nReranking is required for this tool. Only works with integrated-inference\nindexes. To search a single index, use search-records instead.",
+              "inputSchema": {
+                "properties": {
+                  "indexes": {
+                    "description": "The indexes to search across. Records in each index should share a common schema.",
+                    "items": {
+                      "properties": {
+                        "name": {
+                          "description": "An index to search.",
+                          "type": "string"
+                        },
+                        "namespace": {
+                          "description": "A namespace to search.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "namespace"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "llm_model": {
+                    "description": "Optional. If you are an AI model, use this field to specify your name (e.g., \"gpt-4o\", \"Composer\", \"Claude Sonnet 4\", \"Claude Opus\", \"Gemini 2.5\", \"Cascade\", \"Grok 4.1\", \"Copilot\", \"Devin\", and many others). The exact formatting of the name doesn't matter - approximate values are fine if you know roughly what you are. Include the version number in your model name only if you know it, but it is okay to leave it out if unsure. If you don't know your model name, omit this field entirely.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "llm_provider": {
+                    "description": "Optional. If you are an AI model, use this field to indicate the name of the company that trained you (e.g., \"Anthropic\", \"OpenAI\", \"Google\", \"Cursor\", \"xAI\", \"GitHub\", \"Windsurf\", \"Cognitioni AI\", and many others). The exact formatting doesn't matter - approximate values are fine. If you don't know your provider, avoid guessing and omit this field.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "query": {
+                    "description": "A query to search for records.",
+                    "properties": {
+                      "filter": {
+                        "additionalProperties": {},
+                        "description": "A filter can be used to narrow down results. Use the syntax of\n        MongoDB's query and projection operators: $eq, $ne, $gt, $gte, $lt,\n        $lte, $in, $nin, $exists, $and, $or. Make sure the records in the index\n        contain the fields that you are filtering on. To discover which fields\n        exist, run a search without a filter and inspect the \"fields\" of the\n        returned hits. Filtering on a field that records do not contain\n        returns no results.",
+                        "properties": {},
+                        "type": "object"
+                      },
+                      "inputs": {
+                        "properties": {
+                          "text": {
+                            "description": "The text to search for.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "text"
+                        ],
+                        "type": "object"
+                      },
+                      "topK": {
+                        "description": "The number of results to return. 10 is a reasonable default; use a\n      larger value (e.g. 50) when reranking, so the reranker has more\n      candidates to choose from. Very large values increase latency and\n      response size.",
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "topK",
+                      "inputs"
+                    ],
+                    "type": "object"
+                  },
+                  "rerank": {
+                    "description": "Specifies how the results should be reranked. Use a \"query\" with a \"topK\"\n  that returns more results than you need; then use \"rerank\" to select the\n  most relevant \"topN\" results.",
+                    "properties": {
+                      "model": {
+                        "description": "Choose a reranking model:\n- \"cohere-rerank-3.5\" is Cohere's leading reranking model, balancing performance\nand latency for a wide range of enterprise search applications.\n- \"bge-reranker-v2-m3\" is a high-performance, multilingual reranking model that\nworks well on messy data and short queries expected to return medium-length\npassages of text (1-2 paragraphs).\n- \"pinecone-rerank-v0\" is a state of the art reranking model that out-performs\ncompetitors on widely accepted benchmarks. It can handle chunks up to 512 tokens\n(1-2 paragraphs).",
+                        "enum": [
+                          "cohere-rerank-3.5",
+                          "bge-reranker-v2-m3",
+                          "pinecone-rerank-v0"
+                        ],
+                        "type": "string"
+                      },
+                      "query": {
+                        "description": "An optional query to rerank documents against. If not specified, the\n      same query will be used for both the initial search and the reranking.",
+                        "type": "string"
+                      },
+                      "rankFields": {
+                        "description": "The fields to rerank on. This should include the field name specified\n    in the index's \"fieldMap\". The \"bge-reranker-v2-m3\" and\n    \"pinecone-rerank-v0\" models support only a single rerank field.\n    \"cohere-rerank-3.5\" supports multiple rerank fields.",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "topN": {
+                        "description": "The number of results to return after reranking. Must be less than or\n      equal to the value of \"query.topK\".",
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "model",
+                      "rankFields"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "indexes",
+                  "query",
+                  "rerank"
+                ],
+                "type": "object"
+              },
+              "name": "cascading-search"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Create a Pinecone index with integrated inference, which\nautomatically embeds the text field named in \"fieldMap\". Supports AWS, GCP, and\nAzure cloud providers. This call blocks until the index is ready to accept\nupserts and queries, so no readiness polling is needed afterwards. If an index\nwith the same name already exists, it is returned unchanged instead of\nerroring.",
+              "inputSchema": {
+                "properties": {
+                  "cloud": {
+                    "default": "aws",
+                    "description": "The cloud provider for the index. Defaults to aws.",
+                    "enum": [
+                      "aws",
+                      "gcp",
+                      "azure"
+                    ],
+                    "type": "string"
+                  },
+                  "embed": {
+                    "description": "Configure an embedding model that converts text into a vector.",
+                    "properties": {
+                      "fieldMap": {
+                        "description": "Identify which field from your data records will be embedded.",
+                        "properties": {
+                          "text": {
+                            "description": "The name of the field in the data records that contains the text\n            content to embed. Records in the index must contain this field.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "text"
+                        ],
+                        "type": "object"
+                      },
+                      "model": {
+                        "description": "Choose an embedding model:\n          - \"multilingual-e5-large\" is an efficient dense embedding model\n          trained on a mixture of multilingual datasets. It works well on messy\n          data and short queries expected to return medium-length passages of\n          text (1-2 paragraphs).\n          - \"llama-text-embed-v2\" is a high-performance dense embedding model\n          optimized for text retrieval and ranking tasks. It is trained on a\n          diverse range of text corpora and provides strong performance on\n          longer passages and structured documents.\n          - \"pinecone-sparse-english-v0\" is a sparse embedding model for\n          converting text to sparse vectors for keyword or hybrid search. The\n          model directly estimates the lexical importance of tokens by\n          leveraging their context.",
+                        "enum": [
+                          "multilingual-e5-large",
+                          "llama-text-embed-v2",
+                          "pinecone-sparse-english-v0"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "model",
+                      "fieldMap"
+                    ],
+                    "type": "object"
+                  },
+                  "llm_model": {
+                    "description": "Optional. If you are an AI model, use this field to specify your name (e.g., \"gpt-4o\", \"Composer\", \"Claude Sonnet 4\", \"Claude Opus\", \"Gemini 2.5\", \"Cascade\", \"Grok 4.1\", \"Copilot\", \"Devin\", and many others). The exact formatting of the name doesn't matter - approximate values are fine if you know roughly what you are. Include the version number in your model name only if you know it, but it is okay to leave it out if unsure. If you don't know your model name, omit this field entirely.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "llm_provider": {
+                    "description": "Optional. If you are an AI model, use this field to indicate the name of the company that trained you (e.g., \"Anthropic\", \"OpenAI\", \"Google\", \"Cursor\", \"xAI\", \"GitHub\", \"Windsurf\", \"Cognitioni AI\", and many others). The exact formatting doesn't matter - approximate values are fine. If you don't know your provider, avoid guessing and omit this field.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "A unique name to identify the new index.",
+                    "type": "string"
+                  },
+                  "region": {
+                    "default": "us-east-1",
+                    "description": "The region for the index. Common regions: aws (us-east-1, us-west-2, eu-west-1), gcp (us-central1, europe-west1), azure (eastus, westeurope). Defaults to us-east-1.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "embed"
+                ],
+                "type": "object"
+              },
+              "name": "create-index-for-model"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Describe the configuration of a Pinecone index, including\nits embedding model and the \"fieldMap\" that names the record field holding the\ntext to embed. Call this before upsert-records to learn the required field\nname. Check \"status.ready\" in the response to confirm the index can accept\nupserts and queries.",
+              "inputSchema": {
+                "properties": {
+                  "llm_model": {
+                    "description": "Optional. If you are an AI model, use this field to specify your name (e.g., \"gpt-4o\", \"Composer\", \"Claude Sonnet 4\", \"Claude Opus\", \"Gemini 2.5\", \"Cascade\", \"Grok 4.1\", \"Copilot\", \"Devin\", and many others). The exact formatting of the name doesn't matter - approximate values are fine if you know roughly what you are. Include the version number in your model name only if you know it, but it is okay to leave it out if unsure. If you don't know your model name, omit this field entirely.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "llm_provider": {
+                    "description": "Optional. If you are an AI model, use this field to indicate the name of the company that trained you (e.g., \"Anthropic\", \"OpenAI\", \"Google\", \"Cursor\", \"xAI\", \"GitHub\", \"Windsurf\", \"Cognitioni AI\", and many others). The exact formatting doesn't matter - approximate values are fine. If you don't know your provider, avoid guessing and omit this field.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "The index to describe.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "type": "object"
+              },
+              "name": "describe-index"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Describe the statistics of a Pinecone index, including\nrecord counts per namespace. Use this to discover which namespaces exist in an\nindex. Newly upserted records can take a few seconds\nto be indexed and become visible to search results and index stats; if recent\ndata is missing, wait briefly and retry.",
+              "inputSchema": {
+                "properties": {
+                  "llm_model": {
+                    "description": "Optional. If you are an AI model, use this field to specify your name (e.g., \"gpt-4o\", \"Composer\", \"Claude Sonnet 4\", \"Claude Opus\", \"Gemini 2.5\", \"Cascade\", \"Grok 4.1\", \"Copilot\", \"Devin\", and many others). The exact formatting of the name doesn't matter - approximate values are fine if you know roughly what you are. Include the version number in your model name only if you know it, but it is okay to leave it out if unsure. If you don't know your model name, omit this field entirely.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "llm_provider": {
+                    "description": "Optional. If you are an AI model, use this field to indicate the name of the company that trained you (e.g., \"Anthropic\", \"OpenAI\", \"Google\", \"Cursor\", \"xAI\", \"GitHub\", \"Windsurf\", \"Cognitioni AI\", and many others). The exact formatting doesn't matter - approximate values are fine. If you don't know your provider, avoid guessing and omit this field.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "The index to describe.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "type": "object"
+              },
+              "name": "describe-index-stats"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "List all Pinecone indexes in the project, including each\nindex's configuration and readiness status. Use this to discover valid index\nnames before calling other tools.",
+              "inputSchema": {
+                "properties": {
+                  "llm_model": {
+                    "description": "Optional. If you are an AI model, use this field to specify your name (e.g., \"gpt-4o\", \"Composer\", \"Claude Sonnet 4\", \"Claude Opus\", \"Gemini 2.5\", \"Cascade\", \"Grok 4.1\", \"Copilot\", \"Devin\", and many others). The exact formatting of the name doesn't matter - approximate values are fine if you know roughly what you are. Include the version number in your model name only if you know it, but it is okay to leave it out if unsure. If you don't know your model name, omit this field entirely.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "llm_provider": {
+                    "description": "Optional. If you are an AI model, use this field to indicate the name of the company that trained you (e.g., \"Anthropic\", \"OpenAI\", \"Google\", \"Cursor\", \"xAI\", \"GitHub\", \"Windsurf\", \"Cognitioni AI\", and many others). The exact formatting doesn't matter - approximate values are fine. If you don't know your provider, avoid guessing and omit this field.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list-indexes"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Rerank a set of provided documents by relevance to a\nquery. Use this for documents that did not come from a Pinecone search (e.g.\nexternally sourced text). To rerank the results of a single-index search,\nprefer the \"rerank\" parameter of search-records instead of calling this tool\nseparately.",
+              "inputSchema": {
+                "properties": {
+                  "documents": {
+                    "description": "A set of documents to rerank. Can either be an array of text documents\n    (strings) or an array of records. Record field values must be strings;\n    records with number, boolean, or array fields are not accepted."
+                  },
+                  "llm_model": {
+                    "description": "Optional. If you are an AI model, use this field to specify your name (e.g., \"gpt-4o\", \"Composer\", \"Claude Sonnet 4\", \"Claude Opus\", \"Gemini 2.5\", \"Cascade\", \"Grok 4.1\", \"Copilot\", \"Devin\", and many others). The exact formatting of the name doesn't matter - approximate values are fine if you know roughly what you are. Include the version number in your model name only if you know it, but it is okay to leave it out if unsure. If you don't know your model name, omit this field entirely.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "llm_provider": {
+                    "description": "Optional. If you are an AI model, use this field to indicate the name of the company that trained you (e.g., \"Anthropic\", \"OpenAI\", \"Google\", \"Cursor\", \"xAI\", \"GitHub\", \"Windsurf\", \"Cognitioni AI\", and many others). The exact formatting doesn't matter - approximate values are fine. If you don't know your provider, avoid guessing and omit this field.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "model": {
+                    "description": "Choose a reranking model:\n- \"cohere-rerank-3.5\" is Cohere's leading reranking model, balancing performance\nand latency for a wide range of enterprise search applications.\n- \"bge-reranker-v2-m3\" is a high-performance, multilingual reranking model that\nworks well on messy data and short queries expected to return medium-length\npassages of text (1-2 paragraphs).\n- \"pinecone-rerank-v0\" is a state of the art reranking model that out-performs\ncompetitors on widely accepted benchmarks. It can handle chunks up to 512 tokens\n(1-2 paragraphs).",
+                    "enum": [
+                      "cohere-rerank-3.5",
+                      "bge-reranker-v2-m3",
+                      "pinecone-rerank-v0"
+                    ],
+                    "type": "string"
+                  },
+                  "options": {
+                    "properties": {
+                      "rankFields": {
+                        "description": "The fields to rerank on. This should only be included if the documents\n        are records. The \"bge-reranker-v2-m3\" and \"pinecone-rerank-v0\" models\n        support only a single rerank field. \"cohere-rerank-3.5\" supports\n        multiple rerank fields.",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "topN": {
+                        "description": "The number of results to return after reranking.",
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "topN"
+                    ],
+                    "type": "object"
+                  },
+                  "query": {
+                    "description": "The query to rerank documents against.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "model",
+                  "query",
+                  "documents"
+                ],
+                "type": "object"
+              },
+              "name": "rerank-documents"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Search the official Pinecone documentation for relevant\ninformation. Use this before writing Pinecone code or explaining Pinecone\nbehavior, rather than relying on assumptions.",
+              "inputSchema": {
+                "properties": {
+                  "query": {
+                    "description": "The text to search for.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "search-docs"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Search an index for records that are semantically similar\nto the query text. Only works with integrated-inference indexes (e.g. created\nwith create-index-for-model), which embed the query automatically; it fails on\nstandard indexes — use describe-index to check the index type. Returns hits\nwith \"_id\", \"_score\", and the record's stored \"fields\". Newly upserted records can take a few seconds\nto be indexed and become visible to search results and index stats; if recent\ndata is missing, wait briefly and retry.",
+              "inputSchema": {
+                "properties": {
+                  "llm_model": {
+                    "description": "Optional. If you are an AI model, use this field to specify your name (e.g., \"gpt-4o\", \"Composer\", \"Claude Sonnet 4\", \"Claude Opus\", \"Gemini 2.5\", \"Cascade\", \"Grok 4.1\", \"Copilot\", \"Devin\", and many others). The exact formatting of the name doesn't matter - approximate values are fine if you know roughly what you are. Include the version number in your model name only if you know it, but it is okay to leave it out if unsure. If you don't know your model name, omit this field entirely.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "llm_provider": {
+                    "description": "Optional. If you are an AI model, use this field to indicate the name of the company that trained you (e.g., \"Anthropic\", \"OpenAI\", \"Google\", \"Cursor\", \"xAI\", \"GitHub\", \"Windsurf\", \"Cognitioni AI\", and many others). The exact formatting doesn't matter - approximate values are fine. If you don't know your provider, avoid guessing and omit this field.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "The index to search.",
+                    "type": "string"
+                  },
+                  "namespace": {
+                    "description": "The namespace to search.",
+                    "type": "string"
+                  },
+                  "query": {
+                    "description": "A query to search for records.",
+                    "properties": {
+                      "filter": {
+                        "additionalProperties": {},
+                        "description": "A filter can be used to narrow down results. Use the syntax of\n        MongoDB's query and projection operators: $eq, $ne, $gt, $gte, $lt,\n        $lte, $in, $nin, $exists, $and, $or. Make sure the records in the index\n        contain the fields that you are filtering on. To discover which fields\n        exist, run a search without a filter and inspect the \"fields\" of the\n        returned hits. Filtering on a field that records do not contain\n        returns no results.",
+                        "properties": {},
+                        "type": "object"
+                      },
+                      "inputs": {
+                        "properties": {
+                          "text": {
+                            "description": "The text to search for.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "text"
+                        ],
+                        "type": "object"
+                      },
+                      "topK": {
+                        "description": "The number of results to return. 10 is a reasonable default; use a\n      larger value (e.g. 50) when reranking, so the reranker has more\n      candidates to choose from. Very large values increase latency and\n      response size.",
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "topK",
+                      "inputs"
+                    ],
+                    "type": "object"
+                  },
+                  "rerank": {
+                    "description": "Reranking can help determine which of the returned records are most\n  relevant. When reranking, use a \"query\" with a \"topK\" that returns more\n  results than you need; then use \"rerank\" to select the most relevant\n  \"topN\" results.",
+                    "properties": {
+                      "model": {
+                        "description": "Choose a reranking model:\n- \"cohere-rerank-3.5\" is Cohere's leading reranking model, balancing performance\nand latency for a wide range of enterprise search applications.\n- \"bge-reranker-v2-m3\" is a high-performance, multilingual reranking model that\nworks well on messy data and short queries expected to return medium-length\npassages of text (1-2 paragraphs).\n- \"pinecone-rerank-v0\" is a state of the art reranking model that out-performs\ncompetitors on widely accepted benchmarks. It can handle chunks up to 512 tokens\n(1-2 paragraphs).",
+                        "enum": [
+                          "cohere-rerank-3.5",
+                          "bge-reranker-v2-m3",
+                          "pinecone-rerank-v0"
+                        ],
+                        "type": "string"
+                      },
+                      "query": {
+                        "description": "An optional query to rerank documents against. If not specified, the\n      same query will be used for both the initial search and the reranking.",
+                        "type": "string"
+                      },
+                      "rankFields": {
+                        "description": "The fields to rerank on. This should include the field name specified\n    in the index's \"fieldMap\". The \"bge-reranker-v2-m3\" and\n    \"pinecone-rerank-v0\" models support only a single rerank field.\n    \"cohere-rerank-3.5\" supports multiple rerank fields.",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "topN": {
+                        "description": "The number of results to return after reranking. Must be less than or\n      equal to the value of \"query.topK\".",
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "model",
+                      "rankFields"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "name",
+                  "namespace",
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "search-records"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": true,
+                "readOnlyHint": false
+              },
+              "description": "Insert or update records in an integrated Pinecone index.\nText in the field named by the index's \"fieldMap\" is embedded automatically —\ncall describe-index first to confirm that field name. Records with an existing\n\"id\" are overwritten. Newly upserted records can take a few seconds\nto be indexed and become visible to search results and index stats; if recent\ndata is missing, wait briefly and retry.",
+              "inputSchema": {
+                "properties": {
+                  "llm_model": {
+                    "description": "Optional. If you are an AI model, use this field to specify your name (e.g., \"gpt-4o\", \"Composer\", \"Claude Sonnet 4\", \"Claude Opus\", \"Gemini 2.5\", \"Cascade\", \"Grok 4.1\", \"Copilot\", \"Devin\", and many others). The exact formatting of the name doesn't matter - approximate values are fine if you know roughly what you are. Include the version number in your model name only if you know it, but it is okay to leave it out if unsure. If you don't know your model name, omit this field entirely.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "llm_provider": {
+                    "description": "Optional. If you are an AI model, use this field to indicate the name of the company that trained you (e.g., \"Anthropic\", \"OpenAI\", \"Google\", \"Cursor\", \"xAI\", \"GitHub\", \"Windsurf\", \"Cognitioni AI\", and many others). The exact formatting doesn't matter - approximate values are fine. If you don't know your provider, avoid guessing and omit this field.  **Do not prompt the user for this.** This value is used to track usage analytics. ",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "The index to upsert into.",
+                    "type": "string"
+                  },
+                  "namespace": {
+                    "description": "The namespace to upsert into.",
+                    "type": "string"
+                  },
+                  "records": {
+                    "description": "A set of records to upsert into the index. Use a consistent schema for all\n  records in the index.",
+                    "items": {
+                      "additionalProperties": {
+                        "description": "A field value. Must be a string, number, boolean, or array of strings."
+                      },
+                      "description": "A record to upsert. Must have an \"id\" or \"_id\" field and contain text in\n    the field specified by the index's \"fieldMap\".",
+                      "propertyNames": {
+                        "type": "string"
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "name",
+                  "namespace",
+                  "records"
+                ],
+                "type": "object"
+              },
+              "name": "upsert-records"
+            }
+          ],
           "tools": [
-            "search-docs",
-            "list-indexes",
+            "cascading-search",
+            "create-index-for-model",
             "describe-index",
             "describe-index-stats",
-            "create-index-for-model",
-            "upsert-records",
+            "list-indexes",
+            "rerank-documents",
+            "search-docs",
             "search-records",
-            "cascading-search",
-            "rerank-documents"
+            "upsert-records"
           ]
         }
       }
