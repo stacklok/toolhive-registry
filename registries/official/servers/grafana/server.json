@@ -9,7 +9,7 @@
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-07-16T00:52:21Z",
+            "last_updated": "2026-08-14T01:17:03Z",
             "stars": 3239
           },
           "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential.\n\n**Note:** the upstream container's entrypoint defaults to the SSE transport, so this entry passes `--transport stdio` via its registry args to force stdio mode. If you run this server with your own custom arguments (`thv run ... -- \u003cyour args\u003e`), those arguments replace the registry defaults, so be sure to include `--transport stdio` yourself or the server will silently fall back to SSE.",
@@ -44,6 +44,9 @@
           "tool_definitions": [
             {
               "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Add activity to incident"
               },
               "description": "Add a note (userNote activity) to an existing incident's timeline using its ID. The note body can include URLs which will be attached as context. Use this to add context to an incident.",
@@ -72,7 +75,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Manage alerting routing"
               },
@@ -121,6 +126,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Manage alert rules"
               },
               "description": "Manage Grafana alert rules with full CRUD capabilities and filtering.\n\nWhen to use:\n- Understanding why an alert is or isn't firing\n- Auditing alert rule configuration (queries, conditions, labels, notification settings)\n- Finding alert rules by state, folder, group, or name\n- Creating, updating, or deleting alert rules\n- Comparing rule versions to see what changed\n\nWhen NOT to use:\n- Checking how alerts are routed to receivers (use alerting_manage_routing)",
@@ -279,7 +286,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Analyze Loki label strategy"
               },
@@ -380,7 +389,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Check datasources health"
               },
@@ -411,7 +422,10 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Create Annotation"
               },
               "description": "Create a new annotation on a dashboard or panel. Set format to 'graphite' and provide 'what' for Graphite-format annotations.",
@@ -475,7 +489,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": false,
+                "openWorldHint": false,
                 "readOnlyHint": false,
                 "title": "Create datasource"
               },
@@ -533,7 +549,10 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Create folder"
               },
               "description": "Create a Grafana folder. Provide a title and optional UID. Returns the created folder.",
@@ -561,6 +580,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Create incident"
               },
               "description": "Create a new Grafana incident. Requires title, severity, and room prefix. Allows setting status and labels. This tool should be used judiciously and sparingly, and only after confirmation from the user, as it may notify or alarm lots of people.",
@@ -627,7 +649,10 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Create snapshot"
               },
               "description": "Create a Grafana snapshot from a full dashboard payload. Supports optional expiration and external snapshot fields.",
@@ -669,6 +694,8 @@
               "annotations": {
                 "destructiveHint": true,
                 "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Delete snapshot"
               },
               "description": "Delete a Grafana snapshot by snapshot key.",
@@ -688,7 +715,9 @@
             },
             {
               "annotations": {
-                "readOnlyHint": true,
+                "destructiveHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Find error patterns in logs"
               },
               "description": "Searches Loki logs for elevated error patterns compared to the last day's average, waits for the analysis to complete, and returns the results including any patterns found.",
@@ -726,7 +755,9 @@
             },
             {
               "annotations": {
-                "readOnlyHint": true,
+                "destructiveHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Find slow requests"
               },
               "description": "Searches relevant Tempo datasources for slow requests, waits for the analysis to complete, and returns the results.",
@@ -764,7 +795,10 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Generate navigation deeplink"
               },
               "description": "Generate deeplink URLs for Grafana resources. Supports dashboards (requires dashboardUid or provisioningPreview), panels (requires dashboardUid or provisioningPreview, plus panelId), and Explore queries (requires datasourceUid and optionally queries). For dashboard and panel links, provisioningPreview points at a dashboard staged on a provisioning repository branch (e.g. a git-sync PR preview). For explore links, the time range and queries are embedded inside the Grafana explore state. Set shorten=true to also attempt a /goto/\u003cuid\u003e short URL; if shortening fails, the full deeplink is returned.",
@@ -854,7 +888,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get IRM alert group"
               },
@@ -875,7 +911,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get Annotation Tags"
               },
@@ -898,7 +936,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get Annotations"
               },
@@ -956,7 +996,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get assertions summary"
               },
@@ -1002,7 +1044,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get current on-call users"
               },
@@ -1023,7 +1067,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get dashboard details"
               },
@@ -1044,7 +1090,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get dashboard panel queries"
               },
@@ -1076,7 +1124,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get dashboard property"
               },
@@ -1102,7 +1152,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get dashboard summary"
               },
@@ -1123,7 +1175,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get datasource"
               },
@@ -1146,7 +1200,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get incident details"
               },
@@ -1167,7 +1223,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get OnCall shift"
               },
@@ -1188,7 +1246,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get panel or dashboard image"
               },
@@ -1284,7 +1344,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get plugin"
               },
@@ -1305,7 +1367,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get Sift analysis"
               },
@@ -1331,7 +1395,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get Sift investigation"
               },
@@ -1352,7 +1418,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get snapshot"
               },
@@ -1373,6 +1441,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Grafana API request"
               },
               "description": "Make an authenticated HTTP request to the Grafana API. Similar to 'gh api' for GitHub. Supports any Grafana API endpoint with optional jq-style response filtering. Use this for API endpoints that don't have a dedicated tool.",
@@ -1418,8 +1489,9 @@
             },
             {
               "annotations": {
-                "destructiveHint": true,
+                "destructiveHint": false,
                 "idempotentHint": false,
+                "openWorldHint": true,
                 "readOnlyHint": false,
                 "title": "Install plugin"
               },
@@ -1444,7 +1516,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List IRM alert groups"
               },
@@ -1498,7 +1572,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List datasources"
               },
@@ -1527,7 +1603,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List incidents"
               },
@@ -1555,7 +1633,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List Loki label names"
               },
@@ -1584,7 +1664,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List Loki label values"
               },
@@ -1618,7 +1700,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List OnCall schedules"
               },
@@ -1645,7 +1729,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List OnCall teams"
               },
@@ -1664,7 +1750,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List OnCall users"
               },
@@ -1691,7 +1779,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List Prometheus label names"
               },
@@ -1763,7 +1853,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List Prometheus label values"
               },
@@ -1840,7 +1932,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List Prometheus metric metadata"
               },
@@ -1878,7 +1972,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List Prometheus metric names"
               },
@@ -1925,7 +2021,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List provisioning repositories"
               },
@@ -1944,7 +2042,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List Pyroscope label names"
               },
@@ -1976,7 +2076,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List Pyroscope label values"
               },
@@ -2014,7 +2116,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List Pyroscope profile types"
               },
@@ -2043,7 +2147,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List Sift investigations"
               },
@@ -2063,7 +2169,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List snapshots"
               },
@@ -2086,7 +2194,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Query Loki logs"
               },
@@ -2137,7 +2247,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Query Loki patterns"
               },
@@ -2175,7 +2287,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get Loki log statistics"
               },
@@ -2209,7 +2323,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Query Prometheus metrics"
               },
@@ -2256,7 +2372,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Query Prometheus histogram percentile"
               },
@@ -2311,11 +2429,13 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Query Pyroscope"
               },
-              "description": "\nUnified Pyroscope query tool for fetching profiles or metrics from Pyroscope. Profile data shows WHICH functions consume resources; metrics data\nshows WHEN consumption spiked. Use query_type=\"both\" for complete analysis in one call.\n\nquery_type options (extends Grafana's PyroscopeQueryType):\n- \"profile\": returns DOT-format call graph\n- \"metrics\": returns time-series data points\n- \"both\" (default): returns both profile and metrics in one response\n",
+              "description": "\nUnified Pyroscope query tool for fetching profiles or metrics from Pyroscope. Profile data shows WHICH functions consume resources; metrics data\nshows WHEN consumption spiked. Use query_type=\"both\" for complete analysis in one call.\n\nquery_type options (extends Grafana's PyroscopeQueryType):\n- \"profile\": returns profile data (shape controlled by format)\n- \"metrics\": returns time-series data points\n- \"both\" (default): returns both profile and metrics in one response\n\nformat options (shape of the profile data):\n- \"table\" (default): per-function table with flat (self) and cumulative values, ranked by flat\n- \"dot\": call graph in Graphviz DOT format; nodes are per source line, so one function may span several nodes\n",
               "inputSchema": {
                 "properties": {
                   "data_source_uid": {
@@ -2324,6 +2444,10 @@
                   },
                   "end_rfc_3339": {
                     "description": "End time in RFC3339 or relative time (e.g. 'now') (defaults to now)",
+                    "type": "string"
+                  },
+                  "format": {
+                    "description": "Profile output format: \"table\" (default) for a per-function flat/cum table, or \"dot\" for a call graph in Graphviz DOT format",
                     "type": "string"
                   },
                   "group_by": {
@@ -2338,7 +2462,7 @@
                     "type": "string"
                   },
                   "max_node_depth": {
-                    "description": "Max depth for profile call graph (default: 100)",
+                    "description": "Max functions in the profile table or nodes in the call graph; it is a count, not a depth (default: 100)",
                     "type": "integer"
                   },
                   "profile_type": {
@@ -2368,7 +2492,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Search dashboards"
               },
@@ -2397,7 +2523,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Search folders"
               },
@@ -2416,7 +2544,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Search plugins"
               },
@@ -2437,7 +2567,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Suggest Alloy label enforcement config"
               },
@@ -2479,6 +2611,8 @@
               "annotations": {
                 "destructiveHint": true,
                 "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Update Annotation"
               },
               "description": "Updates the provided properties of an annotation by ID. Only fields included in the request are modified; omitted fields are left unchanged.",
@@ -2520,6 +2654,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": false,
                 "title": "Create or update dashboard"
               },
               "description": "Create or update a dashboard. Two modes: (1) Full JSON — provide 'dashboard' for new dashboards or complete replacements. (2) Patch — provide 'uid' + 'operations' to make targeted changes to an existing dashboard. One of these two modes is required; 'folderUid'\\, 'message'\\, and 'overwrite' are supplementary and do nothing on their own. Dashboard authoring guidance: if a saved query must support one\\, many\\, or All values from a multi-select variable inside a regex expression or matcher\\, save '${var:regex}' rather than plain '$var'. Saved dashboard annotation queries/definitions must be written into dashboard JSON under 'annotations.list'; the create_annotation tool creates annotation events and does not add a reusable dashboard annotation query/definition to the saved dashboard. For stat panels over the current dashboard range\\, make the query return the range-level result the stat should display; panel-side reduction only reduces returned series and does not compute peak-over-range or ratio-of-peaks semantics for you. Patch operations support JSONPaths like '$.panels[0].targets[0].expr'\\, '$.panels[1].title'\\, '$.panels[2].targets[0].datasource'\\, '$.templating.list/-'\\, and '$.annotations.list/-'. Append to arrays with '/- ' syntax: '$.panels/- '. Remove by index: {\"op\": \"remove\"\\, \"path\": \"$.panels[2]\"}. Multiple removes on the same array are automatically reordered to avoid index-shifting issues. Note: only numeric array indices are supported in patch paths; filter expressions like [?(@.id==2)] and wildcards like [*] are not supported. v2 dashboards (check 'isV2' from get_dashboard_by_uid) use a different shape: patch '$.elements.\u003cname\u003e.spec.title' or '$.elements.\u003cname\u003e.spec.data.spec.queries[0].spec' and edit '$.variables'/'$.layout' rather than '$.panels'/'$.templating.list'. Full-JSON saves containing top-level 'elements'/'layout' are written as v2 and require a Kubernetes-capable Grafana. After creating or updating a dashboard\\, verify that panel queries return data by using `run_panel_query` or the appropriate query tool (`query_prometheus`\\, `query_loki_logs`\\, etc.) to validate expressions before considering the task complete.",
@@ -2581,11 +2717,13 @@
             },
             {
               "annotations": {
+                "destructiveHint": true,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": false,
                 "title": "Update datasource"
               },
-              "description": "Update non-secret datasource fields by UID. Omitted fields are preserved. For secrets, direct the user to the Grafana UI.",
+              "description": "Update non-secret datasource fields by UID. Omitted fields are preserved. IMPORTANT: always call this tool twice. First call: provide only the uid — the tool returns the datasource's field schema. After receiving the schema, ask the user which fields they want to change and confirm each new value; do not infer or reset fields the user did not mention. Second call: provide the uid, schemaReviewed=true, and the changed values in the fields map. Returns an update message and a health check. For secrets, direct the user to the Grafana UI.",
               "inputSchema": {
                 "properties": {
                   "access": {
@@ -2600,6 +2738,10 @@
                     "description": "Database name",
                     "type": "string"
                   },
+                  "fields": {
+                    "description": "Datasource field values to change, keyed by field key from the schema returned on the first call. The server uses each field's target (root or jsonData) to place values correctly, merging jsonData changes into the existing settings. Only include the fields you want to change. Example: {\"httpMethod\": \"POST\"}.",
+                    "type": "object"
+                  },
                   "isDefault": {
                     "description": "Make this the default datasource",
                     "type": "boolean"
@@ -2611,6 +2753,10 @@
                   "name": {
                     "description": "Display name",
                     "type": "string"
+                  },
+                  "schemaReviewed": {
+                    "description": "Set to true on the second call to confirm you reviewed the schema and collected the changes from the user.",
+                    "type": "boolean"
                   },
                   "uid": {
                     "description": "UID of the datasource to update",
@@ -2630,7 +2776,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Validate provisioning file"
               },
