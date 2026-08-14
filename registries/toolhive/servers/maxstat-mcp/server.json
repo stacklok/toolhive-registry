@@ -1,0 +1,47 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.fbmdata/maxstat-mcp",
+  "description": "Official MAX messenger analytics: search 408K+ channels and 86M+ posts; metrics, reactions, forwards, dynamics and webhooks.",
+  "title": "MaxStat MCP",
+  "repository": {
+    "url": "https://github.com/fbmdata/maxstat-mcp",
+    "source": "github"
+  },
+  "version": "1.2.3",
+  "websiteUrl": "https://maxstat.ru/promo/mcp",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://maxstat.ru/api/mcp",
+      "headers": [
+        {
+          "name": "X-API-Token",
+          "description": "MaxStat API token. Get a free token at https://maxstat.ru/dashboard/api",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://maxstat.ru/api/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "analytics",
+            "social-media",
+            "max",
+            "remote"
+          ],
+          "custom_metadata": {
+            "author": "FBM Analytics",
+            "homepage": "https://maxstat.ru/promo/mcp",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
