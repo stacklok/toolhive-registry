@@ -1,0 +1,57 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/mainbook",
+  "description": "Converts PDF bank and credit-card statements into Excel, CSV, or JSON with statement-math validation",
+  "title": "MainBook Bank Statement Converter (Remote)",
+  "repository": {
+    "url": "https://github.com/human-beyond/mainbook-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.mainbook.ai/mcp"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mainbook/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.mainbook.ai/mcp": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "finance",
+            "bank-statements",
+            "pdf",
+            "accounting",
+            "data-extraction"
+          ],
+          "tools": [
+            "convert_bank_statement",
+            "get_conversion",
+            "list_conversions",
+            "get_balance",
+            "output_folder"
+          ],
+          "overview": "## MainBook Bank Statement Converter (Remote)\n\nMainBook turns a PDF bank or credit-card statement into structured transactions and returns them as Excel, CSV, or JSON. Every conversion is re-added by the service — opening balance plus credits minus debits against the printed closing balance — and rows that could not be read confidently are flagged rather than guessed, so an assistant can report what is verified and what still needs a human. Credit-card statements are handled on their own terms, without inventing a per-row running balance that such statements do not carry. Conversion spends the account's page credits (one page, one credit); reading the balance, listing jobs and fetching a finished job are free. Each request is authenticated with the user's own MainBook account; setup instructions are at https://mainbook.ai/mcp.",
+          "custom_metadata": {
+            "author": "Human Beyond LLC",
+            "homepage": "https://mainbook.ai/mcp",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
