@@ -1,0 +1,69 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://api.palisade.email/mcp": {
+          "custom_metadata": {
+            "author": "Palisade Technologies",
+            "homepage": "https://palisade.email",
+            "license": "MIT"
+          },
+          "overview": "## Palisade DMARC Agent\n\nPalisade is the official MCP server for managing email authentication from compatible AI agents. It provides domain visibility and remediation workflows for DMARC, SPF, DKIM, BIMI, MTA-STS, and related DNS records. Authenticate requests with a Palisade API key to inspect accounts and domains, verify configurations, and manage remediation tasks.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "email-security",
+            "dmarc",
+            "spf",
+            "dkim",
+            "dns",
+            "mta-sts",
+            "bimi"
+          ],
+          "tier": "Official",
+          "tools": [
+            "get_account",
+            "list_domains",
+            "get_domain",
+            "add_domain",
+            "remove_domain",
+            "verify_domain",
+            "get_dns_records",
+            "get_mta_sts",
+            "enable_mta_sts",
+            "list_tasks",
+            "get_task",
+            "list_groups",
+            "get_subscription",
+            "start_checkout",
+            "get_billing_portal_url"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Official MCP server for DMARC, SPF, DKIM, DNS, and email authentication management",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/palisade-dmarc-agent/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/palisade-dmarc-agent",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.palisade.email/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/palisadeemail/palisade-mcp"
+  },
+  "title": "Palisade DMARC Agent (Remote)",
+  "version": "1.0.0"
+}
