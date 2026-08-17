@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-08-10T05:33:38Z"
+    "last_updated": "2026-08-17T05:16:27Z"
   },
   "data": {
     "servers": [
@@ -4953,7 +4953,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.9.0",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.11.1",
             "transport": {
               "type": "stdio"
             },
@@ -4982,6 +4982,28 @@
                 "description": "Enable pro mode to access all tools including browser automation and web data extraction",
                 "default": "false",
                 "name": "PRO_MODE"
+              },
+              {
+                "description": "Timeout in seconds for web_data_* tools polling",
+                "default": "600",
+                "name": "POLLING_TIMEOUT"
+              },
+              {
+                "description": "Request timeout in seconds for base tools (search \u0026 scrape). No limit by default",
+                "name": "BASE_TIMEOUT"
+              },
+              {
+                "description": "Max retries for base tools on transient errors (0-3)",
+                "default": "0",
+                "name": "BASE_MAX_RETRIES"
+              },
+              {
+                "description": "Comma-separated tool group IDs to enable (e.g., 'ecommerce,browser')",
+                "name": "GROUPS"
+              },
+              {
+                "description": "Comma-separated individual tool names to enable (e.g., 'extract,scrape_as_html')",
+                "name": "TOOLS"
               }
             ]
           }
@@ -4989,9 +5011,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.9.0": {
+              "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.11.1": {
                 "metadata": {
-                  "last_updated": "2026-07-31T20:52:33Z",
+                  "last_updated": "2026-08-07T00:30:48Z",
                   "stars": 2551
                 },
                 "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
@@ -5026,8 +5048,70 @@
                   "automation",
                   "browser"
                 ],
-                "tier": "Community",
+                "tier": "Official",
                 "tool_definitions": [
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Discover"
+                    },
+                    "description": "Search the web and rank results by AI-driven relevance. Returns scored results with title, description, and URL. Supports intent-based ranking, geo-targeting, date filtering, and keyword filtering.",
+                    "inputSchema": {
+                      "properties": {
+                        "city": {
+                          "description": "City for localized results (e.g., \"New York\", \"Berlin\")",
+                          "type": "string"
+                        },
+                        "country": {
+                          "description": "2-letter ISO country code for localized results (e.g., \"US\", \"GB\", \"DE\")",
+                          "maxLength": 2,
+                          "minLength": 2,
+                          "type": "string"
+                        },
+                        "end_date": {
+                          "description": "Only content updated until this date (YYYY-MM-DD)",
+                          "type": "string"
+                        },
+                        "filter_keywords": {
+                          "description": "Keywords that must appear in search results",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "intent": {
+                          "description": "Describes the specific goal of the search to help the AI evaluate and rank result relevance.If not provided, the query string is used as the intent",
+                          "type": "string"
+                        },
+                        "language": {
+                          "description": "Language code (e.g., \"en\", \"es\", \"fr\")",
+                          "type": "string"
+                        },
+                        "num_results": {
+                          "description": "Exact number of search results to return",
+                          "type": "integer"
+                        },
+                        "query": {
+                          "description": "The search query",
+                          "type": "string"
+                        },
+                        "remove_duplicates": {
+                          "description": "Remove duplicate results (default: true)",
+                          "type": "boolean"
+                        },
+                        "start_date": {
+                          "description": "Only content updated from this date (YYYY-MM-DD)",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "discover"
+                  },
                   {
                     "annotations": {
                       "openWorldHint": true,
@@ -5082,7 +5166,7 @@
                       "readOnlyHint": true,
                       "title": "Search Engine"
                     },
-                    "description": "Scrape search results from Google, Bing or Yandex. Returns SERP results in JSON or Markdown (URL, title, description), Ideal forgathering current information, news, and detailed search results.",
+                    "description": "Scrape search results from Google, Bing or Yandex. Returns SERP results in JSON or Markdown (URL, title, description),Ideal forgathering current information, news, and detailed search results.",
                     "inputSchema": {
                       "properties": {
                         "cursor": {
@@ -5169,6 +5253,7 @@
                   }
                 ],
                 "tools": [
+                  "discover",
                   "scrape_as_markdown",
                   "scrape_batch",
                   "search_engine",
@@ -5438,7 +5523,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.14.1",
+            "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.17.0",
             "transport": {
               "type": "stdio"
             },
@@ -5448,6 +5533,26 @@
                 "isRequired": true,
                 "isSecret": true,
                 "name": "BUILDKITE_API_TOKEN"
+              },
+              {
+                "description": "Base URL of the Buildkite API to use. Override for Buildkite Enterprise or self-hosted deployments. Defaults to https://api.buildkite.com/",
+                "default": "https://api.buildkite.com/",
+                "name": "BUILDKITE_BASE_URL"
+              },
+              {
+                "description": "Comma-separated list of toolsets to enable (e.g. 'pipelines,builds,clusters'). Defaults to 'all'",
+                "default": "all",
+                "name": "BUILDKITE_TOOLSETS"
+              },
+              {
+                "description": "Enable read-only mode, filtering out write operations from all toolsets. Defaults to false",
+                "default": "false",
+                "name": "BUILDKITE_READ_ONLY"
+              },
+              {
+                "description": "Maximum number of problem jobs diagnosed by a single failure summary request (hard max 50). Defaults to 10",
+                "default": "10",
+                "name": "BUILDKITE_FAILURE_SUMMARY_MAX_JOBS"
               }
             ]
           }
@@ -5455,12 +5560,12 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/buildkite/buildkite-mcp-server:1.14.1": {
+              "ghcr.io/buildkite/buildkite-mcp-server:1.17.0": {
                 "args": [
                   "stdio"
                 ],
                 "metadata": {
-                  "last_updated": "2026-07-24T02:53:27Z",
+                  "last_updated": "2026-08-07T13:35:21Z",
                   "stars": 50
                 },
                 "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -5491,6 +5596,7 @@
                 "tool_definitions": [
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Access Token"
                     },
@@ -5505,6 +5611,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Cancel Build"
                     },
                     "description": "Cancel a running build on a Buildkite pipeline",
@@ -5532,6 +5640,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Annotation"
                     },
                     "description": "Create an annotation on a build or specific job. Use scope='build' (default) or scope='job' with job_id",
@@ -5588,6 +5698,8 @@
                   {
                     "annotations": {
                       "destructiveHint": false,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Build"
                     },
                     "description": "Trigger a new build on a Buildkite pipeline for a specific commit and branch, with optional environment variables, metadata, and author information",
@@ -5674,6 +5786,8 @@
                   {
                     "annotations": {
                       "destructiveHint": false,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Cluster"
                     },
                     "description": "Create a new cluster in an organization",
@@ -5709,6 +5823,8 @@
                   {
                     "annotations": {
                       "destructiveHint": false,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Cluster Queue"
                     },
                     "description": "Create a new queue in a cluster",
@@ -5740,6 +5856,8 @@
                   {
                     "annotations": {
                       "destructiveHint": false,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Pipeline"
                     },
                     "description": "Set up a new CI/CD pipeline in Buildkite with YAML configuration, repository connection, and cluster assignment",
@@ -5807,6 +5925,8 @@
                   {
                     "annotations": {
                       "destructiveHint": false,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Pipeline Schedule"
                     },
                     "description": "Create a new pipeline schedule that triggers builds on a cron-driven interval",
@@ -5864,6 +5984,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Current User"
                     },
@@ -5877,6 +5998,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Agent"
                     },
@@ -5904,6 +6026,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Artifact"
                     },
@@ -5941,6 +6064,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Build"
                     },
@@ -5968,6 +6092,84 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
+                      "readOnlyHint": true,
+                      "title": "Get Build Failure Summary"
+                    },
+                    "description": "Diagnose a Buildkite build failure in one call. Returns build state, terminal problem jobs, downstream failed or broken jobs, promised failures from running jobs, and size-bounded diagnostic content from logs, annotations, and failed Test Engine executions. Start with this tool before calling individual job, log, annotation, or test tools.",
+                    "inputSchema": {
+                      "properties": {
+                        "build_number": {
+                          "type": "string"
+                        },
+                        "include_annotations": {
+                          "description": "Include error and warning annotation bodies (default true)",
+                          "type": [
+                            "null",
+                            "boolean"
+                          ]
+                        },
+                        "include_failed_tests": {
+                          "description": "Include failed Test Engine executions when the build has Test Engine runs (default true)",
+                          "type": [
+                            "null",
+                            "boolean"
+                          ]
+                        },
+                        "include_failure_expanded": {
+                          "description": "Include expanded test failure details such as stack traces within the summary's bounded test-content budget",
+                          "type": "boolean"
+                        },
+                        "include_logs": {
+                          "description": "Include a bounded log tail for failed, timed-out, canceled, and promised-failing jobs (default true)",
+                          "type": [
+                            "null",
+                            "boolean"
+                          ]
+                        },
+                        "log_tail": {
+                          "description": "Log lines to include for each failed, timed-out, canceled, or promised-failing job (default 50, max 200)",
+                          "type": "integer"
+                        },
+                        "max_annotations": {
+                          "description": "Maximum error or warning annotations to return (default 20, max 100); the server scans at most 500 total annotations",
+                          "type": "integer"
+                        },
+                        "max_failed_tests": {
+                          "description": "Maximum failed test executions to return across all Test Engine runs (default 100, max 200)",
+                          "type": "integer"
+                        },
+                        "max_failed_tests_per_run": {
+                          "description": "Maximum failed test executions to return per Test Engine run (default 20, max 100)",
+                          "type": "integer"
+                        },
+                        "max_jobs": {
+                          "description": "Maximum terminal problem or downstream-failed jobs to return (default 10, server may enforce a lower maximum, absolute max 50)",
+                          "type": "integer"
+                        },
+                        "max_test_runs": {
+                          "description": "Maximum Test Engine runs to inspect (default 5, max 20)",
+                          "type": "integer"
+                        },
+                        "org_slug": {
+                          "type": "string"
+                        },
+                        "pipeline_slug": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "org_slug",
+                        "pipeline_slug",
+                        "build_number"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_build_failure_summary"
+                  },
+                  {
+                    "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Build Test Engine Runs"
                     },
@@ -5995,6 +6197,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Cluster"
                     },
@@ -6018,6 +6221,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Cluster Queue"
                     },
@@ -6045,6 +6249,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Failed Test Executions"
                     },
@@ -6084,6 +6289,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Job"
                     },
@@ -6119,6 +6325,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Job Environment Variables"
                     },
@@ -6150,6 +6357,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Pipeline"
                     },
@@ -6177,6 +6385,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Pipeline Schedule"
                     },
@@ -6204,6 +6413,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Test"
                     },
@@ -6231,6 +6441,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Test Run"
                     },
@@ -6258,6 +6469,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Agents"
                     },
@@ -6298,6 +6510,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Annotations"
                     },
@@ -6341,6 +6554,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Build Artifact List"
                     },
@@ -6376,6 +6590,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Job Artifact List"
                     },
@@ -6415,6 +6630,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Builds"
                     },
@@ -6462,6 +6678,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Cluster Queues"
                     },
@@ -6493,6 +6710,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Clusters"
                     },
@@ -6520,6 +6738,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Jobs"
                     },
@@ -6586,6 +6805,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Pipeline Schedules"
                     },
@@ -6617,6 +6837,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Pipelines"
                     },
@@ -6656,6 +6877,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Skill Guides"
                     },
@@ -6674,6 +6896,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Test Runs"
                     },
@@ -6705,6 +6928,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Load Skill Guide"
                     },
@@ -6726,6 +6950,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Pause Cluster Queue Dispatch"
                     },
                     "description": "Pause dispatch on a cluster queue, preventing new jobs from being dispatched to agents",
@@ -6756,6 +6982,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Read Logs"
                     },
@@ -6800,6 +7027,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Rebuild Build"
                     },
                     "description": "Rebuild/retry an entire build on a Buildkite pipeline",
@@ -6827,6 +7056,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Resume Cluster Queue Dispatch"
                     },
                     "description": "Resume dispatch on a paused cluster queue, allowing jobs to be dispatched to agents again",
@@ -6854,6 +7085,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Retry Job"
                     },
                     "description": "Retry a specific failed or timed out job in a Buildkite build",
@@ -6884,6 +7117,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Search Logs"
                     },
@@ -6949,6 +7183,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Tail Logs"
                     },
@@ -6990,6 +7225,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Unblock Job"
                     },
                     "description": "Unblock a blocked job in a Buildkite build to allow it to continue execution",
@@ -7028,6 +7265,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Update Cluster"
                     },
                     "description": "Update an existing cluster's name, description, emoji, color, or default queue",
@@ -7086,6 +7325,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Update Cluster Queue"
                     },
                     "description": "Update an existing cluster queue's description or retry agent affinity",
@@ -7127,6 +7368,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Update Pipeline"
                     },
                     "description": "Modify an existing Buildkite pipeline's configuration, repository, settings, or metadata",
@@ -7213,6 +7456,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Update Pipeline Schedule"
                     },
                     "description": "Modify an existing pipeline schedule's cron expression, branch, environment variables, or enabled state",
@@ -7284,6 +7529,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Organization for User Token"
                     },
@@ -7294,6 +7540,34 @@
                       "type": "object"
                     },
                     "name": "user_token_organization"
+                  },
+                  {
+                    "annotations": {
+                      "idempotentHint": false,
+                      "readOnlyHint": true,
+                      "title": "Wait for Build"
+                    },
+                    "description": "Wait for a build to reach a terminal state (passed, failed, canceled, skipped, not_run, or blocked on a block step), polling for up to 45 seconds. Returns finished=true along with the build once it settles. If the build is still in progress when the window closes it returns finished=false and the current state only, with no build detail — call this tool again to keep waiting. Judge a long build by build_elapsed_seconds, which counts from the build's own start time and does not reset between calls; waited_seconds covers only the latest call. Do not wait indefinitely: after roughly ten consecutive calls, stop and report the build as still running with its elapsed time rather than continuing to poll. Jobs and annotation bodies are never included — use list_jobs or get_job for job detail, and list_annotations to read annotations",
+                    "inputSchema": {
+                      "properties": {
+                        "build_number": {
+                          "type": "string"
+                        },
+                        "org_slug": {
+                          "type": "string"
+                        },
+                        "pipeline_slug": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "org_slug",
+                        "pipeline_slug",
+                        "build_number"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "wait_for_build"
                   }
                 ],
                 "tools": [
@@ -7309,6 +7583,7 @@
                   "get_agent",
                   "get_artifact",
                   "get_build",
+                  "get_build_failure_summary",
                   "get_build_test_engine_runs",
                   "get_cluster",
                   "get_cluster_queue",
@@ -7344,7 +7619,8 @@
                   "update_cluster_queue",
                   "update_pipeline",
                   "update_pipeline_schedule",
-                  "user_token_organization"
+                  "user_token_organization",
+                  "wait_for_build"
                 ]
               }
             }
@@ -60581,12 +60857,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/agent-observability-eval-bootstrap:0.3.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/agent-observability-eval-bootstrap:0.3.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "69cca0e752d3a703d0b16ce7eaeaa787f2f90fd4",
+            "ref": "8511716686f3add54657b83207912a7c497a4327",
             "subfolder": "agent-observability/agent-observability-eval-bootstrap"
           }
         ]
@@ -60611,12 +60887,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/agent-observability-experiment-analyzer:0.3.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/agent-observability-experiment-analyzer:0.3.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "69cca0e752d3a703d0b16ce7eaeaa787f2f90fd4",
+            "ref": "8511716686f3add54657b83207912a7c497a4327",
             "subfolder": "agent-observability/agent-observability-experiment-analyzer"
           }
         ]
@@ -60641,12 +60917,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/agent-observability-session-classify:0.3.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/agent-observability-session-classify:0.3.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "69cca0e752d3a703d0b16ce7eaeaa787f2f90fd4",
+            "ref": "8511716686f3add54657b83207912a7c497a4327",
             "subfolder": "agent-observability/agent-observability-session-classify"
           }
         ]
@@ -60671,12 +60947,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/agent-observability-trace-rca:0.3.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/agent-observability-trace-rca:0.3.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "69cca0e752d3a703d0b16ce7eaeaa787f2f90fd4",
+            "ref": "8511716686f3add54657b83207912a7c497a4327",
             "subfolder": "agent-observability/agent-observability-trace-rca"
           }
         ]
@@ -60702,12 +60978,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/agentic-actions-auditor:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/agentic-actions-auditor:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "cfe5d7b1619e47fb5b38b7e2561dad7e5f1e89af",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/agentic-actions-auditor/skills/agentic-actions-auditor"
           }
         ]
@@ -60733,12 +61009,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/agents-md:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/agents-md:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/agents-md"
           }
         ]
@@ -60764,12 +61040,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/agents-sdk:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/agents-sdk:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "27ce0c0e159225caa7ed30ebefd4107aa6c52497",
+            "ref": "30553f89ae1ef1e3c2917cd09d72dac992bb4e9a",
             "subfolder": "skills/agents-sdk"
           }
         ]
@@ -60794,12 +61070,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/ask-matt:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/ask-matt:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/ask-matt"
           }
         ]
@@ -60886,12 +61162,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/chdb-datastore:0.1.5"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/chdb-datastore:0.1.6"
           },
           {
             "registryType": "git",
             "url": "https://github.com/ClickHouse/agent-skills",
-            "ref": "65ce71fce803014afb69279535c82c72dc55d9ba",
+            "ref": "6e5458d59b82f6f027bccb258a7be3c6cefe5e08",
             "subfolder": "skills/chdb-datastore"
           }
         ]
@@ -60917,12 +61193,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/chdb-sql:0.1.5"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/chdb-sql:0.1.6"
           },
           {
             "registryType": "git",
             "url": "https://github.com/ClickHouse/agent-skills",
-            "ref": "65ce71fce803014afb69279535c82c72dc55d9ba",
+            "ref": "6e5458d59b82f6f027bccb258a7be3c6cefe5e08",
             "subfolder": "skills/chdb-sql"
           }
         ]
@@ -60975,12 +61251,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/claimable-postgres:0.1.6"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/claimable-postgres:0.1.7"
           },
           {
             "registryType": "git",
             "url": "https://github.com/neondatabase/agent-skills",
-            "ref": "d0189b0b1d83dd150ba6d5c884b3ab061367b380",
+            "ref": "73bebcea5d08cab830bce91c07990f17781c53c9",
             "subfolder": "skills/claimable-postgres"
           }
         ]
@@ -61006,12 +61282,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/claude-api:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/claude-api:0.3.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/anthropics/skills",
-            "ref": "b29e7cf65e5cb78a5ac33d582270551bc74a14eb",
+            "ref": "f17010c9bb483898c1d9c9f42dde2b3a98889434",
             "subfolder": "skills/claude-api"
           }
         ]
@@ -61037,12 +61313,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/claude-settings-audit:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/claude-settings-audit:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/claude-settings-audit"
           }
         ]
@@ -61068,12 +61344,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/clickhouse-architecture-advisor:0.1.5"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/clickhouse-architecture-advisor:0.1.6"
           },
           {
             "registryType": "git",
             "url": "https://github.com/ClickHouse/agent-skills",
-            "ref": "65ce71fce803014afb69279535c82c72dc55d9ba",
+            "ref": "6e5458d59b82f6f027bccb258a7be3c6cefe5e08",
             "subfolder": "skills/clickhouse-architecture-advisor"
           }
         ]
@@ -61099,12 +61375,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/clickhouse-best-practices:0.1.5"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/clickhouse-best-practices:0.1.6"
           },
           {
             "registryType": "git",
             "url": "https://github.com/ClickHouse/agent-skills",
-            "ref": "65ce71fce803014afb69279535c82c72dc55d9ba",
+            "ref": "6e5458d59b82f6f027bccb258a7be3c6cefe5e08",
             "subfolder": "skills/clickhouse-best-practices"
           }
         ]
@@ -61130,7 +61406,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/clickhousectl-cloud-deploy:0.2.4"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/clickhousectl-cloud-deploy:0.2.6"
           },
           {
             "registryType": "git",
@@ -61161,7 +61437,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/clickhousectl-local-dev:0.1.5"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/clickhousectl-local-dev:0.1.7"
           },
           {
             "registryType": "git",
@@ -61223,12 +61499,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/cloudflare-email-service:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/cloudflare-email-service:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "27ce0c0e159225caa7ed30ebefd4107aa6c52497",
+            "ref": "30553f89ae1ef1e3c2917cd09d72dac992bb4e9a",
             "subfolder": "skills/cloudflare-email-service"
           }
         ]
@@ -61287,12 +61563,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/code-simplifier:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/code-simplifier:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/code-simplifier"
           }
         ]
@@ -61317,12 +61593,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/codebase-design:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/codebase-design:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/codebase-design"
           }
         ]
@@ -61348,12 +61624,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/codeql:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/codeql:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "cfe5d7b1619e47fb5b38b7e2561dad7e5f1e89af",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/static-analysis/skills/codeql"
           }
         ]
@@ -61379,12 +61655,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/commit:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/commit:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/commit"
           }
         ]
@@ -61410,13 +61686,73 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/constant-time-analysis:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/constant-time-analysis:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "cfe5d7b1619e47fb5b38b7e2561dad7e5f1e89af",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/constant-time-analysis/skills/constant-time-analysis"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "context7-cli",
+        "description": "Use the ctx7 CLI to fetch library documentation, manage AI coding skills, and configure Context7 MCP. Activate when the user mentions \"ctx7\" or \"context7\", needs current docs for any library, wants to install/search/generate skills, or needs to set up Context7 for their AI coding agent.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "Context7 CLI",
+        "repository": {
+          "url": "https://github.com/upstash/context7",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/context7-cli:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/upstash/context7",
+            "ref": "ef14a58dfedb14f2d02bf7ecd0b1654b41553520",
+            "subfolder": "skills/context7-cli"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "context7-mcp",
+        "description": "This skill should be used when the user asks about libraries, frameworks, API references, or needs code examples. Activates for setup questions, code generation involving libraries, or mentions of specific frameworks like React, Vue, Next.js, Prisma, Supabase, etc.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "Context7 MCP",
+        "repository": {
+          "url": "https://github.com/upstash/context7",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/context7-mcp:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/upstash/context7",
+            "ref": "ef14a58dfedb14f2d02bf7ecd0b1654b41553520",
+            "subfolder": "skills/context7-mcp"
           }
         ]
       },
@@ -61441,12 +61777,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/create-branch:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/create-branch:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/create-branch"
           }
         ]
@@ -61472,12 +61808,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/dd-apm:0.3.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/dd-apm:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "9bcb3ceafacae78dbba76c9459a878fc7d6a0d10",
+            "ref": "8511716686f3add54657b83207912a7c497a4327",
             "subfolder": "dd-apm"
           }
         ]
@@ -61503,12 +61839,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/dd-docs:0.3.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/dd-docs:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "9bcb3ceafacae78dbba76c9459a878fc7d6a0d10",
+            "ref": "8511716686f3add54657b83207912a7c497a4327",
             "subfolder": "dd-docs"
           }
         ]
@@ -61655,12 +61991,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/dd-logs:0.3.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/dd-logs:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "9bcb3ceafacae78dbba76c9459a878fc7d6a0d10",
+            "ref": "8511716686f3add54657b83207912a7c497a4327",
             "subfolder": "dd-logs"
           }
         ]
@@ -61686,12 +62022,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/dd-monitors:0.3.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/dd-monitors:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "9bcb3ceafacae78dbba76c9459a878fc7d6a0d10",
+            "ref": "8511716686f3add54657b83207912a7c497a4327",
             "subfolder": "dd-monitors"
           }
         ]
@@ -61717,12 +62053,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/dd-pup:0.3.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/dd-pup:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/datadog-labs/agent-skills",
-            "ref": "9bcb3ceafacae78dbba76c9459a878fc7d6a0d10",
+            "ref": "8511716686f3add54657b83207912a7c497a4327",
             "subfolder": "dd-pup"
           }
         ]
@@ -61900,12 +62236,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/diagnosing-bugs:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/diagnosing-bugs:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/diagnosing-bugs"
           }
         ]
@@ -61931,12 +62267,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/differential-review:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/differential-review:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/differential-review/skills/differential-review"
           }
         ]
@@ -61962,12 +62298,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/django-access-review:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/django-access-review:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/django-access-review"
           }
         ]
@@ -61993,12 +62329,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/django-perf-review:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/django-perf-review:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/django-perf-review"
           }
         ]
@@ -62024,12 +62360,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/doc-coauthoring:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/doc-coauthoring:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/doc-coauthoring"
           }
         ]
@@ -62054,12 +62390,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/domain-modeling:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/domain-modeling:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/domain-modeling"
           }
         ]
@@ -62085,12 +62421,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/durable-objects:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/durable-objects:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "27ce0c0e159225caa7ed30ebefd4107aa6c52497",
+            "ref": "30553f89ae1ef1e3c2917cd09d72dac992bb4e9a",
             "subfolder": "skills/durable-objects"
           }
         ]
@@ -62115,12 +62451,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/entire-explain:0.2.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/entire-explain:0.2.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/entireio/skills",
-            "ref": "79682cb0df23cd3066add89e12d1b96fae37f4ed",
+            "ref": "04ea025c9c71d4509f24ea7dca4a1c38365676d0",
             "subfolder": "skills/explain"
           }
         ]
@@ -62145,12 +62481,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/entire-search:0.3.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/entire-search:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/entireio/skills",
-            "ref": "79682cb0df23cd3066add89e12d1b96fae37f4ed",
+            "ref": "04ea025c9c71d4509f24ea7dca4a1c38365676d0",
             "subfolder": "skills/search"
           }
         ]
@@ -62175,12 +62511,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/entire-session-handoff:0.2.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/entire-session-handoff:0.2.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/entireio/skills",
-            "ref": "79682cb0df23cd3066add89e12d1b96fae37f4ed",
+            "ref": "04ea025c9c71d4509f24ea7dca4a1c38365676d0",
             "subfolder": "skills/session-handoff"
           }
         ]
@@ -62205,12 +62541,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/entire-session-to-skill:0.2.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/entire-session-to-skill:0.2.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/entireio/skills",
-            "ref": "79682cb0df23cd3066add89e12d1b96fae37f4ed",
+            "ref": "04ea025c9c71d4509f24ea7dca4a1c38365676d0",
             "subfolder": "skills/session-to-skill"
           }
         ]
@@ -62235,12 +62571,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/entire-what-happened:0.2.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/entire-what-happened:0.2.2"
           },
           {
             "registryType": "git",
             "url": "https://github.com/entireio/skills",
-            "ref": "79682cb0df23cd3066add89e12d1b96fae37f4ed",
+            "ref": "04ea025c9c71d4509f24ea7dca4a1c38365676d0",
             "subfolder": "skills/what-happened"
           }
         ]
@@ -62266,12 +62602,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/find-bugs:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/find-bugs:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/find-bugs"
           }
         ]
@@ -62297,12 +62633,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-ai-logic-basics:0.1.2"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-ai-logic-basics:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "02c0a61889121567a9335285eddcf62aa99a2a7c",
+            "ref": "073edf7bb747c27b9c911a9126adaa5bc4648fdc",
             "subfolder": "skills/firebase-ai-logic-basics"
           }
         ]
@@ -62328,12 +62664,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-app-hosting-basics:0.1.2"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-app-hosting-basics:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "02c0a61889121567a9335285eddcf62aa99a2a7c",
+            "ref": "073edf7bb747c27b9c911a9126adaa5bc4648fdc",
             "subfolder": "skills/firebase-app-hosting-basics"
           }
         ]
@@ -62359,12 +62695,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-auth-basics:0.1.2"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-auth-basics:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "02c0a61889121567a9335285eddcf62aa99a2a7c",
+            "ref": "073edf7bb747c27b9c911a9126adaa5bc4648fdc",
             "subfolder": "skills/firebase-auth-basics"
           }
         ]
@@ -62390,12 +62726,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-basics:0.1.2"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-basics:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "02c0a61889121567a9335285eddcf62aa99a2a7c",
+            "ref": "073edf7bb747c27b9c911a9126adaa5bc4648fdc",
             "subfolder": "skills/firebase-basics"
           }
         ]
@@ -62421,12 +62757,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-data-connect-basics:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-data-connect-basics:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "7288f7cf2a3ba9dfdd4ddd2b40c5ec9c8f2409b1",
+            "ref": "073edf7bb747c27b9c911a9126adaa5bc4648fdc",
             "subfolder": "skills/firebase-data-connect-basics"
           }
         ]
@@ -62451,12 +62787,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-firestore:0.3.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-firestore:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "7288f7cf2a3ba9dfdd4ddd2b40c5ec9c8f2409b1",
+            "ref": "073edf7bb747c27b9c911a9126adaa5bc4648fdc",
             "subfolder": "skills/firebase-firestore"
           }
         ]
@@ -62544,12 +62880,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-hosting-basics:0.1.2"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-hosting-basics:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "02c0a61889121567a9335285eddcf62aa99a2a7c",
+            "ref": "073edf7bb747c27b9c911a9126adaa5bc4648fdc",
             "subfolder": "skills/firebase-hosting-basics"
           }
         ]
@@ -62574,12 +62910,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-security-rules-auditor:0.1.2"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/firebase-security-rules-auditor:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/firebase/agent-skills",
-            "ref": "02c0a61889121567a9335285eddcf62aa99a2a7c",
+            "ref": "073edf7bb747c27b9c911a9126adaa5bc4648fdc",
             "subfolder": "skills/firebase-security-rules-auditor"
           }
         ]
@@ -62698,12 +63034,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/fp-check:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/fp-check:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/fp-check/skills/fp-check"
           }
         ]
@@ -62822,13 +63158,44 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/gh-review-requests:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/gh-review-requests:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/gh-review-requests"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "gh-stack",
+        "description": "Manage stacked branches and pull requests with the gh-stack GitHub CLI extension: stack creation, viewing, push, submit, sync, rebase, merge, and checkout",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "GH Stack",
+        "license": "MIT",
+        "repository": {
+          "url": "https://github.com/github/gh-stack",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/gh-stack:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/github/gh-stack",
+            "ref": "14fc42ed9b6c376a53b2f999f138d3bd26dac546",
+            "subfolder": "skills/gh-stack"
           }
         ]
       },
@@ -62853,12 +63220,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/gha-security-review:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/gha-security-review:0.3.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "e7a87fa72645158f9b5e722cbb1c7e09266f48f1",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/gha-security-review"
           }
         ]
@@ -62883,12 +63250,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/git-guardrails-claude-code:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/git-guardrails-claude-code:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/misc/git-guardrails-claude-code"
           }
         ]
@@ -62913,12 +63280,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/grill-me:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/grill-me:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/productivity/grill-me"
           }
         ]
@@ -62943,12 +63310,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/grill-with-docs:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/grill-with-docs:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/grill-with-docs"
           }
         ]
@@ -62973,12 +63340,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/grilling:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/grilling:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "ed37663cc5fbef691ddfecd080dff42f7e7e350d",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/productivity/grilling"
           }
         ]
@@ -63003,13 +63370,613 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/handoff:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/handoff:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/productivity/handoff"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-aws-ami-builder",
+        "description": "Build Amazon Machine Images (AMIs) with Packer using the amazon-ebs builder. Use when creating custom AMIs for EC2 instances.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp AWS AMI Builder",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-aws-ami-builder:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/packer/skills/aws-ami-builder"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-azure-image-builder",
+        "description": "Build Azure managed images and Azure Compute Gallery images with Packer. Use when creating custom images for Azure VMs.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Azure Image Builder",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-azure-image-builder:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/packer/skills/azure-image-builder"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-azure-verified-modules",
+        "description": "Azure Verified Modules (AVM) requirements and best practices for developing certified Azure Terraform modules. Use when creating or reviewing Azure modules that need AVM certification.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Azure Verified Modules",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-azure-verified-modules:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/azure-verified-modules"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-new-terraform-provider",
+        "description": "Use this when scaffolding a new Terraform provider with the Plugin Framework: workspace layout, go module setup, provider server main.go, and a provider.go with schema and Configure. Also use when a user wants to start building a provider for a new API or asks how to begin a terraform-provider-* project.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp New Terraform Provider",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-new-terraform-provider:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/new-terraform-provider"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-provider-actions",
+        "description": "Implement Terraform Provider actions using the Plugin Framework. Use when developing imperative operations that execute at lifecycle events (before/after create, update, destroy).",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Provider Actions",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-provider-actions:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/provider-actions"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-provider-configuration",
+        "description": "Implement Terraform provider configuration and authentication with the Plugin Framework: provider schema for credentials (Optional + Sensitive attributes), environment variable fallbacks, credential provider chains (static config, then environment variables, shared credentials file, and platform identity), unknown-value guards in Configure(), secret redaction, configure-time credential validation, and diagnostics that name every source tried. Use when implementing or reviewing a provider's Configure method or provider schema, adding authentication options (API keys, tokens, profiles, credentials files, assume-role), deciding how a provider should resolve credentials, debugging \"no valid credential sources\" or missing-credentials errors, or unit testing credential resolution.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Provider Configuration",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-provider-configuration:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/provider-configuration"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-provider-docs",
+        "description": "Create, update, and review Terraform provider documentation for Terraform Registry using HashiCorp-recommended patterns, tfplugindocs templates, and schema descriptions. Use when adding or changing provider configuration, resources, data sources, ephemeral resources, list resources, functions, actions, or guides; when validating generated docs; and when troubleshooting missing or incorrect Registry documentation.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Provider Docs",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-provider-docs:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/provider-docs"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-provider-ephemeral-resources",
+        "description": "Implement Terraform provider ephemeral resources with the Plugin Framework: the Open/Renew/Close lifecycle, ephemeral schema design, registration via EphemeralResources, renewal for expiring credentials, and how ephemeral values flow into write-only attributes and provider configuration. Use when adding an ephemeral resource, exposing secrets/tokens/certificates that must never persist in state or plan, deciding between an ephemeral resource and a data source, or wiring short-lived credentials from one provider into another.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Provider Ephemeral Resources",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-provider-ephemeral-resources:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/provider-ephemeral-resources"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-provider-framework-migration",
+        "description": "Migrate Terraform provider resources and data sources from Plugin SDKv2 to the Plugin Framework: muxing both plugins in one provider (terraform-plugin-mux, tf5to6server), per-resource migration workflow, SDKv2-to-Framework schema mapping (ForceNew, ValidateFunc, DiffSuppressFunc, Default, Timeouts, blocks), null-vs-zero-value behavioral traps, and state-compatibility verification. Use when converting or translating SDKv2 resources to the Framework, setting up a muxed provider server, deciding whether a resource should be migrated at all, or debugging plan diffs and state errors that appeared after a migration.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Provider Framework Migration",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-provider-framework-migration:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/provider-framework-migration"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-provider-resources",
+        "description": "Implement Terraform Provider resources and data sources using the Plugin Framework: CRUD operations, schema design, plan modifiers and validators, not-found handling, waiters for eventually consistent APIs, import support, resource design principles, and required acceptance test coverage. Use when adding or changing a resource or data source, deciding whether an API concept should be a resource, wiring a resource to the provider's configured client, handling drift or resource-not-found, or reviewing a resource implementation before submission.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Provider Resources",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-provider-resources:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/provider-resources"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-provider-test-patterns",
+        "description": "Terraform provider acceptance test patterns using terraform-plugin-testing with the Plugin Framework. Covers test structure, TestCase/TestStep fields, ConfigStateChecks with custom statecheck.StateCheck implementations, plan checks, CompareValue for cross-step assertions, config helpers, import testing with ImportStateKind, sweepers, and scenario patterns (basic, update, disappears, validation, regression), and ephemeral resource testing with the echoprovider package. Use when writing, reviewing, or debugging provider acceptance tests, including questions about statecheck, plancheck, TestCheckFunc, CheckDestroy, ExpectError, import state verification, ephemeral resources, or how to structure test files.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Provider Test Patterns",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-provider-test-patterns:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/provider-test-patterns"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-push-to-registry",
+        "description": "Push Packer build metadata to HCP Packer registry for tracking and managing image lifecycle. Use when integrating Packer builds with HCP Packer for version control and governance.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Push to Registry",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-push-to-registry:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/packer/skills/push-to-registry"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-refactor-module",
+        "description": "Transform monolithic Terraform configurations into reusable, maintainable modules following HashiCorp's module design principles and community best practices.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Refactor Module",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-refactor-module:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/refactor-module"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-run-acceptance-tests",
+        "description": "Guide for running acceptance tests for a Terraform provider. Use this when asked to run an acceptance test or to run a test with the prefix `TestAcc`, when a test fails with missing environment variables, or when diagnosing a failing or suspiciously passing acceptance test.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Run Acceptance Tests",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-run-acceptance-tests:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/run-acceptance-tests"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-terraform-policy",
+        "description": "Write, test, or convert Terraform Policy files (.policy.hcl, .policytest.hcl, Sentinel→tfpolicy). Triggers: policy.hcl, policytest, convert sentinel, tfpolicy, write a policy.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Terraform Policy",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-terraform-policy:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/terraform-policy"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-terraform-search-import",
+        "description": "Discover existing cloud resources using Terraform Search queries and bulk import them into Terraform management. Use when bringing unmanaged infrastructure under Terraform control, auditing cloud resources, or migrating to IaC.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Terraform Search Import",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-terraform-search-import:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/terraform-search-import"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-terraform-stacks",
+        "description": "Comprehensive guide for working with HashiCorp Terraform Stacks. Use when creating, modifying, or validating Terraform Stack configurations (.tfcomponent.hcl, .tfdeploy.hcl files), working with stack components and deployments from local modules, public registry, or private registry sources, managing multi-region or multi-environment infrastructure, or troubleshooting Terraform Stacks syntax and structure.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Terraform Stacks",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-terraform-stacks:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/terraform-stacks"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-terraform-style-guide",
+        "description": "Generate Terraform HCL code following HashiCorp's official style conventions and best practices. Use when writing, reviewing, or generating Terraform configurations.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Terraform Style Guide",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-terraform-style-guide:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/terraform-style-guide"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-terraform-test",
+        "description": "Comprehensive guide for writing and running Terraform tests. Use when creating test files (.tftest.hcl), writing test scenarios with run blocks, validating infrastructure behavior with assertions, mocking providers and data sources, testing module outputs and resource configurations, or troubleshooting Terraform test syntax and execution.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Terraform Test",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-terraform-test:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/terraform/skills/terraform-test"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "hashicorp-windows-builder",
+        "description": "Build Windows images with Packer using WinRM communicator and PowerShell provisioners. Use when creating Windows AMIs, Azure images, or VMware templates.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "HashiCorp Windows Builder",
+        "repository": {
+          "url": "https://github.com/hashicorp/agent-skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/hashicorp-windows-builder:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/hashicorp/agent-skills",
+            "ref": "4451ceca5456e79cc776efee96a744f7ac96e5bf",
+            "subfolder": "plugins/packer/skills/windows-builder"
           }
         ]
       },
@@ -63374,12 +64341,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/implement:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/implement:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/implement"
           }
         ]
@@ -63404,12 +64371,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/improve-codebase-architecture:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/improve-codebase-architecture:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/improve-codebase-architecture"
           }
         ]
@@ -63435,12 +64402,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/insecure-defaults:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/insecure-defaults:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/insecure-defaults/skills/insecure-defaults"
           }
         ]
@@ -63466,12 +64433,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/iterate-pr:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/iterate-pr:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/iterate-pr"
           }
         ]
@@ -63588,12 +64555,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/matt-pocock-code-review:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/matt-pocock-code-review:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/code-review"
           }
         ]
@@ -63618,12 +64585,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/migrate-to-shoehorn:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/migrate-to-shoehorn:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/misc/migrate-to-shoehorn"
           }
         ]
@@ -63872,12 +64839,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/neon-postgres:0.1.6"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/neon-postgres:0.1.7"
           },
           {
             "registryType": "git",
             "url": "https://github.com/neondatabase/agent-skills",
-            "ref": "d0189b0b1d83dd150ba6d5c884b3ab061367b380",
+            "ref": "73bebcea5d08cab830bce91c07990f17781c53c9",
             "subfolder": "skills/neon-postgres"
           }
         ]
@@ -63903,13 +64870,133 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/neon-postgres-egress-optimizer:0.1.6"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/neon-postgres-egress-optimizer:0.1.7"
           },
           {
             "registryType": "git",
             "url": "https://github.com/neondatabase/agent-skills",
-            "ref": "d0189b0b1d83dd150ba6d5c884b3ab061367b380",
+            "ref": "73bebcea5d08cab830bce91c07990f17781c53c9",
             "subfolder": "skills/neon-postgres-egress-optimizer"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "next-cache-components-adoption",
+        "description": "Turn on Cache Components in a Next.js app and resolve the blocking routes it surfaces. Use when the user wants to enable, adopt, or migrate to Cache Components, flip the `cacheComponents` flag, work through a flood of blocking-prerender / instant validation errors, run the `cache-components-instant-false` codemod, or decide between opting routes out with `export const instant = false` and fixing them in place.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "Next Cache Components Adoption",
+        "repository": {
+          "url": "https://github.com/vercel/next.js",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/next-cache-components-adoption:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/vercel/next.js",
+            "ref": "ede8799c40a63a8c2a6cdbd9c52cf89218534e4c",
+            "subfolder": "skills/next-cache-components-adoption"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "next-cache-components-optimizer",
+        "description": "Drive a Next.js route to instant navigation by setting up an agentic loop, under Cache Components / PPR, on initial load (hard navigation) and client-side navigation (soft navigation). Encode the goal as a failing @next/playwright instant() e2e and work it to green, one verified route at a time; the shipped test then guards against regression. Use when asked to make a route's navigation instant (its static shell commits immediately), fix a route whose static shell isn't prerendered/served/prefetched, grow a route's static shell or fix its slow first paint, diagnose which Suspense boundary keeps a route out of its static shell, or write the instant() e2e guard for one. Requires Next.js 16.3+ with cacheComponents; directs an upgrade if older.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "Next Cache Components Optimizer",
+        "repository": {
+          "url": "https://github.com/vercel/next.js",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/next-cache-components-optimizer:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/vercel/next.js",
+            "ref": "ede8799c40a63a8c2a6cdbd9c52cf89218534e4c",
+            "subfolder": "skills/next-cache-components-optimizer"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "next-dev-loop",
+        "description": "Verify Next.js runtime behavior after editing app code. Use this skill to confirm a change actually works in a running app — not just that it compiles or type-checks. Combines /_next/mcp (Next.js's view) with agent-browser (the browser's view). Requires a running `next dev`.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "Next Dev Loop",
+        "repository": {
+          "url": "https://github.com/vercel/next.js",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/next-dev-loop:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/vercel/next.js",
+            "ref": "ede8799c40a63a8c2a6cdbd9c52cf89218534e4c",
+            "subfolder": "skills/next-dev-loop"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "next-partial-prefetching-adoption",
+        "description": "Turn on Partial Prefetching in a Next.js app and work through the insights it surfaces. Use when the user wants to enable or adopt Partial Prefetching, flip the `partialPrefetching` flag, opt routes in with `export const prefetch = 'partial'`, audit `\u003cLink prefetch={true}\u003e` calls, or resolve the link-prefetch-partial and instant-shell-url-data insights.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "Next Partial Prefetching Adoption",
+        "repository": {
+          "url": "https://github.com/vercel/next.js",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/next-partial-prefetching-adoption:0.1.0"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/vercel/next.js",
+            "ref": "ede8799c40a63a8c2a6cdbd9c52cf89218534e4c",
+            "subfolder": "skills/next-partial-prefetching-adoption"
           }
         ]
       },
@@ -64272,12 +65359,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/pr-writer:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/pr-writer:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/pr-writer"
           }
         ]
@@ -64303,12 +65390,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/prompt-optimizer:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/prompt-optimizer:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/prompt-optimizer"
           }
         ]
@@ -64334,12 +65421,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/property-based-testing:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/property-based-testing:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/property-based-testing/skills/property-based-testing"
           }
         ]
@@ -64364,12 +65451,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/prototype:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/prototype:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/prototype"
           }
         ]
@@ -64580,12 +65667,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/research:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/research:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/research"
           }
         ]
@@ -64610,12 +65697,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/resolving-merge-conflicts:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/resolving-merge-conflicts:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/resolving-merge-conflicts"
           }
         ]
@@ -64641,12 +65728,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/sandbox-sdk:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/sandbox-sdk:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "27ce0c0e159225caa7ed30ebefd4107aa6c52497",
+            "ref": "30553f89ae1ef1e3c2917cd09d72dac992bb4e9a",
             "subfolder": "skills/sandbox-sdk"
           }
         ]
@@ -64672,12 +65759,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/sarif-parsing:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/sarif-parsing:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/static-analysis/skills/sarif-parsing"
           }
         ]
@@ -64702,12 +65789,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/scaffold-exercises:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/scaffold-exercises:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/misc/scaffold-exercises"
           }
         ]
@@ -64733,12 +65820,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/security-review:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/security-review:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/security-review"
           }
         ]
@@ -64764,12 +65851,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/semgrep:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/semgrep:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/static-analysis/skills/semgrep"
           }
         ]
@@ -64795,12 +65882,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/semgrep-rule-creator:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/semgrep-rule-creator:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "cfe5d7b1619e47fb5b38b7e2561dad7e5f1e89af",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/semgrep-rule-creator/skills/semgrep-rule-creator"
           }
         ]
@@ -64826,12 +65913,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/semgrep-rule-variant-creator:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/semgrep-rule-variant-creator:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/semgrep-rule-variant-creator/skills/semgrep-rule-variant-creator"
           }
         ]
@@ -64856,12 +65943,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/setup-matt-pocock-skills:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/setup-matt-pocock-skills:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/setup-matt-pocock-skills"
           }
         ]
@@ -64886,12 +65973,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/setup-pre-commit:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/setup-pre-commit:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/misc/setup-pre-commit"
           }
         ]
@@ -64917,12 +66004,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/sharp-edges:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/sharp-edges:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "cfe5d7b1619e47fb5b38b7e2561dad7e5f1e89af",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/sharp-edges/skills/sharp-edges"
           }
         ]
@@ -64975,12 +66062,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/skill-scanner:0.1.1"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/skill-scanner:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "c81373583417504de2d3be1ae3d81977b11b2981",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/skill-scanner"
           }
         ]
@@ -65006,12 +66093,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/skill-writer:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/skill-writer:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/getsentry/skills",
-            "ref": "e7a87fa72645158f9b5e722cbb1c7e09266f48f1",
+            "ref": "24fdb833b9e67670a027e3b482189100a69ff7f9",
             "subfolder": "skills/skill-writer"
           }
         ]
@@ -65347,12 +66434,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/supabase:0.4.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/supabase:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/supabase/agent-skills",
-            "ref": "1ad9aaeb49caafd9e95c0a91116f71890eebbc53",
+            "ref": "1207767388a0ffb55f21fb4e6988fee96942431d",
             "subfolder": "skills/supabase"
           }
         ]
@@ -65378,12 +66465,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/supabase-postgres-best-practices:0.4.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/supabase-postgres-best-practices:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/supabase/agent-skills",
-            "ref": "1ad9aaeb49caafd9e95c0a91116f71890eebbc53",
+            "ref": "1207767388a0ffb55f21fb4e6988fee96942431d",
             "subfolder": "skills/supabase-postgres-best-practices"
           }
         ]
@@ -65409,12 +66496,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/supply-chain-risk-auditor:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/supply-chain-risk-auditor:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/supply-chain-risk-auditor/skills/supply-chain-risk-auditor"
           }
         ]
@@ -65439,12 +66526,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/tdd:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/tdd:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/tdd"
           }
         ]
@@ -65469,13 +66556,43 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/teach:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/teach:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/productivity/teach"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "to-questionnaire",
+        "description": "Turn a decision you can't fully answer into a questionnaire for someone else to fill in.",
+        "version": "0.2.0",
+        "status": "active",
+        "title": "To Questionnaire",
+        "repository": {
+          "url": "https://github.com/mattpocock/skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/to-questionnaire:0.2.1"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/mattpocock/skills",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
+            "subfolder": "skills/productivity/to-questionnaire"
           }
         ]
       },
@@ -65499,12 +66616,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/to-spec:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/to-spec:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/to-spec"
           }
         ]
@@ -65529,12 +66646,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/to-tickets:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/to-tickets:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/to-tickets"
           }
         ]
@@ -65621,12 +66738,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/triage:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/triage:0.4.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/triage"
           }
         ]
@@ -65714,12 +66831,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/variant-analysis:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/variant-analysis:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/variant-analysis/skills/variant-analysis"
           }
         ]
@@ -65907,6 +67024,36 @@
       },
       {
         "namespace": "io.github.stacklok",
+        "name": "wait-what",
+        "description": "Stop. That last message did not land — re-pitch it.",
+        "version": "0.1.0",
+        "status": "active",
+        "title": "Wait What",
+        "repository": {
+          "url": "https://github.com/mattpocock/skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/wait-what:0.1.1"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/mattpocock/skills",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
+            "subfolder": "skills/productivity/wait-what"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
         "name": "wayfinder",
         "description": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of investigation tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.",
         "version": "0.1.0",
@@ -65925,12 +67072,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/wayfinder:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/wayfinder:0.3.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/mattpocock/skills",
-            "ref": "d574778f94cf620fcc8ce741584093bc650a61d3",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
             "subfolder": "skills/engineering/wayfinder"
           }
         ]
@@ -66018,13 +67165,43 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/web-perf:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/web-perf:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "27ce0c0e159225caa7ed30ebefd4107aa6c52497",
+            "ref": "30553f89ae1ef1e3c2917cd09d72dac992bb4e9a",
             "subfolder": "skills/web-perf"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "wizard",
+        "description": "Generate an interactive bash wizard that walks a human through a manual procedure — third-party setup, a one-off migration, an A→B state transition — opening URLs, capturing values, confirming each step, and writing .env files and GitHub Actions secrets.",
+        "version": "0.2.0",
+        "status": "active",
+        "title": "Wizard",
+        "repository": {
+          "url": "https://github.com/mattpocock/skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/wizard:0.2.1"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/mattpocock/skills",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
+            "subfolder": "skills/engineering/wizard"
           }
         ]
       },
@@ -66049,12 +67226,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/workers-best-practices:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/workers-best-practices:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "27ce0c0e159225caa7ed30ebefd4107aa6c52497",
+            "ref": "30553f89ae1ef1e3c2917cd09d72dac992bb4e9a",
             "subfolder": "skills/workers-best-practices"
           }
         ]
@@ -66080,12 +67257,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/wrangler:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/wrangler:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/cloudflare/skills",
-            "ref": "27ce0c0e159225caa7ed30ebefd4107aa6c52497",
+            "ref": "30553f89ae1ef1e3c2917cd09d72dac992bb4e9a",
             "subfolder": "skills/wrangler"
           }
         ]
@@ -66117,6 +67294,36 @@
             "url": "https://github.com/mattpocock/skills",
             "ref": "f304057d61d3df3c9fd992ac2b6e3833cb9325fb",
             "subfolder": "skills/productivity/write-a-skill"
+          }
+        ]
+      },
+      {
+        "namespace": "io.github.stacklok",
+        "name": "writing-for-agents",
+        "description": "Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md or CLAUDE.md.",
+        "version": "0.2.0",
+        "status": "active",
+        "title": "Writing For Agents",
+        "repository": {
+          "url": "https://github.com/mattpocock/skills",
+          "type": "git"
+        },
+        "icons": [
+          {
+            "src": "icon.svg",
+            "type": "image/svg+xml"
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/skills/writing-for-agents:0.2.1"
+          },
+          {
+            "registryType": "git",
+            "url": "https://github.com/mattpocock/skills",
+            "ref": "84fdeffd12f2ee307994d1eb6feb48173b6e0502",
+            "subfolder": "skills/productivity/writing-for-agents"
           }
         ]
       },
@@ -66171,12 +67378,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/yara-rule-authoring:0.2.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/yara-rule-authoring:0.2.1"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "cfe5d7b1619e47fb5b38b7e2561dad7e5f1e89af",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/yara-authoring/skills/yara-rule-authoring"
           }
         ]
@@ -66201,12 +67408,12 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/skills/zeroize-audit:0.1.0"
+            "identifier": "ghcr.io/stacklok/dockyard/skills/zeroize-audit:0.2.0"
           },
           {
             "registryType": "git",
             "url": "https://github.com/trailofbits/skills",
-            "ref": "a56045e9ae00b3506cacefea0f672aab0a1a6e3c",
+            "ref": "696dee5717bdb976772466c067b60d89d644260d",
             "subfolder": "plugins/zeroize-audit/skills/zeroize-audit"
           }
         ]

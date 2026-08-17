@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-08-10T05:33:38Z"
+    "last_updated": "2026-08-17T05:16:27Z"
   },
   "data": {
     "servers": [
@@ -4201,6 +4201,339 @@
       },
       {
         "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "name": "io.github.stacklok/brightdata-mcp",
+        "description": "An MCP interface into the Bright Data toolset for web scraping and data extraction",
+        "title": "Bright Data",
+        "repository": {
+          "url": "https://github.com/brightdata/brightdata-mcp",
+          "source": "github"
+        },
+        "version": "1.0.0",
+        "icons": [
+          {
+            "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/brightdata-mcp/icon.svg",
+            "mimeType": "image/svg+xml",
+            "sizes": [
+              "any"
+            ]
+          }
+        ],
+        "packages": [
+          {
+            "registryType": "oci",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.11.1",
+            "transport": {
+              "type": "stdio"
+            },
+            "environmentVariables": [
+              {
+                "description": "Bright Data API token for authentication",
+                "isRequired": true,
+                "isSecret": true,
+                "name": "API_TOKEN"
+              },
+              {
+                "description": "Rate limiting configuration (format: limit/time+unit, e.g., 100/1h, 50/30m, 10/5s)",
+                "name": "RATE_LIMIT"
+              },
+              {
+                "description": "Custom Web Unlocker zone name",
+                "default": "mcp_unlocker",
+                "name": "WEB_UNLOCKER_ZONE"
+              },
+              {
+                "description": "Custom Browser API zone name",
+                "default": "mcp_browser",
+                "name": "BROWSER_ZONE"
+              },
+              {
+                "description": "Enable pro mode to access all tools including browser automation and web data extraction",
+                "default": "false",
+                "name": "PRO_MODE"
+              },
+              {
+                "description": "Timeout in seconds for web_data_* tools polling",
+                "default": "600",
+                "name": "POLLING_TIMEOUT"
+              },
+              {
+                "description": "Request timeout in seconds for base tools (search \u0026 scrape). No limit by default",
+                "name": "BASE_TIMEOUT"
+              },
+              {
+                "description": "Max retries for base tools on transient errors (0-3)",
+                "default": "0",
+                "name": "BASE_MAX_RETRIES"
+              },
+              {
+                "description": "Comma-separated tool group IDs to enable (e.g., 'ecommerce,browser')",
+                "name": "GROUPS"
+              },
+              {
+                "description": "Comma-separated individual tool names to enable (e.g., 'extract,scrape_as_html')",
+                "name": "TOOLS"
+              }
+            ]
+          }
+        ],
+        "_meta": {
+          "io.modelcontextprotocol.registry/publisher-provided": {
+            "io.github.stacklok": {
+              "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.11.1": {
+                "metadata": {
+                  "last_updated": "2026-08-07T00:30:48Z",
+                  "stars": 2551
+                },
+                "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
+                "permissions": {
+                  "network": {
+                    "outbound": {
+                      "allow_host": [
+                        "api.brightdata.com",
+                        "brightdata.com",
+                        "brd.superproxy.io"
+                      ],
+                      "allow_port": [
+                        443,
+                        80,
+                        9222
+                      ]
+                    }
+                  }
+                },
+                "provenance": {
+                  "cert_issuer": "https://token.actions.githubusercontent.com",
+                  "repository_uri": "https://github.com/stacklok/dockyard",
+                  "runner_environment": "github-hosted",
+                  "signer_identity": "/.github/workflows/build-containers.yml",
+                  "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+                },
+                "status": "Active",
+                "tags": [
+                  "web-scraping",
+                  "data-extraction",
+                  "api",
+                  "automation",
+                  "browser"
+                ],
+                "tier": "Official",
+                "tool_definitions": [
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Discover"
+                    },
+                    "description": "Search the web and rank results by AI-driven relevance. Returns scored results with title, description, and URL. Supports intent-based ranking, geo-targeting, date filtering, and keyword filtering.",
+                    "inputSchema": {
+                      "properties": {
+                        "city": {
+                          "description": "City for localized results (e.g., \"New York\", \"Berlin\")",
+                          "type": "string"
+                        },
+                        "country": {
+                          "description": "2-letter ISO country code for localized results (e.g., \"US\", \"GB\", \"DE\")",
+                          "maxLength": 2,
+                          "minLength": 2,
+                          "type": "string"
+                        },
+                        "end_date": {
+                          "description": "Only content updated until this date (YYYY-MM-DD)",
+                          "type": "string"
+                        },
+                        "filter_keywords": {
+                          "description": "Keywords that must appear in search results",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "intent": {
+                          "description": "Describes the specific goal of the search to help the AI evaluate and rank result relevance.If not provided, the query string is used as the intent",
+                          "type": "string"
+                        },
+                        "language": {
+                          "description": "Language code (e.g., \"en\", \"es\", \"fr\")",
+                          "type": "string"
+                        },
+                        "num_results": {
+                          "description": "Exact number of search results to return",
+                          "type": "integer"
+                        },
+                        "query": {
+                          "description": "The search query",
+                          "type": "string"
+                        },
+                        "remove_duplicates": {
+                          "description": "Remove duplicate results (default: true)",
+                          "type": "boolean"
+                        },
+                        "start_date": {
+                          "description": "Only content updated from this date (YYYY-MM-DD)",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "discover"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Scrape as Markdown"
+                    },
+                    "description": "Scrape a single webpage URL with advanced options for content extraction and get back the results in MarkDown language. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
+                    "inputSchema": {
+                      "properties": {
+                        "url": {
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "scrape_as_markdown"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Scrape Batch"
+                    },
+                    "description": "Scrape multiple webpages URLs with advanced options for content extraction and get back the results in MarkDown language. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
+                    "inputSchema": {
+                      "properties": {
+                        "urls": {
+                          "description": "Array of URLs to scrape (max 5)",
+                          "items": {
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "maxItems": 5,
+                          "minItems": 1,
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "urls"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "scrape_batch"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Search Engine"
+                    },
+                    "description": "Scrape search results from Google, Bing or Yandex. Returns SERP results in JSON or Markdown (URL, title, description),Ideal forgathering current information, news, and detailed search results.",
+                    "inputSchema": {
+                      "properties": {
+                        "cursor": {
+                          "description": "Pagination cursor for next page",
+                          "type": "string"
+                        },
+                        "engine": {
+                          "default": "google",
+                          "enum": [
+                            "google",
+                            "bing",
+                            "yandex"
+                          ],
+                          "type": "string"
+                        },
+                        "geo_location": {
+                          "description": "2-letter country code for geo-targeted results (e.g., \"us\", \"uk\")",
+                          "maxLength": 2,
+                          "minLength": 2,
+                          "type": "string"
+                        },
+                        "query": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "search_engine"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Search Engine Batch"
+                    },
+                    "description": "Run multiple search queries simultaneously. Returns JSON for Google, Markdown for Bing/Yandex.",
+                    "inputSchema": {
+                      "properties": {
+                        "queries": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "cursor": {
+                                "type": "string"
+                              },
+                              "engine": {
+                                "default": "google",
+                                "enum": [
+                                  "google",
+                                  "bing",
+                                  "yandex"
+                                ],
+                                "type": "string"
+                              },
+                              "geo_location": {
+                                "description": "2-letter country code for geo-targeted results (e.g., \"us\", \"uk\")",
+                                "maxLength": 2,
+                                "minLength": 2,
+                                "type": "string"
+                              },
+                              "query": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "query"
+                            ],
+                            "type": "object"
+                          },
+                          "maxItems": 5,
+                          "minItems": 1,
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "queries"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "search_engine_batch"
+                  }
+                ],
+                "tools": [
+                  "discover",
+                  "scrape_as_markdown",
+                  "scrape_batch",
+                  "search_engine",
+                  "search_engine_batch"
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
         "name": "io.github.stacklok/browserbase",
         "description": "MCP server for cloud browser automation with Browserbase and Stagehand",
         "title": "Browserbase",
@@ -4458,7 +4791,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.14.1",
+            "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.17.0",
             "transport": {
               "type": "stdio"
             },
@@ -4468,6 +4801,26 @@
                 "isRequired": true,
                 "isSecret": true,
                 "name": "BUILDKITE_API_TOKEN"
+              },
+              {
+                "description": "Base URL of the Buildkite API to use. Override for Buildkite Enterprise or self-hosted deployments. Defaults to https://api.buildkite.com/",
+                "default": "https://api.buildkite.com/",
+                "name": "BUILDKITE_BASE_URL"
+              },
+              {
+                "description": "Comma-separated list of toolsets to enable (e.g. 'pipelines,builds,clusters'). Defaults to 'all'",
+                "default": "all",
+                "name": "BUILDKITE_TOOLSETS"
+              },
+              {
+                "description": "Enable read-only mode, filtering out write operations from all toolsets. Defaults to false",
+                "default": "false",
+                "name": "BUILDKITE_READ_ONLY"
+              },
+              {
+                "description": "Maximum number of problem jobs diagnosed by a single failure summary request (hard max 50). Defaults to 10",
+                "default": "10",
+                "name": "BUILDKITE_FAILURE_SUMMARY_MAX_JOBS"
               }
             ]
           }
@@ -4475,12 +4828,12 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/buildkite/buildkite-mcp-server:1.14.1": {
+              "ghcr.io/buildkite/buildkite-mcp-server:1.17.0": {
                 "args": [
                   "stdio"
                 ],
                 "metadata": {
-                  "last_updated": "2026-07-24T02:53:27Z",
+                  "last_updated": "2026-08-07T13:35:21Z",
                   "stars": 50
                 },
                 "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -4511,6 +4864,7 @@
                 "tool_definitions": [
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Access Token"
                     },
@@ -4525,6 +4879,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Cancel Build"
                     },
                     "description": "Cancel a running build on a Buildkite pipeline",
@@ -4552,6 +4908,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Annotation"
                     },
                     "description": "Create an annotation on a build or specific job. Use scope='build' (default) or scope='job' with job_id",
@@ -4608,6 +4966,8 @@
                   {
                     "annotations": {
                       "destructiveHint": false,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Build"
                     },
                     "description": "Trigger a new build on a Buildkite pipeline for a specific commit and branch, with optional environment variables, metadata, and author information",
@@ -4694,6 +5054,8 @@
                   {
                     "annotations": {
                       "destructiveHint": false,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Cluster"
                     },
                     "description": "Create a new cluster in an organization",
@@ -4729,6 +5091,8 @@
                   {
                     "annotations": {
                       "destructiveHint": false,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Cluster Queue"
                     },
                     "description": "Create a new queue in a cluster",
@@ -4760,6 +5124,8 @@
                   {
                     "annotations": {
                       "destructiveHint": false,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Pipeline"
                     },
                     "description": "Set up a new CI/CD pipeline in Buildkite with YAML configuration, repository connection, and cluster assignment",
@@ -4827,6 +5193,8 @@
                   {
                     "annotations": {
                       "destructiveHint": false,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Pipeline Schedule"
                     },
                     "description": "Create a new pipeline schedule that triggers builds on a cron-driven interval",
@@ -4884,6 +5252,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Current User"
                     },
@@ -4897,6 +5266,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Agent"
                     },
@@ -4924,6 +5294,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Artifact"
                     },
@@ -4961,6 +5332,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Build"
                     },
@@ -4988,6 +5360,84 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
+                      "readOnlyHint": true,
+                      "title": "Get Build Failure Summary"
+                    },
+                    "description": "Diagnose a Buildkite build failure in one call. Returns build state, terminal problem jobs, downstream failed or broken jobs, promised failures from running jobs, and size-bounded diagnostic content from logs, annotations, and failed Test Engine executions. Start with this tool before calling individual job, log, annotation, or test tools.",
+                    "inputSchema": {
+                      "properties": {
+                        "build_number": {
+                          "type": "string"
+                        },
+                        "include_annotations": {
+                          "description": "Include error and warning annotation bodies (default true)",
+                          "type": [
+                            "null",
+                            "boolean"
+                          ]
+                        },
+                        "include_failed_tests": {
+                          "description": "Include failed Test Engine executions when the build has Test Engine runs (default true)",
+                          "type": [
+                            "null",
+                            "boolean"
+                          ]
+                        },
+                        "include_failure_expanded": {
+                          "description": "Include expanded test failure details such as stack traces within the summary's bounded test-content budget",
+                          "type": "boolean"
+                        },
+                        "include_logs": {
+                          "description": "Include a bounded log tail for failed, timed-out, canceled, and promised-failing jobs (default true)",
+                          "type": [
+                            "null",
+                            "boolean"
+                          ]
+                        },
+                        "log_tail": {
+                          "description": "Log lines to include for each failed, timed-out, canceled, or promised-failing job (default 50, max 200)",
+                          "type": "integer"
+                        },
+                        "max_annotations": {
+                          "description": "Maximum error or warning annotations to return (default 20, max 100); the server scans at most 500 total annotations",
+                          "type": "integer"
+                        },
+                        "max_failed_tests": {
+                          "description": "Maximum failed test executions to return across all Test Engine runs (default 100, max 200)",
+                          "type": "integer"
+                        },
+                        "max_failed_tests_per_run": {
+                          "description": "Maximum failed test executions to return per Test Engine run (default 20, max 100)",
+                          "type": "integer"
+                        },
+                        "max_jobs": {
+                          "description": "Maximum terminal problem or downstream-failed jobs to return (default 10, server may enforce a lower maximum, absolute max 50)",
+                          "type": "integer"
+                        },
+                        "max_test_runs": {
+                          "description": "Maximum Test Engine runs to inspect (default 5, max 20)",
+                          "type": "integer"
+                        },
+                        "org_slug": {
+                          "type": "string"
+                        },
+                        "pipeline_slug": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "org_slug",
+                        "pipeline_slug",
+                        "build_number"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_build_failure_summary"
+                  },
+                  {
+                    "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Build Test Engine Runs"
                     },
@@ -5015,6 +5465,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Cluster"
                     },
@@ -5038,6 +5489,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Cluster Queue"
                     },
@@ -5065,6 +5517,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Failed Test Executions"
                     },
@@ -5104,6 +5557,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Job"
                     },
@@ -5139,6 +5593,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Job Environment Variables"
                     },
@@ -5170,6 +5625,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Pipeline"
                     },
@@ -5197,6 +5653,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Pipeline Schedule"
                     },
@@ -5224,6 +5681,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Test"
                     },
@@ -5251,6 +5709,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Test Run"
                     },
@@ -5278,6 +5737,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Agents"
                     },
@@ -5318,6 +5778,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Annotations"
                     },
@@ -5361,6 +5822,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Build Artifact List"
                     },
@@ -5396,6 +5858,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Job Artifact List"
                     },
@@ -5435,6 +5898,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Builds"
                     },
@@ -5482,6 +5946,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Cluster Queues"
                     },
@@ -5513,6 +5978,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Clusters"
                     },
@@ -5540,6 +6006,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Jobs"
                     },
@@ -5606,6 +6073,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Pipeline Schedules"
                     },
@@ -5637,6 +6105,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Pipelines"
                     },
@@ -5676,6 +6145,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Skill Guides"
                     },
@@ -5694,6 +6164,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "List Test Runs"
                     },
@@ -5725,6 +6196,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Load Skill Guide"
                     },
@@ -5746,6 +6218,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Pause Cluster Queue Dispatch"
                     },
                     "description": "Pause dispatch on a cluster queue, preventing new jobs from being dispatched to agents",
@@ -5776,6 +6250,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Read Logs"
                     },
@@ -5820,6 +6295,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Rebuild Build"
                     },
                     "description": "Rebuild/retry an entire build on a Buildkite pipeline",
@@ -5847,6 +6324,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Resume Cluster Queue Dispatch"
                     },
                     "description": "Resume dispatch on a paused cluster queue, allowing jobs to be dispatched to agents again",
@@ -5874,6 +6353,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Retry Job"
                     },
                     "description": "Retry a specific failed or timed out job in a Buildkite build",
@@ -5904,6 +6385,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Search Logs"
                     },
@@ -5969,6 +6451,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Tail Logs"
                     },
@@ -6010,6 +6493,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Unblock Job"
                     },
                     "description": "Unblock a blocked job in a Buildkite build to allow it to continue execution",
@@ -6048,6 +6533,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Update Cluster"
                     },
                     "description": "Update an existing cluster's name, description, emoji, color, or default queue",
@@ -6106,6 +6593,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Update Cluster Queue"
                     },
                     "description": "Update an existing cluster queue's description or retry agent affinity",
@@ -6147,6 +6636,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Update Pipeline"
                     },
                     "description": "Modify an existing Buildkite pipeline's configuration, repository, settings, or metadata",
@@ -6233,6 +6724,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
                       "title": "Update Pipeline Schedule"
                     },
                     "description": "Modify an existing pipeline schedule's cron expression, branch, environment variables, or enabled state",
@@ -6304,6 +6797,7 @@
                   },
                   {
                     "annotations": {
+                      "idempotentHint": false,
                       "readOnlyHint": true,
                       "title": "Get Organization for User Token"
                     },
@@ -6314,6 +6808,34 @@
                       "type": "object"
                     },
                     "name": "user_token_organization"
+                  },
+                  {
+                    "annotations": {
+                      "idempotentHint": false,
+                      "readOnlyHint": true,
+                      "title": "Wait for Build"
+                    },
+                    "description": "Wait for a build to reach a terminal state (passed, failed, canceled, skipped, not_run, or blocked on a block step), polling for up to 45 seconds. Returns finished=true along with the build once it settles. If the build is still in progress when the window closes it returns finished=false and the current state only, with no build detail — call this tool again to keep waiting. Judge a long build by build_elapsed_seconds, which counts from the build's own start time and does not reset between calls; waited_seconds covers only the latest call. Do not wait indefinitely: after roughly ten consecutive calls, stop and report the build as still running with its elapsed time rather than continuing to poll. Jobs and annotation bodies are never included — use list_jobs or get_job for job detail, and list_annotations to read annotations",
+                    "inputSchema": {
+                      "properties": {
+                        "build_number": {
+                          "type": "string"
+                        },
+                        "org_slug": {
+                          "type": "string"
+                        },
+                        "pipeline_slug": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "org_slug",
+                        "pipeline_slug",
+                        "build_number"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "wait_for_build"
                   }
                 ],
                 "tools": [
@@ -6329,6 +6851,7 @@
                   "get_agent",
                   "get_artifact",
                   "get_build",
+                  "get_build_failure_summary",
                   "get_build_test_engine_runs",
                   "get_cluster",
                   "get_cluster_queue",
@@ -6364,7 +6887,8 @@
                   "update_cluster_queue",
                   "update_pipeline",
                   "update_pipeline_schedule",
-                  "user_token_organization"
+                  "user_token_organization",
+                  "wait_for_build"
                 ]
               }
             }
