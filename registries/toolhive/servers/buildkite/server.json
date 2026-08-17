@@ -3,12 +3,12 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/buildkite/buildkite-mcp-server:1.17.0": {
+        "ghcr.io/buildkite/buildkite-mcp-server:1.18.0": {
           "args": [
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-08-07T13:35:21Z",
+            "last_updated": "2026-08-14T01:16:11Z",
             "stars": 50
           },
           "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -1373,6 +1373,78 @@
               "annotations": {
                 "idempotentHint": false,
                 "readOnlyHint": true,
+                "title": "List Tests"
+              },
+              "description": "List tests in a Buildkite Test Engine suite with execution metrics aggregated over a selected time window. Supports filtering, metric sorting, and pagination.",
+              "inputSchema": {
+                "properties": {
+                  "branch": {
+                    "description": "Filter executions included in the metrics by branch. Prefix with '!' to exclude an exact branch or suffix with '*' to match by prefix, for example '!main' or 'feature*'. Use at most one operator.",
+                    "type": "string"
+                  },
+                  "labels": {
+                    "description": "Filter by comma-separated test labels. Prefix a label with '!' to exclude it, for example 'flaky,!slow'.",
+                    "type": "string"
+                  },
+                  "max_timestamp": {
+                    "description": "End of the aggregation window in RFC3339 format. Defaults to the current time when omitted.",
+                    "type": "string"
+                  },
+                  "min_timestamp": {
+                    "description": "Start of the aggregation window in RFC3339 format. When omitted, defaults to the organization's default Test Engine period before the current time.",
+                    "type": "string"
+                  },
+                  "order": {
+                    "description": "Sort direction: 'asc' or 'desc'. Defaults to 'desc'.",
+                    "type": "string"
+                  },
+                  "org_slug": {
+                    "type": "string"
+                  },
+                  "owners": {
+                    "description": "Filter by comma-separated test owner slugs. Prefix an owner with '!' to exclude it, for example 'payments,!platform'.",
+                    "type": "string"
+                  },
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "type": "integer"
+                  },
+                  "per_page": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "type": "integer"
+                  },
+                  "period": {
+                    "description": "Relative aggregation window, such as '7days' or '28days'. Whether selected by period or timestamps, the aggregation window cannot exceed the organization's maximum Test Engine window. Cannot be combined with min_timestamp or max_timestamp.",
+                    "type": "string"
+                  },
+                  "sort_by": {
+                    "description": "Metric used to sort results: 'duration_avg', 'duration_sum', 'duration_min', 'duration_max', or 'reliability'. Defaults to 'duration_avg'. Metrics cover only executions in the selected window.",
+                    "type": "string"
+                  },
+                  "state": {
+                    "description": "Filter by test state: 'enabled', 'muted', or 'skipped'.",
+                    "type": "string"
+                  },
+                  "tags": {
+                    "description": "Filter by comma-separated execution tags in key:value form. Values support '!' for exclusion and '*' for prefix matching. Result values additionally support '~' for any matching execution and '^' for every execution matching, for example 'framework:!rspec,scm.branch:feature*,result:^passed'.",
+                    "type": "string"
+                  },
+                  "test_suite_slug": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "org_slug",
+                  "test_suite_slug"
+                ],
+                "type": "object"
+              },
+              "name": "list_tests"
+            },
+            {
+              "annotations": {
+                "idempotentHint": false,
+                "readOnlyHint": true,
                 "title": "Load Skill Guide"
               },
               "description": "Load the full content of a skill guide by name",
@@ -2049,6 +2121,7 @@
             "list_pipelines",
             "list_skills",
             "list_test_runs",
+            "list_tests",
             "load_skill",
             "pause_cluster_queue_dispatch",
             "read_logs",
@@ -2118,7 +2191,7 @@
           "name": "BUILDKITE_FAILURE_SUMMARY_MAX_JOBS"
         }
       ],
-      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.17.0",
+      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.18.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
