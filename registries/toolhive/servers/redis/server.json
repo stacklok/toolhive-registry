@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/uvx/redis-mcp-server:0.5.0": {
+        "ghcr.io/stacklok/dockyard/uvx/redis-mcp-server:0.5.1": {
           "metadata": {
-            "last_updated": "2026-06-26T21:53:37Z",
+            "last_updated": "2026-08-14T01:15:00Z",
             "stars": 504
           },
           "overview": "## Redis MCP Server\n\nThe redis MCP server enables LLMs to interact with Redis key-value databases through a set of standardized tools. The server connects to Redis databases and provides MCP tools for basic operations (CRUD operations, database management), data structures (full support for strings, hashes, lists, sets, sorted sets, JSON), vector search functionality, and streams/Pub/Sub features for messaging and time-series data handling.",
@@ -647,6 +647,23 @@
             },
             {
               "annotations": {},
+              "description": "Subscribe to Redis channels using a pattern.\n\nArgs:\n    pattern: The Redis channel pattern to subscribe to.\n\nReturns:\n    A dictionary containing the subscription ID or an error message.\n",
+              "inputSchema": {
+                "properties": {
+                  "pattern": {
+                    "title": "Pattern",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "pattern"
+                ],
+                "type": "object"
+              },
+              "name": "psubscribe"
+            },
+            {
+              "annotations": {},
               "description": "Publish a message to a Redis channel.\n\nArgs:\n    channel: The Redis channel to publish to.\n    message: The message to send.\n\nReturns:\n    A success message or an error message.\n",
               "inputSchema": {
                 "properties": {
@@ -666,6 +683,33 @@
                 "type": "object"
               },
               "name": "publish"
+            },
+            {
+              "annotations": {},
+              "description": "Read pending pub/sub messages for an existing subscription.\n\nArgs:\n    subscription_id: The ID returned by subscribe() or psubscribe().\n    timeout_ms: Time to wait for messages in milliseconds. Use 0 for non-blocking.\n    max_messages: Maximum number of messages to return in one call.\n\nReturns:\n    A dictionary containing the collected messages or an error message.\n",
+              "inputSchema": {
+                "properties": {
+                  "max_messages": {
+                    "default": 10,
+                    "title": "Max Messages",
+                    "type": "integer"
+                  },
+                  "subscription_id": {
+                    "title": "Subscription Id",
+                    "type": "string"
+                  },
+                  "timeout_ms": {
+                    "default": 1000,
+                    "title": "Timeout Ms",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "subscription_id"
+                ],
+                "type": "object"
+              },
+              "name": "read_messages"
             },
             {
               "annotations": {},
@@ -975,7 +1019,7 @@
             },
             {
               "annotations": {},
-              "description": "Subscribe to a Redis channel.\n\nArgs:\n    channel: The Redis channel to subscribe to.\n\nReturns:\n    A success message or an error message.\n",
+              "description": "Subscribe to a Redis channel and return a reusable subscription handle.\n\nArgs:\n    channel: The Redis channel to subscribe to.\n\nReturns:\n    A dictionary containing the subscription ID or an error message.\n",
               "inputSchema": {
                 "properties": {
                   "channel": {
@@ -1009,16 +1053,16 @@
             },
             {
               "annotations": {},
-              "description": "Unsubscribe from a Redis channel.\n\nArgs:\n    channel: The Redis channel to unsubscribe from.\n\nReturns:\n    A success message or an error message.\n",
+              "description": "Unsubscribe and close an existing pub/sub subscription.\n\nArgs:\n    subscription_id: The ID returned by subscribe() or psubscribe().\n\nReturns:\n    A dictionary describing the closed subscription or an error message.\n",
               "inputSchema": {
                 "properties": {
-                  "channel": {
-                    "title": "Channel",
+                  "subscription_id": {
+                    "title": "Subscription Id",
                     "type": "string"
                   }
                 },
                 "required": [
-                  "channel"
+                  "subscription_id"
                 ],
                 "type": "object"
               },
@@ -1073,6 +1117,36 @@
                 "type": "object"
               },
               "name": "vector_search_hash"
+            },
+            {
+              "annotations": {},
+              "description": "Acknowledge entries that were processed by a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    entry_ids (List[str]): Entry IDs to acknowledge.\n\nReturns:\n    str: Confirmation message or an error message.\n",
+              "inputSchema": {
+                "properties": {
+                  "entry_ids": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Entry Ids",
+                    "type": "array"
+                  },
+                  "group_name": {
+                    "title": "Group Name",
+                    "type": "string"
+                  },
+                  "key": {
+                    "title": "Key",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "group_name",
+                  "entry_ids"
+                ],
+                "type": "object"
+              },
+              "name": "xack"
             },
             {
               "annotations": {},
@@ -1133,6 +1207,60 @@
             },
             {
               "annotations": {},
+              "description": "Create a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    start_id (str, optional): Stream ID from which the group starts consuming.\n    mkstream (bool, optional): Create the stream if it does not exist.\n\nReturns:\n    str: Confirmation message or an error message.\n",
+              "inputSchema": {
+                "properties": {
+                  "group_name": {
+                    "title": "Group Name",
+                    "type": "string"
+                  },
+                  "key": {
+                    "title": "Key",
+                    "type": "string"
+                  },
+                  "mkstream": {
+                    "default": true,
+                    "title": "Mkstream",
+                    "type": "boolean"
+                  },
+                  "start_id": {
+                    "default": "$",
+                    "title": "Start Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "group_name"
+                ],
+                "type": "object"
+              },
+              "name": "xgroup_create"
+            },
+            {
+              "annotations": {},
+              "description": "Destroy a consumer group for a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n\nReturns:\n    str: Confirmation message or an error message.\n",
+              "inputSchema": {
+                "properties": {
+                  "group_name": {
+                    "title": "Group Name",
+                    "type": "string"
+                  },
+                  "key": {
+                    "title": "Key",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "group_name"
+                ],
+                "type": "object"
+              },
+              "name": "xgroup_destroy"
+            },
+            {
+              "annotations": {},
               "description": "Read entries from a Redis stream.\n\nArgs:\n    key (str): The stream key.\n    count (int, optional): Number of entries to retrieve.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
               "inputSchema": {
                 "properties": {
@@ -1152,6 +1280,55 @@
                 "type": "object"
               },
               "name": "xrange"
+            },
+            {
+              "annotations": {},
+              "description": "Read entries from a Redis stream using a consumer group.\n\nArgs:\n    key (str): The stream key.\n    group_name (str): The consumer group name.\n    consumer_name (str): The consumer name.\n    count (int, optional): Maximum number of entries to retrieve.\n    block_ms (int, optional): Maximum time to block waiting for entries.\n        Use None for a non-blocking read. 0 is rejected because Redis treats\n        BLOCK 0 as an indefinite wait.\n    stream_id (str, optional): Stream ID to read from. Use \"\u003e\" for new messages.\n\nReturns:\n    str: The retrieved stream entries or an error message.\n",
+              "inputSchema": {
+                "properties": {
+                  "block_ms": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Block Ms"
+                  },
+                  "consumer_name": {
+                    "title": "Consumer Name",
+                    "type": "string"
+                  },
+                  "count": {
+                    "default": 1,
+                    "title": "Count",
+                    "type": "integer"
+                  },
+                  "group_name": {
+                    "title": "Group Name",
+                    "type": "string"
+                  },
+                  "key": {
+                    "title": "Key",
+                    "type": "string"
+                  },
+                  "stream_id": {
+                    "default": "\u003e",
+                    "title": "Stream Id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "group_name",
+                  "consumer_name"
+                ],
+                "type": "object"
+              },
+              "name": "xreadgroup"
             },
             {
               "annotations": {},
@@ -1273,7 +1450,9 @@
             "lpush",
             "lrange",
             "lrem",
+            "psubscribe",
             "publish",
+            "read_messages",
             "rename",
             "rpop",
             "rpush",
@@ -1289,9 +1468,13 @@
             "type",
             "unsubscribe",
             "vector_search_hash",
+            "xack",
             "xadd",
             "xdel",
+            "xgroup_create",
+            "xgroup_destroy",
             "xrange",
+            "xreadgroup",
             "zadd",
             "zrange",
             "zrem"
@@ -1365,7 +1548,7 @@
           "name": "REDIS_CLUSTER_MODE"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/redis-mcp-server:0.5.0",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/redis-mcp-server:0.5.1",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
