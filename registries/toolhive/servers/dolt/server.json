@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "docker.io/dolthub/dolt-mcp:0.3.8": {
           "metadata": {
-            "last_updated": "2026-08-07T00:28:01Z",
+            "last_updated": "2026-08-21T00:46:41Z",
             "stars": 8
           },
           "overview": "## Dolt MCP Server\n\nThe dolt-mcp-server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Dolt, a SQL database with built-in Git-style version control. It facilitates AI-driven workflows including querying data, inspecting schema changes, creating and managing branches, reviewing diffs, and analyzing historical data — all within a unified interface. It's particularly valuable for data analysis, auditing, experimentation, and collaborative workflows requiring tracking and understanding of data changes over time.",
@@ -1060,6 +1060,10 @@
                     "description": "The name of the branch to move/rename.",
                     "type": "string"
                   },
+                  "working_branch": {
+                    "description": "The name of the working branch to checkout prior to making the tool call.",
+                    "type": "string"
+                  },
                   "working_database": {
                     "description": "The name of the database to use prior to making the tool call.",
                     "type": "string"
@@ -1067,6 +1071,7 @@
                 },
                 "required": [
                   "working_database",
+                  "working_branch",
                   "old_name",
                   "new_name"
                 ],
