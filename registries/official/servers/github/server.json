@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/github/github-mcp-server:v1.10.1": {
           "metadata": {
-            "last_updated": "2026-08-14T01:15:58Z",
+            "last_updated": "2026-08-21T00:47:46Z",
             "stars": 28440
           },
           "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -132,12 +132,13 @@
                 "properties": {
                   "body": {
                     "description": "Comment content. Required unless reaction is provided.",
+                    "minLength": 1,
                     "type": "string"
                   },
                   "comment_id": {
                     "description": "The numeric ID of the issue or pull request comment to react to. Use this for reactions to comments; omit it to react to the issue or pull request itself. Cannot be combined with body.",
                     "minimum": 1,
-                    "type": "number"
+                    "type": "integer"
                   },
                   "issue_number": {
                     "description": "Issue or pull request number to comment on or react to.",
@@ -320,6 +321,11 @@
               "description": "Create or update a single file in a GitHub repository. \nIf updating, you should provide the SHA of the file you want to update. Use this tool to create or update a file in a GitHub repository remotely; do not use it for local file operations.\n\nIn order to obtain the SHA of original file version before updating, use the following git command:\ngit rev-parse \u003cbranch\u003e:\u003cpath to file\u003e\n\nSHA MUST be provided for existing file updates.\n",
               "inputSchema": {
                 "properties": {
+                  "allow_symlink_write": {
+                    "default": false,
+                    "description": "Set true to update a symbolic link itself; content must be its new target path.",
+                    "type": "boolean"
+                  },
                   "branch": {
                     "description": "Branch to create/update the file in",
                     "type": "string"
@@ -924,10 +930,7 @@
                       "additionalProperties": false,
                       "properties": {
                         "delete": {
-                          "description": "Set to true to clear this field's current value on the issue. Cannot be combined with 'value' or 'field_option_name'.",
-                          "enum": [
-                            true
-                          ],
+                          "description": "Set to true to clear this field's current value on the issue. When false or omitted, this property is ignored. Cannot be true when 'value' or 'field_option_name' is provided.",
                           "type": "boolean"
                         },
                         "field_name": {
@@ -935,11 +938,11 @@
                           "type": "string"
                         },
                         "field_option_name": {
-                          "description": "Option name for single-select fields. Validated against the field's options before the API call. Cannot be combined with 'value' or 'delete'.",
+                          "description": "Option name for single-select fields. Validated against the field's options before the API call. Cannot be combined with 'value' or 'delete: true'.",
                           "type": "string"
                         },
                         "value": {
-                          "description": "Value to set. Use for text, number, and date fields (date as YYYY-MM-DD). For single-select fields, prefer 'field_option_name' so the option is validated before the API call. Cannot be combined with 'field_option_name' or 'delete'.",
+                          "description": "Value to set. Use for text, number, and date fields (date as YYYY-MM-DD). For single-select fields, prefer 'field_option_name' so the option is validated before the API call. Cannot be combined with 'field_option_name' or 'delete: true'.",
                           "type": [
                             "string",
                             "number",
@@ -1248,6 +1251,7 @@
                         "state",
                         "user",
                         "labels",
+                        "assignees",
                         "comments",
                         "created_at",
                         "updated_at",
