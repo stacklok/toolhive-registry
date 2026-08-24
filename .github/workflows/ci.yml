@@ -84,7 +84,7 @@ jobs:
       group: update-catalog-data
       cancel-in-progress: false
     needs: [lint, validate-and-test]
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push')
+    if: github.event_name == 'workflow_dispatch' || (github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'push'))
     steps:
       - name: Generate app token
         id: app-token
