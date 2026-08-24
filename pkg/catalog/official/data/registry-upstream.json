@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-08-24T05:17:28Z"
+    "last_updated": "2026-08-24T22:00:07Z"
   },
   "data": {
     "servers": [
@@ -9008,7 +9008,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/context7:3.2.5",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/context7:4.0.0",
             "transport": {
               "type": "stdio"
             },
@@ -9024,7 +9024,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/context7:3.2.5": {
+              "ghcr.io/stacklok/dockyard/npx/context7:4.0.0": {
                 "metadata": {
                   "last_updated": "2026-07-31T01:12:58Z",
                   "stars": 52568
@@ -9254,8 +9254,8 @@
                   "8000"
                 ],
                 "metadata": {
-                  "last_updated": "2026-04-22T03:04:17Z",
-                  "stars": 143
+                  "last_updated": "2026-08-21T02:34:49Z",
+                  "stars": 238
                 },
                 "overview": "## CrowdStrike Falcon MCP Server\n\nThe crowdstrike-falcon-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the CrowdStrike Falcon platform through a structured, AI-friendly interface. It allows AI-driven workflows to query security telemetry, investigate threats, manage detections, and inspect endpoint posture without switching tools or manually navigating the Falcon console. Beyond read-only investigation, it also exposes CrowdStrike's case management, policy management, exclusions, custom IOA, quarantine, firewall, and remote response (RTR) capabilities by default, so review the full tool list and scope the FALCON_MCP_MODULES env var before granting broad access. This server is particularly useful for security operations (SOC), incident response, threat hunting, and security analysis workflows augmented by AI.",
                 "permissions": {
@@ -9585,7 +9585,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/dolthub/dolt-mcp:0.3.7",
+            "identifier": "docker.io/dolthub/dolt-mcp:0.3.8",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8080"
@@ -9631,9 +9631,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/dolthub/dolt-mcp:0.3.7": {
+              "docker.io/dolthub/dolt-mcp:0.3.8": {
                 "metadata": {
-                  "last_updated": "2026-08-07T00:28:00Z",
+                  "last_updated": "2026-08-21T00:46:42Z",
                   "stars": 8
                 },
                 "overview": "## Dolt MCP Server\n\nThe dolt-mcp-server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Dolt, a SQL database with built-in Git-style version control. It facilitates AI-driven workflows including querying data, inspecting schema changes, creating and managing branches, reviewing diffs, and analyzing historical data — all within a unified interface. It's particularly valuable for data analysis, auditing, experimentation, and collaborative workflows requiring tracking and understanding of data changes over time.",
@@ -10688,6 +10688,10 @@
                           "description": "The name of the branch to move/rename.",
                           "type": "string"
                         },
+                        "working_branch": {
+                          "description": "The name of the working branch to checkout prior to making the tool call.",
+                          "type": "string"
+                        },
                         "working_database": {
                           "description": "The name of the database to use prior to making the tool call.",
                           "type": "string"
@@ -10695,6 +10699,7 @@
                       },
                       "required": [
                         "working_database",
+                        "working_branch",
                         "old_name",
                         "new_name"
                       ],
@@ -13598,7 +13603,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/github/github-mcp-server:v1.9.0",
+            "identifier": "ghcr.io/github/github-mcp-server:v1.10.1",
             "transport": {
               "type": "stdio"
             },
@@ -13627,9 +13632,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/github/github-mcp-server:v1.9.0": {
+              "ghcr.io/github/github-mcp-server:v1.10.1": {
                 "metadata": {
-                  "last_updated": "2026-08-14T01:15:58Z",
+                  "last_updated": "2026-08-21T00:47:46Z",
                   "stars": 28440
                 },
                 "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -13756,12 +13761,13 @@
                       "properties": {
                         "body": {
                           "description": "Comment content. Required unless reaction is provided.",
+                          "minLength": 1,
                           "type": "string"
                         },
                         "comment_id": {
                           "description": "The numeric ID of the issue or pull request comment to react to. Use this for reactions to comments; omit it to react to the issue or pull request itself. Cannot be combined with body.",
                           "minimum": 1,
-                          "type": "number"
+                          "type": "integer"
                         },
                         "issue_number": {
                           "description": "Issue or pull request number to comment on or react to.",
@@ -13944,6 +13950,11 @@
                     "description": "Create or update a single file in a GitHub repository. \nIf updating, you should provide the SHA of the file you want to update. Use this tool to create or update a file in a GitHub repository remotely; do not use it for local file operations.\n\nIn order to obtain the SHA of original file version before updating, use the following git command:\ngit rev-parse \u003cbranch\u003e:\u003cpath to file\u003e\n\nSHA MUST be provided for existing file updates.\n",
                     "inputSchema": {
                       "properties": {
+                        "allow_symlink_write": {
+                          "default": false,
+                          "description": "Set true to update a symbolic link itself; content must be its new target path.",
+                          "type": "boolean"
+                        },
                         "branch": {
                           "description": "Branch to create/update the file in",
                           "type": "string"
@@ -14548,10 +14559,7 @@
                             "additionalProperties": false,
                             "properties": {
                               "delete": {
-                                "description": "Set to true to clear this field's current value on the issue. Cannot be combined with 'value' or 'field_option_name'.",
-                                "enum": [
-                                  true
-                                ],
+                                "description": "Set to true to clear this field's current value on the issue. When false or omitted, this property is ignored. Cannot be true when 'value' or 'field_option_name' is provided.",
                                 "type": "boolean"
                               },
                               "field_name": {
@@ -14559,11 +14567,11 @@
                                 "type": "string"
                               },
                               "field_option_name": {
-                                "description": "Option name for single-select fields. Validated against the field's options before the API call. Cannot be combined with 'value' or 'delete'.",
+                                "description": "Option name for single-select fields. Validated against the field's options before the API call. Cannot be combined with 'value' or 'delete: true'.",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "Value to set. Use for text, number, and date fields (date as YYYY-MM-DD). For single-select fields, prefer 'field_option_name' so the option is validated before the API call. Cannot be combined with 'field_option_name' or 'delete'.",
+                                "description": "Value to set. Use for text, number, and date fields (date as YYYY-MM-DD). For single-select fields, prefer 'field_option_name' so the option is validated before the API call. Cannot be combined with 'field_option_name' or 'delete: true'.",
                                 "type": [
                                   "string",
                                   "number",
@@ -14872,6 +14880,7 @@
                               "state",
                               "user",
                               "labels",
+                              "assignees",
                               "comments",
                               "created_at",
                               "updated_at",
@@ -16391,7 +16400,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/grafana/mcp-grafana:0.17.2",
+            "identifier": "docker.io/grafana/mcp-grafana:1.1.0",
             "transport": {
               "type": "stdio"
             },
@@ -16417,13 +16426,13 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/grafana/mcp-grafana:0.17.2": {
+              "docker.io/grafana/mcp-grafana:1.1.0": {
                 "args": [
                   "--transport",
                   "stdio"
                 ],
                 "metadata": {
-                  "last_updated": "2026-08-17T21:17:03Z",
+                  "last_updated": "2026-08-21T00:47:49Z",
                   "stars": 3239
                 },
                 "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential.\n\n**Note:** the upstream container's entrypoint defaults to the SSE transport, so this entry passes `--transport stdio` via its registry args to force stdio mode. If you run this server with your own custom arguments (`thv run ... -- \u003cyour args\u003e`), those arguments replace the registry defaults, so be sure to include `--transport stdio` yourself or the server will silently fall back to SSE.",
@@ -16458,6 +16467,9 @@
                 "tool_definitions": [
                   {
                     "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Add activity to incident"
                     },
                     "description": "Add a note (userNote activity) to an existing incident's timeline using its ID. The note body can include URLs which will be attached as context. Use this to add context to an incident.",
@@ -16486,7 +16498,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Manage alerting routing"
                     },
@@ -16535,6 +16549,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Manage alert rules"
                     },
                     "description": "Manage Grafana alert rules with full CRUD capabilities and filtering.\n\nWhen to use:\n- Understanding why an alert is or isn't firing\n- Auditing alert rule configuration (queries, conditions, labels, notification settings)\n- Finding alert rules by state, folder, group, or name\n- Creating, updating, or deleting alert rules\n- Comparing rule versions to see what changed\n\nWhen NOT to use:\n- Checking how alerts are routed to receivers (use alerting_manage_routing)",
@@ -16693,7 +16709,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Analyze Loki label strategy"
                     },
@@ -16794,7 +16812,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Check datasources health"
                     },
@@ -16825,7 +16845,10 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Create Annotation"
                     },
                     "description": "Create a new annotation on a dashboard or panel. Set format to 'graphite' and provide 'what' for Graphite-format annotations.",
@@ -16889,7 +16912,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": false,
+                      "openWorldHint": false,
                       "readOnlyHint": false,
                       "title": "Create datasource"
                     },
@@ -16947,7 +16972,10 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Create folder"
                     },
                     "description": "Create a Grafana folder. Provide a title and optional UID. Returns the created folder.",
@@ -16975,6 +17003,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Create incident"
                     },
                     "description": "Create a new Grafana incident. Requires title, severity, and room prefix. Allows setting status and labels. This tool should be used judiciously and sparingly, and only after confirmation from the user, as it may notify or alarm lots of people.",
@@ -17041,7 +17072,10 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Create snapshot"
                     },
                     "description": "Create a Grafana snapshot from a full dashboard payload. Supports optional expiration and external snapshot fields.",
@@ -17083,6 +17117,8 @@
                     "annotations": {
                       "destructiveHint": true,
                       "idempotentHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Delete snapshot"
                     },
                     "description": "Delete a Grafana snapshot by snapshot key.",
@@ -17102,7 +17138,9 @@
                   },
                   {
                     "annotations": {
-                      "readOnlyHint": true,
+                      "destructiveHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Find error patterns in logs"
                     },
                     "description": "Searches Loki logs for elevated error patterns compared to the last day's average, waits for the analysis to complete, and returns the results including any patterns found.",
@@ -17140,7 +17178,9 @@
                   },
                   {
                     "annotations": {
-                      "readOnlyHint": true,
+                      "destructiveHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Find slow requests"
                     },
                     "description": "Searches relevant Tempo datasources for slow requests, waits for the analysis to complete, and returns the results.",
@@ -17178,7 +17218,10 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Generate navigation deeplink"
                     },
                     "description": "Generate deeplink URLs for Grafana resources. Supports dashboards (requires dashboardUid or provisioningPreview), panels (requires dashboardUid or provisioningPreview, plus panelId), and Explore queries (requires datasourceUid and optionally queries). For dashboard and panel links, provisioningPreview points at a dashboard staged on a provisioning repository branch (e.g. a git-sync PR preview). For explore links, the time range and queries are embedded inside the Grafana explore state. Set shorten=true to also attempt a /goto/\u003cuid\u003e short URL; if shortening fails, the full deeplink is returned.",
@@ -17268,7 +17311,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get IRM alert group"
                     },
@@ -17289,7 +17334,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get Annotation Tags"
                     },
@@ -17312,7 +17359,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get Annotations"
                     },
@@ -17370,7 +17419,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get assertions summary"
                     },
@@ -17416,7 +17467,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get current on-call users"
                     },
@@ -17437,7 +17490,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get dashboard details"
                     },
@@ -17458,7 +17513,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get dashboard panel queries"
                     },
@@ -17490,7 +17547,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get dashboard property"
                     },
@@ -17516,7 +17575,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get dashboard summary"
                     },
@@ -17537,7 +17598,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get datasource"
                     },
@@ -17560,7 +17623,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get incident details"
                     },
@@ -17581,7 +17646,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get OnCall shift"
                     },
@@ -17602,7 +17669,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get panel or dashboard image"
                     },
@@ -17698,7 +17767,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get plugin"
                     },
@@ -17719,7 +17790,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get Sift analysis"
                     },
@@ -17745,7 +17818,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get Sift investigation"
                     },
@@ -17766,7 +17841,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get snapshot"
                     },
@@ -17787,6 +17864,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": true,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Grafana API request"
                     },
                     "description": "Make an authenticated HTTP request to the Grafana API. Similar to 'gh api' for GitHub. Supports any Grafana API endpoint with optional jq-style response filtering. Use this for API endpoints that don't have a dedicated tool.",
@@ -17832,8 +17912,9 @@
                   },
                   {
                     "annotations": {
-                      "destructiveHint": true,
+                      "destructiveHint": false,
                       "idempotentHint": false,
+                      "openWorldHint": true,
                       "readOnlyHint": false,
                       "title": "Install plugin"
                     },
@@ -17858,7 +17939,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List IRM alert groups"
                     },
@@ -17912,7 +17995,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List datasources"
                     },
@@ -17941,7 +18026,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List incidents"
                     },
@@ -17969,7 +18056,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List Loki label names"
                     },
@@ -17998,7 +18087,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List Loki label values"
                     },
@@ -18032,7 +18123,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List OnCall schedules"
                     },
@@ -18059,7 +18152,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List OnCall teams"
                     },
@@ -18078,7 +18173,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List OnCall users"
                     },
@@ -18105,7 +18202,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List Prometheus label names"
                     },
@@ -18177,7 +18276,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List Prometheus label values"
                     },
@@ -18254,7 +18355,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List Prometheus metric metadata"
                     },
@@ -18292,7 +18395,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List Prometheus metric names"
                     },
@@ -18339,7 +18444,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List provisioning repositories"
                     },
@@ -18358,7 +18465,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List Pyroscope label names"
                     },
@@ -18390,7 +18499,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List Pyroscope label values"
                     },
@@ -18428,7 +18539,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List Pyroscope profile types"
                     },
@@ -18457,7 +18570,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List Sift investigations"
                     },
@@ -18477,7 +18592,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "List snapshots"
                     },
@@ -18500,7 +18617,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Query Loki logs"
                     },
@@ -18551,7 +18670,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Query Loki patterns"
                     },
@@ -18589,7 +18710,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get Loki log statistics"
                     },
@@ -18623,7 +18746,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Query Prometheus metrics"
                     },
@@ -18670,7 +18795,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Query Prometheus histogram percentile"
                     },
@@ -18725,11 +18852,13 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Query Pyroscope"
                     },
-                    "description": "\nUnified Pyroscope query tool for fetching profiles or metrics from Pyroscope. Profile data shows WHICH functions consume resources; metrics data\nshows WHEN consumption spiked. Use query_type=\"both\" for complete analysis in one call.\n\nquery_type options (extends Grafana's PyroscopeQueryType):\n- \"profile\": returns DOT-format call graph\n- \"metrics\": returns time-series data points\n- \"both\" (default): returns both profile and metrics in one response\n",
+                    "description": "\nUnified Pyroscope query tool for fetching profiles or metrics from Pyroscope. Profile data shows WHICH functions consume resources; metrics data\nshows WHEN consumption spiked. Use query_type=\"both\" for complete analysis in one call.\n\nquery_type options (extends Grafana's PyroscopeQueryType):\n- \"profile\": returns profile data (shape controlled by format)\n- \"metrics\": returns time-series data points\n- \"both\" (default): returns both profile and metrics in one response\n\nformat options (shape of the profile data):\n- \"table\" (default): per-function table with flat (self) and cumulative values, ranked by flat\n- \"dot\": call graph in Graphviz DOT format; nodes are per source line, so one function may span several nodes\n",
                     "inputSchema": {
                       "properties": {
                         "data_source_uid": {
@@ -18738,6 +18867,10 @@
                         },
                         "end_rfc_3339": {
                           "description": "End time in RFC3339 or relative time (e.g. 'now') (defaults to now)",
+                          "type": "string"
+                        },
+                        "format": {
+                          "description": "Profile output format: \"table\" (default) for a per-function flat/cum table, or \"dot\" for a call graph in Graphviz DOT format",
                           "type": "string"
                         },
                         "group_by": {
@@ -18752,7 +18885,7 @@
                           "type": "string"
                         },
                         "max_node_depth": {
-                          "description": "Max depth for profile call graph (default: 100)",
+                          "description": "Max functions in the profile table or nodes in the call graph; it is a count, not a depth (default: 100)",
                           "type": "integer"
                         },
                         "profile_type": {
@@ -18782,7 +18915,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Search dashboards"
                     },
@@ -18811,7 +18946,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Search folders"
                     },
@@ -18830,7 +18967,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": true,
                       "readOnlyHint": true,
                       "title": "Search plugins"
                     },
@@ -18851,7 +18990,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Suggest Alloy label enforcement config"
                     },
@@ -18893,6 +19034,8 @@
                     "annotations": {
                       "destructiveHint": true,
                       "idempotentHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Update Annotation"
                     },
                     "description": "Updates the provided properties of an annotation by ID. Only fields included in the request are modified; omitted fields are left unchanged.",
@@ -18934,6 +19077,8 @@
                   {
                     "annotations": {
                       "destructiveHint": true,
+                      "openWorldHint": false,
+                      "readOnlyHint": false,
                       "title": "Create or update dashboard"
                     },
                     "description": "Create or update a dashboard. Two modes: (1) Full JSON — provide 'dashboard' for new dashboards or complete replacements. (2) Patch — provide 'uid' + 'operations' to make targeted changes to an existing dashboard. One of these two modes is required; 'folderUid'\\, 'message'\\, and 'overwrite' are supplementary and do nothing on their own. Dashboard authoring guidance: if a saved query must support one\\, many\\, or All values from a multi-select variable inside a regex expression or matcher\\, save '${var:regex}' rather than plain '$var'. Saved dashboard annotation queries/definitions must be written into dashboard JSON under 'annotations.list'; the create_annotation tool creates annotation events and does not add a reusable dashboard annotation query/definition to the saved dashboard. For stat panels over the current dashboard range\\, make the query return the range-level result the stat should display; panel-side reduction only reduces returned series and does not compute peak-over-range or ratio-of-peaks semantics for you. Patch operations support JSONPaths like '$.panels[0].targets[0].expr'\\, '$.panels[1].title'\\, '$.panels[2].targets[0].datasource'\\, '$.templating.list/-'\\, and '$.annotations.list/-'. Append to arrays with '/- ' syntax: '$.panels/- '. Remove by index: {\"op\": \"remove\"\\, \"path\": \"$.panels[2]\"}. Multiple removes on the same array are automatically reordered to avoid index-shifting issues. Note: only numeric array indices are supported in patch paths; filter expressions like [?(@.id==2)] and wildcards like [*] are not supported. v2 dashboards (check 'isV2' from get_dashboard_by_uid) use a different shape: patch '$.elements.\u003cname\u003e.spec.title' or '$.elements.\u003cname\u003e.spec.data.spec.queries[0].spec' and edit '$.variables'/'$.layout' rather than '$.panels'/'$.templating.list'. Full-JSON saves containing top-level 'elements'/'layout' are written as v2 and require a Kubernetes-capable Grafana. After creating or updating a dashboard\\, verify that panel queries return data by using `run_panel_query` or the appropriate query tool (`query_prometheus`\\, `query_loki_logs`\\, etc.) to validate expressions before considering the task complete.",
@@ -18995,11 +19140,13 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": true,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": false,
                       "title": "Update datasource"
                     },
-                    "description": "Update non-secret datasource fields by UID. Omitted fields are preserved. For secrets, direct the user to the Grafana UI.",
+                    "description": "Update non-secret datasource fields by UID. Omitted fields are preserved. IMPORTANT: always call this tool twice. First call: provide only the uid — the tool returns the datasource's field schema. After receiving the schema, ask the user which fields they want to change and confirm each new value; do not infer or reset fields the user did not mention. Second call: provide the uid, schemaReviewed=true, and the changed values in the fields map. Returns an update message and a health check. For secrets, direct the user to the Grafana UI.",
                     "inputSchema": {
                       "properties": {
                         "access": {
@@ -19014,6 +19161,10 @@
                           "description": "Database name",
                           "type": "string"
                         },
+                        "fields": {
+                          "description": "Datasource field values to change, keyed by field key from the schema returned on the first call. The server uses each field's target (root or jsonData) to place values correctly, merging jsonData changes into the existing settings. Only include the fields you want to change. Example: {\"httpMethod\": \"POST\"}.",
+                          "type": "object"
+                        },
                         "isDefault": {
                           "description": "Make this the default datasource",
                           "type": "boolean"
@@ -19025,6 +19176,10 @@
                         "name": {
                           "description": "Display name",
                           "type": "string"
+                        },
+                        "schemaReviewed": {
+                          "description": "Set to true on the second call to confirm you reviewed the schema and collected the changes from the user.",
+                          "type": "boolean"
                         },
                         "uid": {
                           "description": "UID of the datasource to update",
@@ -19044,7 +19199,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "idempotentHint": true,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Validate provisioning file"
                     },
@@ -27512,7 +27669,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/mongodb/mongodb-mcp-server:1.14.0",
+            "identifier": "docker.io/mongodb/mongodb-mcp-server:2.1.0",
             "transport": {
               "type": "stdio"
             },
@@ -27566,7 +27723,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/mongodb/mongodb-mcp-server:1.14.0": {
+              "docker.io/mongodb/mongodb-mcp-server:2.1.0": {
                 "metadata": {
                   "last_updated": "2026-08-14T03:00:21Z",
                   "stars": 1097
@@ -42727,7 +42884,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/perplexity-ask:0.9.0",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/perplexity-ask:1.2.0",
             "transport": {
               "type": "stdio"
             },
@@ -42744,9 +42901,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/perplexity-ask:0.9.0": {
+              "ghcr.io/stacklok/dockyard/npx/perplexity-ask:1.2.0": {
                 "metadata": {
-                  "last_updated": "2026-05-29T13:15:39Z",
+                  "last_updated": "2026-08-21T00:48:19Z",
                   "stars": 2092
                 },
                 "overview": "## Perplexity Ask MCP Server\n\nThe perplexity-ask MCP server integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks. The server provides three specialized tools: perplexity_ask for quick web search using the Sonar API, perplexity_research for comprehensive research with detailed citations, and perplexity_reason for advanced reasoning for complex problem-solving.",
@@ -42777,7 +42934,7 @@
                       "openWorldHint": true,
                       "readOnlyHint": true
                     },
-                    "description": "Answer a question using web-grounded AI (Sonar Pro model). Best for: quick factual questions, summaries, explanations, and general Q\u0026A. Returns a text response with numbered citations. Fastest and cheapest option. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For in-depth multi-source research, use perplexity_research instead. For step-by-step reasoning and analysis, use perplexity_reason instead.",
+                    "description": "Answer a question using web-grounded AI (Perplexity Agent API, fast preset). Best for: quick factual questions, summaries, explanations, and general Q\u0026A. Returns a text response with numbered citations. Fastest and cheapest option. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For in-depth multi-source research, use perplexity_research instead. For step-by-step reasoning and analysis, use perplexity_reason instead.",
                     "inputSchema": {
                       "properties": {
                         "messages": {
@@ -42808,7 +42965,7 @@
                           "type": "array"
                         },
                         "search_context_size": {
-                          "description": "Controls how much web context is retrieved. 'low' (default) is fastest, 'high' provides more comprehensive results.",
+                          "description": "Controls how much web context is retrieved. 'low' is fastest, 'high' provides more comprehensive results.",
                           "enum": [
                             "low",
                             "medium",
@@ -42849,7 +43006,7 @@
                       "openWorldHint": true,
                       "readOnlyHint": true
                     },
-                    "description": "Analyze a question using step-by-step reasoning with web grounding (Sonar Reasoning Pro model). Best for: math, logic, comparisons, complex arguments, and tasks requiring chain-of-thought. Returns a reasoned response with numbered citations. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For quick factual questions, use perplexity_ask instead. For comprehensive multi-source research, use perplexity_research instead.",
+                    "description": "Analyze a question using step-by-step reasoning with web grounding (Perplexity Agent API, medium preset). Best for: math, logic, comparisons, complex arguments, and tasks requiring chain-of-thought. Returns a reasoned response with numbered citations. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For quick factual questions, use perplexity_ask instead. For comprehensive multi-source research, use perplexity_research instead.",
                     "inputSchema": {
                       "properties": {
                         "messages": {
@@ -42880,7 +43037,7 @@
                           "type": "array"
                         },
                         "search_context_size": {
-                          "description": "Controls how much web context is retrieved. 'low' (default) is fastest, 'high' provides more comprehensive results.",
+                          "description": "Controls how much web context is retrieved. 'low' is fastest, 'high' provides more comprehensive results.",
                           "enum": [
                             "low",
                             "medium",
@@ -42905,10 +43062,6 @@
                             "year"
                           ],
                           "type": "string"
-                        },
-                        "strip_thinking": {
-                          "description": "If true, removes \u003cthink\u003e...\u003c/think\u003e tags and their content from the response to save context tokens. Default is false.",
-                          "type": "boolean"
                         }
                       },
                       "required": [
@@ -42925,7 +43078,7 @@
                       "openWorldHint": true,
                       "readOnlyHint": true
                     },
-                    "description": "Conduct deep, multi-source research on a topic (Sonar Deep Research model). Best for: literature reviews, comprehensive overviews, investigative queries needing many sources. Returns a detailed response with numbered citations. Significantly slower than other tools (30+ seconds). For quick factual questions, use perplexity_ask instead. For logical analysis and reasoning, use perplexity_reason instead.",
+                    "description": "Conduct deep, multi-source research on a topic (Perplexity Agent API, high preset). Best for: literature reviews, comprehensive overviews, investigative queries needing many sources. Returns a detailed response with numbered citations. Significantly slower than other tools (can take minutes). For quick factual questions, use perplexity_ask instead. For logical analysis and reasoning, use perplexity_reason instead.",
                     "inputSchema": {
                       "properties": {
                         "messages": {
@@ -42954,20 +43107,6 @@
                             "type": "object"
                           },
                           "type": "array"
-                        },
-                        "reasoning_effort": {
-                          "description": "Controls depth of deep research reasoning. Higher values produce more thorough analysis.",
-                          "enum": [
-                            "minimal",
-                            "low",
-                            "medium",
-                            "high"
-                          ],
-                          "type": "string"
-                        },
-                        "strip_thinking": {
-                          "description": "If true, removes \u003cthink\u003e...\u003c/think\u003e tags and their content from the response to save context tokens. Default is false.",
-                          "type": "boolean"
                         }
                       },
                       "required": [
@@ -42984,7 +43123,7 @@
                       "openWorldHint": true,
                       "readOnlyHint": true
                     },
-                    "description": "Search the web and return a ranked list of results with titles, URLs, snippets, and dates. Best for: finding specific URLs, checking recent news, verifying facts, discovering sources. Returns formatted results (title, URL, snippet, date) — no AI synthesis. For AI-generated answers with citations, use perplexity_ask instead.",
+                    "description": "Search the web and return a ranked list of results with titles, URLs, snippets, and dates. Best for: finding specific URLs, checking recent news, verifying facts, discovering sources. Returns formatted results (title, URL, snippet, date) with no AI synthesis. Supports recency filters and domain restrictions. For AI-generated answers with citations, use perplexity_ask instead.",
                     "inputSchema": {
                       "properties": {
                         "country": {
@@ -43005,6 +43144,24 @@
                         },
                         "query": {
                           "description": "Search query string",
+                          "type": "string"
+                        },
+                        "search_domain_filter": {
+                          "description": "Restrict search results to specific domains (e.g., ['wikipedia.org', 'arxiv.org']). Use '-' prefix for exclusion (e.g., ['-reddit.com']).",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "search_recency_filter": {
+                          "description": "Filter search results by recency. Use 'hour' for very recent news, 'day' for today's updates, 'week' for this week, etc.",
+                          "enum": [
+                            "hour",
+                            "day",
+                            "week",
+                            "month",
+                            "year"
+                          ],
                           "type": "string"
                         }
                       },
@@ -48035,7 +48192,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/semgrep/semgrep:1.173.0",
+            "identifier": "docker.io/semgrep/semgrep:1.174.0",
             "transport": {
               "type": "stdio"
             },
@@ -48051,13 +48208,13 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/semgrep/semgrep:1.173.0": {
+              "docker.io/semgrep/semgrep:1.174.0": {
                 "args": [
                   "semgrep",
                   "mcp"
                 ],
                 "metadata": {
-                  "last_updated": "2026-08-14T01:16:31Z",
+                  "last_updated": "2026-08-21T00:48:22Z",
                   "stars": 15042
                 },
                 "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
@@ -54030,7 +54187,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.18-20260817",
+            "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.18-20260824",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8080"
@@ -54066,7 +54223,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.18-20260817": {
+              "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.18-20260824": {
                 "metadata": {
                   "last_updated": "2026-07-31T20:52:33Z",
                   "stars": 3
