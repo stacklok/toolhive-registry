@@ -8,9 +8,11 @@ on:
     branches:
       - main
   schedule:
-    # Run weekly on Mondays at 5:00 AM UTC, after the weekend merge window, so the
-    # rebuild captures everything merged Fri-Sun before the Monday release fires.
-    - cron: '0 5 * * 1'
+    # Run weekly on Mondays at 6:00 PM UTC, giving reviewers a full business day to
+    # merge version-bump PRs before the catalog-data PR is opened. Any bump merged
+    # to main while that PR is still open re-triggers the "push" path below, which
+    # regenerates and re-pushes the same PR branch (see update-catalog-data job).
+    - cron: '0 18 * * 1'
   workflow_dispatch:
 
 permissions: {}
@@ -82,7 +84,7 @@ jobs:
       group: update-catalog-data
       cancel-in-progress: false
     needs: [lint, validate-and-test]
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    if: github.event_name == 'workflow_dispatch' || (github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'push'))
     steps:
       - name: Generate app token
         id: app-token
@@ -107,16 +109,42 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
 
+      # On a scheduled/manual run we always proceed (opening a new PR if none exists).
+      # On a plain push to main, only proceed if a catalog-data PR is already open —
+      # this is what refreshes that PR in place when a version bump merges under it,
+      # without turning every push into a brand-new weekly release.
+      - name: Check for open catalog-data PR
+        id: check-pr
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          PR_INFO=$(gh pr list --state open --json number,headRefName \
+            --jq '[.[] | select(.headRefName | startswith("update-catalog-data-"))][0] // empty')
+
+          if [ -n "$PR_INFO" ]; then
+            echo "existing_pr=$(echo "$PR_INFO" | jq -r '.number')" >> "$GITHUB_OUTPUT"
+            echo "existing_branch=$(echo "$PR_INFO" | jq -r '.headRefName')" >> "$GITHUB_OUTPUT"
+          fi
+
+          if [ "${{ github.event_name }}" = "push" ] && [ -z "$PR_INFO" ]; then
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Set up Go
+        if: steps.check-pr.outputs.should_run == 'true'
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
           go-version-file: 'go.mod'
           cache: true
 
       - name: Install Task
+        if: steps.check-pr.outputs.should_run == 'true'
         uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e # v2.2.0
 
       - name: Build registry files
+        if: steps.check-pr.outputs.should_run == 'true'
         run: |
           task catalog:build
           for registry_dir in build/*/; do
@@ -128,11 +156,15 @@ jobs:
 
       - name: Generate version
         id: metadata
+        if: steps.check-pr.outputs.should_run == 'true'
         run: echo "version=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
 
       - name: Open or update PR with catalog data files
+        if: steps.check-pr.outputs.should_run == 'true'
         run: |
-          BRANCH="update-catalog-data-${VERSION}"
+          # Reuse the already-open PR's branch if there is one, so a mid-week push
+          # refreshes that PR in place instead of opening a second one.
+          BRANCH="${EXISTING_BRANCH:-update-catalog-data-${VERSION}}"
 
           git config --local user.name "${APP_SLUG}[bot]"
           git config --local user.email "${APP_USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
@@ -151,9 +183,6 @@ jobs:
 
           git commit -m "chore: update catalog data files for v${VERSION}"
           git push -f origin "$BRANCH"
-
-          # Check if PR already exists
-          EXISTING_PR=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number' 2>/dev/null || true)
 
           if [ -n "$EXISTING_PR" ]; then
             echo "PR #$EXISTING_PR already exists, updated branch"
@@ -187,6 +216,8 @@ jobs:
           VERSION: ${{ steps.metadata.outputs.version }}
           APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
           APP_USER_ID: ${{ steps.app-user.outputs.id }}
+          EXISTING_PR: ${{ steps.check-pr.outputs.existing_pr }}
+          EXISTING_BRANCH: ${{ steps.check-pr.outputs.existing_branch }}
 
   build-pr:
     name: Build Check
