@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/perplexity-ask:0.9.0": {
+        "ghcr.io/stacklok/dockyard/npx/perplexity-ask:1.2.0": {
           "metadata": {
-            "last_updated": "2026-05-29T13:15:39Z",
+            "last_updated": "2026-08-21T00:48:19Z",
             "stars": 2092
           },
           "overview": "## Perplexity Ask MCP Server\n\nThe perplexity-ask MCP server integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks. The server provides three specialized tools: perplexity_ask for quick web search using the Sonar API, perplexity_research for comprehensive research with detailed citations, and perplexity_reason for advanced reasoning for complex problem-solving.",
@@ -36,7 +36,7 @@
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Answer a question using web-grounded AI (Sonar Pro model). Best for: quick factual questions, summaries, explanations, and general Q\u0026A. Returns a text response with numbered citations. Fastest and cheapest option. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For in-depth multi-source research, use perplexity_research instead. For step-by-step reasoning and analysis, use perplexity_reason instead.",
+              "description": "Answer a question using web-grounded AI (Perplexity Agent API, fast preset). Best for: quick factual questions, summaries, explanations, and general Q\u0026A. Returns a text response with numbered citations. Fastest and cheapest option. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For in-depth multi-source research, use perplexity_research instead. For step-by-step reasoning and analysis, use perplexity_reason instead.",
               "inputSchema": {
                 "properties": {
                   "messages": {
@@ -67,7 +67,7 @@
                     "type": "array"
                   },
                   "search_context_size": {
-                    "description": "Controls how much web context is retrieved. 'low' (default) is fastest, 'high' provides more comprehensive results.",
+                    "description": "Controls how much web context is retrieved. 'low' is fastest, 'high' provides more comprehensive results.",
                     "enum": [
                       "low",
                       "medium",
@@ -108,7 +108,7 @@
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Analyze a question using step-by-step reasoning with web grounding (Sonar Reasoning Pro model). Best for: math, logic, comparisons, complex arguments, and tasks requiring chain-of-thought. Returns a reasoned response with numbered citations. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For quick factual questions, use perplexity_ask instead. For comprehensive multi-source research, use perplexity_research instead.",
+              "description": "Analyze a question using step-by-step reasoning with web grounding (Perplexity Agent API, medium preset). Best for: math, logic, comparisons, complex arguments, and tasks requiring chain-of-thought. Returns a reasoned response with numbered citations. Supports filtering by recency (hour/day/week/month/year), domain restrictions, and search context size. For quick factual questions, use perplexity_ask instead. For comprehensive multi-source research, use perplexity_research instead.",
               "inputSchema": {
                 "properties": {
                   "messages": {
@@ -139,7 +139,7 @@
                     "type": "array"
                   },
                   "search_context_size": {
-                    "description": "Controls how much web context is retrieved. 'low' (default) is fastest, 'high' provides more comprehensive results.",
+                    "description": "Controls how much web context is retrieved. 'low' is fastest, 'high' provides more comprehensive results.",
                     "enum": [
                       "low",
                       "medium",
@@ -164,10 +164,6 @@
                       "year"
                     ],
                     "type": "string"
-                  },
-                  "strip_thinking": {
-                    "description": "If true, removes \u003cthink\u003e...\u003c/think\u003e tags and their content from the response to save context tokens. Default is false.",
-                    "type": "boolean"
                   }
                 },
                 "required": [
@@ -184,7 +180,7 @@
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Conduct deep, multi-source research on a topic (Sonar Deep Research model). Best for: literature reviews, comprehensive overviews, investigative queries needing many sources. Returns a detailed response with numbered citations. Significantly slower than other tools (30+ seconds). For quick factual questions, use perplexity_ask instead. For logical analysis and reasoning, use perplexity_reason instead.",
+              "description": "Conduct deep, multi-source research on a topic (Perplexity Agent API, high preset). Best for: literature reviews, comprehensive overviews, investigative queries needing many sources. Returns a detailed response with numbered citations. Significantly slower than other tools (can take minutes). For quick factual questions, use perplexity_ask instead. For logical analysis and reasoning, use perplexity_reason instead.",
               "inputSchema": {
                 "properties": {
                   "messages": {
@@ -213,20 +209,6 @@
                       "type": "object"
                     },
                     "type": "array"
-                  },
-                  "reasoning_effort": {
-                    "description": "Controls depth of deep research reasoning. Higher values produce more thorough analysis.",
-                    "enum": [
-                      "minimal",
-                      "low",
-                      "medium",
-                      "high"
-                    ],
-                    "type": "string"
-                  },
-                  "strip_thinking": {
-                    "description": "If true, removes \u003cthink\u003e...\u003c/think\u003e tags and their content from the response to save context tokens. Default is false.",
-                    "type": "boolean"
                   }
                 },
                 "required": [
@@ -243,7 +225,7 @@
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Search the web and return a ranked list of results with titles, URLs, snippets, and dates. Best for: finding specific URLs, checking recent news, verifying facts, discovering sources. Returns formatted results (title, URL, snippet, date) — no AI synthesis. For AI-generated answers with citations, use perplexity_ask instead.",
+              "description": "Search the web and return a ranked list of results with titles, URLs, snippets, and dates. Best for: finding specific URLs, checking recent news, verifying facts, discovering sources. Returns formatted results (title, URL, snippet, date) with no AI synthesis. Supports recency filters and domain restrictions. For AI-generated answers with citations, use perplexity_ask instead.",
               "inputSchema": {
                 "properties": {
                   "country": {
@@ -264,6 +246,24 @@
                   },
                   "query": {
                     "description": "Search query string",
+                    "type": "string"
+                  },
+                  "search_domain_filter": {
+                    "description": "Restrict search results to specific domains (e.g., ['wikipedia.org', 'arxiv.org']). Use '-' prefix for exclusion (e.g., ['-reddit.com']).",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "search_recency_filter": {
+                    "description": "Filter search results by recency. Use 'hour' for very recent news, 'day' for today's updates, 'week' for this week, etc.",
+                    "enum": [
+                      "hour",
+                      "day",
+                      "week",
+                      "month",
+                      "year"
+                    ],
                     "type": "string"
                   }
                 },
@@ -306,7 +306,7 @@
           "name": "PERPLEXITY_API_KEY"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/perplexity-ask:0.9.0",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/perplexity-ask:1.2.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
