@@ -22,6 +22,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Generate version
         id: metadata
@@ -52,12 +53,14 @@ jobs:
       - name: Generate release body
         if: steps.check_changes.outputs.has_changes != 'false'
         id: release_body
+        env:
+          RELEASE_DATE: ${{ steps.metadata.outputs.date }}
         run: |
           {
             echo "body<<EOF"
             echo "## ToolHive Catalog Release"
             echo ""
-            echo "**Date**: ${{ steps.metadata.outputs.date }}"
+            echo "**Date**: $RELEASE_DATE"
             echo ""
 
             for registry_dir in pkg/catalog/*/; do
@@ -130,7 +133,7 @@ jobs:
 
       - name: Create or update release
         if: steps.check_changes.outputs.has_changes != 'false'
-        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
         with:
           tag: v${{ steps.metadata.outputs.version }}
           name: Catalog v${{ steps.metadata.outputs.date }}

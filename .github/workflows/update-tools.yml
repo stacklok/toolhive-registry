@@ -11,15 +11,15 @@ on:
         required: false
         type: string
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 jobs:
   # Security check for fork PRs - prevents untrusted code execution with write permissions
   security-check:
     name: Security Check for Fork PRs
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     if: github.event_name == 'pull_request'
     outputs:
       is-fork: ${{ steps.check-fork.outputs.is-fork }}
@@ -93,6 +93,8 @@ jobs:
   detect-changes:
     name: Detect Changed Servers
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [security-check]
     # Skip on the bot's own synchronize pushes: commit-all-changes pushes with
     # an app token, which (unlike GITHUB_TOKEN) re-triggers pull_request events.
@@ -112,6 +114,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Get changed files
         id: changed-files
@@ -203,6 +206,8 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.has-changes == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       matrix: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
       fail-fast: false
@@ -212,6 +217,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.head_ref || github.ref }}
+          persist-credentials: false
 
       - name: Set up Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
@@ -356,6 +362,8 @@ jobs:
     needs: [detect-changes, update-tools]
     if: always() && needs.detect-changes.outputs.has-changes == 'true' && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Generate app token
         id: app-token
@@ -380,6 +388,9 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
           ref: ${{ github.head_ref || github.ref }}
+          # This job pushes the commit below using the checked-out
+          # credential, so it must persist.
+          persist-credentials: true
 
       - name: Download all commit info artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
@@ -468,6 +479,8 @@ jobs:
     needs: [detect-changes, update-tools]
     if: always() && needs.detect-changes.outputs.has-changes == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Download all commit info artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
@@ -539,11 +552,14 @@ jobs:
     needs: update-tools
     if: always()
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.head_ref || github.ref }}
+          persist-credentials: false
 
       - name: Set up Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
