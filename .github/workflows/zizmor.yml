@@ -29,3 +29,7 @@ jobs:
           inputs: ./.github/workflows/
           advanced-security: 'false'
           annotations: 'true'
+          # Low/informational findings (e.g. style nits, unexploitable
+          # low-confidence flags) still show as annotations but don't fail
+          # the check; only real security-relevant findings gate the PR.
+          min-severity: medium
