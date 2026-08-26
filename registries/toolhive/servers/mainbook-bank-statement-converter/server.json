@@ -1,0 +1,72 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/mainbook-bank-statement-converter",
+  "description": "Convert PDF bank statements to checked Excel, CSV or JSON with balance validation.",
+  "title": "MainBook Bank Statement Converter (Remote)",
+  "repository": {
+    "url": "https://github.com/human-beyond/mainbook-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.mainbook.ai/mcp"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mainbook-bank-statement-converter/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.mainbook.ai/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "finance",
+            "accounting",
+            "bookkeeping",
+            "pdf",
+            "excel",
+            "csv",
+            "document-conversion",
+            "oauth"
+          ],
+          "tools": [
+            "convert_bank_statement",
+            "get_conversion",
+            "list_conversions",
+            "get_balance"
+          ],
+          "overview": "## MainBook Bank Statement Converter (Remote)\n\nConverts PDF bank and credit-card statements into Excel, CSV or JSON, and checks the arithmetic while it does it: every transaction is reconciled against the statement's own opening and closing balances, and rows that do not add up are reported rather than quietly shipped.\n\nIt reads the statement PDF you point it at \u2014 it never connects to a bank account and never asks for banking credentials. Alongside the workbook it returns the evidence behind it: transaction count, whether the balances reconcile, how many rows mismatched and which rows carry warnings.\n\nSign-in is a browser OAuth 2.1 flow against your own MainBook account. Conversions cost page credits, one per statement page, and a new account starts with free pages; every other call is free. `convert_bank_statement` is the only tool that spends anything.",
+          "oauth_config": {
+            "issuer": "https://api.mainbook.ai",
+            "authorize_url": "https://api.mainbook.ai/oauth/authorize/",
+            "token_url": "https://api.mainbook.ai/oauth/token/",
+            "client_id": "mainbook-toolhive",
+            "scopes": [
+              "mainbook:read",
+              "mainbook:convert"
+            ],
+            "use_pkce": true,
+            "resource": "https://mcp.mainbook.ai/mcp",
+            "callback_port": 8765
+          },
+          "custom_metadata": {
+            "author": "Human Beyond LLC",
+            "homepage": "https://mainbook.ai/mcp",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
