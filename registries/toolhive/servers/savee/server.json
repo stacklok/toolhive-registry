@@ -1,0 +1,35 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.savee/savee",
+  "description": "Read-only hosted MCP for Savee: list your saves, boards, and home feed, and search its public library of curated design inspiration.",
+  "title": "Savee",
+  "repository": {
+    "url": "https://github.com/saveeit/savee-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.1",
+  "websiteUrl": "https://savee.com",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.savee.com/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.savee.com/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": ["remote", "design", "photography", "inspiration", "oauth", "mcp"],
+          "tools": ["get_current_user", "list_saves", "list_feed", "list_boards", "list_board_saves", "search", "view_saves"],
+          "custom_metadata": {
+            "author": "Savee",
+            "homepage": "https://docs.savee.com/mcp",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
