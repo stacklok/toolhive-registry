@@ -1,0 +1,47 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/wine-labs",
+  "description": "Wine matching, pricing, auctions, exchange, merchant, critic, portfolio, and cellar intelligence.",
+  "title": "Wine Labs",
+  "repository": {
+    "url": "https://github.com/imiraoui/winelabs-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "websiteUrl": "https://winelabs.ai/agents",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://chat.wine-labs.com/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://chat.wine-labs.com/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "wine",
+            "market-data",
+            "pricing",
+            "auctions",
+            "oauth"
+          ],
+          "tools": [
+            "search_winelabs_endpoints",
+            "fetch_winelabs_data",
+            "fetch_winelabs_data_bundle"
+          ],
+          "overview": "## Wine Labs MCP\n\nWine Labs is the first-party hosted MCP server for fine-wine market intelligence. It provides discoverable access to wine and LWIN identity matching, current and historical pricing, merchant comparisons, auction lots and results, exchange order books and trades, critic and venue context, portfolios, alerts, maps, and cellar-file workflows.\n\nConnect over Streamable HTTP at `https://chat.wine-labs.com/mcp`. The server uses browser OAuth through standard protected-resource discovery; available data and operations follow the signed-in Wine Labs account and plan. Some account-scoped operations can mutate Wine Labs data.\n\nThe public repository contains MIT-licensed connection metadata and documentation. The hosted Wine Labs implementation and data remain proprietary.",
+          "custom_metadata": {
+            "author": "Wine Labs",
+            "homepage": "https://winelabs.ai/agents",
+            "license": "Proprietary service; MIT connection metadata"
+          }
+        }
+      }
+    }
+  }
+}
