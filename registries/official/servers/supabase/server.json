@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.11.0": {
           "metadata": {
-            "last_updated": "2026-07-17T15:09:35Z",
+            "last_updated": "2026-08-31T21:13:39Z",
             "stars": 2612
           },
           "overview": "## Supabase MCP Server\n\nThe supabase MCP server connects Supabase projects to AI assistants for managing tables, fetching config, and querying data. The server enables MCP-based access to Supabase platform capabilities through the Management API, database operations, Edge Functions deployment, and branch management features, authenticated via environment variables.",
@@ -426,51 +426,6 @@
                 "idempotentHint": true,
                 "openWorldHint": false,
                 "readOnlyHint": true,
-                "title": "Get project logs"
-              },
-              "description": "Gets logs for a Supabase project by service type. Each call returns logs from the last 24 hours by default. Provide a custom iso_timestamp_start/iso_timestamp_end window up to 24 hours. Edge Function logs are split by kind: `edge-function` returns invocation/request logs, while `edge-function-runtime` returns console output from inside the function. Query one service first, then correlate with other services by timestamp or error anchors. Do not poll get_logs in a loop.",
-              "inputSchema": {
-                "properties": {
-                  "iso_timestamp_end": {
-                    "description": "The end of the log window as an ISO 8601 timestamp. The API caps the requested range at 24 hours.",
-                    "type": "string"
-                  },
-                  "iso_timestamp_start": {
-                    "description": "The start of the log window as an ISO 8601 timestamp. The API caps the requested range at 24 hours.",
-                    "type": "string"
-                  },
-                  "project_id": {
-                    "type": "string"
-                  },
-                  "service": {
-                    "description": "The service to fetch logs for",
-                    "enum": [
-                      "api",
-                      "branch-action",
-                      "postgres",
-                      "edge-function",
-                      "edge-function-runtime",
-                      "auth",
-                      "storage",
-                      "realtime"
-                    ],
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "project_id",
-                  "service"
-                ],
-                "type": "object"
-              },
-              "name": "get_logs"
-            },
-            {
-              "annotations": {
-                "destructiveHint": false,
-                "idempotentHint": true,
-                "openWorldHint": false,
-                "readOnlyHint": true,
                 "title": "Get organization details"
               },
               "description": "Gets details for an organization. Includes subscription plan.",
@@ -760,6 +715,46 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true,
+                "title": "Query project logs"
+              },
+              "description": "Runs a custom read-only ClickHouse SQL query against a Supabase project's unified logs stream, for filtering, aggregating, or joining across log fields more precisely than a simple per-service log dump. When the user asks about a specific time range, always pass iso_timestamp_start and iso_timestamp_end to match it; otherwise the query defaults to the last 24 hours and will return results from a wider window than intended. The window can be up to 24 hours. Do not poll this tool in a loop.",
+              "inputSchema": {
+                "properties": {
+                  "iso_timestamp_end": {
+                    "description": "The end of the log window as an ISO 8601 timestamp, including a UTC \"Z\" suffix or explicit offset. Defaults to the current time. The API caps the requested range at 24 hours.",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$",
+                    "type": "string"
+                  },
+                  "iso_timestamp_start": {
+                    "description": "The start of the log window as an ISO 8601 timestamp, including a UTC \"Z\" suffix or explicit offset. Defaults to 24 hours before the end of the window. The API caps the requested range at 24 hours.",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$",
+                    "type": "string"
+                  },
+                  "project_id": {
+                    "type": "string"
+                  },
+                  "sql": {
+                    "description": "A read-only ClickHouse SQL query to run against the project's unified logs stream. Logs are exposed through a `logs` table; filter by `source` (common values include 'edge_logs', 'postgres_logs', and 'function_edge_logs', but this list is not exhaustive — run `select distinct source from logs` to discover the sources available for this project) and read nested fields via `log_attributes['\u003ckey\u003e']`.",
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "project_id",
+                  "sql"
+                ],
+                "type": "object"
+              },
+              "name": "query_logs"
+            },
+            {
+              "annotations": {
                 "destructiveHint": true,
                 "idempotentHint": false,
                 "openWorldHint": false,
@@ -864,7 +859,6 @@
             "get_advisors",
             "get_cost",
             "get_edge_function",
-            "get_logs",
             "get_organization",
             "get_project",
             "get_project_url",
@@ -878,6 +872,7 @@
             "list_tables",
             "merge_branch",
             "pause_project",
+            "query_logs",
             "rebase_branch",
             "reset_branch",
             "restore_project",
