@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "docker.io/hashicorp/terraform-mcp-server:1.2.0": {
+        "docker.io/hashicorp/terraform-mcp-server:1.3.0": {
           "metadata": {
-            "last_updated": "2026-08-07T00:29:47Z",
+            "last_updated": "2026-08-31T21:12:43Z",
             "stars": 1267
           },
           "overview": "## Terraform MCP Server\n\nThe terraform MCP server provides Terraform registry and Cloud/Enterprise integration for providers, modules, policies, and workspaces. The server provides MCP-based access to Terraform resources through the Terraform Registry API for searching providers and modules, HCP Terraform/TFE API for workspace and policy operations, and environment variable-based authentication. It supports both public registry and private enterprise instances and includes tools for managing workspaces, variables, policies, and accessing Terraform documentation and registry resources.",
@@ -39,6 +39,37 @@
           ],
           "tier": "Official",
           "tool_definitions": [
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Add member to a Terraform team"
+              },
+              "description": "Adds a single member to a Terraform Cloud/Enterprise team. Provide either a username (accepted invites only) or an organization membership ID (accepted and pending invites), not both.",
+              "inputSchema": {
+                "properties": {
+                  "organization_membership_id": {
+                    "description": "Organization membership ID of the member to add (e.g., 'ou-abc123'). Works for both accepted and pending organization invites. Prefer this over 'username' when the invitee has not yet accepted.",
+                    "type": "string"
+                  },
+                  "team_id": {
+                    "description": "The ID of the Terraform Cloud/Enterprise team to add members to (e.g., 'team-abc123def456')",
+                    "type": "string"
+                  },
+                  "username": {
+                    "description": "Username of the member to add. Only works for users who have accepted the organization invite.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "team_id"
+                ],
+                "type": "object"
+              },
+              "name": "add_team_member"
+            },
             {
               "annotations": {
                 "destructiveHint": true,
@@ -137,6 +168,46 @@
                 "idempotentHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": false,
+                "title": "Create a new Terraform project"
+              },
+              "description": "Creates a new Terraform project in the specified organization.",
+              "inputSchema": {
+                "properties": {
+                  "default_execution_mode": {
+                    "description": "Optional default execution mode for workspaces in the project: local, agent, remote. If not set, workspaces inherit the organization's default execution mode.",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "Optional project description. Must be no more than 256 characters",
+                    "maxLength": 256,
+                    "type": "string"
+                  },
+                  "project_name": {
+                    "description": "The project name. Must be 3-40 characters and may contain letters, numbers, spaces, hyphens, and underscores. It cannot start or end with a space.",
+                    "maxLength": 40,
+                    "minLength": 3,
+                    "pattern": "^[A-Za-z0-9_-][A-Za-z0-9 _-]*[A-Za-z0-9_-]$",
+                    "type": "string"
+                  },
+                  "terraform_org_name": {
+                    "description": "The name of the Terraform Cloud/Enterprise organization to create the project in",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "terraform_org_name",
+                  "project_name"
+                ],
+                "type": "object"
+              },
+              "name": "create_project"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false,
                 "title": "Create a new Terraform run"
               },
               "description": "Creates a new Terraform run in the specified workspace.",
@@ -174,6 +245,38 @@
                 "type": "object"
               },
               "name": "create_run"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Create a new team in a Terraform organization"
+              },
+              "description": "Creates a new team in a Terraform Cloud/Enterprise organization.",
+              "inputSchema": {
+                "properties": {
+                  "team_name": {
+                    "description": "The unique name of the team to create in the Terraform organization",
+                    "type": "string"
+                  },
+                  "terraform_org_name": {
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
+                    "type": "string"
+                  },
+                  "visibility": {
+                    "description": "Optional team visibility: secret, organization. If omitted, the API defaults to \"secret\".",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "terraform_org_name",
+                  "team_name"
+                ],
+                "type": "object"
+              },
+              "name": "create_team"
             },
             {
               "annotations": {
@@ -797,6 +900,29 @@
                 "idempotentHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
+                "title": "Get a Terraform project by ID"
+              },
+              "description": "Fetches detailed information about a Terraform project by its ID. If the project ID isn't already known, call \"list_terraform_projects\" first.",
+              "inputSchema": {
+                "properties": {
+                  "project_id": {
+                    "description": "The ID of the project to fetch (e.g., 'prj-abc123def456')",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "project_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_project"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
                 "title": "Get Terraform provider capabilities and supported features"
               },
               "description": "Get the capabilities of a Terraform provider including the types of resources, data sources, functions, guides, and other features it supports.\nThis tool analyzes the provider documentation to determine what types of capabilities are available:\n- resources: Infrastructure resources that can be created/managed\n- data-sources: Read-only data sources for querying existing infrastructure  \n- functions: Provider-specific functions for data transformation\n- guides: Documentation guides and tutorials for using the provider\n- actions: Available provider actions (if any)\n- ephemeral resources: Temporary resources for credentials and tokens\n- list-resources: List resources for querying existing cloud resources (Terraform Search)\n\nReturns a summary with counts and examples for each capability type.",
@@ -929,14 +1055,9 @@
                   "stack_id": {
                     "description": "The ID of the stack to get details for",
                     "type": "string"
-                  },
-                  "terraform_org_name": {
-                    "description": "The name of the Terraform Cloud/Enterprise organization",
-                    "type": "string"
                   }
                 },
                 "required": [
-                  "terraform_org_name",
                   "stack_id"
                 ],
                 "type": "object"
@@ -967,6 +1088,29 @@
                 "type": "object"
               },
               "name": "get_state_version"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Fetch full details for a single team by ID"
+              },
+              "description": "Fetch full details for a single team by ID, including members, organization access permissions, and SSO settings.",
+              "inputSchema": {
+                "properties": {
+                  "team_id": {
+                    "description": "The ID of the team to retrieve (e.g. team-abc123).",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "team_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_team"
             },
             {
               "annotations": {
@@ -1018,6 +1162,42 @@
                 "type": "object"
               },
               "name": "get_workspace_details"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Grant team access to a workspace or project"
+              },
+              "description": "Grants a team permission to access a workspace or a project in Terraform Cloud/Enterprise.\n\t\t\tProvide either workspace_id (for workspace-level access) or project_id (for project-level access) — not both.\n\t\t\tReturns the created access grant including its ID, team ID, target resource ID, and access level.",
+              "inputSchema": {
+                "properties": {
+                  "access_level": {
+                    "description": "The permission level to grant the team.\n\t\t\t\tFor workspace access (workspace_id): \"read\" (view only), \"plan\" (can queue plans), \"write\" (apply runs), \"admin\" (full control).\n\t\t\t\tFor project access (project_id): \"read\", \"write\", \"maintain\" (manage workspaces), \"admin\" (full control). Note: \"plan\" is only valid for workspaces; \"maintain\" is only valid for projects.",
+                    "type": "string"
+                  },
+                  "project_id": {
+                    "description": "The ID of the project to grant the team access to. Project IDs begin with 'prj-' (e.g., 'prj-abc123def456'). Mutually exclusive with workspace_id — provide one or the other, not both.",
+                    "type": "string"
+                  },
+                  "team_id": {
+                    "description": "The ID of the team to grant access. Team IDs begin with 'team-' (e.g., 'team-abc123def456').",
+                    "type": "string"
+                  },
+                  "workspace_id": {
+                    "description": "The ID of the workspace to grant the team access to. Workspace IDs begin with 'ws-' (e.g., 'ws-abc123def456'). Mutually exclusive with project_id — provide one or the other, not both.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "team_id",
+                  "access_level"
+                ],
+                "type": "object"
+              },
+              "name": "grant_team_access"
             },
             {
               "annotations": {
@@ -1177,6 +1357,48 @@
                 "type": "object"
               },
               "name": "list_state_versions"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "List teams in a Terraform Cloud organization."
+              },
+              "description": "List teams within a Terraform Cloud organization. Returns a summary of each team including ID, name, visibility, and member count. Optionally filter by exact team names or a search query. Supports pagination for large result sets.",
+              "inputSchema": {
+                "properties": {
+                  "page": {
+                    "description": "Page number for pagination (min 1)",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "pageSize": {
+                    "description": "Results per page for pagination (min 1, max 100)",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "search_query": {
+                    "description": "Substring search query to filter teams by name. Returns all teams whose name contains the query string. Example: \"platform\"",
+                    "type": "string"
+                  },
+                  "team_names": {
+                    "description": "Comma-separated list of exact team names to filter by. Only teams whose name exactly matches one of the provided values are returned. Example: \"owners,developers,platform-infra\"",
+                    "type": "string"
+                  },
+                  "terraform_org_name": {
+                    "description": "The name of the Terraform Cloud/Enterprise organization",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "terraform_org_name"
+                ],
+                "type": "object"
+              },
+              "name": "list_teams"
             },
             {
               "annotations": {
@@ -1738,13 +1960,32 @@
                 "type": "object"
               },
               "name": "update_workspace_variable"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get current Terraform identity"
+              },
+              "description": "Returns the identity of the currently authenticated Terraform token. Use this to determine which user or service account the active token belongs to.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "whoami"
             }
           ],
           "tools": [
+            "add_team_member",
             "attach_policy_set_to_workspaces",
             "attach_variable_set_to_workspaces",
             "create_no_code_workspace",
+            "create_project",
             "create_run",
+            "create_team",
             "create_variable_in_variable_set",
             "create_variable_set",
             "create_workspace",
@@ -1763,6 +2004,7 @@
             "get_policy_details",
             "get_private_module_details",
             "get_private_provider_details",
+            "get_project",
             "get_provider_capabilities",
             "get_provider_details",
             "get_run_comments",
@@ -1770,11 +2012,14 @@
             "get_sentinel_mock",
             "get_stack_details",
             "get_state_version",
+            "get_team",
             "get_token_permissions",
             "get_workspace_details",
+            "grant_team_access",
             "list_runs",
             "list_stacks",
             "list_state_versions",
+            "list_teams",
             "list_terraform_orgs",
             "list_terraform_projects",
             "list_variable_sets",
@@ -1788,7 +2033,8 @@
             "search_private_providers",
             "search_providers",
             "update_workspace",
-            "update_workspace_variable"
+            "update_workspace_variable",
+            "whoami"
           ]
         }
       }
@@ -1834,7 +2080,7 @@
           "name": "TRANSPORT_MODE"
         }
       ],
-      "identifier": "docker.io/hashicorp/terraform-mcp-server:1.2.0",
+      "identifier": "docker.io/hashicorp/terraform-mcp-server:1.3.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
