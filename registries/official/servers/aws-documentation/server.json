@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.30": {
+        "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.2.0": {
           "metadata": {
-            "last_updated": "2026-07-31T01:13:51Z",
+            "last_updated": "2026-08-31T22:25:44Z",
             "stars": 8776
           },
           "overview": "## AWS Documentation MCP Server\n\nThe aws-documentation MCP server is a Model Context Protocol (MCP) server that provides AI assistants and agents with direct access to AWS's official documentation content through a structured MCP interface. It enables workflows that search, fetch, and recommend AWS documentation pages — returning markdown-formatted content and relevant recommendations — so models can cite accurate AWS technical details and best practices on-demand without manual lookup.",
@@ -102,7 +102,7 @@
             },
             {
               "annotations": {},
-              "description": "Get content recommendations for an AWS documentation page.\n\n## Usage\n\nThis tool provides recommendations for related AWS documentation pages based on a given URL.\nUse it to discover additional relevant content that might not appear in search results.\n\n## Recommendation Types\n\nThe recommendations include four categories:\n\n1. **Highly Rated**: Popular pages within the same AWS service\n2. **New**: Recently added pages within the same AWS service - useful for finding newly released features\n3. **Similar**: Pages covering similar topics to the current page\n4. **Journey**: Pages commonly viewed next by other users\n\n## When to Use\n\n- After reading a documentation page to find related content\n- When exploring a new AWS service to discover important pages\n- To find alternative explanations of complex concepts\n- To discover the most popular pages for a service\n- To find newly released information by using a service's welcome page URL and checking the **New** recommendations\n\n## Finding New Features\n\nTo find newly released information about a service:\n1. Find any page belong to that service, typically you can try the welcome page\n2. Call this tool with that URL\n3. Look specifically at the **New** recommendation type in the results\n\n## Result Interpretation\n\nEach recommendation includes:\n- url: The documentation page URL\n- title: The page title\n- context: A brief description (if available)\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to get recommendations for\n\nReturns:\n    List of recommended pages with URLs, titles, and context\n",
+              "description": "Get content recommendations for an AWS documentation page.\n\n## Usage\n\nThis tool provides recommendations for related AWS documentation pages based on a given URL.\nUse it to discover additional relevant content that might not appear in search results.\n\n## Recommendation Types\n\nThe recommendations include three categories:\n\n1. **New**: Recently added pages within the same AWS service - useful for finding newly released features\n2. **Similar**: Pages covering similar topics to the current page\n3. **Journey**: Pages commonly viewed next by other users\n\n## When to Use\n\n- After reading a documentation page to find related content\n- When exploring a new AWS service to discover important pages\n- To find alternative explanations of complex concepts\n- To find newly released information by using a service's welcome page URL and checking the **New** recommendations\n\n## Finding New Features\n\nTo find newly released information about a service:\n1. Find any page belong to that service, typically you can try the welcome page\n2. Call this tool with that URL\n3. Look specifically at the **New** recommendation type in the results\n\n## Result Interpretation\n\nEach recommendation includes:\n- url: The documentation page URL\n- title: The page title\n- context: A brief description (if available)\n\nArgs:\n    ctx: MCP context for logging and error handling\n    url: URL of the AWS documentation page to get recommendations for\n\nReturns:\n    List of recommended pages with URLs, titles, and context\n",
               "inputSchema": {
                 "properties": {
                   "url": {
@@ -264,7 +264,7 @@
           "name": "FASTMCP_LOG_LEVEL"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.1.30",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.2.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
