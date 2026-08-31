@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/github/github-mcp-server:v1.11.0": {
           "metadata": {
-            "last_updated": "2026-08-21T00:47:52Z",
+            "last_updated": "2026-08-31T21:13:02Z",
             "stars": 28440
           },
           "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -984,6 +984,19 @@
                     "description": "Repository owner",
                     "type": "string",
                     "x-mcp-header": "owner"
+                  },
+                  "parent_issue_number": {
+                    "description": "Issue number of the parent issue. Only used when method is 'create' and cannot be combined with issue_fields. The new issue is created and attached to this parent in the same operation.",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "parent_owner": {
+                    "description": "Repository owner of the parent issue. Must be provided with parent_repo. Omit both to use owner and repo. Only used when method is 'create' and parent_issue_number is provided.",
+                    "type": "string"
+                  },
+                  "parent_repo": {
+                    "description": "Repository name of the parent issue. Must be provided with parent_owner. Omit both to use owner and repo. Only used when method is 'create' and parent_issue_number is provided.",
+                    "type": "string"
                   },
                   "repo": {
                     "description": "Repository name",
