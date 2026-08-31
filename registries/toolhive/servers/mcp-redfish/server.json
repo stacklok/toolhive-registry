@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/nokia/mcp-redfish:0.3.11": {
+        "ghcr.io/nokia/mcp-redfish:0.4.1": {
           "metadata": {
-            "last_updated": "2026-08-14T01:14:20Z",
+            "last_updated": "2026-08-31T21:25:10Z",
             "stars": 6
           },
           "overview": "## Redfish MCP Server\n\nThe mcp-redfish server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with systems that expose the Redfish API, the industry-standard RESTful interface for out-of-band hardware management. It allows AI-driven workflows to inspect server hardware, firmware, power state, and health information without switching tools or manually navigating vendor-specific management consoles. This server is especially useful for data center operations, hardware monitoring, infrastructure troubleshooting, and AI-assisted systems management workflows.",
@@ -48,7 +48,17 @@
             },
             {
               "annotations": {},
-              "description": "List all Redfish Servers that can be accessed.\n\nReturns:\n    list: A list of Redfish Servers that can be accessed",
+              "description": "List discovered Redfish server candidates for review.\n\nReturns:\n    list: A list of discovered Redfish server candidates. These candidates\n    are informational only and are not managed unless explicitly configured.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_discovered_servers"
+            },
+            {
+              "annotations": {},
+              "description": "List configured Redfish servers that can be managed.\n\nReturns:\n    list: A list of configured Redfish servers that can be managed",
               "inputSchema": {
                 "properties": {},
                 "required": [],
@@ -59,6 +69,7 @@
           ],
           "tools": [
             "get_resource_data",
+            "list_discovered_servers",
             "list_servers"
           ]
         }
@@ -81,7 +92,7 @@
       "environmentVariables": [
         {
           "default": "[{\"address\":\"127.0.0.1\"}]",
-          "description": "JSON array of Redfish endpoint configurations with address, port, username, password, auth_method, and tls_server_ca_cert",
+          "description": "JSON array of Redfish endpoint configurations with address, port, username, password, auth_method, tls_server_ca_cert, and tls_verify",
           "isRequired": true,
           "name": "REDFISH_HOSTS"
         },
@@ -110,6 +121,18 @@
           "name": "REDFISH_SERVER_CA_CERT"
         },
         {
+          "description": "Verify Redfish server TLS certificates. Defaults to true; set to false only for trusted lab/troubleshooting environments, which still encrypts the connection but no longer authenticates server identity",
+          "name": "REDFISH_TLS_VERIFY"
+        },
+        {
+          "description": "Enable SSDP discovery of review-only endpoint candidates. Defaults to false; discovered endpoints are not credentialed or managed until explicitly added to REDFISH_HOSTS",
+          "name": "REDFISH_DISCOVERY_ENABLED"
+        },
+        {
+          "description": "SSDP discovery interval in seconds. Defaults to 30",
+          "name": "REDFISH_DISCOVERY_INTERVAL"
+        },
+        {
           "default": "stdio",
           "description": "MCP transport method (stdio, sse, or streamable-http)",
           "name": "MCP_TRANSPORT"
@@ -120,7 +143,7 @@
           "name": "MCP_REDFISH_LOG_LEVEL"
         }
       ],
-      "identifier": "ghcr.io/nokia/mcp-redfish:0.3.11",
+      "identifier": "ghcr.io/nokia/mcp-redfish:0.4.1",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
