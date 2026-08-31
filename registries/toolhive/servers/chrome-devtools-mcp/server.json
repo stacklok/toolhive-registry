@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.8.0": {
           "metadata": {
-            "last_updated": "2026-08-31T22:31:57Z",
+            "last_updated": "2026-08-31T22:59:24Z",
             "stars": 33303
           },
           "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
@@ -55,12 +55,17 @@
                     "description": "Whether to include a snapshot in the response. Default is false.",
                     "type": "boolean"
                   },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "uid": {
                     "description": "The uid of an element on the page from the page content snapshot",
                     "type": "string"
                   }
                 },
                 "required": [
+                  "pageId",
                   "uid"
                 ],
                 "type": "object"
@@ -101,12 +106,17 @@
                     "description": "Whether to include a snapshot in the response. Default is false.",
                     "type": "boolean"
                   },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "to_uid": {
                     "description": "The uid of the element to drop into",
                     "type": "string"
                   }
                 },
                 "required": [
+                  "pageId",
                   "from_uid",
                   "to_uid"
                 ],
@@ -118,7 +128,7 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Emulates various features on the selected page.",
+              "description": "Emulates various features on the target page.",
               "inputSchema": {
                 "properties": {
                   "colorScheme": {
@@ -155,6 +165,10 @@
                     ],
                     "type": "string"
                   },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "userAgent": {
                     "description": "User agent to emulate. Set to empty string to clear the user agent override.",
                     "type": "string"
@@ -164,7 +178,9 @@
                     "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "pageId"
+                ],
                 "type": "object"
               },
               "name": "emulate"
@@ -173,7 +189,7 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Evaluate a JavaScript function inside the currently selected page. Returns the response as JSON, so returned values have to be JSON-serializable.",
+              "description": "Evaluate a JavaScript function inside the target page. Returns the response as JSON, so returned values have to be JSON-serializable.",
               "inputSchema": {
                 "properties": {
                   "args": {
@@ -193,11 +209,20 @@
                     "type": "string"
                   },
                   "function": {
-                    "description": "A JavaScript function declaration to be executed by the tool in the currently selected page.\nExample without arguments: `() =\u003e document.title` or `async () =\u003e await fetch(\"example.com\")`.\nExample with arguments: `(el) =\u003e el.innerText`\n",
+                    "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() =\u003e document.title` or `async () =\u003e await fetch(\"example.com\")`.\nExample with arguments: `(el) =\u003e el.innerText`\n",
                     "type": "string"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
+                  "waitForStableDom": {
+                    "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
+                    "type": "boolean"
                   }
                 },
                 "required": [
+                  "pageId",
                   "function"
                 ],
                 "type": "object"
@@ -215,6 +240,10 @@
                     "description": "Whether to include a snapshot in the response. Default is false.",
                     "type": "boolean"
                   },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "uid": {
                     "description": "The uid of an element on the page from the page content snapshot",
                     "type": "string"
@@ -225,6 +254,7 @@
                   }
                 },
                 "required": [
+                  "pageId",
                   "uid",
                   "value"
                 ],
@@ -264,9 +294,14 @@
                   "includeSnapshot": {
                     "description": "Whether to include a snapshot in the response. Default is false.",
                     "type": "boolean"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
                   }
                 },
                 "required": [
+                  "pageId",
                   "elements"
                 ],
                 "type": "object"
@@ -283,9 +318,14 @@
                   "msgid": {
                     "description": "The msgid of a console message on the page from the listed console messages",
                     "type": "number"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
                   }
                 },
                 "required": [
+                  "pageId",
                   "msgid"
                 ],
                 "type": "object"
@@ -299,6 +339,10 @@
               "description": "Gets a network request by an optional reqid, if omitted returns the currently selected request in the DevTools Network panel.",
               "inputSchema": {
                 "properties": {
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "reqid": {
                     "description": "The reqid of the network request. If omitted returns the currently selected request in the DevTools Network panel.",
                     "type": "number"
@@ -312,7 +356,9 @@
                     "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "pageId"
+                ],
                 "type": "object"
               },
               "name": "get_network_request"
@@ -332,12 +378,17 @@
                     ],
                     "type": "string"
                   },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "promptText": {
                     "description": "Optional prompt text to enter into the dialog.",
                     "type": "string"
                   }
                 },
                 "required": [
+                  "pageId",
                   "action"
                 ],
                 "type": "object"
@@ -355,12 +406,17 @@
                     "description": "Whether to include a snapshot in the response. Default is false.",
                     "type": "boolean"
                   },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "uid": {
                     "description": "The uid of an element on the page from the page content snapshot",
                     "type": "string"
                   }
                 },
                 "required": [
+                  "pageId",
                   "uid"
                 ],
                 "type": "object"
@@ -395,9 +451,15 @@
                   "outputDirPath": {
                     "description": "Directory for reports. If omitted, uses temporary files.",
                     "type": "string"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
                   }
                 },
-                "required": [],
+                "required": [
+                  "pageId"
+                ],
                 "type": "object"
               },
               "name": "lighthouse_audit"
@@ -406,13 +468,22 @@
               "annotations": {
                 "readOnlyHint": true
               },
-              "description": "List all console messages for the currently selected page since the last navigation.",
+              "description": "List all console messages for the target page since the last navigation.",
               "inputSchema": {
                 "properties": {
                   "includePreservedMessages": {
                     "default": false,
                     "description": "Set to true to return the preserved messages over the last 3 navigations.",
                     "type": "boolean"
+                  },
+                  "includeStackTraces": {
+                    "default": false,
+                    "description": "Set to true to include the stack trace for each message when available. Increases the response size.",
+                    "type": "boolean"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
                   },
                   "pageIdx": {
                     "description": "Page number to return (0-based). When omitted, returns the first page.",
@@ -458,7 +529,9 @@
                     "type": "array"
                   }
                 },
-                "required": [],
+                "required": [
+                  "pageId"
+                ],
                 "type": "object"
               },
               "name": "list_console_messages"
@@ -467,13 +540,17 @@
               "annotations": {
                 "readOnlyHint": true
               },
-              "description": "Lists the most recent requests for the currently selected page since the last navigation.",
+              "description": "Lists the most recent requests for the target page since the last navigation.",
               "inputSchema": {
                 "properties": {
                   "includePreservedRequests": {
                     "default": false,
                     "description": "Set to true to return the preserved requests over the last 3 navigations.",
                     "type": "boolean"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
                   },
                   "pageIdx": {
                     "description": "Page number to return (0-based). When omitted, returns the first page.",
@@ -514,7 +591,9 @@
                     "type": "array"
                   }
                 },
-                "required": [],
+                "required": [
+                  "pageId"
+                ],
                 "type": "object"
               },
               "name": "list_network_requests"
@@ -554,6 +633,10 @@
                     "description": "A JavaScript script to be executed on each new document before any other scripts for the next navigation.",
                     "type": "string"
                   },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "timeout": {
                     "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
                     "type": "integer"
@@ -573,7 +656,9 @@
                     "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "pageId"
+                ],
                 "type": "object"
               },
               "name": "navigate_page"
@@ -623,9 +708,14 @@
                   "insightSetId": {
                     "description": "The id for the specific insight set. Only use the ids given in the \"Available insight sets\" list.",
                     "type": "string"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
                   }
                 },
                 "required": [
+                  "pageId",
                   "insightSetId",
                   "insightName"
                 ],
@@ -637,7 +727,7 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Start a performance trace on the selected webpage. Use to find frontend performance issues, Core Web Vitals (LCP, INP, CLS), and improve page load speed.",
+              "description": "Start a performance trace on the target webpage. Use to find frontend performance issues, Core Web Vitals (LCP, INP, CLS), and improve page load speed.",
               "inputSchema": {
                 "properties": {
                   "autoStop": {
@@ -649,13 +739,19 @@
                     "description": "The absolute file path, or a file path relative to the current working directory, to save the raw trace data. For example, trace.json.gz (compressed) or trace.json (uncompressed).",
                     "type": "string"
                   },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "reload": {
                     "default": true,
-                    "description": "Determines if, once tracing has started, the current selected page should be automatically reloaded. Navigate the page to the right URL using the navigate_page tool BEFORE starting the trace if reload or autoStop is set to true.",
+                    "description": "Determines if, once tracing has started, the target page should be automatically reloaded. Navigate the page to the right URL using the navigate_page tool BEFORE starting the trace if reload or autoStop is set to true.",
                     "type": "boolean"
                   }
                 },
-                "required": [],
+                "required": [
+                  "pageId"
+                ],
                 "type": "object"
               },
               "name": "performance_start_trace"
@@ -664,15 +760,21 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Stop the active performance trace recording on the selected webpage.",
+              "description": "Stop the active performance trace recording on the target webpage.",
               "inputSchema": {
                 "properties": {
                   "filePath": {
                     "description": "The absolute file path, or a file path relative to the current working directory, to save the raw trace data. For example, trace.json.gz (compressed) or trace.json (uncompressed).",
                     "type": "string"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
                   }
                 },
-                "required": [],
+                "required": [
+                  "pageId"
+                ],
                 "type": "object"
               },
               "name": "performance_stop_trace"
@@ -691,9 +793,14 @@
                   "key": {
                     "description": "A key or a combination (e.g., \"Enter\", \"Control+A\", \"Control++\", \"Control+Shift+R\"). Modifiers: Control, Shift, Alt, Meta",
                     "type": "string"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
                   }
                 },
                 "required": [
+                  "pageId",
                   "key"
                 ],
                 "type": "object"
@@ -704,11 +811,15 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Resizes the selected page's window so that the page has specified dimension",
+              "description": "Resizes the page's window so that the page has specified dimension",
               "inputSchema": {
                 "properties": {
                   "height": {
                     "description": "Page height",
+                    "type": "number"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
                     "type": "number"
                   },
                   "width": {
@@ -717,6 +828,7 @@
                   }
                 },
                 "required": [
+                  "pageId",
                   "width",
                   "height"
                 ],
@@ -751,15 +863,20 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Capture a heap snapshot of the currently selected page. Use to analyze the memory distribution of JavaScript objects and debug memory leaks.",
+              "description": "Capture a heap snapshot of the target page. Use to analyze the memory distribution of JavaScript objects and debug memory leaks.",
               "inputSchema": {
                 "properties": {
                   "filePath": {
                     "description": "A path to a .heapsnapshot file to save the heapsnapshot to.",
                     "type": "string"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
                   }
                 },
                 "required": [
+                  "pageId",
                   "filePath"
                 ],
                 "type": "object"
@@ -791,6 +908,10 @@
                     "description": "If set to true takes a screenshot of the full page instead of the currently visible viewport. Incompatible with uid.",
                     "type": "boolean"
                   },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "quality": {
                     "description": "Compression quality for JPEG and WebP formats (0-100). Higher values mean better quality but larger file sizes. Ignored for PNG format.",
                     "maximum": 100,
@@ -802,7 +923,9 @@
                     "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "pageId"
+                ],
                 "type": "object"
               },
               "name": "take_screenshot"
@@ -811,19 +934,25 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Take a text snapshot of the currently selected page based on the a11y tree. The snapshot lists page elements along with a unique\nidentifier (uid). Always use the latest snapshot. Prefer taking a snapshot over taking a screenshot. The snapshot indicates the element selected\nin the DevTools Elements panel (if any).",
+              "description": "Take a text snapshot of the target page based on the a11y tree. The snapshot lists page elements along with a unique\nidentifier (uid). Always use the latest snapshot. Prefer taking a snapshot over taking a screenshot. The snapshot indicates the element selected\nin the DevTools Elements panel (if any).",
               "inputSchema": {
                 "properties": {
                   "filePath": {
                     "description": "The absolute path, or a path relative to the current working directory, to save the snapshot to instead of attaching it to the response.",
                     "type": "string"
                   },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "verbose": {
                     "description": "Whether to include all possible information available in the full a11y tree. Default is false.",
                     "type": "boolean"
                   }
                 },
-                "required": [],
+                "required": [
+                  "pageId"
+                ],
                 "type": "object"
               },
               "name": "take_snapshot"
@@ -835,6 +964,10 @@
               "description": "Type text using keyboard into a previously focused input",
               "inputSchema": {
                 "properties": {
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "submitKey": {
                     "description": "Optional key to press after typing. E.g., \"Enter\", \"Tab\", \"Escape\"",
                     "type": "string"
@@ -845,6 +978,7 @@
                   }
                 },
                 "required": [
+                  "pageId",
                   "text"
                 ],
                 "type": "object"
@@ -858,13 +992,21 @@
               "description": "Upload a file through a provided element.",
               "inputSchema": {
                 "properties": {
-                  "filePath": {
-                    "description": "The local path of the file to upload",
-                    "type": "string"
+                  "filePaths": {
+                    "description": "One or more files paths to upload. File paths have to be local to the browser instance (not the MCP).",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array"
                   },
                   "includeSnapshot": {
                     "description": "Whether to include a snapshot in the response. Default is false.",
                     "type": "boolean"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
                   },
                   "uid": {
                     "description": "The uid of the file input element or an element that will open file chooser on the page from the page content snapshot",
@@ -872,8 +1014,9 @@
                   }
                 },
                 "required": [
+                  "pageId",
                   "uid",
-                  "filePath"
+                  "filePaths"
                 ],
                 "type": "object"
               },
@@ -886,6 +1029,10 @@
               "description": "Wait for the specified text to appear on the selected page.",
               "inputSchema": {
                 "properties": {
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
                   "text": {
                     "description": "Non-empty list of texts. Resolves when any value appears on the page.",
                     "items": {
@@ -900,6 +1047,7 @@
                   }
                 },
                 "required": [
+                  "pageId",
                   "text"
                 ],
                 "type": "object"
