@@ -92,7 +92,7 @@
       "environmentVariables": [
         {
           "default": "[{\"address\":\"127.0.0.1\"}]",
-          "description": "JSON array of Redfish endpoint configurations with address, port, username, password, auth_method, and tls_server_ca_cert",
+          "description": "JSON array of Redfish endpoint configurations with address, port, username, password, auth_method, tls_server_ca_cert, and tls_verify",
           "isRequired": true,
           "name": "REDFISH_HOSTS"
         },
@@ -119,6 +119,18 @@
         {
           "description": "Path to CA certificate for TLS verification",
           "name": "REDFISH_SERVER_CA_CERT"
+        },
+        {
+          "description": "Verify Redfish server TLS certificates. Defaults to true; set to false only for trusted lab/troubleshooting environments, which still encrypts the connection but no longer authenticates server identity",
+          "name": "REDFISH_TLS_VERIFY"
+        },
+        {
+          "description": "Enable SSDP discovery of review-only endpoint candidates. Defaults to false; discovered endpoints are not credentialed or managed until explicitly added to REDFISH_HOSTS",
+          "name": "REDFISH_DISCOVERY_ENABLED"
+        },
+        {
+          "description": "SSDP discovery interval in seconds. Defaults to 30",
+          "name": "REDFISH_DISCOVERY_INTERVAL"
         },
         {
           "default": "stdio",
