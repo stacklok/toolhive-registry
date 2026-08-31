@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.37.0": {
+        "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.39.0": {
           "metadata": {
-            "last_updated": "2026-07-17T15:09:14Z",
+            "last_updated": "2026-08-31T22:49:29Z",
             "stars": 619
           },
           "overview": "## Sentry MCP Server\n\nThe sentry MCP server is a Model Context Protocol (MCP) service for human-in-the-loop coding agents and developer workflow debugging. The server enables comprehensive Sentry project and organization management, real-time error tracking with event search and issue monitoring, AI-powered issue analysis through Sentry Seer integration, and integrated documentation search for platform guidance.",
@@ -75,8 +75,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "description": "The region URL for the organization you're querying, if known. For Sentry's Cloud Service (sentry.io), this is typically the region-specific URL like 'https://us.sentry.io'. For self-hosted Sentry installations, this parameter is usually not needed and should be omitted. You can find the correct regionUrl from the organization details using the `find_organizations()` tool."
+                    "default": null
                   }
                 },
                 "required": [],
@@ -97,6 +96,9 @@
                     "additionalProperties": {},
                     "default": {},
                     "description": "Arguments for the target tool, matching the schema returned by search_sentry_tools.",
+                    "propertyNames": {
+                      "type": "string"
+                    },
                     "type": "object"
                   },
                   "name": {
@@ -114,6 +116,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
@@ -130,8 +133,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "description": "Search query to filter results by name or slug. Use this to narrow down results when there are many items."
+                    "default": null
                   }
                 },
                 "required": [],
@@ -141,10 +143,11 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Find projects in Sentry.\n\nUse this tool when you need to:\n- View projects in a Sentry organization\n- Find a project's slug to aid other tool requests\n- Search for specific projects by name or slug\n\nReturns up to 25 results. If you hit this limit, use the query parameter to narrow down results.",
+              "description": "Find projects in Sentry.\n\nUse this tool when you need to:\n- View projects in a Sentry organization\n- Find a project's slug to aid other tool requests\n- Search for specific projects by name or slug\n\nReturns up to 25 results. When hasMore is true, use the query parameter to narrow down results.",
               "inputSchema": {
                 "properties": {
                   "organizationSlug": {
@@ -161,8 +164,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "description": "Search query to filter results by name or slug. Use this to narrow down results when there are many items."
+                    "default": null
                   },
                   "regionUrl": {
                     "anyOf": [
@@ -174,8 +176,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "description": "The region URL for the organization you're querying, if known. For Sentry's Cloud Service (sentry.io), this is typically the region-specific URL like 'https://us.sentry.io'. For self-hosted Sentry installations, this parameter is usually not needed and should be omitted. You can find the correct regionUrl from the organization details using the `find_organizations()` tool."
+                    "default": null
                   }
                 },
                 "required": [
@@ -187,10 +188,11 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Fetch a Sentry resource by URL, or by resourceType plus resourceId.\nPass a Sentry URL directly when possible; the resource type is auto-detected.\n\nSupports issues, events, traces, spans, AI conversations, breadcrumbs, replays, monitors, preprod snapshots, and snapshot images.\nTrace lookups return a condensed overview by default.\n\nAI Conversations: A conversation is a set of spans sharing the same gen_ai.conversation.id. Use resourceType='ai_conversation' with a conversation ID, or pass a Sentry conversation URL, to fetch the transcript/details. To discover or list conversations, use search_ai_conversations. Conversations are NOT issues — do not use search_issues for conversation queries.\n\nFor preprod snapshot URLs (matching 'sentry.io/preprod/snapshots/'):\n- Without ?selectedSnapshot=: returns the snapshot diff summary (changed, added, removed images)\n- With ?selectedSnapshot=\u003cimage_file_name\u003e: returns the image preview and metadata. Use the Sentry tool `get_snapshot_image` for full-resolution image bytes.\n\nResource IDs:\n- span: \u003ctraceId\u003e:\u003cspanId\u003e\n- monitor: \u003cmonitorSlug\u003e\n- snapshot: \u003csnapshotId\u003e\n- snapshotImage: \u003csnapshotId\u003e:\u003cimage_file_name\u003e\n\n\u003cexamples\u003e\nget_sentry_resource(url='https://sentry.io/issues/PROJECT-123/')\nget_sentry_resource(resourceType='issue', organizationSlug='my-org', resourceId='PROJECT-123')\nget_sentry_resource(resourceType='span', organizationSlug='my-org', resourceId='\u003ctraceId\u003e:\u003cspanId\u003e')\nget_sentry_resource(resourceType='ai_conversation', organizationSlug='my-org', resourceId='conversation-123')\nget_sentry_resource(url='https://sentry.sentry.io/preprod/snapshots/123/')\nget_sentry_resource(url='https://sentry.sentry.io/preprod/snapshots/123/?selectedSnapshot=login_screen.png')\n\u003c/examples\u003e",
+              "description": "Fetch a Sentry resource by URL, or by resourceType plus resourceId.\nPass a Sentry URL directly when possible; the resource type is auto-detected.\n\nSupports issues, events, traces, spans, agent conversations, replays, monitors, preprod snapshots, and snapshot images.\nTrace lookups return a condensed overview by default.\n\nAgent Conversations: A conversation is a set of spans sharing the same gen_ai.conversation.id. Use resourceType='ai_conversation' with a conversation ID, or pass a Sentry conversation URL, to fetch the transcript/details. To discover or list conversations, use search_agent_conversations. Conversations are NOT issues — do not use search_issues for conversation queries.\n\nFor preprod snapshot URLs (matching 'sentry.io/preprod/snapshots/'):\n- Without ?selectedSnapshot=: returns the snapshot diff summary (changed, added, removed images)\n- With ?selectedSnapshot=\u003cimage_file_name\u003e: returns the image preview and metadata. Use the Sentry tool `get_snapshot_image` for full-resolution image bytes.\n\nResource IDs:\n- monitor: \u003cmonitorSlug\u003e\n- snapshot: \u003csnapshotId\u003e\n\n\u003cexamples\u003e\nget_sentry_resource(url='https://sentry.io/issues/PROJECT-123/')\nget_sentry_resource(resourceType='issue', organizationSlug='my-org', resourceId='PROJECT-123')\nget_sentry_resource(resourceType='ai_conversation', organizationSlug='my-org', resourceId='conversation-123')\nget_sentry_resource(url='https://sentry.sentry.io/preprod/snapshots/123/')\nget_sentry_resource(url='https://sentry.sentry.io/preprod/snapshots/123/?selectedSnapshot=login_screen.png')\n\u003c/examples\u003e",
               "inputSchema": {
                 "properties": {
                   "organizationSlug": {
@@ -198,22 +200,19 @@
                     "type": "string"
                   },
                   "resourceId": {
-                    "description": "Resource identifier: issue shortId (e.g., 'PROJECT-123'), event ID, trace ID, AI conversation ID, replay ID, monitor slug when inspect monitor tools are available, snapshot artifact ID, `\u003csnapshotId\u003e:\u003cimage_file_name\u003e` for snapshot image resources, or `traceId:spanId` for span resources. Required when not using a URL.",
+                    "description": "Resource identifier: issue shortId (e.g., 'PROJECT-123'), event ID, trace ID, agent conversation ID, replay ID, monitor slug when inspect monitor tools are available, or snapshot artifact ID. Required when not using a URL.",
                     "type": "string"
                   },
                   "resourceType": {
-                    "description": "Resource type. With a URL, can override the auto-detected type for breadcrumbs on an issue/event URL or for `trace` on a span-focused trace URL. Use `monitor` with a monitor slug only when inspect monitor tools are available, `snapshot` with a snapshot artifact ID, or `snapshotImage` with `\u003csnapshotId\u003e:\u003cimage_file_name\u003e`.",
+                    "description": "Resource type. With a URL, can override a span-focused trace URL with `trace`. Use `monitor` with a monitor slug only when inspect monitor tools are available or `snapshot` with a snapshot artifact ID.",
                     "enum": [
                       "issue",
                       "event",
                       "trace",
-                      "span",
                       "ai_conversation",
-                      "breadcrumbs",
                       "replay",
                       "monitor",
-                      "snapshot",
-                      "snapshotImage"
+                      "snapshot"
                     ],
                     "type": "string"
                   },
@@ -230,6 +229,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
@@ -251,26 +251,19 @@
                   "environment": {
                     "anyOf": [
                       {
-                        "anyOf": [
-                          {
-                            "minLength": 1,
-                            "type": "string"
-                          },
-                          {
-                            "items": {
-                              "minLength": 1,
-                              "type": "string"
-                            },
-                            "minItems": 1,
-                            "type": "array"
-                          }
-                        ]
+                        "minLength": 1,
+                        "type": "string"
                       },
                       {
-                        "type": "null"
+                        "items": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "minItems": 1,
+                        "type": "array"
                       }
                     ],
-                    "description": "Optional environment filter for dataset='replays'. Use a string for one environment or an array for multiple. For other datasets, filter environment in the query string instead."
+                    "description": "Optional environment filter for dataset='replays'. Use a string for one environment or an array for multiple. Omit when unused. For other datasets, filter environment in the query string instead."
                   },
                   "fields": {
                     "anyOf": [
@@ -317,8 +310,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "description": "The project's slug. You can find a list of existing projects in an organization using the `find_projects()` tool."
+                    "default": null
                   },
                   "query": {
                     "description": "Natural language or Sentry event search query syntax.",
@@ -334,19 +326,14 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "description": "The region URL for the organization you're querying, if known. For Sentry's Cloud Service (sentry.io), this is typically the region-specific URL like 'https://us.sentry.io'. For self-hosted Sentry installations, this parameter is usually not needed and should be omitted. You can find the correct regionUrl from the organization details using the `find_organizations()` tool."
+                    "default": null
                   },
                   "sort": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "description": "Sort field (prefix with - for descending). If omitted, event datasets default to -timestamp and replays default to -started_at. Use -count() for event aggregations. For dataset='replays', use replay sorts like -started_at or -count_errors."
+                    "description": "Sort field (prefix with - for descending). If omitted, event datasets default to -timestamp and replays default to -started_at. Use -count() for event aggregations. For dataset='replays', use replay sorts like -started_at or -count_errors.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   }
                 },
                 "required": [
@@ -358,6 +345,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
@@ -393,16 +381,12 @@
                     "type": "string"
                   },
                   "projectSlugOrId": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
                     "default": null,
-                    "description": "The project's slug or numeric ID (optional)"
+                    "description": "The project's slug or numeric ID (optional)",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "query": {
                     "default": "is:unresolved",
@@ -419,17 +403,17 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "description": "The region URL for the organization you're querying, if known. For Sentry's Cloud Service (sentry.io), this is typically the region-specific URL like 'https://us.sentry.io'. For self-hosted Sentry installations, this parameter is usually not needed and should be omitted. You can find the correct regionUrl from the organization details using the `find_organizations()` tool."
+                    "default": null
                   },
                   "sort": {
                     "default": "date",
-                    "description": "Sort order: date (last seen), freq (frequency), new (first seen), user (user count)",
+                    "description": "Sort order: date (last seen), freq (frequency), new (first seen), user (user count), recommended (Sentry's prioritized ranking)",
                     "enum": [
                       "date",
                       "freq",
                       "new",
-                      "user"
+                      "user",
+                      "recommended"
                     ],
                     "type": "string"
                   }
@@ -443,6 +427,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": false,
                 "readOnlyHint": true
               },
@@ -493,11 +478,13 @@
                   "ignoreCount": {
                     "description": "How many times the issue must occur before it stops being ignored when ignoreMode is 'untilOccurrenceCount'.",
                     "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991,
                     "type": "integer"
                   },
                   "ignoreDurationMinutes": {
                     "description": "How many minutes to ignore the issue when ignoreMode is 'forDuration'.",
                     "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991,
                     "type": "integer"
                   },
                   "ignoreMode": {
@@ -514,6 +501,7 @@
                   "ignoreUserCount": {
                     "description": "How many users must be affected before the issue stops being ignored when ignoreMode is 'untilUserCount'.",
                     "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991,
                     "type": "integer"
                   },
                   "ignoreUserWindowMinutes": {
@@ -556,8 +544,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "description": "The region URL for the organization you're querying, if known. For Sentry's Cloud Service (sentry.io), this is typically the region-specific URL like 'https://us.sentry.io'. For self-hosted Sentry installations, this parameter is usually not needed and should be omitted. You can find the correct regionUrl from the organization details using the `find_organizations()` tool."
+                    "default": null
                   },
                   "status": {
                     "description": "The new status for the issue. Valid values are 'resolved', 'resolvedInNextRelease', 'unresolved', and 'ignored'.",
@@ -621,7 +608,7 @@
           "name": "OPENAI_API_KEY"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.37.0",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.39.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
