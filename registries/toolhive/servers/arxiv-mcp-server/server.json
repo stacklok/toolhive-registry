@@ -661,6 +661,12 @@
           "default": "/arxiv-papers",
           "description": "Directory path where downloaded papers will be stored",
           "name": "ARXIV_STORAGE_PATH"
+        },
+        {
+          "description": "Optional Semantic Scholar API key used for citation_graph and export_citations lookups. Without it, Semantic Scholar's shared unauthenticated rate limit applies and requests are more likely to be throttled; get a free key at https://www.semanticscholar.org/product/api#api-key",
+          "isRequired": false,
+          "isSecret": true,
+          "name": "SEMANTIC_SCHOLAR_API_KEY"
         }
       ],
       "identifier": "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.7.2",
