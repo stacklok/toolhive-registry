@@ -9,7 +9,7 @@
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-08-21T00:47:49Z",
+            "last_updated": "2026-08-31T21:12:28Z",
             "stars": 3239
           },
           "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential.\n\n**Note:** the upstream container's entrypoint defaults to the SSE transport, so this entry passes `--transport stdio` via its registry args to force stdio mode. If you run this server with your own custom arguments (`thv run ... -- \u003cyour args\u003e`), those arguments replace the registry defaults, so be sure to include `--transport stdio` yourself or the server will silently fall back to SSE.",
@@ -283,6 +283,88 @@
                 "type": "object"
               },
               "name": "alerting_manage_rules"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": false,
+                "title": "Manage alerting silences"
+              },
+              "description": "Manage Grafana alerting silences. A silence temporarily suppresses notifications for alerts whose labels match a set of matchers, without changing the alert rules themselves.\n\nOperations:\n- 'list': list existing silences. Optionally filter by rule_uid (matches the __alert_rule_uid__ label) or by matchers.\n- 'get': retrieve a single silence by silence_id.\n- 'create': create a new silence. Requires matchers, starts_at, ends_at (RFC3339) and comment.\n- 'update': modify an existing silence by silence_id. Requires matchers, starts_at, ends_at and comment. The id is only kept when the posted matchers and starts_at match the stored ones, so pass back the starts_at returned by 'get'; otherwise Alertmanager expires the old silence and returns a new id.\n- 'delete': expire/remove a silence by silence_id.\n\nWhen to use:\n- Muting noisy or expected alerts during maintenance windows\n- Inspecting or cleaning up existing silences\n\nWhen NOT to use:\n- Changing alert rule configuration or state (use alerting_manage_rules)\n- Changing how alerts are routed to receivers (use alerting_manage_routing)",
+              "inputSchema": {
+                "properties": {
+                  "comment": {
+                    "description": "A human-readable comment explaining the silence (required for 'create' and 'update')",
+                    "type": "string"
+                  },
+                  "created_by": {
+                    "description": "Author of the silence. Defaults to 'grafana-assistant'.",
+                    "type": "string"
+                  },
+                  "ends_at": {
+                    "description": "Silence end time in RFC3339 format, e.g. '2026-07-11T12:00:00Z' (required for 'create' and 'update')",
+                    "type": "string"
+                  },
+                  "matchers": {
+                    "description": "Label matchers. Required (at least one) for 'create' and 'update'. For 'list', used as an optional filter.",
+                    "items": {
+                      "properties": {
+                        "isEqual": {
+                          "description": "Whether the matcher asserts equality (true) or inequality (false). Defaults to true.",
+                          "type": "boolean"
+                        },
+                        "isRegex": {
+                          "description": "Whether value is a regular expression. Defaults to false.",
+                          "type": "boolean"
+                        },
+                        "name": {
+                          "description": "The label name to match",
+                          "type": "string"
+                        },
+                        "value": {
+                          "description": "The label value to match against",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "operation": {
+                    "description": "The operation to perform: 'list' to list silences, 'get' to retrieve a silence by id, 'create' to create a new silence, 'update' to modify an existing silence by id, 'delete' to expire a silence by id",
+                    "enum": [
+                      "list",
+                      "get",
+                      "create",
+                      "update",
+                      "delete"
+                    ],
+                    "type": "string"
+                  },
+                  "rule_uid": {
+                    "description": "Optional: filter listed silences to those scoped to this alert rule UID (matches the __alert_rule_uid__ label). Only used with 'list'.",
+                    "type": "string"
+                  },
+                  "silence_id": {
+                    "description": "The silence id (required for 'get', 'update' and 'delete')",
+                    "type": "string"
+                  },
+                  "starts_at": {
+                    "description": "Silence start time in RFC3339 format, e.g. '2026-07-11T10:00:00Z' (required for 'create' and 'update'). Grafana clamps a start time in the past to the moment of creation, so for 'update' pass back the starts_at returned by 'get' to keep the silence id stable.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "operation"
+                ],
+                "type": "object"
+              },
+              "name": "alerting_manage_silences"
             },
             {
               "annotations": {
@@ -585,7 +667,7 @@
                 "readOnlyHint": false,
                 "title": "Create incident"
               },
-              "description": "Create a new Grafana incident. Requires title, severity, and room prefix. Allows setting status and labels. This tool should be used judiciously and sparingly, and only after confirmation from the user, as it may notify or alarm lots of people.",
+              "description": "Create a new Grafana incident. Requires title, severity, and room prefix. Allows setting status, labels and custom fields. This tool should be used judiciously and sparingly, and only after confirmation from the user, as it may notify or alarm lots of people.",
               "inputSchema": {
                 "properties": {
                   "attachCaption": {
@@ -595,6 +677,29 @@
                   "attachUrl": {
                     "description": "The URL of the attachment",
                     "type": "string"
+                  },
+                  "customFields": {
+                    "description": "Custom field values to set on the new incident. Use list_incident_custom_fields to discover the available fields and their valid values",
+                    "items": {
+                      "properties": {
+                        "field": {
+                          "description": "The name or UUID of the custom field to set. Use list_incident_custom_fields to discover the available fields",
+                          "type": "string"
+                        },
+                        "values": {
+                          "description": "The value(s) to set. Text and number fields take a single value; single-select fields take one option; multi-select fields take one or more options. Select options may be given as their label, value or UUID. Pass an empty list to clear the field",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "field"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
                   },
                   "isDrill": {
                     "description": "Whether the incident is a drill incident",
@@ -894,7 +999,7 @@
                 "readOnlyHint": true,
                 "title": "Get IRM alert group"
               },
-              "description": "Get a specific alert group from Grafana OnCall by its ID. Returns the full alert group details.",
+              "description": "Get a specific alert group from Grafana OnCall by its ID. Returns the full alert group details, including the most recent alert and its raw payload when the OnCall API provides them. Alert payloads carry integration-specific fingerprints (for example Sentry's payload.data.event.hashes or Alertmanager's payload.alerts[].fingerprint) that identify recurring alerts across different alert groups.",
               "inputSchema": {
                 "properties": {
                   "alertGroupId": {
@@ -1096,7 +1201,7 @@
                 "readOnlyHint": true,
                 "title": "Get dashboard panel queries"
               },
-              "description": "Retrieve panel queries from a Grafana dashboard. Supports all datasource types (Prometheus, Loki, CloudWatch, SQL, etc.) and row-nested panels. Optionally filter to a specific panel by ID with `panelId`. Optionally provide `variables` for template variable substitution, which populates `processedQuery` and `requiredVariables` fields. Returns an array of objects with fields: title, query (raw expression), datasource (object with uid and type), and optionally processedQuery, refId, and requiredVariables.",
+              "description": "Retrieve panel queries from a Grafana dashboard. Supports all datasource types (Prometheus, Loki, CloudWatch, SQL, etc.) and row-nested panels. Optionally filter to a specific panel by ID with `panelId`. Optionally provide `variables` for template variable substitution, which populates `processedQuery` and `requiredVariables` fields. Returns an array of objects with fields: title, query (raw expression), datasource (object with uid and type), and optionally processedQuery, refId, requiredVariables, and target. Targets built in a visual editor (CloudWatch metric search, InfluxDB query builder) have no string expression: those return an empty query plus `target`, the panel's raw query JSON. Run those with run_panel_query rather than a query tool.",
               "inputSchema": {
                 "properties": {
                   "panelId": {
@@ -1202,11 +1307,50 @@
               "annotations": {
                 "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get Doc"
+              },
+              "description": "Fetch a Grafana documentation page. Set outline_only=true to get the heading structure first, then call again with a section name for bounded retrieval.",
+              "inputSchema": {
+                "properties": {
+                  "limit": {
+                    "description": "Max lines to return (default ~80)",
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "description": "Line offset for paging (0-indexed)",
+                    "type": "integer"
+                  },
+                  "outline_only": {
+                    "description": "Return only the heading outline (use to discover section names before fetching content)",
+                    "type": "boolean"
+                  },
+                  "section": {
+                    "description": "Heading text to extract (returns only that section)",
+                    "type": "string"
+                  },
+                  "url": {
+                    "description": "The grafana.com/docs/ URL to fetch",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "type": "object"
+              },
+              "name": "get_doc"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
                 "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get incident details"
               },
-              "description": "Get a single incident by ID. Returns the full incident details including title, status, severity, labels, timestamps, and other metadata.",
+              "description": "Get a single incident by ID. Returns the full incident details including title, status, severity, labels, custom fields, timestamps, and other metadata.",
               "inputSchema": {
                 "properties": {
                   "id": {
@@ -1578,13 +1722,17 @@
                 "readOnlyHint": true,
                 "title": "List datasources"
               },
-              "description": "List all configured datasources in Grafana. Use this to discover available datasources and their UIDs. Supports filtering by type and pagination.",
+              "description": "List all configured datasources in Grafana. Use this to discover available datasources and their UIDs. Supports filtering by type and/or name (case-insensitive substring match) and pagination.",
               "inputSchema": {
                 "properties": {
                   "limit": {
                     "default": 50,
                     "description": "Maximum number of datasources to return (max 100)",
                     "type": "integer"
+                  },
+                  "name": {
+                    "description": "Case-insensitive substring match on the datasource name. For example, 'prod' matches datasources named 'prometheus-prod-eu' and 'loki-prod-us'. Useful on instances with many datasources where filtering by type alone returns too many results.",
+                    "type": "string"
                   },
                   "offset": {
                     "default": 0,
@@ -1607,13 +1755,38 @@
                 "idempotentHint": true,
                 "openWorldHint": false,
                 "readOnlyHint": true,
+                "title": "List incident custom fields"
+              },
+              "description": "List the custom fields configured for Grafana incidents, including their type and, for select fields, the options that may be chosen. Use this to discover which fields exist and which values are valid before setting them with create_incident or update_incident.",
+              "inputSchema": {
+                "properties": {
+                  "includeArchived": {
+                    "description": "Whether to include archived custom fields. Archived fields cannot be set on new incidents but may still hold values on older ones",
+                    "type": "boolean"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_incident_custom_fields"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true,
                 "title": "List incidents"
               },
-              "description": "List Grafana incidents. Allows filtering by status ('active', 'resolved') and optionally including drill incidents. Returns a preview list with basic details.",
+              "description": "List Grafana incidents. Allows filtering by status ('active', 'resolved') and optionally including drill incidents. Returns a preview list with basic details, and custom field values if requested.",
               "inputSchema": {
                 "properties": {
                   "drill": {
                     "description": "Whether to include drill incidents",
+                    "type": "boolean"
+                  },
+                  "includeCustomFields": {
+                    "description": "Whether to include each incident's custom field values. Off by default because it costs an extra request and makes the response considerably larger",
                     "type": "boolean"
                   },
                   "limit": {
@@ -2029,12 +2202,7 @@
               },
               "description": "List provisioning repositories (e.g. git-sync sources) configured for this Grafana instance. Returns each repository's slug along with its source URL, branch, path, sync state, and health. Use the returned `name` as the `repo` argument when rendering a not-yet-applied dashboard preview via get_panel_image's provisioningPreview parameter.",
               "inputSchema": {
-                "properties": {
-                  "namespace": {
-                    "description": "Kubernetes-style namespace to list repositories from. Defaults to 'default' which matches single-tenant Grafana deployments.",
-                    "type": "string"
-                  }
-                },
+                "properties": {},
                 "required": [],
                 "type": "object"
               },
@@ -2200,7 +2368,7 @@
                 "readOnlyHint": true,
                 "title": "Query Loki logs"
               },
-              "description": "Executes a log query against a Loki or VictoriaLogs datasource and returns matching log entries (or metric samples on Loki). Defaults to the last hour, a limit of 10 entries, and 'backward' direction (newest first). The `logql` parameter takes LogQL on Loki and LogsQL on VictoriaLogs (e.g., Loki: `{app=\"foo\"} |= \"error\"`; VictoriaLogs: `{app=\"foo\"} \"error\"`). To count matching log lines precisely, use a `count_over_time()` metric query with queryType='instant'. Prefer using `query_loki_stats` first to cheaply check whether a stream contains data (avoiding expensive queries against empty streams) and `list_loki_label_names` / `list_loki_label_values` to verify labels exist before querying. Note: `query_loki_stats` returns approximate storage-level counts, not exact log line counts.",
+              "description": "Executes a log query against a Loki or VictoriaLogs datasource and returns matching log entries (or metric samples on Loki). Defaults to the last hour, a limit of 10 entries, and 'backward' direction (newest first). The `logql` parameter takes LogQL on Loki and LogsQL on VictoriaLogs (e.g., Loki: `{app=\"foo\"} |= \"error\"`; VictoriaLogs: `{app=\"foo\"} \"error\"`). To count matching log lines precisely, use a `count_over_time()` metric query with queryType='instant'. Prefer using `query_loki_stats` first to cheaply check whether a stream contains data (avoiding expensive queries against empty streams) and `list_loki_label_names` / `list_loki_label_values` to verify labels exist before querying. Note: `query_loki_stats` returns approximate storage-level counts, not exact log line counts. For broad queries that match many lines, set `format` to 'compact' to group results by stream and avoid repeating label metadata on every line. If this server enables the Loki cost guardrail, expensive queries are rejected before execution: query cost is bytes SCANNED, determined only by the stream selector and time range — line filters (|=) and parsers (| json) reduce what is returned, not what is scanned. Use a stream selector with at least one selective positive label matcher (never `{}`, `=~\".*\"`/`=~\".+\"`, or negative-only matchers), keep time ranges narrow, and check size with `query_loki_stats` first; rejected queries return rewrite guidance.",
               "inputSchema": {
                 "properties": {
                   "datasourceUid": {
@@ -2213,6 +2381,14 @@
                   },
                   "endRfc3339": {
                     "description": "Optionally, the end time of the query in RFC3339 format or relative time (e.g. 'now')",
+                    "type": "string"
+                  },
+                  "format": {
+                    "description": "Output format for log (streams) queries: 'full' (default) returns every entry with its own label metadata; 'compact' groups lines by stream so each label set is emitted only once (and per-line structured/parsed metadata is dropped), substantially reducing response size for broad queries. Ignored for metric queries.",
+                    "enum": [
+                      "full",
+                      "compact"
+                    ],
                     "type": "string"
                   },
                   "limit": {
@@ -2525,6 +2701,35 @@
               "annotations": {
                 "destructiveHint": false,
                 "idempotentHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Search Docs"
+              },
+              "description": "Search Grafana documentation. Returns matching pages with title, URL, description, and product. Call with no query to list available product groups.",
+              "inputSchema": {
+                "properties": {
+                  "limit": {
+                    "description": "Maximum results to return (default 5)",
+                    "type": "integer"
+                  },
+                  "product": {
+                    "description": "Filter results to a specific product (e.g. 'Grafana Tempo', 'Grafana Loki')",
+                    "type": "string"
+                  },
+                  "query": {
+                    "description": "Search query for Grafana documentation. Omit to list all available product groups.",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "search_docs"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
                 "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Search folders"
@@ -2606,6 +2811,34 @@
                 "type": "object"
               },
               "name": "suggest_loki_alloy_label_config"
+            },
+            {
+              "annotations": {
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": false,
+                "title": "Update IRM alert group"
+              },
+              "description": "Update the state of a Grafana OnCall alert group: acknowledge, unacknowledge, resolve, or unresolve it by ID. Returns the alert group's resulting OnCall state (one of new, acknowledged, resolved, silenced), or a stateWarning explaining why that state could not be read back after a successful update.",
+              "inputSchema": {
+                "properties": {
+                  "alertGroupId": {
+                    "description": "The ID of the alert group to update",
+                    "type": "string"
+                  },
+                  "state": {
+                    "description": "New state for the alert group. One of: acknowledged, unacknowledged, resolved, unresolved",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "alertGroupId",
+                  "state"
+                ],
+                "type": "object"
+              },
+              "name": "update_alert_group"
             },
             {
               "annotations": {
@@ -2779,16 +3012,86 @@
                 "destructiveHint": false,
                 "idempotentHint": true,
                 "openWorldHint": false,
+                "readOnlyHint": false,
+                "title": "Update incident"
+              },
+              "description": "Update an existing Grafana incident by ID. Allows changing the status ('active' or 'resolved'), the severity, the title, and custom field values. Only the provided fields are changed. Use this to resolve an incident, to correct its severity or title, or to fill in custom fields as part of an on-call workflow.",
+              "inputSchema": {
+                "properties": {
+                  "customFields": {
+                    "description": "Custom field values to set. Only the listed fields are changed. Use list_incident_custom_fields to discover the available fields and their valid values",
+                    "items": {
+                      "properties": {
+                        "field": {
+                          "description": "The name or UUID of the custom field to set. Use list_incident_custom_fields to discover the available fields",
+                          "type": "string"
+                        },
+                        "values": {
+                          "description": "The value(s) to set. Text and number fields take a single value; single-select fields take one option; multi-select fields take one or more options. Select options may be given as their label, value or UUID. Pass an empty list to clear the field",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "field"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "incidentId": {
+                    "description": "The ID of the incident to update",
+                    "type": "string"
+                  },
+                  "severity": {
+                    "description": "The new severity of the incident, e.g. 'minor', 'major', 'critical'",
+                    "type": "string"
+                  },
+                  "status": {
+                    "description": "The new status of the incident. Valid values: 'active', 'resolved'",
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "The new title of the incident",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "incidentId"
+                ],
+                "type": "object"
+              },
+              "name": "update_incident"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
+                "readOnlyHint": true,
+                "title": "Get current user info"
+              },
+              "description": "Get information about the current Grafana identity: login, email, name, whether it is a Grafana (server) admin, the current organization, and the organizations it can access (with roles). Call this to discover which orgId values are valid before targeting a specific organization, and to understand the identity's capabilities.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "user_info"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "idempotentHint": true,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Validate provisioning file"
               },
               "description": "Validate a file in a provisioning repository at a given branch or commit by dry-run applying it. Returns whether the file would be accepted (valid)\\, what resource action would result (create/update)\\, the target resource type\\, and any structured validation errors. Use to confirm a draft dashboard or other resource will be accepted before merging or applying a PR — this is the same validation surface that Grafana's PR commenter reports.",
               "inputSchema": {
                 "properties": {
-                  "namespace": {
-                    "description": "Kubernetes-style namespace to read the repository from. Defaults to 'default'.",
-                    "type": "string"
-                  },
                   "path": {
                     "description": "File path within the repository (e.g. 'folder/dashboard.json').",
                     "type": "string"
@@ -2815,6 +3118,7 @@
             "add_activity_to_incident",
             "alerting_manage_routing",
             "alerting_manage_rules",
+            "alerting_manage_silences",
             "analyze_loki_labels",
             "check_datasources_health",
             "create_annotation",
@@ -2836,6 +3140,7 @@
             "get_dashboard_property",
             "get_dashboard_summary",
             "get_datasource",
+            "get_doc",
             "get_incident",
             "get_oncall_shift",
             "get_panel_image",
@@ -2847,6 +3152,7 @@
             "install_plugin",
             "list_alert_groups",
             "list_datasources",
+            "list_incident_custom_fields",
             "list_incidents",
             "list_loki_label_names",
             "list_loki_label_values",
@@ -2870,12 +3176,16 @@
             "query_prometheus_histogram",
             "query_pyroscope",
             "search_dashboards",
+            "search_docs",
             "search_folders",
             "search_plugin_information",
             "suggest_loki_alloy_label_config",
+            "update_alert_group",
             "update_annotation",
             "update_dashboard",
             "update_datasource",
+            "update_incident",
+            "user_info",
             "validate_provisioning_file"
           ]
         }
