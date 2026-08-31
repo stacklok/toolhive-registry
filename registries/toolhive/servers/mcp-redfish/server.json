@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/nokia/mcp-redfish:0.4.1": {
           "metadata": {
-            "last_updated": "2026-08-14T01:14:20Z",
+            "last_updated": "2026-08-31T21:13:26Z",
             "stars": 6
           },
           "overview": "## Redfish MCP Server\n\nThe mcp-redfish server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with systems that expose the Redfish API, the industry-standard RESTful interface for out-of-band hardware management. It allows AI-driven workflows to inspect server hardware, firmware, power state, and health information without switching tools or manually navigating vendor-specific management consoles. This server is especially useful for data center operations, hardware monitoring, infrastructure troubleshooting, and AI-assisted systems management workflows.",
@@ -48,7 +48,17 @@
             },
             {
               "annotations": {},
-              "description": "List all Redfish Servers that can be accessed.\n\nReturns:\n    list: A list of Redfish Servers that can be accessed",
+              "description": "List discovered Redfish server candidates for review.\n\nReturns:\n    list: A list of discovered Redfish server candidates. These candidates\n    are informational only and are not managed unless explicitly configured.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "list_discovered_servers"
+            },
+            {
+              "annotations": {},
+              "description": "List configured Redfish servers that can be managed.\n\nReturns:\n    list: A list of configured Redfish servers that can be managed",
               "inputSchema": {
                 "properties": {},
                 "required": [],
@@ -59,6 +69,7 @@
           ],
           "tools": [
             "get_resource_data",
+            "list_discovered_servers",
             "list_servers"
           ]
         }
