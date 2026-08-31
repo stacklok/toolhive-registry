@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.7.0": {
+        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.6.0": {
           "metadata": {
-            "last_updated": "2026-08-31T21:13:15Z",
+            "last_updated": "2026-08-31T21:33:23Z",
             "stars": 33303
           },
           "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
@@ -467,7 +467,7 @@
               "annotations": {
                 "readOnlyHint": true
               },
-              "description": "Lists the most recent requests for the currently selected page since the last navigation.",
+              "description": "List all requests for the currently selected page since the last navigation.",
               "inputSchema": {
                 "properties": {
                   "includePreservedRequests": {
@@ -955,7 +955,7 @@
   "name": "io.github.stacklok/chrome-devtools-mcp",
   "packages": [
     {
-      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.7.0",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.6.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
