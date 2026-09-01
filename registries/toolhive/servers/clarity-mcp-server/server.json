@@ -1,0 +1,80 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/clarity-mcp-server",
+  "description": "Query Microsoft Clarity website analytics, session recordings, and behavior insights",
+  "title": "Microsoft Clarity",
+  "repository": {
+    "url": "https://github.com/microsoft/clarity-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/clarity-mcp-server:2.0.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "CLARITY_API_TOKEN",
+          "description": "Microsoft Clarity Data Export API token, generated from Settings > Data Export in your Clarity project",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ],
+      "packageArguments": [
+        {
+          "type": "named",
+          "name": "--clarity_api_token",
+          "value": "{CLARITY_API_TOKEN}",
+          "isRequired": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/clarity-mcp-server/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/clarity-mcp-server:2.0.1": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": ["analytics", "microsoft", "clarity", "web-analytics", "session-recordings"],
+          "tools": [
+            "query-analytics-dashboard",
+            "list-session-recordings",
+            "query-documentation-resources"
+          ],
+          "overview": "## Microsoft Clarity MCP Server\n\nThe Microsoft Clarity MCP server gives AI assistants direct access to Clarity website analytics through the Clarity Data Export API. It enables natural-language querying of traffic metrics, user behavior insights, and performance statistics, retrieval and analysis of session recordings, and lookup of Clarity documentation. Data can be filtered by dimensions such as browser, device, and country, and results reflect real-time analytics for the configured Clarity project.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": ["www.clarity.ms"],
+                "allow_port": [443]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "custom_metadata": {
+            "author": "Microsoft",
+            "homepage": "https://clarity.microsoft.com/",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
