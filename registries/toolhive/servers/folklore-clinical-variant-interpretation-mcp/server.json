@@ -1,0 +1,55 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.helena-bioinformatics/folklore",
+  "title": "Folklore Clinical Variant Interpretation MCP",
+  "description": "Classify germline variants under ACMG/AMP with structured evidence, provenance and literature.",
+  "version": "1.4.1",
+  "websiteUrl": "https://folklore.helena.bio",
+  "repository": {
+    "url": "https://github.com/helena-bioinformatics/folklore-mcp",
+    "source": "github",
+    "id": "1331454884"
+  },
+  "icons": [
+    {
+      "src": "https://folklore.helena.bio/images/logos/folklore.png",
+      "mimeType": "image/png"
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.helena.bio/folklore/v1/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://api.helena.bio/folklore/v1/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "clinical-variant-interpretation",
+            "genomics",
+            "bioinformatics",
+            "acmg-amp",
+            "biomedical-literature",
+            "read-only"
+          ],
+          "tools": [
+            "search_variant_evidence",
+            "search_variant_literature",
+            "get_publication_details",
+            "search_literature_corpus",
+            "support_helena"
+          ],
+          "custom_metadata": {
+            "author": "Helena Bioinformatics",
+            "homepage": "https://folklore.helena.bio",
+            "license": "Apache-2.0"
+          }
+        }
+      }
+    }
+  }
+}
