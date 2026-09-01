@@ -1,0 +1,623 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/clarity-mcp-server:2.0.1": {
+          "custom_metadata": {
+            "author": "Microsoft",
+            "homepage": "https://clarity.microsoft.com/",
+            "license": "MIT"
+          },
+          "metadata": {
+            "last_updated": "2026-09-01T19:15:00Z"
+          },
+          "overview": "## Microsoft Clarity MCP Server\n\nThe Microsoft Clarity MCP server gives AI assistants direct access to Clarity website analytics through the Clarity Data Export API. It enables natural-language querying of traffic metrics, user behavior insights, and performance statistics, retrieval and analysis of session recordings, and lookup of Clarity documentation. Data can be filtered by dimensions such as browser, device, and country, and results reflect real-time analytics for the configured Clarity project.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "www.clarity.ms"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "analytics",
+            "microsoft",
+            "clarity",
+            "web-analytics",
+            "session-recordings"
+          ],
+          "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": true,
+                "title": "List Session Recordings"
+              },
+              "description": "List Microsoft Clarity session recordings based on specified filters. The filters allow you to narrow down the recordings by various criteria such as URLs, device types, browser, OS, country, city, and more. The date filter is required and must be in UTC ISO 8601 format.",
+              "inputSchema": {
+                "properties": {
+                  "count": {
+                    "default": 100,
+                    "description": "The number of sample session recordings to return. Default is 100. Maximum is 250.",
+                    "maximum": 250,
+                    "type": "number"
+                  },
+                  "filters": {
+                    "additionalProperties": false,
+                    "description": "A set of filters that can be applied to the Microsoft Clarity to session recordings. This allows you to filter recordings based on various criteria such as URLs, device types, browser, OS, country, city, and more. The date filter is required and must be in UTC ISO 8601 format.",
+                    "properties": {
+                      "browser": {
+                        "description": "Filter by browser types.",
+                        "items": {
+                          "enum": [
+                            "Bot",
+                            "MiuiBrowser",
+                            "Chrome",
+                            "CoralWebView",
+                            "Edge",
+                            "Other",
+                            "Firefox",
+                            "IE",
+                            "Unknown",
+                            "Headless",
+                            "MobileApp",
+                            "Opera",
+                            "OperaMini",
+                            "Safari",
+                            "Samsung",
+                            "SamsungInternet",
+                            "Sogou",
+                            "UCBrowser",
+                            "YandexBrowser",
+                            "QQBrowser"
+                          ],
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "campaign": {
+                        "description": "Filter by UTM campaign parameter values (e.g., ['summer_sale', 'product_launch'])",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "channel": {
+                        "description": "Filter by marketing channel classifications.",
+                        "items": {
+                          "enum": [
+                            "OrganicSearch",
+                            "Direct",
+                            "Email",
+                            "Display",
+                            "Social",
+                            "PaidSearch",
+                            "Other",
+                            "Affiliate",
+                            "Referral",
+                            "Video",
+                            "Audio",
+                            "SMS",
+                            "AITools",
+                            "PaidAITools"
+                          ],
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "checkoutAbandonmentStep": {
+                        "description": "Filter by checkout abandonment steps/stages (e.g., ['cart', 'shipping', 'payment'])",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "city": {
+                        "description": "Filter by city names (e.g., ['New York', 'London', 'Tokyo'])",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "clickErrors": {
+                        "description": "Filter by click error patterns or messages. Use empty string '' to match any click error",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "clickedText": {
+                        "description": "Filter by specific text content that was clicked (partial match supported)",
+                        "type": "string"
+                      },
+                      "country": {
+                        "description": "Filter by country names (e.g., ['United States', 'Canada', 'United Kingdom'])",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "cumulativeLayoutShift": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by Cumulative Layout Shift web vital in seconds. Set to null to ignore this filter."
+                      },
+                      "cursorMovement": {
+                        "description": "Filter sessions with cursor/pointer movement activity. Set to true to include only sessions with cursor movement",
+                        "type": "boolean"
+                      },
+                      "date": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "end": {
+                            "description": "The end date of the time interval in UTC ISO 8601 with milliseconds format (yyyy-MM-ddTHH:mm:ss.fffZ).",
+                            "type": "string"
+                          },
+                          "start": {
+                            "description": "The start date of the time interval in UTC ISO 8601 with milliseconds format (yyyy-MM-ddTHH:mm:ss.fffZ).",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "start",
+                          "end"
+                        ],
+                        "type": "object"
+                      },
+                      "deadClickPresent": {
+                        "description": "Filter sessions containing dead clicks (clicks with no response). Set to true to include only sessions with dead clicks",
+                        "type": "boolean"
+                      },
+                      "deviceType": {
+                        "description": "Filter by device types.",
+                        "items": {
+                          "enum": [
+                            "Mobile",
+                            "Tablet",
+                            "PC",
+                            "Email",
+                            "Other"
+                          ],
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "enteredTextPresent": {
+                        "description": "Filter sessions where text input events occurred. Set to true to include only sessions with text input",
+                        "type": "boolean"
+                      },
+                      "entryUrls": {
+                        "description": "Filter by entry/landing page URLs with pattern matching.",
+                        "items": {
+                          "$ref": "#/properties/filters/properties/visitedUrls/items"
+                        },
+                        "type": "array"
+                      },
+                      "excessiveScrollPresent": {
+                        "description": "Filter sessions with excessive scrolling behavior. Set to true to include only sessions with excessive scrolling",
+                        "type": "boolean"
+                      },
+                      "exitUrls": {
+                        "description": "Filter by exit page URLs with pattern matching.",
+                        "items": {
+                          "$ref": "#/properties/filters/properties/visitedUrls/items"
+                        },
+                        "type": "array"
+                      },
+                      "firstInputDelay": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by First Input Delay web vital in milliseconds. Set to null to ignore this filter."
+                      },
+                      "hiddenPageDuration": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by time spent on hidden/background pages in minutes. Set to null to ignore this filter."
+                      },
+                      "javascriptErrors": {
+                        "description": "Filter by JavaScript error messages or patterns. Use empty string '' to match any JavaScript error",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "largestContentfulPaint": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by Largest Contentful Paint web vital in seconds. Set to null to ignore this filter."
+                      },
+                      "medium": {
+                        "description": "Filter by UTM medium parameter values. Common values: ['organic', 'cpc', 'email', 'social', 'referral']",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "os": {
+                        "description": "Filter by operating systems.",
+                        "items": {
+                          "enum": [
+                            "BlackBerry",
+                            "Android",
+                            "ChromeOS",
+                            "iOS",
+                            "Linux",
+                            "MacOS",
+                            "Other",
+                            "Windows",
+                            "WindowsMobile"
+                          ],
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "pageClickEventCount": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by number of clicks per page. Set to null to ignore this filter."
+                      },
+                      "pageDuration": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by total page duration in minutes. Set to null to ignore this filter."
+                      },
+                      "pagesCount": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by number of pages visited in session. Set to null to ignore this filter."
+                      },
+                      "performanceScore": {
+                        "additionalProperties": false,
+                        "description": "Filter by overall performance score. Set to null to ignore this filter.",
+                        "properties": {
+                          "max": {
+                            "anyOf": [
+                              {
+                                "maximum": 100,
+                                "minimum": 0,
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "min": {
+                            "anyOf": [
+                              {
+                                "maximum": 100,
+                                "minimum": 0,
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "min",
+                          "max"
+                        ],
+                        "type": "object"
+                      },
+                      "productAvailability": {
+                        "description": "Filter by product availability status. Set to true to include only sessions with available products",
+                        "type": "boolean"
+                      },
+                      "productBrand": {
+                        "description": "Filter by product brand names (e.g., ['Nike', 'Apple', 'Samsung'])",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "productName": {
+                        "description": "Filter by product name (partial match supported using contains operator)",
+                        "type": "string"
+                      },
+                      "productPrice": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by product price range. Set to null to ignore this filter."
+                      },
+                      "productPurchases": {
+                        "description": "Filter sessions with checkout conversion/purchases. Set to true to include only sessions with purchases",
+                        "type": "boolean"
+                      },
+                      "productRating": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by product ratings (e.g., 1-5 stars). Set to null to ignore this filter."
+                      },
+                      "productRatingsCount": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by number of product ratings. Set to null to ignore this filter."
+                      },
+                      "quickbackClickPresent": {
+                        "description": "Filter sessions with quick back navigation clicks. Set to true to include only sessions with quick back clicks",
+                        "type": "boolean"
+                      },
+                      "rageClickPresent": {
+                        "description": "Filter sessions containing rage clicks (rapid repeated clicks). Set to true to include only sessions with rage clicks",
+                        "type": "boolean"
+                      },
+                      "referringUrl": {
+                        "description": "Filter by the referring URL that brought users to the site",
+                        "type": "string"
+                      },
+                      "resizeEventPresent": {
+                        "description": "Filter sessions where page resize events occurred. Set to true to include only sessions with resize events",
+                        "type": "boolean"
+                      },
+                      "scrollDepth": {
+                        "additionalProperties": false,
+                        "description": "Filter by maximum scroll depth percentage. Set to null to ignore this filter.",
+                        "properties": {
+                          "max": {
+                            "anyOf": [
+                              {
+                                "maximum": 100,
+                                "minimum": 0,
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "min": {
+                            "anyOf": [
+                              {
+                                "maximum": 100,
+                                "minimum": 0,
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "min",
+                          "max"
+                        ],
+                        "type": "object"
+                      },
+                      "selectedTextPresent": {
+                        "description": "Filter sessions where text selection events occurred. Set to true to include only sessions with text selection",
+                        "type": "boolean"
+                      },
+                      "sessionClickEventCount": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by total clicks per session. Set to null to ignore this filter."
+                      },
+                      "sessionDuration": {
+                        "$ref": "#/properties/filters/properties/visiblePageDuration",
+                        "description": "Filter by total session duration in minutes. Set to null to ignore this filter."
+                      },
+                      "sessionIntent": {
+                        "description": "Filter by session intention level/user behavior classification.",
+                        "enum": [
+                          "Low Intention",
+                          "Medium Intention",
+                          "High Intention"
+                        ],
+                        "type": "string"
+                      },
+                      "smartEvents": {
+                        "description": "Filter by smart event names/IDs. Can be user-defined events or Clarity auto events: 'Purchase', 'ContactUs', 'SubmitForm', 'AddToCart', 'RequestQuote', 'SignUp', 'BeginCheckout', 'Download', 'Login', 'Search', 'Play', 'Deposit', 'Schedule', 'Subscribe', 'FindLocation', 'OutboundClick', 'ShowMore', 'Book', 'RetryRefresh', 'Pay', 'Pause', 'Upload', 'CheckAvailability', 'Withdraw', 'Export', 'SeeReviews', 'AddPaymentMethod', 'AddToWishlist', 'NotifyMe', 'CheckIn', 'TransferMoney', 'Upgrade', 'ContinueAsGuest', 'Mute', 'Exchange', 'ApplyCoupon', 'Unsubscribe', 'AddToCalendar', 'Unmute', 'EnterFullScreen', 'DeleteAccount', 'AppInstall', 'Checkout', 'OrderSuccess'",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "source": {
+                        "description": "Filter by UTM source parameter values (e.g., ['google', 'facebook', 'direct'])",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "state": {
+                        "description": "Filter by state/province names (e.g., ['California', 'Ontario', 'Bavaria'])",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "userType": {
+                        "description": "Filter by user type. Accepted values: NewUser, ReturningUser",
+                        "enum": [
+                          "NewUser",
+                          "ReturningUser"
+                        ],
+                        "type": "string"
+                      },
+                      "visiblePageDuration": {
+                        "additionalProperties": false,
+                        "description": "Filter by time spent on visible pages in minutes. Set to null to ignore this filter.",
+                        "properties": {
+                          "max": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "min": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "min",
+                          "max"
+                        ],
+                        "type": "object"
+                      },
+                      "visitedUrls": {
+                        "description": "Filter by URLs visited during the session with pattern matching.",
+                        "items": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "operator": {
+                              "enum": [
+                                "contains",
+                                "startsWith",
+                                "endsWith",
+                                "excludes",
+                                "isExactly",
+                                "isExactlyNot",
+                                "matchesRegex",
+                                "excludesRegex"
+                              ],
+                              "type": "string"
+                            },
+                            "url": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "url",
+                            "operator"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "date"
+                    ],
+                    "type": "object"
+                  },
+                  "sortBy": {
+                    "default": "SessionStart_DESC",
+                    "description": "Sort option for session recordings. Default is SessionStart_DESC (newest first).",
+                    "enum": [
+                      "SessionStart_DESC",
+                      "SessionStart_ASC",
+                      "SessionDuration_ASC",
+                      "SessionDuration_DESC",
+                      "SessionClickCount_ASC",
+                      "SessionClickCount_DESC",
+                      "PageCount_ASC",
+                      "PageCount_DESC"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "filters"
+                ],
+                "type": "object"
+              },
+              "name": "list-session-recordings"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": true,
+                "title": "Query Analytics Dashboard"
+              },
+              "description": "Fetch Microsoft Clarity analytics data using a simplified natural language search query. The query should be focused on one specific data retrieval or aggregation task. Avoid complex multi-purpose queries. Time ranges should be explicitly specified when possible. If no time range is provided, prompt the user to specify one.",
+              "inputSchema": {
+                "properties": {
+                  "query": {
+                    "description": "A natural language search query string for filtering and shaping analytics data. The query should be specific and include temporal constraints when available. (e.g., 'Top browsers last 3 days', 'The active time duration for mobile devices in United States last week'). Time ranges should be explicitly specified when possible. If no time range is provided, prompt the user to specify one.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "query-analytics-dashboard"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": false,
+                "readOnlyHint": true,
+                "title": "Query Documentation Resources"
+              },
+              "description": "Retrieve Microsoft Clarity documentation snippets for finding answers to user questions including step-by-step screenshots for setup guides, features, usage, troubleshooting, and integration instructions. The query should be focused on one specific documentation topic or question. Avoid complex multi-purpose queries.",
+              "inputSchema": {
+                "properties": {
+                  "query": {
+                    "description": "A natural language search query string for filtering and shaping analytics data. The query should be specific and include temporal constraints when available. (e.g., 'Top browsers last 3 days', 'The active time duration for mobile devices in United States last week'). Time ranges should be explicitly specified when possible. If no time range is provided, prompt the user to specify one.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "query-documentation-resources"
+            }
+          ],
+          "tools": [
+            "list-session-recordings",
+            "query-analytics-dashboard",
+            "query-documentation-resources"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Query Microsoft Clarity website analytics, session recordings, and behavior insights",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/clarity-mcp-server/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/clarity-mcp-server",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Microsoft Clarity Data Export API token, generated from Settings \u003e Data Export in your Clarity project",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "CLARITY_API_TOKEN"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/clarity-mcp-server:2.0.1",
+      "packageArguments": [
+        {
+          "isRequired": true,
+          "name": "--clarity_api_token",
+          "type": "named",
+          "value": "{CLARITY_API_TOKEN}"
+        }
+      ],
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/microsoft/clarity-mcp-server"
+  },
+  "title": "Microsoft Clarity",
+  "version": "1.0.0"
+}
