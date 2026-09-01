@@ -1,0 +1,41 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/vastlint",
+  "description": "Validate VAST, VMAP, and DAAST ad tags against IAB Tech Lab specs",
+  "title": "VASTlint",
+  "repository": {
+    "url": "https://github.com/aleksUIX/vastlint",
+    "source": "github"
+  },
+  "version": "0.13.6",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://vastlint.org/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://vastlint.org/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": ["remote", "vast", "vmap", "daast", "iab", "validator", "advertising"],
+          "tools": [
+            "validate_vast",
+            "validate_vast_url",
+            "inspect_vast",
+            "list_rules",
+            "explain_rule",
+            "fix_vast"
+          ],
+          "custom_metadata": {
+            "author": "aleksUIX",
+            "homepage": "https://vastlint.org/docs/mcp/",
+            "license": "Apache-2.0"
+          }
+        }
+      }
+    }
+  }
+}
