@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "cloudflare-one-migrations",
+  "title": "Cloudflare One Migrations",
+  "description": "Plans migrations from Zscaler ZIA/ZPA, Palo Alto, legacy VPN, SWG, or SASE stacks to Cloudflare One. Use for migration assessments, policy mapping, rollout plans, and parity/gap analysis.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/cloudflare/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/cloudflare-one-migrations:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/cloudflare/skills",
+      "ref": "f96bff754e428838818017f75817f0f9428acd48",
+      "subfolder": "skills/cloudflare-one-migrations"
+    }
+  ]
+}

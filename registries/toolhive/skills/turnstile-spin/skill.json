@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "turnstile-spin",
+  "title": "Turnstile Spin",
+  "description": "Set up Cloudflare Turnstile end-to-end in a project. Scan the codebase, create the widget via the Cloudflare API, embed it where user requests need bot verification (form submissions, SPA actions, API endpoints, download links, comment or vote submissions, etc.), wire canonical server-side siteverify in the customer's existing backend, validate, and persist the skill. Load this when a user asks to add Turnstile, set up CAPTCHA, protect a form or endpoint from bots, or fix a Turnstile integration. Mirrors developers.cloudflare.com/turnstile/spin.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/cloudflare/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/turnstile-spin:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/cloudflare/skills",
+      "ref": "f96bff754e428838818017f75817f0f9428acd48",
+      "subfolder": "skills/turnstile-spin"
+    }
+  ]
+}
