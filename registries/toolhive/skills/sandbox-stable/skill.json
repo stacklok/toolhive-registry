@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "sandbox-stable",
+  "title": "Sandbox Stable",
+  "description": "Use when building or changing Cloudflare Sandbox apps on the current stable @cloudflare/sandbox package (default npm tag)—commands, sessions, files, ports, tunnels, terminals, bridge, production, or deprecated-API cleanup while staying on stable. Not for @cloudflare/sandbox@next (use sandbox-next) or for porting to 1.0 (use sandbox-migrate-to-next).",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/cloudflare/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/sandbox-stable:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/cloudflare/skills",
+      "ref": "f96bff754e428838818017f75817f0f9428acd48",
+      "subfolder": "skills/sandbox-stable"
+    }
+  ]
+}

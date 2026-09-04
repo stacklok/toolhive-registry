@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "sandbox-migrate-to-next",
+  "title": "Sandbox Migrate To Next",
+  "description": "Use when porting a Cloudflare Sandbox app from stable @cloudflare/sandbox to @cloudflare/sandbox@next (Sandbox SDK 1.0 preview), or when the user asks to migrate or upgrade to Sandbox 1.0 / @next. Not for day-to-day stable work (sandbox-stable) or new @next apps (sandbox-next).",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/cloudflare/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/sandbox-migrate-to-next:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/cloudflare/skills",
+      "ref": "f96bff754e428838818017f75817f0f9428acd48",
+      "subfolder": "skills/sandbox-migrate-to-next"
+    }
+  ]
+}
