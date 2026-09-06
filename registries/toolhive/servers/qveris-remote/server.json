@@ -1,0 +1,70 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/qveris-remote",
+  "description": "Official QVeris MCP server for discovering, inspecting, calling, and auditing external tools",
+  "title": "QVeris (Remote)",
+  "repository": {
+    "url": "https://github.com/QVerisAI/qveris-agent-toolkit",
+    "source": "github",
+    "subfolder": "packages/mcp"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.qveris.ai/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer QVeris API key (format: Bearer YOUR_QVERIS_API_KEY)",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/qveris-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.qveris.ai/mcp": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "qveris",
+            "api",
+            "tool-discovery",
+            "capability-routing",
+            "automation",
+            "usage-audit"
+          ],
+          "tools": [
+            "discover",
+            "inspect",
+            "call",
+            "usage_history",
+            "credits_ledger",
+            "search_tools",
+            "get_tools_by_ids",
+            "execute_tool"
+          ],
+          "overview": "## QVeris Remote MCP Server\n\nQVeris is the official hosted Model Context Protocol server for the QVeris capability routing network. It lets AI assistants discover ranked external tools, inspect their schemas and operational signals, call selected capabilities, and audit usage and credit settlement through a compact set of MCP tools. The server uses Streamable HTTP transport and requires a QVeris API key in the Authorization header. It is suited to agents that need on-demand access to external APIs without preloading thousands of tool schemas.",
+          "custom_metadata": {
+            "author": "QVerisAI",
+            "homepage": "https://qveris.ai",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
