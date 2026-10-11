@@ -1,0 +1,59 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://x402.asterpay.io/mcp": {
+          "custom_metadata": {
+            "author": "AsterPay",
+            "homepage": "https://asterpay.io"
+          },
+          "overview": "## AsterPay Remote MCP Server\n\nAsterPay's hosted MCP endpoint provides cryptocurrency market data, AI utilities, wallet and token analysis, agent trust checks, and EUR settlement estimates. Connect through Streamable HTTP at https://x402.asterpay.io/mcp. Initialization and tool discovery do not require an API key. Paid tools require an x402 payment authorization supplied by the calling agent; an ordinary MCP client without payment support cannot automatically complete paid calls. Prices vary by API route and are returned in the live HTTP 402 challenge. API documentation and payment instructions are available at https://x402.asterpay.io/docs. The hosted server is distinct from the @asterpay/mcp-server merchant-commerce npm package.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "payments",
+            "x402",
+            "crypto",
+            "market-data",
+            "agent-trust",
+            "ai"
+          ],
+          "tier": "Official",
+          "tools": [
+            "check_agent_trust",
+            "verify_agent_identity",
+            "get_agent_tier",
+            "agent_deep_analysis",
+            "settlement_estimate",
+            "get_crypto_price",
+            "get_trending",
+            "ai_summarize",
+            "ai_sentiment",
+            "ai_fact_check",
+            "ai_translate",
+            "ai_code_review",
+            "wallet_score",
+            "token_analysis",
+            "whale_alerts",
+            "generate_qr_code",
+            "discover_endpoints",
+            "data_catalog",
+            "data_get",
+            "risk_board"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Hosted MCP tools for crypto data, AI utilities, agent trust, and EUR settlement estimates",
+  "name": "io.github.stacklok/asterpay-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://x402.asterpay.io/mcp"
+    }
+  ],
+  "title": "AsterPay (Remote)",
+  "version": "1.0.1"
+}
