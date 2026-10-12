@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/astra-db-mcp:1.2.2": {
+        "ghcr.io/stacklok/dockyard/npx/astra-db-mcp:1.3.4": {
           "metadata": {
-            "last_updated": "2026-09-11T02:27:19Z",
+            "last_updated": "2026-10-09T02:12:55Z",
             "stars": 41
           },
           "overview": "## Astra DB MCP Server\n\nThe astra-db-mcp server is a Model Context Protocol (MCP) implementation that enables AI assistants and agents to interact directly with DataStax Astra DB — a cloud-native database service — through a standardized, agent-friendly interface. It allows natural language workflows to query, manage, and manipulate collections and records stored in Astra DB without writing custom database integration code.",
@@ -33,23 +33,1271 @@
             "astra"
           ],
           "tier": "Official",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "Alter a table schema (add columns, drop columns, add vector columns)",
+              "inputSchema": {
+                "properties": {
+                  "operation": {
+                    "description": "Alter operations object (e.g., { addColumns: { age: 'int' } })",
+                    "properties": {
+                      "addColumns": {
+                        "description": "Columns to add with their types",
+                        "type": "object"
+                      },
+                      "addVectorColumns": {
+                        "description": "Vector columns to add",
+                        "type": "object"
+                      },
+                      "dropColumns": {
+                        "description": "Column names to drop",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "tableName": {
+                    "description": "Name of the table to alter",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tableName",
+                  "operation"
+                ],
+                "type": "object"
+              },
+              "name": "AlterTable"
+            },
+            {
+              "annotations": {},
+              "description": "Create multiple records in a collection at once",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to create the records in",
+                    "type": "string"
+                  },
+                  "records": {
+                    "description": "Array of records to insert",
+                    "items": {
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "records"
+                ],
+                "type": "object"
+              },
+              "name": "BulkCreateRecords"
+            },
+            {
+              "annotations": {},
+              "description": "Delete multiple records from a collection at once",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection containing the records",
+                    "type": "string"
+                  },
+                  "recordIds": {
+                    "description": "Array of record IDs to delete",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "recordIds"
+                ],
+                "type": "object"
+              },
+              "name": "BulkDeleteRecords"
+            },
+            {
+              "annotations": {},
+              "description": "Update multiple records in a collection at once",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection containing the records",
+                    "type": "string"
+                  },
+                  "records": {
+                    "description": "Array of records to update with their IDs",
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "description": "ID of the record to update",
+                          "type": "string"
+                        },
+                        "record": {
+                          "description": "The updated record data",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "record"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "records"
+                ],
+                "type": "object"
+              },
+              "name": "BulkUpdateRecords"
+            },
+            {
+              "annotations": {},
+              "description": "Create a new collection with optional vector, metric, auto-vectorize service, or indexing options",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to create",
+                    "type": "string"
+                  },
+                  "defaultId": {
+                    "description": "Default ID generation type",
+                    "properties": {
+                      "type": {
+                        "enum": [
+                          "objectId",
+                          "uuid",
+                          "uuidv6",
+                          "uuidv7",
+                          "default"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "dimension": {
+                    "default": 1536,
+                    "description": "Vector dimensions (e.g., 1536 for OpenAI, 384 for MiniLM)",
+                    "type": "number"
+                  },
+                  "indexing": {
+                    "description": "Collection indexing rules",
+                    "properties": {
+                      "allow": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "deny": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "metric": {
+                    "default": "cosine",
+                    "description": "Similarity metric for vector comparisons",
+                    "enum": [
+                      "cosine",
+                      "euclidean",
+                      "dot_product"
+                    ],
+                    "type": "string"
+                  },
+                  "service": {
+                    "description": "Vectorize auto-embedding provider configuration",
+                    "properties": {
+                      "authentication": {
+                        "description": "Optional provider authentication tokens/keys",
+                        "type": "object"
+                      },
+                      "modelName": {
+                        "description": "Model name for embedding generation",
+                        "type": "string"
+                      },
+                      "parameters": {
+                        "description": "Optional provider-specific model parameters",
+                        "type": "object"
+                      },
+                      "provider": {
+                        "description": "Embedding provider name (e.g., 'openai', 'cohere', 'nvidia')",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "provider",
+                      "modelName"
+                    ],
+                    "type": "object"
+                  },
+                  "vector": {
+                    "default": true,
+                    "description": "Whether to create a vector collection",
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "collectionName"
+                ],
+                "type": "object"
+              },
+              "name": "CreateCollection"
+            },
+            {
+              "annotations": {},
+              "description": "Create a new keyspace in the Astra DB database",
+              "inputSchema": {
+                "properties": {
+                  "keyspaceName": {
+                    "description": "Name of the keyspace to create",
+                    "type": "string"
+                  },
+                  "updateDbKeyspace": {
+                    "default": false,
+                    "description": "Whether to immediately switch the active connection keyspace to this newly created keyspace",
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "keyspaceName"
+                ],
+                "type": "object"
+              },
+              "name": "CreateKeyspace"
+            },
+            {
+              "annotations": {},
+              "description": "Create a new record in a collection",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to create the record in",
+                    "type": "string"
+                  },
+                  "record": {
+                    "description": "The record data to insert",
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "record"
+                ],
+                "type": "object"
+              },
+              "name": "CreateRecord"
+            },
+            {
+              "annotations": {},
+              "description": "Create a structured table with typed columns and primary key in Astra DB",
+              "inputSchema": {
+                "properties": {
+                  "definition": {
+                    "description": "Table schema definition with column types and primary key",
+                    "properties": {
+                      "columns": {
+                        "description": "Mapping of column names to types (e.g. text, int, bigint, boolean, timestamp, uuid, vector)",
+                        "type": "object"
+                      },
+                      "primaryKey": {
+                        "description": "Primary key definition (single column name, array of partition/clustering keys, or composite primary key object)"
+                      }
+                    },
+                    "required": [
+                      "columns",
+                      "primaryKey"
+                    ],
+                    "type": "object"
+                  },
+                  "ifNotExists": {
+                    "default": false,
+                    "description": "Do not error if table already exists",
+                    "type": "boolean"
+                  },
+                  "tableName": {
+                    "description": "Name of the table to create",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tableName",
+                  "definition"
+                ],
+                "type": "object"
+              },
+              "name": "CreateTable"
+            },
+            {
+              "annotations": {},
+              "description": "Create a regular secondary index on a table column",
+              "inputSchema": {
+                "properties": {
+                  "column": {
+                    "description": "Column name to index",
+                    "type": "string"
+                  },
+                  "indexName": {
+                    "description": "Name of the index to create",
+                    "type": "string"
+                  },
+                  "options": {
+                    "description": "Index options (ascii, caseSensitive, normalize)",
+                    "properties": {
+                      "ascii": {
+                        "type": "boolean"
+                      },
+                      "caseSensitive": {
+                        "type": "boolean"
+                      },
+                      "normalize": {
+                        "type": "boolean"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "tableName": {
+                    "description": "Name of the table",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tableName",
+                  "indexName",
+                  "column"
+                ],
+                "type": "object"
+              },
+              "name": "CreateTableIndex"
+            },
+            {
+              "annotations": {},
+              "description": "Create a vector index on a vector column in a table",
+              "inputSchema": {
+                "properties": {
+                  "column": {
+                    "description": "Vector column name",
+                    "type": "string"
+                  },
+                  "indexName": {
+                    "description": "Name of the vector index",
+                    "type": "string"
+                  },
+                  "metric": {
+                    "default": "cosine",
+                    "description": "Distance metric for vector search",
+                    "enum": [
+                      "cosine",
+                      "euclidean",
+                      "dot_product"
+                    ],
+                    "type": "string"
+                  },
+                  "service": {
+                    "description": "Vectorize auto-embedding provider settings if applicable",
+                    "properties": {
+                      "authentication": {
+                        "type": "object"
+                      },
+                      "modelName": {
+                        "type": "string"
+                      },
+                      "parameters": {
+                        "type": "object"
+                      },
+                      "provider": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "tableName": {
+                    "description": "Name of the table",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tableName",
+                  "indexName",
+                  "column"
+                ],
+                "type": "object"
+              },
+              "name": "CreateTableVectorIndex"
+            },
+            {
+              "annotations": {},
+              "description": "Delete a collection from the database",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to delete",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collectionName"
+                ],
+                "type": "object"
+              },
+              "name": "DeleteCollection"
+            },
+            {
+              "annotations": {},
+              "description": "Delete a record from a collection",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection containing the record",
+                    "type": "string"
+                  },
+                  "recordId": {
+                    "description": "ID of the record to delete",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "recordId"
+                ],
+                "type": "object"
+              },
+              "name": "DeleteRecord"
+            },
+            {
+              "annotations": {},
+              "description": "Delete one or multiple rows matching a filter from a table",
+              "inputSchema": {
+                "properties": {
+                  "filter": {
+                    "description": "Filter to match rows to delete",
+                    "type": "object"
+                  },
+                  "many": {
+                    "default": false,
+                    "description": "Whether to delete all matching rows or just one",
+                    "type": "boolean"
+                  },
+                  "tableName": {
+                    "description": "Name of the table",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tableName",
+                  "filter"
+                ],
+                "type": "object"
+              },
+              "name": "DeleteTableRow"
+            },
+            {
+              "annotations": {},
+              "description": "Drop a keyspace from the Astra DB database",
+              "inputSchema": {
+                "properties": {
+                  "keyspaceName": {
+                    "description": "Name of the keyspace to drop",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "keyspaceName"
+                ],
+                "type": "object"
+              },
+              "name": "DropKeyspace"
+            },
+            {
+              "annotations": {},
+              "description": "Drop a table from the current keyspace",
+              "inputSchema": {
+                "properties": {
+                  "ifExists": {
+                    "default": false,
+                    "description": "Do not error if table does not exist",
+                    "type": "boolean"
+                  },
+                  "tableName": {
+                    "description": "Name of the table to drop",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tableName"
+                ],
+                "type": "object"
+              },
+              "name": "DropTable"
+            },
+            {
+              "annotations": {},
+              "description": "Estimate the number of documents in a collection using a fast, approximate count method",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to estimate document count for",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collectionName"
+                ],
+                "type": "object"
+              },
+              "name": "EstimateDocumentCount"
+            },
+            {
+              "annotations": {},
+              "description": "Perform hybrid (lexical + vector) search with optional reranking on a collection",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection",
+                    "type": "string"
+                  },
+                  "filter": {
+                    "description": "Optional filter criteria",
+                    "type": "object"
+                  },
+                  "hybrid": {
+                    "description": "Hybrid search specifications",
+                    "properties": {
+                      "lexical": {
+                        "description": "Lexical search query string",
+                        "type": "string"
+                      },
+                      "vector": {
+                        "description": "Explicit query vector",
+                        "items": {
+                          "type": "number"
+                        },
+                        "type": "array"
+                      },
+                      "vectorize": {
+                        "description": "Query string to vectorize",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "includeScores": {
+                    "default": true,
+                    "description": "Whether to return $similarity and $rerankerScore",
+                    "type": "boolean"
+                  },
+                  "limit": {
+                    "default": 10,
+                    "description": "Maximum number of top reranked records to return",
+                    "type": "number"
+                  },
+                  "projection": {
+                    "description": "Projection object to select specific fields",
+                    "type": "object"
+                  },
+                  "rerankOn": {
+                    "description": "Document field name to perform reranking on",
+                    "type": "string"
+                  },
+                  "rerankQuery": {
+                    "description": "Query string used by the reranker model",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "hybrid"
+                ],
+                "type": "object"
+              },
+              "name": "FindAndRerank"
+            },
+            {
+              "annotations": {},
+              "description": "Find distinct values for a field in a collection",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to search in",
+                    "type": "string"
+                  },
+                  "field": {
+                    "description": "Field name to get distinct values for",
+                    "type": "string"
+                  },
+                  "filter": {
+                    "description": "Optional filter criteria to apply before finding distinct values",
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "field"
+                ],
+                "type": "object"
+              },
+              "name": "FindDistinctValues"
+            },
+            {
+              "annotations": {},
+              "description": "Find records in a collection by a single field value",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to search in",
+                    "type": "string"
+                  },
+                  "field": {
+                    "description": "Field name to search by (e.g., 'title', '_id', or any property)",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 10,
+                    "description": "Maximum number of records to return",
+                    "type": "number"
+                  },
+                  "value": {
+                    "description": "Value to search for in the specified field",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "field",
+                  "value"
+                ],
+                "type": "object"
+              },
+              "name": "FindRecord"
+            },
+            {
+              "annotations": {},
+              "description": "Find records in a collection using rich MongoDB-style filter expressions ($and, $or, $gt, $in, $exists, etc.) with sorting and pagination",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to search in",
+                    "type": "string"
+                  },
+                  "filter": {
+                    "description": "Filter criteria (e.g. { age: { $gt: 25 }, status: { $in: ['active', 'pending'] } })",
+                    "type": "object"
+                  },
+                  "limit": {
+                    "default": 10,
+                    "description": "Maximum number of records to return",
+                    "type": "number"
+                  },
+                  "projection": {
+                    "description": "Projection object to select specific fields",
+                    "type": "object"
+                  },
+                  "skip": {
+                    "default": 0,
+                    "description": "Number of records to skip",
+                    "type": "number"
+                  },
+                  "sort": {
+                    "description": "Sort criteria, e.g. { createdAt: -1 }",
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "filter"
+                ],
+                "type": "object"
+              },
+              "name": "FindWithFilter"
+            },
+            {
+              "annotations": {},
+              "description": "Find records via vector similarity search using raw vector embeddings",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the vector collection",
+                    "type": "string"
+                  },
+                  "filter": {
+                    "description": "Optional metadata filter criteria applied alongside vector search",
+                    "type": "object"
+                  },
+                  "includeSimilarity": {
+                    "default": true,
+                    "description": "Whether to return the $similarity score with each document",
+                    "type": "boolean"
+                  },
+                  "limit": {
+                    "default": 10,
+                    "description": "Maximum number of nearest records to return",
+                    "type": "number"
+                  },
+                  "projection": {
+                    "description": "Projection object to include/exclude fields",
+                    "type": "object"
+                  },
+                  "skip": {
+                    "default": 0,
+                    "description": "Number of records to skip",
+                    "type": "number"
+                  },
+                  "vector": {
+                    "description": "Dense vector array (e.g. [0.12, 0.45, -0.31, ...])",
+                    "items": {
+                      "type": "number"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "vector"
+                ],
+                "type": "object"
+              },
+              "name": "FindWithVector"
+            },
+            {
+              "annotations": {},
+              "description": "Find records in a vectorized collection using plain text (auto-vectorization using collection's embedding service)",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the vectorize-enabled collection",
+                    "type": "string"
+                  },
+                  "filter": {
+                    "description": "Optional metadata filter criteria",
+                    "type": "object"
+                  },
+                  "includeSimilarity": {
+                    "default": true,
+                    "description": "Whether to return $similarity score",
+                    "type": "boolean"
+                  },
+                  "limit": {
+                    "default": 10,
+                    "description": "Maximum number of nearest records to return",
+                    "type": "number"
+                  },
+                  "projection": {
+                    "description": "Projection object to include/exclude fields",
+                    "type": "object"
+                  },
+                  "skip": {
+                    "default": 0,
+                    "description": "Number of records to skip",
+                    "type": "number"
+                  },
+                  "vectorize": {
+                    "description": "Natural language search query to auto-embed and search",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "vectorize"
+                ],
+                "type": "object"
+              },
+              "name": "FindWithVectorize"
+            },
+            {
+              "annotations": {},
+              "description": "Get metadata, options, vector settings, and defaultId type of a collection",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to inspect",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collectionName"
+                ],
+                "type": "object"
+              },
+              "name": "GetCollectionInfo"
+            },
+            {
+              "annotations": {},
+              "description": "Get all collections in the active Astra DB keyspace",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "GetCollections"
+            },
+            {
+              "annotations": {},
+              "description": "Get the currently active keyspace",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "GetCurrentKeyspace"
+            },
+            {
+              "annotations": {},
+              "description": "Get database environment metadata (id, name, region, environment, status, keyspaces)",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "GetDatabaseInfo"
+            },
+            {
+              "annotations": {},
+              "description": "Get a specific record from a collection by ID",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to get the record from",
+                    "type": "string"
+                  },
+                  "recordId": {
+                    "description": "ID of the record to retrieve",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "recordId"
+                ],
+                "type": "object"
+              },
+              "name": "GetRecord"
+            },
+            {
+              "annotations": {},
+              "description": "Help the user add the Astra DB client to their MCP client",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "HelpAddToClient"
+            },
+            {
+              "annotations": {},
+              "description": "Search for records using both vector similarity and text matching",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to search in",
+                    "type": "string"
+                  },
+                  "fields": {
+                    "default": [
+                      "*"
+                    ],
+                    "description": "Fields to search in for text matching",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "limit": {
+                    "default": 10,
+                    "description": "Maximum number of records to return",
+                    "type": "number"
+                  },
+                  "queryVector": {
+                    "description": "The vector to search for similar vectors",
+                    "items": {
+                      "type": "number"
+                    },
+                    "type": "array"
+                  },
+                  "textQuery": {
+                    "description": "The text query to search for",
+                    "type": "string"
+                  },
+                  "weights": {
+                    "description": "Weights for vector and text components",
+                    "properties": {
+                      "text": {
+                        "default": 0.3,
+                        "description": "Weight for text matching (0.0 to 1.0)",
+                        "type": "number"
+                      },
+                      "vector": {
+                        "default": 0.7,
+                        "description": "Weight for vector similarity (0.0 to 1.0)",
+                        "type": "number"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "queryVector",
+                  "textQuery"
+                ],
+                "type": "object"
+              },
+              "name": "HybridSearch"
+            },
+            {
+              "annotations": {},
+              "description": "Insert a single row or multiple rows into a table",
+              "inputSchema": {
+                "properties": {
+                  "row": {
+                    "description": "Single row object to insert",
+                    "type": "object"
+                  },
+                  "rows": {
+                    "description": "Multiple row objects to insert in batch",
+                    "items": {
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "tableName": {
+                    "description": "Name of the table",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tableName"
+                ],
+                "type": "object"
+              },
+              "name": "InsertTableRow"
+            },
+            {
+              "annotations": {},
+              "description": "List all available vector embedding providers and models supported by Astra DB Vectorize",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "ListEmbeddingProviders"
+            },
+            {
+              "annotations": {},
+              "description": "List all keyspaces in the Astra DB database",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "ListKeyspaces"
+            },
+            {
+              "annotations": {},
+              "description": "List records from a collection with optional sorting, pagination, and projection",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to list records from",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 10,
+                    "description": "Maximum number of records to return (default: 10)",
+                    "type": "number"
+                  },
+                  "projection": {
+                    "description": "Projection object to include/exclude specific fields",
+                    "type": "object"
+                  },
+                  "skip": {
+                    "default": 0,
+                    "description": "Number of documents to skip for pagination",
+                    "type": "number"
+                  },
+                  "sort": {
+                    "description": "Sort criteria object, e.g. { createdAt: -1 }",
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "collectionName"
+                ],
+                "type": "object"
+              },
+              "name": "ListRecords"
+            },
+            {
+              "annotations": {},
+              "description": "List all available reranking providers and models supported by Astra DB for hybrid search",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "ListRerankingProviders"
+            },
+            {
+              "annotations": {},
+              "description": "List all tables in the current keyspace",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "ListTables"
+            },
+            {
+              "annotations": {},
+              "description": "Open a web browser to a specific URL",
+              "inputSchema": {
+                "properties": {
+                  "url": {
+                    "description": "The URL to open in the browser",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "type": "object"
+              },
+              "name": "OpenBrowser"
+            },
+            {
+              "annotations": {},
+              "description": "Query rows in a table with filter, sorting, pagination, and projection",
+              "inputSchema": {
+                "properties": {
+                  "filter": {
+                    "description": "Filter criteria for rows",
+                    "type": "object"
+                  },
+                  "limit": {
+                    "default": 10,
+                    "description": "Maximum number of rows to return",
+                    "type": "number"
+                  },
+                  "projection": {
+                    "description": "Columns to include in result",
+                    "type": "object"
+                  },
+                  "skip": {
+                    "default": 0,
+                    "description": "Number of rows to skip",
+                    "type": "number"
+                  },
+                  "sort": {
+                    "description": "Sort criteria object",
+                    "type": "object"
+                  },
+                  "tableName": {
+                    "description": "Name of the table to query",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tableName"
+                ],
+                "type": "object"
+              },
+              "name": "QueryTable"
+            },
+            {
+              "annotations": {},
+              "description": "Update an existing collection in the database",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to update",
+                    "type": "string"
+                  },
+                  "newName": {
+                    "description": "New name for the collection",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "newName"
+                ],
+                "type": "object"
+              },
+              "name": "UpdateCollection"
+            },
+            {
+              "annotations": {},
+              "description": "Update an existing record in a collection",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection containing the record",
+                    "type": "string"
+                  },
+                  "record": {
+                    "description": "The updated record data",
+                    "type": "object"
+                  },
+                  "recordId": {
+                    "description": "ID of the record to update",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "recordId",
+                  "record"
+                ],
+                "type": "object"
+              },
+              "name": "UpdateRecord"
+            },
+            {
+              "annotations": {},
+              "description": "Update one or multiple rows matching a filter in a table",
+              "inputSchema": {
+                "properties": {
+                  "filter": {
+                    "description": "Filter to match rows to update",
+                    "type": "object"
+                  },
+                  "many": {
+                    "default": false,
+                    "description": "Whether to update all matching rows or just one",
+                    "type": "boolean"
+                  },
+                  "tableName": {
+                    "description": "Name of the table",
+                    "type": "string"
+                  },
+                  "update": {
+                    "description": "Update operation payload (e.g. { $set: { status: 'active' } })",
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "tableName",
+                  "filter",
+                  "update"
+                ],
+                "type": "object"
+              },
+              "name": "UpdateTableRow"
+            },
+            {
+              "annotations": {},
+              "description": "Switch the active working keyspace for subsequent queries",
+              "inputSchema": {
+                "properties": {
+                  "keyspaceName": {
+                    "description": "Name of the keyspace to switch to",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "keyspaceName"
+                ],
+                "type": "object"
+              },
+              "name": "UseKeyspace"
+            },
+            {
+              "annotations": {},
+              "description": "Search for records in a collection using vector similarity",
+              "inputSchema": {
+                "properties": {
+                  "collectionName": {
+                    "description": "Name of the collection to search in",
+                    "type": "string"
+                  },
+                  "filter": {
+                    "description": "Additional filter criteria for the search",
+                    "type": "object"
+                  },
+                  "limit": {
+                    "default": 10,
+                    "description": "Maximum number of records to return",
+                    "type": "number"
+                  },
+                  "minScore": {
+                    "default": 0,
+                    "description": "Minimum similarity score (0.0 to 1.0)",
+                    "type": "number"
+                  },
+                  "queryVector": {
+                    "description": "The vector to search for similar vectors",
+                    "items": {
+                      "type": "number"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "collectionName",
+                  "queryVector"
+                ],
+                "type": "object"
+              },
+              "name": "VectorSearch"
+            }
+          ],
           "tools": [
-            "GetCollections",
-            "CreateCollection",
-            "UpdateCollection",
-            "DeleteCollection",
-            "ListRecords",
-            "GetRecord",
-            "CreateRecord",
-            "UpdateRecord",
-            "DeleteRecord",
-            "FindRecord",
+            "AlterTable",
             "BulkCreateRecords",
-            "BulkUpdateRecords",
             "BulkDeleteRecords",
-            "OpenBrowser",
+            "BulkUpdateRecords",
+            "CreateCollection",
+            "CreateKeyspace",
+            "CreateRecord",
+            "CreateTable",
+            "CreateTableIndex",
+            "CreateTableVectorIndex",
+            "DeleteCollection",
+            "DeleteRecord",
+            "DeleteTableRow",
+            "DropKeyspace",
+            "DropTable",
+            "EstimateDocumentCount",
+            "FindAndRerank",
+            "FindDistinctValues",
+            "FindRecord",
+            "FindWithFilter",
+            "FindWithVector",
+            "FindWithVectorize",
+            "GetCollectionInfo",
+            "GetCollections",
+            "GetCurrentKeyspace",
+            "GetDatabaseInfo",
+            "GetRecord",
             "HelpAddToClient",
-            "EstimateDocumentCount"
+            "HybridSearch",
+            "InsertTableRow",
+            "ListEmbeddingProviders",
+            "ListKeyspaces",
+            "ListRecords",
+            "ListRerankingProviders",
+            "ListTables",
+            "OpenBrowser",
+            "QueryTable",
+            "UpdateCollection",
+            "UpdateRecord",
+            "UpdateTableRow",
+            "UseKeyspace",
+            "VectorSearch"
           ]
         }
       }
@@ -86,7 +1334,7 @@
           "name": "ASTRA_DB_KEYSPACE"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/astra-db-mcp:1.2.2",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/astra-db-mcp:1.3.4",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

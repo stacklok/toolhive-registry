@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/perplexity-ask:1.2.1": {
+        "ghcr.io/stacklok/dockyard/npx/perplexity-ask:1.3.0": {
           "metadata": {
-            "last_updated": "2026-08-21T00:48:19Z",
+            "last_updated": "2026-10-02T01:04:28Z",
             "stars": 2092
           },
           "overview": "## Perplexity Ask MCP Server\n\nThe perplexity-ask MCP server integrates Perplexity AI's Sonar API for live web searches, in-depth research, and reasoning tasks. The server provides three specialized tools: perplexity_ask for quick web search using the Sonar API, perplexity_research for comprehensive research with detailed citations, and perplexity_reason for advanced reasoning for complex problem-solving.",
@@ -225,7 +225,7 @@
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Search the web and return a ranked list of results with titles, URLs, snippets, and dates. Best for: finding specific URLs, checking recent news, verifying facts, discovering sources. Returns formatted results (title, URL, snippet, date) with no AI synthesis. Supports recency filters and domain restrictions. For AI-generated answers with citations, use perplexity_ask instead.",
+              "description": "Search the web and return a ranked list of results with titles, URLs, snippets, and dates. Best for: finding specific URLs, checking recent news, verifying facts, discovering sources. Returns formatted results (title, URL, snippet, date) with no AI synthesis. Supports recency filters, domain restrictions, and a lower-latency fast search mode. For AI-generated answers with citations, use perplexity_ask instead.",
               "inputSchema": {
                 "properties": {
                   "country": {
@@ -263,6 +263,14 @@
                       "week",
                       "month",
                       "year"
+                    ],
+                    "type": "string"
+                  },
+                  "search_type": {
+                    "description": "Search backend. 'web' (default) is the standard web search. 'fast' is lower latency and lower cost; prefer it for routine lookups inside agent loops, and keep 'web' for rare or ambiguous questions.",
+                    "enum": [
+                      "web",
+                      "fast"
                     ],
                     "type": "string"
                   }
@@ -306,7 +314,7 @@
           "name": "PERPLEXITY_API_KEY"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/perplexity-ask:1.2.1",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/perplexity-ask:1.3.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

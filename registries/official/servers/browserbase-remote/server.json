@@ -1,0 +1,55 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.browserbase.com/mcp": {
+          "custom_metadata": {
+            "author": "Browserbase",
+            "homepage": "https://docs.browserbase.com/integrations/mcp/setup"
+          },
+          "metadata": {
+            "last_updated": "2026-10-09T02:56:47Z"
+          },
+          "overview": "## Browserbase (Remote)\n\nBrowserbase's hosted MCP server gives MCP clients cloud-browser automation through a Streamable HTTP endpoint. It supports starting and ending sessions, navigating pages, interacting with page elements, observing available actions, and extracting page data. Authenticate tool calls by supplying a Browserbase API key as the required `browserbaseApiKey` query parameter. Pass the session ID returned by `start` to later calls when the client does not preserve its MCP transport session.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "browser",
+            "automation",
+            "web-scraping",
+            "testing"
+          ],
+          "tier": "Official",
+          "tools": [
+            "navigate",
+            "act",
+            "observe",
+            "extract",
+            "start",
+            "end"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Browserbase's hosted MCP server for cloud browser automation",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/browserbase-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/browserbase-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.browserbase.com/mcp"
+    }
+  ],
+  "title": "Browserbase (Remote)",
+  "version": "1.0.0"
+}

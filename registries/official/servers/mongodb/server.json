@@ -3,7 +3,7 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "docker.io/mongodb/mongodb-mcp-server:3.0.4": {
+        "docker.io/mongodb/mongodb-mcp-server:3.0.5": {
           "metadata": {
             "last_updated": "2026-08-14T03:00:21Z",
             "stars": 1097
@@ -110,7 +110,7 @@
           "name": "MDB_MCP_DISABLED_TOOLS"
         },
         {
-          "description": "When set to true, only allows read and metadata operation types",
+          "description": "When set to true, only read, connect, and metadata operation types remain available",
           "name": "MDB_MCP_READ_ONLY"
         },
         {
@@ -118,7 +118,7 @@
           "name": "MDB_MCP_TELEMETRY"
         }
       ],
-      "identifier": "docker.io/mongodb/mongodb-mcp-server:3.0.4",
+      "identifier": "docker.io/mongodb/mongodb-mcp-server:3.0.5",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

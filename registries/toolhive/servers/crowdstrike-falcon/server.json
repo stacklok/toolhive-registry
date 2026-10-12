@@ -208,7 +208,7 @@
           "name": "FALCON_BASE_URL"
         },
         {
-          "description": "Comma-separated list of modules to enable (cases,cloud,correlation_rules,custom_ioa,data_protection,detections,discover,exclusions,firewall,host_groups,hosts,idp,intel,ioc,ngsiem,policies,quarantine,recon,rtr,scheduled_reports,sensor_usage,serverless,shield,spotlight). If not set, all modules are enabled, including write/action-capable ones (rtr, quarantine, firewall, policies, custom_ioa, exclusions, correlation_rules, host_groups). Scope this for least-privilege deployments.",
+          "description": "Comma-separated list of modules to enable (agentworks,cases,cloud,correlationrules,customioa,dataprotection,detections,discover,exclusions,firewall,fusion,guardian,hostgroups,hosts,idp,intel,ioc,ngsiem,policies,quarantine,recon,rtr,scheduledreports,sensorusage,serverless,shield,spotlight,zerotrustassessment). If not set, all modules are enabled, including write/action-capable ones. Scope this for least-privilege deployments.",
           "name": "FALCON_MCP_MODULES"
         },
         {
@@ -220,7 +220,7 @@
           "name": "FALCON_MCP_DEBUG"
         },
         {
-          "description": "API key required in the x-api-key header for HTTP transport authentication (optional, recommended since the server listens on 0.0.0.0)",
+          "description": "Optional runtime API key required in the x-api-key header when configured. Set one for any safely externally bound HTTP deployment.",
           "isSecret": true,
           "name": "FALCON_MCP_API_KEY"
         },

@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "public.ecr.aws/f3y8w4n0/awslabs/aws-pricing-mcp-server:1.1.1": {
           "metadata": {
-            "last_updated": "2026-09-11T01:44:40Z",
+            "last_updated": "2026-10-05T22:37:41Z",
             "stars": 8594
           },
           "overview": "## AWS Pricing MCP Server\n\nThe aws-pricing MCP server is a Model Context Protocol (MCP) server that gives AI assistants programmatic access to AWS pricing data through a structured interface. It allows AI-driven workflows to retrieve up-to-date pricing information for AWS services, instances, and usage dimensions, enabling cost estimation, comparison, and optimization tasks without manual navigation of pricing pages or spreadsheets. This server is particularly useful for cost modeling, architectural tradeoff analysis, and budget-aware automation inside AI assistants.",
@@ -18,7 +18,9 @@
                   "api.pricing.us-east-1.amazonaws.com",
                   "api.pricing.eu-central-1.amazonaws.com",
                   "api.pricing.ap-southeast-1.amazonaws.com",
-                  "api.pricing.ap-south-1.amazonaws.com"
+                  "api.pricing.ap-south-1.amazonaws.com",
+                  "api.pricing.cn-northwest-1.amazonaws.com.cn",
+                  "api.pricing.eusc-de-east-1.amazonaws.eu"
                 ],
                 "allow_port": [
                   443
@@ -580,7 +582,6 @@
       "environmentVariables": [
         {
           "description": "AWS access key ID with access to the AWS Pricing API",
-          "isSecret": true,
           "name": "AWS_ACCESS_KEY_ID"
         },
         {
@@ -595,7 +596,7 @@
         },
         {
           "default": "us-east-1",
-          "description": "AWS region for the Pricing API endpoint (us-east-1, eu-central-1, ap-southeast-1)",
+          "description": "Requested AWS region; the server maps it to a supported or nearest AWS Pricing API endpoint",
           "name": "AWS_REGION"
         },
         {

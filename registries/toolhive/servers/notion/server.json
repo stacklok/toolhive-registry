@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/notion:2.5.2": {
           "metadata": {
-            "last_updated": "2026-09-25T12:20:21Z",
+            "last_updated": "2026-10-05T22:37:08Z",
             "stars": 4219
           },
           "overview": "## Notion MCP Server\n\nThe notion MCP server provides integration with Notion APIs through a local Notion MCP Server. The server offers complete Notion API integration for pages, blocks, and databases; create, read, update, and delete operations across Notion workspaces; user and workspace information retrieval; and search and data source querying with template support.",
@@ -6484,8 +6484,8 @@
     {
       "environmentVariables": [
         {
-          "description": "Notion integration token (ntn_****).",
-          "isRequired": true,
+          "description": "Notion integration token (ntn_****); optional when OPENAPI_MCP_HEADERS provides authorization.",
+          "isRequired": false,
           "isSecret": true,
           "name": "NOTION_TOKEN"
         },

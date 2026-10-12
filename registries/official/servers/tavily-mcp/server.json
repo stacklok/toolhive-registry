@@ -5,8 +5,8 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/tavily-mcp:0.2.22": {
           "metadata": {
-            "last_updated": "2026-04-27T13:57:30Z",
-            "stars": 1759
+            "last_updated": "2026-10-02T02:28:45Z",
+            "stars": 2415
           },
           "overview": "## Tavily MCP Server\n\nThe tavily-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to perform real-time web search and research using Tavily. It allows AI-driven workflows to retrieve fresh, relevant information from the web — including articles, documentation, and summaries — without relying solely on static training data or manual browsing. This server is especially useful for research, question answering, competitive analysis, and any workflow where up-to-date information is critical.",
           "permissions": {
@@ -399,8 +399,8 @@
     {
       "environmentVariables": [
         {
-          "description": "API key for Tavily search service",
-          "isRequired": true,
+          "description": "Optional API key for Tavily. Keyless mode supports search and extract with limitations; provide a key to enable the full tool set.",
+          "isRequired": false,
           "isSecret": true,
           "name": "TAVILY_API_KEY"
         }

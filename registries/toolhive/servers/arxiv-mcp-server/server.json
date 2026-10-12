@@ -3,13 +3,13 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.7.2": {
+        "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.8.1": {
           "args": [
             "--storage-path",
             "/arxiv-papers"
           ],
           "metadata": {
-            "last_updated": "2026-08-31T21:34:39Z",
+            "last_updated": "2026-10-09T02:11:50Z",
             "stars": 2509
           },
           "overview": "## arXiv MCP Server\n\nThe arxiv-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to programmatically access the arXiv research repository — one of the largest open archives of scientific papers — via a simple MCP interface. It lets AI workflows search for academic papers, download and read their content, and manage collected research, all without switching tools or manually scraping content.",
@@ -69,7 +69,7 @@
                 "openWorldHint": true,
                 "readOnlyHint": true
               },
-              "description": "Return papers citing an arXiv paper and papers that it references using Semantic Scholar's citation graph. Results are bounded (default 50) to stay within the unauthenticated quota. Under load, export SEMANTIC_SCHOLAR_API_KEY for a higher limit; without a key, persistent rate limits return status=rate_limited instead of failing hard.",
+              "description": "Return papers citing an arXiv paper and papers that it references using Semantic Scholar's citation graph. Results are bounded (default 50) to stay within the unauthenticated quota. Graphs are cached on disk to reduce repeated API calls. Under load, a free Semantic Scholar API key (https://www.semanticscholar.org/product/api#api-key) makes this reliable; without a key, persistent rate limits return status=rate_limited with an unmistakable warning instead of failing hard.",
               "inputSchema": {
                 "properties": {
                   "max_citations": {
@@ -658,18 +658,13 @@
     {
       "environmentVariables": [
         {
-          "default": "/arxiv-papers",
-          "description": "Directory path where downloaded papers will be stored",
-          "name": "ARXIV_STORAGE_PATH"
-        },
-        {
-          "description": "Optional Semantic Scholar API key used for citation_graph and export_citations lookups. Without it, Semantic Scholar's shared unauthenticated rate limit applies and requests are more likely to be throttled; get a free key at https://www.semanticscholar.org/product/api#api-key",
+          "description": "Optional Semantic Scholar API key used by citation_graph. Without it, Semantic Scholar's shared unauthenticated rate limit applies and requests are more likely to be throttled; get a free key at https://www.semanticscholar.org/product/api#api-key",
           "isRequired": false,
           "isSecret": true,
           "name": "SEMANTIC_SCHOLAR_API_KEY"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.7.2",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/arxiv-mcp-server:0.8.1",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

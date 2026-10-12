@@ -1,0 +1,53 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://21st.dev/api/mcp": {
+          "custom_metadata": {
+            "author": "21st.dev",
+            "homepage": "https://21st.dev/mcp"
+          },
+          "metadata": {
+            "last_updated": "2026-10-09T02:56:47Z",
+            "stars": 5983
+          },
+          "overview": "## 21st (Remote)\n\n21st's hosted MCP server provides access to its UI component catalog and AI-assisted component generation workflows. The Streamable HTTP endpoint is shared by the 21st CLI, website, and MCP clients. Authenticate with a 21st API key from the 21st API-key settings page sent in the `x-api-key` header. The legacy Magic MCP API keys were reset and are not compatible with this service.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "ui",
+            "frontend",
+            "components",
+            "react",
+            "ai"
+          ],
+          "tier": "Community"
+        }
+      }
+    }
+  },
+  "description": "21st's hosted MCP server for UI component discovery and generation",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/21st-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/21st-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://21st.dev/api/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/21st-dev/magic-mcp"
+  },
+  "title": "21st (Remote)",
+  "version": "1.0.0"
+}

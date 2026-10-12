@@ -1,0 +1,66 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.circleci.com/v1/mcp": {
+          "custom_metadata": {
+            "author": "CircleCI",
+            "homepage": "https://circleci.com/docs/guides/toolkit/circleci-mcp-overview/"
+          },
+          "metadata": {
+            "last_updated": "2026-10-09T02:56:47Z"
+          },
+          "overview": "## CircleCI MCP Server (Remote)\n\nCircleCI's official hosted MCP server lets AI assistants inspect and act on CircleCI runs without a local installation. It supports investigating failed runs and jobs, reading logs and test results, and inspecting artifacts. It can also rerun or cancel workflows, enabling day-to-day CI diagnosis directly from a remote MCP host.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "circleci",
+            "ci-cd",
+            "devops",
+            "continuous-integration",
+            "workflow-management",
+            "build-logs",
+            "testing",
+            "oauth"
+          ],
+          "tier": "Official",
+          "tools": [
+            "hello",
+            "list_runs",
+            "get_run",
+            "list_workflows",
+            "get_workflow",
+            "rerun_workflow",
+            "cancel_workflow",
+            "list_jobs",
+            "get_job",
+            "get_job_logs",
+            "list_artifacts",
+            "list_job_tests",
+            "download_usage_data"
+          ]
+        }
+      }
+    }
+  },
+  "description": "CircleCI's official hosted MCP server for inspecting and managing CI runs",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/circleci-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/circleci-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.circleci.com/v1/mcp"
+    }
+  ],
+  "title": "CircleCI (Remote)",
+  "version": "1.0.0"
+}

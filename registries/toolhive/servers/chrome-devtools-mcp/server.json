@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.9.0": {
+        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.10.1": {
           "metadata": {
-            "last_updated": "2026-09-18T18:28:20Z",
+            "last_updated": "2026-10-02T01:04:01Z",
             "stars": 33303
           },
           "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
@@ -272,7 +272,7 @@
                   "elements": {
                     "description": "Elements from snapshot to fill out.",
                     "items": {
-                      "additionalProperties": false,
+                      "description": "An element to fill out",
                       "properties": {
                         "uid": {
                           "description": "The uid of the element to fill out",
@@ -331,6 +331,44 @@
                 "type": "object"
               },
               "name": "get_console_message"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Retrieve matched CSS rules, inline styles, inherited styles, and cascade information for an element identified by its UID.\nUse this tool to debug why specific CSS properties are applied, overridden, or conflicting. Results are paginated and return 10 rules per page by default; use pageIdx to page through the remaining rules. Requires a UID from take_snapshot.",
+              "inputSchema": {
+                "properties": {
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  },
+                  "pageIdx": {
+                    "default": 0,
+                    "description": "Page number to return (0-based). Defaults to 0 (the first page).",
+                    "maximum": 9007199254740991,
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "pageSize": {
+                    "default": 10,
+                    "description": "Maximum number of CSS rules to return per page. Defaults to 10.",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991,
+                    "type": "integer"
+                  },
+                  "uid": {
+                    "description": "The uid of the element on the page from the page content snapshot to inspect CSS styles for",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "pageId",
+                  "uid"
+                ],
+                "type": "object"
+              },
+              "name": "get_css_styles"
             },
             {
               "annotations": {
@@ -487,12 +525,14 @@
                   },
                   "pageIdx": {
                     "description": "Page number to return (0-based). When omitted, returns the first page.",
+                    "maximum": 9007199254740991,
                     "minimum": 0,
                     "type": "integer"
                   },
                   "pageSize": {
                     "description": "Maximum number of messages to return. When omitted, returns all messages.",
                     "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991,
                     "type": "integer"
                   },
                   "serviceWorkerId": {
@@ -554,12 +594,14 @@
                   },
                   "pageIdx": {
                     "description": "Page number to return (0-based). When omitted, returns the first page.",
+                    "maximum": 9007199254740991,
                     "minimum": 0,
                     "type": "integer"
                   },
                   "pageSize": {
                     "description": "Maximum number of requests to return. When omitted, returns all requests.",
                     "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991,
                     "type": "integer"
                   },
                   "resourceTypes": {
@@ -639,6 +681,8 @@
                   },
                   "timeout": {
                     "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+                    "maximum": 9007199254740991,
+                    "minimum": -9007199254740991,
                     "type": "integer"
                   },
                   "type": {
@@ -680,6 +724,8 @@
                   },
                   "timeout": {
                     "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+                    "maximum": 9007199254740991,
+                    "minimum": -9007199254740991,
                     "type": "integer"
                   },
                   "url": {
@@ -1043,6 +1089,8 @@
                   },
                   "timeout": {
                     "description": "Maximum wait time in milliseconds. If set to 0, the default timeout will be used.",
+                    "maximum": 9007199254740991,
+                    "minimum": -9007199254740991,
                     "type": "integer"
                   }
                 },
@@ -1064,6 +1112,7 @@
             "fill",
             "fill_form",
             "get_console_message",
+            "get_css_styles",
             "get_network_request",
             "handle_dialog",
             "hover",
@@ -1103,7 +1152,7 @@
   "name": "io.github.stacklok/chrome-devtools-mcp",
   "packages": [
     {
-      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.9.0",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.10.1",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.pagerduty.com/mcp": {
+          "custom_metadata": {
+            "author": "PagerDuty",
+            "homepage": "https://docs.pagerduty.com/developer/mcp-tooling-remote-server"
+          },
+          "metadata": {
+            "last_updated": "2026-10-09T02:56:47Z"
+          },
+          "oauth_config": {
+            "authorize_url": "https://identity.pagerduty.com/global/oauth/authorize",
+            "scopes": [
+              "read",
+              "write"
+            ],
+            "token_url": "https://identity.pagerduty.com/global/oauth/token",
+            "use_pkce": true
+          },
+          "overview": "## PagerDuty (Remote)\n\nPagerDuty's hosted MCP server provides remote access to PagerDuty account information and management operations. It uses Streamable HTTP and supports the same authentication methods as the PagerDuty REST API. Authenticate with OAuth or an API token sent as `Authorization: Token token=\u003cAPI_KEY\u003e`. Tool discovery requires authenticated access; PagerDuty documents the standard `tools/list` MCP method for retrieving the current tool set.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "pagerduty",
+            "incident-management",
+            "on-call",
+            "alerting",
+            "oauth"
+          ],
+          "tier": "Official"
+        }
+      }
+    }
+  },
+  "description": "PagerDuty's hosted MCP server for incident response and on-call operations",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/pagerduty-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/pagerduty-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.pagerduty.com/mcp"
+    }
+  ],
+  "title": "PagerDuty (Remote)",
+  "version": "1.0.0"
+}

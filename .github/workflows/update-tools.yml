@@ -2,6 +2,7 @@ name: Update Server Tool Lists
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, labeled]
     paths:
       - 'registries/**/server.json'
   workflow_dispatch:
@@ -14,81 +15,34 @@ on:
 permissions: {}
 
 jobs:
-  # Security check for fork PRs - prevents untrusted code execution with write permissions
+  # Fork approval permits read-only tool discovery, never secrets or write access.
   security-check:
     name: Security Check for Fork PRs
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     if: github.event_name == 'pull_request'
     outputs:
-      is-fork: ${{ steps.check-fork.outputs.is-fork }}
-      has-label: ${{ steps.check-label.outputs.has-label }}
       should-run: ${{ steps.check-fork.outputs.should-run }}
     steps:
-      - name: Check if PR is from a fork
+      - name: Check tool update approval
         id: check-fork
+        env:
+          IS_FORK: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+          HAS_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'safe-to-update') }}
         run: |
-          # Get PR details from GitHub API
-          PR_DATA=$(gh pr view "$PR_NUMBER" --json isCrossRepository,labels --repo "$GH_REPOSITORY")
-
-          IS_FORK=$(echo "$PR_DATA" | jq -r '.isCrossRepository')
-          echo "is-fork=$IS_FORK" >> $GITHUB_OUTPUT
-
-          if [ "$IS_FORK" = "false" ]; then
-            echo "PR is from the same repository - workflow will run automatically"
-            echo "should-run=true" >> $GITHUB_OUTPUT
+          if [ "$IS_FORK" = "false" ] || [ "$HAS_LABEL" = "true" ]; then
+            echo "should-run=true" >> "$GITHUB_OUTPUT"
           else
-            echo "PR is from a fork - checking for 'safe-to-update' label"
+            echo "should-run=false" >> "$GITHUB_OUTPUT"
+            cat >> "$GITHUB_STEP_SUMMARY" <<'BODY'
+          ## Tool updates awaiting maintainer approval
 
-            # Check if PR has the safe-to-update label
-            HAS_LABEL=$(echo "$PR_DATA" | jq -r '.labels | map(select(.name == "safe-to-update")) | length > 0')
-
-            if [ "$HAS_LABEL" = "true" ]; then
-              echo "PR has 'safe-to-update' label - workflow will run"
-              echo "should-run=true" >> $GITHUB_OUTPUT
-            else
-              echo "PR does not have 'safe-to-update' label - workflow will be skipped"
-              echo "should-run=false" >> $GITHUB_OUTPUT
-            fi
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          GH_REPOSITORY: ${{ github.repository }}
-
-      - name: Check label status
-        id: check-label
-        if: steps.check-fork.outputs.is-fork == 'true'
-        run: |
-          PR_DATA=$(gh pr view "$PR_NUMBER" --json labels --repo "$GH_REPOSITORY")
-          HAS_LABEL=$(echo "$PR_DATA" | jq -r '.labels | map(select(.name == "safe-to-update")) | length > 0')
-          echo "has-label=$HAS_LABEL" >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          GH_REPOSITORY: ${{ github.repository }}
-
-      - name: Post instructions for fork PRs without label
-        if: steps.check-fork.outputs.is-fork == 'true' && steps.check-fork.outputs.should-run == 'false'
-        run: |
-          gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
-            --method POST \
-            --field body="$(cat <<'BODY'
-          ## Security Notice: Fork PR Tool Update Workflow
-
-          This PR is from a forked repository. For security reasons, the automatic tool list update workflow requires a maintainer to add the `safe-to-update` label before it will run.
-
-          A maintainer will review this PR and add the label if appropriate. The workflow will then automatically update the tool lists.
-
-          ---
-
-          **Why is this needed?** This workflow executes code and connects to MCP servers specified in server.json files. To prevent potential security issues, we require manual verification for fork PRs.
+          A maintainer can add `safe-to-update` to run tool discovery for this fork PR.
+          This executes code and connects to the submitted MCP servers, so review the
+          contribution first. Generated changes are uploaded as artifacts; fork runs
+          do not automatically commit changes or post comments.
+          Normal CI validation and catalog builds still run without this label.
           BODY
-          )"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          fi
 
   detect-changes:
     name: Detect Changed Servers
@@ -216,7 +170,8 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ github.head_ref || github.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
 
       - name: Set up Go
@@ -290,8 +245,11 @@ jobs:
           SERVER_FILE: ${{ matrix.server }}
           SERVER_NAME: ${{ steps.server-info.outputs.server-name }}
 
+      - name: Validate updated catalog entries
+        run: /tmp/catalog validate -v
+
       - name: Prepare changes for commit
-        if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
+        if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true')
         run: |
           mkdir -p /tmp/commit-info
 
@@ -314,14 +272,14 @@ jobs:
           UPDATE_CHANGED: ${{ steps.update.outputs.changed }}
 
       - name: Upload commit info
-        if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true') && github.event_name == 'pull_request'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true')
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: commit-info-${{ steps.server-info.outputs.server-key }}
           path: /tmp/commit-info/
 
-      - name: Output diff for workflow dispatch
-        if: github.event_name == 'workflow_dispatch' && (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true')
+      - name: Output diff for manual and fork runs
+        if: (github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name != github.repository) && (steps.update.outputs.changed == 'true' || steps.update.outputs.warning-added == 'true')
         run: |
           echo "## Tool List Update for $SERVER_NAME" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -334,7 +292,7 @@ jobs:
             git diff "$SERVER_FILE" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "**Note**: Changes were not committed because this is a workflow dispatch run. To apply these changes:" >> $GITHUB_STEP_SUMMARY
+            echo "**Note**: Changes were not committed automatically. Download the generated artifact or use the diff below to apply them:" >> $GITHUB_STEP_SUMMARY
             echo "1. Create a new branch" >> $GITHUB_STEP_SUMMARY
             echo "2. Apply the changes shown above" >> $GITHUB_STEP_SUMMARY
             echo "3. Open a pull request" >> $GITHUB_STEP_SUMMARY
@@ -360,7 +318,7 @@ jobs:
   commit-all-changes:
     name: Commit All Tool Updates
     needs: [detect-changes, update-tools]
-    if: always() && needs.detect-changes.outputs.has-changes == 'true' && github.event_name == 'pull_request'
+    if: needs.detect-changes.outputs.has-changes == 'true' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -393,7 +351,7 @@ jobs:
           persist-credentials: true
 
       - name: Download all commit info artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           path: /tmp/artifacts/
           pattern: commit-info-*
@@ -419,6 +377,13 @@ jobs:
 
           # Pull any remote changes first to avoid conflicts
           git pull origin "$BRANCH_REF" --rebase
+
+          # Artifacts were generated from the event's head SHA. Never apply
+          # them over contributor edits pushed while this run was active.
+          if [ "$(git rev-parse HEAD)" != "$EXPECTED_HEAD_SHA" ]; then
+            echo "PR branch advanced; skipping stale tool updates" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
 
           # Collect all the server names that were updated
           UPDATED_SERVERS=""
@@ -470,6 +435,7 @@ jobs:
           fi
         env:
           BRANCH_REF: ${{ github.head_ref || github.ref_name }}
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           GH_ACTOR: ${{ github.actor }}
           APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
           APP_USER_ID: ${{ steps.app-user.outputs.id }}
@@ -477,13 +443,13 @@ jobs:
   comment-summary:
     name: Post Summary Comment
     needs: [detect-changes, update-tools]
-    if: always() && needs.detect-changes.outputs.has-changes == 'true'
+    if: needs.detect-changes.outputs.has-changes == 'true' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     steps:
       - name: Download all commit info artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           path: /tmp/comment-artifacts/
           pattern: commit-info-*
@@ -546,31 +512,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
-
-  validate-after-update:
-    name: Validate Updated Servers
-    needs: update-tools
-    if: always()
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          ref: ${{ github.head_ref || github.ref }}
-          persist-credentials: false
-
-      - name: Set up Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
-        with:
-          go-version-file: 'go.mod'
-          cache: true
-
-      - name: Build catalog
-        run: go build -o /tmp/catalog ./cmd/catalog
-
-      - name: Validate all server.json entries
-        run: |
-          echo "Validating all catalog entries after updates..."
-          /tmp/catalog validate -v

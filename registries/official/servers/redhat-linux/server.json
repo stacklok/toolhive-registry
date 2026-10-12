@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.6.0": {
+        "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.7.0": {
           "metadata": {
-            "last_updated": "2026-09-11T01:46:25Z",
+            "last_updated": "2026-10-05T02:21:51Z",
             "stars": 273
           },
           "overview": "## Red Hat Linux MCP Server\n\nThe redhat-linux MCP server provides read-only Linux sysadmin, diagnostics, and troubleshooting optimized for RHEL-based systems. This server delivers comprehensive Linux system diagnostics through real-time monitoring of CPU, memory, disk, and network metrics; process and service management with status and log access; network diagnostics including active connections and listening ports; and file system exploration with configurable path restrictions. All capabilities operate in read-only mode via SSH-based remote execution with secure key-based authentication, preventing system modifications.",
@@ -29,19 +29,16 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
               "name": "get_cpu_information"
@@ -54,19 +51,16 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
               "name": "get_disk_usage"
@@ -79,19 +73,16 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
               "name": "get_hardware_information"
@@ -118,16 +109,11 @@
                     "description": "Number of first log lines to retrieve after applying filters (journalctl -n +N). Mutually exclusive with last_lines."
                   },
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   },
                   "last_lines": {
                     "anyOf": [
@@ -203,7 +189,9 @@
                     "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
               "name": "get_journal_logs"
@@ -216,19 +204,16 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
               "name": "get_listening_ports"
@@ -241,19 +226,16 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
               "name": "get_memory_information"
@@ -266,19 +248,16 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
               "name": "get_network_connections"
@@ -291,19 +270,16 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
               "name": "get_network_interfaces"
@@ -316,16 +292,11 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   },
                   "pid": {
                     "description": "Process ID",
@@ -339,7 +310,8 @@
                   }
                 },
                 "required": [
-                  "pid"
+                  "pid",
+                  "host"
                 ],
                 "type": "object"
               },
@@ -353,16 +325,11 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   },
                   "lines": {
                     "default": 50,
@@ -385,7 +352,8 @@
                   }
                 },
                 "required": [
-                  "service_name"
+                  "service_name",
+                  "host"
                 ],
                 "type": "object"
               },
@@ -399,16 +367,11 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   },
                   "service_name": {
                     "description": "Name of the systemd service",
@@ -424,7 +387,8 @@
                   }
                 },
                 "required": [
-                  "service_name"
+                  "service_name",
+                  "host"
                 ],
                 "type": "object"
               },
@@ -434,23 +398,20 @@
               "annotations": {
                 "readOnlyHint": true
               },
-              "description": "Get basic system information such as operating system, distribution, kernel version, uptime, and last boot time.",
+              "description": "Get basic system information, including operating system, distribution, kernel version, uptime, last boot time, PCP installation and service status, and historical PCP time ranges.",
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
               "name": "get_system_information"
@@ -463,19 +424,16 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
               "name": "list_block_devices"
@@ -488,16 +446,11 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   },
                   "order_by": {
                     "default": "name",
@@ -546,7 +499,8 @@
                   }
                 },
                 "required": [
-                  "path"
+                  "path",
+                  "host"
                 ],
                 "type": "object"
               },
@@ -560,16 +514,11 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   },
                   "order_by": {
                     "default": "name",
@@ -618,7 +567,8 @@
                   }
                 },
                 "required": [
-                  "path"
+                  "path",
+                  "host"
                 ],
                 "type": "object"
               },
@@ -632,19 +582,16 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
               "name": "list_processes"
@@ -657,6 +604,57 @@
               "inputSchema": {
                 "properties": {
                   "host": {
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "host"
+                ],
+                "type": "object"
+              },
+              "name": "list_services"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Returns the PCP metrics guide: a catalog of the metric names recorded on a typical Linux system, and how to read the values the other PCP tools return. Read it before investigating performance with PCP, and take metric names from it rather than from memory.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "host"
+                ],
+                "type": "object"
+              },
+              "name": "pcp_guide"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Browses the PCP metric namespace. Lists the metrics under 'prefix' with their descriptions, collapsing any large sub-namespace to one line giving its name and how many metrics it holds; call again with that name as the prefix to see inside it. Only metrics this system's pmlogger records are listed, so everything listed can be passed to pcp_query_metrics. The pcp_guide tool already names the commonly needed metrics, so reach for this when you need a subsystem the guide does not cover. Use only if get_system_information() indicates PCP is available.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
+                    ],
+                    "type": "string"
+                  },
+                  "prefix": {
                     "anyOf": [
                       {
                         "type": "string"
@@ -666,13 +664,127 @@
                       }
                     ],
                     "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "description": "Namespace to list, such as 'mem' or 'disk.dev'. Omit it to see the top-level namespaces, which is where to start when you do not know the name.",
+                    "examples": [
+                      "mem",
+                      "disk.dev",
+                      "network.interface"
+                    ]
                   }
                 },
-                "required": [],
+                "required": [
+                  "host"
+                ],
                 "type": "object"
               },
-              "name": "list_services"
+              "name": "pcp_list_metrics"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Produces a condensed snapshot of CPU, memory, disk, network, and process information using pcp xsos. Can summarize the live system or a particular time in the past. Use only if get_system_information() indicates PCP is available.",
+              "inputSchema": {
+                "properties": {
+                  "host": {
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
+                    ],
+                    "type": "string"
+                  },
+                  "timestamp": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Optional summary timestamp: a full date and time (e.g., '2026-08-14 14:00:00'), or 'now'. Timestamps without a UTC offset are read in the target system's timezone. If not provided, shows live system summary."
+                  }
+                },
+                "required": [
+                  "host"
+                ],
+                "type": "object"
+              },
+              "name": "pcp_performance_summary"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": true
+              },
+              "description": "Retrieves historical metric data from PCP archives as JSON samples. When start_time, end_time, or interval is omitted, reasonable defaults are chosen, targeting one hour or about 20 samples. Call pcp_guide first for the metric catalog and how to read the values; do not guess metric names. Use only if get_system_information() indicates PCP is available.",
+              "inputSchema": {
+                "properties": {
+                  "end_time": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "End time as a full date and time (e.g., '2026-08-14 16:00:00'), or 'now'. Timestamps without a UTC offset are read in the target system's timezone."
+                  },
+                  "host": {
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
+                    ],
+                    "type": "string"
+                  },
+                  "interval": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Sampling interval (e.g., '1minute', '10seconds', '5minutes')."
+                  },
+                  "metrics": {
+                    "description": "List of PCP metric names to query",
+                    "examples": [
+                      [
+                        "kernel.all.cpu.user",
+                        "kernel.all.cpu.sys",
+                        "mem.util.used"
+                      ]
+                    ],
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "start_time": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Start time as a full date and time (e.g., '2026-08-14 14:00:00'), or 'now'. Timestamps without a UTC offset are read in the target system's timezone."
+                  }
+                },
+                "required": [
+                  "metrics",
+                  "host"
+                ],
+                "type": "object"
+              },
+              "name": "pcp_query_metrics"
             },
             {
               "annotations": {
@@ -682,16 +794,11 @@
               "inputSchema": {
                 "properties": {
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   },
                   "path": {
                     "description": "Absolute path to the file to read",
@@ -706,7 +813,8 @@
                   }
                 },
                 "required": [
-                  "path"
+                  "path",
+                  "host"
                 ],
                 "type": "object"
               },
@@ -734,16 +842,11 @@
                     "description": "Number of first lines to retrieve from the log file. Mutually exclusive with last_lines."
                   },
                   "host": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
+                    "description": "Remote system to connect to via SSH",
+                    "examples": [
+                      "web1.example.com"
                     ],
-                    "default": null,
-                    "description": "Remote host to connect to via SSH"
+                    "type": "string"
                   },
                   "last_lines": {
                     "anyOf": [
@@ -772,7 +875,8 @@
                   }
                 },
                 "required": [
-                  "log_path"
+                  "log_path",
+                  "host"
                 ],
                 "type": "object"
               },
@@ -797,6 +901,10 @@
             "list_files",
             "list_processes",
             "list_services",
+            "pcp_guide",
+            "pcp_list_metrics",
+            "pcp_performance_summary",
+            "pcp_query_metrics",
             "read_file",
             "read_log_file"
           ]
@@ -841,7 +949,7 @@
           "name": "LINUX_MCP_LOG_LEVEL"
         }
       ],
-      "identifier": "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.6.0",
+      "identifier": "quay.io/redhat-services-prod/rhel-lightspeed-tenant/linux-mcp-server:1.7.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

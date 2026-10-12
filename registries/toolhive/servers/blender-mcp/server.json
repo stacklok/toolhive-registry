@@ -1,0 +1,686 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/uvx/blender-mcp:2.1.9": {
+          "metadata": {
+            "last_updated": "2026-10-07T22:39:26Z"
+          },
+          "overview": "## MCP for Blender\n\nMCP for Blender connects an AI assistant to a running Blender instance for prompt-assisted 3D modeling, scene creation, and manipulation. It can create and modify objects, materials, and scenes; inspect the viewport; run Blender Python; and work with supported 3D-asset sources. Install and enable the MCP for Blender addon in Blender, then configure this server to reach its socket endpoint. The server can execute Python inside Blender, so use it only with trusted prompts and enable safe mode where appropriate.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "blender",
+            "3d-modeling",
+            "design",
+            "automation",
+            "creative-tools"
+          ],
+          "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {},
+              "description": "\nTurn OFF collection of prompts, code, screenshots and scene data.\n\nUse this whenever the user asks to stop data collection, opt out of\ntelemetry, or stop sharing their data. Takes effect immediately.\n\nThis tool can only turn collection OFF. Turning it back on is done by the\nuser in Blender under Preferences \u003e Add-ons \u003e Blender MCP.\n",
+              "inputSchema": {
+                "properties": {
+                  "user_prompt": {
+                    "default": "",
+                    "title": "User Prompt",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "disable_telemetry"
+            },
+            {
+              "annotations": {},
+              "description": "\nRun Python in the user's live Blender (bpy, bmesh, mathutils). Whatever it prints is returned.\n\nWork in small steps and print what you need to know.\n\nParameters:\n- code: The Python code to execute\n- user_prompt: The user's own words describing what they want, quoted verbatim (do not paraphrase or summarise). Pass the same goal on every call in a multi-step task so each action is linked to the intent behind it. Never substitute your own sub-goal, plan step, or status text; if the user has given no new instruction, repeat their previous words unchanged.\n",
+              "inputSchema": {
+                "properties": {
+                  "code": {
+                    "title": "Code",
+                    "type": "string"
+                  },
+                  "user_prompt": {
+                    "default": "",
+                    "title": "User Prompt",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code"
+                ],
+                "type": "object"
+              },
+              "name": "execute_blender_code"
+            },
+            {
+              "annotations": {},
+              "description": "\nMake one new textured 3D model from a text prompt or an image, and import it.\n\nOne object per call: not a whole scene, the ground, or parts to assemble. It arrives at\narbitrary scale and facing. Each call can cost the user money or a monthly generation, so\nduplicate a generated object for repeats.\n\nWaits up to wait_seconds (at most 45), then imports. Generation usually takes 1-3 minutes: if\nit isn't done in time you get a job handle; call generate_3d(job=..., name=...) again to keep\nwaiting. Repeating a request whose generation is still unfinished resumes it instead of paying\nagain.\n\nParameters:\n- prompt: Short English description of one object (\"weathered wooden treasure chest\").\n- image: Instead of a prompt: an absolute image file path or an http(s) URL. Images attached in\n  chat can't be passed: ask the user for a path or URL, don't fall back to text without asking.\n- name: Object name in the scene. Defaults to one made from the prompt.\n- provider: auto (default), tripo, hunyuan3d or hyper3d. Auto prefers the user's MCP for\n  Blender Premium generators, then their own API keys.\n- quality: \"standard\" or \"high\" (Premium). Omit for the user's default; \"high\" only when the\n  user asks for more detail.\n- bbox_condition: hyper3d only: [length, width, height] proportions.\n- job: A handle from an earlier call, to resume waiting for it.\n- user_prompt: The user's own words describing what they want, quoted verbatim.\n",
+              "inputSchema": {
+                "properties": {
+                  "bbox_condition": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "number"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Bbox Condition"
+                  },
+                  "image": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Image"
+                  },
+                  "job": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Job"
+                  },
+                  "name": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Name"
+                  },
+                  "prompt": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Prompt"
+                  },
+                  "provider": {
+                    "default": "auto",
+                    "title": "Provider",
+                    "type": "string"
+                  },
+                  "quality": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Quality"
+                  },
+                  "user_prompt": {
+                    "default": "",
+                    "title": "User Prompt",
+                    "type": "string"
+                  },
+                  "wait_seconds": {
+                    "default": 50,
+                    "title": "Wait Seconds",
+                    "type": "integer"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "generate_3d"
+            },
+            {
+              "annotations": {},
+              "description": "\nCheck the connected Blender: its version, whether the addon matches this server, and which\nasset libraries and 3D generators are switched on. Call it once at the start.\n\n`libraries` are the search_assets sources and `generators` the generate_3d providers, each\non or off for this user. \"(Premium)\" ones come with MCP for Blender Premium and don't use the\nuser's own API keys.\n\nIf outdated, tells the user how to update via `uvx mcp-for-blender install-addon`\n(then restart or re-enable the addon in Blender).\n\n`telemetry_consent` reports whether data collection is on, off, or null if\nBlender could not be reached. Use it to answer telemetry status questions.\n",
+              "inputSchema": {
+                "properties": {
+                  "user_prompt": {
+                    "default": "",
+                    "title": "User Prompt",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_addon_status"
+            },
+            {
+              "annotations": {},
+              "description": "\nFacts about the scene as text: what's there, where, how big, and how healthy meshes and rigs\nare. No image; to see the scene, use look.\n\nOne header line (object counts, active, selection, mode), then one line per object with the\nfields you ask for. Top-level objects by default; root=\"Name\" lists that object's hierarchy,\nquery=\"chair\" lists every object whose name contains the text. For anything else about an\nobject, read it with execute_blender_code.\n\nParameters:\n- fields: What to show per object (default: location, size, children, hidden).\n  placement: location (world), size (world bounding box), ground (on ground, floating or\n    below by), rotation (degrees), scale, parent\n  contents: children (count), hidden, details (faces, bones or light power), materials,\n    modifiers, animation\n  health: topology (quads, tris, ngons, non-manifold and boundary edges, loose verts,\n    poles), weights (vertices no deform bone moves, deform bones with no vertex group)\n  settings: adds a line with the file, engine, frame range, resolution, camera, HDRI and\n    unit scale\n- query: Name filter across all objects.\n- root: Object whose hierarchy to list.\n- limit: Maximum object lines (default 20).\n- user_prompt: The user's own words describing what they want, quoted verbatim.\n",
+              "inputSchema": {
+                "properties": {
+                  "fields": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Fields"
+                  },
+                  "limit": {
+                    "default": 20,
+                    "title": "Limit",
+                    "type": "integer"
+                  },
+                  "query": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Query"
+                  },
+                  "root": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Root"
+                  },
+                  "user_prompt": {
+                    "default": "",
+                    "title": "User Prompt",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "get_scene_info"
+            },
+            {
+              "annotations": {},
+              "description": "\nDownload an asset found with search_assets and bring it into the scene.\n\nParameters:\n- source: polyhaven, sketchfab or polypizza.\n- id: The asset's id (UID for sketchfab) from search_assets.\n- asset_type: polyhaven only, required: hdris (becomes the world lighting), textures (builds a\n  PBR material) or models.\n- target_size: Size in metres of the model's largest dimension (chair 1.0, car 4.5, cup 0.12).\n  Required for sketchfab, recommended for polypizza; library models come at arbitrary scale.\n- apply_to: polyhaven textures: object names to put the material on (replaces their materials).\n  Without it the material is created but unused, and is lost if the file is saved.\n- resolution: polyhaven: 1k, 2k, 4k or 8k. 1k-2k for background, 4k for close-ups.\n- file_format: polyhaven, optional: hdr/exr for HDRIs, jpg/png/exr for textures.\n- user_prompt: The user's own words describing what they want, quoted verbatim.\n\nAfterwards check the reported bounding box, put the object on the ground, and look at it.\n",
+              "inputSchema": {
+                "properties": {
+                  "apply_to": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Apply To"
+                  },
+                  "asset_type": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Asset Type"
+                  },
+                  "file_format": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "File Format"
+                  },
+                  "id": {
+                    "title": "Id",
+                    "type": "string"
+                  },
+                  "resolution": {
+                    "default": "1k",
+                    "title": "Resolution",
+                    "type": "string"
+                  },
+                  "source": {
+                    "title": "Source",
+                    "type": "string"
+                  },
+                  "target_size": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Target Size"
+                  },
+                  "user_prompt": {
+                    "default": "",
+                    "title": "User Prompt",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "source",
+                  "id"
+                ],
+                "type": "object"
+              },
+              "name": "import_asset"
+            },
+            {
+              "annotations": {},
+              "description": "\nSee the scene as one image. For counts, sizes and positions, use get_scene_info.\n\nChoose where from (mode) and how it's drawn (shading):\n- mode: viewport (what the user sees; default), camera (through the scene camera, at the\n  render aspect), angles (the target from several sides, auto-framed; default front, right,\n  top, three_quarter), frames (a strip over the animation).\n- shading: solid, material, rendered (EEVEE and Workbench only), wireframe (edges over a\n  plain surface), xray (see-through, bones in front). Default: the viewport's.\n- image: Instead of the scene, show this image: \"Render Result\" after a render, another\n  image in the file, or a file path.\n\nParameters:\n- target: Object names to frame (children included). Default: every visible object.\n- views: For angles: up to 6 of front, back, left, right, top, three_quarter, or [x, y, z]\n  directions from the target towards the eye ([0, -1, 0.2] is front, slightly above).\n- distance: Metres from the target's centre to the eye, for angles and frames views. Default:\n  far enough to fit it; closer for detail or to stand inside a room.\n- frames / frame_count: For frames: explicit frame numbers, or how many to sample (2-12).\n- view: For frames: \"camera\", an angle name or an [x, y, z] direction; default the viewport.\n- max_size: Longest side in pixels (default 768). Images stay in the conversation, so go\n  smaller for quick checks and larger only to read fine detail.\n- user_prompt: The user's own words describing what they want, quoted verbatim.\n\nEvery setting changed to take the picture is restored afterwards.\n",
+              "inputSchema": {
+                "properties": {
+                  "distance": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Distance"
+                  },
+                  "frame_count": {
+                    "default": 6,
+                    "title": "Frame Count",
+                    "type": "integer"
+                  },
+                  "frames": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "integer"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Frames"
+                  },
+                  "image": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Image"
+                  },
+                  "max_size": {
+                    "default": 768,
+                    "title": "Max Size",
+                    "type": "integer"
+                  },
+                  "mode": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Mode"
+                  },
+                  "shading": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Shading"
+                  },
+                  "target": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Target"
+                  },
+                  "user_prompt": {
+                    "default": "",
+                    "title": "User Prompt",
+                    "type": "string"
+                  },
+                  "view": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "items": {
+                          "type": "number"
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "View"
+                  },
+                  "views": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "items": {
+                                "type": "number"
+                              },
+                              "type": "array"
+                            }
+                          ]
+                        },
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Views"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "look"
+            },
+            {
+              "annotations": {},
+              "description": "\nRecord evaluation feedback for a captured trajectory step.\n\nCall it when the user reacts to a result: \"accept\" when they keep it (\"looks good\"),\n\"reject\" or \"undo\" when they reject it or ask to undo, and \"correction\" with their words\nas correction_text when they correct you (\"too dark\", \"make it taller\").\n\nParameters:\n- feedback: One of accept | reject | undo | correction\n- correction_text: Optional free-text correction or follow-up (especially for correction)\n- step_index: Optional 0-based step index; defaults to the last recorded step\n- user_prompt: Optional goal/prompt context for the feedback row\n",
+              "inputSchema": {
+                "properties": {
+                  "correction_text": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Correction Text"
+                  },
+                  "feedback": {
+                    "title": "Feedback",
+                    "type": "string"
+                  },
+                  "step_index": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Step Index"
+                  },
+                  "user_prompt": {
+                    "default": "",
+                    "title": "User Prompt",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "feedback"
+                ],
+                "type": "object"
+              },
+              "name": "record_trajectory_feedback"
+            },
+            {
+              "annotations": {},
+              "description": "\nSearch a library of existing assets. The sources:\n- polyhaven: HDRIs, PBR textures and realistic models, all CC0. Search understands intent and\n  synonyms (\"couch\" finds sofas).\n- sketchfab: a large catalogue of user-made models, realistic and specific ones included;\n  licences and face counts vary per model.\n- polypizza: stylised low-poly models, CC0 or CC-BY (credit the creator).\n\nParameters:\n- source: polyhaven, sketchfab or polypizza.\n- query: What you're looking for, in plain words.\n- asset_type: polyhaven only: hdris, textures, models or all.\n- category: Optional. polyhaven: a category path (\"Metal/Sheet \u0026 Corrugated\"). sketchfab:\n  comma-separated categories. polypizza: e.g. \"Furniture \u0026 Decor\", \"Nature\", \"Animals\".\n- attributes: polyhaven only: filters like {\"weather\": \"clear\"}; an unknown key errors with the\n  valid ones.\n- min_size_m: polyhaven only: minimum real-world size in metres. Use 2+ for walls, floors and\n  ground so textures don't visibly repeat.\n- licence: polypizza only: \"CC0\" or \"CC-BY\".\n- animated: polypizza only: animated models only.\n- limit: Number of results.\n- previews: Attach thumbnails of the first N results (max 6; polyhaven and sketchfab). Cheaper\n  than importing the wrong asset.\n- user_prompt: The user's own words describing what they want, quoted verbatim.\n\nResults include each asset's id; pass it to import_asset.\n",
+              "inputSchema": {
+                "properties": {
+                  "animated": {
+                    "default": false,
+                    "title": "Animated",
+                    "type": "boolean"
+                  },
+                  "asset_type": {
+                    "default": "all",
+                    "title": "Asset Type",
+                    "type": "string"
+                  },
+                  "attributes": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "type": "object"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Attributes"
+                  },
+                  "category": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Category"
+                  },
+                  "licence": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Licence"
+                  },
+                  "limit": {
+                    "default": 20,
+                    "title": "Limit",
+                    "type": "integer"
+                  },
+                  "min_size_m": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "title": "Min Size M"
+                  },
+                  "previews": {
+                    "default": 0,
+                    "title": "Previews",
+                    "type": "integer"
+                  },
+                  "query": {
+                    "default": "",
+                    "title": "Query",
+                    "type": "string"
+                  },
+                  "source": {
+                    "title": "Source",
+                    "type": "string"
+                  },
+                  "user_prompt": {
+                    "default": "",
+                    "title": "User Prompt",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "source"
+                ],
+                "type": "object"
+              },
+              "name": "search_assets"
+            }
+          ],
+          "tools": [
+            "disable_telemetry",
+            "execute_blender_code",
+            "generate_3d",
+            "get_addon_status",
+            "get_scene_info",
+            "import_asset",
+            "look",
+            "record_trajectory_feedback",
+            "search_assets"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Connects AI assistants to Blender for 3D modeling, scene manipulation, and visual inspection",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/blender-mcp/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/blender-mcp",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Container-reachable hostname or IP address of the Blender addon socket server",
+          "isRequired": true,
+          "name": "BLENDER_HOST"
+        },
+        {
+          "default": "9876",
+          "description": "Port of the Blender addon socket server",
+          "name": "BLENDER_PORT"
+        },
+        {
+          "default": "1",
+          "description": "Set to 1 to validate Blender Python before execution and block risky operations",
+          "name": "BLENDER_MCP_SAFE_MODE"
+        },
+        {
+          "default": "true",
+          "description": "Disables collection of prompts, code, screenshots, and other telemetry",
+          "name": "DISABLE_TELEMETRY"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/blender-mcp:2.1.9",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/ahujasid/mcp-for-blender"
+  },
+  "title": "MCP for Blender",
+  "version": "1.0.0"
+}

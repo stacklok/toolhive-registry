@@ -28,6 +28,7 @@ each type.
   - [Open source requirements](#open-source-requirements)
   - [Acceptable licenses](#acceptable-licenses)
   - [Proprietary service references](#proprietary-service-references)
+  - [Usefulness and fit](#usefulness-and-fit)
   - [Community health](#community-health)
 - [Evaluation framework](#evaluation-framework)
   - [Scoring system](#scoring-system)
@@ -106,6 +107,23 @@ proprietary services (e.g., GitHub, Stripe, Jira) provided the entry itself
 is published by the official vendor of that service. For example, a GitHub MCP
 server published by GitHub is acceptable, even though GitHub itself is not
 open source.
+
+### Usefulness and fit
+
+**Expected**: entries should describe a concrete workflow they enable for
+ToolHive users and the value their MCP server or skill adds. Where similar
+options exist, explain any meaningful differences. A useful integration does
+not need to introduce a novel capability.
+
+Review considers whether the entry provides useful, documented capabilities
+and accurately describes its limitations, authentication, and costs. A short
+workflow example in the README or catalog overview can make that value clear.
+Promotional claims alone do not establish usefulness.
+
+A specialized audience, commercial service, unfamiliar vendor, or small
+community is not by itself grounds for rejection. Usefulness is evaluated
+separately from first-party provenance and alongside the other inclusion
+criteria. Official and Community entries are subject to the same expectation.
 
 ### Community health
 
