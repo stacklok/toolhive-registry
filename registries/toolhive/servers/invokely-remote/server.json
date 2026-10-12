@@ -1,0 +1,56 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://invokely.ai/mcp/trial": {
+          "custom_metadata": {
+            "author": "Invokely",
+            "homepage": "https://invokely.ai/docs"
+          },
+          "overview": "## Invokely Remote MCP Server\n\nInvokely's hosted MCP server provides tools to find indicators, resolve places, retrieve values and time series, compare places, and rank areas using official statistics. Results include the period, place, unit, publisher source, and citation.\n\nConnect directly over Streamable HTTP at https://invokely.ai/mcp/trial. The account-free trial allows 25 tool calls per day per IP address, as listed on the public pricing page.\n\nThe public GitHub repository contains Invokely's MIT-licensed local stdio connector. It explicitly does not include the hosted service backend.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "statistics",
+            "official-data",
+            "public-data",
+            "economics"
+          ],
+          "tier": "Official",
+          "tools": [
+            "search_indicators",
+            "resolve_place",
+            "get_value",
+            "get_series",
+            "compare",
+            "rank_places"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Official remote MCP for cited statistics in the United States, EU, Spain, and World Bank countries",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/invokely-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/invokely-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://invokely.ai/mcp/trial"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/estevecastells/invokely-mcp-connector"
+  },
+  "title": "Invokely (Remote)",
+  "version": "1.0.0"
+}
