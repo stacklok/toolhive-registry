@@ -1,0 +1,56 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://councilof.ai/mcp/free": {
+          "custom_metadata": {
+            "author": "Council of AI (CSOAI Ltd)",
+            "homepage": "https://councilof.ai",
+            "license": "MIT"
+          },
+          "overview": "## Council of AI GSPC (Remote)\n\nFree, read-only MCP server. Reads Council of AI's signed board of AI measurements, verifies signed measurement records and Merkle inclusion proofs, and reads published measurements of public MCP servers. Measurement, not certification.",
+          "status": "Active",
+          "tier": "Community",
+          "tags": [
+            "remote",
+            "measurement",
+            "signed-evidence",
+            "verification",
+            "ai-governance"
+          ],
+          "tools": [
+            "board_totals",
+            "get_axis",
+            "verify_card",
+            "list_cards",
+            "get_root",
+            "get_card",
+            "verify_inclusion",
+            "x402_trust",
+            "mcp_trust",
+            "measurement_index",
+            "verify_capsule",
+            "server_evidence",
+            "evidence_bundle_preview",
+            "route"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Read a signed AI measurement board and verify signed measurement records (free, read-only)",
+  "name": "io.github.stacklok/council-of-ai-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://councilof.ai/mcp/free"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/CSOAI-ORG/councilof-ai"
+  },
+  "title": "Council of AI (Remote)",
+  "version": "1.0.0"
+}
