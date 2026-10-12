@@ -1,0 +1,80 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/unified-ai-system",
+  "title": "Unified AI System",
+  "description": "Fake-provider MCP preview of an AI gateway: local prompt structuring, workflow runs, status tools",
+  "repository": {
+    "url": "https://github.com/happy520ai/unified-ai-system",
+    "source": "github"
+  },
+  "version": "0.8.0",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/unified-ai-system/icon.svg"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/happy520ai/unified-ai-system/mcp-server:0.8.0@sha256:626b0a0c9c503083ba34ae77d563da4edcb744d62723c58805621ed9262873f6",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "MCP_SERVICE_LOG_FILE",
+          "description": "Optional. Route the server diagnostic lines to this file instead of stderr. Not required to run.",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
+          "name": "MCP_SUPERVISED",
+          "description": "Optional. Set to 1 when the process is supervised by the mcp-service package, which changes where diagnostics are written. Not required to run.",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/happy520ai/unified-ai-system/mcp-server:0.8.0@sha256:626b0a0c9c503083ba34ae77d563da4edcb744d62723c58805621ed9262873f6": {
+          "tier": "Community",
+          "status": "Active",
+          "overview": "## Unified AI System (preview)\n\nUnified AI System is a self-hosted AI gateway; this image is its MCP preview. On start it launches an isolated gateway on container loopback that is pinned to a deterministic fake provider, so it needs no credentials, calls no model provider, and the MCP surface refuses any gateway that could call a real one. The useful part in ToolHive is local, provider-free tooling: `gateway_prompt_enhance` turns a plain-language request into a structured prompt (task profile, output language, optional plan-verify-report protocol for agents), `workflow_run` executes a three-step local workflow that writes one artifact inside the container, and read-only tools report gateway, knowledge, workflow, workforce and agent-governance status. `gateway_chat` returns fake responses only; it demonstrates the fail-closed provider check and does not generate useful text. Typical workflow: `thv run unified-ai-system`, connect your MCP client through ToolHive, and ask it to structure a request with `gateway_prompt_enhance` before handing the result to the model you already use. The image is pinned to its linux/amd64 manifest; the 0.8.0 arm64 variant ships x86-64 native modules and is not supported (happy520ai/unified-ai-system#190).",
+          "tags": [
+            "ai-gateway",
+            "mcp",
+            "self-hosted",
+            "prompt-enhancement",
+            "agent-governance",
+            "local-first",
+            "preview"
+          ],
+          "tools": [
+            "agent_governance_describe",
+            "agent_governance_list",
+            "agent_governance_status",
+            "gateway_chat",
+            "gateway_health",
+            "gateway_prompt_enhance",
+            "gateway_prompt_enhance_llm",
+            "gateway_readiness",
+            "knowledge_readiness",
+            "knowledge_retrieve",
+            "workflow_actions",
+            "workflow_health",
+            "workflow_run",
+            "workforce_agents",
+            "workforce_health"
+          ]
+        }
+      }
+    }
+  }
+}
