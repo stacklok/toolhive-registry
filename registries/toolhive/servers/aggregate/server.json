@@ -1,0 +1,91 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://app.aggregate.finance/mcp": {
+          "custom_metadata": {
+            "author": "Aggregate",
+            "homepage": "https://aggregate.finance",
+            "license": "AGPL-3.0 (open-sourcing at launch)"
+          },
+          "overview": "## Aggregate MCP Server\n\nAggregate puts every company's money in one ledger for your AI: cash, runway, burn, invoices, payroll and books, from your banks and cards (Plaid, SimpleFIN, Mercury, Brex, Ramp, Wise), payments (Stripe, Square, Shopify, Paddle, App Store, Google Play), accounting (QuickBooks, Xero) and payroll. It reads from your providers and can't move money; anything your AI records is labeled and can be undone for 30 days. Sign-in is OAuth 2.1 with dynamic client registration, and each connection is scoped to the companies and data types you choose.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "finance",
+            "accounting",
+            "bookkeeping",
+            "cash-flow",
+            "runway",
+            "invoices",
+            "payroll",
+            "oauth"
+          ],
+          "tier": "Community",
+          "tools": [
+            "whoami",
+            "get_activity",
+            "get_overview",
+            "get_metric",
+            "list_accounts",
+            "get_coverage",
+            "get_liabilities",
+            "get_holdings",
+            "get_mrr_movements",
+            "search_transactions",
+            "query_transactions",
+            "search_invoices",
+            "query_invoices",
+            "get_record",
+            "get_counterparty",
+            "list_upcoming",
+            "list_recurring",
+            "get_owner_balance",
+            "list_buckets",
+            "get_bucket",
+            "get_cap_table",
+            "get_payroll",
+            "list_review_items",
+            "list_documents",
+            "get_document",
+            "get_reports",
+            "refresh_balance",
+            "add_entry",
+            "add_invoice",
+            "record_payment",
+            "create_bucket",
+            "update_bucket",
+            "create_rule",
+            "update_record",
+            "record_equity_event",
+            "resolve_review_item",
+            "void_record",
+            "pin_balance",
+            "close_period",
+            "reopen_period"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Every company's money in one ledger: cash, runway, invoices, payroll. Records money, can't move it.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/aggregate/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/aggregate",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://app.aggregate.finance/mcp"
+    }
+  ],
+  "title": "Aggregate",
+  "version": "1.0.0"
+}
