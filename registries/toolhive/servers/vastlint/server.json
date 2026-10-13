@@ -1,0 +1,76 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/vastlint",
+  "description": "Validate VAST, VMAP, and DAAST ad tags against IAB Tech Lab specs",
+  "title": "VASTlint",
+  "repository": {
+    "url": "https://github.com/aleksUIX/vastlint",
+    "source": "github"
+  },
+  "version": "0.9.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://vastlint.org/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Optional for public tools. For protected AdCP operations, supply Bearer followed by a valid operator token. Keep the token secret.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://vastlint.org/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "vast",
+            "vmap",
+            "daast",
+            "iab",
+            "validator",
+            "advertising"
+          ],
+          "tools": [
+            "validate_vast",
+            "validate_vast_url",
+            "inspect_vast",
+            "list_rules",
+            "explain_rule",
+            "fix_vast",
+            "get_adcp_capabilities",
+            "list_content_standards",
+            "create_content_standards",
+            "get_content_standards",
+            "update_content_standards",
+            "delete_content_standards",
+            "calibrate_content",
+            "validate_content_delivery",
+            "list_creatives"
+          ],
+          "custom_metadata": {
+            "author": "aleksUIX",
+            "homepage": "https://vastlint.org/docs/mcp/",
+            "license": "Apache-2.0"
+          },
+          "overview": "VASTlint validates VAST, VMAP, and DAAST ad tags against IAB Tech Lab specifications. The six validation tools, get_adcp_capabilities, and the static list_content_standards catalog are public; account-scoped list_content_standards and the seven other content-standards or creative operations require authentication. For protected operations, configure the MCP client to send the optional Authorization header as Bearer <token> using a valid operator token. The hosted service may retain submitted XML after stripping known device IDs, IP addresses, and consent query parameters, and may request URLs in stored tags during research; the [privacy policy](https://vastlint.org/privacy/) describes storage, research use, and exclusion requests without specifying a fixed retention period. Use local vastlint-mcp over stdio to avoid hosted tag storage; this catalog version matches the hosted initialize response (0.9.0), rather than the previously listed package version (0.13.6)."
+        }
+      }
+    }
+  },
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/vastlint/icon.svg"
+    }
+  ]
+}
