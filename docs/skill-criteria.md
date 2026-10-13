@@ -197,6 +197,7 @@ for an explanation of the severity levels.
 | Sensitive information handling | Required | -- |
 | Repository activity and author reputation | Expected | Higher importance for skills |
 | Documentation of dependencies and usage | Expected | -- |
+| [Concrete workflow and user value](registry-criteria.md#usefulness-and-fit) | Expected | -- |
 | Pinned dependencies / Actions pinned to SHAs | Recommended | Required for MCP servers |
 | Software provenance (Sigstore / GitHub Attestations) | Recommended | Expected for MCP servers |
 | Automated security scanning in CI | Recommended | Expected for MCP servers |

@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.6.0": {
+        "ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.7.0": {
           "metadata": {
-            "last_updated": "2026-09-11T01:46:01Z",
+            "last_updated": "2026-10-09T02:14:14Z",
             "stars": 800
           },
           "overview": "## ClickHouse MCP Server\n\nThe mcp-clickhouse server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with ClickHouse, the high-performance, column-oriented analytical database. It allows AI-driven workflows to query large datasets, inspect schemas, and analyze analytical workloads without requiring users to switch tools or embed ClickHouse-specific client logic. This server is especially useful for analytics, observability, log analysis, and data exploration workflows where fast, read-heavy queries and large-scale datasets are common.",
@@ -109,9 +109,21 @@
             },
             {
               "annotations": {},
-              "description": "Execute SQL queries in ClickHouse. Queries run in read-only mode by default. Set CLICKHOUSE_ALLOW_WRITE_ACCESS=true to allow DDL and DML operations. Set CLICKHOUSE_ALLOW_DROP=true to additionally allow destructive operations (DROP, TRUNCATE, DELETE, UPDATE, REPLACE TABLE/PARTITION, CREATE OR REPLACE, CLEAR COLUMN/INDEX/PROJECTION, DETACH PERMANENTLY). That gate is a best-effort accident guard, not a security boundary. Integers outside [-9007199254740991, 9007199254740991] are returned as decimal strings.",
+              "description": "Execute SQL queries in ClickHouse. Queries run in read-only mode by default. Bind optional params by name with {name:Type} placeholders, such as {name:String} or {vector:Array(Float32)}. Values may be JSON scalars, nulls, or arrays. Pass exact large integers as decimal strings. JSON lists and objects cannot bind to Tuple and Map types. Python percent formatting and $name$ raw binary parameters are not supported. Parameter values stay out of the MCP server's normal SQL log lines, but may appear in errors and backend logs. Set CLICKHOUSE_ALLOW_WRITE_ACCESS=true to allow DDL and DML operations. Set CLICKHOUSE_ALLOW_DROP=true to additionally allow destructive operations (DROP, TRUNCATE, DELETE, UPDATE, REPLACE TABLE/PARTITION, CREATE OR REPLACE, CLEAR COLUMN/INDEX/PROJECTION, DETACH PERMANENTLY). That gate is a best-effort accident guard, not a security boundary. Integers outside [-9007199254740991, 9007199254740991] are returned as decimal strings. Two optional checks also run through this tool. Use DESCRIBE (\u003cquery\u003e) when you need a query's output columns and types; it inspects the result schema and surfaces analysis errors such as an unknown column, but a query that describes cleanly can still fail at runtime. Consider EXPLAIN ESTIMATE \u003cquery\u003e before a SELECT that could be expensive; it returns the estimated parts, rows and marks read from MergeTree family tables, which is not run time and not result size. Neither runs the query body, though analysis can execute scalar subqueries.",
               "inputSchema": {
                 "properties": {
+                  "params": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "type": "object"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
                   "query": {
                     "type": "string"
                   }
@@ -164,8 +176,7 @@
           "name": "CLICKHOUSE_PASSWORD"
         },
         {
-          "default": "8443",
-          "description": "The port number of your ClickHouse server",
+          "description": "ClickHouse server port; defaults to 8443 when CLICKHOUSE_SECURE is true and 8123 otherwise",
           "name": "CLICKHOUSE_PORT"
         },
         {
@@ -193,7 +204,7 @@
           "name": "CHDB_DATA_PATH"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.6.0",
+      "identifier": "ghcr.io/stacklok/dockyard/uvx/mcp-clickhouse:0.7.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"

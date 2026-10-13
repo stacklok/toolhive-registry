@@ -1,0 +1,267 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/stacklok/dockyard/npx/mcp-searxng:2.5.1": {
+          "metadata": {
+            "last_updated": "2026-10-09T03:02:53Z",
+            "stars": 1288
+          },
+          "overview": "## SearXNG MCP Server\n\nSearXNG MCP Server connects AI assistants to an operator-controlled or trusted SearXNG instance for privacy-respecting web search. It supports searching, query suggestions, instance discovery, and reading selected public URLs as text or Markdown. Configure the SearXNG endpoint to a service you operate or trust, because that service receives search queries. URL reading intentionally reaches user-supplied public URLs, so the server requires broad outbound-network access.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "insecure_allow_all": true
+              }
+            }
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/stacklok/dockyard",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/build-containers.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          },
+          "status": "Active",
+          "tags": [
+            "search",
+            "web-search",
+            "searxng",
+            "privacy",
+            "url-reader"
+          ],
+          "tier": "Community",
+          "tool_definitions": [
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Discovers capabilities from all reachable configured SearXNG instances via /config, including categories.common/available, engines.common/available, defaults, locales, and plugins.",
+              "inputSchema": {
+                "properties": {
+                  "category": {
+                    "description": "Filter categories and engines to a single category name.",
+                    "type": "string"
+                  },
+                  "includeDisabled": {
+                    "default": false,
+                    "description": "Include disabled engine names when includeEngines is true.",
+                    "type": "boolean"
+                  },
+                  "includeEngines": {
+                    "default": false,
+                    "description": "Include enabled engine names in the response.",
+                    "type": "boolean"
+                  },
+                  "refresh": {
+                    "default": false,
+                    "description": "Bypass the process cache and fetch fresh /config data.",
+                    "type": "boolean"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "name": "searxng_instance_info"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Returns autocomplete suggestions from the configured SearXNG instance. Use this to refine vague or partial queries before searching.",
+              "inputSchema": {
+                "properties": {
+                  "language": {
+                    "default": "all",
+                    "description": "Language code for suggestions (e.g., 'en', 'fr', 'de') or 'all'. Default: all.",
+                    "type": "string"
+                  },
+                  "query": {
+                    "description": "Partial or complete query to autocomplete.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "searxng_search_suggestions"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Searches the web using SearXNG and returns a list of results, each with a title, URL, and content snippet. CRITICAL: The required parameter name is exactly `query` (not `prompt`, `q`, or any other name). Calls an external SearXNG instance; availability depends on the `SEARXNG_URL` configuration. Use `pageno` to paginate results; combine `time_range` and `language` to narrow scope. When `engines` and `time_range` are both provided, every selected engine must explicitly advertise time-range support via SearXNG /config; otherwise the request is rejected before search. To read the full text of a result URL, follow up with `web_url_read`.",
+              "inputSchema": {
+                "properties": {
+                  "categories": {
+                    "description": "Comma-separated SearXNG categories. Live /config capabilities are aggregated across reachable instances; prefer searxng_instance_info categories.common for consistent multi-instance results. Values in categories.available are best-effort and may only be honored by some instances. Known values are normalized case-insensitively; unknown values are forwarded trimmed so SearXNG can ignore or honor them. If /config is unavailable, values are forwarded as-is with a warning. If omitted, each instance uses its server-side default.",
+                    "type": "string"
+                  },
+                  "engines": {
+                    "description": "Comma-separated SearXNG engine names to query (e.g. 'google,bing,ddg'). Live /config capabilities are aggregated across reachable instances; prefer searxng_instance_info engines.common.enabled for consistent multi-instance results. Values in engines.available.enabled are best-effort and may only be honored by some instances. Known values are normalized case-insensitively; unknown values are forwarded trimmed so SearXNG can ignore or honor them. If /config is unavailable, values are forwarded as-is with a warning. If omitted, each instance uses its server-side default.",
+                    "type": "string"
+                  },
+                  "language": {
+                    "default": "all",
+                    "description": "Language code for search results (e.g., 'en', 'fr', 'de'). Default is instance-dependent.",
+                    "type": "string"
+                  },
+                  "min_score": {
+                    "description": "Minimum relevance score threshold from 0.0 to 1.0. Results below this score are filtered out.",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "num_results": {
+                    "description": "Maximum number of results to return (1-20). Operator cap SEARXNG_MAX_RESULTS applies as a ceiling.",
+                    "maximum": 20,
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "pageno": {
+                    "default": 1,
+                    "description": "Search page number (starts at 1)",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "query": {
+                    "description": "The search query string. This is the required parameter name — use exactly `query`, not `prompt` or `q`.",
+                    "type": "string"
+                  },
+                  "response_format": {
+                    "description": "Response format: formatted text for agents or raw JSON for programmatic clients. If omitted, SEARXNG_DEFAULT_RESPONSE_FORMAT applies; if unset or invalid, text is used. An explicit response_format always takes precedence.",
+                    "enum": [
+                      "text",
+                      "json"
+                    ],
+                    "type": "string"
+                  },
+                  "result_detail": {
+                    "description": "Result detail: full preserves SearXNG metadata and search signals; compact returns only title, URL, and content-snippet fields for each result (JSON keys: title, url, content). If omitted, full is used.",
+                    "enum": [
+                      "compact",
+                      "full"
+                    ],
+                    "type": "string"
+                  },
+                  "safesearch": {
+                    "description": "Safe search filter level (0: None, 1: Moderate, 2: Strict)",
+                    "enum": [
+                      "0",
+                      "1",
+                      "2"
+                    ],
+                    "type": "string"
+                  },
+                  "time_range": {
+                    "description": "Time range of search (day, week, month, year). With explicit engines, all selected engines must confirm time_range_support=true via /config.",
+                    "enum": [
+                      "day",
+                      "week",
+                      "month",
+                      "year"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "searxng_web_search"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true
+              },
+              "description": "Fetches a URL and returns readable content as markdown. Content-type aware: HTML is converted to markdown; JSON is pretty-printed; plain text, YAML, TOML, and XML are returned as fenced readable text. PDF text extraction is supported with bounded input, output, page count, time, concurrency, and memory; OCR is not supported. Binary, media, archive, and octet-stream downloads other than PDFs are intentionally rejected instead of being returned as raw bytes. When the operator configures browser solvers, mcp-searxng attempts FlareSolverr first and then Byparr only after a busy or transient-unavailable acquisition; cache hits bypass acquisition and a final busy or unavailable provider uses one uncached direct-fetch fallback. Three modes: (1) Full content — omit filtering params; use `startChar`/`maxLength` to paginate large pages. (2) Section extraction — set `section` to return content under a specific heading. (3) Headings only — set `readHeadings: true` to list all headings (mutually exclusive with other filtering params). Returns an error string if the URL is unreachable or content cannot be extracted. Use after `searxng_web_search` to read the full content of individual result URLs.",
+              "inputSchema": {
+                "properties": {
+                  "maxLength": {
+                    "description": "Maximum number of characters to return",
+                    "minimum": 1,
+                    "type": "number"
+                  },
+                  "paragraphRange": {
+                    "description": "Return specific paragraph ranges (e.g., '1-5', '3', '10-')",
+                    "type": "string"
+                  },
+                  "readHeadings": {
+                    "description": "Return only a list of headings instead of full content",
+                    "type": "boolean"
+                  },
+                  "section": {
+                    "description": "Extract content under a specific heading (searches for heading text)",
+                    "type": "string"
+                  },
+                  "startChar": {
+                    "description": "Starting character position for content extraction (default: 0)",
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "url": {
+                    "description": "URL",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "type": "object"
+              },
+              "name": "web_url_read"
+            }
+          ],
+          "tools": [
+            "searxng_instance_info",
+            "searxng_search_suggestions",
+            "searxng_web_search",
+            "web_url_read"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Connects AI assistants to a SearXNG instance for private web search and URL reading",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/mcp-searxng/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/mcp-searxng",
+  "packages": [
+    {
+      "environmentVariables": [
+        {
+          "description": "Base URL of the SearXNG instance, optionally including Basic Auth credentials",
+          "isRequired": true,
+          "isSecret": true,
+          "name": "SEARXNG_URL"
+        }
+      ],
+      "identifier": "ghcr.io/stacklok/dockyard/npx/mcp-searxng:2.5.1",
+      "registryType": "oci",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/ihor-sokoliuk/mcp-searxng"
+  },
+  "title": "SearXNG MCP Server",
+  "version": "1.0.0"
+}

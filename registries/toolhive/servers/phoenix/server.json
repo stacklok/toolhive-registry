@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:4.3.15": {
           "metadata": {
-            "last_updated": "2026-10-05T03:31:27Z",
+            "last_updated": "2026-10-05T22:37:14Z",
             "stars": 9311
           },
           "overview": "## Phoenix MCP Server\n\nThe phoenix MCP server is a Model Context Protocol (MCP) server for the Arize Phoenix observability platform. It provides AI assistants with programmatic access to Arize Phoenix, enabling dataset and experiment management for LLM evaluation workflows, prompt version control and tagging for LLM application development, span and trace querying for observability and debugging, and project-based organization for managing multiple Phoenix instances.",
@@ -762,9 +762,8 @@
           "name": "PHOENIX_API_KEY"
         },
         {
-          "default": "http://localhost:6006",
-          "description": "Base URL for Phoenix instance",
-          "name": "PHOENIX_BASE_URL"
+          "description": "Container-reachable URL for the Phoenix instance",
+          "name": "PHOENIX_ENDPOINT"
         }
       ],
       "identifier": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:4.3.15",

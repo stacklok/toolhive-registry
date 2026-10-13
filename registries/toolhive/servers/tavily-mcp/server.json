@@ -399,8 +399,8 @@
     {
       "environmentVariables": [
         {
-          "description": "API key for Tavily search service",
-          "isRequired": true,
+          "description": "Optional API key for Tavily. Keyless mode supports search and extract with limitations; provide a key to enable the full tool set.",
+          "isRequired": false,
           "isSecret": true,
           "name": "TAVILY_API_KEY"
         }

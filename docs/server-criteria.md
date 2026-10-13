@@ -110,6 +110,7 @@ for an explanation of the severity levels.
 | No known unpatched critical/high CVEs | Required |
 | Software provenance (Sigstore / GitHub Attestations) | Expected |
 | Automated security scanning in CI | Expected |
+| [Concrete workflow and user value](registry-criteria.md#usefulness-and-fit) | Expected |
 | SLSA compliance | Recommended |
 | Published SBOM | Recommended |
 | Security reporting (`SECURITY.md`) | Recommended |

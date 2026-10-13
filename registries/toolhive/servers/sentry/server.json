@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/npx/sentry-mcp-server:0.42.0": {
           "metadata": {
-            "last_updated": "2026-10-02T01:04:06Z",
+            "last_updated": "2026-10-08T14:16:56Z",
             "stars": 619
           },
           "overview": "## Sentry MCP Server\n\nThe sentry MCP server is a Model Context Protocol (MCP) service for human-in-the-loop coding agents and developer workflow debugging. The server enables comprehensive Sentry project and organization management, real-time error tracking with event search and issue monitoring, AI-powered issue analysis through Sentry Seer integration, and integrated documentation search for platform guidance.",
@@ -13,8 +13,8 @@
             "network": {
               "outbound": {
                 "allow_host": [
-                  "sentry.io",
-                  ".sentry.io"
+                  ".sentry.io",
+                  "api.openai.com"
                 ],
                 "allow_port": [
                   443
@@ -625,7 +625,7 @@
   ],
   "repository": {
     "source": "github",
-    "url": "https://github.com/getsentry/sentry-mcp"
+    "url": "https://github.com/getsentry/toolkit"
   },
   "title": "Sentry",
   "version": "1.0.0"

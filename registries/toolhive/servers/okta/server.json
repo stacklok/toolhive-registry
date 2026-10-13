@@ -191,14 +191,14 @@
           "name": "OKTA_SCOPES"
         },
         {
-          "description": "RSA private key (PEM) for Private Key JWT authentication. Required in this containerized deployment since the alternative device-authorization flow needs an interactive browser",
-          "isRequired": true,
+          "description": "Optional RSA private key (PEM) for paired Private Key JWT browserless authentication; when omitted with OKTA_KEY_ID, the server uses device authorization.",
+          "isRequired": false,
           "isSecret": true,
           "name": "OKTA_PRIVATE_KEY"
         },
         {
-          "description": "Key ID of the public key registered on the Okta application, paired with OKTA_PRIVATE_KEY",
-          "isRequired": true,
+          "description": "Optional key ID paired with OKTA_PRIVATE_KEY for Private Key JWT browserless authentication; when the pair is omitted, the server uses device authorization.",
+          "isRequired": false,
           "isSecret": false,
           "name": "OKTA_KEY_ID"
         },

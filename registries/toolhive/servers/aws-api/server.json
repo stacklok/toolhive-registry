@@ -158,8 +158,8 @@
           "name": "AWS_API_MCP_WORKING_DIR"
         },
         {
-          "default": "false",
-          "description": "When set to \"true\", enables system-wide file access (may cause unintended overwrites)",
+          "default": "workdir",
+          "description": "File access mode: workdir limits access to AWS_API_MCP_WORKING_DIR, unrestricted allows system-wide access, and no-access disables local file access",
           "name": "AWS_API_MCP_ALLOW_UNRESTRICTED_LOCAL_FILE_ACCESS"
         },
         {
