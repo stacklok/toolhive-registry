@@ -1,0 +1,94 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://api.truthifi.com/mcp": {
+          "custom_metadata": {
+            "author": "Truthifi",
+            "homepage": "https://truthifi.com/mcp-tools",
+            "license": "Proprietary (docs MIT)"
+          },
+          "oauth_config": {
+            "authorize_url": "https://api.truthifi.com/oauth/authorize",
+            "token_url": "https://api.truthifi.com/oauth/token",
+            "scopes": [
+              "offline_access"
+            ],
+            "use_pkce": true
+          },
+          "overview": "## Truthifi (Remote)\n\nTruthifi's hosted MCP server lets AI assistants read a user's linked investment and bank accounts across 18,000+ institutions. It returns holdings on any date, allocation by asset class, sector and market cap, performance against a benchmark, fees by type, cash flow, linked advisors and the Truthifi Score with its findings. It cannot move money or place trades; three tools change data inside Truthifi only (add or delete a manually tracked asset, refresh a connection).\n\n**Account and credits.** Requires a Truthifi account on a plan that includes MCP access. Tool calls use AI tool credits from a daily and monthly allowance (0 to 3 credits per call; account, plan and help tools are free). A free plan is enough to try it; `get_subscription_info` shows the current plan and remaining credits. Plans: https://truthifi.com/pricing\n\n**Data disclosure.** Tool results contain the user's financial data (accounts, balances, holdings, transactions, fees and advisor details) and are sent to the AI assistant the user connected, where they are handled under that provider's terms.\n\n**Authorization and revocation.** OAuth with dynamic client registration and PKCE. After signing in, the user sees a consent screen listing read and write access and must choose Authorize. Users can see connected assistants, limit which accounts each can see, and revoke access in Truthifi Settings, or remove the connector in their assistant.\n\n**Data-changing tools.** `create_asset_liability` previews and saves only after the user confirms; `delete_asset_liability` permanently removes one manually tracked item; `run_scan` refreshes one connection. None of them act at a bank or brokerage.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "finance",
+            "portfolio",
+            "investing",
+            "wealth",
+            "fees"
+          ],
+          "tier": "Official",
+          "tools": [
+            "get_accounts",
+            "get_groups",
+            "get_advisors",
+            "get_dated_holdings",
+            "get_composition",
+            "get_equity_concentrations",
+            "get_market_cap_allocation",
+            "get_balance_history",
+            "get_performance_history",
+            "get_fees",
+            "get_transactions",
+            "get_budget_flow_summary",
+            "get_investment_transactions_summary",
+            "get_asset_liabilities",
+            "create_asset_liability",
+            "delete_asset_liability",
+            "get_findings",
+            "get_finding_definitions",
+            "get_truthifi_score_history",
+            "get_security_info",
+            "get_security_distributions",
+            "get_security_fees",
+            "get_security_daily_prices",
+            "get_exchange_rates",
+            "get_security_news",
+            "get_truthifi_info",
+            "get_prompt_catalog",
+            "run_scan",
+            "get_scan_status",
+            "get_subscription_info",
+            "get_subscription_catalog",
+            "connect_account",
+            "fix_connections",
+            "upgrade"
+          ]
+        }
+      }
+    }
+  },
+  "description": "One verified household record for your AI: accounts, holdings, fees and Score. Can't move money.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/truthifi-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/truthifi-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.truthifi.com/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/Truthifi/truthifi-mcp"
+  },
+  "title": "Truthifi (Remote)",
+  "version": "1.0.0"
+}
