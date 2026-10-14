@@ -1,0 +1,65 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://web3juice.com/api/mcp": {
+          "custom_metadata": {
+            "author": "Web3Juice",
+            "homepage": "https://web3juice.com/mcp",
+            "license": "MIT"
+          },
+          "metadata": {
+            "last_updated": "2026-10-14T17:35:35Z",
+            "stars": 0
+          },
+          "overview": "## Web3Juice (Remote)\n\nWeb3Juice gives AI assistants evidence-backed DeFi yield data for about 17,000 pools across 100+ chains, refreshed every 15 minutes. Assistants can summarise what an asset pays by chain, protocol or strategy, search and rank pools, inspect one pool (base vs reward APY, TVL, data age, addresses, links), read up to 90 days of APY history and compare pools side by side. Every tool is read-only: no wallet access, signing or transactions. The free research tools need no authentication; an optional API key raises limits.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "defi",
+            "yield",
+            "apy",
+            "stablecoin",
+            "crypto",
+            "finance",
+            "research"
+          ],
+          "tier": "Official",
+          "tools": [
+            "summarize_yields",
+            "search_pools",
+            "get_pool",
+            "get_pool_history",
+            "compare_pools",
+            "get_data_sources",
+            "get_methodology"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Evidence-backed DeFi yield data for ~17,000 pools: rates, yield sources, 90-day history. Read-only.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/web3juice-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/web3juice-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://web3juice.com/api/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/jimbob1414/web3juice-mcp"
+  },
+  "title": "Web3Juice (Remote)",
+  "version": "1.0.0"
+}
