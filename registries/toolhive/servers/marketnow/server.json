@@ -1,56 +1,55 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.alicelabs-llc/marketnow",
-  "description": "Trust layer for AI agents: verify MCP tools before connecting them — 68,388 indexed servers with install-risk flags, scam-domain checks, credential verification (8 formats), and a 12-stage audit pipeline.",
+  "description": "Trust layer for AI agents: verify MCP tools before connecting them — 71,000+ indexed servers with install-risk flags, scam-domain checks, cryptographic credential verification (Ed25519 over RFC 8785 JCS, 8 formats), and a fail-closed 4-stage verdict pipeline.",
   "title": "marketnow",
   "repository": {
     "url": "https://github.com/eddyflores100-lang/marketnow-mcp",
     "source": "github"
   },
-  "version": "1.15.0",
+  "version": "1.16.0",
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://www.marketnow.site/api/mcp"
+      "url": "https://marketnow.site/api/mcp"
     }
   ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "https://www.marketnow.site/api/mcp": {
-          "tier": "Community",
-          "status": "Active",
-          "tags": [
-            "security",
-            "trust",
-            "verification",
-            "mcp",
-            "agents",
-            "registry"
-          ],
-          "tools": [
-            "marketnow_verify_trust",
-            "marketnow_translate_credential",
-            "marketnow_list_formats",
-            "marketnow_get_pipeline",
-            "marketnow_check_domain",
-            "marketnow_search_skills",
-            "marketnow_check_revocation",
-            "marketnow_fingerprint_tool",
-            "marketnow_submit_skill"
-          ]
-        },
         "tier": "Official",
-        "overview": "## MarketNow — trust layer for AI agents\n\nMarketNow is a hosted MCP server that lets an agent verify any MCP tool *before* connecting to it. Concrete workflow: the agent (or its operator) calls `marketnow_verify_trust` with a server or skill name and receives an install-risk verdict backed by a 12-stage audit pipeline: 68k+ indexed servers, scam-domain checks, credential verification across 8 formats (API keys, JWTs, Ed25519 signatures), and revocation checks — exposed through 9 focused tools (`verify_trust`, `check_domain`, `fingerprint_tool`, `check_revocation`, ...). What distinguishes it: it is a registry-side trust layer with a free tier and no account required, not a client-side scanner — the same data powers marketnow.site and the public `/api/free-skills.json` endpoint. Security claims are evaluable end-to-end: the audit pipeline is documented and versioned (ATC/1.3) at `marketnow.site/api/mcp`, every verdict returns its per-stage evidence, and the whole verification flow can be reproduced with the public API without credentials.",
+        "overview": "## MarketNow — trust layer for AI agents\n\nTwo surfaces, one data plane:\n\n- **Remote (streamable HTTP)** — `https://marketnow.site/api/mcp`: catalog and commerce tools (`search_skills`, `get_skill`, `get_categories`, `health`, `register_agent`, `recommend_skill`, `get_rep`, `get_bounties`) over a 71,000+ index of MCP servers/skills with Sentinel static-analysis scores, install-risk flags and scam-domain checks.\n- **stdio** — `npx -y marketnow-mcp` (v1.16.0): the verification toolset: `verify_trust` (takes a `card_id` or an `atc_credential` object/string — not a server name), `check_revocation`, `fingerprint_tool`, `verify_atc_spec`.\n\n**What a positive verdict establishes (cryptographic, fail-closed):** (1) the Ed25519 signature verifies over the RFC 8785 JCS canonicalization of the credential minus its signature field; (2) the signing key is the pinned trust anchor for the declared issuer — key selection is its own pipeline stage, so self-signed or wrong-key credentials fail there; (3) temporal validity; (4) status against the signed revocation registry. Each stage returns its own pass/fail evidence; any failure names the failing stage.\n\n**Cryptographic vs heuristic.** The four stages above are deterministic cryptography. Sentinel scores (0–10; L1 static analysis, L2 sandbox) and domain-risk checks are heuristics, reported as separate clearly-labeled fields — they never feed the cryptographic verdict.\n\n**Trusted issuers and keys.** Keys are pinned per issuer in the published trust-anchor set (`vectors/_test-ca-keys.json` in the conformance corpus); selection is per-stage auditable.\n\n**Outside the assessment.** Runtime behavior of a verified server, prompt-injection resistance, and semantic truthfulness of tool descriptions are out of scope; `fingerprint_tool` (JCS + SHA-256 per tool definition) detects post-hoc tampering with definitions.\n\n**Reproducible examples.** The conformance corpus publishes canonical bytes (hex/base64/text) with SHA-256/512 and expected per-stage outcomes for positives and negatives: `valid-atc` (verify=true), `invalid-signature`, `self-signed-atc` (untrusted issuer), `expired-atc`, `premature-atc`, `revoked-atc` (all verify=false) — github.com/alicelabs-llc/universal-trust-adapter (index v1.7.0, RFC 8785 JCS). Public checker: https://marketnow.site/uta/conformance",
         "custom_metadata": {
           "author": "AliceLabs (eddyflores100-lang)",
-          "homepage": "https://www.marketnow.site",
+          "homepage": "https://marketnow.site",
           "license": "MIT"
         },
         "metadata": {
-          "last_updated": "2026-10-12T00:00:00Z",
+          "last_updated": "2026-10-15T00:00:00Z",
           "stars": 0
         }
+      },
+      "https://marketnow.site/api/mcp": {
+        "tier": "Official",
+        "status": "Active",
+        "tags": [
+          "security",
+          "trust",
+          "verification",
+          "mcp",
+          "agents",
+          "registry"
+        ],
+        "tools": [
+          "search_skills",
+          "get_skill",
+          "get_categories",
+          "health",
+          "register_agent",
+          "recommend_skill",
+          "get_rep",
+          "get_bounties"
+        ]
       }
     }
   },
