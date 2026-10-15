@@ -1,0 +1,67 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://app.kolect.ai/mcp": {
+          "custom_metadata": {
+            "author": "Kolect",
+            "homepage": "https://www.kolect.ai/ai-assistant",
+            "license": "Proprietary"
+          },
+          "overview": "## Kolect Creator Search (Remote)\n\nKolect's hosted MCP server lets AI assistants find and vet TikTok, Instagram and YouTube creators for influencer marketing. Describe a campaign in plain language and `search_creators` returns matching creators from a 300M+ creator database with followers, typical views, engagement and a match reason; `lookup_creators` checks creators you already have by profile link or @handle; `check_fake_followers` estimates audience authenticity (0-100) from public metrics; `get_emails` returns public contact emails; `save_creators` and `list_saved_creators` manage shortlists; `get_account` shows the plan and remaining credits.\n\n**Account and credits.** Requires a Kolect account and an API key created at https://app.kolect.ai/agent. Sign-up is free with 90 credits; tool calls use the same credits as the website (searches charge per creator returned, 20 fake follower checks a day are free). Plans: https://www.kolect.ai/pricing\n\n**Authentication.** Send the key as `Authorization: Bearer <key>` (or `X-Api-Key`). `initialize` and `tools/list` work without a key.\n\n**Data.** Results contain public creator profile data and, for `get_emails`, public contact emails, returned to the assistant the user connected. `save_creators` writes only to the user's own Kolect favorites.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "influencer-marketing",
+            "creator-search",
+            "tiktok",
+            "instagram",
+            "youtube",
+            "fake-followers",
+            "api-key"
+          ],
+          "tier": "Official",
+          "tools": [
+            "search_creators",
+            "load_more_results",
+            "get_search_results",
+            "lookup_creators",
+            "check_fake_followers",
+            "get_emails",
+            "save_creators",
+            "list_saved_creators",
+            "get_account"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Find TikTok, Instagram and YouTube creators from a brief, check fake followers, get emails.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/kolect-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/kolect-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://app.kolect.ai/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Kolect API key as a bearer token (Bearer kol_...), from https://app.kolect.ai/agent",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "title": "Kolect Creator Search (Remote)",
+  "version": "1.0.0"
+}
