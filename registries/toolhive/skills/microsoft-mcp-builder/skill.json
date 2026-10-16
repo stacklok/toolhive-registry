@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "microsoft-mcp-builder",
+  "title": "Microsoft Mcp Builder",
+  "description": "Guide for creating high-quality MCP servers that enable LLMs to interact with external services through well-designed tools in Python, Node/TypeScript, or C#/.NET.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/microsoft/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/microsoft-mcp-builder:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/microsoft/skills",
+      "ref": "3898ec894e90afdfdae982a925db28b6a7b334e3",
+      "subfolder": ".github/skills/mcp-builder"
+    }
+  ]
+}

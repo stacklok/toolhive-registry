@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "elasticsearch-search-relevance",
+  "title": "Elasticsearch Search Relevance",
+  "description": "Improve Elasticsearch search relevance for content and catalog indices with query rules, multi_match, field boosts, and analysis grounded in the index mapping.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/elastic/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/elasticsearch-search-relevance:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/elastic/agent-skills",
+      "ref": "baa511126ba2dc37b52e273b52734f8e4e0d323c",
+      "subfolder": "skills/elasticsearch/elasticsearch-search-relevance"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "microsoft-github-issue-creator",
+  "title": "Microsoft Github Issue Creator",
+  "description": "Convert raw notes, error logs, voice dictation, or screenshots into crisp GitHub-flavored markdown issue reports. Use when the user pastes bug info, error messages, or informal descriptions and wants a structured GitHub issue. Supports images/GIFs for visual evidence.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/microsoft/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/microsoft-github-issue-creator:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/microsoft/skills",
+      "ref": "3898ec894e90afdfdae982a925db28b6a7b334e3",
+      "subfolder": ".github/skills/github-issue-creator"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "elasticsearch-query-optimization",
+  "title": "Elasticsearch Query Optimization",
+  "description": "Diagnose slow Elasticsearch Query DSL searches and propose measured fixes using search profiling.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/elastic/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/elasticsearch-query-optimization:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/elastic/agent-skills",
+      "ref": "baa511126ba2dc37b52e273b52734f8e4e0d323c",
+      "subfolder": "skills/elasticsearch/elasticsearch-query-optimization"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "expo-upgrade",
+  "title": "Expo Upgrade",
+  "description": "Guidelines for upgrading Expo SDK versions and fixing dependency issues",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/expo/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/expo-upgrade:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/expo/skills",
+      "ref": "d4f484024fec15196bfd3c272e953e3f983972cf",
+      "subfolder": "plugins/expo/skills/expo-upgrade"
+    }
+  ]
+}

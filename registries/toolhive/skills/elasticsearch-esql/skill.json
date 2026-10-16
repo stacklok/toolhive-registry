@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "elasticsearch-esql",
+  "title": "Elasticsearch Esql",
+  "description": "Execute ES|QL queries to query Elasticsearch data, analyze logs, aggregate metrics, explore data, or create charts and dashboards from results.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/elastic/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/elasticsearch-esql:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/elastic/agent-skills",
+      "ref": "baa511126ba2dc37b52e273b52734f8e4e0d323c",
+      "subfolder": "skills/elasticsearch/elasticsearch-esql"
+    }
+  ]
+}

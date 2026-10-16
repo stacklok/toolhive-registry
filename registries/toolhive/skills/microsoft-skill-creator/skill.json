@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "microsoft-skill-creator",
+  "title": "Microsoft Skill Creator",
+  "description": "Guide for creating effective skills for AI coding agents working with Azure SDKs and Microsoft Foundry services. Use when creating new skills or updating existing skills.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/microsoft/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/microsoft-skill-creator:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/microsoft/skills",
+      "ref": "3898ec894e90afdfdae982a925db28b6a7b334e3",
+      "subfolder": ".github/skills/skill-creator"
+    }
+  ]
+}
