@@ -5,7 +5,7 @@
       "io.github.stacklok": {
         "ghcr.io/stacklok/dockyard/uvx/mcp-server-git:2026.10.10": {
           "metadata": {
-            "last_updated": "2026-07-08T07:51:32Z",
+            "last_updated": "2026-10-16T03:19:36Z",
             "stars": 84011
           },
           "overview": "## Git MCP Server\n\nThe git-mcp-server is a Model Context Protocol (MCP) server that gives AI assistants direct access to Git repositories through a structured, AI-friendly interface. It enables AI-driven workflows to read repository state, inspect history, and reason about changes without switching tools or manually invoking Git commands. It is especially useful for code understanding, change analysis, release preparation, and development workflows where repository context needs to be embedded directly into an AI assistant.",
@@ -42,6 +42,7 @@
                     "items": {
                       "type": "string"
                     },
+                    "minItems": 1,
                     "title": "Files",
                     "type": "array"
                   },
@@ -374,7 +375,7 @@
                 "openWorldHint": false,
                 "readOnlyHint": true
               },
-              "description": "Shows the contents of a commit",
+              "description": "Shows the contents of a commit, or of a file or directory given as \u003crevision\u003e:\u003cpath\u003e",
               "inputSchema": {
                 "properties": {
                   "repo_path": {
