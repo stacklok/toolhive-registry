@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "elastic-k8s-investigation",
+  "title": "Elastic K8s Investigation",
+  "description": "Investigate Kubernetes workload, node, and control-plane issues using OTel telemetry, including pod failures, node pressure, resource exhaustion, image pulls, admission, autoscaling, and application signals.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/elastic/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/elastic-k8s-investigation:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/elastic/agent-skills",
+      "ref": "baa511126ba2dc37b52e273b52734f8e4e0d323c",
+      "subfolder": "skills/observability/k8s-investigation"
+    }
+  ]
+}

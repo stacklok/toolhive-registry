@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "applicationinsights-web-ts",
+  "title": "Applicationinsights Web Ts",
+  "description": "Instrument browser/web apps with the Application Insights JavaScript SDK (@microsoft/applicationinsights-web). Use for Real User Monitoring (RUM) — page views, clicks, AJAX/fetch dependencies, exceptions, custom events, and browser-side GenAI agent traces correlated to backend OpenTelemetry traces. Covers SDK Loader Script and npm setup, framework extensions (React, React Native, Angular), Click Analytics, telemetry initializers, and OTel GenAI semantic conventions for agent/tool/model spans emitted from the browser.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/microsoft/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/applicationinsights-web-ts:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/microsoft/skills",
+      "ref": "3898ec894e90afdfdae982a925db28b6a7b334e3",
+      "subfolder": ".github/skills/applicationinsights-web-ts"
+    }
+  ]
+}

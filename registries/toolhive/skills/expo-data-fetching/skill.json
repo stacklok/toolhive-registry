@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "expo-data-fetching",
+  "title": "Expo Data Fetching",
+  "description": "Use when implementing or debugging ANY network request, API call, or data fetching. Covers fetch API, React Query, SWR, error handling, caching, offline support, loading/empty/error screen states, and Expo Router data loaders (`useLoaderData`).",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/expo/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/expo-data-fetching:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/expo/skills",
+      "ref": "d4f484024fec15196bfd3c272e953e3f983972cf",
+      "subfolder": "plugins/expo/skills/expo-data-fetching"
+    }
+  ]
+}

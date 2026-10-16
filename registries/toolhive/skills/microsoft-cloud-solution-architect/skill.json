@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "microsoft-cloud-solution-architect",
+  "title": "Microsoft Cloud Solution Architect",
+  "description": "Transform the agent into a Cloud Solution Architect following Azure Architecture Center best practices. Use when designing cloud architectures, reviewing system designs, selecting architecture styles, applying cloud design patterns, making technology choices, or conducting Well-Architected Framework reviews.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/microsoft/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/microsoft-cloud-solution-architect:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/microsoft/skills",
+      "ref": "3898ec894e90afdfdae982a925db28b6a7b334e3",
+      "subfolder": ".github/skills/cloud-solution-architect"
+    }
+  ]
+}

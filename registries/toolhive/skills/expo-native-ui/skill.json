@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "expo-native-ui",
+  "title": "Expo Native UI",
+  "description": "Build beautiful, native-feeling Expo screens. Covers Apple HIG styling, semantic colors, native controls, SF Symbols, media, visual effects, gradients, storage, and responsive layout. For routing and navigation, use the expo-router skill; for motion and animation, use the expo-animation skill.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/expo/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/expo-native-ui:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/expo/skills",
+      "ref": "d4f484024fec15196bfd3c272e953e3f983972cf",
+      "subfolder": "plugins/expo/skills/expo-native-ui"
+    }
+  ]
+}

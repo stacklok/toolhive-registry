@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "expo-router",
+  "title": "Expo Router",
+  "description": "Navigation and routing for Expo Router. Covers file-based routes, groups and dynamic routes, folder organization, Link with previews and context menus, native Stack, page titles, modals and form sheets, NativeTabs, headers and toolbars, and header search bars.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/expo/skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/expo-router:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/expo/skills",
+      "ref": "d4f484024fec15196bfd3c272e953e3f983972cf",
+      "subfolder": "plugins/expo/skills/expo-router"
+    }
+  ]
+}

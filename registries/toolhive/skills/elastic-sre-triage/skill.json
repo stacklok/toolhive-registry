@@ -1,0 +1,30 @@
+{
+  "namespace": "io.github.stacklok",
+  "name": "elastic-sre-triage",
+  "title": "Elastic Sre Triage",
+  "description": "Triage a degraded or suspect service using SLO status, alerting, anomalies, golden signals, dependency health, infrastructure saturation, and logs.",
+  "version": "0.1.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/elastic/agent-skills",
+    "type": "git"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/stacklok/dockyard/skills/elastic-sre-triage:0.1.0"
+    },
+    {
+      "registryType": "git",
+      "url": "https://github.com/elastic/agent-skills",
+      "ref": "baa511126ba2dc37b52e273b52734f8e4e0d323c",
+      "subfolder": "skills/observability/sre-triage"
+    }
+  ]
+}
