@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.11.3": {
+        "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:3.0.0": {
           "metadata": {
-            "last_updated": "2026-08-07T00:30:48Z",
+            "last_updated": "2026-10-16T03:19:25Z",
             "stars": 2551
           },
           "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
@@ -103,6 +103,130 @@
                 "type": "object"
               },
               "name": "discover"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get Scraper Details"
+              },
+              "description": "Show the scraper description, input fields, example input and main output fields for one method. Call before run_scraper and build the input from sample_input or input_fields. Records may contain more fields than output_fields lists.",
+              "inputSchema": {
+                "properties": {
+                  "dataset_id": {
+                    "description": "dataset_id from search_scrapers",
+                    "type": "string"
+                  },
+                  "method": {
+                    "description": "One of the scraper collection_methods, exactly as listed (some names are misspelled on purpose)",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "dataset_id",
+                  "method"
+                ],
+                "type": "object"
+              },
+              "name": "get_scraper_details"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get Scraper Progress"
+              },
+              "description": "Status of a run: starting, running, ready, failed or canceled.",
+              "inputSchema": {
+                "properties": {
+                  "snapshot_id": {
+                    "description": "snapshot_id from run_scraper",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "snapshot_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_scraper_progress"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Get Scraper Results"
+              },
+              "description": "Records of a finished run. Returns status \"running\" if not ready yet.",
+              "inputSchema": {
+                "properties": {
+                  "snapshot_id": {
+                    "description": "snapshot_id from run_scraper",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "snapshot_id"
+                ],
+                "type": "object"
+              },
+              "name": "get_scraper_results"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Refresh Scrapers"
+              },
+              "description": "Reload the scraper list now instead of waiting for the daily refresh.",
+              "inputSchema": {
+                "properties": {},
+                "required": [],
+                "type": "object"
+              },
+              "name": "refresh_scrapers"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Run Scraper"
+              },
+              "description": "Run a scraper method. input is a list of objects shaped like sample_input from get_scraper_details, one per URL or query. collect_by_url returns one record per input; discover_by_* methods return up to limit_per_input records per input, and every record is billed. Waits up to 45 seconds; if still running it returns snapshot_id with status \"running\": then poll get_scraper_progress and call get_scraper_results when ready. Records with an \"error\" field explain failed inputs.",
+              "inputSchema": {
+                "properties": {
+                  "dataset_id": {
+                    "description": "dataset_id from search_scrapers",
+                    "type": "string"
+                  },
+                  "input": {
+                    "items": {
+                      "additionalProperties": {},
+                      "type": "object"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "limit_per_input": {
+                    "default": 10,
+                    "description": "discover_by_* only",
+                    "maximum": 1000,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "method": {
+                    "description": "One of the scraper collection_methods, exactly as listed (some names are misspelled on purpose)",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "dataset_id",
+                  "method",
+                  "input"
+                ],
+                "type": "object"
+              },
+              "name": "run_scraper"
             },
             {
               "annotations": {
@@ -242,14 +366,46 @@
                 "type": "object"
               },
               "name": "search_engine_batch"
+            },
+            {
+              "annotations": {
+                "openWorldHint": true,
+                "readOnlyHint": true,
+                "title": "Search Scrapers"
+              },
+              "description": "Find a Bright Data pre-built scraper (Web Scraper API, 1,200+ sites) for a site or data type, e.g. \"amazon reviews\" or \"linkedin.com\". Returns dataset_id, name, domain and collection_methods. Next: call get_scraper_details with a dataset_id and one method.",
+              "inputSchema": {
+                "properties": {
+                  "limit": {
+                    "default": 10,
+                    "maximum": 50,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "query": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "type": "object"
+              },
+              "name": "search_scrapers"
             }
           ],
           "tools": [
             "discover",
+            "get_scraper_details",
+            "get_scraper_progress",
+            "get_scraper_results",
+            "refresh_scrapers",
+            "run_scraper",
             "scrape_as_markdown",
             "scrape_batch",
             "search_engine",
-            "search_engine_batch"
+            "search_engine_batch",
+            "search_scrapers"
           ]
         }
       }
@@ -300,7 +456,7 @@
           "name": "POLLING_TIMEOUT"
         },
         {
-          "description": "Request timeout in seconds for base tools (search & scrape). No limit by default",
+          "description": "Request timeout in seconds for base tools (search \u0026 scrape). No limit by default",
           "name": "BASE_TIMEOUT"
         },
         {
@@ -317,7 +473,7 @@
           "name": "TOOLS"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.11.3",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:3.0.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
