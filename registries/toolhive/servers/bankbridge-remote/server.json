@@ -1,0 +1,74 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://bankbridge.money/api/mcp": {
+          "custom_metadata": {
+            "author": "Great Work LLC",
+            "homepage": "https://bankbridge.money/docs",
+            "license": "Proprietary (plugin and docs MIT)"
+          },
+          "oauth_config": {
+            "authorize_url": "https://bankbridge.money/oauth/authorize",
+            "token_url": "https://bankbridge.money/oauth/token",
+            "scopes": [
+              "mcp:tools"
+            ],
+            "use_pkce": true
+          },
+          "overview": "## BankBridge (Remote)\n\nBankBridge's hosted MCP server gives AI assistants read-only access to a user's own US bank, credit card and investment accounts at 12,000+ institutions. It answers questions about balances, transactions, spending by category or merchant, recurring charges, monthly cashflow, investment holdings and investment transactions. Every tool call fetches live from the user's banks; BankBridge does not store transactions or balances.\n\n**Read-only.** All 12 tools are annotated read-only. There are no write tools: it cannot move money, pay bills or place trades. `connect_bank` only returns a link the user opens to add a bank.\n\n**Account and pricing.** Requires a BankBridge account. Paid: $5/mo or $50/yr per connected bank. A demo account with sample data is available at https://bankbridge.money/demo.\n\n**Authorization and revocation.** OAuth 2.1 with dynamic client registration and PKCE (S256). Users can disconnect banks or delete their account (which revokes every bank connection and key) from the BankBridge dashboard, or remove the connector in their assistant. Tool results contain the user's financial data and are sent to the AI assistant the user connected.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "finance",
+            "banking",
+            "personal-finance",
+            "transactions",
+            "budgeting",
+            "investing",
+            "read-only"
+          ],
+          "tier": "Official",
+          "tools": [
+            "list_accounts",
+            "get_account",
+            "list_transactions",
+            "search_transactions",
+            "get_spending_summary",
+            "get_recurring_charges",
+            "get_monthly_cashflow",
+            "get_merchant_history",
+            "list_categories",
+            "list_holdings",
+            "list_investment_transactions",
+            "connect_bank"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Read-only bank, credit card and investment data for your AI, fetched live. Can't move money.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/bankbridge-remote/icon.svg"
+    }
+  ],
+  "name": "io.github.stacklok/bankbridge-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://bankbridge.money/api/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/bankbridge-money/bankbridge-plugin"
+  },
+  "title": "BankBridge (Remote)",
+  "version": "1.0.0"
+}
