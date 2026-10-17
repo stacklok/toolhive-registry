@@ -1,0 +1,63 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://posy.page/api/mcp": {
+          "custom_metadata": {
+            "author": "Posy",
+            "homepage": "https://docs.posy.page/agents/connect",
+            "license": "MIT"
+          },
+          "overview": "## Posy MCP Server\n\nPosy is a free, open-source (MIT) link-in-bio builder. Its hosted remote MCP server lets an assistant create or import a page, add, update, move and remove link tiles, set the theme and profile, and publish the page. Sign-in is OAuth 2.1 with PKCE and dynamic client registration, so there is no API key to paste. All 11 tools carry read-only or destructive annotations. Posy can also be self-hosted with Docker, exposing the same server at https://YOUR-HOST/api/mcp.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "oauth",
+            "link-in-bio",
+            "website-builder",
+            "linktree-alternative",
+            "productivity"
+          ],
+          "tier": "Community",
+          "tools": [
+            "get_page",
+            "create_page",
+            "import_page",
+            "add_tile",
+            "update_tile",
+            "remove_tile",
+            "move_tile",
+            "set_theme",
+            "set_profile",
+            "publish",
+            "list_options"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Build and edit a hand-made link-in-bio page: add links, pick a look, publish",
+  "icons": [
+    {
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ],
+      "src": "https://posy.page/brand/posy-app-512.png"
+    }
+  ],
+  "name": "io.github.stacklok/posy",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://posy.page/api/mcp"
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/Himanshu-Sangshetti/posy",
+    "source": "github"
+  },
+  "title": "Posy",
+  "version": "2.0.0"
+}
