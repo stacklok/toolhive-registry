@@ -1,0 +1,73 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/khive-remote",
+  "description": "Persistent memory, knowledge graph, task management and more for AI agents via MCP.",
+  "icons": [
+    {
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/khive-remote/icon.svg"
+    }
+  ],
+  "title": "khive (Remote)",
+  "repository": {
+    "url": "https://github.com/ohdearquant/khive",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "websiteUrl": "https://khive.ai",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://khive.ai/v1/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://khive.ai/v1/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "memory",
+            "knowledge-graph",
+            "tasks",
+            "oauth"
+          ],
+          "tools": [
+            "remember",
+            "recall_memories",
+            "search_knowledge",
+            "suggest_knowledge_domains",
+            "compose_knowledge",
+            "get_knowledge_atom",
+            "save_knowledge_atoms",
+            "save_knowledge_domains",
+            "index_knowledge",
+            "search_records",
+            "get_record",
+            "list_records",
+            "graph_neighbors",
+            "graph_context",
+            "create_record",
+            "update_record",
+            "link_records",
+            "delete_record",
+            "list_tasks",
+            "add_task",
+            "move_task",
+            "complete_task"
+          ],
+          "custom_metadata": {
+            "author": "khive AI",
+            "homepage": "https://www.khive.ai/docs/quickstart"
+          },
+          "overview": "## khive (Remote)\n\nkhive is a hosted MCP server that gives agents a memory and a knowledge graph that last across sessions and clients, one store per workspace. Agents save and recall memories by meaning (`remember`, `recall_memories`), record entities and typed links between them (`create_record`, `link_records`), walk the graph (`graph_neighbors`, `graph_context`) and keep tasks (`add_task`, `list_tasks`). Clients connect over streamable HTTP with OAuth 2.1, or send an API key as `Authorization: ApiKey <key>`. The hosted service is paid, with no free tier: plans start at $8 a month, and Plus ($25 a month) on monthly billing starts with a 14-day trial, card required. The engine is open source (Apache-2.0) at github.com/ohdearquant/khive; run locally, it serves one `request` tool over stdio instead of these named tools."
+        }
+      }
+    }
+  }
+}
