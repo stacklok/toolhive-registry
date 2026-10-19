@@ -1,0 +1,65 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://neverapply.co/mcp": {
+          "custom_metadata": {
+            "homepage": "https://neverapply.co/features/mcp",
+            "license": "MIT"
+          },
+          "oauth_config": {
+            "authorize_url": "https://neverapply.co/oauth/authorize",
+            "scopes": [
+              "mcp:read",
+              "mcp:write",
+              "mcp:apply"
+            ],
+            "token_url": "https://neverapply.co/oauth/token",
+            "use_pkce": true
+          },
+          "status": "Active",
+          "tags": [
+            "remote",
+            "jobs",
+            "career",
+            "search",
+            "oauth"
+          ],
+          "tier": "Community",
+          "tools": [
+            "search_jobs",
+            "get_matches",
+            "get_job",
+            "get_profile",
+            "list_applications",
+            "get_application",
+            "update_profile",
+            "upload_resume",
+            "save_answer",
+            "prepare_interview",
+            "tailor_resume",
+            "send_feedback",
+            "answer_screening_question",
+            "apply_to_job",
+            "approve_application"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Search jobs, explore explained matches, and manage applications with your AI assistant.",
+  "name": "io.github.stacklok/neverapply",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://neverapply.co/mcp"
+    }
+  ],
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/kasovy/neverapply-mcp"
+  },
+  "title": "NeverApply",
+  "version": "1.0.0"
+}
