@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-10-12T18:20:09Z"
+    "last_updated": "2026-10-19T16:44:07Z"
   },
   "data": {
     "servers": [
@@ -1846,7 +1846,7 @@
                   "homepage": "https://www.atlassian.com/platform/remote-mcp-server"
                 },
                 "metadata": {
-                  "last_updated": "2026-05-02T03:04:29Z"
+                  "last_updated": "2026-10-16T02:25:16Z"
                 },
                 "overview": "## Atlassian Remote MCP Server\n\nThe atlassian-remote MCP Server is a cloud-hosted Model Context Protocol (MCP) implementation from Atlassian that lets AI assistants and agents securely access and interact with Atlassian Cloud data — including Jira, Confluence, and Compass — without manual integrations. This official Atlassian tool enables AI systems to query and modify enterprise data across multiple Atlassian products through a secure, OAuth 2.1-authenticated remote endpoint, supporting operations like issue creation, documentation updates, and cross-tool workflows while respecting existing user permissions.",
                 "status": "Active",
@@ -5471,7 +5471,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.11.3",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:3.0.0",
             "transport": {
               "type": "stdio"
             },
@@ -5529,9 +5529,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:2.11.3": {
+              "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:3.0.0": {
                 "metadata": {
-                  "last_updated": "2026-08-07T00:30:48Z",
+                  "last_updated": "2026-10-16T03:19:21Z",
                   "stars": 2551
                 },
                 "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
@@ -5629,6 +5629,130 @@
                       "type": "object"
                     },
                     "name": "discover"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Get Scraper Details"
+                    },
+                    "description": "Show the scraper description, input fields, example input and main output fields for one method. Call before run_scraper and build the input from sample_input or input_fields. Records may contain more fields than output_fields lists.",
+                    "inputSchema": {
+                      "properties": {
+                        "dataset_id": {
+                          "description": "dataset_id from search_scrapers",
+                          "type": "string"
+                        },
+                        "method": {
+                          "description": "One of the scraper collection_methods, exactly as listed (some names are misspelled on purpose)",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "dataset_id",
+                        "method"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_scraper_details"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Get Scraper Progress"
+                    },
+                    "description": "Status of a run: starting, running, ready, failed or canceled.",
+                    "inputSchema": {
+                      "properties": {
+                        "snapshot_id": {
+                          "description": "snapshot_id from run_scraper",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "snapshot_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_scraper_progress"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Get Scraper Results"
+                    },
+                    "description": "Records of a finished run. Returns status \"running\" if not ready yet.",
+                    "inputSchema": {
+                      "properties": {
+                        "snapshot_id": {
+                          "description": "snapshot_id from run_scraper",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "snapshot_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "get_scraper_results"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Refresh Scrapers"
+                    },
+                    "description": "Reload the scraper list now instead of waiting for the daily refresh.",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "refresh_scrapers"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Run Scraper"
+                    },
+                    "description": "Run a scraper method. input is a list of objects shaped like sample_input from get_scraper_details, one per URL or query. collect_by_url returns one record per input; discover_by_* methods return up to limit_per_input records per input, and every record is billed. Waits up to 45 seconds; if still running it returns snapshot_id with status \"running\": then poll get_scraper_progress and call get_scraper_results when ready. Records with an \"error\" field explain failed inputs.",
+                    "inputSchema": {
+                      "properties": {
+                        "dataset_id": {
+                          "description": "dataset_id from search_scrapers",
+                          "type": "string"
+                        },
+                        "input": {
+                          "items": {
+                            "additionalProperties": {},
+                            "type": "object"
+                          },
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "limit_per_input": {
+                          "default": 10,
+                          "description": "discover_by_* only",
+                          "maximum": 1000,
+                          "minimum": 1,
+                          "type": "integer"
+                        },
+                        "method": {
+                          "description": "One of the scraper collection_methods, exactly as listed (some names are misspelled on purpose)",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "dataset_id",
+                        "method",
+                        "input"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "run_scraper"
                   },
                   {
                     "annotations": {
@@ -5768,14 +5892,46 @@
                       "type": "object"
                     },
                     "name": "search_engine_batch"
+                  },
+                  {
+                    "annotations": {
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Search Scrapers"
+                    },
+                    "description": "Find a Bright Data pre-built scraper (Web Scraper API, 1,200+ sites) for a site or data type, e.g. \"amazon reviews\" or \"linkedin.com\". Returns dataset_id, name, domain and collection_methods. Next: call get_scraper_details with a dataset_id and one method.",
+                    "inputSchema": {
+                      "properties": {
+                        "limit": {
+                          "default": 10,
+                          "maximum": 50,
+                          "minimum": 1,
+                          "type": "integer"
+                        },
+                        "query": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "search_scrapers"
                   }
                 ],
                 "tools": [
                   "discover",
+                  "get_scraper_details",
+                  "get_scraper_progress",
+                  "get_scraper_results",
+                  "refresh_scrapers",
+                  "run_scraper",
                   "scrape_as_markdown",
                   "scrape_batch",
                   "search_engine",
-                  "search_engine_batch"
+                  "search_engine_batch",
+                  "search_scrapers"
                 ]
               }
             }
@@ -5859,7 +6015,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.26.1",
+            "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.28.0",
             "transport": {
               "type": "stdio"
             },
@@ -5896,12 +6052,12 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/buildkite/buildkite-mcp-server:1.26.1": {
+              "ghcr.io/buildkite/buildkite-mcp-server:1.28.0": {
                 "args": [
                   "stdio"
                 ],
                 "metadata": {
-                  "last_updated": "2026-10-09T02:51:06Z",
+                  "last_updated": "2026-10-16T03:18:41Z",
                   "stars": 50
                 },
                 "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -6004,6 +6160,54 @@
                       "type": "object"
                     },
                     "name": "cancel_build"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": true,
+                      "idempotentHint": false,
+                      "readOnlyHint": false,
+                      "title": "Cancel Job"
+                    },
+                    "description": "Cancel a single command job without canceling the rest of its build; use cancel_build to cancel a whole build. Only command jobs that are scheduled, reserved, assigned, accepted, or running can be canceled. A job that has not started becomes 'canceled'; a running job becomes 'canceling' until its agent stops it. Returns the updated job",
+                    "inputSchema": {
+                      "properties": {
+                        "build_number": {
+                          "description": "Build number. Provide together with 'pipeline_slug' to cancel through the build-scoped endpoint. Omit both to cancel by organization and job ID alone",
+                          "type": "string"
+                        },
+                        "job_id": {
+                          "type": "string"
+                        },
+                        "org_slug": {
+                          "type": "string"
+                        },
+                        "pipeline_slug": {
+                          "description": "Pipeline slug. Provide together with 'build_number' to cancel through the build-scoped endpoint. Omit both to cancel by organization and job ID alone",
+                          "type": "string"
+                        },
+                        "telemetry": {
+                          "additionalProperties": false,
+                          "description": "Analytics metadata describing the tool call's purpose",
+                          "properties": {
+                            "context": {
+                              "description": "Explain why calling this tool fits the user's overall goal. This parameter supports analytics and user-intent tracking. Provide 15-25 meaningful words in third-person perspective. Avoid credentials, passwords, and personal data; the server does not classify sensitive content.",
+                              "maxLength": 256,
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "context"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "org_slug",
+                        "job_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "cancel_job"
                   },
                   {
                     "annotations": {
@@ -6849,7 +7053,7 @@
                       "readOnlyHint": true,
                       "title": "Get Build Failure Summary"
                     },
-                    "description": "Diagnose a Buildkite build failure in one call. Returns build.state, build.job_state_counts tallying every job in the build by state (when present, use it to confirm the returned problem jobs are the build's only problems without calling list_jobs), terminal problem jobs, canceled jobs, promised failures from running jobs, soft-failed jobs (soft_failed true: ran and failed, but the step's soft_fail setting in the pipeline allowed that exit status, so they did not block the build; soft_failed is authoritative, so the pipeline configuration is not needed; listed after blocking failures and canceled jobs — not proof the problem is harmless, but do not dig into their logs, retry, or fix them unless the user asks or evidence links them to the reported failure), and — unless include_never_ran_jobs is false, using the remaining max_jobs slots — the jobs that never ran (waiting_failed/blocked_failed/unblocked_failed stopped by a failed dependency, broken excluded by pipeline configuration — no logs, never the cause), and size-bounded diagnostic content from logs, annotations, and failed Test Engine tests. Each terminal failed or timed-out job carries failed_tests (only enabled tests whose every execution within that job failed, with failure_reason joined from that job's newest failed execution) and failed_tests_status ('found', 'none_recorded', 'ingestion_pending', or 'unavailable'); an empty or absent failed_tests list does NOT mean the job's tests passed — follow the job's failed_tests_hint and treat the job's log_tail as the authoritative fallback. A failed test with failure_detail_status 'not_retrieved' had no execution fetched for its job; when it carries both test_suite_slug and run_id, call get_failed_executions with them for the detail (page past the first 100 if needed). When run_id is absent, the suite lists several runs for this build or none: use get_build_test_engine_runs to list them and query each. Annotation content is in the body_html field; there is no body field. Start with this tool before calling individual job, log, annotation, or test tools.",
+                    "description": "Diagnose a Buildkite build failure in one call. Returns build.state, build.job_state_counts tallying every job in the build by state (when present, use it to confirm the returned problem jobs are the build's only problems without calling list_jobs), terminal problem jobs, canceled jobs, promised failures from running jobs, soft-failed jobs (soft_failed true: ran and failed, but the step's soft_fail setting in the pipeline allowed that exit status, so they did not block the build; soft_failed is authoritative, so the pipeline configuration is not needed; listed after blocking failures and canceled jobs — not proof the problem is harmless, but do not dig into their logs, retry, or fix them unless the user asks or evidence links them to the reported failure), and — unless include_never_ran_jobs is false, using the remaining max_jobs slots — the jobs that never ran (waiting_failed/blocked_failed/unblocked_failed stopped by a failed dependency, broken excluded by pipeline configuration — no logs, never the cause), and size-bounded diagnostic content from logs, annotations, and failed Test Engine tests. Each terminal failed or timed-out job carries failed_tests (only enabled tests whose every execution within that job failed, with failure_reason joined from that job's newest failed execution) and failed_tests_status ('found', 'none_recorded', 'ingestion_pending', or 'unavailable'); an empty or absent failed_tests list does NOT mean the job's tests passed — follow the job's failed_tests_hint and treat the job's log_tail as the authoritative fallback. A failed test with failure_detail_status 'not_retrieved' had no execution fetched for its job; when it carries both test_suite_slug and run_id, call get_failed_executions with them for the detail (page past the first 100 if needed). When run_id is absent, the suite lists several runs for this build or none: use get_build_test_engine_runs to list them and query each. Each failed test also carries its Test Engine labels, such as 'flaky', and executions_count_by_result for its attempts within that job (failed: 2 means the first run and a retry both failed, which is why the job log can report more failures than failed_tests lists), so there is no need to call a test tool or get_failed_executions for them. If a failed test is labeled 'flaky', do not stop at the label: trace the actual error (failure_reason, failure_expanded, or the job log) and propose a permanent fix. Never conclude a failure is flaky from a PR or commit title alone. Retry the job with retry_job only when the user explicitly permits it. Annotation content is in the body_html field; there is no body field. Start with this tool before calling individual job, log, annotation, or test tools.",
                     "inputSchema": {
                       "properties": {
                         "build_number": {
@@ -9820,6 +10024,7 @@
                 "tools": [
                   "access_token",
                   "cancel_build",
+                  "cancel_job",
                   "compare_builds",
                   "create_annotation",
                   "create_build",
@@ -12198,7 +12403,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/context7:4.2.0",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/context7:4.4.1",
             "transport": {
               "type": "stdio"
             },
@@ -12214,9 +12419,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/context7:4.2.0": {
+              "ghcr.io/stacklok/dockyard/npx/context7:4.4.1": {
                 "metadata": {
-                  "last_updated": "2026-07-31T01:12:58Z",
+                  "last_updated": "2026-10-16T03:18:53Z",
                   "stars": 52568
                 },
                 "overview": "## Context7 MCP Server\n\nThe context7 MCP server is a Model Context Protocol (MCP) server that provides AI assistants with direct access to up-to-date library and framework documentation from Context7, running as a local MCP service. It allows AI-driven workflows to retrieve current, authoritative docs and examples for popular programming languages, frameworks, and tools — helping models generate accurate, version-appropriate code and explanations without relying solely on training data. It is particularly valuable for local development environments, IDE-integrated assistants, and workflows where developers want documentation access to run alongside other local MCP tools.",
@@ -12253,11 +12458,15 @@
                       "openWorldHint": true,
                       "readOnlyHint": true
                     },
-                    "description": "Retrieves and queries up-to-date documentation and code examples from Context7 for any programming library or framework.\n\nYou must call 'Resolve Context7 Library ID' tool first to obtain the exact Context7-compatible library ID required to use this tool, UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.\n\nDo not call this tool more than 3 times per question.",
+                    "description": "Retrieves and queries up-to-date documentation and code examples from Context7 for any programming library or framework.\n\nYou must call 'Resolve Context7 Library ID' tool first to obtain the exact Context7-compatible library ID required to use this tool, UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.\n\nDo not call this tool more than 3 times per question.\n\nIf you know the programming language the user is working in, pass it as `language` so the results match their setup.",
                     "inputSchema": {
                       "properties": {
+                        "language": {
+                          "description": "Programming language the user is writing code in, such as 'Python', 'TypeScript', 'Go', or 'C#'. Ranks code examples in that language first. Leave it out when the language is unknown or does not apply.",
+                          "type": "string"
+                        },
                         "libraryId": {
-                          "description": "Exact Context7-compatible library ID (e.g., '/mongodb/docs', '/vercel/next.js', '/supabase/supabase', '/vercel/next.js/v14.3.0-canary.87') retrieved from 'resolve-library-id' or directly from user query in the format '/org/project' or '/org/project/version'.",
+                          "description": "Exact Context7-compatible library ID (e.g., '/mongodb/docs', '/vercel/next.js', '/supabase/supabase', '/vercel/next.js/v16.2.9') retrieved from 'resolve-library-id' or directly from user query in the format '/org/project' or '/org/project/version'.",
                           "type": "string"
                         },
                         "query": {
@@ -19688,7 +19897,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/grafana/mcp-grafana:2.0.1",
+            "identifier": "docker.io/grafana/mcp-grafana:2.0.2",
             "transport": {
               "type": "stdio"
             },
@@ -19719,13 +19928,13 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/grafana/mcp-grafana:2.0.1": {
+              "docker.io/grafana/mcp-grafana:2.0.2": {
                 "args": [
                   "--transport",
                   "stdio"
                 ],
                 "metadata": {
-                  "last_updated": "2026-10-09T02:11:07Z",
+                  "last_updated": "2026-10-16T03:16:37Z",
                   "stars": 3239
                 },
                 "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential.\n\n**Note:** the upstream container's entrypoint defaults to the SSE transport, so this entry passes `--transport stdio` via its registry args to force stdio mode. If you run this server with your own custom arguments (`thv run ... -- \u003cyour args\u003e`), those arguments replace the registry defaults, so be sure to include `--transport stdio` yourself or the server will silently fall back to SSE.",
@@ -19796,7 +20005,7 @@
                       "readOnlyHint": true,
                       "title": "Manage alerting routing"
                     },
-                    "description": "Manage Grafana alerting routing configuration, including notification policies, contact points and time intervals.\n\nNotification policies define how alerts are grouped, routed, and which contact points receive them.\nTime intervals define active/mute periods for alert notifications.\n\nWhen to use:\n- Understanding how alerts are routed to contact points/receivers\n- Debugging why an alert went to a specific receiver\n- Checking grouping, timing, or mute interval settings\n\nWhen NOT to use:\n- Checking alert rule configuration or state (use alerting_rules_read)",
+                    "description": "Manage Grafana alerting routing configuration, including notification policies, contact points and time intervals.\n\nNotification policies define how alerts are grouped, routed, and which contact points receive them.\nTime intervals define active/mute periods for alert notifications.\n\nWhen to use:\n- Understanding how alerts are routed to contact points/receivers\n- Debugging why an alert went to a specific receiver\n- Checking grouping, timing, or mute interval settings\n\nDoes not show alert rule configuration or state.",
                     "inputSchema": {
                       "properties": {
                         "contact_point_title": {
@@ -19846,7 +20055,7 @@
                       "readOnlyHint": false,
                       "title": "Write alerting routing"
                     },
-                    "description": "Create Grafana-managed contact points for alert notifications using operation 'create_contact_point'.\nRequires name, type and integration-specific settings. Returns uid, name and type without settings or secrets.\nContact points remain editable in the Grafana UI by default. External Alertmanager receivers are not supported.\nUse alerting_manage_routing to list or inspect contact points.",
+                    "description": "Create Grafana-managed contact points for alert notifications using operation 'create_contact_point'.\nRequires name, type and integration-specific settings. Returns uid, name and type without settings or secrets.\nContact points remain editable in the Grafana UI by default. External Alertmanager receivers are not supported. Does not list or inspect existing contact points.",
                     "inputSchema": {
                       "properties": {
                         "disable_provenance": {
@@ -19899,7 +20108,7 @@
                       "readOnlyHint": true,
                       "title": "Read alert rules"
                     },
-                    "description": "List and inspect Grafana alert rules with filtering capabilities.\n\nWhen to use:\n- Understanding why an alert is or isn't firing\n- Auditing alert rule configuration (queries, conditions, labels, notification settings)\n- Finding alert rules by state, folder, group, or name\n- Comparing rule versions to see what changed\n\nWhen NOT to use:\n- Creating, updating, or deleting alert rules (use alerting_rules_write)\n- Checking how alerts are routed to receivers (use alerting_manage_routing)",
+                    "description": "List and inspect Grafana alert rules with filtering capabilities.\n\nWhen to use:\n- Understanding why an alert is or isn't firing\n- Auditing alert rule configuration (queries, conditions, labels, notification settings)\n- Finding alert rules by state, folder, group, or name\n- Comparing rule versions to see what changed\n\nRead-only: does not create, update, or delete rules, and does not show notification routing.",
                     "inputSchema": {
                       "properties": {
                         "datasource_uid": {
@@ -19989,7 +20198,7 @@
                       "readOnlyHint": false,
                       "title": "Write alert rules"
                     },
-                    "description": "Create, update, and delete Grafana alert rules.\n\nWhen to use:\n- Creating, updating, or deleting alert rules\n\nTo update a rule, first use alerting_rules_read with operation 'get' to retrieve its full configuration, then call this tool with operation 'update' and all required fields plus your changes.\n\nWhen NOT to use:\n- Listing or inspecting alert rules (use alerting_rules_read)\n- Checking how alerts are routed to receivers (use alerting_manage_routing)",
+                    "description": "Create, update, and delete Grafana alert rules.\n\nWhen to use:\n- Creating, updating, or deleting alert rules\n\nOperation 'update' replaces the whole rule: it takes all required fields, not only the changed ones.\n\nDoes not list or inspect rules, and does not manage notification routing.",
                     "inputSchema": {
                       "properties": {
                         "annotations": {
@@ -20151,7 +20360,7 @@
                       "readOnlyHint": true,
                       "title": "Read alerting silences"
                     },
-                    "description": "List and inspect Grafana alerting silences. A silence temporarily suppresses notifications for alerts whose labels match a set of matchers.\n\nOperations:\n- 'list': list existing silences. Optionally filter by rule_uid (matches the __alert_rule_uid__ label) or by matchers.\n- 'get': retrieve a single silence by silence_id.\n\nWhen to use:\n- Inspecting which alerts are currently silenced and why\n\nWhen NOT to use:\n- Creating, updating or deleting silences (use alerting_silences_write)\n- Changing alert rule configuration or state (use alerting_rules_read or alerting_rules_write)\n- Checking how alerts are routed to receivers (use alerting_manage_routing)",
+                    "description": "List and inspect Grafana alerting silences. A silence temporarily suppresses notifications for alerts whose labels match a set of matchers.\n\nOperations:\n- 'list': list existing silences. Optionally filter by rule_uid (matches the __alert_rule_uid__ label) or by matchers.\n- 'get': retrieve a single silence by silence_id.\n\nWhen to use:\n- Inspecting which alerts are currently silenced and why\n\nRead-only: does not create, update, or delete silences, and does not show alert rules or notification routing.",
                     "inputSchema": {
                       "properties": {
                         "matchers": {
@@ -20215,7 +20424,7 @@
                       "readOnlyHint": false,
                       "title": "Write alerting silences"
                     },
-                    "description": "Create, update, and delete Grafana alerting silences. A silence temporarily suppresses notifications for alerts whose labels match a set of matchers, without changing the alert rules themselves.\n\nOperations:\n- 'create': create a new silence. Requires matchers, starts_at, ends_at (RFC3339) and comment.\n- 'update': modify an existing silence by silence_id. Requires matchers, starts_at, ends_at and comment. The id is only kept when the posted matchers and starts_at match the stored ones, so pass back the starts_at returned by alerting_silences_read 'get'; otherwise Alertmanager expires the old silence and returns a new id.\n- 'delete': expire/remove a silence by silence_id.\n\nWhen to use:\n- Muting noisy or expected alerts during maintenance windows\n\nWhen NOT to use:\n- Listing or inspecting silences (use alerting_silences_read)\n- Changing alert rule configuration or state (use alerting_rules_write)\n- Checking how alerts are routed to receivers (use alerting_manage_routing)",
+                    "description": "Create, update, and delete Grafana alerting silences. A silence temporarily suppresses notifications for alerts whose labels match a set of matchers, without changing the alert rules themselves.\n\nOperations:\n- 'create': create a new silence. Requires matchers, starts_at, ends_at (RFC3339) and comment.\n- 'update': modify an existing silence by silence_id. Requires matchers, starts_at, ends_at and comment. The id is only kept when the posted matchers and starts_at match the stored ones, so pass back the stored starts_at of the silence; otherwise Alertmanager expires the old silence and returns a new id.\n- 'delete': expire/remove a silence by silence_id.\n\nWhen to use:\n- Muting noisy or expected alerts during maintenance windows\n\nDoes not list or inspect silences, change alert rules, or manage notification routing.",
                     "inputSchema": {
                       "properties": {
                         "comment": {
@@ -20501,7 +20710,7 @@
                       "readOnlyHint": false,
                       "title": "Create datasource"
                     },
-                    "description": "Create a datasource. If type is ambiguous, call search_plugin_information first; install the plugin if needed. IMPORTANT: always call this tool twice. First call: provide only the type — the tool returns a field schema. After receiving the schema, you MUST ask the user for every required field value explicitly; do not infer or use defaults without user confirmation. Second call: provide the type, the display name in the top-level name argument, schemaReviewed=true, and the fields map populated with values confirmed by the user. Never handle credentials — remind the user to rotate any detected. Returns UID, health check, and a config page link. ",
+                    "description": "Create a datasource in two steps. Called with only the type, it returns the plugin's field schema and creates nothing. Called with the type, the display name in the top-level name argument, schemaReviewed=true, and field values in the fields map, it creates the datasource. The plugin for the type must already be installed. Secrets (passwords, tokens) are not accepted. Returns UID, health check, and a config page link.",
                     "inputSchema": {
                       "properties": {
                         "access": {
@@ -20529,7 +20738,7 @@
                           "type": "string"
                         },
                         "schemaReviewed": {
-                          "description": "Set to true on the second call to confirm you reviewed the schema and collected values from the user.",
+                          "description": "True once the field schema has been retrieved; required to create a schema-backed datasource.",
                           "type": "boolean"
                         },
                         "type": {
@@ -20592,7 +20801,7 @@
                       "readOnlyHint": false,
                       "title": "Create incident"
                     },
-                    "description": "Create a new Grafana incident. Requires title, severity, and room prefix. Allows setting status, labels and custom fields. This tool should be used judiciously and sparingly, and only after confirmation from the user, as it may notify or alarm lots of people.",
+                    "description": "Create a new Grafana incident. Requires title, severity, and room prefix. Allows setting status, labels and custom fields. Creating an incident may notify or page many people.",
                     "inputSchema": {
                       "properties": {
                         "attachCaption": {
@@ -20604,11 +20813,11 @@
                           "type": "string"
                         },
                         "customFields": {
-                          "description": "Custom field values to set on the new incident. Use list_incident_custom_fields to discover the available fields and their valid values",
+                          "description": "Custom field values to set on the new incident",
                           "items": {
                             "properties": {
                               "field": {
-                                "description": "The name or UUID of the custom field to set. Use list_incident_custom_fields to discover the available fields",
+                                "description": "The name or UUID of the custom field to set",
                                 "type": "string"
                               },
                               "values": {
@@ -20864,7 +21073,7 @@
                               "type": "string"
                             },
                             "repo": {
-                              "description": "Provisioning repository slug. List repositories via list_provisioning_repositories if unknown.",
+                              "description": "Provisioning repository slug (the repository name).",
                               "type": "string"
                             }
                           },
@@ -21106,7 +21315,7 @@
                       "readOnlyHint": true,
                       "title": "Get dashboard details"
                     },
-                    "description": "Retrieves the complete dashboard, including panels, variables, and settings, for a specific dashboard identified by its UID. Pass optional version to load a saved snapshot instead of the current dashboard. Saved snapshots are fetched through Grafana's legacy versions API, so 'apiVersion' is omitted and 'meta' is partial: only version, createdBy, and created are populated. For current (non-versioned) fetches, the response includes 'apiVersion' and 'isV2': when 'isV2' is true the dashboard uses the v2 schema (panels live under 'elements' keyed by name, arranged by 'layout'; variables under 'variables'), otherwise it is classic v1 ('panels[]' with 'templating.list'). WARNING: Large dashboards can consume significant context window space. Consider using get_dashboard_summary for overview or get_dashboard_property for specific data instead.",
+                    "description": "Retrieves the complete dashboard, including panels, variables, and settings, for a specific dashboard identified by its UID. Pass optional version to load a saved snapshot instead of the current dashboard. Saved snapshots are fetched through Grafana's legacy versions API, so 'apiVersion' is omitted and 'meta' is partial: only version, createdBy, and created are populated. For current (non-versioned) fetches, the response includes 'apiVersion' and 'isV2': when 'isV2' is true the dashboard uses the v2 schema (panels live under 'elements' keyed by name, arranged by 'layout'; variables under 'variables'), otherwise it is classic v1 ('panels[]' with 'templating.list'). The full JSON of a large dashboard can be very large.",
                     "inputSchema": {
                       "properties": {
                         "uid": {
@@ -21134,7 +21343,7 @@
                       "readOnlyHint": true,
                       "title": "Get dashboard panel queries"
                     },
-                    "description": "Retrieve panel queries from a Grafana dashboard. Supports all datasource types (Prometheus, Loki, CloudWatch, SQL, etc.) and row-nested panels. Optionally filter to a specific panel by ID with `panelId`. Optionally provide `variables` for template variable substitution, which populates `processedQuery` and `requiredVariables` fields. Returns an array of objects with fields: title, query (raw expression), datasource (object with uid and type), and optionally processedQuery, refId, requiredVariables, and target. Targets built in a visual editor (CloudWatch metric search, InfluxDB query builder) have no string expression: those return an empty query plus `target`, the panel's raw query JSON. Run those with run_panel_query rather than a query tool.",
+                    "description": "Retrieve panel queries from a Grafana dashboard. Supports all datasource types (Prometheus, Loki, CloudWatch, SQL, etc.) and row-nested panels. Optionally filter to a specific panel by ID with `panelId`. Optionally provide `variables` for template variable substitution, which populates `processedQuery` and `requiredVariables` fields. Returns an array of objects with fields: title, query (raw expression), datasource (object with uid and type), and optionally processedQuery, refId, requiredVariables, and target. Targets built in a visual editor (CloudWatch metric search, InfluxDB query builder) have no string expression: those return an empty query plus `target`, the panel's raw query JSON. They can be executed as panel queries but not as standalone expressions.",
                     "inputSchema": {
                       "properties": {
                         "panelId": {
@@ -21168,7 +21377,7 @@
                       "readOnlyHint": true,
                       "title": "Get dashboard property"
                     },
-                    "description": "Get specific parts of a dashboard using JSONPath expressions to minimize context window usage. JSONPath targets the dashboard's native schema. Classic v1 paths: '$.title' (title), '$.panels[*].title' (all panel titles), '$.panels[0]' (first panel), '$.templating.list' (variables), '$.annotations.list' (saved dashboard annotation queries/definitions), '$.tags' (tags), '$.panels[*].targets[*].expr' (all queries). v2 dashboards (see isV2 from get_dashboard_by_uid) use different paths: '$.title', '$.elements' (panels, keyed by name), '$.variables' (variables), '$.annotations'. Use this instead of get_dashboard_by_uid when you only need specific dashboard properties.",
+                    "description": "Get specific parts of a dashboard using JSONPath expressions to minimize context window usage. JSONPath targets the dashboard's native schema. Classic v1 paths: '$.title' (title), '$.panels[*].title' (all panel titles), '$.panels[0]' (first panel), '$.templating.list' (variables), '$.annotations.list' (saved dashboard annotation queries/definitions), '$.tags' (tags), '$.panels[*].targets[*].expr' (all queries). v2 dashboards (isV2 true) use different paths: '$.title', '$.elements' (panels, keyed by name), '$.variables' (variables), '$.annotations'.",
                     "inputSchema": {
                       "properties": {
                         "jsonPath": {
@@ -21329,15 +21538,35 @@
                       "readOnlyHint": true,
                       "title": "Get panel or dashboard image"
                     },
-                    "description": "Render a Grafana dashboard panel or full dashboard as a PNG image. Returns the image as base64 encoded data. Requires the Grafana Image Renderer service to be installed. Either dashboardUid (for stored dashboards) or provisioningPreview (for dashboards staged on a provisioning repository branch, e.g. a git-sync PR) must be supplied. Use this for generating visual snapshots of dashboards for reports, alerts, or presentations.",
+                    "description": "Render a Grafana dashboard panel, full dashboard or Explore view as a PNG image. Returns the image as base64 encoded data. Requires the Grafana Image Renderer service to be installed. Exactly one of dashboardUid (for stored dashboards), provisioningPreview (for dashboards staged on a provisioning repository branch, e.g. a git-sync PR) or explore (an ad-hoc datasource query rendered in Explore, no saved dashboard needed) must be supplied. Use this for generating visual snapshots of dashboards for reports, alerts, or presentations.",
                     "inputSchema": {
                       "properties": {
                         "dashboardUid": {
                           "description": "The UID of a stored dashboard containing the panel. Required unless provisioningPreview is provided.",
                           "type": "string"
                         },
+                        "explore": {
+                          "description": "Render an ad-hoc Explore view for a datasource and queries instead of a stored dashboard. Mutually exclusive with dashboardUid and provisioningPreview. Requires Grafana 10.2 or later.",
+                          "properties": {
+                            "datasourceUid": {
+                              "description": "Datasource UID to query",
+                              "type": "string"
+                            },
+                            "queries": {
+                              "description": "List of query objects (e.g. [{\"refId\":\"A\", \"expr\":\"up\"}])",
+                              "items": {
+                                "type": "object"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "required": [
+                            "datasourceUid"
+                          ],
+                          "type": "object"
+                        },
                         "height": {
-                          "description": "Height of the rendered image in pixels. Defaults to 500",
+                          "description": "Height of the rendered image in pixels. Defaults to 500 (1000 for explore)",
                           "type": "integer"
                         },
                         "panelId": {
@@ -21427,7 +21656,7 @@
                       "readOnlyHint": true,
                       "title": "Get plugin"
                     },
-                    "description": "Check whether a Grafana plugin is installed and retrieve its details (name, version, type, enabled status). Returns installed=false when the plugin is not found. Use install_plugin when a plugin is not installed to install plugin after confirming this action with the user.",
+                    "description": "Check whether a Grafana plugin is installed and retrieve its details (name, version, type, enabled status). Returns installed=false when the plugin is not found.",
                     "inputSchema": {
                       "properties": {
                         "pluginId": {
@@ -21583,7 +21812,7 @@
                       "readOnlyHint": false,
                       "title": "Install plugin"
                     },
-                    "description": "Install a Grafana plugin by its plugin ID. If the version is not already confirmed with the user, omit it — the tool will look up the latest version and return it for confirmation before installing.",
+                    "description": "Install a Grafana plugin by its plugin ID. When version is omitted, the tool looks up the latest version and returns it without installing; supplying a version installs that version.",
                     "inputSchema": {
                       "properties": {
                         "pluginId": {
@@ -21591,7 +21820,7 @@
                           "type": "string"
                         },
                         "version": {
-                          "description": "The exact version to install. Must be confirmed with the user before calling — if unknown, omit this field to look up the latest version first.",
+                          "description": "The exact version to install. When omitted, the tool returns the latest available version without installing.",
                           "type": "string"
                         }
                       },
@@ -21666,7 +21895,7 @@
                       "readOnlyHint": true,
                       "title": "List dashboard versions"
                     },
-                    "description": "List saved versions of a Grafana dashboard. Returns compact metadata: version number, author, timestamp, and save message. Use get_dashboard_by_uid with version to fetch a snapshot.",
+                    "description": "List saved versions of a Grafana dashboard. Returns compact metadata: version number, author, timestamp, and save message. A version number can be passed to the dashboard fetch to load that snapshot.",
                     "inputSchema": {
                       "properties": {
                         "limit": {
@@ -21734,7 +21963,7 @@
                       "readOnlyHint": true,
                       "title": "List incident custom fields"
                     },
-                    "description": "List the custom fields configured for Grafana incidents, including their type and, for select fields, the options that may be chosen. Use this to discover which fields exist and which values are valid before setting them with create_incident or update_incident.",
+                    "description": "List the custom fields configured for Grafana incidents, including their type and, for select fields, the options that may be chosen.",
                     "inputSchema": {
                       "properties": {
                         "includeArchived": {
@@ -22017,7 +22246,7 @@
                       "readOnlyHint": true,
                       "title": "List Prometheus label values"
                     },
-                    "description": "Use after list_prometheus_metric_names to find label values for filtering queries. Gets the values for a specific label name in a PromQL-compatible datasource (Prometheus, Thanos, Mimir, Cloud Monitoring, etc.). Allows filtering by series selectors and time range.",
+                    "description": "Gets the values for a specific label name in a PromQL-compatible datasource (Prometheus, Thanos, Mimir, Cloud Monitoring, etc.). Allows filtering by series selectors and time range.",
                     "inputSchema": {
                       "properties": {
                         "datasourceUid": {
@@ -22136,7 +22365,7 @@
                       "readOnlyHint": true,
                       "title": "List Prometheus metric names"
                     },
-                    "description": "DISCOVERY: Call this first to find available metrics before querying. Lists metric names in a PromQL-compatible datasource (Prometheus, Thanos, Mimir, Cloud Monitoring, etc.). Filters metric names using the provided regex. Supports pagination (page * limit must not exceed 10000) and an optional time range to restrict results to metrics active within that window. Cloud Monitoring ignores the time range.",
+                    "description": "Lists metric names in a PromQL-compatible datasource (Prometheus, Thanos, Mimir, Cloud Monitoring, etc.). Filters metric names using the provided regex. Supports pagination (page * limit must not exceed 10000) and an optional time range to restrict results to metrics active within that window. Cloud Monitoring ignores the time range.",
                     "inputSchema": {
                       "properties": {
                         "datasourceUid": {
@@ -22185,7 +22414,7 @@
                       "readOnlyHint": true,
                       "title": "List provisioning repositories"
                     },
-                    "description": "List provisioning repositories (e.g. git-sync sources) configured for this Grafana instance. Returns each repository's slug along with its source URL, branch, path, sync state, and health. Use the returned `name` as the `repo` argument when rendering a not-yet-applied dashboard preview via get_panel_image's provisioningPreview parameter.",
+                    "description": "List provisioning repositories (e.g. git-sync sources) configured for this Grafana instance. Returns each repository's slug along with its source URL, branch, path, sync state, and health. The `name` is the slug used to render not-yet-applied dashboard previews.",
                     "inputSchema": {
                       "properties": {},
                       "required": [],
@@ -22331,7 +22560,7 @@
                       "readOnlyHint": true,
                       "title": "List Tempo attribute names"
                     },
-                    "description": "List available attribute names for TraceQL queries. Always pass a scope (resource, span, etc.) to avoid very large responses.",
+                    "description": "List available attribute names for TraceQL queries. Without a scope (resource, span, etc.) the response can be very large.",
                     "inputSchema": {
                       "properties": {
                         "datasourceUid": {
@@ -22390,7 +22619,7 @@
                       "readOnlyHint": true,
                       "title": "Query Loki logs"
                     },
-                    "description": "Executes a log query against a Loki or VictoriaLogs datasource and returns matching log entries (or metric samples on Loki). Defaults to the last hour, a limit of 10 entries, and 'backward' direction (newest first). The `logql` parameter takes LogQL on Loki and LogsQL on VictoriaLogs (e.g., Loki: `{app=\"foo\"} |= \"error\"`; VictoriaLogs: `{app=\"foo\"} \"error\"`). To count matching log lines precisely, use a `count_over_time()` metric query with queryType='instant'. Prefer using `query_loki_stats` first to cheaply check whether a stream contains data (avoiding expensive queries against empty streams) and `list_loki_label_names` / `list_loki_label_values` to verify labels exist before querying. Note: `query_loki_stats` returns approximate storage-level counts, not exact log line counts. For broad queries that match many lines, set `format` to 'compact' to group results by stream and avoid repeating label metadata on every line. If this server enables the Loki cost guardrail, expensive queries are rejected before execution: query cost is bytes SCANNED, determined only by the stream selector and time range — line filters (|=) and parsers (| json) reduce what is returned, not what is scanned. Use a stream selector with at least one selective positive label matcher (never `{}`, `=~\".*\"`/`=~\".+\"`, or negative-only matchers), keep time ranges narrow, and check size with `query_loki_stats` first; rejected queries return rewrite guidance.",
+                    "description": "Executes a log query against a Loki or VictoriaLogs datasource and returns matching log entries (or metric samples on Loki). Defaults to the last hour, a limit of 10 entries, and 'backward' direction (newest first). The `logql` parameter takes LogQL on Loki and LogsQL on VictoriaLogs (e.g., Loki: `{app=\"foo\"} |= \"error\"`; VictoriaLogs: `{app=\"foo\"} \"error\"`). To count matching log lines precisely, use a `count_over_time()` metric query with queryType='instant'. For broad queries that match many lines, set `format` to 'compact' to group results by stream and avoid repeating label metadata on every line. If this server enables the Loki cost guardrail, expensive queries are rejected before execution: query cost is bytes SCANNED, determined only by the stream selector and time range — line filters (|=) and parsers (| json) reduce what is returned, not what is scanned. Use a stream selector with at least one selective positive label matcher (never `{}`, `=~\".*\"`/`=~\".+\"`, or negative-only matchers), keep time ranges narrow; rejected queries return rewrite guidance.",
                     "inputSchema": {
                       "properties": {
                         "datasourceUid": {
@@ -22491,7 +22720,7 @@
                       "readOnlyHint": true,
                       "title": "Get Loki log statistics"
                     },
-                    "description": "Retrieves index-level statistics about log streams matching a given selector within a Loki or VictoriaLogs datasource and time range. Returns an object containing the count of streams, chunks, entries, and total bytes (e.g., `{\"streams\": 5, \"chunks\": 50, \"entries\": 10000, \"bytes\": 512000}`). **Important**: the `entries` count reflects storage-level index entries (chunk metadata), NOT the number of individual log lines matching the selector. To count actual matching log lines, use `query_loki_logs` with a `count_over_time()` metric query instead. On VictoriaLogs only `entries` is populated; the other fields remain zero. The `logql` parameter **must** be a simple label selector (e.g., `{app=\"nginx\", env=\"prod\"}`) and does not support line filters, parsers, or aggregations. Defaults to the last hour if the time range is omitted.",
+                    "description": "Retrieves index-level statistics about log streams matching a given selector within a Loki or VictoriaLogs datasource and time range. Returns an object containing the count of streams, chunks, entries, and total bytes (e.g., `{\"streams\": 5, \"chunks\": 50, \"entries\": 10000, \"bytes\": 512000}`). **Important**: the `entries` count reflects storage-level index entries (chunk metadata), NOT the number of individual log lines matching the selector. Counting actual matching log lines requires a `count_over_time()` LogQL metric query. On VictoriaLogs only `entries` is populated; the other fields remain zero. The `logql` parameter **must** be a simple label selector (e.g., `{app=\"nginx\", env=\"prod\"}`) and does not support line filters, parsers, or aggregations. Defaults to the last hour if the time range is omitted.",
                     "inputSchema": {
                       "properties": {
                         "datasourceUid": {
@@ -22527,7 +22756,7 @@
                       "readOnlyHint": true,
                       "title": "Query Prometheus metrics"
                     },
-                    "description": "WORKFLOW: list_prometheus_metric_names -\u003e list_prometheus_label_values -\u003e query_prometheus. Query a PromQL-compatible datasource (Prometheus, Thanos, Mimir, Cloud Monitoring, etc.) using a PromQL expression. Supports instant queries (single point) and range queries (time range). Time: RFC3339 or relative expressions like 'now', 'now-1h'.",
+                    "description": "Query a PromQL-compatible datasource (Prometheus, Thanos, Mimir, Cloud Monitoring, etc.) using a PromQL expression. Supports instant queries (single point) and range queries (time range). Time: RFC3339 or relative expressions like 'now', 'now-1h'.",
                     "inputSchema": {
                       "properties": {
                         "datasourceUid": {
@@ -22576,7 +22805,7 @@
                       "readOnlyHint": true,
                       "title": "Query Prometheus histogram percentile"
                     },
-                    "description": "Query Prometheus histogram percentiles. DISCOVER FIRST: Use list_prometheus_metric_names with regex='.*_bucket$' to find histograms.\n\nGenerates histogram_quantile PromQL. Example: metric='http_duration', percentile=95, labels='job=\"api\"'\n\nTime formats: 'now-1h', '2026-02-02T19:00:00Z', '1738519200000' (Unix ms)",
+                    "description": "Query Prometheus histogram percentiles from classic histogram '_bucket' series.\n\nGenerates histogram_quantile PromQL. Example: metric='http_duration', percentile=95, labels='job=\"api\"'\n\nTime formats: 'now-1h', '2026-02-02T19:00:00Z', '1738519200000' (Unix ms)",
                     "inputSchema": {
                       "properties": {
                         "datasourceUid": {
@@ -22664,7 +22893,7 @@
                           "type": "integer"
                         },
                         "profile_type": {
-                          "description": "The profile type, use list_pyroscope_profile_types to discover available types",
+                          "description": "The profile type (e.g. process_cpu:cpu:nanoseconds:cpu:nanoseconds)",
                           "type": "string"
                         },
                         "query_type": {
@@ -22696,7 +22925,7 @@
                       "readOnlyHint": true,
                       "title": "Query Tempo metrics"
                     },
-                    "description": "Compute trace-derived metrics using a TraceQL metrics query. The syntax is unlike PromQL; call get_tempo_traceql_docs with topic 'metrics' for the reference. Use type 'instant' for a single value or 'range' for a time series (default). Instant queries over large time ranges may timeout — keep the window under 15 minutes for instant, or use range instead.",
+                    "description": "Compute trace-derived metrics using a TraceQL metrics query. The syntax is unlike PromQL. Use type 'instant' for a single value or 'range' for a time series (default). Instant queries over large time ranges may timeout — keep the window under 15 minutes for instant, or use range instead.",
                     "inputSchema": {
                       "properties": {
                         "datasourceUid": {
@@ -22837,7 +23066,7 @@
                       "readOnlyHint": true,
                       "title": "Search plugins"
                     },
-                    "description": "Search the Grafana plugin catalog by keyword to discover available plugins before installing or getting plugin details on a specific instance. Returns results sorted by trust: official Grafana Labs plugins first, then commercial partner plugins, then community plugins. Use this tool when a user describes a plugin by purpose or partial name (e.g. 'azure monitoring', 'loki', 'database') — it returns the exact pluginId to pass to get_plugin or install_plugin. Results include warnings for enterprise-only or Angular-based plugins.",
+                    "description": "Search the Grafana plugin catalog by keyword, purpose, or partial name (e.g. 'azure monitoring', 'loki', 'database'). Returns results sorted by trust: official Grafana Labs plugins first, then commercial partner plugins, then community plugins, each with its exact pluginId. Results include warnings for enterprise-only or Angular-based plugins.",
                     "inputSchema": {
                       "properties": {
                         "query": {
@@ -23010,11 +23239,11 @@
                       "readOnlyHint": false,
                       "title": "Create or update dashboard"
                     },
-                    "description": "Create or update a dashboard. Two modes: (1) Full JSON — provide 'dashboard' for new dashboards or complete replacements. (2) Patch — provide 'uid' + 'operations' to make targeted changes to an existing dashboard. One of these two modes is required; 'folderUid', 'message', and 'overwrite' are supplementary and do nothing on their own. Dashboard authoring guidance: if a saved query must support one, many, or All values from a multi-select variable inside a regex expression or matcher, save '${var:regex}' rather than plain '$var'. Saved dashboard annotation queries/definitions must be written into dashboard JSON under 'annotations.list'; the create_annotation tool creates annotation events and does not add a reusable dashboard annotation query/definition to the saved dashboard. For stat panels over the current dashboard range, make the query return the range-level result the stat should display; panel-side reduction only reduces returned series and does not compute peak-over-range or ratio-of-peaks semantics for you. Patch operations support JSONPaths like '$.panels[0].targets[0].expr', '$.panels[1].title', '$.panels[2].targets[0].datasource', '$.templating.list/-', and '$.annotations.list/-'. Append to arrays with '/- ' syntax: '$.panels/- '. Remove by index: {\"op\": \"remove\", \"path\": \"$.panels[2]\"}. Multiple removes on the same array are automatically reordered to avoid index-shifting issues. Note: only numeric array indices are supported in patch paths; filter expressions like [?(@.id==2)] and wildcards like [*] are not supported. Schema: prefer v2 for new dashboards; if this Grafana lacks v2 the save fails saying so, then send v1. Keep an existing dashboard in its stored schema (get_dashboard_by_uid returns 'isV2'/'apiVersion'). A body with top-level 'elements'/'layout' is saved as v2. Minimal v2 body: {\"title\":\"T\",\"timeSettings\":{\"from\":\"now-6h\",\"to\":\"now\"},\"variables\":[],\"elements\":{\"p1\":{\"kind\":\"Panel\",\"spec\":{\"id\":1,\"title\":\"Up\",\"vizConfig\":{\"kind\":\"VizConfig\",\"group\":\"timeseries\",\"spec\":{}},\"data\":{\"kind\":\"QueryGroup\",\"spec\":{\"queries\":[{\"kind\":\"PanelQuery\",\"spec\":{\"refId\":\"A\",\"query\":{\"kind\":\"DataQuery\",\"group\":\"prometheus\",\"datasource\":{\"name\":\"\u003cds uid\u003e\"},\"spec\":{\"expr\":\"up\"}}}}]}}}}},\"layout\":{\"kind\":\"GridLayout\",\"spec\":{\"items\":[{\"kind\":\"GridLayoutItem\",\"spec\":{\"x\":0,\"y\":0,\"width\":24,\"height\":8,\"element\":{\"kind\":\"ElementReference\",\"name\":\"p1\"}}}]}}}. For tabs, layout is {\"kind\":\"TabsLayout\",\"spec\":{\"tabs\":[{\"kind\":\"TabsLayoutTab\",\"spec\":{\"title\":\"A\",\"layout\":\u003cGridLayout\u003e}}]}}. After creating or updating a dashboard, verify that panel queries return data by using `run_panel_query` or the appropriate query tool (`query_prometheus`, `query_loki_logs`, etc.) to validate expressions before considering the task complete.",
+                    "description": "Create or update a dashboard. Returns the saved dashboard UID and dashboard link in the 'url' field, using the instance public URL when available. Two modes: (1) Full JSON — provide 'dashboard' for new dashboards or complete replacements. (2) Patch — provide 'uid' + 'operations' to make targeted changes to an existing dashboard. One of these two modes is required; 'folderUid', 'message', and 'overwrite' are supplementary and do nothing on their own. Dashboard authoring guidance: if a saved query must support one, many, or All values from a multi-select variable inside a regex expression or matcher, save '${var:regex}' rather than plain '$var'. Saved dashboard annotation queries/definitions live in dashboard JSON under 'annotations.list'; annotation events are stored separately and are not part of the dashboard JSON. For stat panels over the current dashboard range, make the query return the range-level result the stat should display; panel-side reduction only reduces returned series and does not compute peak-over-range or ratio-of-peaks semantics for you. Patch operations support JSONPaths like '$.panels[0].targets[0].expr', '$.panels[1].title', '$.panels[2].targets[0].datasource', '$.templating.list/-', and '$.annotations.list/-'. Append to arrays with '/- ' syntax: '$.panels/- '. Remove by index: {\"op\": \"remove\", \"path\": \"$.panels[2]\"}. Multiple removes on the same array are automatically reordered to avoid index-shifting issues. Note: only numeric array indices are supported in patch paths; filter expressions like [?(@.id==2)] and wildcards like [*] are not supported. Schema: prefer v2 for new dashboards; if this Grafana lacks v2 the save fails saying so, then send v1. Keep an existing dashboard in its stored schema (indicated by 'isV2'/'apiVersion' on the fetched dashboard). A body with top-level 'elements'/'layout' is saved as v2. Minimal v2 body: {\"title\":\"T\",\"timeSettings\":{\"from\":\"now-6h\",\"to\":\"now\"},\"variables\":[],\"elements\":{\"p1\":{\"kind\":\"Panel\",\"spec\":{\"id\":1,\"title\":\"Up\",\"vizConfig\":{\"kind\":\"VizConfig\",\"group\":\"timeseries\",\"spec\":{}},\"data\":{\"kind\":\"QueryGroup\",\"spec\":{\"queries\":[{\"kind\":\"PanelQuery\",\"spec\":{\"refId\":\"A\",\"query\":{\"kind\":\"DataQuery\",\"group\":\"prometheus\",\"datasource\":{\"name\":\"\u003cds uid\u003e\"},\"spec\":{\"expr\":\"up\"}}}}]}}}}},\"layout\":{\"kind\":\"GridLayout\",\"spec\":{\"items\":[{\"kind\":\"GridLayoutItem\",\"spec\":{\"x\":0,\"y\":0,\"width\":24,\"height\":8,\"element\":{\"kind\":\"ElementReference\",\"name\":\"p1\"}}}]}}}. For tabs, layout is {\"kind\":\"TabsLayout\",\"spec\":{\"tabs\":[{\"kind\":\"TabsLayoutTab\",\"spec\":{\"title\":\"A\",\"layout\":\u003cGridLayout\u003e}}]}}.",
                     "inputSchema": {
                       "properties": {
                         "dashboard": {
-                          "description": "The full dashboard JSON: classic v1 (panels[]) or v2 (elements/layout; skeleton in the tool description). Use for creating new dashboards or complete updates. Saved dashboard annotation queries/definitions live in 'annotations.list' inside this JSON; they are different from annotation events created with create_annotation. Large dashboards consume significant context - consider using patches for small changes.",
+                          "description": "The full dashboard JSON: classic v1 (panels[]) or v2 (elements/layout; skeleton in the tool description). Use for creating new dashboards or complete updates. Saved dashboard annotation queries/definitions live in 'annotations.list' inside this JSON; they are different from annotation events, which are stored separately. Large dashboards consume significant context - consider using patches for small changes.",
                           "type": "object"
                         },
                         "folderUid": {
@@ -23038,7 +23267,7 @@
                                 "type": "string"
                               },
                               "value": {
-                                "description": "New value for replace/add operations. When adding a saved dashboard annotation query/definition, append an object to '$.annotations.list' rather than calling create_annotation.",
+                                "description": "New value for replace/add operations. When adding a saved dashboard annotation query/definition, append an object to '$.annotations.list'.",
                                 "type": [
                                   "string",
                                   "number",
@@ -23084,7 +23313,7 @@
                       "readOnlyHint": false,
                       "title": "Update datasource"
                     },
-                    "description": "Update non-secret datasource fields by UID. Omitted fields are preserved. IMPORTANT: always call this tool twice. First call: provide only the uid — the tool returns the datasource's field schema. After receiving the schema, ask the user which fields they want to change and confirm each new value; do not infer or reset fields the user did not mention. Second call: provide the uid, schemaReviewed=true, and the changed values in the fields map. Returns an update message and a health check. For secrets, direct the user to the Grafana UI.",
+                    "description": "Update non-secret datasource fields by UID in two steps. Called with only the uid, it returns the datasource's field schema and changes nothing. Called with the uid, schemaReviewed=true, and the changed values in the fields map, it applies the update. Omitted fields are preserved. Secrets (passwords, tokens) cannot be changed. Returns an update message and a health check.",
                     "inputSchema": {
                       "properties": {
                         "access": {
@@ -23116,7 +23345,7 @@
                           "type": "string"
                         },
                         "schemaReviewed": {
-                          "description": "Set to true on the second call to confirm you reviewed the schema and collected the changes from the user.",
+                          "description": "True once the field schema has been retrieved; required to apply the update.",
                           "type": "boolean"
                         },
                         "uid": {
@@ -23147,11 +23376,11 @@
                     "inputSchema": {
                       "properties": {
                         "customFields": {
-                          "description": "Custom field values to set. Only the listed fields are changed. Use list_incident_custom_fields to discover the available fields and their valid values",
+                          "description": "Custom field values to set. Only the listed fields are changed",
                           "items": {
                             "properties": {
                               "field": {
-                                "description": "The name or UUID of the custom field to set. Use list_incident_custom_fields to discover the available fields",
+                                "description": "The name or UUID of the custom field to set",
                                 "type": "string"
                               },
                               "values": {
@@ -23229,7 +23458,7 @@
                           "type": "string"
                         },
                         "repo": {
-                          "description": "Provisioning repository slug. Get one from list_provisioning_repositories.",
+                          "description": "Provisioning repository slug (the repository name).",
                           "type": "string"
                         }
                       },
@@ -30903,7 +31132,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/mongodb/mongodb-mcp-server:3.0.5",
+            "identifier": "docker.io/mongodb/mongodb-mcp-server:3.1.0",
             "transport": {
               "type": "stdio"
             },
@@ -30957,7 +31186,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/mongodb/mongodb-mcp-server:3.0.5": {
+              "docker.io/mongodb/mongodb-mcp-server:3.1.0": {
                 "metadata": {
                   "last_updated": "2026-08-14T03:00:21Z",
                   "stars": 1097
@@ -38376,7 +38605,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:4.3.15",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:4.3.16",
             "transport": {
               "type": "stdio"
             },
@@ -38396,9 +38625,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:4.3.15": {
+              "ghcr.io/stacklok/dockyard/npx/phoenix-mcp:4.3.16": {
                 "metadata": {
-                  "last_updated": "2026-10-05T22:37:48Z",
+                  "last_updated": "2026-10-16T03:16:48Z",
                   "stars": 9311
                 },
                 "overview": "## Phoenix MCP Server\n\nThe phoenix MCP server is a Model Context Protocol (MCP) server for the Arize Phoenix observability platform. It provides AI assistants with programmatic access to Arize Phoenix, enabling dataset and experiment management for LLM evaluation workflows, prompt version control and tagging for LLM application development, span and trace querying for observability and debugging, and project-based organization for managing multiple Phoenix instances.",
@@ -39744,7 +39973,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.82",
+            "identifier": "mcr.microsoft.com/playwright/mcp:v0.0.83",
             "transport": {
               "type": "stdio"
             },
@@ -39923,9 +40152,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "mcr.microsoft.com/playwright/mcp:v0.0.82": {
+              "mcr.microsoft.com/playwright/mcp:v0.0.83": {
                 "metadata": {
-                  "last_updated": "2026-10-05T22:37:15Z",
+                  "last_updated": "2026-10-16T03:18:05Z",
                   "stars": 28552
                 },
                 "overview": "## Playwright MCP Server\n\nThe playwright MCP server provides browser automation capabilities using Playwright. The server enables comprehensive browser automation supporting Chromium, Firefox, and WebKit, with full control over page interactions including clicks, typing, navigation, and screenshots. Additional capabilities include network request monitoring, console message capture for debugging, form filling, file uploads, and dialog handling for complete workflow automation.",
@@ -40353,6 +40582,10 @@
                     "description": "Search the accessibility snapshot of the current page for text or a regular expression. Returns matching snapshot nodes with a few lines of surrounding context (like search snippets), each shown under its path from the root of the tree, which is cheaper than capturing the whole snapshot when you only need to locate an element and its ref.",
                     "inputSchema": {
                       "properties": {
+                        "filename": {
+                          "description": "Save results to a file instead of returning them in the response. Relative file names are resolved against the workspace root.",
+                          "type": "string"
+                        },
                         "regex": {
                           "description": "Regular expression to search for in the page snapshot. Matching is case-sensitive by default; wrap the pattern in slashes to add flags, e.g. \"/error/i\" for case-insensitive. Provide either text or regex, not both.",
                           "type": "string"
@@ -40810,7 +41043,7 @@
                           "type": "string"
                         },
                         "time": {
-                          "description": "The time to wait in seconds",
+                          "description": "The time to wait in seconds, at most 30",
                           "type": "number"
                         }
                       },
@@ -43574,7 +43807,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/semgrep/semgrep:1.180.0",
+            "identifier": "docker.io/semgrep/semgrep:1.181.0",
             "transport": {
               "type": "stdio"
             },
@@ -43590,13 +43823,13 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/semgrep/semgrep:1.180.0": {
+              "docker.io/semgrep/semgrep:1.181.0": {
                 "args": [
                   "semgrep",
                   "mcp"
                 ],
                 "metadata": {
-                  "last_updated": "2026-10-09T02:13:00Z",
+                  "last_updated": "2026-10-16T03:19:11Z",
                   "stars": 15042
                 },
                 "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
@@ -49805,7 +50038,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.20-20261008",
+            "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.21-20261016",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8080"
@@ -49841,7 +50074,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.20-20261008": {
+              "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.21-20261016": {
                 "metadata": {
                   "last_updated": "2026-07-31T20:52:33Z",
                   "stars": 3
