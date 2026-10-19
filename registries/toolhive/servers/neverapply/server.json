@@ -8,8 +8,19 @@
             "homepage": "https://neverapply.co/features/mcp",
             "license": "MIT"
           },
+          "oauth_config": {
+            "authorize_url": "https://neverapply.co/oauth/authorize",
+            "scopes": [
+              "mcp:read",
+              "mcp:write",
+              "mcp:apply"
+            ],
+            "token_url": "https://neverapply.co/oauth/token",
+            "use_pkce": true
+          },
           "status": "Active",
           "tags": [
+            "remote",
             "jobs",
             "career",
             "search",
