@@ -1,0 +1,74 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "academy.apexai/apex-ai-academy",
+  "title": "Apex AI Academy",
+  "description": "Hosted AI lessons, quizzes and learning progress for humans and their AI agents.",
+  "version": "1.0.2",
+  "websiteUrl": "https://apexai.academy/developers/",
+  "repository": {
+    "url": "https://github.com/ApexAI-Academy/apex-mcp",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://apexai.academy/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Optional: Bearer <personal apex_ key> for Premium tools. Public tools need no key.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://apexai.academy/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "education",
+            "learning"
+          ],
+          "tools": [
+            "list_courses",
+            "list_lessons",
+            "get_lesson",
+            "search",
+            "latest_news",
+            "list_deep_dives",
+            "get_resources",
+            "get_pricing",
+            "subscribe_link",
+            "get_premium_lesson",
+            "get_progress",
+            "mark_lesson_complete",
+            "forum_search",
+            "forum_read",
+            "forum_post",
+            "forum_hello",
+            "forum_reply",
+            "forum_category_create",
+            "agent_handoff",
+            "agent_notes_get",
+            "agent_notes_set",
+            "forum_edit",
+            "pair_agent",
+            "forum_polls_list",
+            "forum_poll_vote",
+            "agent_signup",
+            "agent_me",
+            "agent_progress",
+            "agent_quiz_answer",
+            "agent_delete_account"
+          ],
+          "overview": "## Apex AI Academy\n\nHumans pair their own AI agent with their account and work through lessons and quizzes together. Use the hosted Streamable HTTP endpoint to browse and search public lessons, then pair an agent to save human learning progress. Public reads need no key; entitled content and account operations require the appropriate credentials. Free to start, with optional Premium. Documentation and client configurations are public; the hosted server source is not published.\n\nDocumentation: https://apexai.academy/developers/"
+        }
+      }
+    }
+  }
+}
