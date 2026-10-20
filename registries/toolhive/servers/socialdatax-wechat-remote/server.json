@@ -1,0 +1,82 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/socialdatax-wechat-remote",
+  "description": "WeChat Channels and official-account search, content details, comments and transcripts.",
+  "title": "SocialDataX 微信 WeChat MCP",
+  "repository": {
+    "url": "https://github.com/DevinChen2014/wechat-channels-mcp",
+    "source": "github"
+  },
+  "version": "0.1.4",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.socialdatax.com/wechat/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <SOCIALDATAX_API_KEY>; obtain your own API Key at https://socialdatax.com/ai?from=toolhive. Business calls consume SocialDataX credits.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/socialdatax-wechat-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.socialdatax.com/wechat/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "socialdatax",
+            "social-media"
+          ],
+          "tools": [
+            "wechat_get_hot_search_list",
+            "wechat_get_user_info_by_user_id",
+            "wechat_get_user_info_by_url",
+            "wechat_get_user_posted_videos_by_user_id",
+            "wechat_get_user_posted_videos_by_url",
+            "wechat_get_video_comment_replies_by_comment_id",
+            "wechat_get_video_comments_by_object_id",
+            "wechat_get_video_comments_by_url",
+            "wechat_get_video_detail_by_encrypted_object_id",
+            "wechat_get_video_share_url_by_object_id",
+            "wechat_search_mp_articles",
+            "wechat_get_mp_article_detail_by_url",
+            "wechat_get_mp_account_info_by_account_id",
+            "wechat_get_mp_account_articles_by_account_id",
+            "wechat_get_mp_article_stats_by_url",
+            "wechat_get_mp_article_comments_by_url",
+            "wechat_get_mp_article_comment_replies_by_url",
+            "wechat_get_video_detail_by_url",
+            "wechat_submit_video_speech_text_by_video_url",
+            "wechat_submit_video_speech_text_by_encrypted_object_id",
+            "wechat_get_video_speech_text_job",
+            "wechat_search_videos",
+            "wechat_search_finder_user",
+            "socialdatax_get_points_balance"
+          ],
+          "overview": "## SocialDataX 微信 WeChat MCP\n\nSearch WeChat Channels videos and Official Account articles; read content details, comments, replies, creator profiles, posts, article statistics and video transcripts. This is a first-party SocialDataX integration to the SocialDataX hosted API; SocialDataX is independent of the social platforms whose data it provides. Use it to examine public content and compare the relevant posts, comments or profiles. Configure your own `SOCIALDATAX_API_KEY` as `Authorization: Bearer <SOCIALDATAX_API_KEY>`; [API Key and setup](https://socialdatax.com/ai?from=toolhive), with business calls billed in SocialDataX credits. Public connection materials are MIT; the hosted service implementation is proprietary.",
+          "custom_metadata": {
+            "author": "SocialDataX",
+            "homepage": "https://socialdatax.com/ai?from=toolhive",
+            "license": "MIT (public connection materials); proprietary hosted service"
+          }
+        }
+      }
+    }
+  },
+  "websiteUrl": "https://socialdatax.com/ai?from=toolhive"
+}

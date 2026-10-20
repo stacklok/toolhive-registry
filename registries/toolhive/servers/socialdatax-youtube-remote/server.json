@@ -1,0 +1,70 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/socialdatax-youtube-remote",
+  "description": "YouTube video and channel search, video details, comments, channels and transcripts.",
+  "title": "SocialDataX YouTube MCP",
+  "repository": {
+    "url": "https://github.com/DevinChen2014/youtube-mcp",
+    "source": "github"
+  },
+  "version": "0.1.3",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.socialdatax.com/youtube/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <SOCIALDATAX_API_KEY>; obtain your own API Key at https://socialdatax.com/ai?from=toolhive. Business calls consume SocialDataX credits.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/socialdatax-youtube-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.socialdatax.com/youtube/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "socialdatax",
+            "social-media"
+          ],
+          "tools": [
+            "youtube_search_videos",
+            "youtube_search_suggestions",
+            "youtube_search_channels",
+            "youtube_get_video_detail_by_url",
+            "youtube_get_channel_info_by_url",
+            "youtube_get_user_posted_videos_by_channel_url",
+            "youtube_get_video_comments_by_url",
+            "youtube_get_video_comment_replies",
+            "youtube_submit_video_speech_text_by_url",
+            "youtube_submit_video_speech_text_by_video_id",
+            "youtube_get_video_speech_text_job",
+            "socialdatax_get_points_balance"
+          ],
+          "overview": "## SocialDataX YouTube MCP\n\nSearch YouTube videos and channels; read suggestions, video and Shorts details, comments, replies and transcripts with pagination. This is a first-party SocialDataX integration to the SocialDataX hosted API; SocialDataX is independent of the social platforms whose data it provides. Use it to examine public content and compare the relevant posts, comments or profiles. Configure your own `SOCIALDATAX_API_KEY` as `Authorization: Bearer <SOCIALDATAX_API_KEY>`; [API Key and setup](https://socialdatax.com/ai?from=toolhive), with business calls billed in SocialDataX credits. Public connection materials are MIT; the hosted service implementation is proprietary.",
+          "custom_metadata": {
+            "author": "SocialDataX",
+            "homepage": "https://socialdatax.com/ai?from=toolhive",
+            "license": "MIT (public connection materials); proprietary hosted service"
+          }
+        }
+      }
+    }
+  },
+  "websiteUrl": "https://socialdatax.com/ai?from=toolhive"
+}

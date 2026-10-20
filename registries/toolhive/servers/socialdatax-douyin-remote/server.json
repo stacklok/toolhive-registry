@@ -1,0 +1,83 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/socialdatax-douyin-remote",
+  "description": "Douyin video and creator search, details, comments, profiles, products and transcripts.",
+  "title": "SocialDataX 抖音 Douyin MCP",
+  "repository": {
+    "url": "https://github.com/DevinChen2014/douyin-mcp",
+    "source": "github"
+  },
+  "version": "0.2.8",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.socialdatax.com/douyin/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <SOCIALDATAX_API_KEY>; obtain your own API Key at https://socialdatax.com/ai?from=toolhive. Business calls consume SocialDataX credits.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/socialdatax-douyin-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.socialdatax.com/douyin/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "socialdatax",
+            "social-media"
+          ],
+          "tools": [
+            "douyin_get_hot_search_list",
+            "douyin_search_suggestions",
+            "douyin_get_video_detail_by_aweme_id",
+            "douyin_get_video_detail_by_url",
+            "douyin_get_video_share_link_by_aweme_id",
+            "douyin_get_video_share_link_by_url",
+            "douyin_submit_video_speech_text_by_video_url",
+            "douyin_submit_video_speech_text_by_aweme_id",
+            "douyin_get_video_speech_text_job",
+            "douyin_get_video_comments_by_aweme_id",
+            "douyin_get_video_comments_by_url",
+            "douyin_get_video_comment_replies_by_comment_id",
+            "douyin_get_user_info_by_sec_user_id",
+            "douyin_get_user_info_by_douyin_id",
+            "douyin_get_user_info_by_profile_url",
+            "douyin_get_user_posted_videos_by_sec_user_id",
+            "douyin_get_user_posted_videos_by_profile_url",
+            "douyin_get_user_series_by_sec_user_id",
+            "douyin_get_user_series_by_profile_url",
+            "douyin_search_users",
+            "douyin_search_videos",
+            "douyin_search_products",
+            "douyin_get_product_detail_by_product_id",
+            "douyin_get_product_detail_by_url",
+            "socialdatax_get_points_balance"
+          ],
+          "overview": "## SocialDataX 抖音 Douyin MCP\n\nSearch Douyin videos, users and products; read trends, suggestions, video details, comments, replies, creator posts, series and video transcripts. This is a first-party SocialDataX integration to the SocialDataX hosted API; SocialDataX is independent of the social platforms whose data it provides. Use it to examine public content and compare the relevant posts, comments or profiles. Configure your own `SOCIALDATAX_API_KEY` as `Authorization: Bearer <SOCIALDATAX_API_KEY>`; [API Key and setup](https://socialdatax.com/ai?from=toolhive), with business calls billed in SocialDataX credits. Public connection materials are MIT; the hosted service implementation is proprietary.",
+          "custom_metadata": {
+            "author": "SocialDataX",
+            "homepage": "https://socialdatax.com/ai?from=toolhive",
+            "license": "MIT (public connection materials); proprietary hosted service"
+          }
+        }
+      }
+    }
+  },
+  "websiteUrl": "https://socialdatax.com/ai?from=toolhive"
+}

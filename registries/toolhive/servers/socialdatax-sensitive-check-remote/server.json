@@ -1,0 +1,60 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/socialdatax-sensitive-check-remote",
+  "description": "Check supplied text for sensitive wording and potential social-platform content-policy risks.",
+  "title": "SocialDataX 敏感检测 MCP",
+  "repository": {
+    "url": "https://github.com/DevinChen2014/socialdatax-sensitive-check-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.socialdatax.com/sensitive-check/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <SOCIALDATAX_API_KEY>; obtain your own API Key at https://socialdatax.com/ai?from=toolhive. Business calls consume SocialDataX credits.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/socialdatax-sensitive-check-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.socialdatax.com/sensitive-check/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "socialdatax",
+            "text-analysis"
+          ],
+          "tools": [
+            "check_sensitive_text",
+            "socialdatax_get_points_balance"
+          ],
+          "overview": "## SocialDataX 敏感检测 MCP\n\nCheck text for sensitive words and potential content-policy risks using generic, Xiaohongshu, Douyin or Kuaishou rules; includes the account points-balance tool. This is a first-party SocialDataX integration to the SocialDataX hosted API; SocialDataX is independent of the social platforms whose data it provides. Use it to review a supplied draft for potential wording risks before publishing; the result is a review aid and does not guarantee platform acceptance. Configure your own `SOCIALDATAX_API_KEY` as `Authorization: Bearer <SOCIALDATAX_API_KEY>`; [API Key and setup](https://socialdatax.com/ai?from=toolhive), with business calls billed in SocialDataX credits. Public connection materials are MIT; the hosted service implementation is proprietary.",
+          "custom_metadata": {
+            "author": "SocialDataX",
+            "homepage": "https://socialdatax.com/ai?from=toolhive",
+            "license": "MIT (public connection materials); proprietary hosted service"
+          }
+        }
+      }
+    }
+  },
+  "websiteUrl": "https://socialdatax.com/ai?from=toolhive"
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/socialdatax-toutiao-remote",
+  "description": "Toutiao search, article and video details, comments, profiles and transcripts.",
+  "title": "SocialDataX 今日头条 MCP",
+  "repository": {
+    "url": "https://github.com/DevinChen2014/toutiao-mcp",
+    "source": "github"
+  },
+  "version": "0.1.2",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.socialdatax.com/toutiao/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <SOCIALDATAX_API_KEY>; obtain your own API Key at https://socialdatax.com/ai?from=toolhive. Business calls consume SocialDataX credits.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/socialdatax-toutiao-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.socialdatax.com/toutiao/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "socialdatax",
+            "social-media"
+          ],
+          "tools": [
+            "toutiao_get_hot_search_list",
+            "toutiao_search_suggestions",
+            "toutiao_search_users",
+            "toutiao_get_user_info_by_user_id",
+            "toutiao_get_user_info_by_profile_url",
+            "toutiao_get_user_posts_by_user_id",
+            "toutiao_get_user_posts_by_profile_url",
+            "toutiao_get_post_comment_replies_by_comment_id",
+            "toutiao_search_posts",
+            "toutiao_get_post_detail_by_post_id",
+            "toutiao_get_post_detail_by_url",
+            "toutiao_get_post_comments_by_post_id",
+            "toutiao_get_post_comments_by_url",
+            "socialdatax_get_points_balance"
+          ],
+          "overview": "## SocialDataX 今日头条 MCP\n\nSearch Toutiao content and users; read trends, suggestions, content details, comments, replies, creator profiles and posts with pagination. This is a first-party SocialDataX integration to the SocialDataX hosted API; SocialDataX is independent of the social platforms whose data it provides. Use it to examine public content and compare the relevant posts, comments or profiles. Configure your own `SOCIALDATAX_API_KEY` as `Authorization: Bearer <SOCIALDATAX_API_KEY>`; [API Key and setup](https://socialdatax.com/ai?from=toolhive), with business calls billed in SocialDataX credits. Public connection materials are MIT; the hosted service implementation is proprietary.",
+          "custom_metadata": {
+            "author": "SocialDataX",
+            "homepage": "https://socialdatax.com/ai?from=toolhive",
+            "license": "MIT (public connection materials); proprietary hosted service"
+          }
+        }
+      }
+    }
+  },
+  "websiteUrl": "https://socialdatax.com/ai?from=toolhive"
+}

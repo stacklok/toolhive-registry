@@ -1,0 +1,73 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/socialdatax-haokan-remote",
+  "description": "Haokan video search, video details, comments, creator profiles and transcripts.",
+  "title": "SocialDataX 好看视频 Haokan MCP",
+  "repository": {
+    "url": "https://github.com/DevinChen2014/haokan-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.socialdatax.com/haokan/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <SOCIALDATAX_API_KEY>; obtain your own API Key at https://socialdatax.com/ai?from=toolhive. Business calls consume SocialDataX credits.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/socialdatax-haokan-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.socialdatax.com/haokan/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "socialdatax",
+            "social-media"
+          ],
+          "tools": [
+            "haokan_get_comment_replies_by_video_id",
+            "haokan_get_comment_replies_by_url",
+            "haokan_get_video_comments_by_video_id",
+            "haokan_get_video_comments_by_url",
+            "haokan_search_videos",
+            "haokan_search_users",
+            "haokan_search_suggestions",
+            "haokan_get_hot_search_list",
+            "haokan_get_video_detail_by_video_id",
+            "haokan_get_video_detail_by_url",
+            "haokan_get_user_info_by_user_id",
+            "haokan_get_user_info_by_url",
+            "haokan_get_user_posted_videos_by_user_id",
+            "haokan_get_user_posted_videos_by_profile_url",
+            "socialdatax_get_points_balance"
+          ],
+          "overview": "## SocialDataX 好看视频 Haokan MCP\n\nSearch Haokan videos and users; read video details, comments, replies, creator profiles, creator videos and hot searches. This is a first-party SocialDataX integration to the SocialDataX hosted API; SocialDataX is independent of the social platforms whose data it provides. Use it to examine public content and compare the relevant posts, comments or profiles. Configure your own `SOCIALDATAX_API_KEY` as `Authorization: Bearer <SOCIALDATAX_API_KEY>`; [API Key and setup](https://socialdatax.com/ai?from=toolhive), with business calls billed in SocialDataX credits. Public connection materials are MIT; the hosted service implementation is proprietary.",
+          "custom_metadata": {
+            "author": "SocialDataX",
+            "homepage": "https://socialdatax.com/ai?from=toolhive",
+            "license": "MIT (public connection materials); proprietary hosted service"
+          }
+        }
+      }
+    }
+  },
+  "websiteUrl": "https://socialdatax.com/ai?from=toolhive"
+}

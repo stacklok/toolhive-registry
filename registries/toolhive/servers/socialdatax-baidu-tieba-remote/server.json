@@ -1,0 +1,77 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/socialdatax-baidu-tieba-remote",
+  "description": "Baidu Tieba search, forum threads, posts, comments, user profiles and activity.",
+  "title": "SocialDataX 百度贴吧 MCP",
+  "repository": {
+    "url": "https://github.com/DevinChen2014/baidu-tieba-mcp",
+    "source": "github"
+  },
+  "version": "0.1.1",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.socialdatax.com/baidu-tieba/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <SOCIALDATAX_API_KEY>; obtain your own API Key at https://socialdatax.com/ai?from=toolhive. Business calls consume SocialDataX credits.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/socialdatax-baidu-tieba-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.socialdatax.com/baidu-tieba/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "socialdatax",
+            "social-media"
+          ],
+          "tools": [
+            "baidu_tieba_get_forum_posts",
+            "baidu_tieba_get_forum_detail",
+            "baidu_tieba_search_suggestions",
+            "baidu_tieba_search_users",
+            "baidu_tieba_search_general",
+            "baidu_tieba_search_posts_in_forum",
+            "baidu_tieba_get_user_info_by_profile_url",
+            "baidu_tieba_get_user_info_by_user_id",
+            "baidu_tieba_get_user_posts_by_user_id",
+            "baidu_tieba_get_user_posts_by_profile_url",
+            "baidu_tieba_get_user_followed_forums_by_user_id",
+            "baidu_tieba_get_user_followed_forums_by_profile_url",
+            "baidu_tieba_search_posts",
+            "baidu_tieba_get_post_detail_by_thread_id",
+            "baidu_tieba_get_post_detail_by_url",
+            "baidu_tieba_get_post_comments_by_thread_id",
+            "baidu_tieba_get_post_comments_by_url",
+            "baidu_tieba_get_post_comment_replies",
+            "socialdatax_get_points_balance"
+          ],
+          "overview": "## SocialDataX 百度贴吧 MCP\n\nSearch Baidu Tieba posts and users; read suggestions, post details, comments, nested replies, user profiles, posts, followed forums and forum details. This is a first-party SocialDataX integration to the SocialDataX hosted API; SocialDataX is independent of the social platforms whose data it provides. Use it to examine public content and compare the relevant posts, comments or profiles. Configure your own `SOCIALDATAX_API_KEY` as `Authorization: Bearer <SOCIALDATAX_API_KEY>`; [API Key and setup](https://socialdatax.com/ai?from=toolhive), with business calls billed in SocialDataX credits. Public connection materials are MIT; the hosted service implementation is proprietary.",
+          "custom_metadata": {
+            "author": "SocialDataX",
+            "homepage": "https://socialdatax.com/ai?from=toolhive",
+            "license": "MIT (public connection materials); proprietary hosted service"
+          }
+        }
+      }
+    }
+  },
+  "websiteUrl": "https://socialdatax.com/ai?from=toolhive"
+}

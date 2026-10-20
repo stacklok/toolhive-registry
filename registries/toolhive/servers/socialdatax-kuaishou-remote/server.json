@@ -1,0 +1,75 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/socialdatax-kuaishou-remote",
+  "description": "Kuaishou video and creator search, details, comments, profiles and transcripts.",
+  "title": "SocialDataX 快手 Kuaishou MCP",
+  "repository": {
+    "url": "https://github.com/DevinChen2014/kuaishou-mcp",
+    "source": "github"
+  },
+  "version": "0.1.3",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.socialdatax.com/kuaishou/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <SOCIALDATAX_API_KEY>; obtain your own API Key at https://socialdatax.com/ai?from=toolhive. Business calls consume SocialDataX credits.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/socialdatax-kuaishou-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.socialdatax.com/kuaishou/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "socialdatax",
+            "social-media"
+          ],
+          "tools": [
+            "kuaishou_get_hot_search_list",
+            "kuaishou_search_suggestions",
+            "kuaishou_get_video_detail_by_url",
+            "kuaishou_get_video_detail_by_photo_id",
+            "kuaishou_submit_video_speech_text_by_video_url",
+            "kuaishou_submit_video_speech_text_by_photo_id",
+            "kuaishou_get_video_speech_text_job",
+            "kuaishou_get_video_comments_by_photo_id",
+            "kuaishou_get_video_comments_by_url",
+            "kuaishou_get_video_comment_replies_by_comment_id",
+            "kuaishou_get_user_info_by_user_id",
+            "kuaishou_get_user_info_by_profile_url",
+            "kuaishou_get_user_posted_videos_by_user_id",
+            "kuaishou_get_user_posted_videos_by_profile_url",
+            "kuaishou_search_videos",
+            "kuaishou_search_users",
+            "socialdatax_get_points_balance"
+          ],
+          "overview": "## SocialDataX 快手 Kuaishou MCP\n\nSearch Kuaishou videos and users; read trends, suggestions, video details, comments, replies, creator profiles, posts and video transcripts. This is a first-party SocialDataX integration to the SocialDataX hosted API; SocialDataX is independent of the social platforms whose data it provides. Use it to examine public content and compare the relevant posts, comments or profiles. Configure your own `SOCIALDATAX_API_KEY` as `Authorization: Bearer <SOCIALDATAX_API_KEY>`; [API Key and setup](https://socialdatax.com/ai?from=toolhive), with business calls billed in SocialDataX credits. Public connection materials are MIT; the hosted service implementation is proprietary.",
+          "custom_metadata": {
+            "author": "SocialDataX",
+            "homepage": "https://socialdatax.com/ai?from=toolhive",
+            "license": "MIT (public connection materials); proprietary hosted service"
+          }
+        }
+      }
+    }
+  },
+  "websiteUrl": "https://socialdatax.com/ai?from=toolhive"
+}

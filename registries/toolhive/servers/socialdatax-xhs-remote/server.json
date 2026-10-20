@@ -1,0 +1,94 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/socialdatax-xhs-remote",
+  "description": "小红书 / Xiaohongshu XHS RedNote note search, details, comments, creators, PGY and transcripts.",
+  "title": "SocialDataX 小红书 Xiaohongshu XHS RedNote MCP",
+  "repository": {
+    "url": "https://github.com/DevinChen2014/xiaohongshu-xhs-rednote-mcp",
+    "source": "github"
+  },
+  "version": "0.1.15",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.socialdatax.com/xhs/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <SOCIALDATAX_API_KEY>; obtain your own API Key at https://socialdatax.com/ai?from=toolhive. Business calls consume SocialDataX credits.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/socialdatax-xhs-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.socialdatax.com/xhs/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "socialdatax",
+            "social-media"
+          ],
+          "tools": [
+            "xhs_get_note_detail_by_note_url",
+            "xhs_get_note_detail_by_note_id",
+            "xhs_search_notes",
+            "xhs_search_images",
+            "xhs_search_users",
+            "xhs_search_products",
+            "xhs_get_product_detail_by_sku_id",
+            "xhs_get_product_detail_by_url",
+            "xhs_pgy_get_note_detail_by_note_id",
+            "xhs_pgy_get_note_detail_by_note_url",
+            "xhs_pgy_get_creator_profile",
+            "xhs_pgy_get_creator_notes_performance",
+            "xhs_pgy_get_creator_fans_profile",
+            "xhs_pgy_get_creator_fans_summary",
+            "xhs_pgy_get_creator_commercial_overview",
+            "xhs_pgy_get_creator_metrics_trend",
+            "xhs_get_product_reviews",
+            "xhs_get_product_review_replies",
+            "xhs_get_product_review_reply_replies",
+            "xhs_get_search_hot_list",
+            "xhs_search_suggestions",
+            "xhs_submit_video_speech_text_by_note_url",
+            "xhs_submit_video_speech_text_by_note_id",
+            "xhs_get_video_speech_text_job",
+            "xhs_get_note_comments_by_note_id",
+            "xhs_get_note_comments_by_note_url",
+            "xhs_get_note_sub_comments_by_comment_id",
+            "xhs_get_user_id_by_encrypted_user_id",
+            "xhs_get_share_info",
+            "xhs_get_user_info_by_user_id",
+            "xhs_get_user_info_by_profile_url",
+            "xhs_get_user_posted_notes_by_user_id",
+            "xhs_get_user_posted_notes_by_profile_url",
+            "xhs_get_topic_notes_by_topic_url",
+            "xhs_get_topic_notes_by_page_id",
+            "socialdatax_get_points_balance"
+          ],
+          "overview": "## SocialDataX 小红书 Xiaohongshu XHS RedNote MCP\n\nSearch Xiaohongshu / 小红书 / XHS / RedNote notes, images, users and products; read note details, comments, replies, creator data, PGY insights and video transcripts. This is a first-party SocialDataX integration to the SocialDataX hosted API; SocialDataX is independent of the social platforms whose data it provides. Use it to examine public content and compare the relevant posts, comments or profiles. Configure your own `SOCIALDATAX_API_KEY` as `Authorization: Bearer <SOCIALDATAX_API_KEY>`; [API Key and setup](https://socialdatax.com/ai?from=toolhive), with business calls billed in SocialDataX credits. Public connection materials are MIT; the hosted service implementation is proprietary.",
+          "custom_metadata": {
+            "author": "SocialDataX",
+            "homepage": "https://socialdatax.com/ai?from=toolhive",
+            "license": "MIT (public connection materials); proprietary hosted service"
+          }
+        }
+      }
+    }
+  },
+  "websiteUrl": "https://socialdatax.com/ai?from=toolhive"
+}

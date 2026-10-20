@@ -1,0 +1,73 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/socialdatax-instagram-remote",
+  "description": "Instagram search, media details, comments, creator profiles, posts and transcripts.",
+  "title": "SocialDataX Instagram MCP",
+  "repository": {
+    "url": "https://github.com/DevinChen2014/instagram-mcp",
+    "source": "github"
+  },
+  "version": "0.1.7",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.socialdatax.com/instagram/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <SOCIALDATAX_API_KEY>; obtain your own API Key at https://socialdatax.com/ai?from=toolhive. Business calls consume SocialDataX credits.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/socialdatax-instagram-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.socialdatax.com/instagram/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "socialdatax",
+            "social-media"
+          ],
+          "tools": [
+            "instagram_search_posts",
+            "instagram_search_users",
+            "instagram_search_tags",
+            "instagram_get_post_detail_by_post_id",
+            "instagram_get_post_detail_by_post_url",
+            "instagram_get_post_comments_by_post_url",
+            "instagram_get_post_comment_replies_by_comment_id",
+            "instagram_get_user_info_by_username",
+            "instagram_get_user_info_by_profile_url",
+            "instagram_get_user_posts_by_username",
+            "instagram_get_user_posts_by_profile_url",
+            "instagram_submit_video_speech_text_by_post_url",
+            "instagram_submit_video_speech_text_by_post_id",
+            "instagram_get_video_speech_text_job",
+            "socialdatax_get_points_balance"
+          ],
+          "overview": "## SocialDataX Instagram MCP\n\nSearch Instagram hashtags, users and posts; read post details, comments, replies, creator profiles, posts and video or Reels transcripts. This is a first-party SocialDataX integration to the SocialDataX hosted API; SocialDataX is independent of the social platforms whose data it provides. Use it to examine public content and compare the relevant posts, comments or profiles. Configure your own `SOCIALDATAX_API_KEY` as `Authorization: Bearer <SOCIALDATAX_API_KEY>`; [API Key and setup](https://socialdatax.com/ai?from=toolhive), with business calls billed in SocialDataX credits. Public connection materials are MIT; the hosted service implementation is proprietary.",
+          "custom_metadata": {
+            "author": "SocialDataX",
+            "homepage": "https://socialdatax.com/ai?from=toolhive",
+            "license": "MIT (public connection materials); proprietary hosted service"
+          }
+        }
+      }
+    }
+  },
+  "websiteUrl": "https://socialdatax.com/ai?from=toolhive"
+}
