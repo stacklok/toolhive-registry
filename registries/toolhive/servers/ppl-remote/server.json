@@ -1,0 +1,45 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://withppl.com/mcp": {
+          "custom_metadata": {
+            "author": "ppl",
+            "homepage": "https://withppl.com/agents"
+          },
+          "metadata": {
+            "last_updated": "2026-10-21T21:30:00Z"
+          },
+          "overview": "## ppl Remote MCP Server\n\nppl is a hosted personal CRM for humans with AI agents. Its official remote MCP server uses streamable HTTP with OAuth 2.1 (PKCE and dynamic client registration) and exposes about 120 tools to look up and update contacts, log interactions and calls, keep notes and journal entries, track life events and gifts, set reminders and tasks, and search relationship memory. Setup guide: https://withppl.com/agents. Free beta up to 1,000 contacts, no credit card: https://withppl.com/register.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "crm",
+            "contacts",
+            "relationships",
+            "memory",
+            "reminders",
+            "oauth",
+            "productivity"
+          ],
+          "tier": "Community"
+        }
+      }
+    }
+  },
+  "description": "Official ppl remote MCP server: personal CRM for contacts, notes, reminders and memory",
+  "name": "io.github.stacklok/ppl-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://withppl.com/mcp"
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/ppl-crm/ppl",
+    "source": "github"
+  },
+  "title": "ppl (Remote)",
+  "version": "1.0.0"
+}
