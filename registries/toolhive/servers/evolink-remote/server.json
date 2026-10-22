@@ -1,0 +1,77 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/evolink-remote",
+  "description": "Image, video, music and speech generation with 150+ models, quoted before each paid task",
+  "title": "EvoLink (Remote)",
+  "repository": {
+    "url": "https://github.com/Evolink-AI/mcp-plugin",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.evolink.ai/mcp"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/evolink-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.evolink.ai/mcp": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "image-generation",
+            "video-generation",
+            "music-generation",
+            "text-to-speech",
+            "media"
+          ],
+          "tools": [
+            "search_models",
+            "get_model",
+            "recommend_models",
+            "search_docs",
+            "get_pricing_rules",
+            "estimate_cost",
+            "generate_image",
+            "generate_video",
+            "generate_audio",
+            "get_task",
+            "list_tasks",
+            "get_task_usage",
+            "check_balance",
+            "prepare_upload",
+            "upload_file",
+            "get_upload"
+          ],
+          "overview": "## EvoLink (Remote)\n\nEvoLink's hosted MCP server gives AI assistants 150+ image, video, music and speech generation models from one account. Assistants can search models, read their parameters and published prices, get a quote for an exact task, create the task after the user approves it, upload reference files, and track task results and balance.\n\n**Account and costs.** Requires an EvoLink account; sign in with OAuth in the browser, no API key is needed. Model search, prices, quotes, task status and balance checks are free. generate_image, generate_video and generate_audio charge the signed-in user's EvoLink balance at EvoLink API prices; the server tells the assistant to show a quote and wait for approval before each paid task. A failed task is not charged.\n\n**Data.** Prompts, parameters and reference media URLs are sent to EvoLink to run the task; results come back as links.\n\n**Revoking access.** Sign out or remove the server in ToolHive. To pause MCP for every client on the account, open API Keys in the EvoLink dashboard and disable the key named EvoLink MCP (OAuth); enable it again to resume. To have a connection revoked, contact support@evolink.ai.",
+          "oauth_config": {
+            "authorize_url": "https://passport.evolink.ai/oauth/authorize",
+            "token_url": "https://passport.evolink.ai/oauth/token",
+            "scopes": [
+              "mcp",
+              "offline_access"
+            ],
+            "use_pkce": true
+          },
+          "custom_metadata": {
+            "author": "EvoLink",
+            "homepage": "https://evolink.ai/mcp?utm_source=toolhive&utm_medium=referral&utm_campaign=mcp_remote&utm_content=directory_listing",
+            "license": "Proprietary service (configuration repository Apache-2.0)"
+          }
+        }
+      }
+    }
+  }
+}
