@@ -1,0 +1,106 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/magic-hour-remote",
+  "description": "Create images and videos, generate music, and recover Magic Hour projects over hosted MCP",
+  "title": "Magic Hour (Remote)",
+  "repository": {
+    "url": "https://github.com/magichourhq/magic-hour-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.magichour.ai/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Magic Hour API key prefixed with Bearer.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/magic-hour-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.magichour.ai/": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "image-generation",
+            "video-generation",
+            "audio-generation"
+          ],
+          "tools": [
+            "workflow_guide_retrieve",
+            "ping",
+            "wait_for_video_project",
+            "wait_for_image_project",
+            "wait_for_audio_project",
+            "fetch_image_download",
+            "fetch_audio_download",
+            "fetch_video_download",
+            "account_retrieve",
+            "saved_items_list",
+            "video_assets_generate_presigned_url",
+            "face_detection_retrieve_details",
+            "face_detection_detect_faces",
+            "video_projects_retrieve_details",
+            "video_projects_delete",
+            "ai_talking_photo_create_talking_photo",
+            "ai_ugc_ad_create_video",
+            "ai_video_editor_create_video",
+            "ai_video_translator_create_video",
+            "ai_video_upscaler_create_video",
+            "animation_create_video",
+            "audio_to_video_create_video",
+            "auto_subtitle_generator_create_video",
+            "character_replace_create_video",
+            "face_swap_create_video",
+            "image_to_video_create_video",
+            "lip_sync_create_video",
+            "text_to_video_create_video",
+            "video_to_video_create_video",
+            "image_projects_retrieve_details",
+            "image_projects_delete",
+            "ai_clothes_changer_create_image",
+            "ai_face_editor_edit_image",
+            "ai_gif_generator_create_image",
+            "ai_image_editor_create_image",
+            "ai_headshot_generator_create_image",
+            "ai_image_generator_create_image",
+            "ai_image_upscaler_create_image",
+            "ai_meme_generator_create_image",
+            "ai_qr_code_generator_create_image",
+            "body_swap_create_image",
+            "face_swap_photo_create_image",
+            "head_swap_create_image",
+            "image_background_remover_create_image",
+            "photo_colorizer_create_image",
+            "audio_projects_retrieve_details",
+            "audio_projects_delete",
+            "ai_music_generator_create_audio"
+          ],
+          "overview": "## Magic Hour (Remote)\n\nMagic Hour's first-party hosted MCP server lets assistants create images and videos, generate music, and retrieve existing projects. Authenticate tool calls with a Magic Hour API key in the Authorization header using the Bearer scheme; public discovery alone does not establish API access. Generation sends authorized prompts and media to Magic Hour and spends credits. Save accepted project IDs and recover those jobs after timeouts instead of creating duplicates.",
+          "custom_metadata": {
+            "author": "Magic Hour",
+            "homepage": "https://docs.magichour.ai/integration/model-context-protocol",
+            "license": "Apache-2.0"
+          }
+        }
+      }
+    }
+  }
+}
