@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.13.0": {
+        "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.14.0": {
           "metadata": {
-            "last_updated": "2026-10-08T14:16:52Z",
+            "last_updated": "2026-10-23T02:29:47Z",
             "stars": 2612
           },
           "overview": "## Supabase MCP Server\n\nThe supabase MCP server connects Supabase projects to AI assistants for managing tables, fetching config, and querying data. The server enables MCP-based access to Supabase platform capabilities through the Management API, database operations, Edge Functions deployment, and branch management features, authenticated via environment variables.",
@@ -79,7 +79,7 @@
                 "readOnlyHint": true,
                 "title": "Confirm cost understanding"
               },
-              "description": "Ask the user to confirm their understanding of the cost of creating a new project or branch. Call `get_cost` first. Returns a unique ID for this confirmation which should be passed to `create_project` or `create_branch`.",
+              "description": "Returns a confirmation ID for the cost of a new project or branch returned by `get_cost`. Only call this after the user has explicitly agreed to that cost in the conversation. Pass the ID to `create_project` or `create_branch`.",
               "inputSchema": {
                 "properties": {
                   "amount": {
@@ -117,11 +117,11 @@
                 "readOnlyHint": false,
                 "title": "Create branch"
               },
-              "description": "Creates a development branch on a Supabase project. This will apply all migrations from the main project to a fresh branch database. Note that production data will not carry over. The branch will get its own project_id via the resulting project_ref. Use this ID to execute queries and migrations on the branch.",
+              "description": "Creates a development branch on a Supabase project, which can incur hourly compute and other usage charges. The user must agree to the cost before the branch is created. Unless `confirm_cost_id` is required, call this tool without it and without asking for cost confirmation in chat first. The server handles cost confirmation, or returns instructions for obtaining a confirmation ID. If it requests an ID, follow those instructions and retry with it. This will apply all migrations from the main project to a fresh branch database. Note that production data will not carry over. The branch will get its own project_id via the resulting project_ref. Use this ID to execute queries and migrations on the branch.",
               "inputSchema": {
                 "properties": {
                   "confirm_cost_id": {
-                    "description": "The cost confirmation ID. Call `confirm_cost` first.",
+                    "description": "The ID returned by `confirm_cost`. To get it, call `get_cost`, tell the user the cost, and call `confirm_cost` once they agree.",
                     "type": "string"
                   },
                   "name": {
@@ -150,11 +150,11 @@
                 "readOnlyHint": false,
                 "title": "Create project"
               },
-              "description": "Creates a new Supabase project. Always ask the user which organization to create the project in. The project can take a few minutes to initialize - use `get_project` to check the status.",
+              "description": "Creates a new Supabase project, which can add to the organization's bill. The user must agree to any nonzero quoted cost before the project is created. Unless `confirm_cost_id` is required, call this tool without it and without asking for cost confirmation in chat first. The server handles cost confirmation, or returns instructions for obtaining a confirmation ID. If it requests an ID, follow those instructions and retry with it. A project quoted at $0 may be created without a cost-confirmation form. Always ask the user which organization to create the project in. The project can take a few minutes to initialize - use `get_project` to check the status.",
               "inputSchema": {
                 "properties": {
                   "confirm_cost_id": {
-                    "description": "The cost confirmation ID. Call `confirm_cost` first.",
+                    "description": "The ID returned by `confirm_cost`. To get it, call `get_cost`, tell the user the cost, and call `confirm_cost` once they agree.",
                     "type": "string"
                   },
                   "name": {
@@ -227,7 +227,7 @@
                 "readOnlyHint": false,
                 "title": "Deploy Edge Function"
               },
-              "description": "Deploys an Edge Function to a Supabase project. If the function already exists, this will create a new version. Example:\n\nimport \"jsr:@supabase/functions-js/edge-runtime.d.ts\";\n\nDeno.serve(async (req: Request) =\u003e {\n  const data = {\n    message: \"Hello there!\"\n  };\n  \n  return new Response(JSON.stringify(data), {\n    headers: {\n      'Content-Type': 'application/json',\n      'Connection': 'keep-alive'\n    }\n  });\n});",
+              "description": "Deploys an Edge Function to a Supabase project. If a function with this name already exists, this replaces it with a new version that starts serving requests at the function's public URL right away. Example:\n\nimport \"jsr:@supabase/functions-js/edge-runtime.d.ts\";\n\nDeno.serve(async (req: Request) =\u003e {\n  const data = {\n    message: \"Hello there!\"\n  };\n  \n  return new Response(JSON.stringify(data), {\n    headers: {\n      'Content-Type': 'application/json',\n      'Connection': 'keep-alive'\n    }\n  });\n});",
               "inputSchema": {
                 "properties": {
                   "entrypoint_path": {
@@ -268,7 +268,7 @@
                   },
                   "verify_jwt": {
                     "default": true,
-                    "description": "Whether to require a valid JWT in the Authorization header. You SHOULD ALWAYS enable this to ensure authorized access. ONLY disable if the function previously had it disabled OR you've confirmed the function body implements custom authentication (e.g., API keys, webhooks) OR the user explicitly requested it be disabled.",
+                    "description": "Whether to require a valid JWT in the Authorization header. Keep this `true` unless the user asks to turn it off, the function previously had it turned off, or the function body does its own authentication (e.g. API keys, webhooks).",
                     "type": "boolean"
                   }
                 },
@@ -340,7 +340,7 @@
                 "readOnlyHint": true,
                 "title": "Get project advisors"
               },
-              "description": "Gets a list of advisory notices for the Supabase project. Use this to check for security vulnerabilities or performance improvements. Include the remediation URL as a clickable link so that the user can reference the issue themselves. It's recommended to run this tool regularly, especially after making DDL changes to the database since it will catch things like missing RLS policies.",
+              "description": "Gets a list of advisory notices for the Supabase project. Use this to check for security vulnerabilities, performance improvements, or health issues. Include the remediation URL as a clickable link so that the user can reference the issue themselves. It's recommended to run this tool regularly, especially after making DDL changes to the database since it will catch things like missing RLS policies.",
               "inputSchema": {
                 "properties": {
                   "project_id": {
@@ -350,7 +350,8 @@
                     "description": "The type of advisors to fetch",
                     "enum": [
                       "security",
-                      "performance"
+                      "performance",
+                      "health"
                     ],
                     "type": "string"
                   }
@@ -903,7 +904,7 @@
           "name": "SUPABASE_ACCESS_TOKEN"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.13.0",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.14.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
