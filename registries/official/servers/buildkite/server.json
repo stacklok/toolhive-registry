@@ -3,12 +3,12 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/buildkite/buildkite-mcp-server:1.28.0": {
+        "ghcr.io/buildkite/buildkite-mcp-server:1.29.0": {
           "args": [
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-10-16T03:18:41Z",
+            "last_updated": "2026-10-23T02:29:04Z",
             "stars": 50
           },
           "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -1645,7 +1645,7 @@
                 "readOnlyHint": true,
                 "title": "Get Test"
               },
-              "description": "Get a specific test in Buildkite Test Engine, including execution metrics aggregated over a selected time window. This provides additional metadata for failed test executions.",
+              "description": "Get a specific test in Buildkite Test Engine, including execution metrics aggregated over a selected time window. This provides additional metadata for failed test executions. The response also includes transition_count_score and probabilistic_flakiness_score, which help judge whether a failure is flaky. Each score is absent unless the suite has a monitor of that type and the monitor has scored the test. The time window does not apply to them.",
               "inputSchema": {
                 "properties": {
                   "max_timestamp": {
@@ -4099,7 +4099,7 @@
           "name": "BUILDKITE_FAILURE_SUMMARY_MAX_JOBS"
         }
       ],
-      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.28.0",
+      "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.29.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
