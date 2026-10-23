@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/stacklok/toolhive-core/main/registry/types/data/upstream-registry.schema.json",
   "version": "1.0.0",
   "meta": {
-    "last_updated": "2026-10-19T16:44:07Z"
+    "last_updated": "2026-10-23T05:12:39Z"
   },
   "data": {
     "servers": [
@@ -2109,7 +2109,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.2.2",
+            "identifier": "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.2.3",
             "transport": {
               "type": "stdio"
             },
@@ -2130,7 +2130,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.2.2": {
+              "ghcr.io/stacklok/dockyard/uvx/aws-documentation:1.2.3": {
                 "metadata": {
                   "last_updated": "2026-10-05T03:36:08Z",
                   "stars": 8776
@@ -5471,7 +5471,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:3.0.0",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:4.1.0",
             "transport": {
               "type": "stdio"
             },
@@ -5529,9 +5529,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:3.0.0": {
+              "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:4.1.0": {
                 "metadata": {
-                  "last_updated": "2026-10-16T03:19:21Z",
+                  "last_updated": "2026-10-23T05:00:41Z",
                   "stars": 2551
                 },
                 "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
@@ -5570,69 +5570,85 @@
                 "tool_definitions": [
                   {
                     "annotations": {
-                      "openWorldHint": true,
+                      "destructiveHint": false,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
-                      "title": "Discover"
+                      "title": "Ask Bright Data Assistant"
                     },
-                    "description": "Search the web and rank results by AI-driven relevance. Returns scored results with title, description, and URL. Supports intent-based ranking, geo-targeting, date filtering, and keyword filtering.",
+                    "description": "Ask Bright Data's support assistant (Sophie) a question about Bright Data products, APIs, MCP usage, zones, scraping, or account setup. Use when the user asks \"how do I...\" about Bright Data, when you hit a Bright Data error you don't recognize, or when deciding between products (Web Unlocker vs. Scraping Browser vs. dataset tools). Supports threaded follow-ups via dialog_id.",
                     "inputSchema": {
                       "properties": {
-                        "city": {
-                          "description": "City for localized results (e.g., \"New York\", \"Berlin\")",
+                        "dialog_id": {
+                          "description": "Optional 24-char dialog_id from a previous call to continue the same thread.",
+                          "maxLength": 24,
+                          "minLength": 24,
                           "type": "string"
                         },
-                        "country": {
-                          "description": "2-letter ISO country code for localized results (e.g., \"US\", \"GB\", \"DE\")",
-                          "maxLength": 2,
-                          "minLength": 2,
-                          "type": "string"
-                        },
-                        "end_date": {
-                          "description": "Only content updated until this date (YYYY-MM-DD)",
-                          "type": "string"
-                        },
-                        "filter_keywords": {
-                          "description": "Keywords that must appear in search results",
-                          "items": {
-                            "type": "string"
-                          },
-                          "type": "array"
-                        },
-                        "intent": {
-                          "description": "Describes the specific goal of the search to help the AI evaluate and rank result relevance.If not provided, the query string is used as the intent",
-                          "type": "string"
-                        },
-                        "language": {
-                          "description": "Language code (e.g., \"en\", \"es\", \"fr\")",
-                          "type": "string"
-                        },
-                        "num_results": {
-                          "description": "Exact number of search results to return",
-                          "type": "integer"
-                        },
-                        "query": {
-                          "description": "The search query",
-                          "type": "string"
-                        },
-                        "remove_duplicates": {
-                          "description": "Remove duplicate results (default: true)",
-                          "type": "boolean"
-                        },
-                        "start_date": {
-                          "description": "Only content updated from this date (YYYY-MM-DD)",
+                        "question": {
+                          "description": "The question to ask. Max 20480 chars.",
+                          "maxLength": 20480,
+                          "minLength": 1,
                           "type": "string"
                         }
                       },
                       "required": [
-                        "query"
+                        "question"
                       ],
                       "type": "object"
                     },
-                    "name": "discover"
+                    "name": "ask_brightdata_assistant"
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "openWorldHint": true,
+                      "readOnlyHint": false,
+                      "title": "Chatgpt Ai Insights"
+                    },
+                    "description": "Send a prompt to ChatGPT and get back AI-generated insights.\nReturns structured answer text, citations, recommendations, and markdown. Useful for GEO and LLM as a judge.",
+                    "inputSchema": {
+                      "properties": {
+                        "prompt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "prompt"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "chatgpt_ai_insights"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Extract Structured Data"
+                    },
+                    "description": "Scrape a webpage and extract structured data as JSON. First scrapes the page as markdown, then uses AI sampling to convert it to structured JSON format.",
+                    "inputSchema": {
+                      "properties": {
+                        "extraction_prompt": {
+                          "description": "Custom prompt to guide the extraction process. If not provided, will extract general structured data from the page.",
+                          "type": "string"
+                        },
+                        "url": {
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "extract"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get Scraper Details"
                     },
@@ -5658,7 +5674,8 @@
                   },
                   {
                     "annotations": {
-                      "openWorldHint": true,
+                      "destructiveHint": false,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get Scraper Progress"
                     },
@@ -5679,7 +5696,8 @@
                   },
                   {
                     "annotations": {
-                      "openWorldHint": true,
+                      "destructiveHint": false,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Get Scraper Results"
                     },
@@ -5700,7 +5718,55 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": true,
+                      "title": "List Dataset Fields"
+                    },
+                    "description": "List the filterable fields of a searchable dataset (field name, type, and description). Call this before search_dataset to learn which field names and types you can filter on.\nSupported dataset_id values:\n- gd_l1viktl72bvl7bjuj0: LinkedIn people profiles\n- gd_me5ppxjr2ge6icjuh0: LinkedIn people profiles (contact-enriched)\n- gd_l1vikfnt1wgvvqz95w: LinkedIn company information",
+                    "inputSchema": {
+                      "properties": {
+                        "dataset_id": {
+                          "enum": [
+                            "gd_l1viktl72bvl7bjuj0",
+                            "gd_me5ppxjr2ge6icjuh0",
+                            "gd_l1vikfnt1wgvvqz95w"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "dataset_id"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "list_dataset_fields"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
                       "openWorldHint": true,
+                      "readOnlyHint": false,
+                      "title": "Perplexity Ai Insights"
+                    },
+                    "description": "Send a prompt to Perplexity and get back AI-generated insights.\nReturns structured answer text in markdown format.\nUseful for GEO and LLM as a judge.",
+                    "inputSchema": {
+                      "properties": {
+                        "prompt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "prompt"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "perplexity_ai_insights"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Refresh Scrapers"
                     },
@@ -5714,8 +5780,9 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "openWorldHint": true,
-                      "readOnlyHint": true,
+                      "readOnlyHint": false,
                       "title": "Run Scraper"
                     },
                     "description": "Run a scraper method. input is a list of objects shaped like sample_input from get_scraper_details, one per URL or query. collect_by_url returns one record per input; discover_by_* methods return up to limit_per_input records per input, and every record is billed. Waits up to 45 seconds; if still running it returns snapshot_id with status \"running\": then poll get_scraper_progress and call get_scraper_results when ready. Records with an \"error\" field explain failed inputs.",
@@ -5756,11 +5823,34 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Scrape as HTML"
+                    },
+                    "description": "Scrape a single webpage URL with advanced options for content extraction and get back the results in HTML.",
+                    "inputSchema": {
+                      "properties": {
+                        "url": {
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "scrape_as_html"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
                       "openWorldHint": true,
                       "readOnlyHint": true,
                       "title": "Scrape as Markdown"
                     },
-                    "description": "Scrape a single webpage URL with advanced options for content extraction and get back the results in MarkDown language. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
+                    "description": "Scrape a single webpage URL with advanced options for content extraction and get back the results in MarkDown language.",
                     "inputSchema": {
                       "properties": {
                         "url": {
@@ -5777,11 +5867,12 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "openWorldHint": true,
                       "readOnlyHint": true,
                       "title": "Scrape Batch"
                     },
-                    "description": "Scrape multiple webpages URLs with advanced options for content extraction and get back the results in MarkDown language. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
+                    "description": "Scrape multiple webpages URLs with advanced options for content extraction and get back the results in MarkDown language.",
                     "inputSchema": {
                       "properties": {
                         "urls": {
@@ -5804,6 +5895,537 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": true,
+                      "openWorldHint": true,
+                      "readOnlyHint": false,
+                      "title": "Browser Click Element"
+                    },
+                    "description": "Click on an element using its ref from the ARIA snapshot.\nUse scraping_browser_snapshot first to get the correct ref values.\nThis is more reliable than CSS selectors.",
+                    "inputSchema": {
+                      "properties": {
+                        "element": {
+                          "description": "Description of the element being clicked for context",
+                          "type": "string"
+                        },
+                        "ref": {
+                          "description": "The ref attribute from the ARIA snapshot (e.g., \"23\")",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ref",
+                        "element"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_click_ref"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": false,
+                      "title": "Browser Fill Form"
+                    },
+                    "description": "Fill multiple form fields in one operation.\nUse scraping_browser_snapshot first to get the correct ref values.\nThis is more efficient than filling fields one by one.",
+                    "inputSchema": {
+                      "properties": {
+                        "fields": {
+                          "description": "Fields to fill in",
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "name": {
+                                "description": "Human-readable field name",
+                                "type": "string"
+                              },
+                              "ref": {
+                                "description": "Exact target field reference from the page snapshot",
+                                "type": "string"
+                              },
+                              "type": {
+                                "description": "Type of the field",
+                                "enum": [
+                                  "textbox",
+                                  "checkbox",
+                                  "radio",
+                                  "combobox",
+                                  "slider"
+                                ],
+                                "type": "string"
+                              },
+                              "value": {
+                                "description": "Value to fill in the field. For checkbox: use \"true\" or \"false\". For combobox: use the text of the option to select.",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "type",
+                              "ref",
+                              "value"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "fields"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_fill_form"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Browser Get HTML"
+                    },
+                    "description": "Get the HTML content of the current page. Avoid using this tool and if used, use full_page option unless it is important to see things like script tags since this can be large",
+                    "inputSchema": {
+                      "properties": {
+                        "full_page": {
+                          "description": "Whether to get the full page HTML including head and script tags\nAvoid this if you only need the extra HTML, since it can be quite large",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_get_html"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Browser Get Text"
+                    },
+                    "description": "Get the text content of the current page",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_get_text"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Browser Go Back"
+                    },
+                    "description": "Go back to the previous page",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_go_back"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Browser Go Forward"
+                    },
+                    "description": "Go forward to the next page",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_go_forward"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Browser Navigate"
+                    },
+                    "description": "Navigate a scraping browser session to a new URL",
+                    "inputSchema": {
+                      "properties": {
+                        "country": {
+                          "description": "Optional 2-letter ISO country code to route the browser session (e.g., \"US\", \"GB\")",
+                          "pattern": "^[A-Za-z]{2}$",
+                          "type": "string"
+                        },
+                        "url": {
+                          "description": "The URL to navigate to",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_navigate"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Browser Network Requests"
+                    },
+                    "description": "Get all network requests made since loading the current page.\nShows HTTP method, URL, status code and status text for each request.\nUseful for debugging API calls, tracking data fetching, and understanding page behavior.",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_network_requests"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Browser Screenshot"
+                    },
+                    "description": "Take a screenshot of the current page. Set full_page to capture the whole scrollable page.",
+                    "inputSchema": {
+                      "properties": {
+                        "full_page": {
+                          "description": "Whether to screenshot the full page (default: false)\nYou should avoid fullscreen if it's not important, since the images can be quite large",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_screenshot"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Browser Scroll"
+                    },
+                    "description": "Scroll to the bottom of the current page",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_scroll"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Browser Scroll to Element"
+                    },
+                    "description": "Scroll to a specific element using its ref from the ARIA snapshot.\nUse scraping_browser_snapshot first to get the correct ref values.\nThis is more reliable than CSS selectors.",
+                    "inputSchema": {
+                      "properties": {
+                        "element": {
+                          "description": "Description of the element to scroll to",
+                          "type": "string"
+                        },
+                        "ref": {
+                          "description": "The ref attribute from the ARIA snapshot (e.g., \"23\")",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ref",
+                        "element"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_scroll_to_ref"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Browser Snapshot"
+                    },
+                    "description": "Capture an ARIA snapshot of the current page showing all interactive elements with their refs.\nThis provides accurate element references that can be used with ref-based tools.\nUse this before interacting with elements to get proper refs instead of guessing selectors.\nA filtered snapshot does not include page text; If necessary, call scraping_browser_get_text to read it.",
+                    "inputSchema": {
+                      "properties": {
+                        "filtered": {
+                          "description": "List only buttons, links and fields (default: false). Saves tokens. Use true for sensitive actions (payments, account changes) so page text cannot pose as an element.",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_snapshot"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": true,
+                      "openWorldHint": true,
+                      "readOnlyHint": false,
+                      "title": "Browser Type Text"
+                    },
+                    "description": "Type text into an element using its ref from the ARIA snapshot.\nUse scraping_browser_snapshot first to get the correct ref values.\nThis is more reliable than CSS selectors.",
+                    "inputSchema": {
+                      "properties": {
+                        "element": {
+                          "description": "Description of the element being typed into for context",
+                          "type": "string"
+                        },
+                        "ref": {
+                          "description": "The ref attribute from the ARIA snapshot (e.g., \"23\")",
+                          "type": "string"
+                        },
+                        "submit": {
+                          "description": "Whether to submit the form after typing (press Enter)",
+                          "type": "boolean"
+                        },
+                        "text": {
+                          "description": "Text to type",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ref",
+                        "element",
+                        "text"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_type_ref"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": true,
+                      "readOnlyHint": true,
+                      "title": "Browser Wait for Element"
+                    },
+                    "description": "Wait for an element to be visible using its ref from the ARIA snapshot.\nUse scraping_browser_snapshot first to get the correct ref values.\nThis is more reliable than CSS selectors.",
+                    "inputSchema": {
+                      "properties": {
+                        "element": {
+                          "description": "Description of the element being waited for",
+                          "type": "string"
+                        },
+                        "ref": {
+                          "description": "The ref attribute from the ARIA snapshot (e.g., \"23\")",
+                          "type": "string"
+                        },
+                        "timeout": {
+                          "description": "Maximum time to wait in milliseconds (default: 30000)",
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "ref",
+                        "element"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "scraping_browser_wait_for_ref"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": true,
+                      "title": "Search Dataset"
+                    },
+                    "description": "Search a Bright Data dataset by a filter and get matching records back directly (fast Elasticsearch-backed search; no snapshot). Use this to FIND MANY records by criteria, as opposed to run_scraper which collects fresh records by URL.\nFirst call list_dataset_fields to get valid field names.\nA filter is a tree: a group {operator:\"and\"|\"or\", filters:[...]} or a leaf {name, value, operator}. Max nesting depth 3.\nLeaf operators: =, !=, \u003c, \u003c=, \u003e, \u003e=, in, not_in, includes, not_includes, array_includes, not_array_includes, is_null, is_not_null.\nSupported dataset_id values:\n- gd_l1viktl72bvl7bjuj0: LinkedIn people profiles\n- gd_me5ppxjr2ge6icjuh0: LinkedIn people profiles (contact-enriched)\n- gd_l1vikfnt1wgvvqz95w: LinkedIn company information",
+                    "inputSchema": {
+                      "properties": {
+                        "dataset_id": {
+                          "enum": [
+                            "gd_l1viktl72bvl7bjuj0",
+                            "gd_me5ppxjr2ge6icjuh0",
+                            "gd_l1vikfnt1wgvvqz95w"
+                          ],
+                          "type": "string"
+                        },
+                        "filter": {
+                          "anyOf": [
+                            {
+                              "additionalProperties": false,
+                              "properties": {
+                                "filters": {
+                                  "items": {
+                                    "anyOf": [
+                                      {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                          "filters": {
+                                            "items": {
+                                              "anyOf": [
+                                                {
+                                                  "additionalProperties": false,
+                                                  "properties": {
+                                                    "filters": {
+                                                      "items": {
+                                                        "additionalProperties": false,
+                                                        "properties": {
+                                                          "name": {
+                                                            "description": "Field name to filter on. Get valid field names from the list_dataset_fields tool.",
+                                                            "type": "string"
+                                                          },
+                                                          "operator": {
+                                                            "description": "Filter operator, one of: =, !=, \u003c, \u003c=, \u003e, \u003e=, in, not_in, includes, not_includes, array_includes, not_array_includes, is_null, is_not_null",
+                                                            "type": "string"
+                                                          },
+                                                          "value": {
+                                                            "anyOf": [
+                                                              {
+                                                                "type": "string"
+                                                              },
+                                                              {
+                                                                "type": "number"
+                                                              },
+                                                              {
+                                                                "type": "boolean"
+                                                              },
+                                                              {
+                                                                "items": {
+                                                                  "type": [
+                                                                    "string",
+                                                                    "number",
+                                                                    "boolean"
+                                                                  ]
+                                                                },
+                                                                "type": "array"
+                                                              }
+                                                            ],
+                                                            "description": "Value to compare against. Omit for is_null / is_not_null."
+                                                          }
+                                                        },
+                                                        "required": [
+                                                          "name",
+                                                          "operator"
+                                                        ],
+                                                        "type": "object"
+                                                      },
+                                                      "minItems": 1,
+                                                      "type": "array"
+                                                    },
+                                                    "operator": {
+                                                      "enum": [
+                                                        "and",
+                                                        "or"
+                                                      ],
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "required": [
+                                                    "operator",
+                                                    "filters"
+                                                  ],
+                                                  "type": "object"
+                                                },
+                                                {
+                                                  "$ref": "#/properties/filter/anyOf/0/properties/filters/items/anyOf/0/properties/filters/items/anyOf/0/properties/filters/items"
+                                                }
+                                              ]
+                                            },
+                                            "minItems": 1,
+                                            "type": "array"
+                                          },
+                                          "operator": {
+                                            "enum": [
+                                              "and",
+                                              "or"
+                                            ],
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "operator",
+                                          "filters"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      {
+                                        "$ref": "#/properties/filter/anyOf/0/properties/filters/items/anyOf/0/properties/filters/items/anyOf/0/properties/filters/items"
+                                      }
+                                    ]
+                                  },
+                                  "minItems": 1,
+                                  "type": "array"
+                                },
+                                "operator": {
+                                  "enum": [
+                                    "and",
+                                    "or"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "operator",
+                                "filters"
+                              ],
+                              "type": "object"
+                            },
+                            {
+                              "$ref": "#/properties/filter/anyOf/0/properties/filters/items/anyOf/0/properties/filters/items/anyOf/0/properties/filters/items"
+                            }
+                          ],
+                          "description": "Filter tree describing which records to match. Required, cannot be empty."
+                        },
+                        "search_after": {
+                          "description": "Pagination cursor from a previous response's search_after value.",
+                          "type": "array"
+                        },
+                        "size": {
+                          "default": 10,
+                          "description": "Number of records to return (max 10, default 10)",
+                          "exclusiveMinimum": 0,
+                          "maximum": 10,
+                          "type": "integer"
+                        },
+                        "sort": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                "default",
+                                "random"
+                              ],
+                              "type": "string"
+                            },
+                            {
+                              "items": {
+                                "additionalProperties": {
+                                  "enum": [
+                                    "asc",
+                                    "desc"
+                                  ],
+                                  "type": "string"
+                                },
+                                "type": "object"
+                              },
+                              "type": "array"
+                            }
+                          ],
+                          "description": "Sorting: \"default\", \"random\", or a custom array like [{\"timestamp\":\"asc\"}]. Use \"default\" or custom sort to paginate with search_after."
+                        }
+                      },
+                      "required": [
+                        "dataset_id",
+                        "filter"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "search_dataset"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
                       "openWorldHint": true,
                       "readOnlyHint": true,
                       "title": "Search Engine"
@@ -5843,6 +6465,7 @@
                   },
                   {
                     "annotations": {
+                      "destructiveHint": false,
                       "openWorldHint": true,
                       "readOnlyHint": true,
                       "title": "Search Engine Batch"
@@ -5895,7 +6518,8 @@
                   },
                   {
                     "annotations": {
-                      "openWorldHint": true,
+                      "destructiveHint": false,
+                      "openWorldHint": false,
                       "readOnlyHint": true,
                       "title": "Search Scrapers"
                     },
@@ -5918,20 +6542,56 @@
                       "type": "object"
                     },
                     "name": "search_scrapers"
+                  },
+                  {
+                    "annotations": {
+                      "destructiveHint": false,
+                      "openWorldHint": false,
+                      "readOnlyHint": true,
+                      "title": "Session Stats"
+                    },
+                    "description": "Tell the user about the tool usage during this session",
+                    "inputSchema": {
+                      "properties": {},
+                      "required": [],
+                      "type": "object"
+                    },
+                    "name": "session_stats"
                   }
                 ],
                 "tools": [
-                  "discover",
+                  "ask_brightdata_assistant",
+                  "chatgpt_ai_insights",
+                  "extract",
                   "get_scraper_details",
                   "get_scraper_progress",
                   "get_scraper_results",
+                  "list_dataset_fields",
+                  "perplexity_ai_insights",
                   "refresh_scrapers",
                   "run_scraper",
+                  "scrape_as_html",
                   "scrape_as_markdown",
                   "scrape_batch",
+                  "scraping_browser_click_ref",
+                  "scraping_browser_fill_form",
+                  "scraping_browser_get_html",
+                  "scraping_browser_get_text",
+                  "scraping_browser_go_back",
+                  "scraping_browser_go_forward",
+                  "scraping_browser_navigate",
+                  "scraping_browser_network_requests",
+                  "scraping_browser_screenshot",
+                  "scraping_browser_scroll",
+                  "scraping_browser_scroll_to_ref",
+                  "scraping_browser_snapshot",
+                  "scraping_browser_type_ref",
+                  "scraping_browser_wait_for_ref",
+                  "search_dataset",
                   "search_engine",
                   "search_engine_batch",
-                  "search_scrapers"
+                  "search_scrapers",
+                  "session_stats"
                 ]
               }
             }
@@ -6015,7 +6675,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.28.0",
+            "identifier": "ghcr.io/buildkite/buildkite-mcp-server:1.29.0",
             "transport": {
               "type": "stdio"
             },
@@ -6052,12 +6712,12 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/buildkite/buildkite-mcp-server:1.28.0": {
+              "ghcr.io/buildkite/buildkite-mcp-server:1.29.0": {
                 "args": [
                   "stdio"
                 ],
                 "metadata": {
-                  "last_updated": "2026-10-16T03:18:41Z",
+                  "last_updated": "2026-10-23T02:29:04Z",
                   "stars": 50
                 },
                 "overview": "## Buildkite MCP Server\n\nThe buildkite MCP server is a Model Context Protocol (MCP) server that allows AI assistants and agents to interact directly with Buildkite CI/CD pipelines through a structured, AI-friendly interface. It enables AI-driven workflows to inspect builds, trigger pipelines, monitor execution status, and analyze failures — all without switching tools or manually navigating the Buildkite UI. This server is well suited for developer productivity, CI/CD observability, incident response, and automated release workflows powered by AI.",
@@ -7694,7 +8354,7 @@
                       "readOnlyHint": true,
                       "title": "Get Test"
                     },
-                    "description": "Get a specific test in Buildkite Test Engine, including execution metrics aggregated over a selected time window. This provides additional metadata for failed test executions.",
+                    "description": "Get a specific test in Buildkite Test Engine, including execution metrics aggregated over a selected time window. This provides additional metadata for failed test executions. The response also includes transition_count_score and probabilistic_flakiness_score, which help judge whether a failure is flaky. Each score is absent unless the suite has a monitor of that type and the monitor has scored the test. The time window does not apply to them.",
                     "inputSchema": {
                       "properties": {
                         "max_timestamp": {
@@ -10799,7 +11459,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.10.1",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.11.0",
             "transport": {
               "type": "stdio"
             }
@@ -10808,9 +11468,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.10.1": {
+              "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.11.0": {
                 "metadata": {
-                  "last_updated": "2026-10-02T01:03:53Z",
+                  "last_updated": "2026-10-23T02:29:29Z",
                   "stars": 34184
                 },
                 "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
@@ -10933,11 +11593,11 @@
                     "annotations": {
                       "readOnlyHint": false
                     },
-                    "description": "Emulates various features on the target page.",
+                    "description": "Emulates various features on the target page. Each call replaces all emulation settings (except extraHttpHeaders), so pass all desired settings in a single call.",
                     "inputSchema": {
                       "properties": {
                         "colorScheme": {
-                          "description": "Emulate the dark or the light mode. Set to \"auto\" to reset to the default.",
+                          "description": "Emulate the dark or the light mode. Omit or set to \"auto\" to reset to the default.",
                           "enum": [
                             "dark",
                             "light",
@@ -10953,6 +11613,15 @@
                         },
                         "extraHttpHeaders": {
                           "description": "Extra HTTP headers as a JSON string object, e.g. {\"X-Custom\": \"value\", \"Authorization\": \"Bearer token\"}. Headers are included into every HTTP request originating from the page and persist across navigations until cleared. Pass an empty string to clear all extra headers.",
+                          "type": "string"
+                        },
+                        "forcedColors": {
+                          "description": "Emulate the `forced-colors` CSS media feature. Omit or set to \"auto\" to reset to the default.",
+                          "enum": [
+                            "active",
+                            "none",
+                            "auto"
+                          ],
                           "type": "string"
                         },
                         "geolocation": {
@@ -10974,12 +11643,32 @@
                           "description": "Targets a specific page by ID.",
                           "type": "number"
                         },
+                        "prefersContrast": {
+                          "description": "Emulate the `prefers-contrast` CSS media feature. Omit or set to \"auto\" to reset to the default.",
+                          "enum": [
+                            "more",
+                            "less",
+                            "custom",
+                            "no-preference",
+                            "auto"
+                          ],
+                          "type": "string"
+                        },
+                        "prefersReducedMotion": {
+                          "description": "Emulate the `prefers-reduced-motion` CSS media feature. Omit or set to \"auto\" to reset to the default.",
+                          "enum": [
+                            "reduce",
+                            "no-preference",
+                            "auto"
+                          ],
+                          "type": "string"
+                        },
                         "userAgent": {
-                          "description": "User agent to emulate. Set to empty string to clear the user agent override.",
+                          "description": "User agent to emulate. Omit or set to empty string to clear the user agent override.",
                           "type": "string"
                         },
                         "viewport": {
-                          "description": "Emulate device viewports '\u003cwidth\u003ex\u003cheight\u003ex\u003cdevicePixelRatio\u003e[,mobile][,touch][,landscape]'. 'touch' and 'mobile' to emulate mobile devices. 'landscape' to emulate landscape mode.",
+                          "description": "Emulate device viewports '\u003cwidth\u003ex\u003cheight\u003ex\u003cdevicePixelRatio\u003e[,mobile][,touch][,landscape]'. 'touch' and 'mobile' to emulate mobile devices. 'landscape' to emulate landscape mode. Omit to clear the viewport override.",
                           "type": "string"
                         }
                       },
@@ -10994,11 +11683,11 @@
                     "annotations": {
                       "readOnlyHint": false
                     },
-                    "description": "Evaluate a JavaScript function inside the target page. Returns the response as JSON, so returned values have to be JSON-serializable.",
+                    "description": "Evaluate JavaScript inside the target page. The source can be provided inline or loaded from a local file. Returns the response as JSON, so returned values have to be JSON-serializable.",
                     "inputSchema": {
                       "properties": {
                         "args": {
-                          "description": "An optional list of arguments to pass to the function.",
+                          "description": "An optional list of arguments (element uids from the page content snapshot) to pass to the function.",
                           "items": {
                             "description": "The uid of an element on the page from the page content snapshot",
                             "type": "string"
@@ -11013,13 +11702,25 @@
                           "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
                           "type": "string"
                         },
+                        "format": {
+                          "description": "How to interpret the source. \"function\" treats it as a function declaration and supports args. \"script\" evaluates it as classic JavaScript and does not support args. Defaults to \"function\". ECMAScript modules are not supported.",
+                          "enum": [
+                            "function",
+                            "script"
+                          ],
+                          "type": "string"
+                        },
                         "function": {
-                          "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() =\u003e document.title` or `async () =\u003e await fetch(\"example.com\")`.\nExample with arguments: `(el) =\u003e el.innerText`\n",
+                          "description": "JavaScript source to execute in the target page. Provide either this or sourcePath, but not both. The source is interpreted according to format.\nExample without arguments: `() =\u003e document.title` or `async () =\u003e await fetch(\"example.com\")`.\nExample with arguments: `(el) =\u003e el.innerText`\n",
                           "type": "string"
                         },
                         "pageId": {
                           "description": "Targets a specific page by ID.",
                           "type": "number"
+                        },
+                        "sourcePath": {
+                          "description": "The absolute or relative path to a JavaScript file on the MCP server's local filesystem. Provide either this or function, but not both.",
+                          "type": "string"
                         },
                         "waitForStableDom": {
                           "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
@@ -11027,8 +11728,7 @@
                         }
                       },
                       "required": [
-                        "pageId",
-                        "function"
+                        "pageId"
                       ],
                       "type": "object"
                     },
@@ -11141,7 +11841,7 @@
                     "annotations": {
                       "readOnlyHint": true
                     },
-                    "description": "Retrieve matched CSS rules, inline styles, inherited styles, and cascade information for an element identified by its UID.\nUse this tool to debug why specific CSS properties are applied, overridden, or conflicting. Results are paginated and return 10 rules per page by default; use pageIdx to page through the remaining rules. Requires a UID from take_snapshot.",
+                    "description": "Retrieve matched CSS rules, inline styles (element.style), inherited styles, custom properties, and cascade wrappers (@layer, @media, @container, @scope) for an element identified by its UID.\nRules are ordered from highest to lowest cascade precedence and include source line numbers (e.g. index:196). Active (winning) declarations have no prefix tag, while (losing) overridden declarations are prefixed with [overloaded].\nTreat the output as authoritative and complete.\nResults are paginated (10 rules per page by default); use pageIdx to page through the remaining rules. Requires a UID from take_snapshot.",
                     "inputSchema": {
                       "properties": {
                         "pageId": {
@@ -11270,7 +11970,7 @@
                     "annotations": {
                       "readOnlyHint": false
                     },
-                    "description": "Get Lighthouse score and reports for accessibility, SEO, best practices, and agentic browsing. This excludes performance. For performance audits, run performance_start_trace",
+                    "description": "Get Lighthouse scores, failing audits, and the DOM nodes they flag for accessibility, SEO, best practices, and agentic browsing. Full reports are saved to disk. This excludes performance. For performance audits, run performance_start_trace",
                     "inputSchema": {
                       "properties": {
                         "device": {
@@ -11590,6 +12290,10 @@
                           "description": "The absolute file path, or a file path relative to the current working directory, to save the raw trace data. For example, trace.json.gz (compressed) or trace.json (uncompressed).",
                           "type": "string"
                         },
+                        "ignoreCache": {
+                          "description": "Whether to bypass the HTTP cache when reloading the page, to measure a cold page load. Only applies if reload is true.",
+                          "type": "boolean"
+                        },
                         "pageId": {
                           "description": "Targets a specific page by ID.",
                           "type": "number"
@@ -11667,7 +12371,9 @@
                       "properties": {
                         "height": {
                           "description": "Page height",
-                          "type": "number"
+                          "exclusiveMinimum": 0,
+                          "maximum": 9007199254740991,
+                          "type": "integer"
                         },
                         "pageId": {
                           "description": "Targets a specific page by ID.",
@@ -11675,7 +12381,9 @@
                         },
                         "width": {
                           "description": "Page width",
-                          "type": "number"
+                          "exclusiveMinimum": 0,
+                          "maximum": 9007199254740991,
+                          "type": "integer"
                         }
                       },
                       "required": [
@@ -11686,6 +12394,48 @@
                       "type": "object"
                     },
                     "name": "resize_page"
+                  },
+                  {
+                    "annotations": {
+                      "readOnlyHint": false
+                    },
+                    "description": "Starts recording a screencast (video) of the target page.",
+                    "inputSchema": {
+                      "properties": {
+                        "filePath": {
+                          "description": "Output file path (.mp4). Uses mkdtemp to generate a unique path if not provided.",
+                          "type": "string"
+                        },
+                        "pageId": {
+                          "description": "Targets a specific page by ID.",
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "pageId"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "screencast_start"
+                  },
+                  {
+                    "annotations": {
+                      "readOnlyHint": false
+                    },
+                    "description": "Stops the active screencast recording on the target page.",
+                    "inputSchema": {
+                      "properties": {
+                        "pageId": {
+                          "description": "Targets a specific page by ID.",
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "pageId"
+                      ],
+                      "type": "object"
+                    },
+                    "name": "screencast_stop"
                   },
                   {
                     "annotations": {
@@ -11932,6 +12682,8 @@
                   "performance_stop_trace",
                   "press_key",
                   "resize_page",
+                  "screencast_start",
+                  "screencast_stop",
                   "select_page",
                   "take_heapsnapshot",
                   "take_screenshot",
@@ -12403,7 +13155,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/context7:4.4.1",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/context7:4.4.4",
             "transport": {
               "type": "stdio"
             },
@@ -12419,7 +13171,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/context7:4.4.1": {
+              "ghcr.io/stacklok/dockyard/npx/context7:4.4.4": {
                 "metadata": {
                   "last_updated": "2026-10-16T03:18:53Z",
                   "stars": 52568
@@ -12594,7 +13346,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "quay.io/crowdstrike/falcon-mcp:0.19.0",
+            "identifier": "quay.io/crowdstrike/falcon-mcp:0.20.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8000"
@@ -12643,7 +13395,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "quay.io/crowdstrike/falcon-mcp:0.19.0": {
+              "quay.io/crowdstrike/falcon-mcp:0.20.0": {
                 "args": [
                   "--transport",
                   "streamable-http",
@@ -12840,7 +13592,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.14.0",
+            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.15.0",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:5000"
@@ -12850,7 +13602,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.14.0": {
+              "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:1.15.0": {
                 "args": [
                   "--address",
                   "0.0.0.0"
@@ -17000,7 +17752,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/github/github-mcp-server:v2.0.2",
+            "identifier": "ghcr.io/github/github-mcp-server:v2.0.3",
             "transport": {
               "type": "stdio"
             },
@@ -17029,9 +17781,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/github/github-mcp-server:v2.0.2": {
+              "ghcr.io/github/github-mcp-server:v2.0.3": {
                 "metadata": {
-                  "last_updated": "2026-10-09T02:13:30Z",
+                  "last_updated": "2026-10-23T02:27:02Z",
                   "stars": 28440
                 },
                 "overview": "## GitHub MCP Server\n\nThe GitHub MCP server enables AI assistants to work directly with **GitHub repositories and resources** inside AI-driven workflows. It provides structured access to code, issues, pull requests, and repository metadata so assistants can reason about projects, propose changes, and manage collaboration without switching between tools.\n\nThis server is ideal for development, code review, project planning, and repository exploration workflows that benefit from tight integration with GitHub.",
@@ -19897,7 +20649,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/grafana/mcp-grafana:2.0.2",
+            "identifier": "docker.io/grafana/mcp-grafana:2.1.1",
             "transport": {
               "type": "stdio"
             },
@@ -19928,13 +20680,13 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/grafana/mcp-grafana:2.0.2": {
+              "docker.io/grafana/mcp-grafana:2.1.1": {
                 "args": [
                   "--transport",
                   "stdio"
                 ],
                 "metadata": {
-                  "last_updated": "2026-10-16T03:16:37Z",
+                  "last_updated": "2026-10-23T02:28:52Z",
                   "stars": 3239
                 },
                 "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential.\n\n**Note:** the upstream container's entrypoint defaults to the SSE transport, so this entry passes `--transport stdio` via its registry args to force stdio mode. If you run this server with your own custom arguments (`thv run ... -- \u003cyour args\u003e`), those arguments replace the registry defaults, so be sure to include `--transport stdio` yourself or the server will silently fall back to SSE.",
@@ -20055,9 +20807,13 @@
                       "readOnlyHint": false,
                       "title": "Write alerting routing"
                     },
-                    "description": "Create Grafana-managed contact points for alert notifications using operation 'create_contact_point'.\nRequires name, type and integration-specific settings. Returns uid, name and type without settings or secrets.\nContact points remain editable in the Grafana UI by default. External Alertmanager receivers are not supported. Does not list or inspect existing contact points.",
+                    "description": "Create Grafana-managed contact points for alert notifications using operation 'create_contact_point'.\nRequires name, type and integration-specific settings. Returns uid, name and type without settings or secrets.\nGrafana-managed is the default and remains editable in the UI. Use managed_by='datasource' for an external Mimir/Cortex Alertmanager receiver when requested or when established conversation or environment context clearly identifies an external Alertmanager workflow. An external query datasource or an empty Grafana contact point list alone is insufficient. Ask if context conflicts.\nUse native Alertmanager settings (email: to, webhook: url). Without datasource_uid select the sole compatible datasource, or return candidates for selection if ambiguous. Does not change notification routes.",
                     "inputSchema": {
                       "properties": {
+                        "datasource_uid": {
+                          "description": "External Mimir/Cortex Alertmanager UID. Only for managed_by=datasource. Omit to select the sole compatible datasource. Ambiguity returns candidates for selection.",
+                          "type": "string"
+                        },
                         "disable_provenance": {
                           "description": "Keep the contact point editable in the Grafana UI. Defaults to true.",
                           "type": "boolean"
@@ -20065,6 +20821,15 @@
                         "disable_resolve_message": {
                           "description": "Disable resolved notifications. Defaults to false.",
                           "type": "boolean"
+                        },
+                        "managed_by": {
+                          "default": "grafana",
+                          "description": "Creation target. Omission defaults to Grafana-managed. Select datasource when requested or clearly established by conversation or environment context.",
+                          "enum": [
+                            "grafana",
+                            "datasource"
+                          ],
+                          "type": "string"
                         },
                         "name": {
                           "description": "Contact point name. Integrations with the same name are grouped together.",
@@ -20198,7 +20963,7 @@
                       "readOnlyHint": false,
                       "title": "Write alert rules"
                     },
-                    "description": "Create, update, and delete Grafana alert rules.\n\nWhen to use:\n- Creating, updating, or deleting alert rules\n\nOperation 'update' replaces the whole rule: it takes all required fields, not only the changed ones.\n\nDoes not list or inspect rules, and does not manage notification routing.",
+                    "description": "Create, update, and delete Grafana alert rules.\n\nWhen to use:\n- Creating, updating, or deleting alert rules\n\nOperation 'update' replaces the whole rule: it takes all required fields, not only the changed ones.\n\nCreation defaults to Grafana-managed, even when queries use an external datasource.\nUse managed_by='datasource' when requested or when established conversation or environment context clearly identifies a datasource-managed workflow. An external query datasource or an empty Grafana rule list alone is insufficient. Ask if context conflicts.\nDatasource-managed creation uses a Mimir/Cortex or Loki ruler with namespace, rule_group, title and expression. datasource_uid is optional if exactly one compatible datasource exists. Ambiguity returns candidates for selection. Never falls back to Grafana-managed creation.\n\nDoes not list or inspect rules, and does not manage notification routing.",
                     "inputSchema": {
                       "properties": {
                         "annotations": {
@@ -20209,34 +20974,42 @@
                           "type": "object"
                         },
                         "condition": {
-                          "description": "The query condition identifier, e.g. 'A', 'B' (required for 'create', 'update')",
+                          "description": "Grafana-managed only. The query condition identifier, e.g. 'A', 'B' (required for 'create', 'update')",
                           "type": "string"
                         },
                         "data": {
-                          "description": "Array of alert query objects (required for 'create'/'update'). Each object has: datasourceUid (string, required), model (object with expr for data queries or type/expression/conditions for expressions), refId (string, auto-assigned if omitted), relativeTimeRange ({from, to} in seconds, defaults to {from:600,to:0}). For server-side expressions use datasourceUid '__expr__'. Example: [{datasourceUid: 'prometheus', model: {expr: 'up == 0'}}, {datasourceUid: '__expr__', model: {type: 'threshold', expression: 'A', conditions: [{evaluator: {type: 'gt', params: [0]}}]}}]",
+                          "description": "Grafana-managed only. Array of alert query objects (required for 'create'/'update'). Each object has: datasourceUid (string, required), model (object with expr for data queries or type/expression/conditions for expressions), refId (string, auto-assigned if omitted), relativeTimeRange ({from, to} in seconds, defaults to {from:600,to:0}). For server-side expressions use datasourceUid '__expr__'. Example: [{datasourceUid: 'prometheus', model: {expr: 'up == 0'}}, {datasourceUid: '__expr__', model: {type: 'threshold', expression: 'A', conditions: [{evaluator: {type: 'gt', params: [0]}}]}}]",
                           "items": {
                             "type": "object"
                           },
                           "type": "array"
                         },
                         "datasource_uid": {
-                          "description": "Optional: UID of a Prometheus or Loki datasource to query for datasource-managed alert rules (for 'list' operation)",
+                          "description": "Datasource UID for list or explicit managed_by=datasource creation. For creation omit to select the sole compatible datasource. Ambiguity returns candidates for selection.",
                           "type": "string"
                         },
                         "disable_provenance": {
                           "description": "If true, the alert remains editable in the Grafana UI (sets X-Disable-Provenance header). Defaults to true.",
                           "type": "boolean"
                         },
+                        "evaluation_interval": {
+                          "description": "Interval for a new datasource rule group (default 1m). Must match an existing group's interval if supplied.",
+                          "type": "string"
+                        },
                         "exec_err_state": {
-                          "description": "State on execution error: NoData, Alerting, OK (required for 'create', 'update')",
+                          "description": "Grafana-managed only. State on execution error: NoData, Alerting, OK (required for 'create', 'update')",
+                          "type": "string"
+                        },
+                        "expression": {
+                          "description": "PromQL or LogQL expression for datasource-managed creation.",
                           "type": "string"
                         },
                         "folder_uid": {
-                          "description": "The folder UID. For 'list': filter by exact folder UID (mutually exclusive with search_folder). For 'create'/'update': the folder to store the rule in (required).",
+                          "description": "The folder UID. For 'list': filter by exact folder UID (mutually exclusive with search_folder). For Grafana-managed 'create'/'update': required destination folder.",
                           "type": "string"
                         },
                         "for": {
-                          "description": "Duration before alert fires, e.g. '5m' (required for 'create', 'update')",
+                          "description": "Duration before alert fires, e.g. '5m'. Required for Grafana-managed create/update. Optional for datasource-managed rules (default 0s).",
                           "type": "string"
                         },
                         "is_paused": {
@@ -20265,6 +21038,15 @@
                           "description": "Limit alert instances per rule. For list: 0 omits alerts. For get: \u003c=0 defaults to 200. Max 200.",
                           "type": "integer"
                         },
+                        "managed_by": {
+                          "default": "grafana",
+                          "description": "Creation target. Omission defaults to Grafana-managed. Select datasource when requested or clearly established by conversation or environment context. Other mutations remain Grafana-only.",
+                          "enum": [
+                            "grafana",
+                            "datasource"
+                          ],
+                          "type": "string"
+                        },
                         "matchers": {
                           "description": "Label matchers to filter alert instances. Each string is a Prometheus-style matcher e.g. 'severity=\"critical\"', 'env!=\"dev\"', 'team=~\"backend.*\"'. Requires Grafana 12.4+.",
                           "items": {
@@ -20276,8 +21058,12 @@
                           "description": "Consecutive evaluation intervals with no data required to mark the alert as resolved. Default is 2.",
                           "type": "integer"
                         },
+                        "namespace": {
+                          "description": "Namespace for datasource-managed creation. Required with managed_by=datasource.",
+                          "type": "string"
+                        },
                         "no_data_state": {
-                          "description": "State when no data: NoData, Alerting, OK (required for 'create', 'update')",
+                          "description": "Grafana-managed only. State when no data: NoData, Alerting, OK (required for 'create', 'update')",
                           "type": "string"
                         },
                         "notification_settings": {
@@ -20297,7 +21083,7 @@
                           "type": "string"
                         },
                         "org_id": {
-                          "description": "The organization ID (required for 'create', 'update')",
+                          "description": "Grafana-managed organization ID (required for 'create', 'update')",
                           "type": "integer"
                         },
                         "record": {
@@ -21042,7 +21828,7 @@
                       "readOnlyHint": false,
                       "title": "Generate navigation deeplink"
                     },
-                    "description": "Generate deeplink URLs for Grafana resources. Supports dashboards (requires dashboardUid or provisioningPreview), panels (requires dashboardUid or provisioningPreview, plus panelId), and Explore queries (requires datasourceUid and optionally queries). For dashboard and panel links, provisioningPreview points at a dashboard staged on a provisioning repository branch (e.g. a git-sync PR preview). For explore links, the time range and queries are embedded inside the Grafana explore state. Set shorten=true to also attempt a /goto/\u003cuid\u003e short URL; if shortening fails, the full deeplink is returned.",
+                    "description": "Generate deeplink URLs for Grafana resources. Supports dashboards (requires dashboardUid or provisioningPreview), panels (requires dashboardUid or provisioningPreview, plus panelId), and Explore queries (requires datasourceUid and optionally queries). For dashboard and panel links, provisioningPreview points at a dashboard staged on a provisioning repository branch (e.g. a git-sync PR preview). For explore links, the time range and queries are embedded inside the Grafana explore state. Set shorten=true to return a /goto/\u003cuid\u003e short URL instead; if shortening fails, an error containing the full deeplink is returned.",
                     "inputSchema": {
                       "properties": {
                         "dashboardUid": {
@@ -21102,7 +21888,7 @@
                           "type": "string"
                         },
                         "shorten": {
-                          "description": "If true, try to shorten the generated URL to /goto/\u003cuid\u003e. If shortening fails, return the original deeplink.",
+                          "description": "If true, try to shorten the generated URL to /goto/\u003cuid\u003e. If shortening fails, an error containing the full deeplink is returned.",
                           "type": "boolean"
                         },
                         "timeRange": {
@@ -21538,7 +22324,7 @@
                       "readOnlyHint": true,
                       "title": "Get panel or dashboard image"
                     },
-                    "description": "Render a Grafana dashboard panel, full dashboard or Explore view as a PNG image. Returns the image as base64 encoded data. Requires the Grafana Image Renderer service to be installed. Exactly one of dashboardUid (for stored dashboards), provisioningPreview (for dashboards staged on a provisioning repository branch, e.g. a git-sync PR) or explore (an ad-hoc datasource query rendered in Explore, no saved dashboard needed) must be supplied. Use this for generating visual snapshots of dashboards for reports, alerts, or presentations.",
+                    "description": "Render a Grafana dashboard panel, full dashboard or Explore view as a PNG image. Returns the image as base64 encoded data. Requires the Grafana Image Renderer service to be installed. Exactly one of dashboardUid (for stored dashboards), provisioningPreview (for dashboards staged on a provisioning repository branch, e.g. a git-sync PR) or explore (an ad-hoc datasource query rendered in Explore, no saved dashboard needed) must be supplied. Defaults in CSS pixels: panel 1000x750, dashboard 1200x900, Explore 1000x1000. Scale defaults to 1 for all views and is clamped to 1-3. Use this for generating visual snapshots of dashboards for reports, alerts, or presentations.",
                     "inputSchema": {
                       "properties": {
                         "dashboardUid": {
@@ -21566,7 +22352,7 @@
                           "type": "object"
                         },
                         "height": {
-                          "description": "Height of the rendered image in pixels. Defaults to 500 (1000 for explore)",
+                          "description": "Positive viewport height in CSS pixels, or -1 for full-page rendering. See tool description for per-view defaults. Positive heights are capped so height times scale is at most 3000. The renderer may raise values below its configured minimum (500 by default).",
                           "type": "integer"
                         },
                         "panelId": {
@@ -21596,7 +22382,7 @@
                           "type": "object"
                         },
                         "scale": {
-                          "description": "Scale factor for the image (1-3). Defaults to 1",
+                          "description": "Image scale factor. See tool description for default and limits. Higher scales reduce the maximum allowed viewport dimensions.",
                           "type": "integer"
                         },
                         "theme": {
@@ -21618,7 +22404,7 @@
                           "type": "object"
                         },
                         "timeout": {
-                          "description": "Rendering timeout in seconds. Defaults to 60",
+                          "description": "Rendering timeout in seconds. Defaults to 60, capped at 120",
                           "type": "integer"
                         },
                         "variables": {
@@ -21639,7 +22425,7 @@
                           "type": "object"
                         },
                         "width": {
-                          "description": "Width of the rendered image in pixels. Defaults to 1000",
+                          "description": "Positive viewport width in CSS pixels. See tool description for per-view defaults. Capped so width times scale is at most 3000. The renderer may raise values below its configured minimum (1000 by default).",
                           "type": "integer"
                         }
                       },
@@ -25952,7 +26738,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.2.11",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.2.12",
             "transport": {
               "type": "stdio"
             },
@@ -25974,9 +26760,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.2.11": {
+              "ghcr.io/stacklok/dockyard/npx/heroku-mcp-server:1.2.12": {
                 "metadata": {
-                  "last_updated": "2026-10-09T02:11:54Z",
+                  "last_updated": "2026-10-23T02:27:18Z",
                   "stars": 77
                 },
                 "overview": "## Heroku MCP Server\n\nThe heroku-mcp-server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with the Heroku platform through a structured, AI-friendly interface. It allows AI-driven workflows to inspect applications, manage deployments, review configuration, and reason about runtime behavior without switching tools or manually using the Heroku CLI or dashboard. Key capabilities include application lifecycle management, deployment workflows, runtime insight for dynos and process scaling, and operational visibility through logs and platform metadata.",
@@ -43807,7 +44593,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "docker.io/semgrep/semgrep:1.181.0",
+            "identifier": "docker.io/semgrep/semgrep:1.182.1",
             "transport": {
               "type": "stdio"
             },
@@ -43823,13 +44609,13 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "docker.io/semgrep/semgrep:1.181.0": {
+              "docker.io/semgrep/semgrep:1.182.1": {
                 "args": [
                   "semgrep",
                   "mcp"
                 ],
                 "metadata": {
-                  "last_updated": "2026-10-16T03:19:11Z",
+                  "last_updated": "2026-10-23T02:29:42Z",
                   "stars": 15042
                 },
                 "overview": "## Semgrep MCP Server\n\nThe semgrep MCP server scans code for security vulnerabilities using Semgrep with 5,000+ semantic analysis rules. This tool provides static security analysis across multiple programming languages, leveraging thousands of semantic rules for identifying vulnerabilities. It enables abstract syntax tree generation, supply chain security scanning, and supports custom rule creation for organization-specific security requirements.",
@@ -44168,8 +44954,8 @@
                   "license": "MIT"
                 },
                 "metadata": {
-                  "last_updated": "2026-05-03T03:05:31Z",
-                  "stars": 665
+                  "last_updated": "2026-10-23T02:27:15Z",
+                  "stars": 17189
                 },
                 "overview": "## Semgrep Remote MCP Server\n\nThe semgrep-remote MCP server is the official Semgrep MCP server for code security scanning and vulnerability detection. The server enables vulnerability scanning utilizing semantic analysis across 5,000+ rules, abstract syntax tree generation and multi-language support queries, supply chain security analysis for dependencies and third-party code, and custom security rule development and validation with schema capabilities.",
                 "status": "Active",
@@ -44861,7 +45647,7 @@
                   "homepage": "https://sentry.io"
                 },
                 "metadata": {
-                  "last_updated": "2026-05-03T03:05:31Z"
+                  "last_updated": "2026-10-23T02:27:15Z"
                 },
                 "overview": "## Sentry Remote MCP Server\n\nSentry's official remote MCP server enables AI assistants to connect to Sentry's error monitoring and performance tracking platform using OAuth authentication over a streamable HTTP transport. It supports finding organizations, teams, projects, and releases; retrieving detailed issue and trace information; searching events and issues; and running AI-powered issue analysis through Sentry Seer. The server provides the full context needed for AI-driven incident triage, root cause analysis, and performance debugging directly within an assistant workflow.",
                 "status": "Active",
@@ -46055,7 +46841,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.13.0",
+            "identifier": "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.14.0",
             "transport": {
               "type": "stdio"
             },
@@ -46072,9 +46858,9 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.13.0": {
+              "ghcr.io/stacklok/dockyard/npx/supabase-mcp-server:0.14.0": {
                 "metadata": {
-                  "last_updated": "2026-10-08T14:16:53Z",
+                  "last_updated": "2026-10-23T02:29:51Z",
                   "stars": 2612
                 },
                 "overview": "## Supabase MCP Server\n\nThe supabase MCP server connects Supabase projects to AI assistants for managing tables, fetching config, and querying data. The server enables MCP-based access to Supabase platform capabilities through the Management API, database operations, Edge Functions deployment, and branch management features, authenticated via environment variables.",
@@ -46148,7 +46934,7 @@
                       "readOnlyHint": true,
                       "title": "Confirm cost understanding"
                     },
-                    "description": "Ask the user to confirm their understanding of the cost of creating a new project or branch. Call `get_cost` first. Returns a unique ID for this confirmation which should be passed to `create_project` or `create_branch`.",
+                    "description": "Returns a confirmation ID for the cost of a new project or branch returned by `get_cost`. Only call this after the user has explicitly agreed to that cost in the conversation. Pass the ID to `create_project` or `create_branch`.",
                     "inputSchema": {
                       "properties": {
                         "amount": {
@@ -46186,11 +46972,11 @@
                       "readOnlyHint": false,
                       "title": "Create branch"
                     },
-                    "description": "Creates a development branch on a Supabase project. This will apply all migrations from the main project to a fresh branch database. Note that production data will not carry over. The branch will get its own project_id via the resulting project_ref. Use this ID to execute queries and migrations on the branch.",
+                    "description": "Creates a development branch on a Supabase project, which can incur hourly compute and other usage charges. The user must agree to the cost before the branch is created. Unless `confirm_cost_id` is required, call this tool without it and without asking for cost confirmation in chat first. The server handles cost confirmation, or returns instructions for obtaining a confirmation ID. If it requests an ID, follow those instructions and retry with it. This will apply all migrations from the main project to a fresh branch database. Note that production data will not carry over. The branch will get its own project_id via the resulting project_ref. Use this ID to execute queries and migrations on the branch.",
                     "inputSchema": {
                       "properties": {
                         "confirm_cost_id": {
-                          "description": "The cost confirmation ID. Call `confirm_cost` first.",
+                          "description": "The ID returned by `confirm_cost`. To get it, call `get_cost`, tell the user the cost, and call `confirm_cost` once they agree.",
                           "type": "string"
                         },
                         "name": {
@@ -46219,11 +47005,11 @@
                       "readOnlyHint": false,
                       "title": "Create project"
                     },
-                    "description": "Creates a new Supabase project. Always ask the user which organization to create the project in. The project can take a few minutes to initialize - use `get_project` to check the status.",
+                    "description": "Creates a new Supabase project, which can add to the organization's bill. The user must agree to any nonzero quoted cost before the project is created. Unless `confirm_cost_id` is required, call this tool without it and without asking for cost confirmation in chat first. The server handles cost confirmation, or returns instructions for obtaining a confirmation ID. If it requests an ID, follow those instructions and retry with it. A project quoted at $0 may be created without a cost-confirmation form. Always ask the user which organization to create the project in. The project can take a few minutes to initialize - use `get_project` to check the status.",
                     "inputSchema": {
                       "properties": {
                         "confirm_cost_id": {
-                          "description": "The cost confirmation ID. Call `confirm_cost` first.",
+                          "description": "The ID returned by `confirm_cost`. To get it, call `get_cost`, tell the user the cost, and call `confirm_cost` once they agree.",
                           "type": "string"
                         },
                         "name": {
@@ -46296,7 +47082,7 @@
                       "readOnlyHint": false,
                       "title": "Deploy Edge Function"
                     },
-                    "description": "Deploys an Edge Function to a Supabase project. If the function already exists, this will create a new version. Example:\n\nimport \"jsr:@supabase/functions-js/edge-runtime.d.ts\";\n\nDeno.serve(async (req: Request) =\u003e {\n  const data = {\n    message: \"Hello there!\"\n  };\n  \n  return new Response(JSON.stringify(data), {\n    headers: {\n      'Content-Type': 'application/json',\n      'Connection': 'keep-alive'\n    }\n  });\n});",
+                    "description": "Deploys an Edge Function to a Supabase project. If a function with this name already exists, this replaces it with a new version that starts serving requests at the function's public URL right away. Example:\n\nimport \"jsr:@supabase/functions-js/edge-runtime.d.ts\";\n\nDeno.serve(async (req: Request) =\u003e {\n  const data = {\n    message: \"Hello there!\"\n  };\n  \n  return new Response(JSON.stringify(data), {\n    headers: {\n      'Content-Type': 'application/json',\n      'Connection': 'keep-alive'\n    }\n  });\n});",
                     "inputSchema": {
                       "properties": {
                         "entrypoint_path": {
@@ -46337,7 +47123,7 @@
                         },
                         "verify_jwt": {
                           "default": true,
-                          "description": "Whether to require a valid JWT in the Authorization header. You SHOULD ALWAYS enable this to ensure authorized access. ONLY disable if the function previously had it disabled OR you've confirmed the function body implements custom authentication (e.g., API keys, webhooks) OR the user explicitly requested it be disabled.",
+                          "description": "Whether to require a valid JWT in the Authorization header. Keep this `true` unless the user asks to turn it off, the function previously had it turned off, or the function body does its own authentication (e.g. API keys, webhooks).",
                           "type": "boolean"
                         }
                       },
@@ -46409,7 +47195,7 @@
                       "readOnlyHint": true,
                       "title": "Get project advisors"
                     },
-                    "description": "Gets a list of advisory notices for the Supabase project. Use this to check for security vulnerabilities or performance improvements. Include the remediation URL as a clickable link so that the user can reference the issue themselves. It's recommended to run this tool regularly, especially after making DDL changes to the database since it will catch things like missing RLS policies.",
+                    "description": "Gets a list of advisory notices for the Supabase project. Use this to check for security vulnerabilities, performance improvements, or health issues. Include the remediation URL as a clickable link so that the user can reference the issue themselves. It's recommended to run this tool regularly, especially after making DDL changes to the database since it will catch things like missing RLS policies.",
                     "inputSchema": {
                       "properties": {
                         "project_id": {
@@ -46419,7 +47205,8 @@
                           "description": "The type of advisors to fetch",
                           "enum": [
                             "security",
-                            "performance"
+                            "performance",
+                            "health"
                           ],
                           "type": "string"
                         }
@@ -50038,7 +50825,7 @@
         "packages": [
           {
             "registryType": "oci",
-            "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.21-20261016",
+            "identifier": "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.21-20261019",
             "transport": {
               "type": "streamable-http",
               "url": "http://localhost:8080"
@@ -50074,7 +50861,7 @@
         "_meta": {
           "io.modelcontextprotocol.registry/publisher-provided": {
             "io.github.stacklok": {
-              "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.21-20261016": {
+              "ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.21-20261019": {
                 "metadata": {
                   "last_updated": "2026-07-31T20:52:33Z",
                   "stars": 3
@@ -50261,7 +51048,7 @@
                   "homepage": "https://vercel.com/docs/mcp/vercel-mcp"
                 },
                 "metadata": {
-                  "last_updated": "2026-05-03T03:05:31Z"
+                  "last_updated": "2026-10-23T02:27:15Z"
                 },
                 "overview": "## Vercel MCP Server\n\nVercel's official remote MCP server for deployment platform and project management. It provides programmatic access to Vercel's deployment infrastructure, project management, and documentation through a streamable-http transport. The server enables AI assistants to connect with Vercel's deployment platform, offering tools for searching documentation, managing teams and projects, monitoring deployments and their events, and retrieving content from Vercel-hosted URLs. Authentication is handled through OAuth.",
                 "status": "Active",
