@@ -1,0 +1,103 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/ipgeolocation-io-mcp",
+  "description": "IP geolocation, company, ASN/network, security, abuse, time zones, astronomy, currency, user agents.",
+  "title": "IPGeolocation.io",
+  "repository": {
+    "url": "https://github.com/IPGeolocation/ipgeolocation-io-mcp",
+    "source": "github"
+  },
+  "version": "2.0.1",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/ipgeolocation/ipgeolocation-io-mcp:2.0.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "IPGEOLOCATION_API_KEY",
+          "description": "Required for authenticated API lookups. get_my_ip works without a key; cache retrieval uses the original key.",
+          "isRequired": false,
+          "isSecret": true
+        },
+        {
+          "name": "NODE_USE_ENV_PROXY",
+          "description": "Route Node.js HTTPS through ToolHive’s isolated-network proxy.",
+          "default": "1"
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-catalog/main/registries/toolhive/servers/ipgeolocation-io-mcp/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "ghcr.io/ipgeolocation/ipgeolocation-io-mcp:2.0.1": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": [
+            "geolocation",
+            "ip-intelligence",
+            "security",
+            "network",
+            "time-zones"
+          ],
+          "tools": [
+            "bulk_lookup_ip",
+            "bulk_parse_user_agent",
+            "bulk_security_check",
+            "check_security",
+            "convert_timezone",
+            "get_abuse_contact",
+            "get_astronomy",
+            "get_astronomy_time_series",
+            "get_cached_result",
+            "get_my_ip",
+            "get_timezone",
+            "lookup_asn",
+            "lookup_company",
+            "lookup_currency",
+            "lookup_ip",
+            "lookup_network",
+            "parse_user_agent"
+          ],
+          "overview": "## IPGeolocation.io\n\nConnect ToolHive to the official IPGeolocation.io MCP server for accurate IP geolocation, company information, ASN and network data, IP security (VPN, proxy, Tor, bot, hosting and spam detection), abuse contacts, time zones, astronomy, currency data and user-agent parsing. Its 17 read-only tools support IP enrichment and investigation workflows, with paginated retrieval of cached results to avoid repeat API requests. Available data depends on your IPGeolocation.io plan. The server can start without a key: get_my_ip requires no account or credits, while authenticated API lookups need IPGEOLOCATION_API_KEY and cached-result retrieval uses the original lookup’s key.",
+          "permissions": {
+            "network": {
+              "outbound": {
+                "allow_host": [
+                  "api.ipgeolocation.io"
+                ],
+                "allow_port": [
+                  443
+                ]
+              }
+            }
+          },
+          "custom_metadata": {
+            "author": "IPGeolocation.io",
+            "homepage": "https://ipgeolocation.io/integrations/ipgeolocation-io-mcp",
+            "license": "MIT"
+          },
+          "provenance": {
+            "cert_issuer": "https://token.actions.githubusercontent.com",
+            "repository_uri": "https://github.com/IPGeolocation/ipgeolocation-io-mcp-container",
+            "runner_environment": "github-hosted",
+            "signer_identity": "/.github/workflows/publish.yml",
+            "sigstore_url": "tuf-repo-cdn.sigstore.dev"
+          }
+        }
+      }
+    }
+  }
+}
