@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:3.1.0": {
+        "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:4.1.0": {
           "metadata": {
-            "last_updated": "2026-10-23T02:29:27Z",
+            "last_updated": "2026-10-23T05:00:45Z",
             "stars": 2551
           },
           "overview": "## Bright Data MCP Server\n\nThe brightdata-mcp server is a Model Context Protocol (MCP) server that enables AI assistants and agents to access real-time web data through Bright Data's global proxy and scraping infrastructure. It allows AI workflows to fetch live web content, extract structured data, and perform large-scale web data collection without building or maintaining custom scraping systems. This makes it ideal for research, market analysis, competitive intelligence, and any AI-driven workflow that depends on fresh, publicly available web data.",
@@ -44,8 +44,39 @@
           "tool_definitions": [
             {
               "annotations": {
-                "openWorldHint": true,
+                "destructiveHint": false,
+                "openWorldHint": false,
                 "readOnlyHint": true,
+                "title": "Ask Bright Data Assistant"
+              },
+              "description": "Ask Bright Data's support assistant (Sophie) a question about Bright Data products, APIs, MCP usage, zones, scraping, or account setup. Use when the user asks \"how do I...\" about Bright Data, when you hit a Bright Data error you don't recognize, or when deciding between products (Web Unlocker vs. Scraping Browser vs. dataset tools). Supports threaded follow-ups via dialog_id.",
+              "inputSchema": {
+                "properties": {
+                  "dialog_id": {
+                    "description": "Optional 24-char dialog_id from a previous call to continue the same thread.",
+                    "maxLength": 24,
+                    "minLength": 24,
+                    "type": "string"
+                  },
+                  "question": {
+                    "description": "The question to ask. Max 20480 chars.",
+                    "maxLength": 20480,
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "question"
+                ],
+                "type": "object"
+              },
+              "name": "ask_brightdata_assistant"
+            },
+            {
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false,
                 "title": "Chatgpt Ai Insights"
               },
               "description": "Send a prompt to ChatGPT and get back AI-generated insights.\nReturns structured answer text, citations, recommendations, and markdown. Useful for GEO and LLM as a judge.",
@@ -64,73 +95,12 @@
             },
             {
               "annotations": {
-                "openWorldHint": true,
-                "readOnlyHint": true,
-                "title": "Discover"
-              },
-              "description": "Search the web and rank results by AI-driven relevance. Returns scored results with title, description, and URL. Supports intent-based ranking, geo-targeting, date filtering, and keyword filtering.",
-              "inputSchema": {
-                "properties": {
-                  "city": {
-                    "description": "City for localized results (e.g., \"New York\", \"Berlin\")",
-                    "type": "string"
-                  },
-                  "country": {
-                    "description": "2-letter ISO country code for localized results (e.g., \"US\", \"GB\", \"DE\")",
-                    "maxLength": 2,
-                    "minLength": 2,
-                    "type": "string"
-                  },
-                  "end_date": {
-                    "description": "Only content updated until this date (YYYY-MM-DD)",
-                    "type": "string"
-                  },
-                  "filter_keywords": {
-                    "description": "Keywords that must appear in search results",
-                    "items": {
-                      "type": "string"
-                    },
-                    "type": "array"
-                  },
-                  "intent": {
-                    "description": "Describes the specific goal of the search to help the AI evaluate and rank result relevance.If not provided, the query string is used as the intent",
-                    "type": "string"
-                  },
-                  "language": {
-                    "description": "Language code (e.g., \"en\", \"es\", \"fr\")",
-                    "type": "string"
-                  },
-                  "num_results": {
-                    "description": "Exact number of search results to return",
-                    "type": "integer"
-                  },
-                  "query": {
-                    "description": "The search query",
-                    "type": "string"
-                  },
-                  "remove_duplicates": {
-                    "description": "Remove duplicate results (default: true)",
-                    "type": "boolean"
-                  },
-                  "start_date": {
-                    "description": "Only content updated from this date (YYYY-MM-DD)",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "query"
-                ],
-                "type": "object"
-              },
-              "name": "discover"
-            },
-            {
-              "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Extract Structured Data"
               },
-              "description": "Scrape a webpage and extract structured data as JSON. First scrapes the page as markdown, then uses AI sampling to convert it to structured JSON format. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
+              "description": "Scrape a webpage and extract structured data as JSON. First scrapes the page as markdown, then uses AI sampling to convert it to structured JSON format.",
               "inputSchema": {
                 "properties": {
                   "extraction_prompt": {
@@ -151,7 +121,8 @@
             },
             {
               "annotations": {
-                "openWorldHint": true,
+                "destructiveHint": false,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get Scraper Details"
               },
@@ -177,7 +148,8 @@
             },
             {
               "annotations": {
-                "openWorldHint": true,
+                "destructiveHint": false,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get Scraper Progress"
               },
@@ -198,7 +170,8 @@
             },
             {
               "annotations": {
-                "openWorldHint": true,
+                "destructiveHint": false,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Get Scraper Results"
               },
@@ -219,7 +192,8 @@
             },
             {
               "annotations": {
-                "openWorldHint": true,
+                "destructiveHint": false,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "List Dataset Fields"
               },
@@ -244,8 +218,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
-                "readOnlyHint": true,
+                "readOnlyHint": false,
                 "title": "Perplexity Ai Insights"
               },
               "description": "Send a prompt to Perplexity and get back AI-generated insights.\nReturns structured answer text in markdown format.\nUseful for GEO and LLM as a judge.",
@@ -264,7 +239,8 @@
             },
             {
               "annotations": {
-                "openWorldHint": true,
+                "destructiveHint": false,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Refresh Scrapers"
               },
@@ -278,8 +254,9 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
-                "readOnlyHint": true,
+                "readOnlyHint": false,
                 "title": "Run Scraper"
               },
               "description": "Run a scraper method. input is a list of objects shaped like sample_input from get_scraper_details, one per URL or query. collect_by_url returns one record per input; discover_by_* methods return up to limit_per_input records per input, and every record is billed. Waits up to 45 seconds; if still running it returns snapshot_id with status \"running\": then poll get_scraper_progress and call get_scraper_results when ready. Records with an \"error\" field explain failed inputs.",
@@ -320,11 +297,12 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Scrape as HTML"
               },
-              "description": "Scrape a single webpage URL with advanced options for content extraction and get back the results in HTML. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
+              "description": "Scrape a single webpage URL with advanced options for content extraction and get back the results in HTML.",
               "inputSchema": {
                 "properties": {
                   "url": {
@@ -341,11 +319,12 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Scrape as Markdown"
               },
-              "description": "Scrape a single webpage URL with advanced options for content extraction and get back the results in MarkDown language. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
+              "description": "Scrape a single webpage URL with advanced options for content extraction and get back the results in MarkDown language.",
               "inputSchema": {
                 "properties": {
                   "url": {
@@ -362,11 +341,12 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Scrape Batch"
               },
-              "description": "Scrape multiple webpages URLs with advanced options for content extraction and get back the results in MarkDown language. This tool can unlock any webpage even if it uses bot detection or CAPTCHA.",
+              "description": "Scrape multiple webpages URLs with advanced options for content extraction and get back the results in MarkDown language.",
               "inputSchema": {
                 "properties": {
                   "urls": {
@@ -390,6 +370,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
                 "title": "Browser Click Element"
               },
               "description": "Click on an element using its ref from the ARIA snapshot.\nUse scraping_browser_snapshot first to get the correct ref values.\nThis is more reliable than CSS selectors.",
@@ -413,7 +395,12 @@
               "name": "scraping_browser_click_ref"
             },
             {
-              "annotations": {},
+              "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": false,
+                "title": "Browser Fill Form"
+              },
               "description": "Fill multiple form fields in one operation.\nUse scraping_browser_snapshot first to get the correct ref values.\nThis is more efficient than filling fields one by one.",
               "inputSchema": {
                 "properties": {
@@ -466,6 +453,8 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Browser Get HTML"
               },
@@ -484,6 +473,8 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Browser Get Text"
               },
@@ -497,7 +488,9 @@
             },
             {
               "annotations": {
-                "destructiveHint": true,
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
                 "title": "Browser Go Back"
               },
               "description": "Go back to the previous page",
@@ -510,7 +503,9 @@
             },
             {
               "annotations": {
-                "destructiveHint": true,
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
                 "title": "Browser Go Forward"
               },
               "description": "Go forward to the next page",
@@ -523,8 +518,9 @@
             },
             {
               "annotations": {
-                "destructiveHint": true,
+                "destructiveHint": false,
                 "openWorldHint": true,
+                "readOnlyHint": true,
                 "title": "Browser Navigate"
               },
               "description": "Navigate a scraping browser session to a new URL",
@@ -549,6 +545,8 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Browser Network Requests"
               },
@@ -562,10 +560,12 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Browser Screenshot"
               },
-              "description": "Take a screenshot of the current page",
+              "description": "Take a screenshot of the current page. Set full_page to capture the whole scrollable page.",
               "inputSchema": {
                 "properties": {
                   "full_page": {
@@ -580,7 +580,9 @@
             },
             {
               "annotations": {
-                "destructiveHint": true,
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
                 "title": "Browser Scroll"
               },
               "description": "Scroll to the bottom of the current page",
@@ -593,7 +595,9 @@
             },
             {
               "annotations": {
-                "destructiveHint": true,
+                "destructiveHint": false,
+                "openWorldHint": true,
+                "readOnlyHint": true,
                 "title": "Browser Scroll to Element"
               },
               "description": "Scroll to a specific element using its ref from the ARIA snapshot.\nUse scraping_browser_snapshot first to get the correct ref values.\nThis is more reliable than CSS selectors.",
@@ -618,14 +622,16 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Browser Snapshot"
               },
-              "description": "Capture an ARIA snapshot of the current page showing all interactive elements with their refs.\nThis provides accurate element references that can be used with ref-based tools.\nUse this before interacting with elements to get proper refs instead of guessing selectors.",
+              "description": "Capture an ARIA snapshot of the current page showing all interactive elements with their refs.\nThis provides accurate element references that can be used with ref-based tools.\nUse this before interacting with elements to get proper refs instead of guessing selectors.\nA filtered snapshot does not include page text; If necessary, call scraping_browser_get_text to read it.",
               "inputSchema": {
                 "properties": {
                   "filtered": {
-                    "description": "Whether to apply filtering/compaction (default: false). Set to true to get a compacted version of the snapshot.",
+                    "description": "List only buttons, links and fields (default: false). Saves tokens. Use true for sensitive actions (payments, account changes) so page text cannot pose as an element.",
                     "type": "boolean"
                   }
                 },
@@ -637,6 +643,8 @@
             {
               "annotations": {
                 "destructiveHint": true,
+                "openWorldHint": true,
+                "readOnlyHint": false,
                 "title": "Browser Type Text"
               },
               "description": "Type text into an element using its ref from the ARIA snapshot.\nUse scraping_browser_snapshot first to get the correct ref values.\nThis is more reliable than CSS selectors.",
@@ -670,6 +678,8 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Browser Wait for Element"
               },
@@ -699,7 +709,8 @@
             },
             {
               "annotations": {
-                "openWorldHint": true,
+                "destructiveHint": false,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Search Dataset"
               },
@@ -764,13 +775,13 @@
                                                           },
                                                           "type": "array"
                                                         }
-                                                      ]
+                                                      ],
+                                                      "description": "Value to compare against. Omit for is_null / is_not_null."
                                                     }
                                                   },
                                                   "required": [
                                                     "name",
-                                                    "operator",
-                                                    "value"
+                                                    "operator"
                                                   ],
                                                   "type": "object"
                                                 },
@@ -888,6 +899,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Search Engine"
@@ -927,6 +939,7 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
                 "openWorldHint": true,
                 "readOnlyHint": true,
                 "title": "Search Engine Batch"
@@ -979,7 +992,8 @@
             },
             {
               "annotations": {
-                "openWorldHint": true,
+                "destructiveHint": false,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Search Scrapers"
               },
@@ -1005,6 +1019,8 @@
             },
             {
               "annotations": {
+                "destructiveHint": false,
+                "openWorldHint": false,
                 "readOnlyHint": true,
                 "title": "Session Stats"
               },
@@ -1018,8 +1034,8 @@
             }
           ],
           "tools": [
+            "ask_brightdata_assistant",
             "chatgpt_ai_insights",
-            "discover",
             "extract",
             "get_scraper_details",
             "get_scraper_progress",
@@ -1117,7 +1133,7 @@
           "name": "TOOLS"
         }
       ],
-      "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:3.1.0",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/brightdata-mcp:4.1.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
