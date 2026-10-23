@@ -1,0 +1,51 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/datawebot-remote",
+  "description": "Ecommerce product data for agents: product search across online shops and per-seller offers",
+  "title": "datawebot (Remote)",
+  "repository": {
+    "url": "https://github.com/datawebot/datawebot-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.datawebot.com/mcp"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/datawebot-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.datawebot.com/mcp": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": ["remote", "ecommerce", "products", "shopping", "search", "amazon", "shopify", "oauth"],
+          "tools": [
+            "discover",
+            "search_products",
+            "get_product_offers",
+            "list_job_blueprints",
+            "submit_job",
+            "get_job",
+            "get_results",
+            "run_tool"
+          ],
+          "overview": "## datawebot Remote MCP Server\n\ndatawebot is the official hosted MCP server for ecommerce product data for agents. It searches products across online shops worldwide (title, price, shop, rating, reviews, image, link) and lists every seller's price for one product with direct shop links. It also runs extraction Jobs on Amazon search and product pages (10 countries) and 1,100+ Shopify stores. Authentication is OAuth 2.1 per the MCP spec with free email sign-in; an optional `Authorization: Bearer <API key>` header is also accepted, with the key from https://www.datawebot.com/dashboard. Usage is paid from 200 free trial credits.",
+          "custom_metadata": {
+            "author": "datawebot",
+            "homepage": "https://www.datawebot.com/docs/agents",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
