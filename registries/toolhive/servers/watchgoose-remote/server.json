@@ -1,0 +1,60 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stacklok/watchgoose-remote",
+  "description": "Monitor cron jobs and recurring work through a project-scoped Watchgoose connection",
+  "title": "Watchgoose (Remote)",
+  "repository": {
+    "url": "https://github.com/bartekrutkowski/watchgoose-mcp",
+    "source": "github"
+  },
+  "version": "1.1.2",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.watchgoose.com/mcp"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stacklok/toolhive-registry/main/registries/toolhive/servers/watchgoose-remote/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://mcp.watchgoose.com/mcp": {
+          "tier": "Official",
+          "status": "Active",
+          "tags": ["remote", "monitoring", "cron", "scheduled-jobs", "heartbeat", "oauth"],
+          "tools": [
+            "list_checks",
+            "get_check",
+            "list_pings",
+            "list_flips",
+            "list_channels",
+            "create_check",
+            "update_check",
+            "pause_check",
+            "resume_check",
+            "delete_check"
+          ],
+          "overview": "## Watchgoose (Remote)\n\nWatchgoose's hosted MCP server connects an AI assistant to one Watchgoose project so it can inspect cron and scheduled-job checks and their status history. Read-only access is the default and exposes `list_checks`, `get_check`, and `list_flips`. With explicit read-and-write consent, the assistant can also inspect recent signals and integration names and create, update, pause, resume, or delete checks.\n\n**Authorization.** OAuth 2.1 authorization code flow with PKCE (S256) and Dynamic Client Registration; no API key is needed. The consent screen asks the user to pick one project and selects read-only by default. Connections can be revoked under Account settings > MCP Connections.\n\n**Account.** Requires a Watchgoose account with access to at least one project. The free plan is enough; paid features are not required. Docs: https://watchgoose.com/docs/mcp/",
+          "oauth_config": {
+            "authorize_url": "https://mcp.watchgoose.com/authorize",
+            "token_url": "https://mcp.watchgoose.com/token",
+            "scopes": ["mcp:read", "mcp:write", "offline_access"],
+            "use_pkce": true,
+            "resource": "https://mcp.watchgoose.com/mcp"
+          },
+          "custom_metadata": {
+            "author": "Watchgoose",
+            "homepage": "https://watchgoose.com/docs/mcp/",
+            "license": "MIT"
+          }
+        }
+      }
+    }
+  }
+}
