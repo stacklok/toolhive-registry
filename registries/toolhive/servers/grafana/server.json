@@ -3,13 +3,13 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "docker.io/grafana/mcp-grafana:2.0.2": {
+        "docker.io/grafana/mcp-grafana:2.1.1": {
           "args": [
             "--transport",
             "stdio"
           ],
           "metadata": {
-            "last_updated": "2026-10-16T03:16:33Z",
+            "last_updated": "2026-10-23T02:28:53Z",
             "stars": 3239
           },
           "overview": "## Grafana MCP Server\n\nThe grafana MCP server is a Model Context Protocol (MCP) server that enables AI assistants and agents to interact directly with Grafana dashboards, data sources, and observability resources through a structured, AI-friendly interface. It allows AI-driven workflows to explore metrics, logs, alerts, and dashboards without switching tools or manually navigating the Grafana UI. This server is ideal for observability, incident response, performance analysis, and operational workflows where real-time telemetry and monitoring context are essential.\n\n**Note:** the upstream container's entrypoint defaults to the SSE transport, so this entry passes `--transport stdio` via its registry args to force stdio mode. If you run this server with your own custom arguments (`thv run ... -- \u003cyour args\u003e`), those arguments replace the registry defaults, so be sure to include `--transport stdio` yourself or the server will silently fall back to SSE.",
@@ -130,9 +130,13 @@
                 "readOnlyHint": false,
                 "title": "Write alerting routing"
               },
-              "description": "Create Grafana-managed contact points for alert notifications using operation 'create_contact_point'.\nRequires name, type and integration-specific settings. Returns uid, name and type without settings or secrets.\nContact points remain editable in the Grafana UI by default. External Alertmanager receivers are not supported. Does not list or inspect existing contact points.",
+              "description": "Create Grafana-managed contact points for alert notifications using operation 'create_contact_point'.\nRequires name, type and integration-specific settings. Returns uid, name and type without settings or secrets.\nGrafana-managed is the default and remains editable in the UI. Use managed_by='datasource' for an external Mimir/Cortex Alertmanager receiver when requested or when established conversation or environment context clearly identifies an external Alertmanager workflow. An external query datasource or an empty Grafana contact point list alone is insufficient. Ask if context conflicts.\nUse native Alertmanager settings (email: to, webhook: url). Without datasource_uid select the sole compatible datasource, or return candidates for selection if ambiguous. Does not change notification routes.",
               "inputSchema": {
                 "properties": {
+                  "datasource_uid": {
+                    "description": "External Mimir/Cortex Alertmanager UID. Only for managed_by=datasource. Omit to select the sole compatible datasource. Ambiguity returns candidates for selection.",
+                    "type": "string"
+                  },
                   "disable_provenance": {
                     "description": "Keep the contact point editable in the Grafana UI. Defaults to true.",
                     "type": "boolean"
@@ -140,6 +144,15 @@
                   "disable_resolve_message": {
                     "description": "Disable resolved notifications. Defaults to false.",
                     "type": "boolean"
+                  },
+                  "managed_by": {
+                    "default": "grafana",
+                    "description": "Creation target. Omission defaults to Grafana-managed. Select datasource when requested or clearly established by conversation or environment context.",
+                    "enum": [
+                      "grafana",
+                      "datasource"
+                    ],
+                    "type": "string"
                   },
                   "name": {
                     "description": "Contact point name. Integrations with the same name are grouped together.",
@@ -273,7 +286,7 @@
                 "readOnlyHint": false,
                 "title": "Write alert rules"
               },
-              "description": "Create, update, and delete Grafana alert rules.\n\nWhen to use:\n- Creating, updating, or deleting alert rules\n\nOperation 'update' replaces the whole rule: it takes all required fields, not only the changed ones.\n\nDoes not list or inspect rules, and does not manage notification routing.",
+              "description": "Create, update, and delete Grafana alert rules.\n\nWhen to use:\n- Creating, updating, or deleting alert rules\n\nOperation 'update' replaces the whole rule: it takes all required fields, not only the changed ones.\n\nCreation defaults to Grafana-managed, even when queries use an external datasource.\nUse managed_by='datasource' when requested or when established conversation or environment context clearly identifies a datasource-managed workflow. An external query datasource or an empty Grafana rule list alone is insufficient. Ask if context conflicts.\nDatasource-managed creation uses a Mimir/Cortex or Loki ruler with namespace, rule_group, title and expression. datasource_uid is optional if exactly one compatible datasource exists. Ambiguity returns candidates for selection. Never falls back to Grafana-managed creation.\n\nDoes not list or inspect rules, and does not manage notification routing.",
               "inputSchema": {
                 "properties": {
                   "annotations": {
@@ -284,34 +297,42 @@
                     "type": "object"
                   },
                   "condition": {
-                    "description": "The query condition identifier, e.g. 'A', 'B' (required for 'create', 'update')",
+                    "description": "Grafana-managed only. The query condition identifier, e.g. 'A', 'B' (required for 'create', 'update')",
                     "type": "string"
                   },
                   "data": {
-                    "description": "Array of alert query objects (required for 'create'/'update'). Each object has: datasourceUid (string, required), model (object with expr for data queries or type/expression/conditions for expressions), refId (string, auto-assigned if omitted), relativeTimeRange ({from, to} in seconds, defaults to {from:600,to:0}). For server-side expressions use datasourceUid '__expr__'. Example: [{datasourceUid: 'prometheus', model: {expr: 'up == 0'}}, {datasourceUid: '__expr__', model: {type: 'threshold', expression: 'A', conditions: [{evaluator: {type: 'gt', params: [0]}}]}}]",
+                    "description": "Grafana-managed only. Array of alert query objects (required for 'create'/'update'). Each object has: datasourceUid (string, required), model (object with expr for data queries or type/expression/conditions for expressions), refId (string, auto-assigned if omitted), relativeTimeRange ({from, to} in seconds, defaults to {from:600,to:0}). For server-side expressions use datasourceUid '__expr__'. Example: [{datasourceUid: 'prometheus', model: {expr: 'up == 0'}}, {datasourceUid: '__expr__', model: {type: 'threshold', expression: 'A', conditions: [{evaluator: {type: 'gt', params: [0]}}]}}]",
                     "items": {
                       "type": "object"
                     },
                     "type": "array"
                   },
                   "datasource_uid": {
-                    "description": "Optional: UID of a Prometheus or Loki datasource to query for datasource-managed alert rules (for 'list' operation)",
+                    "description": "Datasource UID for list or explicit managed_by=datasource creation. For creation omit to select the sole compatible datasource. Ambiguity returns candidates for selection.",
                     "type": "string"
                   },
                   "disable_provenance": {
                     "description": "If true, the alert remains editable in the Grafana UI (sets X-Disable-Provenance header). Defaults to true.",
                     "type": "boolean"
                   },
+                  "evaluation_interval": {
+                    "description": "Interval for a new datasource rule group (default 1m). Must match an existing group's interval if supplied.",
+                    "type": "string"
+                  },
                   "exec_err_state": {
-                    "description": "State on execution error: NoData, Alerting, OK (required for 'create', 'update')",
+                    "description": "Grafana-managed only. State on execution error: NoData, Alerting, OK (required for 'create', 'update')",
+                    "type": "string"
+                  },
+                  "expression": {
+                    "description": "PromQL or LogQL expression for datasource-managed creation.",
                     "type": "string"
                   },
                   "folder_uid": {
-                    "description": "The folder UID. For 'list': filter by exact folder UID (mutually exclusive with search_folder). For 'create'/'update': the folder to store the rule in (required).",
+                    "description": "The folder UID. For 'list': filter by exact folder UID (mutually exclusive with search_folder). For Grafana-managed 'create'/'update': required destination folder.",
                     "type": "string"
                   },
                   "for": {
-                    "description": "Duration before alert fires, e.g. '5m' (required for 'create', 'update')",
+                    "description": "Duration before alert fires, e.g. '5m'. Required for Grafana-managed create/update. Optional for datasource-managed rules (default 0s).",
                     "type": "string"
                   },
                   "is_paused": {
@@ -340,6 +361,15 @@
                     "description": "Limit alert instances per rule. For list: 0 omits alerts. For get: \u003c=0 defaults to 200. Max 200.",
                     "type": "integer"
                   },
+                  "managed_by": {
+                    "default": "grafana",
+                    "description": "Creation target. Omission defaults to Grafana-managed. Select datasource when requested or clearly established by conversation or environment context. Other mutations remain Grafana-only.",
+                    "enum": [
+                      "grafana",
+                      "datasource"
+                    ],
+                    "type": "string"
+                  },
                   "matchers": {
                     "description": "Label matchers to filter alert instances. Each string is a Prometheus-style matcher e.g. 'severity=\"critical\"', 'env!=\"dev\"', 'team=~\"backend.*\"'. Requires Grafana 12.4+.",
                     "items": {
@@ -351,8 +381,12 @@
                     "description": "Consecutive evaluation intervals with no data required to mark the alert as resolved. Default is 2.",
                     "type": "integer"
                   },
+                  "namespace": {
+                    "description": "Namespace for datasource-managed creation. Required with managed_by=datasource.",
+                    "type": "string"
+                  },
                   "no_data_state": {
-                    "description": "State when no data: NoData, Alerting, OK (required for 'create', 'update')",
+                    "description": "Grafana-managed only. State when no data: NoData, Alerting, OK (required for 'create', 'update')",
                     "type": "string"
                   },
                   "notification_settings": {
@@ -372,7 +406,7 @@
                     "type": "string"
                   },
                   "org_id": {
-                    "description": "The organization ID (required for 'create', 'update')",
+                    "description": "Grafana-managed organization ID (required for 'create', 'update')",
                     "type": "integer"
                   },
                   "record": {
@@ -1117,7 +1151,7 @@
                 "readOnlyHint": false,
                 "title": "Generate navigation deeplink"
               },
-              "description": "Generate deeplink URLs for Grafana resources. Supports dashboards (requires dashboardUid or provisioningPreview), panels (requires dashboardUid or provisioningPreview, plus panelId), and Explore queries (requires datasourceUid and optionally queries). For dashboard and panel links, provisioningPreview points at a dashboard staged on a provisioning repository branch (e.g. a git-sync PR preview). For explore links, the time range and queries are embedded inside the Grafana explore state. Set shorten=true to also attempt a /goto/\u003cuid\u003e short URL; if shortening fails, the full deeplink is returned.",
+              "description": "Generate deeplink URLs for Grafana resources. Supports dashboards (requires dashboardUid or provisioningPreview), panels (requires dashboardUid or provisioningPreview, plus panelId), and Explore queries (requires datasourceUid and optionally queries). For dashboard and panel links, provisioningPreview points at a dashboard staged on a provisioning repository branch (e.g. a git-sync PR preview). For explore links, the time range and queries are embedded inside the Grafana explore state. Set shorten=true to return a /goto/\u003cuid\u003e short URL instead; if shortening fails, an error containing the full deeplink is returned.",
               "inputSchema": {
                 "properties": {
                   "dashboardUid": {
@@ -1177,7 +1211,7 @@
                     "type": "string"
                   },
                   "shorten": {
-                    "description": "If true, try to shorten the generated URL to /goto/\u003cuid\u003e. If shortening fails, return the original deeplink.",
+                    "description": "If true, try to shorten the generated URL to /goto/\u003cuid\u003e. If shortening fails, an error containing the full deeplink is returned.",
                     "type": "boolean"
                   },
                   "timeRange": {
@@ -1613,7 +1647,7 @@
                 "readOnlyHint": true,
                 "title": "Get panel or dashboard image"
               },
-              "description": "Render a Grafana dashboard panel, full dashboard or Explore view as a PNG image. Returns the image as base64 encoded data. Requires the Grafana Image Renderer service to be installed. Exactly one of dashboardUid (for stored dashboards), provisioningPreview (for dashboards staged on a provisioning repository branch, e.g. a git-sync PR) or explore (an ad-hoc datasource query rendered in Explore, no saved dashboard needed) must be supplied. Use this for generating visual snapshots of dashboards for reports, alerts, or presentations.",
+              "description": "Render a Grafana dashboard panel, full dashboard or Explore view as a PNG image. Returns the image as base64 encoded data. Requires the Grafana Image Renderer service to be installed. Exactly one of dashboardUid (for stored dashboards), provisioningPreview (for dashboards staged on a provisioning repository branch, e.g. a git-sync PR) or explore (an ad-hoc datasource query rendered in Explore, no saved dashboard needed) must be supplied. Defaults in CSS pixels: panel 1000x750, dashboard 1200x900, Explore 1000x1000. Scale defaults to 1 for all views and is clamped to 1-3. Use this for generating visual snapshots of dashboards for reports, alerts, or presentations.",
               "inputSchema": {
                 "properties": {
                   "dashboardUid": {
@@ -1641,7 +1675,7 @@
                     "type": "object"
                   },
                   "height": {
-                    "description": "Height of the rendered image in pixels. Defaults to 500 (1000 for explore)",
+                    "description": "Positive viewport height in CSS pixels, or -1 for full-page rendering. See tool description for per-view defaults. Positive heights are capped so height times scale is at most 3000. The renderer may raise values below its configured minimum (500 by default).",
                     "type": "integer"
                   },
                   "panelId": {
@@ -1671,7 +1705,7 @@
                     "type": "object"
                   },
                   "scale": {
-                    "description": "Scale factor for the image (1-3). Defaults to 1",
+                    "description": "Image scale factor. See tool description for default and limits. Higher scales reduce the maximum allowed viewport dimensions.",
                     "type": "integer"
                   },
                   "theme": {
@@ -1693,7 +1727,7 @@
                     "type": "object"
                   },
                   "timeout": {
-                    "description": "Rendering timeout in seconds. Defaults to 60",
+                    "description": "Rendering timeout in seconds. Defaults to 60, capped at 120",
                     "type": "integer"
                   },
                   "variables": {
@@ -1714,7 +1748,7 @@
                     "type": "object"
                   },
                   "width": {
-                    "description": "Width of the rendered image in pixels. Defaults to 1000",
+                    "description": "Positive viewport width in CSS pixels. See tool description for per-view defaults. Capped so width times scale is at most 3000. The renderer may raise values below its configured minimum (1000 by default).",
                     "type": "integer"
                   }
                 },
@@ -3666,7 +3700,7 @@
           "name": "GRAFANA_USAGE_STATS"
         }
       ],
-      "identifier": "docker.io/grafana/mcp-grafana:2.0.2",
+      "identifier": "docker.io/grafana/mcp-grafana:2.1.1",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
