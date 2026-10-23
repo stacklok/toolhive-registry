@@ -1,0 +1,45 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.eddyflores100-lang/marketnow",
+  "description": "Marketplace + trust layer for MCP skills: search, verify Agent Trust Cards (Ed25519), check revocation, fingerprint tools for rug-pull detection.",
+  "title": "marketnow",
+  "repository": {
+    "url": "https://github.com/eddyflores100-lang/marketnow",
+    "source": "github"
+  },
+  "version": "0.4.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://marketnow.site/api/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://marketnow.site/api/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": ["marketplace", "trust", "security", "verification", "ed25519", "revocation"],
+          "tools": [
+            "marketnow_search_skills",
+            "marketnow_get_skill",
+            "marketnow_list_categories",
+            "marketnow_get_manifest",
+            "marketnow_get_install_command",
+            "marketnow_verify_trust",
+            "marketnow_verify_receipt",
+            "marketnow_submit_skill",
+            "marketnow_mint_referral",
+            "marketnow_lookup_referral",
+            "marketnow_recommend_skills",
+            "marketnow_get_owasp_compliance",
+            "marketnow_check_revocation",
+            "marketnow_fingerprint_tool",
+            "marketnow_verify_atc_spec"
+          ]
+        }
+      }
+    }
+  }
+}
