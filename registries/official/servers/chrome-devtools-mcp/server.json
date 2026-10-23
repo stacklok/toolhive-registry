@@ -3,9 +3,9 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "io.github.stacklok": {
-        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.10.1": {
+        "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.11.0": {
           "metadata": {
-            "last_updated": "2026-10-02T01:03:53Z",
+            "last_updated": "2026-10-23T02:29:29Z",
             "stars": 34184
           },
           "overview": "## Chrome DevTools MCP Server\n\nThe chrome-devtools-mcp server is a Model Context Protocol (MCP) server that lets AI assistants interact directly with Chrome DevTools via the Chrome DevTools Protocol (CDP). It enables AI-driven workflows to inspect pages, observe network activity, debug JavaScript, analyze performance, and audit rendering behavior — all from within an MCP-compatible assistant, without manually opening DevTools. This server is ideal for frontend debugging, performance analysis, web automation diagnostics, and assisted web development.",
@@ -128,11 +128,11 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Emulates various features on the target page.",
+              "description": "Emulates various features on the target page. Each call replaces all emulation settings (except extraHttpHeaders), so pass all desired settings in a single call.",
               "inputSchema": {
                 "properties": {
                   "colorScheme": {
-                    "description": "Emulate the dark or the light mode. Set to \"auto\" to reset to the default.",
+                    "description": "Emulate the dark or the light mode. Omit or set to \"auto\" to reset to the default.",
                     "enum": [
                       "dark",
                       "light",
@@ -148,6 +148,15 @@
                   },
                   "extraHttpHeaders": {
                     "description": "Extra HTTP headers as a JSON string object, e.g. {\"X-Custom\": \"value\", \"Authorization\": \"Bearer token\"}. Headers are included into every HTTP request originating from the page and persist across navigations until cleared. Pass an empty string to clear all extra headers.",
+                    "type": "string"
+                  },
+                  "forcedColors": {
+                    "description": "Emulate the `forced-colors` CSS media feature. Omit or set to \"auto\" to reset to the default.",
+                    "enum": [
+                      "active",
+                      "none",
+                      "auto"
+                    ],
                     "type": "string"
                   },
                   "geolocation": {
@@ -169,12 +178,32 @@
                     "description": "Targets a specific page by ID.",
                     "type": "number"
                   },
+                  "prefersContrast": {
+                    "description": "Emulate the `prefers-contrast` CSS media feature. Omit or set to \"auto\" to reset to the default.",
+                    "enum": [
+                      "more",
+                      "less",
+                      "custom",
+                      "no-preference",
+                      "auto"
+                    ],
+                    "type": "string"
+                  },
+                  "prefersReducedMotion": {
+                    "description": "Emulate the `prefers-reduced-motion` CSS media feature. Omit or set to \"auto\" to reset to the default.",
+                    "enum": [
+                      "reduce",
+                      "no-preference",
+                      "auto"
+                    ],
+                    "type": "string"
+                  },
                   "userAgent": {
-                    "description": "User agent to emulate. Set to empty string to clear the user agent override.",
+                    "description": "User agent to emulate. Omit or set to empty string to clear the user agent override.",
                     "type": "string"
                   },
                   "viewport": {
-                    "description": "Emulate device viewports '\u003cwidth\u003ex\u003cheight\u003ex\u003cdevicePixelRatio\u003e[,mobile][,touch][,landscape]'. 'touch' and 'mobile' to emulate mobile devices. 'landscape' to emulate landscape mode.",
+                    "description": "Emulate device viewports '\u003cwidth\u003ex\u003cheight\u003ex\u003cdevicePixelRatio\u003e[,mobile][,touch][,landscape]'. 'touch' and 'mobile' to emulate mobile devices. 'landscape' to emulate landscape mode. Omit to clear the viewport override.",
                     "type": "string"
                   }
                 },
@@ -189,11 +218,11 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Evaluate a JavaScript function inside the target page. Returns the response as JSON, so returned values have to be JSON-serializable.",
+              "description": "Evaluate JavaScript inside the target page. The source can be provided inline or loaded from a local file. Returns the response as JSON, so returned values have to be JSON-serializable.",
               "inputSchema": {
                 "properties": {
                   "args": {
-                    "description": "An optional list of arguments to pass to the function.",
+                    "description": "An optional list of arguments (element uids from the page content snapshot) to pass to the function.",
                     "items": {
                       "description": "The uid of an element on the page from the page content snapshot",
                       "type": "string"
@@ -208,13 +237,25 @@
                     "description": "The absolute or relative path to a file to save the script output to. If omitted, the output is returned inline.",
                     "type": "string"
                   },
+                  "format": {
+                    "description": "How to interpret the source. \"function\" treats it as a function declaration and supports args. \"script\" evaluates it as classic JavaScript and does not support args. Defaults to \"function\". ECMAScript modules are not supported.",
+                    "enum": [
+                      "function",
+                      "script"
+                    ],
+                    "type": "string"
+                  },
                   "function": {
-                    "description": "A JavaScript function declaration to be executed by the tool in the target page.\nExample without arguments: `() =\u003e document.title` or `async () =\u003e await fetch(\"example.com\")`.\nExample with arguments: `(el) =\u003e el.innerText`\n",
+                    "description": "JavaScript source to execute in the target page. Provide either this or sourcePath, but not both. The source is interpreted according to format.\nExample without arguments: `() =\u003e document.title` or `async () =\u003e await fetch(\"example.com\")`.\nExample with arguments: `(el) =\u003e el.innerText`\n",
                     "type": "string"
                   },
                   "pageId": {
                     "description": "Targets a specific page by ID.",
                     "type": "number"
+                  },
+                  "sourcePath": {
+                    "description": "The absolute or relative path to a JavaScript file on the MCP server's local filesystem. Provide either this or function, but not both.",
+                    "type": "string"
                   },
                   "waitForStableDom": {
                     "description": "Whether to wait for the DOM to settle. Pass false if the script only reads data. Defaults to true.",
@@ -222,8 +263,7 @@
                   }
                 },
                 "required": [
-                  "pageId",
-                  "function"
+                  "pageId"
                 ],
                 "type": "object"
               },
@@ -336,7 +376,7 @@
               "annotations": {
                 "readOnlyHint": true
               },
-              "description": "Retrieve matched CSS rules, inline styles, inherited styles, and cascade information for an element identified by its UID.\nUse this tool to debug why specific CSS properties are applied, overridden, or conflicting. Results are paginated and return 10 rules per page by default; use pageIdx to page through the remaining rules. Requires a UID from take_snapshot.",
+              "description": "Retrieve matched CSS rules, inline styles (element.style), inherited styles, custom properties, and cascade wrappers (@layer, @media, @container, @scope) for an element identified by its UID.\nRules are ordered from highest to lowest cascade precedence and include source line numbers (e.g. index:196). Active (winning) declarations have no prefix tag, while (losing) overridden declarations are prefixed with [overloaded].\nTreat the output as authoritative and complete.\nResults are paginated (10 rules per page by default); use pageIdx to page through the remaining rules. Requires a UID from take_snapshot.",
               "inputSchema": {
                 "properties": {
                   "pageId": {
@@ -465,7 +505,7 @@
               "annotations": {
                 "readOnlyHint": false
               },
-              "description": "Get Lighthouse score and reports for accessibility, SEO, best practices, and agentic browsing. This excludes performance. For performance audits, run performance_start_trace",
+              "description": "Get Lighthouse scores, failing audits, and the DOM nodes they flag for accessibility, SEO, best practices, and agentic browsing. Full reports are saved to disk. This excludes performance. For performance audits, run performance_start_trace",
               "inputSchema": {
                 "properties": {
                   "device": {
@@ -785,6 +825,10 @@
                     "description": "The absolute file path, or a file path relative to the current working directory, to save the raw trace data. For example, trace.json.gz (compressed) or trace.json (uncompressed).",
                     "type": "string"
                   },
+                  "ignoreCache": {
+                    "description": "Whether to bypass the HTTP cache when reloading the page, to measure a cold page load. Only applies if reload is true.",
+                    "type": "boolean"
+                  },
                   "pageId": {
                     "description": "Targets a specific page by ID.",
                     "type": "number"
@@ -862,7 +906,9 @@
                 "properties": {
                   "height": {
                     "description": "Page height",
-                    "type": "number"
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991,
+                    "type": "integer"
                   },
                   "pageId": {
                     "description": "Targets a specific page by ID.",
@@ -870,7 +916,9 @@
                   },
                   "width": {
                     "description": "Page width",
-                    "type": "number"
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991,
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -881,6 +929,48 @@
                 "type": "object"
               },
               "name": "resize_page"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": false
+              },
+              "description": "Starts recording a screencast (video) of the target page.",
+              "inputSchema": {
+                "properties": {
+                  "filePath": {
+                    "description": "Output file path (.mp4). Uses mkdtemp to generate a unique path if not provided.",
+                    "type": "string"
+                  },
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "pageId"
+                ],
+                "type": "object"
+              },
+              "name": "screencast_start"
+            },
+            {
+              "annotations": {
+                "readOnlyHint": false
+              },
+              "description": "Stops the active screencast recording on the target page.",
+              "inputSchema": {
+                "properties": {
+                  "pageId": {
+                    "description": "Targets a specific page by ID.",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "pageId"
+                ],
+                "type": "object"
+              },
+              "name": "screencast_stop"
             },
             {
               "annotations": {
@@ -1127,6 +1217,8 @@
             "performance_stop_trace",
             "press_key",
             "resize_page",
+            "screencast_start",
+            "screencast_stop",
             "select_page",
             "take_heapsnapshot",
             "take_screenshot",
@@ -1152,7 +1244,7 @@
   "name": "io.github.stacklok/chrome-devtools-mcp",
   "packages": [
     {
-      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.10.1",
+      "identifier": "ghcr.io/stacklok/dockyard/npx/chrome-devtools-mcp:1.11.0",
       "registryType": "oci",
       "transport": {
         "type": "stdio"
