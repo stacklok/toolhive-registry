@@ -1,0 +1,40 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://api.mcpcanary.com/mcp": {
+          "custom_metadata": {
+            "author": "MCP Canary",
+            "homepage": "https://mcpcanary.com"
+          },
+          "overview": "## MCP Canary MCP Server\n\nMCP Canary is synthetic monitoring for remote MCP servers. Its remote MCP server lets an AI assistant inspect any public MCP endpoint without calling its tools: it reports the transport (Streamable HTTP or legacy SSE), the negotiated protocol version, server info, the tool list with input and output schemas, and a side-effect class for each tool derived from its MCP hints. Target problems come back as stable failure codes (for example TARGET_UNAVAILABLE, TARGET_AUTH_FAILED, MCP_PROTOCOL_ERROR). A second tool returns the plans and prices of the monitoring service. Both tools are read-only and need no authentication; private and loopback addresses are rejected.",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "mcp",
+            "monitoring",
+            "testing",
+            "inspector",
+            "debugging"
+          ],
+          "tier": "Community",
+          "tools": [
+            "inspect_endpoint",
+            "get_pricing"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Inspect any remote MCP endpoint: transport, protocol, tools, schemas, and side-effect hints, without calling tools",
+  "name": "io.github.stacklok/mcp-canary-remote",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.mcpcanary.com/mcp"
+    }
+  ],
+  "title": "MCP Canary",
+  "version": "1.0.0"
+}
