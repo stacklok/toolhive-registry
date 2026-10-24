@@ -1,0 +1,52 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.getremcp/docsy",
+  "description": "Read current and version-specific developer documentation with source links through five read-only remote MCP tools. Requires account OAuth 2.1 authorization.",
+  "title": "Docsy",
+  "repository": {
+    "url": "https://github.com/getremcp/docsy-plugin",
+    "source": "github"
+  },
+  "version": "1.0.9",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/getremcp/docsy-plugin/main/assets/docsy-logo-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://docsy.remcp.site/mcp/registry"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.stacklok": {
+        "https://docsy.remcp.site/mcp/registry": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": [
+            "remote",
+            "developer-tools",
+            "documentation",
+            "versions",
+            "oauth",
+            "search"
+          ],
+          "tools": [
+            "resolve-library-id",
+            "list-library-versions",
+            "query-docs",
+            "search",
+            "fetch"
+          ],
+          "overview": "## Docsy\nA hosted OAuth 2.1 MCP service that resolves exact framework and SDK versions, searches focused official developer documentation, and returns original source citations. Five tools are read-only. Users sign in when connecting to https://docsy.remcp.site/mcp/registry.\n\nInstallation: `claude mcp add --transport http docsy https://docsy.remcp.site/mcp/registry`.\n\n[Setup and integrations](https://github.com/getremcp/docsy-plugin/blob/main/docs/GETTING-STARTED.md)."
+        }
+      }
+    }
+  }
+}
